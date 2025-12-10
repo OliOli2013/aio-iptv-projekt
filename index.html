@@ -185,7 +185,6 @@
             max-width: 150px;
         }
 
-        /* STYL DLA OKNA KOMEND */
         .command-box {
             background-color: #0d1117;
             border: 1px solid #30363d;
@@ -197,13 +196,65 @@
             word-break: break-all;
             margin-bottom: 15px;
             margin-top: 5px;
-            user-select: all; /* Ułatwia zaznaczanie całej komendy */
+            user-select: all;
         }
         
         .cmd-title {
             color: #58a6ff;
             font-size: 0.9em;
             font-weight: bold;
+        }
+
+        /* STYLE DLA FORMULARZA KONTAKTOWEGO */
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            color: #e2e8f0;
+            border-radius: 4px;
+            box-sizing: border-box; 
+            font-family: inherit;
+        }
+
+        .contact-form input:focus, .contact-form textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        .contact-form textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .contact-btn {
+            background-color: #238636;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            width: 100%;
+        }
+
+        .contact-btn:hover {
+            background-color: #2ea043;
+        }
+
+        /* Styl dla przycisku Telegram */
+        .telegram-btn {
+            display: inline-block;
+            background-color: #0088cc;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-top: 10px;
+            text-align: center;
         }
 
         footer {
@@ -237,6 +288,7 @@
             <a href="#aktualnosci" class="nav-btn">Porady / Newsy</a>
             <a href="#terminal" class="nav-btn">Terminal</a>
             <a href="#pliki" class="nav-btn">Pliki (ogólne)</a>
+            <a href="#kontakt" class="nav-btn">Kontakt</a>
             <a href="#wsparcie" class="nav-btn">Wsparcie</a>
             <button class="nav-btn" onclick="sharePage()">Udostępnij 🔗</button>
         </div>
@@ -374,6 +426,22 @@
 
             <div class="cmd-title">Instalacja SimpleIPTV EPG:</div>
             <div class="command-box">wget -qO - https://raw.githubusercontent.com/OliOli2013/SimpleIPTV_EPG/main/installer.sh | /bin/sh</div>
+        </div>
+
+        <div class="card full-width" id="kontakt">
+            <h2>Kontakt</h2>
+            <p>Masz pytania lub problem? Napisz do mnie.</p>
+            
+            <form action="https://formspree.io/f/xeoyreyk" method="POST" class="contact-form">
+                <input type="email" name="email" placeholder="Twój adres email (do odpowiedzi)" required>
+                <textarea name="message" placeholder="Treść wiadomości..." required></textarea>
+                <button type="submit" class="contact-btn">Wyślij wiadomość</button>
+            </form>
+
+            <div style="margin-top: 20px; border-top: 1px solid #30363d; padding-top: 20px;">
+                <p>Możesz też skontaktować się bezpośrednio:</p>
+                <a href="#" class="telegram-btn" target="_blank">✈️ Napisz na Telegramie</a>
+            </div>
         </div>
 
         <div class="card full-width" id="pliki">
