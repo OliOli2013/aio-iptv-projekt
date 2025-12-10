@@ -122,6 +122,29 @@
             flex-grow: 1;
         }
 
+        /* SPECJALNY STYL PRZEWIJANIA DLA AKTUALNOŚCI */
+        #aktualnosci .file-list {
+            max-height: 450px; /* Maksymalna wysokość listy */
+            overflow-y: auto;  /* Włącz przewijanie, gdy treść jest za długa */
+            padding-right: 10px; /* Odstęp na suwak */
+        }
+
+        /* Stylizacja paska przewijania (Chrome/Edge/Safari) */
+        #aktualnosci .file-list::-webkit-scrollbar {
+            width: 8px;
+        }
+        #aktualnosci .file-list::-webkit-scrollbar-track {
+            background: #0d1117; 
+            border-radius: 4px;
+        }
+        #aktualnosci .file-list::-webkit-scrollbar-thumb {
+            background: #30363d; 
+            border-radius: 4px;
+        }
+        #aktualnosci .file-list::-webkit-scrollbar-thumb:hover {
+            background: #58a6ff; 
+        }
+
         .file-list li {
             padding: 10px 0;
             border-bottom: 1px solid #21262d;
@@ -203,6 +226,17 @@
             color: #58a6ff;
             font-size: 0.9em;
             font-weight: bold;
+        }
+
+        /* Kod wewnątrz porad */
+        .code-snippet {
+            display: block;
+            background: #0d1117;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 2px 0;
+            color: #a5d6ff;
         }
 
         /* STYLE DLA FORMULARZA KONTAKTOWEGO */
@@ -381,11 +415,39 @@
 
         <div class="card" id="aktualnosci">
             <h2>Aktualności</h2>
-            <ul style="list-style: none; padding: 0;">
+            <ul class="file-list">
+                <li style="margin-bottom: 20px;">
+                    <div style="color: #d29922; font-weight: bold;">[Porada] Jak uruchomić kanały IPTV, kamery z list kanałów</div>
+                    <div style="color: #8b949e; font-size: 0.9em; margin-top: 5px;">
+                        <strong>NIEZBĘDNIK IPTV:</strong> Instrukcja instalacji pakietów przez Terminal (Telnet/SSH).<br><br>
+                        <strong>KROK 1: Instalacja pakietów</strong><br>
+                        Zaloguj się do terminala i wpisz komendy (zatwierdzając Enterem):<br>
+                        <span class="code-snippet">opkg update</span>
+                        <span class="code-snippet">opkg install enigma2-plugin-systemplugins-serviceapp</span>
+                        <span class="code-snippet">opkg install exteplayer3</span>
+                        <span class="code-snippet">opkg install ffmpeg</span>
+                        <span class="code-snippet">opkg install python3-youtube-dl</span>
+                        <span class="code-snippet">opkg install python3-yt-dlp</span>
+                        <span class="code-snippet">opkg install enigma2-plugin-extensions-ytdlpwrapper</span>
+                        <span class="code-snippet">opkg install enigma2-plugin-extensions-ytdlwrapper</span>
+                        <span class="code-snippet">opkg install enigma2-plugin-extensions-streamlinkwrapper</span>
+                        <span class="code-snippet">opkg install streamlinksrv</span><br>
+                        
+                        <strong>KROK 2: Konfiguracja</strong><br>
+                        1. Zrób <strong>pełny restart tunera</strong> (Menu → Czuwanie/Restart → Restart).<br>
+                        2. Wejdź w: Menu → Ustawienia → Obsługa i Interfejs → ServiceApp.<br>
+                        3. Zmień ustawienia:<br>
+                        - System odtwarzania Enigma2: <strong>serviceapp</strong><br>
+                        - Player: <strong>exteplayer3</strong><br>
+                        4. Naciśnij Zielony (Zapisz) i zatwierdź restart GUI.
+                    </div>
+                </li>
+
                 <li style="margin-bottom: 20px;">
                     <div style="color: #58a6ff; font-weight: bold;">[10.12.2025] Aktualizacja repozytorium.</div>
                     <div style="color: #8b949e; font-size: 0.9em;">Dodano listy Bzyk83 i JakiTaki.</div>
                 </li>
+
                 <li>
                     <div style="color: #d29922; font-weight: bold;">[Porada] Jak wgrać wtyczkę?</div>
                     <div style="color: #8b949e; font-size: 0.9em;">
