@@ -126,10 +126,10 @@
 
         /* SPECJALNY STYL PRZEWIJANIA DLA AKTUALNOŚCI */
         #aktualnosci .file-list {
-            /* ZWIĘKSZONO WYSOKOŚĆ ABY DORÓWNAĆ OKNU WSPARCIE */
             max-height: 750px; 
             overflow-y: auto;
             padding-right: 10px; 
+            scroll-behavior: smooth; /* Płynne przewijanie wewnątrz okna */
         }
 
         #aktualnosci .file-list::-webkit-scrollbar {
@@ -147,11 +147,38 @@
             background: #58a6ff; 
         }
 
+        /* NOWY STYL: SZYBKA NAWIGACJA W AKTUALNOŚCIACH */
+        .news-nav {
+            background-color: #0d1117;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            border: 1px solid #30363d;
+            line-height: 1.8;
+        }
+        .news-nav strong {
+            color: #d29922;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .news-nav a {
+            color: #58a6ff;
+            text-decoration: none;
+            margin-right: 12px;
+            display: inline-block;
+        }
+        .news-nav a:hover {
+            text-decoration: underline;
+            color: #79c0ff;
+        }
+
         .file-list li {
             padding: 10px 0;
             border-bottom: 1px solid #21262d;
             display: flex;
             flex-direction: column; 
+            scroll-margin-top: 10px; /* Margines przy skoku do kotwicy */
         }
         
         .file-list li:last-child {
@@ -210,7 +237,6 @@
             max-width: 150px;
         }
 
-        /* STYL DLA PODZIĘKOWANIA POD QR */
         .support-text {
             font-size: 0.85rem;
             color: #8b949e;
@@ -289,7 +315,6 @@
             background-color: #2ea043;
         }
 
-        /* Styl dla przycisku Telegram */
         .telegram-btn {
             display: inline-block;
             background-color: #0088cc;
@@ -325,7 +350,6 @@
 
     <header>
         <img src="https://github.com/OliOli2013/aio-iptv-projekt/raw/main/pliki/logo.png" alt="Logo AIO-IPTV" class="site-logo">
-        
         <p>Autorskie Wtyczki Enigma 2, Listy Kanałów, Porady - Paweł Pawełek</p>
         
         <div class="nav-buttons">
@@ -427,9 +451,18 @@
 
         <div class="card" id="aktualnosci">
             <h2>Aktualności</h2>
+            
+            <div class="news-nav">
+                <strong>Szybka nawigacja:</strong>
+                <a href="#info-dns">1. DNS</a>
+                <a href="#info-mini-iptv">2. Mini-Informator IPTV</a>
+                <a href="#info-uruchom">3. Jak uruchomić IPTV</a>
+                <a href="#info-wgrac">4. Jak wgrać wtyczkę</a>
+            </div>
+
             <ul class="file-list">
                 
-                <li style="margin-bottom: 20px;">
+                <li style="margin-bottom: 20px;" id="info-dns">
                     <div style="color: #d29922; font-weight: bold;">[Poradnik] Ustawienia DNS w tunerach Enigma 2 – pełny przewodnik</div>
                     <div style="color: #8b949e; font-size: 0.9em; margin-top: 5px;">
                         <strong>Co to jest DNS?</strong><br>
@@ -458,7 +491,7 @@
                     </div>
                 </li>
 
-                <li style="margin-bottom: 20px;">
+                <li style="margin-bottom: 20px;" id="info-mini-iptv">
                     <div style="color: #d29922; font-weight: bold;">[Mini-INFORMATOR] IPTV (Enigma2 / OpenATV / Streamlink / DRM)</div>
                     <div style="color: #8b949e; font-size: 0.9em; margin-top: 5px;">
                         <strong>Ważne:</strong> Przed wpisaniem komend wykonaj: <span class="code-snippet">opkg update</span><br><br>
@@ -492,7 +525,7 @@
                     </div>
                 </li>
 
-                <li style="margin-bottom: 20px;">
+                <li style="margin-bottom: 20px;" id="info-uruchom">
                     <div style="color: #d29922; font-weight: bold;">[Porada] Jak uruchomić kanały IPTV, kamery z list kanałów</div>
                     <div style="color: #8b949e; font-size: 0.9em; margin-top: 5px;">
                         <strong>NIEZBĘDNIK IPTV:</strong> Instrukcja instalacji pakietów.<br>
@@ -517,7 +550,7 @@
                     <div style="color: #8b949e; font-size: 0.9em;">Dodano listy Bzyk83 i JakiTaki.</div>
                 </li>
 
-                <li>
+                <li id="info-wgrac">
                     <div style="color: #d29922; font-weight: bold;">[Porada] Jak wgrać wtyczkę?</div>
                     <div style="color: #8b949e; font-size: 0.9em;">
                         Skopiuj plik .ipk do folderu /tmp lub na pendrive.<br>
