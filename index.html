@@ -58,9 +58,9 @@
             background-color: #2563eb;
         }
 
-        /* USTAWIENIA SIATKI (GRID) - POPRAWIONE WYRÓWNANIE */
+        /* USTAWIENIA SIATKI (GRID) - WYMUSZENIE 4 KOLUMN NA DUŻYCH EKRANACH */
         .container {
-            max-width: 1500px; /* Zwiększona szerokość, żeby 4 okna miały luz */
+            max-width: 1500px;
             margin: 40px auto;
             padding: 0 20px;
             display: grid;
@@ -75,7 +75,7 @@
             }
         }
         
-        /* Reguła dla tabletów (opcjonalnie 2 kolumny, żeby się nie ściskało) */
+        /* Reguła dla tabletów */
         @media (min-width: 700px) and (max-width: 1099px) {
             .container {
                 grid-template-columns: repeat(2, 1fr);
@@ -88,7 +88,7 @@
             border-radius: 6px;
             padding: 20px;
             display: flex;
-            flex-direction: column; /* Zapewnia równe rozciąganie wnętrza */
+            flex-direction: column;
         }
 
         .card h2 {
@@ -109,7 +109,7 @@
             list-style: none;
             padding: 0;
             margin: 0;
-            flex-grow: 1; /* Lista wypełnia dostępną przestrzeń */
+            flex-grow: 1;
         }
 
         .file-list li {
@@ -165,8 +165,10 @@
             text-align: center;
         }
         
+        /* POPRAWIONY STYL DLA KODU QR - Wyśrodkowanie i odstępy */
         .qr-code {
-            margin-top: 10px;
+            display: block;
+            margin: 15px auto; /* Wyśrodkowanie w poziomie, odstęp góra/dół */
             border: 1px solid #30363d;
             padding: 5px;
             background: white;
@@ -188,7 +190,6 @@
             text-decoration: none;
         }
 
-        /* Dolne okno na pełną szerokość - spanuje wszystkie 4 kolumny */
         .full-width {
             grid-column: 1 / -1; 
         }
