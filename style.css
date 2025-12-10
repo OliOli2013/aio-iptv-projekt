@@ -1,0 +1,131 @@
+:root {
+    --bg: #0d1117;
+    --card: #161b22;
+    --accent: #58a6ff;
+    --text: #c9d1d9;
+    --green: #238636;
+}
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.55;
+}
+header {
+    background: var(--card);
+    padding: 1.2rem 1rem;
+    text-align: center;
+    border-bottom: 2px solid var(--accent);
+}
+header h1 {
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+}
+header p {
+    font-size: 0.95rem;
+    opacity: .75;
+    margin-top: .25rem;
+}
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .6rem;
+    padding: 1rem;
+    background: var(--card);
+}
+nav button {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: .55rem 1.1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: .95rem;
+    transition: background .2s;
+}
+nav button:hover {
+    background: #79bdff;
+}
+main {
+    max-width: 1100px;
+    margin: 1.5rem auto;
+    padding: 0 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.3rem;
+}
+section {
+    background: var(--card);
+    border-radius: 6px;
+    padding: 1.2rem 1.3rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+section h2 {
+    font-size: 1.25rem;
+    margin-bottom: .7rem;
+    color: var(--accent);
+    border-bottom: 1px solid #30363d;
+    padding-bottom: .35rem;
+}
+ul {
+    list-style: none;
+    margin-top: .5rem;
+    flex: 1;
+}
+li {
+    margin: .35rem 0;
+    padding-left: 1.15rem;
+    position: relative;
+}
+li::before {
+    content: "➠";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+}
+a {
+    color: var(--accent);
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+.files {
+    margin-top: .7rem;
+}
+.files li {
+    padding: .35rem .5rem;
+    background: #010409;
+    border-radius: 4px;
+    margin-bottom: .45rem;
+    font-size: .9rem;
+    word-break: break-all;
+}
+.qr {
+    text-align: center;
+    margin-top: 1.2rem;
+}
+.qr img {
+    width: 160px;
+    height: 160px;
+    border: 4px solid #fff;
+    border-radius: 8px;
+}
+.qr p {
+    margin-top: .6rem;
+    font-size: .85rem;
+    opacity: .8;
+}
+footer {
+    text-align: center;
+    padding: 2rem 1rem 3rem;
+    font-size: .8rem;
+    opacity: .6;
+}

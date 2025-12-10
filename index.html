@@ -2,150 +2,18 @@
 <html lang="pl">
 <head>
     <meta charset="utf-8">
-    <title>AIO-IPTV.pl – wtyczki, listy, porady</title>
+    <title>AIO-IPTV.pl – Projekty PawelPawelek</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        :root {
-            --bg: #0d1117;
-            --card: #161b22;
-            --accent: #58a6ff;
-            --text: #c9d1d9;
-            --green: #238636;
-        }
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            font-family: system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.55;
-        }
-        header {
-            background: var(--card);
-            padding: 1.2rem 1rem;
-            text-align: center;
-            border-bottom: 2px solid var(--accent);
-        }
-        header h1 {
-            font-size: 1.8rem;
-            letter-spacing: 1px;
-        }
-        header p {
-            font-size: 0.95rem;
-            opacity: .75;
-            margin-top: .25rem;
-        }
-        nav {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: .6rem;
-            padding: 1rem;
-            background: var(--card);
-        }
-        nav button {
-            background: var(--accent);
-            color: #fff;
-            border: none;
-            padding: .55rem 1.1rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: .95rem;
-            transition: background .2s;
-        }
-        nav button:hover {
-            background: #79bdff;
-        }
-        main {
-            max-width: 1100px;
-            margin: 1.5rem auto;
-            padding: 0 1rem;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1.3rem;
-        }
-        section {
-            background: var(--card);
-            border-radius: 6px;
-            padding: 1.2rem 1.3rem 1.5rem;
-            display: flex;
-            flex-direction: column;
-        }
-        section h2 {
-            font-size: 1.25rem;
-            margin-bottom: .7rem;
-            color: var(--accent);
-            border-bottom: 1px solid #30363d;
-            padding-bottom: .35rem;
-        }
-        ul {
-            list-style: none;
-            margin-top: .5rem;
-            flex: 1;
-        }
-        li {
-            margin: .35rem 0;
-            padding-left: 1.15rem;
-            position: relative;
-        }
-        li::before {
-            content: "➠";
-            position: absolute;
-            left: 0;
-            color: var(--accent);
-        }
-        a {
-            color: var(--accent);
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        .files {
-            margin-top: .7rem;
-        }
-        .files li {
-            padding: .35rem .5rem;
-            background: #010409;
-            border-radius: 4px;
-            margin-bottom: .45rem;
-            font-size: .9rem;
-            word-break: break-all;
-        }
-        .qr {
-            text-align: center;
-            margin-top: 1.2rem;
-        }
-        .qr img {
-            width: 160px;
-            height: 160px;
-            border: 4px solid #fff;
-            border-radius: 8px;
-        }
-        .qr p {
-            margin-top: .6rem;
-            font-size: .85rem;
-            opacity: .8;
-        }
-        footer {
-            text-align: center;
-            padding: 2rem 1rem 3rem;
-            font-size: .8rem;
-            opacity: .6;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
         <h1>AIO-IPTV.pl</h1>
-        <p>Wtyczki, listy, porady, nowości – wszystko dla Enigma2 i nie tylko</p>
+        <p>Autorskie wtyczki Enigma2, listy, porady – PawelPawelek</p>
     </header>
 
     <nav>
-        <button onclick="scrollToSec('wtyczki')">Wtyczki</button>
+        <button onclick="scrollToSec('wtyczki')">Moje Wtyczki</button>
         <button onclick="scrollToSec('listy')">Listy kanałów</button>
         <button onclick="scrollToSec('porady')">Porady / Newsy</button>
         <button onclick="scrollToSec('files')">Pliki (ogólne)</button>
@@ -154,16 +22,48 @@
 
     <main>
         <section id="wtyczki">
-            <h2>Wtyczki Enigma2</h2>
+            <h2>Autorskie Wtyczki Enigma2</h2>
+            <p style="margin-bottom: 1rem; font-size: 0.9rem; opacity: 0.8;">
+                Poniżej znajdziesz najnowsze wersje moich wtyczek oraz modyfikacje.
+            </p>
             <ul>
-                <li><a href="#">plugin-aio-4.3.ipk</a> – AIO Panel 4.3 (wszystko w jednym)</li>
-                <li><a href="#">plugin-iptv-dream.ipk</a> – IPTV Dream (lekkie źródła)</li>
-                <li><a href="#">plugin-picon-updater.ipk</a> – auto-aktualizacja PICON</li>
-                <li><a href="#">plugin-epg-importer.ipk</a> – importer EPG z URL</li>
+                <li>
+                    <a href="pliki/enigma2-plugin-extensions-panelaio_4.4_all.ipk">
+                        enigma2-plugin-extensions-panelaio_4.4_all.ipk
+                    </a> 
+                    – <strong>AIO Panel 4.4</strong> (Wszystko w jednym)
+                </li>
+
+                <li>
+                    <a href="pliki/enigma2-plugin-extensions-iptvdream_5.0_all.ipk">
+                        enigma2-plugin-extensions-iptvdream_5.0_all.ipk
+                    </a> 
+                    – <strong>IPTV Dream 5.0</strong>
+                </li>
+
+                <li>
+                    <a href="pliki/enigma2-plugin-extensions-piconupdater_1.2_all.ipk">
+                        enigma2-plugin-extensions-piconupdater_1.2_all.ipk
+                    </a> 
+                    – <strong>Picon Updater 1.2</strong>
+                </li>
+
+                <li>
+                    <a href="pliki/enigma2-plugin-extensions-myupdater_5.1_all.ipk">
+                        enigma2-plugin-extensions-myupdater_5.1_all.ipk
+                    </a> 
+                    – <strong>MyUpdater v5.1</strong> (Mod by PawelPawelek)
+                </li>
+
+                <li>
+                    <a href="#" style="opacity: 0.5; cursor: not-allowed;">(Wkrótce) simple-iptv-epg.ipk</a> 
+                    – <strong>Simple IPTV EPG</strong>
+                </li>
             </ul>
+
             <div class="qr">
                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https://buycoffee.to/pawelpawelek" alt="QR buycoffee">
-                <p>Postaw mi kawę ☕<br><small>scan → https://buycoffee.to/pawelpawelek</small></p>
+                <p>Postaw mi kawę za rozwój wtyczek ☕<br><small>scan → https://buycoffee.to/pawelpawelek</small></p>
             </div>
         </section>
 
@@ -175,39 +75,31 @@
                 <li><a href="#">JakiTaki 13°E UHD</a> (09.10.2025)</li>
                 <li><a href="#">Zvirek 13°E</a> (07.11.2025)</li>
             </ul>
-            <small>Źródła: MSU URL / Xtream Codes / MAC Portal – wystarczy wkleić w odpowiednią wtyczkę.</small>
+            <small>Źródła: MSU URL / Xtream Codes / MAC Portal.</small>
         </section>
 
         <section id="porady">
             <h2>Porady & Newsy</h2>
             <ul>
-                <li><strong>[10.12.2025]</strong> Nowa wersja AIO Panel 4.3 – poprawka błędu EPG.</li>
-                <li><strong>[07.12.2025]</strong> Lista Bzyk83 zaktualizowana – dodano 4K VIP.</li>
-                <li><strong>[Porada]</strong> Jak wgrać wtyczkę przez FTP: /usr/lib/enigma2/python/Plugins/…</li>
-                <li><strong>[Porada]</strong> Konfiguracja EPG-Importer – krok po kroku (zdjęcia).</li>
+                <li><strong>[10.12.2025]</strong> Premiera AIO Panel 4.4 – poprawki stabilności.</li>
+                <li><strong>[08.12.2025]</strong> IPTV Dream 5.0 – nowy interfejs.</li>
+                <li><strong>[Porada]</strong> Jak wgrać wtyczkę przez FTP: /tmp i instalacja z lokalnych.</li>
             </ul>
         </section>
 
         <section id="files">
             <h2>Pliki (pozostałe)</h2>
             <ul class="files">
-                <li><a href="#">picon-220x132-all.7z</a> – komplet pikon 13°E</li>
-                <li><a href="#">oscam-11.779-arm.ipk</a> – najnowszy OSCam</li>
-                <li><a href="#">bootlogo-vu4k.jpg</a> – logo startowe VU+</li>
-                <li><a href="#">drivers-wifi-rtl8188fu.zip</a> – sterowniki Wi-Fi</li>
+                <li><a href="pliki/picon-220x132-all.7z">picon-220x132-all.7z</a> – komplet pikon 13°E</li>
+                <li><a href="pliki/oscam-latest-arm.ipk">oscam-latest-arm.ipk</a> – OSCam</li>
             </ul>
         </section>
     </main>
 
     <footer>
-        © 2025 AIO-IPTV.pl | hosting i pliki udostępnia użytkownik PawelPawelek | 
-        strona jest darmowym zbiorem linków – nie hostujemy treści objętych prawami autorskim
+        © 2025 AIO-IPTV.pl | Development by PawelPawelek
     </footer>
 
-    <script>
-        function scrollToSec(id) {
-            document.getElementById(id).scrollIntoView({behavior: 'smooth', block: 'start'});
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
