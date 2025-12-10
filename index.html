@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AIO-IPTV.pl</title>
     <style>
+        /* DODANO: Płynne przewijanie strony po kliknięciu w menu */
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #0f1219;
@@ -58,7 +63,7 @@
             background-color: #2563eb;
         }
 
-        /* USTAWIENIA SIATKI (GRID) - WYMUSZENIE 4 KOLUMN NA DUŻYCH EKRANACH */
+        /* USTAWIENIA SIATKI (GRID) */
         .container {
             max-width: 1500px;
             margin: 40px auto;
@@ -89,6 +94,8 @@
             padding: 20px;
             display: flex;
             flex-direction: column;
+            /* Dodajemy scroll-margin-top żeby nagłówek nie zasłaniał sekcji po przewinięciu */
+            scroll-margin-top: 20px; 
         }
 
         .card h2 {
@@ -165,10 +172,10 @@
             text-align: center;
         }
         
-        /* POPRAWIONY STYL DLA KODU QR - Wyśrodkowanie i odstępy */
+        /* STYL DLA KODU QR */
         .qr-code {
             display: block;
-            margin: 15px auto; /* Wyśrodkowanie w poziomie, odstęp góra/dół */
+            margin: 15px auto;
             border: 1px solid #30363d;
             padding: 5px;
             background: white;
@@ -202,17 +209,17 @@
         <p>Autorskie wtyczki Enigma2, listy, porady – PawełPawełek</p>
         
         <div class="nav-buttons">
-            <a href="#" class="nav-btn">Moje Wtyczki</a>
-            <a href="#" class="nav-btn">Listy kanałów</a>
-            <a href="#" class="nav-btn">Porady / Newsy</a>
-            <a href="#" class="nav-btn">Pliki (ogólne)</a>
-            <a href="#" class="nav-btn">Wsparcie</a>
+            <a href="#wtyczki" class="nav-btn">Moje Wtyczki</a>
+            <a href="#listy" class="nav-btn">Listy kanałów</a>
+            <a href="#aktualnosci" class="nav-btn">Porady / Newsy</a>
+            <a href="#pliki" class="nav-btn">Pliki (ogólne)</a>
+            <a href="#wsparcie" class="nav-btn">Wsparcie</a>
         </div>
     </header>
 
     <div class="container">
         
-        <div class="card">
+        <div class="card" id="wtyczki">
             <h2>Wtyczki (Plugins)</h2>
             <p>Najnowsze wersje moich aplikacji.</p>
             <ul class="file-list">
@@ -252,7 +259,7 @@
             </ul>
         </div>
 
-        <div class="card">
+        <div class="card" id="listy">
             <h2>Listy kanałów</h2>
             <p>Paczki kanałów (Enigma2).</p>
             <ul class="file-list">
@@ -296,7 +303,7 @@
             </ul>
         </div>
 
-        <div class="card">
+        <div class="card" id="aktualnosci">
             <h2>Aktualności</h2>
             <ul style="list-style: none; padding: 0;">
                 <li style="margin-bottom: 20px;">
@@ -310,7 +317,7 @@
             </ul>
         </div>
 
-        <div class="card support-section">
+        <div class="card support-section" id="wsparcie">
             <h2>Wsparcie</h2>
             <p>Wesprzyj moją pracę – Dziękuję za każdą kawę! ☕</p>
             
@@ -321,7 +328,7 @@
             <img src="https://github.com/OliOli2013/aio-iptv-projekt/raw/main/pliki/QR_buycoffee.png" alt="Kod QR BuyCoffee" class="qr-code">
         </div>
 
-        <div class="card full-width">
+        <div class="card full-width" id="pliki">
             <h2>Pliki (pozostałe)</h2>
             <ul class="file-list">
                 <li>
