@@ -49,6 +49,7 @@
             flex-wrap: wrap;
         }
 
+        /* Styl wspólny dla linków i przycisku udostępniania */
         .nav-btn {
             background-color: #3b82f6; /* Niebieski kolor przycisków */
             color: white;
@@ -57,6 +58,10 @@
             border-radius: 4px;
             font-weight: 500;
             transition: background-color 0.2s;
+            border: none; /* Usunięcie obramowania dla buttona */
+            cursor: pointer; /* Kursor rączki */
+            font-size: 1rem;
+            font-family: inherit;
         }
 
         .nav-btn:hover {
@@ -213,6 +218,7 @@
             <a href="#aktualnosci" class="nav-btn">Porady / Newsy</a>
             <a href="#pliki" class="nav-btn">Pliki (ogólne)</a>
             <a href="#wsparcie" class="nav-btn">Wsparcie</a>
+            <button class="nav-btn" onclick="sharePage()">Udostępnij 🔗</button>
         </div>
     </header>
 
@@ -358,6 +364,27 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        function sharePage() {
+            if (navigator.share) {
+                // Udostępnianie natywne (telefon/tablet)
+                navigator.share({
+                    title: 'AIO-IPTV.pl',
+                    text: 'Autorskie wtyczki Enigma2, listy, porady – PawełPawełek',
+                    url: window.location.href
+                })
+                .catch((error) => console.log('Błąd udostępniania', error));
+            } else {
+                // Fallback dla komputerów (kopiowanie do schowka)
+                navigator.clipboard.writeText(window.location.href).then(function() {
+                    alert('Link do strony został skopiowany do schowka!');
+                }, function(err) {
+                    alert('Nie udało się skopiować linku.');
+                });
+            }
+        }
+    </script>
 
 </body>
 </html>
