@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AIO-IPTV - Repository</title>
+    <title>AIO-IPTV</title>
     <style>
         :root {
             --bg-color: #0d1117;
@@ -12,6 +12,8 @@
             --text-muted: #8b949e;
             --accent: #58a6ff;
             --border: #30363d;
+            --highlight: #238636;
+            --warning: #d29922;
         }
 
         body {
@@ -34,8 +36,9 @@
 
         h1 {
             margin: 0;
-            font-size: 24px;
+            font-size: 28px; /* Nieco większe */
             color: var(--accent);
+            font-weight: 700;
         }
 
         .subtitle {
@@ -52,6 +55,7 @@
             flex: 1;
         }
 
+        /* Układ 4 kolumn */
         .grid-layout {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -176,7 +180,7 @@
 <body>
 
 <header>
-    <h1>AIO-IPTV Repository</h1>
+    <h1>AIO-IPTV</h1>
     <div class="subtitle">by Paweł Pawełek</div>
 </header>
 
@@ -190,6 +194,7 @@
                 Najnowsze wersje moich aplikacji.
             </p>
             <ul class="list-group">
+                
                 <li class="list-item">
                     <span class="icon">📥</span>
                     <div>
@@ -202,7 +207,7 @@
                 <li class="list-item">
                     <span class="icon">📥</span>
                     <div>
-                        <a href="enigma2-plugin-extensions-panelaio_4.4_py2py3_init_all.ipk">AIO Panel Py2</a>
+                        <a href="enigma2-plugin-extensions-panelaio_4.4_py2py3_init_all.ipk">AIO Panel 4.4</a>
                         <span class="tag-info tag-py2">Wyłącznie Python 2</span>
                         <div style="font-size:11px; color:#8b949e;">Starsze dekodery</div>
                     </div>
@@ -244,7 +249,6 @@
                     <span class="icon">📥</span>
                     <a href="https://github.com/OliOli2013/PanelAIO-Lists/raw/main/archives/bzyk83_dual_13e_19e_2025-12-08.zip">Bzyk83 Dual 13°E + 19°E <span class="date">(08.12.2025)</span></a>
                 </li>
-                
                 <li class="list-item">
                     <span class="icon">📥</span>
                     <a href="https://github.com/OliOli2013/PanelAIO-Lists/raw/main/archives/jakitaki_1x1_2025-11-30.zip">JakiTaki 13°E <span class="date">(30.11.2025)</span></a>
@@ -288,7 +292,7 @@
             <h2>Wsparcie</h2>
             <div class="support-text">Wesprzyj moją pracę – Dziękuję za każdą kawę! ☕</div>
             
-            <img src="qr_code.png" alt="Kod QR BuyCoffee">
+            <img src="qr.png" alt="Kod QR BuyCoffee" onerror="this.style.display='none';alert('Brak pliku qr.png!');">
             
             <br>
             <a href="https://buycoffee.to/pawelpawelek" target="_blank" class="coffee-link">
