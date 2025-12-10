@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AIO-IPTV</title>
+    <title>AIO-IPTV Repository</title>
     <style>
         :root {
             --bg-color: #0d1117;
@@ -36,7 +36,7 @@
 
         h1 {
             margin: 0;
-            font-size: 28px; /* Nieco większe */
+            font-size: 24px;
             color: var(--accent);
             font-weight: 700;
         }
@@ -134,26 +134,32 @@
         .tag-py3 { background-color: rgba(56, 139, 253, 0.15); color: #58a6ff; }
         .tag-py2 { background-color: rgba(210, 153, 34, 0.15); color: #d29922; }
         
-        .qr-section { text-align: center; }
+        .qr-section { 
+            text-align: center; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
         
-        .qr-section img {
-            max-width: 180px;
+        /* Styl dla QR kodu */
+        .qr-img {
+            max-width: 150px; /* Nieco mniejszy, żeby zmieścił się z przyciskiem */
             border-radius: 8px;
             margin: 15px 0;
             border: 2px solid var(--border);
+        }
+
+        /* Styl dla przycisku kawy (responsywny) */
+        .coffee-btn img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 10px;
         }
 
         .support-text {
             font-size: 13px;
             color: var(--text-muted);
             margin-bottom: 10px;
-        }
-
-        .coffee-link {
-            display: inline-block;
-            margin-top: 10px;
-            font-size: 12px;
-            color: var(--text-muted);
         }
 
         footer {
@@ -180,7 +186,7 @@
 <body>
 
 <header>
-    <h1>AIO-IPTV</h1>
+    <h1>AIO-IPTV Repository</h1>
     <div class="subtitle">by Paweł Pawełek</div>
 </header>
 
@@ -292,12 +298,14 @@
             <h2>Wsparcie</h2>
             <div class="support-text">Wesprzyj moją pracę – Dziękuję za każdą kawę! ☕</div>
             
-            <img src="qr.png" alt="Kod QR BuyCoffee" onerror="this.style.display='none';alert('Brak pliku qr.png!');">
+            <div class="coffee-btn">
+                <a href="https://buycoffee.to/pawelpawelek" target="_blank">
+                    <img src="https://buycoffee.to/static/img/share/share-button-dark.png" style="width: 254px; height: 66px" alt="Postaw mi kawę na buycoffee.to">
+                </a>
+            </div>
+
+            <img src="QR_buycoffee.png" alt="Kod QR BuyCoffee" class="qr-img">
             
-            <br>
-            <a href="https://buycoffee.to/pawelpawelek" target="_blank" class="coffee-link">
-                scan → https://buycoffee.to/pawelpawelek
-            </a>
         </div>
 
     </div>
