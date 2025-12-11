@@ -1,4 +1,4 @@
-/* script.js - Logika dla AIO-IPTV.pl */
+/* script.js - Logika dla AIO-IPTV.pl - WERSJA ULEPSZONA */
 
 // Inicjalizacja animacji AOS
 AOS.init();
@@ -42,6 +42,67 @@ function sharePage() {
         });
     }
 }
+
+// Funkcja Kopiowania Komend (Nowość)
+function copyToClipboard(elementId) {
+    const element = document.getElementById(elementId);
+    if (!element) return;
+    
+    const text = element.innerText || element.textContent;
+    
+    navigator.clipboard.writeText(text).then(() => {
+        // Efekt wizualny na przycisku
+        const btn = element.nextElementSibling; // Zakładamy, że button jest zaraz po divie
+        if(btn && btn.tagName === 'BUTTON') {
+            const originalText = btn.innerText;
+            btn.innerText = "✅ Skopiowano!";
+            btn.style.backgroundColor = "#238636";
+            btn.style.color = "white";
+            
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.style.backgroundColor = ""; // Reset do stylów CSS
+                btn.style.color = "";
+            }, 2000);
+        } else {
+            alert("Skopiowano komendę do schowka!");
+        }
+    }).catch(err => {
+        console.error('Błąd kopiowania:', err);
+        alert("Nie udało się skopiować automatycznie. Zaznacz tekst ręcznie.");
+    });
+}
+
+// Pobieranie daty ostatniej aktualizacji z GitHub (Nowość)
+async function fetchGitHubDate() {
+    try {
+        // Sprawdzamy commity dla głównego folderu z plikami
+        const response = await fetch('https://api.github.com/repos/OliOli2013/aio-iptv-projekt/commits?per_page=1');
+        if (!response.ok) return;
+
+        const data = await response.json();
+        if (data && data.length > 0) {
+            const dateStr = data[0].commit.author.date;
+            const dateObj = new Date(dateStr);
+            const formattedDate = dateObj.toLocaleDateString('pl-PL', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+            
+            const infoEl = document.getElementById('repo-date');
+            if (infoEl) {
+                infoEl.innerHTML = `Ostatnia aktualizacja repozytorium: <strong>${formattedDate}</strong>`;
+            }
+        }
+    } catch (error) {
+        console.log("Nie udało się pobrać daty z GitHub", error);
+    }
+}
+
+// Uruchom pobieranie daty po załadowaniu
+document.addEventListener('DOMContentLoaded', fetchGitHubDate);
+
 
 // ULEPSZONA WYSZUKIWARKA (Szuka też w poradach!)
 function filterList() {
