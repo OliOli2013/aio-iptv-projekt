@@ -23,21 +23,17 @@
             line-height: 1.6;
         }
 
-        /* NAGŁÓWEK - STICKY (Przyklejony) */
+        /* NAGŁÓWEK (Wersja Desktop - domyślna) */
         header {
             text-align: center;
-            padding: 20px 20px 20px; /* Zmniejszony padding, żeby nie zajmował za dużo miejsca */
-            background-color: #0f1219; /* Lekko przezroczyste tło */
+            padding: 60px 20px 30px;
+            background-color: #0f1219;
             border-bottom: 2px solid #3b82f6;
-            position: sticky; /* Kluczowa zmiana */
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5); /* Cień pod nagłówkiem */
         }
 
-        /* STYL DLA LOGO */
+        /* STYL DLA LOGO (GŁÓWNY TYTUŁ) */
         .site-logo {
-            max-width: 200px; /* Nieco mniejsze logo w sticky header */
+            max-width: 280px;
             height: auto;
             margin-bottom: 5px; 
             display: inline-block;
@@ -46,9 +42,9 @@
 
         header p {
             color: #94a3b8;
-            font-size: 1rem;
+            font-size: 1.1rem;
             margin-top: 2px;
-            margin-bottom: 15px;
+            margin-bottom: 25px;
         }
 
         /* PRZYCISKI NAWIGACYJNE */
@@ -62,20 +58,20 @@
         .nav-btn {
             background-color: #3b82f6;
             color: white;
-            padding: 8px 16px;
+            padding: 10px 20px;
             text-decoration: none;
             border-radius: 4px;
             font-weight: 500;
             transition: background-color 0.2s, transform 0.2s;
             border: none;
             cursor: pointer;
-            font-size: 0.95rem;
+            font-size: 1rem;
             font-family: inherit;
         }
 
         .nav-btn:hover {
             background-color: #2563eb;
-            transform: scale(1.05); /* Lekkie powiększenie przycisku */
+            transform: scale(1.05);
         }
 
         /* SIATKA (GRID) */
@@ -88,15 +84,55 @@
             gap: 20px;
         }
 
-        /* RESPONSYWNOŚĆ */
+        /* 4 KOLUMNY NA PC */
         @media (min-width: 1100px) {
-            .container { grid-template-columns: repeat(4, 1fr); }
+            .container {
+                grid-template-columns: repeat(4, 1fr);
+            }
         }
+        
+        /* 2 KOLUMNY NA TABLECIE */
         @media (min-width: 700px) and (max-width: 1099px) {
-            .container { grid-template-columns: repeat(2, 1fr); }
+            .container {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
-        /* KARTA - NOWE EFEKTY */
+        /* 📱 MAŁE EKRANY – kompaktowy nagłówek (NOWOŚĆ) */
+        @media (max-width: 600px) {
+            header {
+                padding: 10px 10px 12px;
+                position: sticky;
+                top: 0;
+                z-index: 1000;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+                background-color: #0f1219; /* Zapewnia brak prześwitywania */
+            }
+
+            .site-logo {
+                max-width: 140px;
+            }
+
+            header p {
+                display: none; /* ukrywamy opis */
+            }
+
+            .nav-buttons {
+                gap: 6px;
+            }
+
+            .nav-btn {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+            }
+
+            /* mniejsze odstępy w kartach (poprawka scrollowania) */
+            .card {
+                scroll-margin-top: 100px;
+            }
+        }
+
+        /* KARTA - EFEKTY */
         .card {
             background-color: #161b22;
             border: 1px solid #30363d;
@@ -104,15 +140,14 @@
             padding: 20px;
             display: flex;
             flex-direction: column;
-            scroll-margin-top: 180px; /* Poprawka na sticky header */
-            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Płynne przejścia */
+            scroll-margin-top: 20px; 
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        /* EFEKT HOVER NA KARCIE */
         .card:hover {
-            transform: translateY(-5px); /* Uniesienie */
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4); /* Cień */
-            border-color: #58a6ff; /* Zmiana koloru ramki */
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            border-color: #58a6ff;
         }
 
         .card h2 {
@@ -131,7 +166,7 @@
 
         /* WYSZUKIWARKA */
         .search-container {
-            grid-column: 1 / -1; /* Na całą szerokość */
+            grid-column: 1 / -1;
             text-align: center;
             margin-bottom: 10px;
         }
@@ -153,7 +188,6 @@
             border-color: #3b82f6;
         }
 
-        /* LISTY I LINKI */
         .file-list {
             list-style: none;
             padding: 0;
@@ -161,16 +195,27 @@
             flex-grow: 1;
         }
 
+        /* SPECJALNY STYL PRZEWIJANIA DLA AKTUALNOŚCI */
         #aktualnosci .file-list {
             max-height: 750px; 
             overflow-y: auto;
             padding-right: 10px; 
         }
-        /* Pasek przewijania */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0d1117; }
-        ::-webkit-scrollbar-thumb { background: #30363d; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #58a6ff; }
+
+        #aktualnosci .file-list::-webkit-scrollbar {
+            width: 8px;
+        }
+        #aktualnosci .file-list::-webkit-scrollbar-track {
+            background: #0d1117; 
+            border-radius: 4px;
+        }
+        #aktualnosci .file-list::-webkit-scrollbar-thumb {
+            background: #30363d; 
+            border-radius: 4px;
+        }
+        #aktualnosci .file-list::-webkit-scrollbar-thumb:hover {
+            background: #58a6ff; 
+        }
 
         .file-list li {
             padding: 10px 0;
@@ -180,7 +225,9 @@
             scroll-margin-top: 10px;
         }
         
-        .file-list li:last-child { border-bottom: none; }
+        .file-list li:last-child {
+            border-bottom: none;
+        }
 
         .file-link {
             color: #58a6ff;
@@ -203,7 +250,10 @@
             margin-top: 2px;
         }
 
-        .icon { margin-right: 10px; font-size: 1.2em; }
+        .icon {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
 
         .badge {
             background-color: #1f6feb;
@@ -213,10 +263,15 @@
             font-size: 0.75rem;
             margin-left: 10px;
         }
-        .badge-warning { background-color: #d29922; color: black; }
+        
+        .badge-warning {
+            background-color: #d29922;
+            color: black;
+        }
 
-        /* SEKCJA WSPARCIE */
-        .support-section { text-align: center; }
+        .support-section {
+            text-align: center;
+        }
         
         .qr-code {
             display: block;
@@ -252,7 +307,6 @@
         .news-nav a { color: #58a6ff; text-decoration: none; margin-right: 12px; display: inline-block; }
         .news-nav a:hover { text-decoration: underline; color: #79c0ff; }
 
-        /* TERMINAL */
         .command-box {
             background-color: #0d1117;
             border: 1px solid #30363d;
@@ -265,9 +319,15 @@
             margin-bottom: 15px;
             margin-top: 5px;
             user-select: all;
-            border-left: 3px solid #238636; /* Zielony pasek ozdobny */
+            border-left: 3px solid #238636; 
         }
-        .cmd-title { color: #58a6ff; font-size: 0.9em; font-weight: bold; }
+        
+        .cmd-title {
+            color: #58a6ff;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
         .code-snippet {
             display: block;
             background: #0d1117;
@@ -279,7 +339,7 @@
             font-size: 0.9em;
         }
 
-        /* FORMULARZ */
+        /* STYLE DLA FORMULARZA KONTAKTOWEGO */
         .contact-form input, .contact-form textarea {
             width: 100%;
             padding: 12px;
@@ -292,11 +352,17 @@
             font-family: inherit;
             transition: border-color 0.3s;
         }
+
         .contact-form input:focus, .contact-form textarea:focus {
             outline: none;
             border-color: #3b82f6;
         }
-        .contact-form textarea { height: 120px; resize: vertical; }
+
+        .contact-form textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
         .contact-btn {
             background-color: #238636;
             color: white;
@@ -309,8 +375,12 @@
             width: 100%;
             transition: background-color 0.3s;
         }
-        .contact-btn:hover { background-color: #2ea043; }
-        
+
+        .contact-btn:hover {
+            background-color: #2ea043;
+        }
+
+        /* Styl dla przycisku Telegram */
         .telegram-btn {
             display: inline-block;
             background-color: #0088cc;
@@ -327,7 +397,7 @@
 
         /* PRZYCISK "WRÓĆ NA GÓRĘ" */
         #topBtn {
-            display: none; /* Domyślnie ukryty */
+            display: none;
             position: fixed;
             bottom: 20px;
             right: 20px;
@@ -356,9 +426,15 @@
             border-top: 1px solid #30363d;
             margin-top: 40px;
         }
-        footer a { color: #58a6ff; text-decoration: none; }
+        
+        footer a {
+            color: #58a6ff;
+            text-decoration: none;
+        }
 
-        .full-width { grid-column: 1 / -1; }
+        .full-width {
+            grid-column: 1 / -1; 
+        }
     </style>
 </head>
 <body>
@@ -367,6 +443,7 @@
 
     <header>
         <img src="https://github.com/OliOli2013/aio-iptv-projekt/raw/main/pliki/logo.png" alt="Logo AIO-IPTV" class="site-logo">
+        
         <p>Autorskie Wtyczki Enigma 2, Listy Kanałów, Porady - Paweł Pawełek</p>
         
         <div class="nav-buttons">
@@ -564,11 +641,6 @@
                         
                         <strong>KROK 2:</strong> Zmień w ServiceApp player na <strong>exteplayer3</strong> i zrestartuj GUI.
                     </div>
-                </li>
-
-                <li style="margin-bottom: 20px;">
-                    <div style="color: #58a6ff; font-weight: bold;">[10.12.2025] Aktualizacja repozytorium.</div>
-                    <div style="color: #8b949e; font-size: 0.9em;">Dodano listy Bzyk83 i JakiTaki.</div>
                 </li>
 
                 <li id="info-wgrac">
