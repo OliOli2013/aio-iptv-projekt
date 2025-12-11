@@ -135,6 +135,37 @@
             <h2>Aktualności</h2>
             
             <div class="accordion-item">
+                <button class="accordion-header blue-header">[11.12.2025] Powiększenie pamięci w Zgemma H9S / H9.2S (OpenATV 7.6)</button>
+                <div class="accordion-content">
+                    <p style="color:#58a6ff;"><strong>Nowość!</strong> Skrypt pozwalający na powiększenie pamięci flash z 256 MB NAND do rozmiaru karty microSD (np. 30 GB).</p>
+                    <p>Dzięki temu zyskujesz dużo więcej miejsca na wtyczki, listy kanałów i dodatki. Dotyczy dekoderów Zgemma H9S oraz H9.2S z oprogramowaniem OpenATV 7.6.</p>
+                    <hr style="border-color: #30363d; margin: 15px 0;">
+                    
+                    <strong>1. Przygotowanie karty pamięci</strong><br>
+                    Wyłącz dekoder pilotem, a następnie wyłącz go całkowicie z prądu. Włóż kartę microSD i włącz dekoder ponownie.<br><br>
+
+                    <strong>2. Formatowanie karty w OpenATV (na ext4)</strong><br>
+                    &bull; Na pilocie naciśnij <strong>Niebieski przycisk</strong> (Dysk twardy) → <strong>Menedżer urządzeń</strong>.<br>
+                    &bull; Naciśnij <strong>Zielony</strong> (Zarządzaj) → Wybierz: <strong>„Wyczyść urządzenie pamięci masowej”</strong> (inicjalizacja).<br>
+                    &bull; Wróć do Menedżera, znów <strong>Zielony</strong> (Zarządzaj) → <strong>„Formatuj urządzenie”</strong>.<br>
+                    &bull; W polu system plików wybierz <strong>ext4</strong> i zatwierdź.<br><br>
+
+                    <strong>3. Skopiowanie skryptu na dekoder (FTP)</strong><br>
+                    &bull; Pobierz plik ZIP z sekcji "Pliki (pozostałe)" i rozpakuj go.<br>
+                    &bull; Połącz się przez FTP i skopiuj katalog ze skryptem (ten z plikiem <span class="code-snippet">H9_boot_mSD.sh</span>) do katalogu <span class="code-snippet">/usr/script/</span> w dekoderze.<br><br>
+
+                    <strong>4. Nadanie uprawnień i uruchomienie</strong><br>
+                    &bull; W FTP nadaj plikowi <span class="code-snippet">H9_boot_mSD.sh</span> atrybut <strong>755</strong>.<br>
+                    &bull; Na dekoderze: <strong>Menu → Wtyczki → Menedżer plików</strong>.<br>
+                    &bull; Przejdź do <span class="code-snippet">/usr/script/</span>, zaznacz skrypt i naciśnij OK.<br>
+                    &bull; Wybierz <strong>polecenie numer 3</strong>. Poczekaj ok. 5 minut na komunikat „Execution finished”.<br><br>
+
+                    <strong>5. Restart</strong><br>
+                    Zrestartuj dekoder (wyłącz z prądu). Po ponownym włączeniu system będzie korzystał z karty microSD.
+                </div>
+            </div>
+
+            <div class="accordion-item">
                 <button class="accordion-header blue-header">[10.12.2025] Aktualizacja repozytorium</button>
                 <div class="accordion-content">
                     <p style="color:#58a6ff;">Dodano nowe listy kanałów Bzyk83 i JakiTaki.</p>
@@ -286,6 +317,12 @@
                         <span class="icon">📥</span> Picony Transparent 13°E
                     </a>
                     <span class="file-desc">(Paczka ZIP)</span>
+                </li>
+                <li>
+                    <a class="file-link" href="https://github.com/OliOli2013/aio-iptv-projekt/raw/main/pliki/powiekszenie%20pamieci%20doZGEMMA%20H9,S%20H9,2S.zip" title="Skrypt do powiększenia pamięci">
+                        <span class="icon">📥</span> Powiększenie pamięci do ZGEMMA H9S / H9.2S
+                    </a>
+                    <span class="file-desc">(Skrypt ZIP)</span>
                 </li>
             </ul>
         </div>
