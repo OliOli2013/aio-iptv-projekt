@@ -134,3 +134,15 @@ document.getElementById('searchBox').addEventListener('focus', function () {
         }, 300);
     }
 });
+
+// Prosty lokalny licznik wizyt (tylko na tym urządzeniu/przeglądarce)
+document.addEventListener('DOMContentLoaded', () => {
+    const counterElement = document.getElementById('local-visit-counter');
+    if (!counterElement) return;
+
+    const storageKey = 'aio_iptv_visit_count';
+    let count = parseInt(localStorage.getItem(storageKey) || '0', 10);
+    count += 1;
+    localStorage.setItem(storageKey, String(count));
+    counterElement.textContent = count;
+});
