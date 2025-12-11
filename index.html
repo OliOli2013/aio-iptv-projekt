@@ -29,9 +29,9 @@
             padding: 40px 20px 20px;
             background-color: #0f1219;
             border-bottom: 2px solid #3b82f6;
+            transition: transform 0.3s ease; /* Płynne chowanie */
         }
 
-        /* STYL DLA LOGO */
         .site-logo {
             max-width: 280px;
             height: auto;
@@ -77,54 +77,45 @@
             gap: 20px;
         }
 
-        /* 4 KOLUMNY NA PC */
-        @media (min-width: 1100px) {
-            .container { grid-template-columns: repeat(4, 1fr); }
-        }
-        /* 2 KOLUMNY NA TABLECIE */
-        @media (min-width: 700px) and (max-width: 1099px) {
-            .container { grid-template-columns: repeat(2, 1fr); }
-        }
+        @media (min-width: 1100px) { .container { grid-template-columns: repeat(4, 1fr); } }
+        @media (min-width: 700px) and (max-width: 1099px) { .container { grid-template-columns: repeat(2, 1fr); } }
 
-        /* 📱 MAŁE EKRANY – KOMPAKTOWY NAGŁÓWEK & FIX WYSZUKIWARKI */
+        /* 📱 MAŁE EKRANY – AUTO-HIDE HEADER */
         @media (max-width: 600px) {
             header {
                 padding: 10px 10px 12px;
-                position: sticky;
+                position: fixed; /* Zmiana na fixed */
                 top: 0;
+                left: 0;
+                right: 0;
                 z-index: 1000;
                 box-shadow: 0 2px 10px rgba(0,0,0,0.4);
                 background-color: #0f1219;
+                transform: translateY(0);
             }
 
-            .site-logo {
-                max-width: 120px; /* Mniejsze logo */
+            /* Klasa ukrywająca nagłówek */
+            header.hide {
+                transform: translateY(-100%);
             }
 
-            /* Mniejszy opis pod logo */
+            /* Dodatkowe miejsce na górze, aby treść nie wjeżdżała pod nagłówek */
+            body {
+                padding-top: 160px; 
+            }
+
+            .site-logo { max-width: 120px; }
+
             header > div > p {
                 font-size: 0.85rem !important;
                 margin-top: 2px !important;
             }
 
-            .nav-buttons {
-                gap: 6px;
-                margin-top: 10px;
-            }
+            .nav-buttons { gap: 6px; margin-top: 10px; }
+            .nav-btn { padding: 6px 12px; font-size: 0.85rem; }
 
-            .nav-btn {
-                padding: 6px 12px;
-                font-size: 0.85rem;
-            }
-
-            .card {
-                scroll-margin-top: 100px;
-            }
-
-            /* Miejsce pod klawiaturę */
-            .search-container {
-                margin-bottom: 120px; 
-            }
+            /* Miejsce pod klawiaturę w wyszukiwarce */
+            .search-container { margin-bottom: 120px; }
         }
 
         /* KARTA - EFEKTY */
@@ -135,7 +126,7 @@
             padding: 20px;
             display: flex;
             flex-direction: column;
-            scroll-margin-top: 20px; 
+            scroll-margin-top: 120px; /* Dostosowane do fixed header */
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
@@ -154,10 +145,7 @@
             margin-bottom: 15px;
         }
 
-        .card p {
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-        }
+        .card p { font-size: 0.9rem; margin-bottom: 15px; }
 
         /* WYSZUKIWARKA */
         .search-container {
@@ -178,10 +166,7 @@
             outline: none;
             transition: border-color 0.3s;
         }
-
-        #searchBox:focus {
-            border-color: #3b82f6;
-        }
+        #searchBox:focus { border-color: #3b82f6; }
 
         .file-list {
             list-style: none;
@@ -190,17 +175,16 @@
             flex-grow: 1;
         }
 
-        /* PRZEWIJANIE DLA AKTUALNOŚCI */
         #aktualnosci .file-list {
             max-height: 750px; 
             overflow-y: auto;
             padding-right: 10px; 
         }
 
-        #aktualnosci .file-list::-webkit-scrollbar { width: 8px; }
-        #aktualnosci .file-list::-webkit-scrollbar-track { background: #0d1117; border-radius: 4px; }
-        #aktualnosci .file-list::-webkit-scrollbar-thumb { background: #30363d; border-radius: 4px; }
-        #aktualnosci .file-list::-webkit-scrollbar-thumb:hover { background: #58a6ff; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0d1117; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #30363d; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #58a6ff; }
 
         .file-list li {
             padding: 10px 0;
@@ -221,23 +205,9 @@
         }
         .file-link:hover { text-decoration: underline; color: #79c0ff; }
 
-        .file-desc {
-            font-size: 0.8em; 
-            color: #7d8590; 
-            margin-left: 30px;
-            margin-top: 2px;
-        }
-
+        .file-desc { font-size: 0.8em; color: #7d8590; margin-left: 30px; margin-top: 2px; }
         .icon { margin-right: 10px; font-size: 1.2em; }
-
-        .badge {
-            background-color: #1f6feb;
-            color: white;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            margin-left: 10px;
-        }
+        .badge { background-color: #1f6feb; color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; margin-left: 10px; }
         .badge-warning { background-color: #d29922; color: black; }
 
         .support-section { text-align: center; }
@@ -301,7 +271,6 @@
             font-size: 0.9em;
         }
 
-        /* FORMULARZ */
         .contact-form input, .contact-form textarea {
             width: 100%;
             padding: 12px;
@@ -733,7 +702,33 @@
             document.documentElement.scrollTop = 0;
         }
 
-        // 🔍 Przewijanie do pola wyszukiwania na małych ekranach
+        // Auto-hide header na małych ekranach (ULEPSZONA)
+        let lastScroll = 0;
+        const header = document.querySelector('header');
+
+        window.addEventListener('scroll', () => {
+            if (window.innerWidth > 600) return; // tylko telefon
+
+            const currentScroll = window.pageYOffset;
+
+            // Bufor na górze (żeby nie chowało się od razu)
+            if (currentScroll <= 0) {
+                header.classList.remove('hide');
+                return;
+            }
+
+            if (currentScroll > lastScroll && currentScroll > 50) {
+                // Scroll w dół – ukryj
+                header.classList.add('hide');
+            } else {
+                // Scroll w górę – pokaż
+                header.classList.remove('hide');
+            }
+
+            lastScroll = currentScroll;
+        });
+
+        // 🔍 Przewijanie do pola wyszukiwania
         document.getElementById('searchBox').addEventListener('focus', function () {
             if (window.innerWidth <= 600) {
                 setTimeout(() => {
