@@ -44,7 +44,12 @@
 
     <header>
         <div style="text-align:center; line-height: 1.2;">
-            <img src="https://github.com/OliOli2013/aio-iptv-projekt/raw/main/pliki/logo.png" alt="Logo AIO-IPTV" class="site-logo">
+            <div class="logo-wrapper">
+                <span class="xmas-decor">🎄</span>
+                <img src="https://github.com/OliOli2013/aio-iptv-projekt/raw/main/pliki/logo.png" alt="Logo AIO-IPTV" class="site-logo">
+                <span class="xmas-decor">🎅</span>
+            </div>
+            
             <p style="margin: 4px 0 0; font-size: 0.95rem;">Autorskie Wtyczki Enigma 2, Listy Kanałów, Porady - Paweł Pawełek</p>
             <p id="repo-date" style="font-size: 0.8rem; color: #58a6ff; margin-top: 5px; opacity: 0.9;"></p>
         </div>
@@ -657,6 +662,26 @@
                     <input type="checkbox" data-target="cmd-e2i">
                     <span>E2iPlayer</span>
                 </label>
+                <label class="gen-option">
+                    <input type="checkbox" data-target="cmd-epgimport">
+                    <span>EPG Import (Belfagor)</span>
+                </label>
+                <label class="gen-option">
+                    <input type="checkbox" data-target="cmd-filmxy">
+                    <span>Filmy XY</span>
+                </label>
+                <label class="gen-option">
+                    <input type="checkbox" data-target="cmd-jedi">
+                    <span>Jedi Maker Xtream</span>
+                </label>
+                <label class="gen-option">
+                    <input type="checkbox" data-target="cmd-s4a">
+                    <span>S4A Updater</span>
+                </label>
+                <label class="gen-option">
+                    <input type="checkbox" data-target="cmd-levi">
+                    <span>Levi45 Softcam Emulator</span>
+                </label>
             </div>
 
             <div class="cmd-title">Wygenerowana komenda:</div>
@@ -881,7 +906,7 @@
 
         </div>
 
-                <div class="card" id="kalkulator-epg" data-aos="fade-up">
+        <div class="card" id="kalkulator-epg" data-aos="fade-up">
             <h2>Kalkulator pojemności EPG</h2>
             <p>Oszacuj, ile miejsca zajmie EPG dla Twoich kanałów.</p>
             <div style="display:flex; flex-direction:column; gap:10px;">
@@ -1005,6 +1030,36 @@
             <div class="cmd-wrapper">
                 <div class="command-box" id="cmd-e2i">wget -q "https://raw.githubusercontent.com/oe-mirrors/e2iplayer/refs/heads/python3/e2iplayer_install.sh" -O - | /bin/sh</div>
                 <button class="copy-btn" onclick="copyToClipboard('cmd-e2i')">📋 Kopiuj</button>
+            </div>
+
+            <div class="cmd-title">Instalacja EPG Import:</div>
+            <div class="cmd-wrapper">
+                <div class="command-box" id="cmd-epgimport">wget -q "--no-check-certificate" https://raw.githubusercontent.com/Belfagor2005/EPGImport-99/main/installer.sh -O - | /bin/bash</div>
+                <button class="copy-btn" onclick="copyToClipboard('cmd-epgimport')">📋 Kopiuj</button>
+            </div>
+
+            <div class="cmd-title">Instalacja Filmy XY:</div>
+            <div class="cmd-wrapper">
+                <div class="command-box" id="cmd-filmxy">wget -q "--no-check-certificate" https://raw.githubusercontent.com/Belfagor2005/filmxy/main/installer.sh -O - | /bin/sh</div>
+                <button class="copy-btn" onclick="copyToClipboard('cmd-filmxy')">📋 Kopiuj</button>
+            </div>
+
+            <div class="cmd-title">Instalacja Jedi Maker Xtream:</div>
+            <div class="cmd-wrapper">
+                <div class="command-box" id="cmd-jedi">wget https://raw.githubusercontent.com/biko-73/JediMakerXtream/main/installer.sh -O - | /bin/sh</div>
+                <button class="copy-btn" onclick="copyToClipboard('cmd-jedi')">📋 Kopiuj</button>
+            </div>
+
+            <div class="cmd-title">Instalacja S4A Updater:</div>
+            <div class="cmd-wrapper">
+                <div class="command-box" id="cmd-s4a">wget http://s4aupdater.one.pl/instalujs4aupdater.sh -O - | /bin/sh</div>
+                <button class="copy-btn" onclick="copyToClipboard('cmd-s4a')">📋 Kopiuj</button>
+            </div>
+
+            <div class="cmd-title">Instalacja Levi45 Emulator:</div>
+            <div class="cmd-wrapper">
+                <div class="command-box" id="cmd-levi">wget -q "--no-check-certificate" https://raw.githubusercontent.com/levi-45/Levi45Emulator/main/installer.sh -O - | /bin/sh</div>
+                <button class="copy-btn" onclick="copyToClipboard('cmd-levi')">📋 Kopiuj</button>
             </div>
         </div>
 
