@@ -976,6 +976,7 @@ body.light .stats-footnote {
         grid-template-areas:
             "wtyczki listy aktualnosci faq"
             "slownik generator generator wsparcie"
+            "adgrid adgrid adgrid adgrid"
             "pliki kontakt systemy kalkulator"
             "status status statystyki statystyki";
     }
@@ -993,6 +994,7 @@ body.light .stats-footnote {
     #kalkulator-epg { grid-area: kalkulator; }
     #status-uslug { grid-area: status; }
     #statystyki { grid-area: statystyki; }
+    #ad-grid { grid-area: adgrid; }
 }
 
 /* Generator – mniejsza wysokość pola z komendą */
@@ -1000,4 +1002,37 @@ body.light .stats-footnote {
     min-height: 80px;
     max-height: 170px;
     overflow-y: auto;
+}
+
+/* NOWE STYLE DLA MIEJSC REKLAMOWYCH */
+.ad-placeholder {
+    border: 2px dashed #30363d;
+    background: rgba(13, 17, 23, 0.4);
+    color: #8b949e;
+    text-align: center;
+    padding: 30px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    letter-spacing: 1px;
+    min-height: 100px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.ad-placeholder:hover {
+    border-color: #58a6ff;
+    color: #c9d1d9;
+    background: rgba(13, 17, 23, 0.6);
+    cursor: default;
+}
+
+body.light .ad-placeholder {
+    border-color: #d1d5db;
+    background: rgba(243, 244, 246, 0.8);
+    color: #6b7280;
 }

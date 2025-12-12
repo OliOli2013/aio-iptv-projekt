@@ -69,6 +69,10 @@
             <input type="text" id="searchBox" onkeyup="filterList()" placeholder="🔍 Szukaj wtyczki, listy lub porady...">
         </div>
 
+        <div class="ad-placeholder full-width" data-aos="fade-up">
+            Miejsce na twoją reklamę
+        </div>
+
         <div class="card" id="wtyczki" data-aos="fade-up">
             <h2>Wtyczki (Plugins)</h2>
             <p>Najnowsze wersje moich aplikacji.</p>
@@ -641,6 +645,18 @@
                     <input type="checkbox" data-target="cmd-epg">
                     <span>Simple IPTV EPG</span>
                 </label>
+                <label class="gen-option">
+                    <input type="checkbox" data-target="cmd-softcam">
+                    <span>Softcam Feed (OpenATV)</span>
+                </label>
+                <label class="gen-option">
+                    <input type="checkbox" data-target="cmd-ajpanel">
+                    <span>AJPanel</span>
+                </label>
+                <label class="gen-option">
+                    <input type="checkbox" data-target="cmd-e2i">
+                    <span>E2iPlayer</span>
+                </label>
             </div>
 
             <div class="cmd-title">Wygenerowana komenda:</div>
@@ -652,47 +668,6 @@
             <p class="generator-note">
                 Tip: możesz wkleić tę jedną komendę w terminalu – kolejne instalatory uruchomią się po sobie dzięki operatorowi <code>&amp;&amp;</code>.
             </p>
-        </div>
-
-<div class="card" id="terminal" data-aos="fade-up">
-            <div class="terminal-bar">
-                <div class="terminal-dots">
-                    <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
-                </div>
-                <div class="terminal-title">root@enigma2:~</div>
-            </div>
-            
-            <p style="margin-top: 15px;">Skopiuj komendę i wklej w terminalu (np. Putty), aby zainstalować:</p>
-            
-            <div class="cmd-title">Instalacja AIO Panel:</div>
-            <div class="cmd-wrapper">
-                <div class="command-box" id="cmd-aio">wget -q "--no-check-certificate" https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh -O - | /bin/sh</div>
-                <button class="copy-btn" onclick="copyToClipboard('cmd-aio')">📋 Kopiuj</button>
-            </div>
-
-            <div class="cmd-title">Instalacja IPTV Dream:</div>
-            <div class="cmd-wrapper">
-                <div class="command-box" id="cmd-iptv">wget -q "--no-check-certificate" https://raw.githubusercontent.com/OliOli2013/IPTV-Dream-Plugin/main/installer.sh -O - | /bin/sh</div>
-                <button class="copy-btn" onclick="copyToClipboard('cmd-iptv')">📋 Kopiuj</button>
-            </div>
-
-            <div class="cmd-title">Instalacja MyUpdater:</div>
-            <div class="cmd-wrapper">
-                <div class="command-box" id="cmd-updater">wget -q -O - https://raw.githubusercontent.com/OliOli2013/MyUpdater-Plugin/main/installer.sh | sh</div>
-                <button class="copy-btn" onclick="copyToClipboard('cmd-updater')">📋 Kopiuj</button>
-            </div>
-
-            <div class="cmd-title">Instalacja PiconUpdater:</div>
-            <div class="cmd-wrapper">
-                <div class="command-box" id="cmd-picon">wget -qO - https://raw.githubusercontent.com/OliOli2013/PiconUpdater/main/installer.sh | /bin/sh</div>
-                <button class="copy-btn" onclick="copyToClipboard('cmd-picon')">📋 Kopiuj</button>
-            </div>
-
-            <div class="cmd-title">Instalacja SimpleIPTV EPG:</div>
-            <div class="cmd-wrapper">
-                <div class="command-box" id="cmd-epg">wget -qO - https://raw.githubusercontent.com/OliOli2013/SimpleIPTV_EPG/main/installer.sh | /bin/sh</div>
-                <button class="copy-btn" onclick="copyToClipboard('cmd-epg')">📋 Kopiuj</button>
-            </div>
         </div>
 
         <div class="card support-section" id="wsparcie" data-aos="fade-up" data-aos-delay="300">
@@ -710,6 +685,10 @@
                 Jeśli chcesz docenić moją pracę i pomoc, możesz symbolicznie postawić mi kawę – to drobny gest, który naprawdę wiele znaczy.<br>
                 <br>– Pawełek
             </p>
+        </div>
+
+        <div class="ad-placeholder full-width" id="ad-grid" data-aos="fade-up">
+            Miejsce na twoją reklamę
         </div>
 
         <div class="card" id="pliki" data-aos="fade-up">
@@ -965,9 +944,74 @@
             </div>
         </div>
 
+        <div class="card" id="terminal" data-aos="fade-up">
+            <div class="terminal-bar">
+                <div class="terminal-dots">
+                    <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                </div>
+                <div class="terminal-title">root@enigma2:~</div>
+            </div>
+            
+            <p style="margin-top: 15px;">Skopiuj komendę i wklej w terminalu (np. Putty), aby zainstalować:</p>
+            
+            <div class="cmd-title">Instalacja AIO Panel:</div>
+            <div class="cmd-wrapper">
+                <div class="command-box" id="cmd-aio">wget -q "--no-check-certificate" https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh -O - | /bin/sh</div>
+                <button class="copy-btn" onclick="copyToClipboard('cmd-aio')">📋 Kopiuj</button>
+            </div>
+
+            <div class="cmd-title">Instalacja IPTV Dream:</div>
+            <div class="cmd-wrapper">
+                <div class="command-box" id="cmd-iptv">wget -q "--no-check-certificate" https://raw.githubusercontent.com/OliOli2013/IPTV-Dream-Plugin/main/installer.sh -O - | /bin/sh</div>
+                <button class="copy-btn" onclick="copyToClipboard('cmd-iptv')">📋 Kopiuj</button>
+            </div>
+
+            <div class="cmd-title">Instalacja MyUpdater:</div>
+            <div class="cmd-wrapper">
+                <div class="command-box" id="cmd-updater">wget -q -O - https://raw.githubusercontent.com/OliOli2013/MyUpdater-Plugin/main/installer.sh | sh</div>
+                <button class="copy-btn" onclick="copyToClipboard('cmd-updater')">📋 Kopiuj</button>
+            </div>
+
+            <div class="cmd-title">Instalacja PiconUpdater:</div>
+            <div class="cmd-wrapper">
+                <div class="command-box" id="cmd-picon">wget -qO - https://raw.githubusercontent.com/OliOli2013/PiconUpdater/main/installer.sh | /bin/sh</div>
+                <button class="copy-btn" onclick="copyToClipboard('cmd-picon')">📋 Kopiuj</button>
+            </div>
+
+            <div class="cmd-title">Instalacja SimpleIPTV EPG:</div>
+            <div class="cmd-wrapper">
+                <div class="command-box" id="cmd-epg">wget -qO - https://raw.githubusercontent.com/OliOli2013/SimpleIPTV_EPG/main/installer.sh | /bin/sh</div>
+                <button class="copy-btn" onclick="copyToClipboard('cmd-epg')">📋 Kopiuj</button>
+            </div>
+
+            <div class="cmd-title">Instalacja Softcam Feed:</div>
+            <div class="cmd-wrapper">
+                <div class="command-box" id="cmd-softcam">wget -O - -q http://updates.mynonpublic.com/oea/feed | bash</div>
+                <button class="copy-btn" onclick="copyToClipboard('cmd-softcam')">📋 Kopiuj</button>
+            </div>
+
+            <div class="cmd-title">Instalacja AJPanel:</div>
+            <div class="cmd-wrapper">
+                <div class="command-box" id="cmd-ajpanel">wget https://raw.githubusercontent.com/biko-73/AjPanel/main/installer.sh -O - | /bin/sh</div>
+                <button class="copy-btn" onclick="copyToClipboard('cmd-ajpanel')">📋 Kopiuj</button>
+            </div>
+
+            <div class="cmd-title">Instalacja E2iPlayer:</div>
+            <div class="cmd-wrapper">
+                <div class="command-box" id="cmd-e2i">wget -q "https://raw.githubusercontent.com/oe-mirrors/e2iplayer/refs/heads/python3/e2iplayer_install.sh" -O - | /bin/sh</div>
+                <button class="copy-btn" onclick="copyToClipboard('cmd-e2i')">📋 Kopiuj</button>
+            </div>
+        </div>
+
     </div>
 
-<footer>
+    <div style="max-width: 1500px; margin: 0 auto; padding: 0 20px;">
+        <div class="ad-placeholder full-width" data-aos="fade-up">
+            Miejsce na twoją reklamę
+        </div>
+    </div>
+
+    <footer>
         <p>&copy; 2025 AIO-IPTV.pl | PawełPawełek</p>
         <p>Kontakt: <a href="mailto:msisystem@t.pl">msisystem@t.pl</a></p>
 
