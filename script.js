@@ -74,42 +74,85 @@ function copyToClipboard(elementId) {
 }
 
 // POBIERANIE STATYSTYK Z GITHUB (Nowość)
+function animateNumber(element, target) {
+    const duration = 1200;
+    const start = 0;
+    const startTime = performance.now();
+
+    function step(now) {
+        const progress = Math.min((now - startTime) / duration, 1);
+        const value = Math.floor(start + (target - start) * progress);
+        element.textContent = value;
+        if (progress < 1) {
+            requestAnimationFrame(step);
+        }
+    }
+    requestAnimationFrame(step);
+}
+
 async function fetchGithubStats() {
     const user = 'OliOli2013';
     const repo = 'aio-iptv-projekt';
     
+    const statusWrap = document.getElementById('github-status');
+    const statusLabel = document.getElementById('github-status-label');
+
     try {
-        // 1. Pobierz info o repozytorium (gwiazdki, rozmiar)
         const repoRes = await fetch(`https://api.github.com/repos/${user}/${repo}`);
-        if (!repoRes.ok) return; // Jeśli błąd, przerywamy cicho
+        if (!repoRes.ok) {
+            throw new Error('HTTP ' + repoRes.status);
+        }
 
         const repoData = await repoRes.json();
         
-        // Wypełnij pola statystyk (jeśli istnieją w HTML)
         const elStars = document.getElementById('repo-stars');
         const elWatchers = document.getElementById('repo-watchers');
         const elSize = document.getElementById('repo-size');
         const elDate = document.getElementById('repo-date');
 
-        if(elStars) elStars.innerText = repoData.stargazers_count || 0;
-        if(elWatchers) elWatchers.innerText = repoData.watchers_count || 0;
-        if(elSize) elSize.innerText = (repoData.size / 1024).toFixed(1) + ' MB';
+        if (elStars) {
+            elStars.classList.remove('skeleton');
+            animateNumber(elStars, repoData.stargazers_count || 0);
+        }
+        if (elWatchers) {
+            elWatchers.classList.remove('skeleton');
+            animateNumber(elWatchers, repoData.watchers_count || 0);
+        }
+        if (elSize) {
+            elSize.classList.remove('skeleton');
+            const sizeMb = (repoData.size / 1024);
+            elSize.textContent = sizeMb.toFixed(1) + ' MB';
+        }
 
-        // 2. Data aktualizacji (używamy push_at dla dokładności)
-        if(elDate && repoData.pushed_at) {
+        if (elDate && repoData.pushed_at) {
             const dateObj = new Date(repoData.pushed_at);
             const formattedDate = dateObj.toLocaleDateString('pl-PL', {
-                day: '2-digit', month: '2-digit', year: 'numeric'
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
             });
-            elDate.innerHTML = `Ostatnia aktualizacja repozytorium: <strong>${formattedDate}</strong>`;
+            elDate.textContent = formattedDate;
+        }
+
+        if (statusWrap && statusLabel) {
+            statusWrap.classList.remove('error');
+            statusWrap.classList.add('ok');
+            statusLabel.textContent = 'API GitHub: ONLINE';
         }
 
     } catch (e) {
         console.log('Błąd pobierania statystyk GitHub:', e);
+        if (statusWrap && statusLabel) {
+            statusWrap.classList.remove('ok');
+            statusWrap.classList.add('error');
+            statusLabel.textContent = 'API GitHub: problem z połączeniem';
+        }
     }
 }
-// Uruchom pobieranie po załadowaniu
-document.addEventListener('DOMContentLoaded', fetchGithubStats);
+
+
+// ULEPSZONA WYSZUKIWARKA
+
 
 
 // ULEPSZONA WYSZUKIWARKA
@@ -151,22 +194,42 @@ function filterList() {
     });
 }
 
-// Funkcja Wróć na górę
+// Funkcja Wróć na górę + licznik czasu
 let mybutton = document.getElementById("topBtn");
-window.onscroll = function() {scrollFunction()};
+let topTimeLabel = null;
+
+window.onscroll = function() { scrollFunction(); };
 
 function scrollFunction() {
+    if (!mybutton) return;
     if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
         mybutton.style.display = "block";
     } else {
         mybutton.style.display = "none";
+        if (topTimeLabel) {
+            topTimeLabel.style.display = 'none';
+        }
     }
 }
 
 function topFunction() {
+    const scrollY = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    const seconds = Math.max(1, Math.round(scrollY / 400));
+
+    if (topTimeLabel) {
+        topTimeLabel.textContent = `⬆️ zaoszczędzono ok. ${seconds} s czytania`;
+        topTimeLabel.style.display = 'block';
+        setTimeout(() => {
+            if (topTimeLabel) {
+                topTimeLabel.style.display = 'none';
+            }
+        }, 3000);
+    }
+
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
 }
+
 
 // Auto-hide header
 let lastScroll = 0;
@@ -207,4 +270,163 @@ document.addEventListener('DOMContentLoaded', () => {
     count += 1;
     localStorage.setItem(storageKey, String(count));
     counterElement.textContent = count;
+});
+
+
+// Kalkulator wielkości EPG
+function calculateEpgSize() {
+    const channelsEl = document.getElementById('epg-channels');
+    const daysEl = document.getElementById('epg-days');
+    const resultEl = document.getElementById('epg-result');
+
+    if (!channelsEl || !daysEl || !resultEl) return;
+
+    const channels = parseInt(channelsEl.value || '0', 10);
+    const days = parseInt(daysEl.value || '0', 10);
+
+    if (!channels || !days || channels < 0 || days < 0) {
+        resultEl.textContent = 'Podaj poprawne wartości (kanały > 0, dni > 0).';
+        return;
+    }
+
+    const sizeMb = (channels * days * 0.02).toFixed(1);
+    resultEl.textContent = `Szacowana wielkość EPG: ok. ${sizeMb} MB (wartość orientacyjna).`;
+}
+
+// Status usług (Bzyk83)
+async function checkServiceStatus() {
+    const services = [
+        {
+            id: 'status-bzyk',
+            name: 'Bzyk83',
+            url: 'https://enigma2.hswg.pl/wp-content/uploads/2025/05/Lista-bzyk83-hb-13E-05.05.2025.zip'
+        }
+    ];
+
+    for (const s of services) {
+        const el = document.getElementById(s.id);
+        if (!el) continue;
+
+        try {
+            // Używamy trybu "no-cors", aby ominąć ograniczenia CORS z zewnętrznego serwera.
+            // W tym trybie nie mamy dostępu do nagłówków, więc pokazujemy tylko prosty status "online".
+            await fetch(s.url, { method: 'GET', mode: 'no-cors' });
+
+            el.classList.remove('status-error', 'status-stale');
+            el.classList.add('status-ok');
+            el.textContent = `${s.name}: online (sprawdzono połączenie HTTP)`;
+        } catch (e) {
+            el.classList.remove('status-ok', 'status-stale');
+            el.classList.add('status-error');
+            el.textContent = `${s.name}: problem z dostępem`;
+        }
+    }
+}
+
+// Dodatkowe inicjalizacje po załadowaniu DOM
+document.addEventListener('DOMContentLoaded', () => {
+    // Tryb jasny / ciemny
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) {
+        const STORAGE_KEY = 'aio_theme';
+        const saved = localStorage.getItem(STORAGE_KEY);
+
+        if (saved === 'light') {
+            document.body.classList.add('light');
+        }
+
+        updateThemeToggleIcon();
+
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light');
+            const isLight = document.body.classList.contains('light');
+            localStorage.setItem(STORAGE_KEY, isLight ? 'light' : 'dark');
+            updateThemeToggleIcon();
+        });
+
+        function updateThemeToggleIcon() {
+            themeToggle.textContent = document.body.classList.contains('light') ? '🌙' : '🌞';
+        }
+    }
+
+    // Statystyki GitHuba + status usług
+    fetchGithubStats();
+    checkServiceStatus();
+
+    // Etykieta czasu dla przycisku "Wróć na górę"
+    if (!topTimeLabel) {
+        topTimeLabel = document.createElement('div');
+        topTimeLabel.className = 'top-time-label';
+        document.body.appendChild(topTimeLabel);
+    }
+
+    // Generator One-Liner – łączenie komend instalacyjnych
+    const generatorOutput = document.getElementById('generator-output');
+    const generatorCheckboxes = document.querySelectorAll('.generator-options input[type="checkbox"]');
+
+    function updateGeneratorCommand() {
+        if (!generatorOutput || !generatorCheckboxes.length) return;
+
+        const parts = [];
+
+        generatorCheckboxes.forEach(cb => {
+            if (!cb.checked) return;
+            const targetId = cb.dataset.target;
+            if (!targetId) return;
+            const sourceEl = document.getElementById(targetId);
+            if (!sourceEl) return;
+
+            const txt = (sourceEl.innerText || sourceEl.textContent || '').trim();
+            if (txt) {
+                parts.push(txt);
+            }
+        });
+
+        if (!parts.length) {
+            generatorOutput.textContent = '# Zaznacz przynajmniej jedną opcję powyżej...';
+        } else {
+            generatorOutput.textContent = parts.join(' && ');
+        }
+    }
+
+    if (generatorCheckboxes.length) {
+        generatorCheckboxes.forEach(cb => {
+            cb.addEventListener('change', updateGeneratorCommand);
+        });
+        updateGeneratorCommand();
+    }
+
+
+    // Ikonki kopiowania przy fragmentach kodu w akordeonie
+    document.querySelectorAll('.accordion-content .code-snippet').forEach((snippet) => {
+        if (snippet.dataset.copyAttached === '1') return;
+        snippet.dataset.copyAttached = '1';
+
+        const wrapper = document.createElement('span');
+        wrapper.className = 'code-snippet-wrapper';
+
+        if (snippet.parentNode) {
+            snippet.parentNode.insertBefore(wrapper, snippet);
+            wrapper.appendChild(snippet);
+        } else {
+            return;
+        }
+
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'code-copy-inline';
+        btn.textContent = '📋';
+
+        btn.addEventListener('click', () => {
+            const text = snippet.innerText || snippet.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                btn.textContent = '✅';
+                setTimeout(() => { btn.textContent = '📋'; }, 1500);
+            }).catch(() => {
+                alert('Nie udało się skopiować – zaznacz tekst ręcznie.');
+            });
+        });
+
+        wrapper.appendChild(btn);
+    });
 });

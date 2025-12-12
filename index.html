@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0d1117">
     
     <title>AIO-IPTV.pl | Wtyczki Enigma2, Listy, Porady</title>
     <meta name="description" content="Oficjalna strona projektu AIO-IPTV. Pobierz autorskie wtyczki Enigma2, listy kanałów Bzyk83 i JakiTaki, picony oraz sprawdź poradniki dla tunerów satelitarnych.">
@@ -15,7 +16,7 @@
     <meta property="og:description" content="Pobierz AIO Panel, IPTV Dream, listy kanałów i picony. Kompletny zestaw narzędzi dla Twojego dekodera.">
     <meta property="og:image" content="https://olioli2013.github.io/aio-iptv-projekt/pliki/logo.png">
 
-    <link rel="icon" type="image/png" href="https://olioli2013.github.io/aio-iptv-projekt/pliki/logo.png">
+    <link rel="icon" type="image/png" href="pliki/logo.png">
     
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css"> 
@@ -52,11 +53,12 @@
             <a href="#wtyczki" class="nav-btn">Moje Wtyczki</a>
             <a href="#listy" class="nav-btn">Listy kanałów</a>
             <a href="#aktualnosci" class="nav-btn">Porady / Newsy</a>
-            <a href="#terminal" class="nav-btn">Terminal</a>
+            <a href="#generator" class="nav-btn">Generator</a>
             <a href="#pliki" class="nav-btn">Pliki (ogólne)</a>
             <a href="#kontakt" class="nav-btn">Kontakt</a>
             <a href="#systemy" class="nav-btn">Systemy (Image)</a>
             <a href="#statystyki" class="nav-btn">Statystyki</a>
+            <button id="themeToggle" class="nav-btn" type="button">🌞</button>
             <button class="nav-btn" onclick="sharePage()" style="font-family: inherit; font-size: 0.95rem;">📤 Udostępnij</button>
         </div>
     </header>
@@ -359,7 +361,300 @@
 
         </div>
 
-        <div class="card" id="terminal" data-aos="fade-up">
+                                <div class="card faq-panel" id="faq" data-aos="fade-up">
+            <h2>❓ FAQ / Pomoc</h2>
+
+            <div class="accordion-item">
+                <button class="accordion-header blue-header">Jak wkleić kod w Putty?</button>
+                <div class="accordion-content">
+                    <p>
+                        W oknie terminala Putty wystarczy kliknąć <strong>Prawym Przyciskiem Myszy</strong>,
+                        aby wkleić skopiowaną komendę. Skróty <code>Ctrl+V</code> / <code>Shift+Insert</code> zwykle nie działają.
+                    </p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-header blue-header">Gdzie jest lista kanałów i bukiety?</button>
+                <div class="accordion-content">
+                    <p>
+                        Pliki list kanałów i bukietów znajdują się w katalogu
+                        <span class="code-snippet">/etc/enigma2/</span>.<br>
+                        Najważniejsze z nich to m.in.:<br>
+                        • <span class="code-snippet">bouquets.tv</span> – główny spis bukietów TV,<br>
+                        • <span class="code-snippet">userbouquet.*.tv</span> – poszczególne bukiety (np. Filmy, Sport).<br>
+                        Po wgraniu nowej listy warto zrobić <strong>restart GUI</strong>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-header blue-header">Gdzie są picony?</button>
+                <div class="accordion-content">
+                    <p>
+                        Najczęściej picony są w katalogu
+                        <span class="code-snippet">/usr/share/enigma2/picon/</span>.<br>
+                        W wielu konfiguracjach używa się zewnętrznego nośnika, np.
+                        <span class="code-snippet">/media/usb/picon/</span> lub
+                        <span class="code-snippet">/media/hdd/picon/</span>,
+                        aby nie zapychać pamięci flash dekodera.
+                    </p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-header blue-header">Gdzie jest plik satellites.xml?</button>
+                <div class="accordion-content">
+                    <p>
+                        W zależności od image plik może znajdować się w:<br>
+                        • <span class="code-snippet">/etc/tuxbox/satellites.xml</span><br>
+                        • lub <span class="code-snippet">/etc/enigma2/satellites.xml</span>.<br>
+                        To właśnie ten plik definiuje listę satelit i transponderów dostępnych w tunerze.
+                    </p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-header blue-header">Gdzie są ustawienia i logi OSCam?</button>
+                <div class="accordion-content">
+                    <p>
+                        Najczęstsza ścieżka konfiguracji to
+                        <span class="code-snippet">/etc/tuxbox/config/oscam/</span>.<br>
+                        Tam znajdują się pliki <span class="code-snippet">oscam.conf</span>,
+                        <span class="code-snippet">oscam.server</span>, <span class="code-snippet">oscam.user</span> itd.<br>
+                        Logi OSCam mogą być zapisane w pliku
+                        <span class="code-snippet">/var/log/oscam.log</span> lub w katalogu wskazanym w konfiguracji.
+                    </p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-header blue-header">Gdzie trafiają nagrania i timeshift?</button>
+                <div class="accordion-content">
+                    <p>
+                        Domyślnie nagrania są zapisywane do katalogu
+                        <span class="code-snippet">/media/hdd/movie/</span>.<br>
+                        Jeśli korzystasz z pendrive lub innego nośnika, ścieżka może być np.
+                        <span class="code-snippet">/media/usb/movie/</span>.<br>
+                        Timeshift (pauza TV) najczęściej korzysta z tego samego katalogu.
+                    </p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-header blue-header">Błąd: <code>No space left</code>?</button>
+                <div class="accordion-content">
+                    <p>
+                        Ten komunikat oznacza, że pamięć flash w dekoderze jest pełna.<br>
+                        • Usuń nieużywane wtyczki (Menu → Wtyczki).<br>
+                        • Skasuj stare picony lub logi z pamięci wewnętrznej (np. katalogi
+                        <span class="code-snippet">/usr/share/enigma2/picon/</span>,
+                        <span class="code-snippet">/var/log/</span>).<br>
+                        • Jeżeli to możliwe, przenieś cięższe dane na dysk
+                        <span class="code-snippet">/media/hdd/</span>.<br>
+                        Po sprzątnięciu zrób <strong>restart GUI</strong>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-header blue-header">Czarny ekran po instalacji image</button>
+                <div class="accordion-content">
+                    <p>
+                        Najczęściej przyczyną jest błędna lista kanałów lub brak sygnału z anteny.<br>
+                        • Wejdź w: <span class="code-snippet">Menu → Informacje → Sygnał</span> i sprawdź poziom sygnału.<br>
+                        • Jeżeli sygnał jest, wgraj aktualną listę (np. Bzyk83 / JakiTaki) i zrestartuj GUI.<br>
+                        • Upewnij się, że wybrany jest właściwy satelita (HotBird 13E, Astra itd.).
+                    </p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-header blue-header">Brak dźwięku na kanałach IPTV</button>
+                <div class="accordion-content">
+                    <p>
+                        Część list IPTV korzysta z kodeków audio, których domyślny odtwarzacz nie obsługuje.<br>
+                        • Zainstaluj: <span class="code-snippet">ServiceApp</span> i
+                          <span class="code-snippet">exteplayer3</span>.<br>
+                        • Ustaw w ServiceApp jako odtwarzacz domyślny: <strong>exteplayer3</strong>.<br>
+                        • W razie problemów z obrazem spróbuj też przełączyć się między <strong>gstplayer</strong>
+                          a <strong>exteplayer3</strong>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-header blue-header">Dekoder nie łączy się z siecią / IPTV nie działa</button>
+                <div class="accordion-content">
+                    <p>
+                        • Sprawdź, czy dekoder ma adres IP: <span class="code-snippet">Menu → Ustawienia → Sieć</span>.<br>
+                        • Ustaw ręcznie DNS, np. <span class="code-snippet">1.1.1.1</span> lub <span class="code-snippet">8.8.8.8</span>.<br>
+                        • Upewnij się, że data i godzina są poprawne – część serwisów wymaga aktualnego czasu.<br>
+                        • Jeżeli korzystasz z Wi-Fi, przetestuj połączenie na kablu Ethernet (stabilniejsze).
+                    </p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-header blue-header">Login i hasło?</button>
+                <div class="accordion-content">
+                    <p>
+                        Standardowy login to <strong>root</strong>.<br>
+                        Hasło bywa puste lub ustawione fabrycznie (np. <code>root</code>, <code>dreambox</code>, <code>pkteam</code>).<br>
+                        Jeżeli nie możesz się zalogować, sprawdź dokumentację image lub zapytaj na grupie
+                        dla swojego modelu tunera.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" id="slownik" data-aos="fade-up">
+            <h2>Mini-słownik pojęć (Enigma2 / IPTV)</h2>
+            <ul style="list-style:none; padding:0; margin:0; font-size:0.9rem;">
+                <li style="margin-bottom:8px;">
+                    <span class="term-tooltip" data-tooltip="Elektroniczny przewodnik po programach.">
+                        EPG
+                    </span>
+                    – elektroniczny przewodnik po programach, pokazuje ramówkę kanałów.
+                </li>
+                <li style="margin-bottom:8px;">
+                    <span class="term-tooltip" data-tooltip="Lista kanałów ułożona w bukiety / grupy.">
+                        Bouquet
+                    </span>
+                    – lista kanałów zgrupowana tematycznie (Filmy, Sport, Dzieci itd.).
+                </li>
+                <li style="margin-bottom:8px;">
+                    <span class="term-tooltip" data-tooltip="Plik tekstowy z listą kanałów lub streamów.">
+                        M3U
+                    </span>
+                    – plik z listą kanałów IPTV/streamów (adresy URL).
+                </li>
+                <li style="margin-bottom:8px;">
+                    <span class="term-tooltip" data-tooltip="Grafika z logo kanału.">
+                        Picon
+                    </span>
+                    – ikonka kanału wyświetlana w EPG i liście kanałów.
+                </li>
+                <li style="margin-bottom:8px;">
+                    <span class="term-tooltip" data-tooltip="Oprogramowanie odpowiedzialne za deszyfrowanie.">
+                        Softcam
+                    </span>
+                    – moduł obsługujący karty/prawa dostępu (Oscam, NCam itd.).
+                </li>
+                <li style="margin-bottom:8px;">
+                    <span class="term-tooltip" data-tooltip="System operacyjny dla dekodera (OpenATV, OpenPLi itd.).">
+                        Image
+                    </span>
+                    – oprogramowanie (system) zainstalowane w dekoderze.
+                </li>
+                <li style="margin-bottom:8px;">
+                    <span class="term-tooltip" data-tooltip="Główna aplikacja odpowiedzialna za obsługę TV, EPG, list kanałów.">
+                        Enigma2
+                    </span>
+                    – interfejs użytkownika działający na tunerach linuksowych (Vu+, Zgemma, Octagon...).
+                </li>
+                <li style="margin-bottom:8px;">
+                    <span class="term-tooltip" data-tooltip="Dodatkowa pamięć wymiany (swap), odciążająca pamięć RAM.">
+                        Swap
+                    </span>
+                    – plik/partycja używana jako dodatkowa pamięć na słabszych dekoderach.
+                </li>
+                <li style="margin-bottom:8px;">
+                    <span class="term-tooltip" data-tooltip="Plik z listą satelit (pozycje orbitalne, transpondery).">
+                        satellites.xml
+                    </span>
+                    – definiuje dostępne satelity i transpondery dla tunera.
+                </li>
+                <li style="margin-bottom:8px;">
+                    <span class="term-tooltip" data-tooltip="Standard głowicy satelitarnej obsługującej m.in. transmisje 4K.">
+                        DVB-S2X
+                    </span>
+                    – nowszy standard odbioru satelitarnego, pozwala na większe upakowanie kanałów.
+                </li>
+                <li style="margin-bottom:8px;">
+                    <span class="term-tooltip" data-tooltip="Odbiór naziemny DVB-T/T2 lub kablowy DVB-C.">
+                        DVB-T/T2 / DVB-C
+                    </span>
+                    – tryb pracy tunera dla telewizji naziemnej lub kablowej.
+                </li>
+                <li style="margin-bottom:8px;">
+                    <span class="term-tooltip" data-tooltip="Ciągłe nagrywanie oglądanego kanału na dysk.">
+                        Timeshift
+                    </span>
+                    – funkcja pauzowania i przewijania programu „na żywo”.
+                </li>
+                <li style="margin-bottom:8px;">
+                    <span class="term-tooltip" data-tooltip="Zadanie nagrania w przyszłości (planowane nagranie).">
+                        Timer
+                    </span>
+                    – wpis w harmonogramie nagrań (data, godzina, kanał).
+                </li>
+                <li style="margin-bottom:8px;">
+                    <span class="term-tooltip" data-tooltip="Dodatek integrujący IPTV, odtwarzacze, listy serwisów streamingowych.">
+                        Wtyczka (plugin)
+                    </span>
+                    – dodatkowy moduł rozszerzający możliwości Enigmy2 (np. Player, Panel, Updater).
+                </li>
+                <li style="margin-bottom:8px;">
+                    <span class="term-tooltip" data-tooltip="Katalog z listą kanałów, bukietami, ustawieniami GUI.">
+                        /etc/enigma2
+                    </span>
+                    – tu znajdują się pliki list kanałów, bukiety (<span class="code-snippet">userbouquet.*</span>) oraz ustawienia Enigmy2.
+                </li>
+                <li style="margin-bottom:8px;">
+                    <span class="term-tooltip" data-tooltip="Folder z grafikami picon, skórami i elementami wizualnymi.">
+                        /usr/share/enigma2
+                    </span>
+                    – katalog zawiera m.in. picony, skórki (<span class="code-snippet">skin.xml</span>) i layout interfejsu.
+                </li>
+                <li style="margin-bottom:0;">
+                    <span class="term-tooltip" data-tooltip="Główny katalog nagrań na dysku twardym lub pendrivie.">
+                        /media/hdd/movie
+                    </span>
+                    – domyślne miejsce zapisu nagrań i timeshiftu.
+                </li>
+            </ul>
+        </div>
+
+<div class="card generator-card" id="generator" data-aos="fade-up">
+            <h2>⚡ Generator One-Liner</h2>
+            <p>Zaznacz, co chcesz zainstalować, a strona wygeneruje jedną, wspólną komendę do terminala (Putty itp.).</p>
+
+            <div class="generator-options">
+                <label class="gen-option">
+                    <input type="checkbox" data-target="cmd-aio">
+                    <span>AIO Panel (Zarządzanie)</span>
+                </label>
+                <label class="gen-option">
+                    <input type="checkbox" data-target="cmd-iptv">
+                    <span>IPTV Dream (Odtwarzacz)</span>
+                </label>
+                <label class="gen-option">
+                    <input type="checkbox" data-target="cmd-updater">
+                    <span>MyUpdater (Aktualizacje)</span>
+                </label>
+                <label class="gen-option">
+                    <input type="checkbox" data-target="cmd-picon">
+                    <span>PiconUpdater (Loga)</span>
+                </label>
+                <label class="gen-option">
+                    <input type="checkbox" data-target="cmd-epg">
+                    <span>Simple IPTV EPG</span>
+                </label>
+            </div>
+
+            <div class="cmd-title">Wygenerowana komenda:</div>
+            <div class="cmd-wrapper">
+                <div class="command-box" id="generator-output"># Zaznacz przynajmniej jedną opcję powyżej...</div>
+                <button class="copy-btn" onclick="copyToClipboard('generator-output')">📋 Kopiuj</button>
+            </div>
+
+            <p class="generator-note">
+                Tip: możesz wkleić tę jedną komendę w terminalu – kolejne instalatory uruchomią się po sobie dzięki operatorowi <code>&amp;&amp;</code>.
+            </p>
+        </div>
+
+<div class="card" id="terminal" data-aos="fade-up">
             <div class="terminal-bar">
                 <div class="terminal-dots">
                     <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
@@ -560,39 +855,128 @@
                     <span class="file-desc">Legendarny polski image. Nowoczesny wygląd, stabilność i wsparcie 4K.</span>
                 </li>
             </ul>
+            <div style="margin-top:20px; overflow-x:auto;">
+                <h3 style="font-size:1rem; color:#58a6ff;">Porównanie popularnych image’ów</h3>
+                <table style="width:100%; border-collapse:collapse; font-size:0.85rem;">
+                    <thead>
+                        <tr>
+                            <th style="border-bottom:1px solid #30363d; padding:6px;">Cecha</th>
+                            <th style="border-bottom:1px solid #30363d; padding:6px;">OpenATV</th>
+                            <th style="border-bottom:1px solid #30363d; padding:6px;">OpenPLi</th>
+                            <th style="border-bottom:1px solid #30363d; padding:6px;">OpenViX</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding:6px;">Częstość aktualizacji</td>
+                            <td style="padding:6px;">✅ bardzo częste (nightly)</td>
+                            <td style="padding:6px;">✅ stabilne wydania</td>
+                            <td style="padding:6px;">✅ regularne</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:6px;">Szybkość działania</td>
+                            <td style="padding:6px;">⚖️ zależy od tunera</td>
+                            <td style="padding:6px;">✅ lekkie i szybkie</td>
+                            <td style="padding:6px;">✅ dobre</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:6px;">Liczba funkcji „out of the box”</td>
+                            <td style="padding:6px;">✅✅ bardzo dużo</td>
+                            <td style="padding:6px;">⚖️ raczej podstawowy zestaw</td>
+                            <td style="padding:6px;">✅ dużo dodatków</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:6px;">Polecane dla</td>
+                            <td style="padding:6px;">Użytkowników, którzy chcą „wszystko naraz”</td>
+                            <td style="padding:6px;">Fanów stabilności i prostoty</td>
+                            <td style="padding:6px;">Użytkowników z UK / OE-Alliance</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
         </div>
 
-        <div class="card full-width" id="statystyki" data-aos="fade-up">
-            <h2>Statystyki Projektu (GitHub)</h2>
-            <div style="display: flex; flex-wrap: wrap; justify-content: space-around; text-align: center; gap: 20px; padding: 10px 0;">
-                
-                <div class="stat-box">
-                    <div style="font-size: 2rem; color: #58a6ff; font-weight: bold;" id="repo-stars">...</div>
-                    <div style="font-size: 0.9rem; color: #8b949e;">Gwiazdki ⭐</div>
-                </div>
-
-                <div class="stat-box">
-                    <div style="font-size: 2rem; color: #238636; font-weight: bold;" id="repo-watchers">...</div>
-                    <div style="font-size: 0.9rem; color: #8b949e;">Obserwujący 👀</div>
-                </div>
-
-                <div class="stat-box">
-                    <div style="font-size: 2rem; color: #d29922; font-weight: bold;" id="repo-size">...</div>
-                    <div style="font-size: 0.9rem; color: #8b949e;">Rozmiar Repozytorium 💾</div>
-                </div>
-
+                <div class="card" id="kalkulator-epg" data-aos="fade-up">
+            <h2>Kalkulator pojemności EPG</h2>
+            <p>Oszacuj, ile miejsca zajmie EPG dla Twoich kanałów.</p>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+                <label>
+                    Liczba kanałów:
+                    <input type="number" id="epg-channels" min="1" max="2000" value="100" style="width:100%; max-width:200px;">
+                </label>
+                <label>
+                    Liczba dni EPG:
+                    <input type="number" id="epg-days" min="1" max="30" value="7" style="width:100%; max-width:200px;">
+                </label>
+                <button class="contact-btn" type="button" onclick="calculateEpgSize()">
+                    Oblicz szacowaną wielkość
+                </button>
+                <p id="epg-result" style="font-size:0.9rem; color:#8b949e; margin-top:5px;"></p>
             </div>
-            
-            <div style="margin-top: 20px; font-size: 0.8em; color: #484f58; border-top: 1px solid #30363d; padding-top: 10px; text-align: center;">
-                Dane pobierane automatycznie z API GitHub dla projektu OliOli2013/aio-iptv-projekt
+        </div>
+
+        <div class="card" id="status-uslug" data-aos="fade-up">
+            <h2>Status usług (listy kanałów)</h2>
+            <p>Prosty test dostępności plików list Bzyk83.</p>
+            <div id="status-bzyk" class="status-badge">Bzyk83: sprawdzanie…</div>
+            <p style="font-size:0.75rem; color:#8b949e; margin-top:10px;">
+                Sprawdzana jest odpowiedź HTTP i data ostatniej modyfikacji pliku (jeśli nagłówek jest dostępny).
+            </p>
+        </div>
+
+        <div class="card project-stats-card full-width" id="statystyki" data-aos="fade-up">
+            <div class="project-stats-header">
+                <div class="project-stats-title">
+                    <div class="project-stats-icon">📊</div>
+                    <div>
+                        <h2>Statystyki projektu</h2>
+                        <p>Podgląd aktywności repozytorium i wersji narzędzi AIO-IPTV.</p>
+                    </div>
+                </div>
+                <div class="stats-status" id="github-status">
+                    <span class="status-dot"></span>
+                    <span id="github-status-label">API GitHub: sprawdzanie…</span>
+                </div>
+            </div>
+
+            <div class="project-stats-row">
+                <div class="project-stat">
+                    <div class="project-stat-label">Gwiazdki GitHub</div>
+                    <div class="project-stat-value skeleton" id="repo-stars">...</div>
+                </div>
+                <div class="project-stat">
+                    <div class="project-stat-label">Obserwujący</div>
+                    <div class="project-stat-value skeleton" id="repo-watchers">...</div>
+                </div>
+                <div class="project-stat">
+                    <div class="project-stat-label">Rozmiar repozytorium</div>
+                    <div class="project-stat-value skeleton" id="repo-size">...</div>
+                </div>
+                <div class="project-stat">
+                    <div class="project-stat-label">Ostatnia aktualizacja</div>
+                    <div class="project-stat-value" id="repo-date">...</div>
+                </div>
+            </div>
+
+            <div class="project-stats-footer">
+                Dane pobierane automatycznie z API GitHub dla projektu
+                <span class="code-snippet">OliOli2013/aio-iptv-projekt</span>.
             </div>
         </div>
 
     </div>
 
-    <footer>
+<footer>
         <p>&copy; 2025 AIO-IPTV.pl | PawełPawełek</p>
         <p>Kontakt: <a href="mailto:msisystem@t.pl">msisystem@t.pl</a></p>
+
+        <p style="margin-top: 10px;">
+            🐛 Znalazłeś błąd na stronie lub w instrukcji?
+            <a href="https://github.com/OliOli2013/aio-iptv-projekt/issues" target="_blank">
+                Zgłoś go na GitHub (Issues)
+            </a>
+        </p>
 
         <div style="margin-top: 15px;">
             <p style="font-size: 0.8em; color: #8b949e; margin-bottom: 8px;">

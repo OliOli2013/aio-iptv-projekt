@@ -436,3 +436,568 @@ footer {
 footer a { color: #58a6ff; text-decoration: none; }
 
 .full-width { grid-column: 1 / -1; }
+
+
+/* Mini-słownik – tooltipy */
+.term-tooltip {
+    position: relative;
+    cursor: help;
+    font-weight: 600;
+    color: #58a6ff;
+    border-bottom: 1px dotted #58a6ff;
+}
+
+.term-tooltip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: 0;
+    bottom: 120%;
+    width: max-content;
+    max-width: 260px;
+    background: #161b22;
+    color: #c9d1d9;
+    padding: 6px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(5px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    border: 1px solid #30363d;
+    z-index: 20;
+}
+
+.term-tooltip:hover::after {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Status usług */
+.status-badge {
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(13, 17, 23, 0.7);
+    border: 1px solid #30363d;
+    color: #c9d1d9;
+}
+
+.status-ok {
+    border-color: #238636;
+    color: #3fb950;
+}
+
+.status-stale {
+    border-color: #d29922;
+    color: #e3b341;
+}
+
+.status-error {
+    border-color: #f85149;
+    color: #f85149;
+}
+
+/* Skeleton loader dla statystyk */
+.skeleton {
+    position: relative;
+    color: transparent !important;
+    background: linear-gradient(90deg, #20252d 25%, #2a3138 37%, #20252d 63%);
+    background-size: 400% 100%;
+    animation: skeleton-loading 1.4s ease infinite;
+    border-radius: 4px;
+}
+
+@keyframes skeleton-loading {
+    0% { background-position: 100% 50%; }
+    100% { background-position: 0 50%; }
+}
+
+/* Licznik czasu przy przycisku Wróć na górę */
+.top-time-label {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    font-size: 0.75rem;
+    color: #9ca3af;
+    background: rgba(13, 17, 23, 0.85);
+    padding: 4px 10px;
+    border-radius: 999px;
+    z-index: 98;
+    display: none;
+}
+
+/* Ikony kopiowania przy małych fragmentach kodu */
+.code-snippet-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.code-snippet-wrapper .code-snippet {
+    padding-right: 28px;
+}
+
+.code-copy-inline {
+    position: absolute;
+    top: 50%;
+    right: 6px;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 0.8rem;
+    color: #9ca3af;
+}
+
+.code-copy-inline:hover {
+    color: #e5e7eb;
+}
+
+/* Tryb jasny */
+body.light {
+    background-color: #f3f4f6;
+    color: #111827;
+    background-image: none;
+}
+
+body.light header {
+    background: linear-gradient(180deg, #e5e7eb 0%, #f9fafb 100%);
+    border-bottom-color: #d1d5db;
+}
+
+body.light .card {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-color: #e5e7eb;
+}
+
+body.light .card h2 {
+    border-bottom-color: #e5e7eb;
+}
+
+body.light footer {
+    background-color: #f9fafb;
+    border-top-color: #e5e7eb;
+    color: #4b5563;
+}
+
+body.light a {
+    color: #2563eb;
+}
+
+body.light .command-box {
+    background-color: #111827;
+    border-color: #4b5563;
+}
+
+body.light #topBtn {
+    box-shadow: 0 4px 8px rgba(15, 23, 42, 0.4);
+}
+
+
+/* Dwukolumnowy układ: Generator + FAQ */
+.feature-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 2.2fr) minmax(0, 1.8fr);
+    gap: 20px;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+}
+
+.feature-panel {
+    background: rgba(13, 17, 23, 0.9);
+    border-radius: 12px;
+    border: 1px solid #30363d;
+    padding: 18px 18px 20px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+}
+
+.generator-panel {
+    border-color: #238636;
+    box-shadow: 0 0 0 1px rgba(63, 185, 80, 0.25), 0 18px 45px rgba(0,0,0,0.65);
+}
+
+.faq-panel {
+    border-color: #30363d;
+}
+
+.faq-header h2 {
+    margin: 0;
+    border-bottom: none;
+}
+
+.faq-subtitle {
+    margin: 4px 0 12px;
+    font-size: 0.85rem;
+    color: #8b949e;
+}
+
+/* FAQ wewnątrz panelu */
+.faq-panel .accordion-item {
+    border-radius: 8px;
+    border: 1px solid #30363d;
+    margin-bottom: 8px;
+    overflow: hidden;
+    background: rgba(22, 27, 34, 0.9);
+}
+
+.faq-panel .accordion-header {
+    padding: 9px 12px;
+    font-size: 0.9rem;
+    background: transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.faq-panel .accordion-header::after {
+    content: '+';
+    font-weight: bold;
+    color: #6e7681;
+    margin-left: 8px;
+}
+
+.faq-panel .accordion-item.active .accordion-header::after {
+    content: '−';
+}
+
+.faq-panel .accordion-content {
+    padding: 10px 12px 12px;
+}
+
+/* Statystyki projektu */
+.stats-card {
+    border: 1px solid #238636;
+    box-shadow: 0 0 0 1px rgba(63, 185, 80, 0.25);
+}
+
+.stats-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.stats-header-icon {
+    font-size: 1.6rem;
+}
+
+.stats-header-subtitle {
+    margin: 4px 0 0;
+    font-size: 0.85rem;
+    color: #8b949e;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    margin-top: 10px;
+}
+
+.stats-item {
+    background: rgba(13, 17, 23, 0.7);
+    border-radius: 10px;
+    padding: 10px 14px;
+    border: 1px solid #30363d;
+}
+
+.stats-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #8b949e;
+    margin-bottom: 6px;
+}
+
+.stats-value {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #e5e7eb;
+}
+
+.stats-value.stats-ok {
+    color: #3fb950;
+}
+
+.stats-value.stats-muted {
+    font-size: 1.1rem;
+    color: #e3b341;
+}
+
+.stats-footnote {
+    margin-top: 15px;
+    font-size: 0.8rem;
+    color: #8b949e;
+}
+
+/* Mobile: stack panels */
+@media (max-width: 900px) {
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Generator One-Liner */
+.generator-card {
+    border: 1px solid #238636;
+    box-shadow: 0 0 0 1px rgba(63, 185, 80, 0.25);
+}
+
+.generator-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 10px 0 15px;
+}
+
+.gen-option {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid #30363d;
+    background: rgba(13, 17, 23, 0.6);
+    cursor: pointer;
+    font-size: 0.9rem;
+    user-select: none;
+    transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.1s ease;
+}
+
+.gen-option input {
+    accent-color: #22c55e;
+}
+
+.gen-option:hover {
+    border-color: #3fb950;
+    background-color: rgba(46, 160, 67, 0.15);
+    transform: translateY(-1px);
+}
+
+.generator-note {
+    font-size: 0.8rem;
+    color: #8b949e;
+    margin-top: 8px;
+}
+
+@media (max-width: 700px) {
+    .generator-options {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* Ukrycie starego bloku z pojedynczymi komendami terminala, ale pozostawienie go w DOM
+   (generator korzysta z tekstu komend przez ID cmd-aio/cmd-iptv itd.). */
+#terminal {
+    display: none;
+}
+
+
+/* Tryb jasny – dostosowanie nowych paneli */
+body.light .feature-panel {
+    background-color: #ffffff;
+    border-color: #e5e7eb;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+body.light .generator-panel {
+    border-color: #22c55e;
+}
+
+body.light .stats-card {
+    border-color: #22c55e;
+    background-color: rgba(255, 255, 255, 0.95);
+}
+
+body.light .stats-item {
+    background-color: #f3f4f6;
+    border-color: #e5e7eb;
+}
+
+body.light .stats-label {
+    color: #6b7280;
+}
+
+body.light .stats-footnote {
+    color: #6b7280;
+}
+
+
+/* FAQ panel – prawa kolumna obok generatora */
+.faq-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.faq-panel h2 {
+    margin-bottom: 10px;
+}
+
+.faq-panel .accordion-item {
+    border-radius: 8px;
+    border: 1px solid #21262d;
+    margin-bottom: 8px;
+    overflow: hidden;
+    background: rgba(13, 17, 23, 0.8);
+}
+
+.faq-panel .accordion-header {
+    padding: 12px 14px;
+}
+
+.faq-panel .accordion-content {
+    padding: 0 14px 10px 14px;
+}
+
+/* Projekt – statystyki jak karta "systemu" */
+.project-stats-card {
+    border: 1px solid #238636;
+    box-shadow: 0 0 0 1px rgba(63, 185, 80, 0.25);
+}
+
+.project-stats-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid #30363d;
+    padding-bottom: 10px;
+}
+
+.project-stats-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.project-stats-icon {
+    font-size: 1.6rem;
+}
+
+.project-stats-header h2 {
+    margin: 0;
+}
+
+.project-stats-header p {
+    margin: 2px 0 0;
+    font-size: 0.85rem;
+    color: #8b949e;
+}
+
+/* Status API GitHub */
+.stats-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: rgba(13, 17, 23, 0.9);
+    border: 1px solid #30363d;
+    font-size: 0.8rem;
+    color: #9ca3af;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #8b949e;
+}
+
+.stats-status.ok {
+    border-color: #238636;
+    color: #3fb950;
+}
+
+.stats-status.ok .status-dot {
+    background: #3fb950;
+}
+
+.stats-status.error {
+    border-color: #f85149;
+    color: #f85149;
+}
+
+.stats-status.error .status-dot {
+    background: #f85149;
+}
+
+.project-stats-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 10px;
+}
+
+.project-stat {
+    flex: 1 1 180px;
+    min-width: 150px;
+    background: rgba(13, 17, 23, 0.7);
+    border-radius: 8px;
+    padding: 10px 14px;
+    border: 1px solid #30363d;
+    text-align: center;
+}
+
+.project-stat-label {
+    font-size: 0.8rem;
+    color: #8b949e;
+    margin-bottom: 4px;
+}
+
+.project-stat-value {
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.project-stats-footer {
+    margin-top: 4px;
+    font-size: 0.8rem;
+    color: #8b949e;
+    border-top: 1px solid #30363d;
+    padding-top: 8px;
+}
+
+/* Responsywność – układ siatki na szerokich ekranach */
+@media (min-width: 1200px) {
+    .container {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-auto-rows: auto;
+        grid-gap: 20px;
+        grid-template-areas:
+            "wtyczki listy aktualnosci faq"
+            "slownik generator generator wsparcie"
+            "pliki kontakt systemy kalkulator"
+            "status status statystyki statystyki";
+    }
+
+    #wtyczki { grid-area: wtyczki; }
+    #listy { grid-area: listy; }
+    #aktualnosci { grid-area: aktualnosci; }
+    #faq { grid-area: faq; }
+    #slownik { grid-area: slownik; }
+    #generator { grid-area: generator; }
+    #wsparcie { grid-area: wsparcie; }
+    #pliki { grid-area: pliki; }
+    #kontakt { grid-area: kontakt; }
+    #systemy { grid-area: systemy; }
+    #kalkulator-epg { grid-area: kalkulator; }
+    #status-uslug { grid-area: status; }
+    #statystyki { grid-area: statystyki; }
+}
+
+/* Generator – mniejsza wysokość pola z komendą */
+#generator .command-box {
+    min-height: 80px;
+    max-height: 170px;
+    overflow-y: auto;
+}
