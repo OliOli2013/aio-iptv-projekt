@@ -33,7 +33,7 @@
             <h2>🔍 Porównywarka Tunerów Enigma2</h2>
             <p>Wybierz tunery, które chcesz porównać i znajdź najlepszy dekoder dla swoich potrzeb.</p>
             <div class="comparison-search" style="margin: 14px 0 8px;">
-                <input id="tunerSearch" class="search-input" type="text" placeholder="🔍 Wyszukaj tuner (VU+, Octagon, Ustym...)" />
+                <input id="tunerSearch" class="search-input" type="text" placeholder="🔍 Wyszukaj tuner (np. Zgemma, VU+)..." />
                 <select id="brandFilter" class="search-input" style="max-width: 220px;">
                     <option value="">Wszystkie marki</option>
                 </select>
@@ -68,8 +68,7 @@
                             </tr>
                         </thead>
                         <tbody id="comparison-tbody">
-                            <!-- Dynamicznie wypełniane -->
-                        </tbody>
+                            </tbody>
                     </table>
                 </div>
                 
@@ -92,7 +91,7 @@
                         <p>Bardzo popularny, tani, dobry dla początkujących</p>
                         <div class="rank-stats">
                             <span>👥 45% wyborów</span>
-                            <span>💰 200-300 zł</span>
+                            <span>💰 250-300 zł</span>
                         </div>
                     </div>
                     <div class="rank-badge popular">Bestseller</div>
@@ -101,11 +100,11 @@
                 <div class="ranking-item">
                     <div class="rank-number">2</div>
                     <div class="rank-info">
-                        <h4>VU+ Duo 4K</h4>
+                        <h4>VU+ Duo 4K SE</h4>
                         <p>Wysoka jakość, dual tuner, dla wymagających</p>
                         <div class="rank-stats">
                             <span>👥 25% wyborów</span>
-                            <span>💰 800-1000 zł</span>
+                            <span>💰 1600+ zł</span>
                         </div>
                     </div>
                     <div class="rank-badge premium">Premium</div>
@@ -114,40 +113,14 @@
                 <div class="ranking-item">
                     <div class="rank-number">3</div>
                     <div class="rank-info">
-                        <h4>Octagon SF8008</h4>
-                        <p>Dobry stosunek jakości do ceny, 4K</p>
+                        <h4>Octagon SF8008 4K</h4>
+                        <p>Dobry stosunek jakości do ceny, 4K, 60fps</p>
                         <div class="rank-stats">
                             <span>👥 15% wyborów</span>
-                            <span>💰 400-500 zł</span>
+                            <span>💰 450-500 zł</span>
                         </div>
                     </div>
                     <div class="rank-badge recommended">Polecany</div>
-                </div>
-                
-                <div class="ranking-item">
-                    <div class="rank-number">4</div>
-                    <div class="rank-info">
-                        <h4>Mutant HD51</h4>
-                        <p>Stabilny, dobre wsparcie community</p>
-                        <div class="rank-stats">
-                            <span>👥 10% wyborów</span>
-                            <span>💰 350-450 zł</span>
-                        </div>
-                    </div>
-                    <div class="rank-badge solid">Solidny</div>
-                </div>
-                
-                <div class="ranking-item">
-                    <div class="rank-number">5</div>
-                    <div class="rank-info">
-                        <h4>Dreambox 920</h4>
-                        <p>Markowy, wysoka jakość wykonania</p>
-                        <div class="rank-stats">
-                            <span>👥 5% wyborów</span>
-                            <span>💰 1200-1500 zł</span>
-                        </div>
-                    </div>
-                    <div class="rank-badge luxury">Luksus</div>
                 </div>
             </div>
         </div>
@@ -160,10 +133,9 @@
                 <div class="accordion-content">
                     <p><strong>Polecamy:</strong> Zgemma H9S/H9.2S lub Octagon SF8008</p>
                     <ul>
-                        <li>✅ Niski koszt wejścia (200-500 zł)</li>
+                        <li>✅ Niski koszt wejścia (250-500 zł)</li>
                         <li>✅ Duża społeczność i wsparcie</li>
-                        <li>✅ Prosta konfiguracja</li>
-                        <li>✅ Dostępne części i serwis</li>
+                        <li>✅ Prosta konfiguracja (OpenATV)</li>
                     </ul>
                 </div>
             </div>
@@ -171,26 +143,11 @@
             <div class="accordion-item">
                 <button class="accordion-header">Dla zaawansowanych</button>
                 <div class="accordion-content">
-                    <p><strong>Polecamy:</strong> VU+ Duo 4K lub Dreambox 920</p>
+                    <p><strong>Polecamy:</strong> VU+ Duo 4K SE lub Dreambox 920</p>
                     <ul>
-                        <li>✅ Dual tuner (2 satelity naraz)</li>
-                        <li>✅ Więcej pamięci RAM i flash</li>
-                        <li>✅ Lepsza jakość wykonania</li>
-                        <li>✅ Więcej portów (USB, SATA)</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="accordion-item">
-                <button class="accordion-header">Na co zwrócić uwagę?</button>
-                <div class="accordion-content">
-                    <p><strong>Najważniejsze parametry:</strong></p>
-                    <ul>
-                        <li><strong>Procesor:</strong> ARM Cortex-A15 (nowsze) vs ARM Cortex-A9 (starsze)</li>
-                        <li><strong>Pamięć:</strong> Min. 1GB RAM, 256MB flash (lepsze 512MB+)</li>
-                        <li><strong>Tunery:</strong> DVB-S2X (nowszy standard), ilość głowic</li>
-                        <li><strong>Porty:</strong> USB 3.0, SATA, HDMI 2.0 (dla 4K)</li>
-                        <li><strong>Wi-Fi:</strong> Dual band (2.4GHz + 5GHz) - opcjonalnie</li>
+                        <li>✅ Głowice FBC (wirtualne tunery)</li>
+                        <li>✅ Więcej pamięci RAM i szybki Flash</li>
+                        <li>✅ Sloty na moduły CI+</li>
                     </ul>
                 </div>
             </div>
@@ -199,331 +156,209 @@
 
     <footer>
         <p>&copy; 2025 AIO-IPTV.pl | Strona porównująca tunery Enigma2</p>
-        <p>Dane zbierane automatycznie z preferencji użytkowników</p>
+        <p>Dane zbierane z preferencji użytkowników i specyfikacji technicznych.</p>
     </footer>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js">
-        document.addEventListener('DOMContentLoaded', loadTunersList);
-</script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="script.js"></script>
+    
     <script>
-        // Dynamic tuner list (loaded from data/tuners.json)
-        let tunersList = [];
-        let tunersById = {};
+    // ==========================================
+    // LOGIKA PORÓWNYWARKI (Nowa wersja JSON)
+    // ==========================================
 
-        async function loadTunersList() {
-            try {
-                const res = await fetch('data/tuners.json', { cache: 'no-store' });
-                if (!res.ok) throw new Error('HTTP ' + res.status);
-                const json = await res.json();
-                tunersList = (json && json.tuners) ? json.tuners : [];
-                tunersById = {};
-                tunersList.forEach(t => { tunersById[t.id] = t; });
-                populateTunerSelects(tunersList);
-                populateBrandFilter(tunersList);
-            } catch (e) {
-                console.warn('Nie udało się pobrać listy tunerów:', e);
-                // fall back to the static tunerData keys
-                const fallback = Object.keys(tunerData).map(id => ({ id, brand: (tunerData[id].name || '').split(' ')[0], model: tunerData[id].name || id }));
-                populateTunerSelects(fallback);
-                populateBrandFilter(fallback);
-            }
+    let tunersList = [];
+
+    // 1. Funkcja pobierająca dane z pliku JSON
+    async function loadTunersList() {
+        try {
+            // Pobieramy plik z katalogu data
+            const res = await fetch('data/tuners.json');
+            if (!res.ok) throw new Error('Błąd pobierania danych');
+            
+            const json = await res.json();
+            tunersList = json.tuners || [];
+            
+            populateTunerSelects(tunersList);
+            populateBrandFilter(tunersList);
+            
+            console.log("Załadowano tunerów:", tunersList.length);
+        } catch (e) {
+            console.error('Błąd:', e);
+            document.querySelector('.comparison-search').innerHTML = 
+                '<p style="color:#f85149; background:rgba(248,81,73,0.1); padding:10px; border-radius:6px;">⚠️ Nie udało się załadować bazy tunerów. Sprawdź czy plik <code>data/tuners.json</code> istnieje.</p>';
         }
+    }
 
-        function populateTunerSelects(list) {
-            const s1 = document.getElementById('tuner1-select');
-            const s2 = document.getElementById('tuner2-select');
-            if (!s1 || !s2) return;
+    // 2. Wypełnianie list rozwijanych
+    function populateTunerSelects(list) {
+        const s1 = document.getElementById('tuner1-select');
+        const s2 = document.getElementById('tuner2-select');
+        
+        // Sortowanie alfabetyczne: Marka + Model
+        list.sort((a, b) => (a.brand + a.model).localeCompare(b.brand + b.model));
 
-            const build = (filtered) => {
-                const options = ['<option value="">Wybierz tuner...</option>']
-                  .concat(filtered
-                    .slice()
-                    .sort((a,b) => (`${a.brand} ${a.model}`).localeCompare(`${b.brand} ${b.model}`,'pl'))
-                    .map(t => `<option value="${t.id}">${escapeHtml(`${t.brand} ${t.model}`)}</option>`));
-                s1.innerHTML = options.join('');
-                s2.innerHTML = options.join('');
-            };
-
-            build(list);
-
-            // live search + brand filter
-            const search = document.getElementById('tunerSearch');
-            const brand = document.getElementById('brandFilter');
-            const applyFilters = () => {
-                const q = (search && search.value || '').trim().toLowerCase();
-                const b = (brand && brand.value || '').trim().toLowerCase();
-                const filtered = list.filter(t => {
-                    const name = `${t.brand} ${t.model}`.toLowerCase();
-                    const okQ = !q || name.includes(q);
-                    const okB = !b || (t.brand || '').toLowerCase() === b;
-                    return okQ && okB;
-                });
-                build(filtered);
-            };
-            if (search) search.addEventListener('input', applyFilters);
-            if (brand) brand.addEventListener('change', applyFilters);
-        }
-
-        function populateBrandFilter(list) {
-            const brand = document.getElementById('brandFilter');
-            if (!brand) return;
-            const brands = Array.from(new Set(list.map(t => (t.brand || '').trim()).filter(Boolean)))
-              .sort((a,b) => a.localeCompare(b,'pl'));
-            brand.innerHTML = ['<option value="">Wszystkie marki</option>']
-              .concat(brands.map(b => `<option value="${escapeHtml(b)}">${escapeHtml(b)}</option>`))
-              .join('');
-        }
-
-        function escapeHtml(s) {
-            return String(s || '')
-              .replaceAll('&','&amp;')
-              .replaceAll('<','&lt;')
-              .replaceAll('>','&gt;')
-              .replaceAll('"','&quot;')
-              .replaceAll("'",'&#039;');
-        }
-
-
-        // Tuner comparison data
-        const tunerData = {
-            'zgemma-h9s': {
-                name: 'Zgemma H9S',
-                processor: 'ARM Cortex-A15',
-                ram: '1GB',
-                flash: '256MB',
-                tuners: '1x DVB-S2X',
-                resolution: '4K Ultra HD',
-                ports: '2x USB 2.0, HDMI 2.0',
-                price: '200-250 zł',
-                difficulty: 'Łatwy',
-                community: 'Duża',
-                image: 'OpenATV, OpenPLi',
-                rating: '⭐⭐⭐⭐'
-            },
-            'zgemma-h92s': {
-                name: 'Zgemma H9.2S',
-                processor: 'ARM Cortex-A15',
-                ram: '1GB',
-                flash: '256MB',
-                tuners: '1x DVB-S2X',
-                resolution: '4K Ultra HD',
-                ports: '2x USB 2.0, HDMI 2.0',
-                price: '250-300 zł',
-                difficulty: 'Łatwy',
-                community: 'Duża',
-                image: 'OpenATV, OpenPLi',
-                rating: '⭐⭐⭐⭐'
-            },
-            'vu-uno4k': {
-                name: 'VU+ Uno 4K',
-                processor: 'ARM Cortex-A15',
-                ram: '2GB',
-                flash: '1GB',
-                tuners: '1x DVB-S2X',
-                resolution: '4K Ultra HD',
-                ports: '3x USB 3.0, HDMI 2.0, SATA',
-                price: '600-700 zł',
-                difficulty: 'Średni',
-                community: 'Duża',
-                image: 'OpenPLi, OpenATV',
-                rating: '⭐⭐⭐⭐⭐'
-            },
-            'vu-duo4k': {
-                name: 'VU+ Duo 4K',
-                processor: 'ARM Cortex-A15',
-                ram: '4GB',
-                flash: '1GB',
-                tuners: '2x DVB-S2X',
-                resolution: '4K Ultra HD',
-                ports: '3x USB 3.0, HDMI 2.0, SATA',
-                price: '800-1000 zł',
-                difficulty: 'Średni',
-                community: 'Duża',
-                image: 'OpenPLi, OpenATV',
-                rating: '⭐⭐⭐⭐⭐'
-            },
-            'octagon-sf8008': {
-                name: 'Octagon SF8008',
-                processor: 'ARM Cortex-A15',
-                ram: '2GB',
-                flash: '512MB',
-                tuners: '1x DVB-S2X',
-                resolution: '4K Ultra HD',
-                ports: '2x USB 2.0, 1x USB 3.0, HDMI 2.0',
-                price: '400-500 zł',
-                difficulty: 'Łatwy',
-                community: 'Średnia',
-                image: 'OpenATV, OpenPLi',
-                rating: '⭐⭐⭐⭐'
-            },
-            'mutant-hd51': {
-                name: 'Mutant HD51',
-                processor: 'ARM Cortex-A15',
-                ram: '2GB',
-                flash: '512MB',
-                tuners: '1x DVB-S2X',
-                resolution: '4K Ultra HD',
-                ports: '2x USB 2.0, 1x USB 3.0, HDMI 2.0',
-                price: '350-450 zł',
-                difficulty: 'Łatwy',
-                community: 'Średnia',
-                image: 'OpenATV, OpenPLi',
-                rating: '⭐⭐⭐⭐'
-            },
-            'ax-hd61': {
-                name: 'AX HD61',
-                processor: 'ARM Cortex-A15',
-                ram: '2GB',
-                flash: '512MB',
-                tuners: '1x DVB-S2X',
-                resolution: '4K Ultra HD',
-                ports: '2x USB 2.0, 1x USB 3.0, HDMI 2.0',
-                price: '400-500 zł',
-                difficulty: 'Łatwy',
-                community: 'Mała',
-                image: 'OpenATV',
-                rating: '⭐⭐⭐'
-            },
-            'dreambox-920': {
-                name: 'Dreambox 920 Ultra HD',
-                processor: 'ARM Cortex-A15',
-                ram: '4GB',
-                flash: '1GB',
-                tuners: '2x DVB-S2X',
-                resolution: '4K Ultra HD',
-                ports: '3x USB 3.0, HDMI 2.0, SATA',
-                price: '1200-1500 zł',
-                difficulty: 'Trudny',
-                community: 'Średnia',
-                image: 'Dreambox OS',
-                rating: '⭐⭐⭐⭐⭐'
-            }
+        const createOptions = (items) => {
+            return ['<option value="">Wybierz tuner...</option>']
+                .concat(items.map(t => `<option value="${t.id}">${t.brand} ${t.model}</option>`))
+                .join('');
         };
-
         
-        function getTunerData(id) {
-            if (tunerData && tunerData[id]) return tunerData[id];
-            const t = tunersById && tunersById[id];
-            if (!t) return { name: id, processor: '—', ram: '—', flash: '—', tuners: '—', resolution: '—', ports: '—', price: '—', difficulty: '—', community: '—', image: '—', rating: '—' };
-            const name = `${t.brand} ${t.model}`.trim();
-            const tags = (t.tags || []).filter(Boolean).join(', ');
-            return {
-                name,
-                processor: '—',
-                ram: '—',
-                flash: '—',
-                tuners: tags || '—',
-                resolution: (t.tags || []).some(x => String(x).toUpperCase().includes('4K')) ? '4K Ultra HD' : '—',
-                ports: '—',
-                price: '—',
-                difficulty: '—',
-                community: '—',
-                image: t.os || 'Enigma2',
-                rating: '—'
-            };
-        }
+        s1.innerHTML = createOptions(list);
+        s2.innerHTML = createOptions(list);
 
-        function compareTuners() {
-            const tuner1 = document.getElementById('tuner1-select').value;
-            const tuner2 = document.getElementById('tuner2-select').value;
+        // Obsługa wyszukiwarki (Live Search)
+        const searchInput = document.getElementById('tunerSearch');
+        const brandFilter = document.getElementById('brandFilter');
+
+        function filterOptions() {
+            const query = searchInput.value.toLowerCase();
+            const brand = brandFilter.value;
             
-            if (!tuner1 || !tuner2) {
-                alert('Wybierz oba tunery do porównania!');
-                return;
-            }
-            
-            if (tuner1 === tuner2) {
-                alert('Wybierz dwa różne tunery!');
-                return;
-            }
-            
-            const data1 = getTunerData(tuner1);
-            const data2 = getTunerData(tuner2);
-            
-            document.getElementById('tuner1-name').textContent = data1.name;
-            document.getElementById('tuner2-name').textContent = data2.name;
-            
-            const tbody = document.getElementById('comparison-tbody');
-            tbody.innerHTML = '';
-            
-            const features = [
-                { key: 'processor', label: 'Procesor' },
-                { key: 'ram', label: 'Pamięć RAM' },
-                { key: 'flash', label: 'Pamięć flash' },
-                { key: 'tuners', label: 'Tunery' },
-                { key: 'resolution', label: 'Rozdzielczość' },
-                { key: 'ports', label: 'Porty' },
-                { key: 'price', label: 'Cena' },
-                { key: 'difficulty', label: 'Trudność konfiguracji' },
-                { key: 'community', label: 'Wsparcie społeczności' },
-                { key: 'image', label: 'Dostępne image' },
-                { key: 'rating', label: 'Ocena' }
-            ];
-            
-            features.forEach(feature => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td><strong>${feature.label}</strong></td>
-                    <td>${data1[feature.key]}</td>
-                    <td>${data2[feature.key]}</td>
-                `;
-                tbody.appendChild(row);
+            const filtered = list.filter(t => {
+                const fullName = (t.brand + ' ' + t.model).toLowerCase();
+                const nameMatch = fullName.includes(query);
+                const brandMatch = brand === "" || t.brand === brand;
+                return nameMatch && brandMatch;
             });
-            
-            // Generate verdict
-            const verdict = generateVerdict(data1, data2);
-            document.getElementById('verdict-text').textContent = verdict;
-            
-            document.getElementById('comparison-result').style.display = 'block';
-            document.getElementById('comparison-result').scrollIntoView({ behavior: 'smooth' });
-        }
-        
-        function generateVerdict(data1, data2) {
-            let verdict = '';
-            
-            // Price comparison
-            const price1 = parseInt(data1.price.match(/\d+/)[0]);
-            const price2 = parseInt(data2.price.match(/\d+/)[0]);
-            
-            if (price1 < price2) {
-                verdict += `${data1.name} jest tańszy o ${price2 - price1} zł. `;
-            } else if (price2 < price1) {
-                verdict += `${data2.name} jest tańszy o ${price1 - price2} zł. `;
-            }
-            
-            // RAM comparison
-            const ram1 = parseInt(data1.ram);
-            const ram2 = parseInt(data2.ram);
-            
-            if (ram1 > ram2) {
-                verdict += `${data1.name} ma więcej pamięci RAM (${ram1}GB vs ${ram2}GB). `;
-            } else if (ram2 > ram1) {
-                verdict += `${data2.name} ma więcej pamięci RAM (${ram2}GB vs ${ram1}GB). `;
-            }
-            
-            // Tuners comparison
-            const tuners1 = (data1.tuners.match(/\d+/g) || [1]).reduce((a, b) => parseInt(a) + parseInt(b), 0);
-            const tuners2 = (data2.tuners.match(/\d+/g) || [1]).reduce((a, b) => parseInt(a) + parseInt(b), 0);
-            
-            if (tuners1 > tuners2) {
-                verdict += `${data1.name} ma więcej tunerów (${tuners1} vs ${tuners2}). `;
-            } else if (tuners2 > tuners1) {
-                verdict += `${data2.name} ma więcej tunerów (${tuners2} vs ${tuners1}). `;
-            }
-            
-            // Community support
-            if (data1.community === 'Duża' && data2.community !== 'Duża') {
-                verdict += `${data1.name} ma większe wsparcie społeczności. `;
-            } else if (data2.community === 'Duża' && data1.community !== 'Duża') {
-                verdict += `${data2.name} ma większe wsparcie społeczności. `;
-            }
-            
-            return verdict.trim() || 'Oba tunery są bardzo podobne - wybierz według preferencji.';
+
+            const newOptions = createOptions(filtered);
+            s1.innerHTML = newOptions;
+            s2.innerHTML = newOptions;
         }
 
-        // Initialize AOS
-        AOS.init();
+        searchInput.addEventListener('input', filterOptions);
+        brandFilter.addEventListener('change', filterOptions);
+    }
+
+    // 3. Wypełnianie filtra marek
+    function populateBrandFilter(list) {
+        const brandSelect = document.getElementById('brandFilter');
+        // Wyciągnij unikalne marki i posortuj
+        const brands = [...new Set(list.map(t => t.brand))].sort();
+        
+        const options = ['<option value="">Wszystkie marki</option>']
+            .concat(brands.map(b => `<option value="${b}">${b}</option>`));
+        
+        brandSelect.innerHTML = options.join('');
+    }
+
+    // 4. Główna funkcja porównująca
+    function compareTuners() {
+        const id1 = document.getElementById('tuner1-select').value;
+        const id2 = document.getElementById('tuner2-select').value;
+
+        if (!id1 || !id2) {
+            alert("Proszę wybrać dwa tunery z listy.");
+            return;
+        }
+        if (id1 === id2) {
+            alert("Wybrałeś ten sam tuner dwukrotnie.");
+            return;
+        }
+
+        // Znajdź pełne dane obiektów w załadowanej liście
+        const t1 = tunersList.find(t => t.id === id1);
+        const t2 = tunersList.find(t => t.id === id2);
+
+        if (!t1 || !t2) return;
+
+        // Wyświetl nazwy w nagłówku tabeli
+        document.getElementById('tuner1-name').textContent = `${t1.brand} ${t1.model}`;
+        document.getElementById('tuner2-name').textContent = `${t2.brand} ${t2.model}`;
+
+        const tbody = document.getElementById('comparison-tbody');
+        tbody.innerHTML = '';
+
+        // Definicja pól do porównania
+        const fields = [
+            { k: 'cpu', label: 'Procesor (CPU)' },
+            { k: 'ram', label: 'Pamięć RAM' },
+            { k: 'flash', label: 'Pamięć Flash' },
+            { k: 'tuners', label: 'Głowice (Tuner)' },
+            { k: 'resolution', label: 'Rozdzielczość' },
+            { k: 'ports', label: 'Złącza' },
+            { k: 'image', label: 'System (Image)' },
+            { k: 'price', label: 'Cena (orientacyjna)' }
+        ];
+
+        // Generowanie wierszy tabeli
+        fields.forEach(f => {
+            const val1 = t1[f.k] || '<span style="color:#8b949e; font-style:italic;">Brak danych</span>';
+            const val2 = t2[f.k] || '<span style="color:#8b949e; font-style:italic;">Brak danych</span>';
+            
+            // Proste podświetlenie (dla RAM i Flash - im więcej tym lepiej)
+            let style1 = '', style2 = '';
+            
+            if ((f.k === 'ram' || f.k === 'flash') && t1[f.k] && t2[f.k]) {
+                 const n1 = parseFloat(t1[f.k]); 
+                 const n2 = parseFloat(t2[f.k]);
+                 if (!isNaN(n1) && !isNaN(n2)) {
+                     if (n1 > n2) style1 = 'color:#3fb950; font-weight:bold;';
+                     if (n2 > n1) style2 = 'color:#3fb950; font-weight:bold;';
+                 }
+            }
+
+            const row = `
+                <tr>
+                    <td><strong>${f.label}</strong></td>
+                    <td style="${style1}">${val1}</td>
+                    <td style="${style2}">${val2}</td>
+                </tr>
+            `;
+            tbody.innerHTML += row;
+        });
+
+        // Werdykt
+        generateVerdict(t1, t2);
+
+        // Pokaż sekcję wyników i przewiń
+        const resultSection = document.getElementById('comparison-result');
+        resultSection.style.display = 'block';
+        setTimeout(() => {
+            resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    }
+
+    // 5. Generator werdyktu (Prosty algorytm tekstowy)
+    function generateVerdict(t1, t2) {
+        const verdictEl = document.getElementById('verdict-text');
+        let text = "";
+
+        // Jeśli brak danych technicznych dla obu, komunikat
+        if (!t1.ram && !t2.ram) {
+            verdictEl.innerHTML = "Dla wybranych modeli brakuje szczegółowych danych technicznych w bazie. Porównaj ich specyfikację u producenta.";
+            return;
+        }
+
+        // Porównanie ceny
+        const p1 = parseInt((t1.price || "").replace(/\D/g, '') || 0);
+        const p2 = parseInt((t2.price || "").replace(/\D/g, '') || 0);
+
+        if (p1 > 0 && p2 > 0) {
+            const diff = Math.abs(p1 - p2);
+            if (p1 < p2) text += `<strong>${t1.model}</strong> jest tańszym wyborem (różnica ok. ${diff} zł). `;
+            else if (p2 < p1) text += `<strong>${t2.model}</strong> jest tańszą opcją (różnica ok. ${diff} zł). `;
+        }
+
+        // Porównanie RAM (uproszczone)
+        const getRamVal = (s) => parseFloat(s || 0);
+        const r1 = getRamVal(t1.ram);
+        const r2 = getRamVal(t2.ram);
+
+        if (r1 > r2) text += `Model <strong>${t1.model}</strong> ma więcej pamięci RAM, co zapewni płynniejsze działanie wtyczek. `;
+        if (r2 > r1) text += `Model <strong>${t2.model}</strong> wygrywa pod względem pamięci RAM, co jest kluczowe dla szybkości. `;
+
+        if (text === "") text = "Oba tunery mają bardzo zbliżone parametry główne.";
+
+        verdictEl.innerHTML = text;
+    }
+
+    // Start po załadowaniu DOM
+    document.addEventListener('DOMContentLoaded', loadTunersList);
+    
+    // Inicjalizacja animacji
+    AOS.init();
     </script>
 </body>
 </html>
