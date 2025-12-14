@@ -1,0 +1,1388 @@
+{
+  "version": "2025-12-14",
+  "count": 147,
+  "tuners": [
+    {
+      "id": "vuplus-solo-se-v2",
+      "brand": "VU+",
+      "model": "Solo SE V2",
+      "os": "Enigma2",
+      "tags": [
+        "VU+"
+      ]
+    },
+    {
+      "id": "vuplus-solo-4k",
+      "brand": "VU+",
+      "model": "Solo 4K",
+      "os": "Enigma2",
+      "tags": [
+        "VU+"
+      ]
+    },
+    {
+      "id": "vuplus-uno-4k",
+      "brand": "VU+",
+      "model": "Uno 4K",
+      "os": "Enigma2",
+      "tags": [
+        "VU+"
+      ]
+    },
+    {
+      "id": "vuplus-uno-4k-se",
+      "brand": "VU+",
+      "model": "Uno 4K SE",
+      "os": "Enigma2",
+      "tags": [
+        "VU+"
+      ]
+    },
+    {
+      "id": "vuplus-duo-2",
+      "brand": "VU+",
+      "model": "Duo 2",
+      "os": "Enigma2",
+      "tags": [
+        "VU+"
+      ]
+    },
+    {
+      "id": "vuplus-duo-4k",
+      "brand": "VU+",
+      "model": "Duo 4K",
+      "os": "Enigma2",
+      "tags": [
+        "VU+"
+      ]
+    },
+    {
+      "id": "vuplus-duo-4k-se",
+      "brand": "VU+",
+      "model": "Duo 4K SE",
+      "os": "Enigma2",
+      "tags": [
+        "VU+"
+      ]
+    },
+    {
+      "id": "vuplus-ultimo-4k",
+      "brand": "VU+",
+      "model": "Ultimo 4K",
+      "os": "Enigma2",
+      "tags": [
+        "VU+"
+      ]
+    },
+    {
+      "id": "vuplus-zero",
+      "brand": "VU+",
+      "model": "Zero",
+      "os": "Enigma2",
+      "tags": [
+        "VU+"
+      ]
+    },
+    {
+      "id": "vuplus-zero-4k",
+      "brand": "VU+",
+      "model": "Zero 4K",
+      "os": "Enigma2",
+      "tags": [
+        "VU+"
+      ]
+    },
+    {
+      "id": "vuplus-solo-2",
+      "brand": "VU+",
+      "model": "Solo 2",
+      "os": "Enigma2",
+      "tags": [
+        "VU+"
+      ]
+    },
+    {
+      "id": "vuplus-uno",
+      "brand": "VU+",
+      "model": "Uno",
+      "os": "Enigma2",
+      "tags": [
+        "VU+"
+      ]
+    },
+    {
+      "id": "octagon-sf8008-4k",
+      "brand": "Octagon",
+      "model": "SF8008 4K",
+      "os": "Enigma2",
+      "tags": [
+        "Octagon",
+        "4K"
+      ]
+    },
+    {
+      "id": "octagon-sf8008-supreme-4k",
+      "brand": "Octagon",
+      "model": "SF8008 Supreme 4K",
+      "os": "Enigma2",
+      "tags": [
+        "Octagon",
+        "4K"
+      ]
+    },
+    {
+      "id": "octagon-sf4008-4k",
+      "brand": "Octagon",
+      "model": "SF4008 4K",
+      "os": "Enigma2",
+      "tags": [
+        "Octagon",
+        "4K"
+      ]
+    },
+    {
+      "id": "octagon-sf1008p",
+      "brand": "Octagon",
+      "model": "SF1008P",
+      "os": "Enigma2",
+      "tags": [
+        "Octagon",
+        ""
+      ]
+    },
+    {
+      "id": "octagon-sx88-v2-4k",
+      "brand": "Octagon",
+      "model": "SX88 V2 4K",
+      "os": "Enigma2",
+      "tags": [
+        "Octagon",
+        "4K"
+      ]
+    },
+    {
+      "id": "octagon-sx888-4k",
+      "brand": "Octagon",
+      "model": "SX888 4K",
+      "os": "Enigma2",
+      "tags": [
+        "Octagon",
+        "4K"
+      ]
+    },
+    {
+      "id": "octagon-sf2008",
+      "brand": "Octagon",
+      "model": "SF2008",
+      "os": "Enigma2",
+      "tags": [
+        "Octagon",
+        ""
+      ]
+    },
+    {
+      "id": "octagon-sf5008",
+      "brand": "Octagon",
+      "model": "SF5008",
+      "os": "Enigma2",
+      "tags": [
+        "Octagon",
+        ""
+      ]
+    },
+    {
+      "id": "ustym-4k-pro",
+      "brand": "Ustym",
+      "model": "4K PRO",
+      "os": "Enigma2",
+      "tags": [
+        "Ustym",
+        "4K"
+      ]
+    },
+    {
+      "id": "ustym-4k-s2-ott-x",
+      "brand": "Ustym",
+      "model": "4K S2 OTT X",
+      "os": "Enigma2",
+      "tags": [
+        "Ustym",
+        "4K"
+      ]
+    },
+    {
+      "id": "ustym-4k-s2-ott",
+      "brand": "Ustym",
+      "model": "4K S2 OTT",
+      "os": "Enigma2",
+      "tags": [
+        "Ustym",
+        "4K"
+      ]
+    },
+    {
+      "id": "ustym-4k-ott",
+      "brand": "Ustym",
+      "model": "4K OTT",
+      "os": "Enigma2",
+      "tags": [
+        "Ustym",
+        "4K"
+      ]
+    },
+    {
+      "id": "ustym-4k-s2-twin",
+      "brand": "Ustym",
+      "model": "4K S2 Twin",
+      "os": "Enigma2",
+      "tags": [
+        "Ustym",
+        "4K"
+      ]
+    },
+    {
+      "id": "ustym-4k-single",
+      "brand": "Ustym",
+      "model": "4K Single",
+      "os": "Enigma2",
+      "tags": [
+        "Ustym",
+        "4K"
+      ]
+    },
+    {
+      "id": "ustym-4k-combo",
+      "brand": "Ustym",
+      "model": "4K Combo",
+      "os": "Enigma2",
+      "tags": [
+        "Ustym",
+        "4K"
+      ]
+    },
+    {
+      "id": "ustym-hd-s2-twin",
+      "brand": "Ustym",
+      "model": "HD S2 Twin",
+      "os": "Enigma2",
+      "tags": [
+        "Ustym",
+        "HD"
+      ]
+    },
+    {
+      "id": "ustym-hd-s2-ott",
+      "brand": "Ustym",
+      "model": "HD S2 OTT",
+      "os": "Enigma2",
+      "tags": [
+        "Ustym",
+        "HD"
+      ]
+    },
+    {
+      "id": "zgemma-h9s",
+      "brand": "Zgemma",
+      "model": "H9S",
+      "os": "Enigma2",
+      "tags": [
+        "Zgemma"
+      ]
+    },
+    {
+      "id": "zgemma-h9-2s",
+      "brand": "Zgemma",
+      "model": "H9.2S",
+      "os": "Enigma2",
+      "tags": [
+        "Zgemma"
+      ]
+    },
+    {
+      "id": "zgemma-h9-combo",
+      "brand": "Zgemma",
+      "model": "H9 Combo",
+      "os": "Enigma2",
+      "tags": [
+        "Zgemma"
+      ]
+    },
+    {
+      "id": "zgemma-h9-twin",
+      "brand": "Zgemma",
+      "model": "H9 Twin",
+      "os": "Enigma2",
+      "tags": [
+        "Zgemma"
+      ]
+    },
+    {
+      "id": "zgemma-h9-2h",
+      "brand": "Zgemma",
+      "model": "H9.2H",
+      "os": "Enigma2",
+      "tags": [
+        "Zgemma"
+      ]
+    },
+    {
+      "id": "zgemma-h11s",
+      "brand": "Zgemma",
+      "model": "H11S",
+      "os": "Enigma2",
+      "tags": [
+        "Zgemma"
+      ]
+    },
+    {
+      "id": "zgemma-h7s",
+      "brand": "Zgemma",
+      "model": "H7S",
+      "os": "Enigma2",
+      "tags": [
+        "Zgemma"
+      ]
+    },
+    {
+      "id": "zgemma-h7c",
+      "brand": "Zgemma",
+      "model": "H7C",
+      "os": "Enigma2",
+      "tags": [
+        "Zgemma"
+      ]
+    },
+    {
+      "id": "zgemma-h8-2h",
+      "brand": "Zgemma",
+      "model": "H8.2H",
+      "os": "Enigma2",
+      "tags": [
+        "Zgemma"
+      ]
+    },
+    {
+      "id": "zgemma-h8-2s",
+      "brand": "Zgemma",
+      "model": "H8.2S",
+      "os": "Enigma2",
+      "tags": [
+        "Zgemma"
+      ]
+    },
+    {
+      "id": "zgemma-h10-2s",
+      "brand": "Zgemma",
+      "model": "H10.2S",
+      "os": "Enigma2",
+      "tags": [
+        "Zgemma"
+      ]
+    },
+    {
+      "id": "zgemma-h2h",
+      "brand": "Zgemma",
+      "model": "H2H",
+      "os": "Enigma2",
+      "tags": [
+        "Zgemma"
+      ]
+    },
+    {
+      "id": "zgemma-h2s",
+      "brand": "Zgemma",
+      "model": "H2S",
+      "os": "Enigma2",
+      "tags": [
+        "Zgemma"
+      ]
+    },
+    {
+      "id": "mutant-hd51",
+      "brand": "Mutant",
+      "model": "HD51",
+      "os": "Enigma2",
+      "tags": [
+        "Mutant"
+      ]
+    },
+    {
+      "id": "mutant-hd60",
+      "brand": "Mutant",
+      "model": "HD60",
+      "os": "Enigma2",
+      "tags": [
+        "Mutant"
+      ]
+    },
+    {
+      "id": "mutant-hd66-se",
+      "brand": "Mutant",
+      "model": "HD66 SE",
+      "os": "Enigma2",
+      "tags": [
+        "Mutant"
+      ]
+    },
+    {
+      "id": "mutant-hd2400",
+      "brand": "Mutant",
+      "model": "HD2400",
+      "os": "Enigma2",
+      "tags": [
+        "Mutant"
+      ]
+    },
+    {
+      "id": "mutant-hd500c",
+      "brand": "Mutant",
+      "model": "HD500C",
+      "os": "Enigma2",
+      "tags": [
+        "Mutant"
+      ]
+    },
+    {
+      "id": "gigablue-uhd-ue-4k",
+      "brand": "GigaBlue",
+      "model": "UHD UE 4K",
+      "os": "Enigma2",
+      "tags": [
+        "GigaBlue"
+      ]
+    },
+    {
+      "id": "gigablue-uhd-quad-4k",
+      "brand": "GigaBlue",
+      "model": "UHD Quad 4K",
+      "os": "Enigma2",
+      "tags": [
+        "GigaBlue"
+      ]
+    },
+    {
+      "id": "gigablue-uhd-x3",
+      "brand": "GigaBlue",
+      "model": "UHD X3",
+      "os": "Enigma2",
+      "tags": [
+        "GigaBlue"
+      ]
+    },
+    {
+      "id": "gigablue-hd-x3",
+      "brand": "GigaBlue",
+      "model": "HD X3",
+      "os": "Enigma2",
+      "tags": [
+        "GigaBlue"
+      ]
+    },
+    {
+      "id": "gigablue-quad-plus",
+      "brand": "GigaBlue",
+      "model": "Quad Plus",
+      "os": "Enigma2",
+      "tags": [
+        "GigaBlue"
+      ]
+    },
+    {
+      "id": "gigablue-ip-4k",
+      "brand": "GigaBlue",
+      "model": "IP 4K",
+      "os": "Enigma2",
+      "tags": [
+        "GigaBlue"
+      ]
+    },
+    {
+      "id": "dreambox-dm520",
+      "brand": "Dreambox",
+      "model": "DM520",
+      "os": "Enigma2",
+      "tags": [
+        "Dreambox"
+      ]
+    },
+    {
+      "id": "dreambox-dm525",
+      "brand": "Dreambox",
+      "model": "DM525",
+      "os": "Enigma2",
+      "tags": [
+        "Dreambox"
+      ]
+    },
+    {
+      "id": "dreambox-dm900-uhd",
+      "brand": "Dreambox",
+      "model": "DM900 UHD",
+      "os": "Enigma2",
+      "tags": [
+        "Dreambox"
+      ]
+    },
+    {
+      "id": "dreambox-dm920-uhd",
+      "brand": "Dreambox",
+      "model": "DM920 UHD",
+      "os": "Enigma2",
+      "tags": [
+        "Dreambox"
+      ]
+    },
+    {
+      "id": "dreambox-dreambox-one",
+      "brand": "Dreambox",
+      "model": "Dreambox One",
+      "os": "Enigma2",
+      "tags": [
+        "Dreambox"
+      ]
+    },
+    {
+      "id": "dreambox-dreambox-two",
+      "brand": "Dreambox",
+      "model": "Dreambox Two",
+      "os": "Enigma2",
+      "tags": [
+        "Dreambox"
+      ]
+    },
+    {
+      "id": "dreambox-dm7080-hd",
+      "brand": "Dreambox",
+      "model": "DM7080 HD",
+      "os": "Enigma2",
+      "tags": [
+        "Dreambox"
+      ]
+    },
+    {
+      "id": "dreambox-dm7020-hd",
+      "brand": "Dreambox",
+      "model": "DM7020 HD",
+      "os": "Enigma2",
+      "tags": [
+        "Dreambox"
+      ]
+    },
+    {
+      "id": "edision-os-mini",
+      "brand": "Edision",
+      "model": "OS mini",
+      "os": "Enigma2",
+      "tags": [
+        "Edision"
+      ]
+    },
+    {
+      "id": "edision-os-mini-4k",
+      "brand": "Edision",
+      "model": "OS mini 4K",
+      "os": "Enigma2",
+      "tags": [
+        "Edision"
+      ]
+    },
+    {
+      "id": "edision-os-mio-4k",
+      "brand": "Edision",
+      "model": "OS mio 4K",
+      "os": "Enigma2",
+      "tags": [
+        "Edision"
+      ]
+    },
+    {
+      "id": "edision-os-mega",
+      "brand": "Edision",
+      "model": "OS mega",
+      "os": "Enigma2",
+      "tags": [
+        "Edision"
+      ]
+    },
+    {
+      "id": "edision-os-nino",
+      "brand": "Edision",
+      "model": "OS nino",
+      "os": "Enigma2",
+      "tags": [
+        "Edision"
+      ]
+    },
+    {
+      "id": "edision-os-nino-pro",
+      "brand": "Edision",
+      "model": "OS nino pro",
+      "os": "Enigma2",
+      "tags": [
+        "Edision"
+      ]
+    },
+    {
+      "id": "edision-os-ninoplus",
+      "brand": "Edision",
+      "model": "OS nino+",
+      "os": "Enigma2",
+      "tags": [
+        "Edision"
+      ]
+    },
+    {
+      "id": "edision-os-mioplus",
+      "brand": "Edision",
+      "model": "OS mio+",
+      "os": "Enigma2",
+      "tags": [
+        "Edision"
+      ]
+    },
+    {
+      "id": "edision-pingulux",
+      "brand": "Edision",
+      "model": "Pingulux",
+      "os": "Enigma2",
+      "tags": [
+        "Edision"
+      ]
+    },
+    {
+      "id": "ax-ax-hd61",
+      "brand": "AX",
+      "model": "AX HD61",
+      "os": "Enigma2",
+      "tags": [
+        "AX"
+      ]
+    },
+    {
+      "id": "ax-ax-hd60",
+      "brand": "AX",
+      "model": "AX HD60",
+      "os": "Enigma2",
+      "tags": [
+        "AX"
+      ]
+    },
+    {
+      "id": "ax-ax-multibox",
+      "brand": "AX",
+      "model": "AX Multibox",
+      "os": "Enigma2",
+      "tags": [
+        "AX"
+      ]
+    },
+    {
+      "id": "ax-ax-uhd-4k-box",
+      "brand": "AX",
+      "model": "AX UHD 4K Box",
+      "os": "Enigma2",
+      "tags": [
+        "AX"
+      ]
+    },
+    {
+      "id": "ax-ax-hd51",
+      "brand": "AX",
+      "model": "AX HD51",
+      "os": "Enigma2",
+      "tags": [
+        "AX"
+      ]
+    },
+    {
+      "id": "amiko-viper-4k-v40",
+      "brand": "Amiko",
+      "model": "Viper 4K V40",
+      "os": "Enigma2",
+      "tags": [
+        "Amiko"
+      ]
+    },
+    {
+      "id": "amiko-viper-4k-v20",
+      "brand": "Amiko",
+      "model": "Viper 4K V20",
+      "os": "Enigma2",
+      "tags": [
+        "Amiko"
+      ]
+    },
+    {
+      "id": "amiko-viper-4k-51",
+      "brand": "Amiko",
+      "model": "Viper 4K 51",
+      "os": "Enigma2",
+      "tags": [
+        "Amiko"
+      ]
+    },
+    {
+      "id": "amiko-alien-2",
+      "brand": "Amiko",
+      "model": "Alien 2",
+      "os": "Enigma2",
+      "tags": [
+        "Amiko"
+      ]
+    },
+    {
+      "id": "amiko-a4-combo",
+      "brand": "Amiko",
+      "model": "A4 Combo",
+      "os": "Enigma2",
+      "tags": [
+        "Amiko"
+      ]
+    },
+    {
+      "id": "amiko-a5-combo",
+      "brand": "Amiko",
+      "model": "A5 Combo",
+      "os": "Enigma2",
+      "tags": [
+        "Amiko"
+      ]
+    },
+    {
+      "id": "inne-spycat-mini",
+      "brand": "Inne",
+      "model": "Spycat Mini",
+      "os": "Enigma2",
+      "tags": []
+    },
+    {
+      "id": "inne-spycat-one",
+      "brand": "Inne",
+      "model": "Spycat One",
+      "os": "Enigma2",
+      "tags": []
+    },
+    {
+      "id": "inne-spycat-4k",
+      "brand": "Inne",
+      "model": "Spycat 4K",
+      "os": "Enigma2",
+      "tags": []
+    },
+    {
+      "id": "inne-golden-interstar-xpeed-lx",
+      "brand": "Inne",
+      "model": "Golden Interstar Xpeed LX",
+      "os": "Enigma2",
+      "tags": []
+    },
+    {
+      "id": "inne-xtrend-et10000",
+      "brand": "Inne",
+      "model": "Xtrend ET10000",
+      "os": "Enigma2",
+      "tags": []
+    },
+    {
+      "id": "inne-xtrend-et8500",
+      "brand": "Inne",
+      "model": "Xtrend ET8500",
+      "os": "Enigma2",
+      "tags": []
+    },
+    {
+      "id": "inne-xtrend-et8000",
+      "brand": "Inne",
+      "model": "Xtrend ET8000",
+      "os": "Enigma2",
+      "tags": []
+    },
+    {
+      "id": "inne-xtrend-et7000",
+      "brand": "Inne",
+      "model": "Xtrend ET7000",
+      "os": "Enigma2",
+      "tags": []
+    },
+    {
+      "id": "vuplus-solo",
+      "brand": "VU+",
+      "model": "Solo",
+      "os": "Enigma2",
+      "tags": [
+        "VU+",
+        ""
+      ]
+    },
+    {
+      "id": "vuplus-solo-se",
+      "brand": "VU+",
+      "model": "Solo SE",
+      "os": "Enigma2",
+      "tags": [
+        "VU+",
+        ""
+      ]
+    },
+    {
+      "id": "vuplus-solo-se-v1",
+      "brand": "VU+",
+      "model": "Solo SE V1",
+      "os": "Enigma2",
+      "tags": [
+        "VU+",
+        ""
+      ]
+    },
+    {
+      "id": "vuplus-duo",
+      "brand": "VU+",
+      "model": "Duo",
+      "os": "Enigma2",
+      "tags": [
+        "VU+",
+        ""
+      ]
+    },
+    {
+      "id": "vuplus-ultimo",
+      "brand": "VU+",
+      "model": "Ultimo",
+      "os": "Enigma2",
+      "tags": [
+        "VU+",
+        ""
+      ]
+    },
+    {
+      "id": "vuplus-ultimo-4k-bt",
+      "brand": "VU+",
+      "model": "Ultimo 4K (BT)",
+      "os": "Enigma2",
+      "tags": [
+        "VU+",
+        "4K"
+      ]
+    },
+    {
+      "id": "vuplus-solo",
+      "brand": "VU+",
+      "model": "Solo²",
+      "os": "Enigma2",
+      "tags": [
+        "VU+",
+        ""
+      ]
+    },
+    {
+      "id": "vuplus-duo",
+      "brand": "VU+",
+      "model": "Duo²",
+      "os": "Enigma2",
+      "tags": [
+        "VU+",
+        ""
+      ]
+    },
+    {
+      "id": "vuplus-zero-4k-bt",
+      "brand": "VU+",
+      "model": "Zero 4K (BT)",
+      "os": "Enigma2",
+      "tags": [
+        "VU+",
+        "4K"
+      ]
+    },
+    {
+      "id": "vuplus-uno-4k-se-bt",
+      "brand": "VU+",
+      "model": "Uno 4K SE (BT)",
+      "os": "Enigma2",
+      "tags": [
+        "VU+",
+        "4K"
+      ]
+    },
+    {
+      "id": "vuplus-duo-4k-bt",
+      "brand": "VU+",
+      "model": "Duo 4K (BT)",
+      "os": "Enigma2",
+      "tags": [
+        "VU+",
+        "4K"
+      ]
+    },
+    {
+      "id": "octagon-sf8008-mini-4k",
+      "brand": "Octagon",
+      "model": "SF8008 Mini 4K",
+      "os": "Enigma2",
+      "tags": [
+        "Octagon",
+        "4K"
+      ]
+    },
+    {
+      "id": "octagon-sf8008-combo-4k",
+      "brand": "Octagon",
+      "model": "SF8008 Combo 4K",
+      "os": "Enigma2",
+      "tags": [
+        "Octagon",
+        "4K"
+      ]
+    },
+    {
+      "id": "octagon-sf8008-twin-4k",
+      "brand": "Octagon",
+      "model": "SF8008 Twin 4K",
+      "os": "Enigma2",
+      "tags": [
+        "Octagon",
+        "4K"
+      ]
+    },
+    {
+      "id": "octagon-sx88-v1",
+      "brand": "Octagon",
+      "model": "SX88 V1",
+      "os": "Enigma2",
+      "tags": [
+        "Octagon",
+        ""
+      ]
+    },
+    {
+      "id": "octagon-sx88-v3",
+      "brand": "Octagon",
+      "model": "SX88 V3",
+      "os": "Enigma2",
+      "tags": [
+        "Octagon",
+        ""
+      ]
+    },
+    {
+      "id": "octagon-sx88-4k",
+      "brand": "Octagon",
+      "model": "SX88 4K",
+      "os": "Enigma2",
+      "tags": [
+        "Octagon",
+        "4K"
+      ]
+    },
+    {
+      "id": "octagon-sx9999",
+      "brand": "Octagon",
+      "model": "SX9999",
+      "os": "Enigma2",
+      "tags": [
+        "Octagon",
+        ""
+      ]
+    },
+    {
+      "id": "octagon-sf1288",
+      "brand": "Octagon",
+      "model": "SF1288",
+      "os": "Enigma2",
+      "tags": [
+        "Octagon",
+        ""
+      ]
+    },
+    {
+      "id": "octagon-sf1388",
+      "brand": "Octagon",
+      "model": "SF1388",
+      "os": "Enigma2",
+      "tags": [
+        "Octagon",
+        ""
+      ]
+    },
+    {
+      "id": "ustym-4k-pro-dvb-s2x",
+      "brand": "Ustym",
+      "model": "4K Pro (DVB-S2X)",
+      "os": "Enigma2",
+      "tags": [
+        "Ustym",
+        "4K"
+      ]
+    },
+    {
+      "id": "ustym-4k-pro-twin",
+      "brand": "Ustym",
+      "model": "4K Pro (Twin)",
+      "os": "Enigma2",
+      "tags": [
+        "Ustym",
+        "4K"
+      ]
+    },
+    {
+      "id": "ustym-4k-s2-ott-twin",
+      "brand": "Ustym",
+      "model": "4K S2 OTT (Twin)",
+      "os": "Enigma2",
+      "tags": [
+        "Ustym",
+        "4K"
+      ]
+    },
+    {
+      "id": "ustym-4k-s2-ott-single",
+      "brand": "Ustym",
+      "model": "4K S2 OTT (Single)",
+      "os": "Enigma2",
+      "tags": [
+        "Ustym",
+        "4K"
+      ]
+    },
+    {
+      "id": "ustym-hd-s2-single",
+      "brand": "Ustym",
+      "model": "HD S2 (Single)",
+      "os": "Enigma2",
+      "tags": [
+        "Ustym",
+        ""
+      ]
+    },
+    {
+      "id": "ustym-hd-s2-combo",
+      "brand": "Ustym",
+      "model": "HD S2 (Combo)",
+      "os": "Enigma2",
+      "tags": [
+        "Ustym",
+        ""
+      ]
+    },
+    {
+      "id": "abcom-pulsar-4k",
+      "brand": "ABCOM",
+      "model": "Pulsar 4K",
+      "os": "Enigma2",
+      "tags": [
+        "ABCOM",
+        "4K"
+      ]
+    },
+    {
+      "id": "abcom-pulsar-mini-4k",
+      "brand": "ABCOM",
+      "model": "Pulsar Mini 4K",
+      "os": "Enigma2",
+      "tags": [
+        "ABCOM",
+        "4K"
+      ]
+    },
+    {
+      "id": "abcom-ipbox-two",
+      "brand": "ABCOM",
+      "model": "IPBox Two",
+      "os": "Enigma2",
+      "tags": [
+        "ABCOM",
+        ""
+      ]
+    },
+    {
+      "id": "abcom-ipbox-one",
+      "brand": "ABCOM",
+      "model": "IPBox One",
+      "os": "Enigma2",
+      "tags": [
+        "ABCOM",
+        ""
+      ]
+    },
+    {
+      "id": "miraclebox-premium-mini",
+      "brand": "Miraclebox",
+      "model": "Premium Mini",
+      "os": "Enigma2",
+      "tags": [
+        "Miraclebox",
+        ""
+      ]
+    },
+    {
+      "id": "miraclebox-premium-ultra",
+      "brand": "Miraclebox",
+      "model": "Premium Ultra",
+      "os": "Enigma2",
+      "tags": [
+        "Miraclebox",
+        ""
+      ]
+    },
+    {
+      "id": "miraclebox-premium-twin",
+      "brand": "Miraclebox",
+      "model": "Premium Twin",
+      "os": "Enigma2",
+      "tags": [
+        "Miraclebox",
+        ""
+      ]
+    },
+    {
+      "id": "miraclebox-ultra-se",
+      "brand": "Miraclebox",
+      "model": "Ultra SE",
+      "os": "Enigma2",
+      "tags": [
+        "Miraclebox",
+        ""
+      ]
+    },
+    {
+      "id": "xtrend-et8000",
+      "brand": "Xtrend",
+      "model": "ET8000",
+      "os": "Enigma2",
+      "tags": [
+        "Xtrend",
+        ""
+      ]
+    },
+    {
+      "id": "xtrend-et8500",
+      "brand": "Xtrend",
+      "model": "ET8500",
+      "os": "Enigma2",
+      "tags": [
+        "Xtrend",
+        ""
+      ]
+    },
+    {
+      "id": "xtrend-et9000",
+      "brand": "Xtrend",
+      "model": "ET9000",
+      "os": "Enigma2",
+      "tags": [
+        "Xtrend",
+        ""
+      ]
+    },
+    {
+      "id": "xtrend-et9500",
+      "brand": "Xtrend",
+      "model": "ET9500",
+      "os": "Enigma2",
+      "tags": [
+        "Xtrend",
+        ""
+      ]
+    },
+    {
+      "id": "xtrend-et10000",
+      "brand": "Xtrend",
+      "model": "ET10000",
+      "os": "Enigma2",
+      "tags": [
+        "Xtrend",
+        ""
+      ]
+    },
+    {
+      "id": "technomate-tm-twin-oe",
+      "brand": "Technomate",
+      "model": "TM-Twin OE",
+      "os": "Enigma2",
+      "tags": [
+        "Technomate",
+        ""
+      ]
+    },
+    {
+      "id": "technomate-tm-nano-oe",
+      "brand": "Technomate",
+      "model": "TM-Nano OE",
+      "os": "Enigma2",
+      "tags": [
+        "Technomate",
+        ""
+      ]
+    },
+    {
+      "id": "technomate-tm-2t-oe",
+      "brand": "Technomate",
+      "model": "TM-2T OE",
+      "os": "Enigma2",
+      "tags": [
+        "Technomate",
+        ""
+      ]
+    },
+    {
+      "id": "zgemma-h9-2h-se",
+      "brand": "Zgemma",
+      "model": "H9.2H SE",
+      "os": "Enigma2",
+      "tags": [
+        "Zgemma",
+        ""
+      ]
+    },
+    {
+      "id": "zgemma-h9-2h-combo",
+      "brand": "Zgemma",
+      "model": "H9.2H Combo",
+      "os": "Enigma2",
+      "tags": [
+        "Zgemma",
+        ""
+      ]
+    },
+    {
+      "id": "zgemma-h9-2s-plus",
+      "brand": "Zgemma",
+      "model": "H9.2S Plus",
+      "os": "Enigma2",
+      "tags": [
+        "Zgemma",
+        ""
+      ]
+    },
+    {
+      "id": "zgemma-h9-2s-se",
+      "brand": "Zgemma",
+      "model": "H9.2S SE",
+      "os": "Enigma2",
+      "tags": [
+        "Zgemma",
+        ""
+      ]
+    },
+    {
+      "id": "zgemma-h9s-se",
+      "brand": "Zgemma",
+      "model": "H9S SE",
+      "os": "Enigma2",
+      "tags": [
+        "Zgemma",
+        ""
+      ]
+    },
+    {
+      "id": "zgemma-h9s-plus",
+      "brand": "Zgemma",
+      "model": "H9S Plus",
+      "os": "Enigma2",
+      "tags": [
+        "Zgemma",
+        ""
+      ]
+    },
+    {
+      "id": "edision-os-miniplus",
+      "brand": "Edision",
+      "model": "OS mini+",
+      "os": "Enigma2",
+      "tags": [
+        "Edision",
+        ""
+      ]
+    },
+    {
+      "id": "edision-os-mioplus-4k",
+      "brand": "Edision",
+      "model": "OS mio+ 4K",
+      "os": "Enigma2",
+      "tags": [
+        "Edision",
+        "4K"
+      ]
+    },
+    {
+      "id": "edision-os-mega-4k",
+      "brand": "Edision",
+      "model": "OS mega 4K",
+      "os": "Enigma2",
+      "tags": [
+        "Edision",
+        "4K"
+      ]
+    },
+    {
+      "id": "edision-os-nino-4k",
+      "brand": "Edision",
+      "model": "OS nino 4K",
+      "os": "Enigma2",
+      "tags": [
+        "Edision",
+        "4K"
+      ]
+    },
+    {
+      "id": "edision-os-nino-pro-4k",
+      "brand": "Edision",
+      "model": "OS nino pro 4K",
+      "os": "Enigma2",
+      "tags": [
+        "Edision",
+        "4K"
+      ]
+    },
+    {
+      "id": "dinobot-4k-se",
+      "brand": "Dinobot",
+      "model": "4K SE",
+      "os": "Enigma2",
+      "tags": [
+        "Dinobot",
+        "4K"
+      ]
+    },
+    {
+      "id": "dinobot-4k-plus",
+      "brand": "Dinobot",
+      "model": "4K Plus",
+      "os": "Enigma2",
+      "tags": [
+        "Dinobot",
+        "4K"
+      ]
+    },
+    {
+      "id": "dinobot-uhd",
+      "brand": "Dinobot",
+      "model": "UHD",
+      "os": "Enigma2",
+      "tags": [
+        "Dinobot",
+        ""
+      ]
+    },
+    {
+      "id": "gi-gigablue-uhd-trio-4k",
+      "brand": "GI",
+      "model": "GigaBlue UHD Trio 4K",
+      "os": "Enigma2",
+      "tags": [
+        "GI",
+        "4K"
+      ]
+    },
+    {
+      "id": "gi-gigablue-uhd-quad-4k-pro",
+      "brand": "GI",
+      "model": "GigaBlue UHD Quad 4K Pro",
+      "os": "Enigma2",
+      "tags": [
+        "GI",
+        "4K"
+      ]
+    }
+  ]
+}

@@ -7,8 +7,6 @@ html, body {
     overflow-x: hidden;
 }
 
-img, video, canvas { max-width: 100%; height: auto; }
-
 *, *::before, *::after {
     box-sizing: border-box;
 }
@@ -28,7 +26,7 @@ body {
 }
 
 /* NAGŁÓWEK */
-header:not(.hero-header) {
+header {
     text-align: center;
     padding: 40px 20px 20px;
     background: linear-gradient(180deg, #161b22 0%, #0d1117 100%);
@@ -112,7 +110,7 @@ header:not(.hero-header) {
 
 /* MAŁE EKRANY */
 @media (max-width: 600px) {
-    header.mobile-fixed {
+    header {
         padding: 10px 10px 12px;
         position: fixed;
         top: 0;
@@ -123,8 +121,9 @@ header:not(.hero-header) {
         background-color: #0f1219;
         transform: translateY(0);
     }
-    header.mobile-fixed.hide { transform: translateY(-100%); }
-    body.fixed-header { padding-top: 160px; }
+
+    header.hide { transform: translateY(-100%); }
+    body { padding-top: 160px; }
     
     .site-logo { max-width: 120px; }
     .xmas-decor { font-size: 1.5rem; gap: 5px; } /* Mniejsze ozdoby na telefonie */
@@ -133,14 +132,6 @@ header:not(.hero-header) {
     .nav-buttons { gap: 6px; margin-top: 10px; }
     .nav-btn { padding: 6px 12px; font-size: 0.85rem; }
     .search-container { margin-bottom: 120px; }
-
-    /* RESPONSIVE TOP BAR / HERO */
-    .top-info-bar { flex-wrap: wrap; gap: 8px; }
-    .status-right { flex-wrap: wrap; justify-content: flex-end; }
-    .header-stats-container { flex-wrap: wrap; justify-content: center; gap: 14px; }
-    .header-stats-container > div { min-width: 120px; }
-    .comment-modal-content { width: min(520px, calc(100vw - 20px)); max-height: calc(100vh - 24px); overflow: auto; }
-    .ad-placeholder { min-height: auto !important; }
 }
 
 /* KARTA */
@@ -727,3 +718,108 @@ body.light .rating-stats {
 body.light .rating-average {
     color: #f59e0b;
 }
+
+
+
+/* =========================
+   Section navigation (auto chips)
+   ========================= */
+.section-nav{
+  display:flex;
+  gap:10px;
+  padding:10px 12px;
+  margin:10px auto 0;
+  max-width:1200px;
+  overflow-x:auto;
+  scrollbar-width:thin;
+}
+.section-chip{
+  white-space:nowrap;
+  border:1px solid #30363d;
+  background:rgba(13,17,23,0.6);
+  color:#c9d1d9;
+  padding:8px 10px;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:0.9rem;
+}
+.section-chip:hover{ border-color:#58a6ff; }
+
+/* =========================
+   Notifications dropdown
+   ========================= */
+.notifications-dropdown{
+  display:none;
+  position:absolute;
+  right:12px;
+  top:42px;
+  width:min(360px, calc(100vw - 24px));
+  background:#0d1117;
+  border:1px solid #30363d;
+  border-radius:12px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.35);
+  z-index:9999;
+  overflow:hidden;
+}
+.notifications-dropdown.show{ display:block; }
+.notif-item{
+  display:flex;
+  gap:10px;
+  padding:10px 12px;
+  border-bottom:1px solid rgba(48,54,61,0.7);
+}
+.notif-item:last-child{ border-bottom:none; }
+.notif-icon{ width:22px; text-align:center; }
+
+/* =========================
+   Public comments (Supabase)
+   ========================= */
+.comments-public .comment-form-row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.comments-public .comment-form-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.comment-secondary{
+  border:1px solid #30363d;
+  background:rgba(13,17,23,0.45);
+  color:#c9d1d9;
+  padding:10px 14px;
+  border-radius:10px;
+  cursor:pointer;
+}
+.comment-secondary:hover{ border-color:#58a6ff; }
+
+.comment-item{
+  border:1px solid #30363d;
+  background:rgba(13,17,23,0.45);
+  padding:12px;
+  border-radius:12px;
+  margin-top:10px;
+}
+.comment-meta{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  align-items:center;
+  margin-bottom:6px;
+  font-size:0.9rem;
+  color:#8b949e;
+}
+.comment-author{ color:#c9d1d9; font-weight:700; }
+.comment-stars{ color:#d29922; letter-spacing:1px; }
+.comment-date{ margin-left:auto; }
+.comment-body{ color:#c9d1d9; line-height:1.5; }
+
+/* Mobile: reduce visual gaps */
+@media (max-width: 600px){
+  .section-nav{ padding:8px 10px; }
+  .comment-date{ width:100%; margin-left:0; }
+}
+
+
+.search-input{width:100%;max-width:520px;padding:10px 12px;border-radius:10px;border:1px solid #30363d;background:rgba(13,17,23,0.45);color:#c9d1d9;}

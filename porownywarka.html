@@ -13,10 +13,10 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="fixed-header">
+<body>
     <button onclick="topFunction()" id="topBtn" title="Wróć na górę">⬆️</button>
 
-    <header class="mobile-fixed">
+    <header>
         <div style="text-align:center; line-height: 1.2;">
             <img src="https://github.com/OliOli2013/aio-iptv-projekt/raw/main/pliki/logo.png" alt="Logo AIO-IPTV" class="site-logo">
             <p style="margin: 4px 0 0; font-size: 0.95rem;">Porównywarka Tunerów Enigma2</p>
@@ -32,34 +32,25 @@
         <div class="card full-width" data-aos="fade-up">
             <h2>🔍 Porównywarka Tunerów Enigma2</h2>
             <p>Wybierz tunery, które chcesz porównać i znajdź najlepszy dekoder dla swoich potrzeb.</p>
+            <div class="comparison-search" style="margin: 14px 0 8px;">
+                <input id="tunerSearch" class="search-input" type="text" placeholder="🔍 Wyszukaj tuner (VU+, Octagon, Ustym...)" />
+                <select id="brandFilter" class="search-input" style="max-width: 220px;">
+                    <option value="">Wszystkie marki</option>
+                </select>
+            </div>
+
             
             <div class="comparison-controls">
                 <div class="control-group">
                     <label for="tuner1-select">Tuner 1:</label>
                     <select id="tuner1-select" class="tuner-select">
                         <option value="">Wybierz tuner...</option>
-                        <option value="zgemma-h9s">Zgemma H9S</option>
-                        <option value="zgemma-h92s">Zgemma H9.2S</option>
-                        <option value="vu-uno4k">VU+ Uno 4K</option>
-                        <option value="vu-duo4k">VU+ Duo 4K</option>
-                        <option value="octagon-sf8008">Octagon SF8008</option>
-                        <option value="mutant-hd51">Mutant HD51</option>
-                        <option value="ax-hd61">AX HD61</option>
-                        <option value="dreambox-920">Dreambox 920 Ultra HD</option>
                     </select>
                 </div>
                 <div class="control-group">
                     <label for="tuner2-select">Tuner 2:</label>
                     <select id="tuner2-select" class="tuner-select">
                         <option value="">Wybierz tuner...</option>
-                        <option value="zgemma-h9s">Zgemma H9S</option>
-                        <option value="zgemma-h92s">Zgemma H9.2S</option>
-                        <option value="vu-uno4k">VU+ Uno 4K</option>
-                        <option value="vu-duo4k">VU+ Duo 4K</option>
-                        <option value="octagon-sf8008">Octagon SF8008</option>
-                        <option value="mutant-hd51">Mutant HD51</option>
-                        <option value="ax-hd61">AX HD61</option>
-                        <option value="dreambox-920">Dreambox 920 Ultra HD</option>
                     </select>
                 </div>
                 <button class="nav-btn" onclick="compareTuners()" style="align-self: flex-end;">Porównaj</button>
@@ -211,9 +202,89 @@
         <p>Dane zbierane automatycznie z preferencji użytkowników</p>
     </footer>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js">
+        document.addEventListener('DOMContentLoaded', loadTunersList);
+</script>
     <script src="script.js"></script>
     <script>
+        // Dynamic tuner list (loaded from data/tuners.json)
+        let tunersList = [];
+        let tunersById = {};
+
+        async function loadTunersList() {
+            try {
+                const res = await fetch('data/tuners.json', { cache: 'no-store' });
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                const json = await res.json();
+                tunersList = (json && json.tuners) ? json.tuners : [];
+                tunersById = {};
+                tunersList.forEach(t => { tunersById[t.id] = t; });
+                populateTunerSelects(tunersList);
+                populateBrandFilter(tunersList);
+            } catch (e) {
+                console.warn('Nie udało się pobrać listy tunerów:', e);
+                // fall back to the static tunerData keys
+                const fallback = Object.keys(tunerData).map(id => ({ id, brand: (tunerData[id].name || '').split(' ')[0], model: tunerData[id].name || id }));
+                populateTunerSelects(fallback);
+                populateBrandFilter(fallback);
+            }
+        }
+
+        function populateTunerSelects(list) {
+            const s1 = document.getElementById('tuner1-select');
+            const s2 = document.getElementById('tuner2-select');
+            if (!s1 || !s2) return;
+
+            const build = (filtered) => {
+                const options = ['<option value="">Wybierz tuner...</option>']
+                  .concat(filtered
+                    .slice()
+                    .sort((a,b) => (`${a.brand} ${a.model}`).localeCompare(`${b.brand} ${b.model}`,'pl'))
+                    .map(t => `<option value="${t.id}">${escapeHtml(`${t.brand} ${t.model}`)}</option>`));
+                s1.innerHTML = options.join('');
+                s2.innerHTML = options.join('');
+            };
+
+            build(list);
+
+            // live search + brand filter
+            const search = document.getElementById('tunerSearch');
+            const brand = document.getElementById('brandFilter');
+            const applyFilters = () => {
+                const q = (search && search.value || '').trim().toLowerCase();
+                const b = (brand && brand.value || '').trim().toLowerCase();
+                const filtered = list.filter(t => {
+                    const name = `${t.brand} ${t.model}`.toLowerCase();
+                    const okQ = !q || name.includes(q);
+                    const okB = !b || (t.brand || '').toLowerCase() === b;
+                    return okQ && okB;
+                });
+                build(filtered);
+            };
+            if (search) search.addEventListener('input', applyFilters);
+            if (brand) brand.addEventListener('change', applyFilters);
+        }
+
+        function populateBrandFilter(list) {
+            const brand = document.getElementById('brandFilter');
+            if (!brand) return;
+            const brands = Array.from(new Set(list.map(t => (t.brand || '').trim()).filter(Boolean)))
+              .sort((a,b) => a.localeCompare(b,'pl'));
+            brand.innerHTML = ['<option value="">Wszystkie marki</option>']
+              .concat(brands.map(b => `<option value="${escapeHtml(b)}">${escapeHtml(b)}</option>`))
+              .join('');
+        }
+
+        function escapeHtml(s) {
+            return String(s || '')
+              .replaceAll('&','&amp;')
+              .replaceAll('<','&lt;')
+              .replaceAll('>','&gt;')
+              .replaceAll('"','&quot;')
+              .replaceAll("'",'&#039;');
+        }
+
+
         // Tuner comparison data
         const tunerData = {
             'zgemma-h9s': {
@@ -330,6 +401,29 @@
             }
         };
 
+        
+        function getTunerData(id) {
+            if (tunerData && tunerData[id]) return tunerData[id];
+            const t = tunersById && tunersById[id];
+            if (!t) return { name: id, processor: '—', ram: '—', flash: '—', tuners: '—', resolution: '—', ports: '—', price: '—', difficulty: '—', community: '—', image: '—', rating: '—' };
+            const name = `${t.brand} ${t.model}`.trim();
+            const tags = (t.tags || []).filter(Boolean).join(', ');
+            return {
+                name,
+                processor: '—',
+                ram: '—',
+                flash: '—',
+                tuners: tags || '—',
+                resolution: (t.tags || []).some(x => String(x).toUpperCase().includes('4K')) ? '4K Ultra HD' : '—',
+                ports: '—',
+                price: '—',
+                difficulty: '—',
+                community: '—',
+                image: t.os || 'Enigma2',
+                rating: '—'
+            };
+        }
+
         function compareTuners() {
             const tuner1 = document.getElementById('tuner1-select').value;
             const tuner2 = document.getElementById('tuner2-select').value;
@@ -344,8 +438,8 @@
                 return;
             }
             
-            const data1 = tunerData[tuner1];
-            const data2 = tunerData[tuner2];
+            const data1 = getTunerData(tuner1);
+            const data2 = getTunerData(tuner2);
             
             document.getElementById('tuner1-name').textContent = data1.name;
             document.getElementById('tuner2-name').textContent = data2.name;

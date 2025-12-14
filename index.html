@@ -492,7 +492,7 @@
         <div class="header-stats-container">
             <div>
                 <span class="h-stat-val" id="real-downloads">...</span>
-                <span class="h-stat-label">POBRANIA (RELEASE)</span>
+                <span class="h-stat-label">POBRANIA</span>
             </div>
             <div>
                 <span class="h-stat-val" id="real-users">...</span>
@@ -533,27 +533,14 @@
             <button class="banner-close" onclick="document.getElementById('newsBanner').style.display='none'">✕</button>
         </div>
     </div>
-
-    <div id="commentsModal" class="modal-overlay">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeComments()">×</button>
-            <h2 style="color: #58a6ff; margin-top: 0;">💬 Dyskusja (Beta)</h2>
-            <p style="font-size: 0.9em; color: #8b949e;">Dodaj komentarz lub zgłoś błąd. Komentarze są publiczne (GitHub Issues).</p>
-            <div id="utterances-container" style="margin-top: 14px;"></div>
 </div>
-    </div>
 
     <div class="container">
         
         <div class="search-container" data-aos="fade-down" style="display: none;">
             <input type="text" id="searchBox" onkeyup="filterList()" placeholder="🔍 Szukaj wtyczki, listy lub porady...">
         </div>
-
-        <div class="ad-placeholder full-width" data-aos="fade-up">
-            Miejsce na twoją reklamę
-        </div>
-
-        <div class="card" id="wtyczki" data-aos="fade-up">
+<div class="card" id="wtyczki" data-aos="fade-up">
             <h2>Wtyczki (Plugins)</h2>
             <p>Najnowsze wersje moich aplikacji.</p>
             <ul class="file-list">
@@ -1268,17 +1255,7 @@
                 <br>– Pawełek
             </p>
         </div>
-
-        <div class="ad-placeholder full-width" id="ad-grid" data-aos="fade-up" style="padding: 0; border: none; background: transparent; display: block;">
-            <a href="https://multi-click.pl/" target="_blank" rel="noopener" style="display: block; width: 100%; text-align: center;">
-                <picture>
-                    <source media="(min-width: 600px)" srcset="multi-click_banner_970x250.webp">
-                    <img src="multi-click_banner_320x100.webp" alt="Multi-Click — Zamów teraz" width="320" height="100" style="width: 100%; height: auto; display: block;">
-                </picture>
-            </a>
-        </div>
-
-        <div class="card" id="pliki" data-aos="fade-up">
+<div class="card" id="pliki" data-aos="fade-up">
             <h2>Pliki (pozostałe)</h2>
             <ul class="file-list">
                 <li>
@@ -1531,28 +1508,7 @@
                     <div class="project-stat-value skeleton" id="repo-size">...</div>
                 </div>
                 <div class="project-stat">
-                    
-                <div class="project-stat">
-                    <div class="project-stat-label">Forki</div>
-                    <div class="project-stat-value skeleton" id="repo-forks">...</div>
-                </div>
-                <div class="project-stat">
-                    <div class="project-stat-label">Otwarte zgłoszenia</div>
-                    <div class="project-stat-value skeleton" id="repo-open-issues">...</div>
-                </div>
-                <div class="project-stat">
-                    <div class="project-stat-label">Pobrania (releases)</div>
-                    <div class="project-stat-value skeleton" id="repo-downloads">...</div>
-                </div>
-                <div class="project-stat">
-                    <div class="project-stat-label">Pliki w repo</div>
-                    <div class="project-stat-value skeleton" id="repo-files">...</div>
-                </div>
-                <div class="project-stat">
-                    <div class="project-stat-label">Pakiety .ipk</div>
-                    <div class="project-stat-value skeleton" id="repo-ipk">...</div>
-                </div>
-<div class="project-stat-label">Ostatnia aktualizacja</div>
+                    <div class="project-stat-label">Ostatnia aktualizacja</div>
                     <div class="project-stat-value" id="repo-date">...</div>
                 </div>
                 <div class="project-stat">
@@ -1562,7 +1518,7 @@
             </div>
             
             <div class="project-stats-chart" style="margin-top: 20px;">
-                <h3 style="font-size: 1rem; color: #58a6ff; margin-bottom: 15px;">📊 Struktura plików w repozytorium</h3>
+                <h3 style="font-size: 1rem; color: #58a6ff; margin-bottom: 15px;">📊 Popularność wtyczek</h3>
                 <div style="max-width: 300px; margin: 0 auto;">
                     <canvas id="popularity-chart" width="300" height="300"></canvas>
                 </div>
@@ -1666,10 +1622,37 @@
     </div>
 
     <div style="max-width: 1500px; margin: 0 auto; padding: 0 20px;">
-        <div class="ad-placeholder full-width" data-aos="fade-up">
-            Miejsce na twoją reklamę
-        </div>
-    </div>
+</div>
+        <section class="card" id="comments">
+            <h2>💬 Komentarze</h2>
+            <p class="muted" style="margin-top:-6px;">Komentarze są publiczne i widoczne dla wszystkich użytkowników (system zewnętrzny).</p>
+
+            <div class="comments-public" id="comments-public">
+                <div class="comment-form">
+                    <div class="comment-form-row">
+                        <input type="text" id="commentNamePublic" class="comment-input" placeholder="Twój nick" autocomplete="nickname">
+                        <select id="commentRatingPublic" class="comment-input" aria-label="Ocena">
+                            <option value="">Ocena (opcjonalnie)</option>
+                            <option value="5">★★★★★ (5)</option>
+                            <option value="4">★★★★☆ (4)</option>
+                            <option value="3">★★★☆☆ (3)</option>
+                            <option value="2">★★☆☆☆ (2)</option>
+                            <option value="1">★☆☆☆☆ (1)</option>
+                        </select>
+                    </div>
+                    <textarea id="commentBodyPublic" class="comment-input" rows="4" placeholder="Napisz komentarz..."></textarea>
+                    <div class="comment-form-actions">
+                        <button class="comment-submit" id="commentSubmitBtn">Wyślij</button>
+                        <button class="comment-secondary" id="commentRefreshBtn" type="button">Odśwież</button>
+                    </div>
+                    <div class="muted" id="commentsStatus" style="margin-top:8px;"></div>
+                </div>
+
+                <div class="comment-list" id="commentsListPublic"></div>
+            </div>
+        </section>
+
+
 
     <footer>
         <p>&copy; 2025 AIO-IPTV.pl | PawełPawełek</p>
@@ -1699,201 +1682,10 @@
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js"></script>
     
-    <script>
-    // Aktualizacja daty w nagłówku
-    function updateHeaderDate() {
-        const now = new Date();
-        const options = { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' };
-        const dateString = now.toLocaleDateString('pl-PL', options);
-        document.getElementById('current-date-display').textContent = dateString;
-    }
-    updateHeaderDate();
-    setInterval(updateHeaderDate, 60000);
-
-    // Generyczna wyszukiwarka dla paska nagłówka (przekierowanie do filtra)
-    function filterListGeneric(value) {
-        const searchBox = document.getElementById('searchBox');
-        if(searchBox) {
-            searchBox.value = value;
-            if(typeof filterList === 'function') {
-                filterList();
-            }
-        }
-    }
-
-    // Funkcja aktualizacji pogody (symulacja pobierania)
-    function fetchWeather() {
-        const iconSpan = document.getElementById('weather-icon');
-        const tempSpan = document.getElementById('weather-temp');
-        
-        // Symulacja "ładowania"
-        iconSpan.textContent = '⏳';
-        tempSpan.textContent = '...';
-        
-        setTimeout(() => {
-            // Losowe wartości dla efektu
-            const temps = ['12°C', '14°C', '15°C', '10°C'];
-            const icons = ['☁️', '🌥️', '🌦️', '🌧️'];
-            const rand = Math.floor(Math.random() * temps.length);
-            
-            iconSpan.textContent = icons[rand];
-            tempSpan.textContent = temps[rand];
-        }, 800);
-    }
-
-    // Funkcja przełączania powiadomień
-    function toggleNotifications() {
-        const dropdown = document.getElementById('notificationsDropdown');
-        const badge = document.getElementById('notif-badge');
-        
-        if (dropdown.style.display === 'block') {
-            dropdown.style.display = 'none';
-        } else {
-            dropdown.style.display = 'block';
-            // Ukryj badge po otwarciu
-            if(badge) badge.style.display = 'none';
-        }
-    }
-
-    // Kliknięcie poza dropdownem zamyka go
-    window.addEventListener('click', function(e) {
-        const dropdown = document.getElementById('notificationsDropdown');
-        const trigger = e.target.closest('.top-btn-small');
-        if (!trigger && !e.target.closest('.notifications-dropdown')) {
-            dropdown.style.display = 'none';
-        }
-    });
-
-    // Funkcja logowania (symulacja)
-    function toggleLogin() {
-        const statusSpan = document.getElementById('user-status');
-        const loginBtn = document.getElementById('login-btn');
-        
-        if (statusSpan.textContent === 'Gość') {
-            const name = prompt("Podaj nick (logowanie lokalne):", "Użytkownik");
-            if (name) {
-                statusSpan.textContent = name;
-                loginBtn.style.borderColor = '#238636';
-                loginBtn.style.color = '#3fb950';
-                localStorage.setItem('aio_username', name);
-            }
-        } else {
-            if(confirm("Wylogować się?")) {
-                statusSpan.textContent = 'Gość';
-                loginBtn.style.borderColor = '#30363d';
-                loginBtn.style.color = '#c9d1d9';
-                localStorage.removeItem('aio_username');
-            }
-        }
-    }
-
-    // SYSTEM KOMENTARZY (Utterances - GitHub Issues)
-    function openComments() {
-        const modal = document.getElementById('commentsModal');
-        if (!modal) return;
-        modal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-        loadUtterancesOnce();
-        document.addEventListener('keydown', handleEscapeKey);
-    }
-
-    function closeComments() {
-        const modal = document.getElementById('commentsModal');
-        if (!modal) return;
-        modal.style.display = 'none';
-        document.body.style.overflow = '';
-        document.removeEventListener('keydown', handleEscapeKey);
-    }
-
-    function handleEscapeKey(event) {
-        if (event.key === 'Escape') closeComments();
-    }
-
-    function loadUtterancesOnce() {
-        const container = document.getElementById('utterances-container');
-        if (!container) return;
-        if (container.dataset.loaded === '1') return;
-
-        const s = document.createElement('script');
-        s.src = 'https://utteranc.es/client.js';
-        s.async = true;
-        s.setAttribute('repo', 'OliOli2013/aio-iptv-projekt');
-        s.setAttribute('issue-term', 'pathname');
-        s.setAttribute('theme', 'github-dark');
-        s.setAttribute('crossorigin', 'anonymous');
-        container.appendChild(s);
-
-        container.dataset.loaded = '1';
-    }
-
-
-    // --- FAKTYCZNE STATYSTYKI Z GITHUB API ---
-    async function getRealStats() {
-        const user = 'OliOli2013';
-        const repo = 'aio-iptv-projekt';
-        
-        try {
-            // 1. Pobieranie podstawowych danych (Stars, Watchers, Open Issues)
-            const repoRes = await fetch(`https://api.github.com/repos/${user}/${repo}`);
-            const repoData = await repoRes.json();
-            
-            // 2. Pobieranie listy wydań (Releases) dla zliczenia pobrań
-            const releasesRes = await fetch(`https://api.github.com/repos/${user}/${repo}/releases`);
-            const releasesData = await releasesRes.json();
-            
-            let totalDownloads = 0;
-            if(Array.isArray(releasesData)) {
-                releasesData.forEach(release => {
-                    if(release.assets) {
-                        release.assets.forEach(asset => {
-                            totalDownloads += asset.download_count;
-                        });
-                    }
-                });
-            }
-
-            // Fallback: Jeśli API pobrań zwróci 0 (bo np. pliki są w 'raw' a nie 'releases'), 
-            // używamy szacunkowej liczby minimalnej + gwiazdki * mnożnik.
-            // Tutaj zakładam, że chcesz "realne" dane, ale API GitHub nie zlicza pobrań plików 'raw'.
-            // Więc jeśli używasz 'raw' linków, API zwróci 0. Wtedy wyświetlamy statyczną bazę + dynamikę.
-            
-            // Logika wyświetlania
-            const downloadsEl = document.getElementById('real-downloads');
-            const usersEl = document.getElementById('real-users');
-            const supportEl = document.getElementById('real-support');
-
-            // Pobrania (Realistyczne dane projektu AIO-IPTV)
-            let visitCount = parseInt(localStorage.getItem('aio_iptv_visit_count') || '0');
-            // Baza: 125K+ pobrań wtyczek + listy kanałów + picony + skrypty
-            // Dynamicznie zwiększane o wizyty i aktywność
-            let displayDownloads = totalDownloads > 0 ? totalDownloads : (125000 + (visitCount * 15) + Math.floor(Math.random() * 50));
-            
-            animateValue(downloadsEl, 0, displayDownloads, 2000);
-
-            // Użytkownicy (Gwiazdki + Obserwujący + lokalna baza)
-            // Realna społeczność: GitHub + Telegram + Forum + Lokalni użytkownicy
-            let communityCount = (repoData.stargazers_count || 0) + (repoData.watchers_count || 0) + 4850; // + baza użytkowników
-            animateValue(usersEl, 0, communityCount, 2000);
-
-            // Wsparcie (Dostępność i aktywność zespołu)
-            // Liczba aktywnych zgłoszeń + status dostępności
-            if (repoData.open_issues_count > 0) {
-                supportEl.textContent = repoData.open_issues_count + " ZGŁOSZEŃ";
-            } else {
-                supportEl.textContent = "24/7 ONLINE";
-            }
-
-        } catch (e) {
-            console.error("Błąd API GitHub", e);
-        }
-    }
-
-    function animateValue(obj, start, end, duration) {
-        let startTimestamp = null;
-        const step = (timestamp) => {
-            if (!startTimestamp) startTimestamp = timestamp;
-            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-            obj.innerHTML = Math.floor(progress * (end - start) + start) + (end > 1000 ? "+" : "");
-          
+    
+    <!-- Scripts moved to script.js -->
+</body>
+</html>

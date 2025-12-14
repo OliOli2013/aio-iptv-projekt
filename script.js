@@ -1,3 +1,15 @@
+// =========================
+// AIO-IPTV.pl configuration
+// Fill these to enable public comments (Supabase)
+// =========================
+window.AIO_SITE = window.AIO_SITE || {};
+
+// Twój Project URL (wygenerowany z ID: pynjjeobqzxbrvmqofcw)
+window.AIO_SITE.supabaseUrl = "https://pynjjeobqzxbrvmqofcw.supabase.co";
+
+// Twój Anon Public Key (klucz JWT)
+window.AIO_SITE.supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB5bmpqZW9icXp4YnJ2bXFvZmN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU3NDA5MDYsImV4cCI6MjA4MTMxNjkwNn0.XSBB0DJw27Wrn41nranqFyj8YI0-YjLzX52dkdrgkrg";
+
 /* script.js - Logika dla AIO-IPTV.pl - WERSJA ULEPSZONA */
 
 // Inicjalizacja animacji AOS
@@ -93,127 +105,47 @@ function animateNumber(element, target) {
 async function fetchGithubStats() {
     const user = 'OliOli2013';
     const repo = 'aio-iptv-projekt';
-
+    
     const statusWrap = document.getElementById('github-status');
     const statusLabel = document.getElementById('github-status-label');
 
-    // Helpers
-    const setSkeletonOff = (el) => el && el.classList && el.classList.remove('skeleton');
-    const setText = (id, text) => {
-        const el = document.getElementById(id);
-        if (!el) return;
-        setSkeletonOff(el);
-        el.textContent = text;
-    };
-    const setNumber = (id, value) => {
-        const el = document.getElementById(id);
-        if (!el) return;
-        setSkeletonOff(el);
-        if (typeof animateNumber === 'function') {
-            animateNumber(el, Number(value) || 0);
-        } else {
-            el.textContent = String(Number(value) || 0);
-        }
-    };
-
     try {
         const repoRes = await fetch(`https://api.github.com/repos/${user}/${repo}`);
-        if (!repoRes.ok) throw new Error('HTTP ' + repoRes.status);
+        if (!repoRes.ok) {
+            throw new Error('HTTP ' + repoRes.status);
+        }
+
         const repoData = await repoRes.json();
+        
+        const elStars = document.getElementById('repo-stars');
+        const elWatchers = document.getElementById('repo-watchers');
+        const elSize = document.getElementById('repo-size');
+        const elDate = document.getElementById('repo-date');
 
-        // Releases downloads (real GitHub metric)
-        let totalDownloads = 0;
-        try {
-            const releasesRes = await fetch(`https://api.github.com/repos/${user}/${repo}/releases`);
-            if (releasesRes.ok) {
-                const releasesData = await releasesRes.json();
-                if (Array.isArray(releasesData)) {
-                    releasesData.forEach(release => {
-                        (release.assets || []).forEach(asset => {
-                            totalDownloads += Number(asset.download_count || 0);
-                        });
-                    });
-                }
-            }
-        } catch (_) { /* ignore */ }
-
-        // Repo core stats (cards)
-        setNumber('repo-stars', repoData.stargazers_count || 0);
-        // "watchers_count" == stars; subscribers_count is actual watchers (requires no extra scope and is returned)
-        setNumber('repo-watchers', (repoData.subscribers_count ?? repoData.watchers_count) || 0);
-        setNumber('repo-forks', repoData.forks_count || 0);
-        setNumber('repo-open-issues', repoData.open_issues_count || 0);
-        setNumber('repo-downloads', totalDownloads || 0);
-
-        // Size in MB
-        const sizeMb = (Number(repoData.size || 0) / 1024);
-        setText('repo-size', `${sizeMb.toFixed(2)} MB`);
-
-        // Updated date
-        if (repoData.updated_at) {
-            const d = new Date(repoData.updated_at);
-            const formatted = d.toLocaleDateString('pl-PL', { year: 'numeric', month: 'long', day: '2-digit' });
-            setText('repo-date', formatted);
+        if (elStars) {
+            elStars.classList.remove('skeleton');
+            animateNumber(elStars, repoData.stargazers_count || 0);
+        }
+        if (elWatchers) {
+            elWatchers.classList.remove('skeleton');
+            animateNumber(elWatchers, repoData.watchers_count || 0);
+        }
+        if (elSize) {
+            elSize.classList.remove('skeleton');
+            const sizeMb = (repoData.size / 1024);
+            elSize.textContent = sizeMb.toFixed(1) + ' MB';
         }
 
-        // Header stats (hero)
-        const heroDownloads = document.getElementById('real-downloads');
-        const heroCommunity = document.getElementById('real-users');
-        const heroSupport = document.getElementById('real-support');
-
-        if (heroDownloads) heroDownloads.textContent = String(totalDownloads || 0);
-        if (heroCommunity) heroCommunity.textContent = String((repoData.stargazers_count || 0) + (repoData.forks_count || 0));
-        if (heroSupport) {
-            const openIssues = Number(repoData.open_issues_count || 0);
-            heroSupport.textContent = openIssues > 0 ? `${openIssues} ZGŁOSZEŃ` : '24/7 ONLINE';
+        if (elDate && repoData.pushed_at) {
+            const dateObj = new Date(repoData.pushed_at);
+            const formattedDate = dateObj.toLocaleDateString('pl-PL', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+            elDate.textContent = formattedDate;
         }
 
-        // File/tree stats + chart data
-        let fileCount = 0;
-        let ipkCount = 0;
-        const extMap = Object.create(null);
-
-        try {
-            const branch = repoData.default_branch || 'main';
-            const treeRes = await fetch(`https://api.github.com/repos/${user}/${repo}/git/trees/${branch}?recursive=1`);
-            if (treeRes.ok) {
-                const treeData = await treeRes.json();
-                const entries = Array.isArray(treeData.tree) ? treeData.tree : [];
-                entries.forEach(e => {
-                    if (e.type !== 'blob' || !e.path) return;
-                    fileCount += 1;
-                    const path = String(e.path);
-                    if (path.toLowerCase().endsWith('.ipk')) ipkCount += 1;
-
-                    const parts = path.split('/');
-                    const filename = parts[parts.length - 1];
-                    const dot = filename.lastIndexOf('.');
-                    const ext = (dot >= 0 ? filename.slice(dot + 1) : 'brak').toLowerCase();
-                    extMap[ext] = (extMap[ext] || 0) + 1;
-                });
-            }
-        } catch (_) { /* ignore */ }
-
-        if (fileCount > 0) setNumber('repo-files', fileCount);
-        if (ipkCount >= 0) setNumber('repo-ipk', ipkCount);
-
-        // Update chart: top 6 extensions + "inne"
-        const entries = Object.entries(extMap).sort((a, b) => b[1] - a[1]);
-        if (entries.length) {
-            const top = entries.slice(0, 6);
-            const rest = entries.slice(6).reduce((s, x) => s + x[1], 0);
-            const labels = top.map(x => x[0]);
-            const values = top.map(x => x[1]);
-            if (rest > 0) {
-                labels.push('inne');
-                values.push(rest);
-            }
-            if (typeof renderFileChart === 'function') {
-                renderFileChart(labels, values);
-            }
-        }
-
-        // Status badge
         if (statusWrap && statusLabel) {
             statusWrap.classList.remove('error');
             statusWrap.classList.add('ok');
@@ -229,7 +161,6 @@ async function fetchGithubStats() {
         }
     }
 }
-
 
 
 // ULEPSZONA WYSZUKIWARKA
@@ -405,67 +336,6 @@ async function checkServiceStatus() {
 }
 
 // Dodatkowe inicjalizacje po załadowaniu DOM
-
-
-async function fetchWeatherReal() {
-    const iconEl = document.getElementById('weather-icon');
-    const tempEl = document.getElementById('weather-temp');
-    if (!iconEl || !tempEl) return;
-
-    iconEl.textContent = '⏳';
-    tempEl.textContent = '...';
-
-    const getPosition = () => new Promise((resolve) => {
-        if (!navigator.geolocation) return resolve(null);
-        navigator.geolocation.getCurrentPosition(
-            (pos) => resolve({ lat: pos.coords.latitude, lon: pos.coords.longitude }),
-            () => resolve(null),
-            { enableHighAccuracy: false, timeout: 4000, maximumAge: 600000 }
-        );
-    });
-
-    const coords = (await getPosition()) || { lat: 52.2297, lon: 21.0122 }; // fallback: Warszawa
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${encodeURIComponent(coords.lat)}&longitude=${encodeURIComponent(coords.lon)}&current_weather=true&timezone=auto`;
-
-    try {
-        const res = await fetch(url);
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        const data = await res.json();
-
-        let temp = null;
-        let code = null;
-
-        if (data && data.current_weather) {
-            temp = data.current_weather.temperature;
-            code = data.current_weather.weathercode;
-        } else if (data && data.current) {
-            temp = data.current.temperature_2m;
-            code = data.current.weather_code;
-        }
-
-        if (temp === null || temp === undefined) throw new Error('No temperature');
-
-        tempEl.textContent = `${Math.round(Number(temp))}°C`;
-        iconEl.textContent = mapWeatherCodeToIcon(Number(code));
-
-    } catch (e) {
-        // Fallback: show unknown
-        iconEl.textContent = '☁️';
-        tempEl.textContent = '—';
-    }
-}
-
-function mapWeatherCodeToIcon(code) {
-    if (code === 0) return '☀️';
-    if (code >= 1 && code <= 3) return '🌤️';
-    if (code === 45 || code === 48) return '🌫️';
-    if ((code >= 51 && code <= 57) || (code >= 61 && code <= 67)) return '🌧️';
-    if (code >= 71 && code <= 77) return '❄️';
-    if (code >= 80 && code <= 82) return '🌦️';
-    if (code >= 95 && code <= 99) return '⛈️';
-    return '☁️';
-}
-
 document.addEventListener('DOMContentLoaded', () => {
     // Tryb jasny / ciemny
     const themeToggle = document.getElementById('themeToggle');
@@ -493,7 +363,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Statystyki GitHuba + status usług
     fetchGithubStats();
-    fetchWeatherReal();
     checkServiceStatus();
 
     // Etykieta czasu dla przycisku "Wróć na górę"
@@ -616,8 +485,9 @@ function loadQuiz() {
     const resultEl = document.getElementById('quiz-result');
     const progressEl = document.querySelector('.quiz-progress-fill');
 
-    if (!questionEl || !resultEl || !progressEl) return;
-    if (currentQuiz >= quizData.length) {
+    // Guard: quiz section may not exist on every page
+    if (!questionEl || !resultEl) return;
+if (currentQuiz >= quizData.length) {
         showResult();
         return;
     }
@@ -714,60 +584,75 @@ function restartQuiz() {
 
 // Initialize quiz when page loads
 document.addEventListener('DOMContentLoaded', () => {
-    if (document.getElementById('quiz-question')) {
-        loadQuiz();
-    }
+    if (document.getElementById('quiz-question')) loadQuiz();
     initRatings();
     initParticles();
     initChart();
 });
-
 // Chart.js initialization
-// Chart.js initialization
-let __aioFileChart = null;
-
-function renderFileChart(labels, values) {
-    if (typeof Chart === 'undefined') return;
-    const canvas = document.getElementById('popularity-chart');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-
-    if (__aioFileChart) {
-        try { __aioFileChart.destroy(); } catch (_) {}
-        __aioFileChart = null;
-    }
-
-    __aioFileChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: labels,
-            datasets: [{
-                data: values
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { position: 'bottom', labels: { color: '#c9d1d9' } },
-                tooltip: { callbacks: { label: (ctx) => `${ctx.label}: ${ctx.raw}` } }
-            }
-        }
-    });
-}
-
 function initChart() {
-    // Default chart (if GitHub file tree isn't available yet)
-    if (typeof Chart === 'undefined') return;
-    const canvas = document.getElementById('popularity-chart');
-    if (!canvas) return;
-
-    renderFileChart(
-        ['ipk', 'py', 'js', 'css', 'html', 'inne'],
-        [0, 0, 0, 0, 0, 0]
-    );
+    if (typeof Chart !== 'undefined') {
+        const ctx = document.getElementById('popularity-chart');
+        if (ctx) {
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['AIO Panel', 'IPTV Dream', 'MyUpdater', 'Picon Updater', 'Simple EPG'],
+                    datasets: [{
+                        data: [45, 38, 32, 28, 15],
+                        backgroundColor: [
+                            'rgba(88, 166, 255, 0.8)',
+                            'rgba(35, 134, 54, 0.8)',
+                            'rgba(210, 153, 34, 0.8)',
+                            'rgba(248, 81, 73, 0.8)',
+                            'rgba(137, 87, 229, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(88, 166, 255, 1)',
+                            'rgba(35, 134, 54, 1)',
+                            'rgba(210, 153, 34, 1)',
+                            'rgba(248, 81, 73, 1)',
+                            'rgba(137, 87, 229, 1)'
+                        ],
+                        borderWidth: 2,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '60%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#8b949e',
+                                font: {
+                                    size: 12
+                                },
+                                padding: 15
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: '#161b22',
+                            titleColor: '#58a6ff',
+                            bodyColor: '#c9d1d9',
+                            borderColor: '#30363d',
+                            borderWidth: 1,
+                            callbacks: {
+                                label: function(context) {
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((context.parsed * 100) / total).toFixed(1);
+                                    return `${context.label}: ${context.parsed} tys. pobrań (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    }
 }
-
 
 // Particles background
 function initParticles() {
@@ -943,3 +828,314 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+
+
+
+// =========================
+// Top info bar (date/weather/login/notifications)
+// =========================
+function formatPolishDate(d) {
+  try {
+    return d.toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' });
+  } catch (e) {
+    return d.toDateString();
+  }
+}
+
+function initTopInfoBar() {
+  const dateEl = document.getElementById('current-date-display');
+  if (dateEl) dateEl.textContent = formatPolishDate(new Date());
+
+  // restore user status
+  const userStatus = document.getElementById('user-status');
+  if (userStatus) {
+    const saved = localStorage.getItem('aio_user_name') || '';
+    userStatus.textContent = saved ? saved : 'Gość';
+  }
+
+  // weather initial fetch
+  if (document.getElementById('weather-temp')) {
+    fetchWeather();
+  }
+
+  // close dropdown on outside click
+  document.addEventListener('click', (ev) => {
+    const dd = document.getElementById('notificationsDropdown');
+    const btn = ev.target.closest && ev.target.closest('[onclick="toggleNotifications()"]');
+    if (!dd) return;
+    if (btn) return;
+    if (!dd.contains(ev.target)) dd.classList.remove('show');
+  });
+}
+
+function toggleNotifications() {
+  const dd = document.getElementById('notificationsDropdown');
+  if (!dd) return;
+  dd.classList.toggle('show');
+  // Optional: clear badge visually
+  const badge = document.getElementById('notif-badge');
+  if (badge) badge.style.display = 'none';
+}
+
+function toggleLogin() {
+  const userStatus = document.getElementById('user-status');
+  if (!userStatus) return;
+
+  const current = (localStorage.getItem('aio_user_name') || '').trim();
+  if (!current) {
+    const name = prompt('Podaj nick (będzie widoczny przy komentarzach):', '');
+    if (name && name.trim().length >= 2) {
+      localStorage.setItem('aio_user_name', name.trim());
+      userStatus.textContent = name.trim();
+    }
+  } else {
+    const ok = confirm(`Wylogować użytkownika "${current}"?`);
+    if (ok) {
+      localStorage.removeItem('aio_user_name');
+      userStatus.textContent = 'Gość';
+    }
+  }
+}
+
+// =========================
+// Weather (Open-Meteo, no API key)
+// =========================
+function weatherEmojiFromCode(code) {
+  // Very simplified mapping
+  if (code === 0) return '☀️';
+  if ([1,2,3].includes(code)) return '⛅';
+  if ([45,48].includes(code)) return '🌫️';
+  if ([51,53,55,56,57].includes(code)) return '🌦️';
+  if ([61,63,65,66,67].includes(code)) return '🌧️';
+  if ([71,73,75,77].includes(code)) return '🌨️';
+  if ([80,81,82].includes(code)) return '🌧️';
+  if ([95,96,99].includes(code)) return '⛈️';
+  return '☁️';
+}
+
+async function fetchWeather() {
+  const iconEl = document.getElementById('weather-icon');
+  const tempEl = document.getElementById('weather-temp');
+  if (!tempEl || !iconEl) return;
+
+  const setError = () => {
+    iconEl.textContent = '☁️';
+    tempEl.textContent = '--°C';
+  };
+
+  const fetchByCoords = async (lat, lon) => {
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${encodeURIComponent(lat)}&longitude=${encodeURIComponent(lon)}&current_weather=true&timezone=auto`;
+    const res = await fetch(url, { cache: 'no-store' });
+    if (!res.ok) throw new Error('Weather HTTP ' + res.status);
+    return res.json();
+  };
+
+  try {
+    // Try geolocation first
+    const data = await new Promise((resolve, reject) => {
+      if (!navigator.geolocation) return reject(new Error('no geo'));
+      navigator.geolocation.getCurrentPosition(
+        async (pos) => {
+          try {
+            const d = await fetchByCoords(pos.coords.latitude, pos.coords.longitude);
+            resolve(d);
+          } catch (e) { reject(e); }
+        },
+        async () => {
+          // fallback: Warsaw
+          try {
+            const d = await fetchByCoords(52.2297, 21.0122);
+            resolve(d);
+          } catch (e) { reject(e); }
+        },
+        { enableHighAccuracy: false, maximumAge: 10 * 60 * 1000, timeout: 7000 }
+      );
+    });
+
+    const cw = data && data.current_weather;
+    if (!cw) return setError();
+    const t = Math.round(cw.temperature);
+    const code = Number(cw.weathercode);
+    iconEl.textContent = weatherEmojiFromCode(code);
+    tempEl.textContent = `${t}°C`;
+  } catch (e) {
+    console.warn('Weather error:', e);
+    setError();
+  }
+}
+
+// =========================
+// Section navigation (auto from cards)
+// =========================
+function initSectionNav() {
+  const nav = document.getElementById('sectionNav');
+  if (!nav) return;
+
+  const cards = Array.from(document.querySelectorAll('.card[id]'));
+  const items = cards.map((card) => {
+    const titleEl = card.querySelector('h2, h3');
+    const title = titleEl ? titleEl.textContent.trim() : card.id;
+    return { id: card.id, title };
+  }).filter(x => x.id && x.title);
+
+  if (!items.length) return;
+
+  nav.innerHTML = items.map(it =>
+    `<button class="section-chip" type="button" data-target="${it.id}">${it.title}</button>`
+  ).join('');
+
+  nav.addEventListener('click', (e) => {
+    const btn = e.target.closest('.section-chip');
+    if (!btn) return;
+    const id = btn.getAttribute('data-target');
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+}
+
+function openComments() {
+  const el = document.getElementById('comments');
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// =========================
+// Public comments (Supabase)
+// =========================
+function getSupabaseConfig() {
+  const cfg = window.AIO_SITE || {};
+  return {
+    url: (cfg.supabaseUrl || '').trim(),
+    anon: (cfg.supabaseAnonKey || '').trim(),
+  };
+}
+
+function renderStars(n) {
+  const v = Number(n);
+  if (!v || v < 1 || v > 5) return '';
+  return '★★★★★'.slice(0, v) + '☆☆☆☆☆'.slice(0, 5 - v);
+}
+
+function escapeHtml(s) {
+  return String(s || '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+}
+
+async function initPublicComments() {
+  const root = document.getElementById('comments-public');
+  if (!root) return;
+
+  const statusEl = document.getElementById('commentsStatus');
+  const listEl = document.getElementById('commentsListPublic');
+  const btnSend = document.getElementById('commentSubmitBtn');
+  const btnRefresh = document.getElementById('commentRefreshBtn');
+
+  const cfg = getSupabaseConfig();
+
+  if (!window.supabase || !cfg.url || !cfg.anon) {
+    if (statusEl) {
+      statusEl.textContent = 'Komentarze publiczne wymagają konfiguracji (Supabase). Uzupełnij AIO_SITE.supabaseUrl oraz AIO_SITE.supabaseAnonKey w script.js.';
+    }
+    if (btnSend) btnSend.disabled = true;
+    return;
+  }
+
+  const client = window.supabase.createClient(cfg.url, cfg.anon);
+  const page = location.pathname || '/';
+
+  const load = async () => {
+    if (statusEl) statusEl.textContent = 'Ładowanie komentarzy...';
+    const { data, error } = await client
+      .from('comments')
+      .select('id,page,name,message,rating,created_at')
+      .eq('page', page)
+      .order('created_at', { ascending: false })
+      .limit(100);
+
+    if (error) {
+      console.error(error);
+      if (statusEl) statusEl.textContent = 'Nie udało się pobrać komentarzy. Sprawdź konfigurację Supabase oraz polityki RLS.';
+      return;
+    }
+
+    if (statusEl) statusEl.textContent = data && data.length ? `Komentarze: ${data.length}` : 'Brak komentarzy. Bądź pierwszy.';
+    if (listEl) {
+      listEl.innerHTML = (data || []).map((c) => {
+        const nick = escapeHtml(c.name || 'Anonim');
+        const msg = escapeHtml(c.message || '');
+        const stars = c.rating ? `<span class="comment-stars">${escapeHtml(renderStars(c.rating))}</span>` : '';
+        const dt = c.created_at ? new Date(c.created_at).toLocaleString('pl-PL') : '';
+        return `
+          <div class="comment-item">
+            <div class="comment-meta">
+              <span class="comment-author">${nick}</span>
+              ${stars}
+              <span class="comment-date">${escapeHtml(dt)}</span>
+            </div>
+            <div class="comment-body">${msg.replaceAll('\n','<br>')}</div>
+          </div>
+        `;
+      }).join('');
+    }
+  };
+
+  const send = async () => {
+    const nameEl = document.getElementById('commentNamePublic');
+    const bodyEl = document.getElementById('commentBodyPublic');
+    const ratingEl = document.getElementById('commentRatingPublic');
+
+    const name = (nameEl && nameEl.value ? nameEl.value : (localStorage.getItem('aio_user_name') || '')) || 'Anonim';
+    const message = (bodyEl && bodyEl.value || '').trim();
+    const rating = ratingEl && ratingEl.value ? Number(ratingEl.value) : null;
+
+    if (!message || message.length < 3) {
+      if (statusEl) statusEl.textContent = 'Komentarz jest zbyt krótki.';
+      return;
+    }
+
+    if (btnSend) btnSend.disabled = true;
+    if (statusEl) statusEl.textContent = 'Wysyłanie...';
+
+    const payload = { page, name: name.trim().slice(0, 40), message: message.slice(0, 2000) };
+    if (rating && rating >= 1 && rating <= 5) payload.rating = rating;
+
+    const { error } = await client.from('comments').insert(payload);
+    if (error) {
+      console.error(error);
+      if (statusEl) statusEl.textContent = 'Nie udało się dodać komentarza. Sprawdź polityki RLS dla INSERT.';
+      if (btnSend) btnSend.disabled = false;
+      return;
+    }
+
+    if (bodyEl) bodyEl.value = '';
+    if (ratingEl) ratingEl.value = '';
+    if (statusEl) statusEl.textContent = 'Dodano komentarz.';
+    if (btnSend) btnSend.disabled = false;
+
+    await load();
+  };
+
+  // Prefill name from local login
+  const nameEl = document.getElementById('commentNamePublic');
+  if (nameEl) {
+    const saved = localStorage.getItem('aio_user_name') || '';
+    if (saved && !nameEl.value) nameEl.value = saved;
+  }
+
+  if (btnSend) btnSend.addEventListener('click', (e) => { e.preventDefault(); send(); });
+  if (btnRefresh) btnRefresh.addEventListener('click', (e) => { e.preventDefault(); load(); });
+
+  await load();
+}
+
+// =========================
+// Init (safe for subpages)
+// =========================
+document.addEventListener('DOMContentLoaded', () => {
+  try { initTopInfoBar(); } catch (e) { console.warn(e); }
+  try { initSectionNav(); } catch (e) { console.warn(e); }
+  try { initPublicComments(); } catch (e) { console.warn(e); }
+});
