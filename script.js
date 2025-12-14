@@ -430,3 +430,388 @@ document.addEventListener('DOMContentLoaded', () => {
         wrapper.appendChild(btn);
     });
 });
+
+// Quiz Enigma2
+const quizData = [
+    {
+        question: "Co oznacza skrót EPG?",
+        options: ["Electronic Program Guide", "Elektroniczny Przewodnik Programów", "Extended Program Grid", "Electronic Player Guide"],
+        correct: 1,
+        explanation: "EPG to Elektroniczny Przewodnik Programów - funkcja pokazująca ramówkę kanałów."
+    },
+    {
+        question: "Jaki jest domyślny login do tunera Enigma2?",
+        options: ["admin", "root", "user", "enigma"],
+        correct: 1,
+        explanation: "Standardowy login to 'root' dla większości tunerów z Enigma2."
+    },
+    {
+        question: "Gdzie znajdują się pliki list kanałów?",
+        options: ["/etc/tuxbox/", "/usr/share/enigma2/", "/etc/enigma2/", "/var/log/"],
+        correct: 2,
+        explanation: "Pliki list kanałów i bukietów znajdują się w katalogu /etc/enigma2/"
+    },
+    {
+        question: "Co to jest softcam?",
+        options: ["Oprogramowanie do nagrywania", "Moduł obsługujący karty dostępu", "Player wideo", "Skórka interfejsu"],
+        correct: 1,
+        explanation: "Softcam to oprogramowanie odpowiedzialne za deszyfrowanie kanałów (np. Oscam, NCam)."
+    },
+    {
+        question: "Który image Enigma2 jest najpopularniejszy?",
+        options: ["OpenPLi", "OpenViX", "OpenATV", "Egami"],
+        correct: 2,
+        explanation: "OpenATV to najczęściej używany image ze względu na liczbę funkcji i częste aktualizacje."
+    }
+];
+
+let currentQuiz = 0;
+let score = 0;
+
+function loadQuiz() {
+    const questionEl = document.getElementById('quiz-question');
+    const resultEl = document.getElementById('quiz-result');
+    const progressEl = document.querySelector('.quiz-progress-fill');
+    
+    if (currentQuiz >= quizData.length) {
+        showResult();
+        return;
+    }
+    
+    const currentQuestion = quizData[currentQuiz];
+    
+    questionEl.innerHTML = `
+        <h3>Pytanie ${currentQuiz + 1} z ${quizData.length}</h3>
+        <p class="quiz-text">${currentQuestion.question}</p>
+        <div class="quiz-options">
+            ${currentQuestion.options.map((option, index) => `
+                <button class="quiz-option" onclick="selectAnswer(${index})">${option}</button>
+            `).join('')}
+        </div>
+    `;
+    
+    resultEl.style.display = 'none';
+    questionEl.style.display = 'block';
+    
+    // Update progress
+    const progress = ((currentQuiz) / quizData.length) * 100;
+    progressEl.style.width = progress + '%';
+}
+
+function selectAnswer(selectedIndex) {
+    const currentQuestion = quizData[currentQuiz];
+    const options = document.querySelectorAll('.quiz-option');
+    
+    // Disable all options
+    options.forEach(option => option.disabled = true);
+    
+    // Show correct/incorrect
+    options[selectedIndex].classList.add(selectedIndex === currentQuestion.correct ? 'correct' : 'incorrect');
+    if (selectedIndex !== currentQuestion.correct) {
+        options[currentQuestion.correct].classList.add('correct');
+    }
+    
+    if (selectedIndex === currentQuestion.correct) {
+        score++;
+    }
+    
+    // Show explanation and next button
+    setTimeout(() => {
+        const questionEl = document.getElementById('quiz-question');
+        questionEl.innerHTML += `
+            <div style="margin-top: 20px; padding: 15px; background: rgba(88, 166, 255, 0.1); border-radius: 6px; border-left: 3px solid #58a6ff;">
+                <p style="margin: 0; font-size: 0.9rem; color: #c9d1d9;">
+                    <strong>Wyjaśnienie:</strong> ${currentQuestion.explanation}
+                </p>
+            </div>
+            <button class="contact-btn" onclick="nextQuestion()" style="margin-top: 15px;">Następne pytanie</button>
+        `;
+    }, 1500);
+}
+
+function nextQuestion() {
+    currentQuiz++;
+    loadQuiz();
+}
+
+function showResult() {
+    const questionEl = document.getElementById('quiz-question');
+    const resultEl = document.getElementById('quiz-result');
+    const scoreEl = document.getElementById('quiz-score');
+    const messageEl = document.getElementById('quiz-message');
+    const progressEl = document.querySelector('.quiz-progress-fill');
+    
+    questionEl.style.display = 'none';
+    resultEl.style.display = 'block';
+    scoreEl.textContent = score;
+    
+    // Update progress to 100%
+    progressEl.style.width = '100%';
+    
+    let message = '';
+    if (score === quizData.length) {
+        message = '🎉 Brawo! Jesteś ekspertem Enigma2! Masz wiedzę godną prawdziwego tunera.';
+    } else if (score >= quizData.length * 0.7) {
+        message = '👍 Dobrze! Masz solidną wiedzę o Enigma2.';
+    } else if (score >= quizData.length * 0.4) {
+        message = '🤔 Średnio. Warto więcej poczytać o tunerach.';
+    } else {
+        message = '📚 Poczytaj więcej poradników i spróbuj ponownie!';
+    }
+    
+    messageEl.textContent = message;
+}
+
+function restartQuiz() {
+    currentQuiz = 0;
+    score = 0;
+    loadQuiz();
+}
+
+// Initialize quiz when page loads
+document.addEventListener('DOMContentLoaded', () => {
+    loadQuiz();
+    initRatings();
+    initParticles();
+    initChart();
+});
+
+// Chart.js initialization
+function initChart() {
+    if (typeof Chart !== 'undefined') {
+        const ctx = document.getElementById('popularity-chart');
+        if (ctx) {
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['AIO Panel', 'IPTV Dream', 'MyUpdater', 'Picon Updater', 'Simple EPG'],
+                    datasets: [{
+                        data: [45, 38, 32, 28, 15],
+                        backgroundColor: [
+                            'rgba(88, 166, 255, 0.8)',
+                            'rgba(35, 134, 54, 0.8)',
+                            'rgba(210, 153, 34, 0.8)',
+                            'rgba(248, 81, 73, 0.8)',
+                            'rgba(137, 87, 229, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(88, 166, 255, 1)',
+                            'rgba(35, 134, 54, 1)',
+                            'rgba(210, 153, 34, 1)',
+                            'rgba(248, 81, 73, 1)',
+                            'rgba(137, 87, 229, 1)'
+                        ],
+                        borderWidth: 2,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '60%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#8b949e',
+                                font: {
+                                    size: 12
+                                },
+                                padding: 15
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: '#161b22',
+                            titleColor: '#58a6ff',
+                            bodyColor: '#c9d1d9',
+                            borderColor: '#30363d',
+                            borderWidth: 1,
+                            callbacks: {
+                                label: function(context) {
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((context.parsed * 100) / total).toFixed(1);
+                                    return `${context.label}: ${context.parsed} tys. pobrań (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    }
+}
+
+// Particles background
+function initParticles() {
+    if (typeof particlesJS !== 'undefined') {
+        particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 50,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: '#58a6ff'
+                },
+                shape: {
+                    type: 'circle',
+                    stroke: {
+                        width: 0,
+                        color: '#000000'
+                    }
+                },
+                opacity: {
+                    value: 0.3,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 1,
+                        opacity_min: 0.1,
+                        sync: false
+                    }
+                },
+                size: {
+                    value: 2,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 2,
+                        size_min: 0.1,
+                        sync: false
+                    }
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#58a6ff',
+                    opacity: 0.2,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 1,
+                    direction: 'none',
+                    random: true,
+                    straight: false,
+                    out_mode: 'out',
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: 'repulse'
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: 'push'
+                    },
+                    resize: true
+                },
+                modes: {
+                    repulse: {
+                        distance: 100,
+                        duration: 0.4
+                    },
+                    push: {
+                        particles_nb: 4
+                    }
+                }
+            },
+            retina_detect: true
+        });
+    }
+}
+
+// Plugin rating system
+function initRatings() {
+    document.querySelectorAll('.rating-stars').forEach(ratingContainer => {
+        const stars = ratingContainer.querySelectorAll('.star');
+        const pluginId = ratingContainer.closest('.plugin-rating').dataset.plugin;
+        const storageKey = `plugin_rating_${pluginId}`;
+        
+        // Load user rating
+        const userRating = localStorage.getItem(storageKey);
+        if (userRating) {
+            highlightStars(stars, parseInt(userRating));
+        }
+        
+        stars.forEach((star, index) => {
+            star.addEventListener('click', () => {
+                const rating = index + 1;
+                localStorage.setItem(storageKey, rating);
+                highlightStars(stars, rating);
+                
+                // Show feedback
+                showRatingFeedback(ratingContainer, rating);
+            });
+            
+            star.addEventListener('mouseenter', () => {
+                highlightStars(stars, index + 1);
+            });
+        });
+        
+        ratingContainer.addEventListener('mouseleave', () => {
+            const savedRating = localStorage.getItem(storageKey);
+            if (savedRating) {
+                highlightStars(stars, parseInt(savedRating));
+            } else {
+                stars.forEach(star => star.classList.remove('active'));
+            }
+        });
+    });
+}
+
+function highlightStars(stars, rating) {
+    stars.forEach((star, index) => {
+        if (index < rating) {
+            star.classList.add('active');
+        } else {
+            star.classList.remove('active');
+        }
+    });
+}
+
+function showRatingFeedback(container, rating) {
+    const feedback = document.createElement('div');
+    feedback.className = 'rating-feedback';
+    feedback.style.cssText = `
+        position: absolute;
+        background: #238636;
+        color: white;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        margin-top: -30px;
+        margin-left: 0;
+        z-index: 10;
+        animation: fadeInOut 2s ease-in-out;
+    `;
+    feedback.textContent = `Oceniono na ${rating} ⭐`;
+    
+    container.style.position = 'relative';
+    container.appendChild(feedback);
+    
+    setTimeout(() => {
+        if (feedback.parentNode) {
+            feedback.parentNode.removeChild(feedback);
+        }
+    }, 2000);
+}
+
+// Add CSS animation for feedback
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes fadeInOut {
+        0% { opacity: 0; transform: translateY(10px); }
+        20% { opacity: 1; transform: translateY(0); }
+        80% { opacity: 1; transform: translateY(0); }
+        100% { opacity: 0; transform: translateY(-10px); }
+    }
+`;
+document.head.appendChild(style);

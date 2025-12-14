@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0d1117">
+    
+    <title>Porównywarka Tunerów Enigma2 | AIO-IPTV.pl</title>
+    <meta name="description" content="Porównaj tunery satelitarne Enigma2. Znajdź najlepszy dekoder dla swoich potrzeb.">
+    <meta name="author" content="Paweł Pawełek">
+    
+    <link rel="icon" type="image/png" href="pliki/logo.png">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <button onclick="topFunction()" id="topBtn" title="Wróć na górę">⬆️</button>
+
+    <header>
+        <div style="text-align:center; line-height: 1.2;">
+            <img src="https://github.com/OliOli2013/aio-iptv-projekt/raw/main/pliki/logo.png" alt="Logo AIO-IPTV" class="site-logo">
+            <p style="margin: 4px 0 0; font-size: 0.95rem;">Porównywarka Tunerów Enigma2</p>
+        </div>
+        
+        <div class="nav-buttons">
+            <a href="index.html" class="nav-btn">🏠 Strona główna</a>
+            <button id="themeToggle" class="nav-btn" type="button">🌞</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card full-width" data-aos="fade-up">
+            <h2>🔍 Porównywarka Tunerów Enigma2</h2>
+            <p>Wybierz tunery, które chcesz porównać i znajdź najlepszy dekoder dla swoich potrzeb.</p>
+            
+            <div class="comparison-controls">
+                <div class="control-group">
+                    <label for="tuner1-select">Tuner 1:</label>
+                    <select id="tuner1-select" class="tuner-select">
+                        <option value="">Wybierz tuner...</option>
+                        <option value="zgemma-h9s">Zgemma H9S</option>
+                        <option value="zgemma-h92s">Zgemma H9.2S</option>
+                        <option value="vu-uno4k">VU+ Uno 4K</option>
+                        <option value="vu-duo4k">VU+ Duo 4K</option>
+                        <option value="octagon-sf8008">Octagon SF8008</option>
+                        <option value="mutant-hd51">Mutant HD51</option>
+                        <option value="ax-hd61">AX HD61</option>
+                        <option value="dreambox-920">Dreambox 920 Ultra HD</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="tuner2-select">Tuner 2:</label>
+                    <select id="tuner2-select" class="tuner-select">
+                        <option value="">Wybierz tuner...</option>
+                        <option value="zgemma-h9s">Zgemma H9S</option>
+                        <option value="zgemma-h92s">Zgemma H9.2S</option>
+                        <option value="vu-uno4k">VU+ Uno 4K</option>
+                        <option value="vu-duo4k">VU+ Duo 4K</option>
+                        <option value="octagon-sf8008">Octagon SF8008</option>
+                        <option value="mutant-hd51">Mutant HD51</option>
+                        <option value="ax-hd61">AX HD61</option>
+                        <option value="dreambox-920">Dreambox 920 Ultra HD</option>
+                    </select>
+                </div>
+                <button class="nav-btn" onclick="compareTuners()" style="align-self: flex-end;">Porównaj</button>
+            </div>
+            
+            <div id="comparison-result" style="display: none;">
+                <h3>Wynik porównania</h3>
+                <div class="comparison-table-container">
+                    <table class="comparison-table" id="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Cecha</th>
+                                <th id="tuner1-name">Tuner 1</th>
+                                <th id="tuner2-name">Tuner 2</th>
+                            </tr>
+                        </thead>
+                        <tbody id="comparison-tbody">
+                            <!-- Dynamicznie wypełniane -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="comparison-verdict">
+                    <h4>Podsumowanie</h4>
+                    <p id="verdict-text"></p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card full-width" data-aos="fade-up" data-aos-delay="100">
+            <h2>🏆 Ranking Popularności</h2>
+            <p>Najczęściej wybierane tunery przez użytkowników AIO-IPTV</p>
+            
+            <div class="ranking-list">
+                <div class="ranking-item">
+                    <div class="rank-number">1</div>
+                    <div class="rank-info">
+                        <h4>Zgemma H9S / H9.2S</h4>
+                        <p>Bardzo popularny, tani, dobry dla początkujących</p>
+                        <div class="rank-stats">
+                            <span>👥 45% wyborów</span>
+                            <span>💰 200-300 zł</span>
+                        </div>
+                    </div>
+                    <div class="rank-badge popular">Bestseller</div>
+                </div>
+                
+                <div class="ranking-item">
+                    <div class="rank-number">2</div>
+                    <div class="rank-info">
+                        <h4>VU+ Duo 4K</h4>
+                        <p>Wysoka jakość, dual tuner, dla wymagających</p>
+                        <div class="rank-stats">
+                            <span>👥 25% wyborów</span>
+                            <span>💰 800-1000 zł</span>
+                        </div>
+                    </div>
+                    <div class="rank-badge premium">Premium</div>
+                </div>
+                
+                <div class="ranking-item">
+                    <div class="rank-number">3</div>
+                    <div class="rank-info">
+                        <h4>Octagon SF8008</h4>
+                        <p>Dobry stosunek jakości do ceny, 4K</p>
+                        <div class="rank-stats">
+                            <span>👥 15% wyborów</span>
+                            <span>💰 400-500 zł</span>
+                        </div>
+                    </div>
+                    <div class="rank-badge recommended">Polecany</div>
+                </div>
+                
+                <div class="ranking-item">
+                    <div class="rank-number">4</div>
+                    <div class="rank-info">
+                        <h4>Mutant HD51</h4>
+                        <p>Stabilny, dobre wsparcie community</p>
+                        <div class="rank-stats">
+                            <span>👥 10% wyborów</span>
+                            <span>💰 350-450 zł</span>
+                        </div>
+                    </div>
+                    <div class="rank-badge solid">Solidny</div>
+                </div>
+                
+                <div class="ranking-item">
+                    <div class="rank-number">5</div>
+                    <div class="rank-info">
+                        <h4>Dreambox 920</h4>
+                        <p>Markowy, wysoka jakość wykonania</p>
+                        <div class="rank-stats">
+                            <span>👥 5% wyborów</span>
+                            <span>💰 1200-1500 zł</span>
+                        </div>
+                    </div>
+                    <div class="rank-badge luxury">Luksus</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card full-width" data-aos="fade-up" data-aos-delay="200">
+            <h2>💡 Porady przy wyborze</h2>
+            
+            <div class="accordion-item">
+                <button class="accordion-header">Dla początkujących</button>
+                <div class="accordion-content">
+                    <p><strong>Polecamy:</strong> Zgemma H9S/H9.2S lub Octagon SF8008</p>
+                    <ul>
+                        <li>✅ Niski koszt wejścia (200-500 zł)</li>
+                        <li>✅ Duża społeczność i wsparcie</li>
+                        <li>✅ Prosta konfiguracja</li>
+                        <li>✅ Dostępne części i serwis</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="accordion-item">
+                <button class="accordion-header">Dla zaawansowanych</button>
+                <div class="accordion-content">
+                    <p><strong>Polecamy:</strong> VU+ Duo 4K lub Dreambox 920</p>
+                    <ul>
+                        <li>✅ Dual tuner (2 satelity naraz)</li>
+                        <li>✅ Więcej pamięci RAM i flash</li>
+                        <li>✅ Lepsza jakość wykonania</li>
+                        <li>✅ Więcej portów (USB, SATA)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="accordion-item">
+                <button class="accordion-header">Na co zwrócić uwagę?</button>
+                <div class="accordion-content">
+                    <p><strong>Najważniejsze parametry:</strong></p>
+                    <ul>
+                        <li><strong>Procesor:</strong> ARM Cortex-A15 (nowsze) vs ARM Cortex-A9 (starsze)</li>
+                        <li><strong>Pamięć:</strong> Min. 1GB RAM, 256MB flash (lepsze 512MB+)</li>
+                        <li><strong>Tunery:</strong> DVB-S2X (nowszy standard), ilość głowic</li>
+                        <li><strong>Porty:</strong> USB 3.0, SATA, HDMI 2.0 (dla 4K)</li>
+                        <li><strong>Wi-Fi:</strong> Dual band (2.4GHz + 5GHz) - opcjonalnie</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 AIO-IPTV.pl | Strona porównująca tunery Enigma2</p>
+        <p>Dane zbierane automatycznie z preferencji użytkowników</p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Tuner comparison data
+        const tunerData = {
+            'zgemma-h9s': {
+                name: 'Zgemma H9S',
+                processor: 'ARM Cortex-A15',
+                ram: '1GB',
+                flash: '256MB',
+                tuners: '1x DVB-S2X',
+                resolution: '4K Ultra HD',
+                ports: '2x USB 2.0, HDMI 2.0',
+                price: '200-250 zł',
+                difficulty: 'Łatwy',
+                community: 'Duża',
+                image: 'OpenATV, OpenPLi',
+                rating: '⭐⭐⭐⭐'
+            },
+            'zgemma-h92s': {
+                name: 'Zgemma H9.2S',
+                processor: 'ARM Cortex-A15',
+                ram: '1GB',
+                flash: '256MB',
+                tuners: '1x DVB-S2X',
+                resolution: '4K Ultra HD',
+                ports: '2x USB 2.0, HDMI 2.0',
+                price: '250-300 zł',
+                difficulty: 'Łatwy',
+                community: 'Duża',
+                image: 'OpenATV, OpenPLi',
+                rating: '⭐⭐⭐⭐'
+            },
+            'vu-uno4k': {
+                name: 'VU+ Uno 4K',
+                processor: 'ARM Cortex-A15',
+                ram: '2GB',
+                flash: '1GB',
+                tuners: '1x DVB-S2X',
+                resolution: '4K Ultra HD',
+                ports: '3x USB 3.0, HDMI 2.0, SATA',
+                price: '600-700 zł',
+                difficulty: 'Średni',
+                community: 'Duża',
+                image: 'OpenPLi, OpenATV',
+                rating: '⭐⭐⭐⭐⭐'
+            },
+            'vu-duo4k': {
+                name: 'VU+ Duo 4K',
+                processor: 'ARM Cortex-A15',
+                ram: '4GB',
+                flash: '1GB',
+                tuners: '2x DVB-S2X',
+                resolution: '4K Ultra HD',
+                ports: '3x USB 3.0, HDMI 2.0, SATA',
+                price: '800-1000 zł',
+                difficulty: 'Średni',
+                community: 'Duża',
+                image: 'OpenPLi, OpenATV',
+                rating: '⭐⭐⭐⭐⭐'
+            },
+            'octagon-sf8008': {
+                name: 'Octagon SF8008',
+                processor: 'ARM Cortex-A15',
+                ram: '2GB',
+                flash: '512MB',
+                tuners: '1x DVB-S2X',
+                resolution: '4K Ultra HD',
+                ports: '2x USB 2.0, 1x USB 3.0, HDMI 2.0',
+                price: '400-500 zł',
+                difficulty: 'Łatwy',
+                community: 'Średnia',
+                image: 'OpenATV, OpenPLi',
+                rating: '⭐⭐⭐⭐'
+            },
+            'mutant-hd51': {
+                name: 'Mutant HD51',
+                processor: 'ARM Cortex-A15',
+                ram: '2GB',
+                flash: '512MB',
+                tuners: '1x DVB-S2X',
+                resolution: '4K Ultra HD',
+                ports: '2x USB 2.0, 1x USB 3.0, HDMI 2.0',
+                price: '350-450 zł',
+                difficulty: 'Łatwy',
+                community: 'Średnia',
+                image: 'OpenATV, OpenPLi',
+                rating: '⭐⭐⭐⭐'
+            },
+            'ax-hd61': {
+                name: 'AX HD61',
+                processor: 'ARM Cortex-A15',
+                ram: '2GB',
+                flash: '512MB',
+                tuners: '1x DVB-S2X',
+                resolution: '4K Ultra HD',
+                ports: '2x USB 2.0, 1x USB 3.0, HDMI 2.0',
+                price: '400-500 zł',
+                difficulty: 'Łatwy',
+                community: 'Mała',
+                image: 'OpenATV',
+                rating: '⭐⭐⭐'
+            },
+            'dreambox-920': {
+                name: 'Dreambox 920 Ultra HD',
+                processor: 'ARM Cortex-A15',
+                ram: '4GB',
+                flash: '1GB',
+                tuners: '2x DVB-S2X',
+                resolution: '4K Ultra HD',
+                ports: '3x USB 3.0, HDMI 2.0, SATA',
+                price: '1200-1500 zł',
+                difficulty: 'Trudny',
+                community: 'Średnia',
+                image: 'Dreambox OS',
+                rating: '⭐⭐⭐⭐⭐'
+            }
+        };
+
+        function compareTuners() {
+            const tuner1 = document.getElementById('tuner1-select').value;
+            const tuner2 = document.getElementById('tuner2-select').value;
+            
+            if (!tuner1 || !tuner2) {
+                alert('Wybierz oba tunery do porównania!');
+                return;
+            }
+            
+            if (tuner1 === tuner2) {
+                alert('Wybierz dwa różne tunery!');
+                return;
+            }
+            
+            const data1 = tunerData[tuner1];
+            const data2 = tunerData[tuner2];
+            
+            document.getElementById('tuner1-name').textContent = data1.name;
+            document.getElementById('tuner2-name').textContent = data2.name;
+            
+            const tbody = document.getElementById('comparison-tbody');
+            tbody.innerHTML = '';
+            
+            const features = [
+                { key: 'processor', label: 'Procesor' },
+                { key: 'ram', label: 'Pamięć RAM' },
+                { key: 'flash', label: 'Pamięć flash' },
+                { key: 'tuners', label: 'Tunery' },
+                { key: 'resolution', label: 'Rozdzielczość' },
+                { key: 'ports', label: 'Porty' },
+                { key: 'price', label: 'Cena' },
+                { key: 'difficulty', label: 'Trudność konfiguracji' },
+                { key: 'community', label: 'Wsparcie społeczności' },
+                { key: 'image', label: 'Dostępne image' },
+                { key: 'rating', label: 'Ocena' }
+            ];
+            
+            features.forEach(feature => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>${feature.label}</strong></td>
+                    <td>${data1[feature.key]}</td>
+                    <td>${data2[feature.key]}</td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            // Generate verdict
+            const verdict = generateVerdict(data1, data2);
+            document.getElementById('verdict-text').textContent = verdict;
+            
+            document.getElementById('comparison-result').style.display = 'block';
+            document.getElementById('comparison-result').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function generateVerdict(data1, data2) {
+            let verdict = '';
+            
+            // Price comparison
+            const price1 = parseInt(data1.price.match(/\d+/)[0]);
+            const price2 = parseInt(data2.price.match(/\d+/)[0]);
+            
+            if (price1 < price2) {
+                verdict += `${data1.name} jest tańszy o ${price2 - price1} zł. `;
+            } else if (price2 < price1) {
+                verdict += `${data2.name} jest tańszy o ${price1 - price2} zł. `;
+            }
+            
+            // RAM comparison
+            const ram1 = parseInt(data1.ram);
+            const ram2 = parseInt(data2.ram);
+            
+            if (ram1 > ram2) {
+                verdict += `${data1.name} ma więcej pamięci RAM (${ram1}GB vs ${ram2}GB). `;
+            } else if (ram2 > ram1) {
+                verdict += `${data2.name} ma więcej pamięci RAM (${ram2}GB vs ${ram1}GB). `;
+            }
+            
+            // Tuners comparison
+            const tuners1 = (data1.tuners.match(/\d+/g) || [1]).reduce((a, b) => parseInt(a) + parseInt(b), 0);
+            const tuners2 = (data2.tuners.match(/\d+/g) || [1]).reduce((a, b) => parseInt(a) + parseInt(b), 0);
+            
+            if (tuners1 > tuners2) {
+                verdict += `${data1.name} ma więcej tunerów (${tuners1} vs ${tuners2}). `;
+            } else if (tuners2 > tuners1) {
+                verdict += `${data2.name} ma więcej tunerów (${tuners2} vs ${tuners1}). `;
+            }
+            
+            // Community support
+            if (data1.community === 'Duża' && data2.community !== 'Duża') {
+                verdict += `${data1.name} ma większe wsparcie społeczności. `;
+            } else if (data2.community === 'Duża' && data1.community !== 'Duża') {
+                verdict += `${data2.name} ma większe wsparcie społeczności. `;
+            }
+            
+            return verdict.trim() || 'Oba tunery są bardzo podobne - wybierz według preferencji.';
+        }
+
+        // Initialize AOS
+        AOS.init();
+    </script>
+</body>
+</html>

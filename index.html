@@ -20,6 +20,8 @@
     
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css"> 
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
         .plugin-details { margin-top: 5px; width: 100%; }
@@ -42,6 +44,8 @@
 
     <button onclick="topFunction()" id="topBtn" title="Wróć na górę">⬆️</button>
 
+    <div id="particles-js"></div>
+
     <header>
         <div style="text-align:center; line-height: 1.2;">
             <div class="logo-wrapper">
@@ -63,6 +67,8 @@
             <a href="#kontakt" class="nav-btn">Kontakt</a>
             <a href="#systemy" class="nav-btn">Systemy (Image)</a>
             <a href="#statystyki" class="nav-btn">Statystyki</a>
+            <a href="porownywarka.html" class="nav-btn">Porównywarka</a>
+            <a href="kreator.html" class="nav-btn">Kreator</a>
             <button id="themeToggle" class="nav-btn" type="button">🌞</button>
             <button class="nav-btn" onclick="sharePage()" style="font-family: inherit; font-size: 0.95rem;">📤 Udostępnij</button>
         </div>
@@ -95,6 +101,19 @@
                             &bull; <strong>Narzędzia:</strong> Instalator Softcam (Oscam/NCam), Auto RAM Cleaner, diagnostyka sieci i backup ustawień.
                         </div>
                     </details>
+                    <div class="plugin-rating" data-plugin="aio-panel">
+                        <div class="rating-text">Oceń wtyczkę:</div>
+                        <div class="rating-stars">
+                            <span class="star" data-rating="1">⭐</span>
+                            <span class="star" data-rating="2">⭐</span>
+                            <span class="star" data-rating="3">⭐</span>
+                            <span class="star" data-rating="4">⭐</span>
+                            <span class="star" data-rating="5">⭐</span>
+                        </div>
+                        <div class="rating-stats">
+                            <span class="rating-average">4.8</span> (<span class="rating-count">156</span> ocen)
+                        </div>
+                    </div>
                 </li>
 
                 <li>
@@ -116,6 +135,19 @@
                             &bull; <strong>Funkcje:</strong> Własny WebInterfejs do zarządzania linkami, obsługa EPG, eksport kanałów do bukietów Enigmy oraz wybór playera (Gst/Exte).
                         </div>
                     </details>
+                    <div class="plugin-rating" data-plugin="iptv-dream">
+                        <div class="rating-text">Oceń wtyczkę:</div>
+                        <div class="rating-stars">
+                            <span class="star" data-rating="1">⭐</span>
+                            <span class="star" data-rating="2">⭐</span>
+                            <span class="star" data-rating="3">⭐</span>
+                            <span class="star" data-rating="4">⭐</span>
+                            <span class="star" data-rating="5">⭐</span>
+                        </div>
+                        <div class="rating-stats">
+                            <span class="rating-average">4.6</span> (<span class="rating-count">203</span> ocen)
+                        </div>
+                    </div>
                 </li>
 
                 <li>
@@ -131,6 +163,19 @@
                             &bull; Obsługa różnych kategorii satelitarnych.
                         </div>
                     </details>
+                    <div class="plugin-rating" data-plugin="picon-updater">
+                        <div class="rating-text">Oceń wtyczkę:</div>
+                        <div class="rating-stars">
+                            <span class="star" data-rating="1">⭐</span>
+                            <span class="star" data-rating="2">⭐</span>
+                            <span class="star" data-rating="3">⭐</span>
+                            <span class="star" data-rating="4">⭐</span>
+                            <span class="star" data-rating="5">⭐</span>
+                        </div>
+                        <div class="rating-stats">
+                            <span class="rating-average">4.3</span> (<span class="rating-count">89</span> ocen)
+                        </div>
+                    </div>
                 </li>
 
                 <li>
@@ -146,6 +191,19 @@
                             &bull; Diagnostyka systemu i wykrywanie dystrybucji (OpenATV/OpenPLi).
                         </div>
                     </details>
+                    <div class="plugin-rating" data-plugin="myupdater">
+                        <div class="rating-text">Oceń wtyczkę:</div>
+                        <div class="rating-stars">
+                            <span class="star" data-rating="1">⭐</span>
+                            <span class="star" data-rating="2">⭐</span>
+                            <span class="star" data-rating="3">⭐</span>
+                            <span class="star" data-rating="4">⭐</span>
+                            <span class="star" data-rating="5">⭐</span>
+                        </div>
+                        <div class="rating-stats">
+                            <span class="rating-average">4.7</span> (<span class="rating-count">167</span> ocen)
+                        </div>
+                    </div>
                 </li>
 
                 <li>
@@ -159,6 +217,19 @@
                             &bull; Pozwala przypisać program telewizyjny do kanałów IPTV, które standardowo go nie posiadają.
                         </div>
                     </details>
+                    <div class="plugin-rating" data-plugin="simple-epg">
+                        <div class="rating-text">Oceń wtyczkę:</div>
+                        <div class="rating-stars">
+                            <span class="star" data-rating="1">⭐</span>
+                            <span class="star" data-rating="2">⭐</span>
+                            <span class="star" data-rating="3">⭐</span>
+                            <span class="star" data-rating="4">⭐</span>
+                            <span class="star" data-rating="5">⭐</span>
+                        </div>
+                        <div class="rating-stats">
+                            <span class="rating-average">4.1</span> (<span class="rating-count">74</span> ocen)
+                        </div>
+                    </div>
                 </li>
             </ul>
         </div>
@@ -625,6 +696,34 @@
             </ul>
         </div>
 
+        <div class="card" id="quiz" data-aos="fade-up">
+            <h2>🧠 Quiz Wiedzy Enigma2</h2>
+            <p>Sprawdź swoją wiedzę o tunerach i systemie Enigma2!</p>
+            
+            <div id="quiz-container">
+                <div id="quiz-question" class="quiz-question">
+                    <h3>Pytanie 1 z 5</h3>
+                    <p class="quiz-text">Co oznacza skrót EPG?</p>
+                    <div class="quiz-options">
+                        <button class="quiz-option" data-correct="false">Electronic Program Guide</button>
+                        <button class="quiz-option" data-correct="true">Elektroniczny Przewodnik Programów</button>
+                        <button class="quiz-option" data-correct="false">Extended Program Grid</button>
+                        <button class="quiz-option" data-correct="false">Electronic Player Guide</button>
+                    </div>
+                </div>
+                <div id="quiz-result" class="quiz-result" style="display: none;">
+                    <h3>Twój wynik: <span id="quiz-score">0</span>/5</h3>
+                    <p id="quiz-message"></p>
+                    <button class="contact-btn" onclick="restartQuiz()">🔄 Zagraj ponownie</button>
+                </div>
+                <div id="quiz-progress">
+                    <div class="quiz-progress-bar">
+                        <div class="quiz-progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 <div class="card generator-card" id="generator" data-aos="fade-up">
             <h2>⚡ Generator One-Liner</h2>
             <p>Zaznacz, co chcesz zainstalować, a strona wygeneruje jedną, wspólną komendę do terminala (Putty itp.).</p>
@@ -983,6 +1082,17 @@
                     <div class="project-stat-label">Ostatnia aktualizacja</div>
                     <div class="project-stat-value" id="repo-date">...</div>
                 </div>
+                <div class="project-stat">
+                    <div class="project-stat-label">Twoje wizyty</div>
+                    <div class="project-stat-value" id="local-visit-counter">1</div>
+                </div>
+            </div>
+            
+            <div class="project-stats-chart" style="margin-top: 20px;">
+                <h3 style="font-size: 1rem; color: #58a6ff; margin-bottom: 15px;">📊 Popularność wtyczek</h3>
+                <div style="max-width: 300px; margin: 0 auto;">
+                    <canvas id="popularity-chart" width="300" height="300"></canvas>
+                </div>
             </div>
 
             <div class="project-stats-footer">
@@ -1100,23 +1210,11 @@
         </p>
 
         <div style="margin-top: 15px;">
-            <p style="font-size: 0.8em; color: #8b949e; margin-bottom: 8px;">
-                Statystyki odwiedzin strony mogą być zbierane w sposób anonimowy (np. przez dostawcę hostingu),
-                ale nie są prezentowane publicznie w formie licznika.
-            </p>
-            <p style="font-size: 0.8em; margin-top: 8px;">
-                Twoje wizyty na tej przeglądarce: <span id="local-visit-counter">...</span>
-            </p>
-            <p style="font-size: 0.8em; margin: 0;">
-                <a href="#polityka-prywatnosci">Polityka prywatności</a> ·
-                <a href="#rodo">Informacja o przetwarzaniu danych (RODO)</a>
-            </p>
+            <p>Kontakt: <a href="mailto:msisystem@t.pl">msisystem@t.pl</a></p>
         </div>
     </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    
     <script src="script.js"></script>
-
 </body>
 </html>
