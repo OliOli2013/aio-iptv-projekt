@@ -1,5 +1,5 @@
 {
-  "version": "2025-12-15-FULL",
+  "version": "2025-12-15-EXTENDED",
   "count": 147,
   "tuners": [
     {
@@ -7,12 +7,15 @@
       "brand": "Zgemma",
       "model": "H9S",
       "os": "Enigma2",
-      "cpu": "ARM Quad Core 1.6GHz (Hi3798MV200)",
+      "cpu": "ARM Quad Core 1.6GHz",
       "ram": "1GB DDR3",
       "flash": "256MB NAND",
       "tuners": "1x DVB-S2X",
       "resolution": "4K UHD",
-      "ports": "USB 2.0, HDMI 2.0, LAN 100Mbit, MicroSD",
+      "lan": "100 Mbit",
+      "wifi": "Opcjonalne (USB)",
+      "slots": "1x Czytnik kart, Slot MicroSD",
+      "ports": "USB 2.0, HDMI 2.0",
       "price": "ok. 250 zł",
       "image": "OpenATV, OpenPLi",
       "tags": ["Zgemma", "4K", "Tani"]
@@ -22,12 +25,15 @@
       "brand": "Zgemma",
       "model": "H9.2S",
       "os": "Enigma2",
-      "cpu": "ARM Quad Core 1.6GHz (Hi3798MV200)",
+      "cpu": "ARM Quad Core 1.6GHz",
       "ram": "1GB DDR3",
       "flash": "256MB NAND",
       "tuners": "1x DVB-S2X",
       "resolution": "4K UHD",
-      "ports": "USB 2.0, HDMI 2.0, MicroSD",
+      "lan": "100 Mbit",
+      "wifi": "Opcjonalne (USB)",
+      "slots": "1x Czytnik kart, Slot MicroSD",
+      "ports": "USB 2.0, HDMI 2.0",
       "price": "ok. 280 zł",
       "image": "OpenATV, OpenPLi",
       "tags": ["Zgemma", "4K"]
@@ -42,10 +48,31 @@
       "flash": "8GB eMMC",
       "tuners": "2x DVB-S2X (Twin)",
       "resolution": "4K UHD (60fps)",
-      "ports": "USB 3.0, Gigabit LAN, WiFi",
+      "lan": "Gigabit (1000 Mbit)",
+      "wifi": "Wbudowane (Dwie anteny)",
+      "slots": "1x Czytnik kart, Slot MicroSD",
+      "ports": "1x USB 3.0, 1x USB 2.0",
       "price": "ok. 480 zł",
       "image": "OpenATV, DefineOS",
       "tags": ["Octagon", "4K", "Combo"]
+    },
+    {
+      "id": "ustym-4k-pro",
+      "brand": "Ustym",
+      "model": "4K PRO",
+      "os": "Enigma2",
+      "cpu": "Hisilicon Hi3798MV200",
+      "ram": "1GB DDR4",
+      "flash": "8GB eMMC",
+      "tuners": "DVB-S2X + DVB-T2/C",
+      "resolution": "4K UHD",
+      "lan": "Gigabit (1000 Mbit)",
+      "wifi": "Wbudowane (300 Mbit)",
+      "slots": "1x Czytnik kart, Slot MicroSD",
+      "ports": "1x USB 3.0, 1x USB 2.0",
+      "price": "ok. 450 zł",
+      "image": "OpenATV, Denys_OS",
+      "tags": ["Ustym", "4K"]
     },
     {
       "id": "vuplus-zero-4k",
@@ -57,7 +84,10 @@
       "flash": "4GB eMMC",
       "tuners": "1x DVB-S2X",
       "resolution": "4K UHD",
-      "ports": "USB 2.0, HDMI 2.0, CI+",
+      "lan": "100 Mbit",
+      "wifi": "Opcjonalne (USB)",
+      "slots": "1x Czytnik kart, 1x CI+",
+      "ports": "1x USB 2.0, HDMI 2.0",
       "price": "ok. 650 zł",
       "image": "VTi, BlackHole, OpenATV",
       "tags": ["VU+", "4K", "Premium"]
@@ -72,25 +102,13 @@
       "flash": "4GB eMMC",
       "tuners": "FBC DVB-S2X (Twin)",
       "resolution": "4K UHD",
-      "ports": "USB 3.0, HDMI In/Out, 2x CI+, WiFi",
+      "lan": "Gigabit (1000 Mbit)",
+      "wifi": "Wbudowane (Dual Band)",
+      "slots": "1x Czytnik, 2x CI+, Kieszeń HDD",
+      "ports": "2x USB 3.0, HDMI In/Out, BT",
       "price": "ok. 1600 zł",
       "image": "VTi, BlackHole",
       "tags": ["VU+", "4K", "High-End"]
-    },
-    {
-      "id": "ustym-4k-pro",
-      "brand": "Ustym",
-      "model": "4K PRO",
-      "os": "Enigma2",
-      "cpu": "Hisilicon Hi3798MV200",
-      "ram": "1GB DDR4",
-      "flash": "8GB eMMC",
-      "tuners": "DVB-S2X + DVB-T2/C",
-      "resolution": "4K UHD",
-      "ports": "USB 3.0, Gigabit LAN, WiFi",
-      "price": "ok. 450 zł",
-      "image": "OpenATV, Denys_OS",
-      "tags": ["Ustym", "4K"]
     },
     {
       "id": "dreambox-dm920-uhd",
@@ -102,361 +120,31 @@
       "flash": "8GB",
       "tuners": "Dual FBC Tuner",
       "resolution": "4K UHD",
-      "ports": "2x USB 3.0, HDMI 2.0, 2x CI",
+      "lan": "Gigabit (1000 Mbit)",
+      "wifi": "Opcjonalne",
+      "slots": "1x Czytnik, 2x CI, Slot SD",
+      "ports": "2x USB 3.0, HDMI 2.0",
       "price": "ok. 1400 zł",
       "image": "DreamOS, Gemini",
       "tags": ["Dreambox", "Premium"]
     },
     {
-      "id": "vuplus-solo-se-v2",
-      "brand": "VU+",
-      "model": "Solo SE V2",
+      "id": "gigablue-uhd-ue-4k",
+      "brand": "GigaBlue",
+      "model": "UHD UE 4K",
       "os": "Enigma2",
-      "cpu": "Dual Core 1.3GHz",
-      "ram": "1GB",
-      "flash": "512MB",
-      "tuners": "1x DVB-S2 (Wymienny)",
-      "resolution": "Full HD (1080p)",
-      "ports": "USB 2.0, eSATA",
-      "price": "Wycofany",
-      "tags": ["VU+"]
-    },
-    {
-      "id": "vuplus-solo-4k",
-      "brand": "VU+",
-      "model": "Solo 4K",
-      "os": "Enigma2",
-      "cpu": "ARM Dual Core 1.5GHz",
-      "ram": "2GB",
-      "flash": "4GB eMMC",
-      "tuners": "FBC DVB-S2",
-      "resolution": "4K UHD",
-      "ports": "USB 3.0, HDMI 2.0, CI+",
-      "price": "Wycofany / Rynek wtórny",
-      "tags": ["VU+", "4K"]
-    },
-    {
-      "id": "vuplus-uno-4k",
-      "brand": "VU+",
-      "model": "Uno 4K",
-      "os": "Enigma2",
-      "cpu": "ARM Dual Core 1.7GHz",
-      "ram": "2GB",
-      "flash": "4GB",
-      "tuners": "FBC DVB-S2",
-      "resolution": "4K UHD",
-      "ports": "USB 3.0, Gigabit LAN",
-      "price": "Wycofany",
-      "tags": ["VU+", "4K"]
-    },
-    {
-      "id": "vuplus-uno-4k-se",
-      "brand": "VU+",
-      "model": "Uno 4K SE",
-      "os": "Enigma2",
-      "cpu": "ARM Dual Core 1.7GHz",
+      "cpu": "ARM Quad Core 12K DMIPS",
       "ram": "2GB DDR4",
       "flash": "4GB eMMC",
-      "tuners": "FBC DVB-S2X",
+      "tuners": "FBC DVB-S2X (Twin)",
       "resolution": "4K UHD",
-      "ports": "USB 3.0, HDMI In/Out, Wyświetlacz LCD",
-      "price": "ok. 1100 zł",
-      "tags": ["VU+", "4K"]
-    },
-    {
-      "id": "vuplus-duo-2",
-      "brand": "VU+",
-      "model": "Duo 2",
-      "os": "Enigma2",
-      "cpu": "Dual Core 1.3GHz",
-      "ram": "2GB",
-      "flash": "1GB",
-      "tuners": "Do 4 głowic (Wymienne)",
-      "resolution": "Full HD (1080p)",
-      "ports": "Transcoding, LCD",
-      "price": "Wycofany",
-      "tags": ["VU+"]
-    },
-    {
-      "id": "vuplus-duo-4k",
-      "brand": "VU+",
-      "model": "Duo 4K",
-      "os": "Enigma2",
-      "cpu": "ARM Quad Core 2.1GHz",
-      "ram": "4GB LPDDR4",
-      "flash": "4GB eMMC",
-      "tuners": "FBC DVB-S2X",
-      "resolution": "4K UHD",
-      "ports": "USB 3.0, WiFi, BT",
-      "price": "Wycofany (Zastąpiony SE)",
-      "tags": ["VU+", "4K"]
-    },
-    {
-      "id": "vuplus-ultimo-4k",
-      "brand": "VU+",
-      "model": "Ultimo 4K",
-      "os": "Enigma2",
-      "cpu": "ARM Quad Core 1.5GHz",
-      "ram": "3GB",
-      "flash": "4GB",
-      "tuners": "3 sloty na głowice (FBC)",
-      "resolution": "4K UHD",
-      "ports": "USB 3.0, WiFi, BT, 4-calowy LCD",
-      "price": "ok. 2000 zł (Rynek wtórny)",
-      "tags": ["VU+", "4K"]
-    },
-    {
-      "id": "vuplus-zero",
-      "brand": "VU+",
-      "model": "Zero",
-      "os": "Enigma2",
-      "cpu": "Mips 742MHz",
-      "ram": "512MB",
-      "flash": "256MB",
-      "tuners": "1x DVB-S2",
-      "resolution": "Full HD (1080p)",
-      "ports": "USB 2.0, LAN 100Mbit",
-      "price": "ok. 400 zł (Nowe), 200 zł (Używ.)",
-      "tags": ["VU+"]
-    },
-    {
-      "id": "vuplus-solo-2",
-      "brand": "VU+",
-      "model": "Solo 2",
-      "os": "Enigma2",
-      "cpu": "Dual Core 1.3GHz",
-      "ram": "1GB",
-      "flash": "256MB",
-      "tuners": "2x DVB-S2",
-      "resolution": "Full HD (1080p)",
-      "ports": "USB 2.0, Gigabit LAN",
-      "price": "Wycofany",
-      "tags": ["VU+"]
-    },
-    {
-      "id": "vuplus-uno",
-      "brand": "VU+",
-      "model": "Uno",
-      "os": "Enigma2",
-      "cpu": "Mips 400MHz",
-      "ram": "512MB",
-      "flash": "128MB",
-      "tuners": "1x DVB-S2",
-      "resolution": "Full HD",
-      "price": "Wycofany / Retro",
-      "tags": ["VU+"]
-    },
-    {
-      "id": "octagon-sf8008-supreme-4k",
-      "brand": "Octagon",
-      "model": "SF8008 Supreme 4K",
-      "os": "Enigma2",
-      "cpu": "Hisilicon Hi3798MV200",
-      "ram": "1GB DDR4",
-      "flash": "8GB eMMC",
-      "tuners": "2x DVB-S2X (Twin)",
-      "resolution": "4K UHD",
-      "ports": "M.2 Slot (Dysk), WiFi, BT",
-      "price": "ok. 550 zł",
-      "tags": ["Octagon", "4K"]
-    },
-    {
-      "id": "octagon-sf4008-4k",
-      "brand": "Octagon",
-      "model": "SF4008 4K",
-      "os": "Enigma2",
-      "cpu": "Broadcom BCM 7251S",
-      "ram": "1GB",
-      "flash": "4GB",
-      "tuners": "2x DVB-S2X",
-      "resolution": "4K UHD",
-      "ports": "USB 3.0",
-      "price": "Wycofany",
-      "tags": ["Octagon", "4K"]
-    },
-    {
-      "id": "octagon-sf1008p",
-      "brand": "Octagon",
-      "model": "SF1008P",
-      "os": "Linux (Legacy)",
-      "cpu": "STi 7100",
-      "ram": "—",
-      "flash": "—",
-      "tuners": "DVB-S2",
-      "resolution": "Full HD",
-      "price": "Wycofany",
-      "tags": ["Octagon"]
-    },
-    {
-      "id": "octagon-sx88-v2-4k",
-      "brand": "Octagon",
-      "model": "SX88 V2 4K",
-      "os": "Define OS (Linux)",
-      "cpu": "Hisilicon 64bit",
-      "ram": "1GB",
-      "flash": "4GB",
-      "tuners": "DVB-S2",
-      "resolution": "4K UHD",
-      "price": "ok. 300 zł",
-      "tags": ["Octagon", "4K"]
-    },
-    {
-      "id": "octagon-sx888-4k",
-      "brand": "Octagon",
-      "model": "SX888 4K",
-      "os": "Define OS",
-      "cpu": "Hisilicon Quad",
-      "ram": "1GB",
-      "flash": "4GB",
-      "tuners": "IP Only (Bez głowicy)",
-      "resolution": "4K UHD",
-      "price": "ok. 250 zł",
-      "tags": ["Octagon", "4K"]
-    },
-    {
-      "id": "ustym-4k-s2-ott-x",
-      "brand": "Ustym",
-      "model": "4K S2 OTT X",
-      "os": "Enigma2 / Denys",
-      "cpu": "Quad Core Hi3798MV200",
-      "ram": "1GB",
-      "flash": "4GB",
-      "tuners": "DVB-S2X",
-      "resolution": "4K UHD",
-      "price": "ok. 350 zł",
-      "tags": ["Ustym", "4K"]
-    },
-    {
-      "id": "ustym-4k-s2-ott",
-      "brand": "Ustym",
-      "model": "4K S2 OTT",
-      "os": "Enigma2",
-      "cpu": "Hi3798MV200",
-      "ram": "1GB",
-      "flash": "4GB",
-      "tuners": "DVB-S2X",
-      "resolution": "4K UHD",
-      "price": "ok. 320 zł",
-      "tags": ["Ustym", "4K"]
-    },
-    {
-      "id": "ustym-4k-ott",
-      "brand": "Ustym",
-      "model": "4K OTT",
-      "os": "Enigma2 / Denys",
-      "cpu": "Hi3798MV200",
-      "ram": "1GB",
-      "flash": "4GB",
-      "tuners": "Brak (IPTV Box)",
-      "resolution": "4K UHD",
-      "price": "ok. 280 zł",
-      "tags": ["Ustym", "4K"]
-    },
-    {
-      "id": "ustym-4k-s2-twin",
-      "brand": "Ustym",
-      "model": "4K S2 Twin",
-      "os": "Enigma2",
-      "cpu": "Hi3798MV200",
-      "ram": "1GB",
-      "flash": "8GB",
-      "tuners": "2x DVB-S2X",
-      "resolution": "4K UHD",
-      "price": "ok. 450 zł",
-      "tags": ["Ustym", "4K"]
-    },
-    {
-      "id": "ustym-4k-single",
-      "brand": "Ustym",
-      "model": "4K Single",
-      "os": "Enigma2",
-      "cpu": "Hi3798MV200",
-      "ram": "1GB",
-      "flash": "4GB",
-      "tuners": "DVB-S2X",
-      "resolution": "4K UHD",
-      "price": "ok. 350 zł",
-      "tags": ["Ustym", "4K"]
-    },
-    {
-      "id": "ustym-4k-combo",
-      "brand": "Ustym",
-      "model": "4K Combo",
-      "os": "Enigma2",
-      "cpu": "Hi3798MV200",
-      "ram": "1GB",
-      "flash": "8GB",
-      "tuners": "DVB-S2X + DVB-T2/C",
-      "resolution": "4K UHD",
-      "price": "ok. 420 zł",
-      "tags": ["Ustym", "4K"]
-    },
-    {
-      "id": "ustym-hd-s2-twin",
-      "brand": "Ustym",
-      "model": "HD S2 Twin",
-      "os": "Linux (Zamknięty)",
-      "cpu": "GX6628",
-      "ram": "256MB",
-      "flash": "128MB",
-      "tuners": "2x DVB-S2",
-      "resolution": "Full HD",
-      "price": "ok. 200 zł",
-      "tags": ["Ustym", "HD"]
-    },
-    {
-      "id": "zgemma-h9-combo",
-      "brand": "Zgemma",
-      "model": "H9 Combo",
-      "os": "Enigma2",
-      "cpu": "Hi3798MV200",
-      "ram": "1GB",
-      "flash": "8GB eMMC",
-      "tuners": "DVB-S2X + DVB-T2",
-      "resolution": "4K UHD",
-      "ports": "CI Slot",
-      "price": "ok. 400 zł (Trudno dostępny)",
-      "tags": ["Zgemma"]
-    },
-    {
-      "id": "zgemma-h9-twin",
-      "brand": "Zgemma",
-      "model": "H9 Twin",
-      "os": "Enigma2",
-      "cpu": "Hi3798MV200",
-      "ram": "1GB",
-      "flash": "8GB eMMC",
-      "tuners": "2x DVB-S2X",
-      "resolution": "4K UHD",
-      "ports": "2x CI",
-      "price": "ok. 450 zł",
-      "tags": ["Zgemma"]
-    },
-    {
-      "id": "zgemma-h9-2h",
-      "brand": "Zgemma",
-      "model": "H9.2H",
-      "os": "Enigma2",
-      "cpu": "Hi3798MV200",
-      "ram": "1GB",
-      "flash": "256MB NAND",
-      "tuners": "DVB-S2X + DVB-T2",
-      "resolution": "4K UHD",
-      "price": "ok. 280 zł",
-      "tags": ["Zgemma"]
-    },
-    {
-      "id": "zgemma-h11s",
-      "brand": "Zgemma",
-      "model": "H11S",
-      "os": "Enigma2",
-      "cpu": "ARM Quad Core (Nowszy)",
-      "ram": "1GB",
-      "flash": "16GB",
-      "tuners": "DVB-S2X",
-      "resolution": "4K UHD",
-      "price": "ok. 300 zł",
-      "tags": ["Zgemma"]
+      "lan": "Gigabit (1000 Mbit)",
+      "wifi": "Opcjonalne",
+      "slots": "1x Czytnik, 1x CI+, LCD 2.2\"",
+      "ports": "3x USB, HDMI In/Out",
+      "price": "ok. 900 zł",
+      "image": "TeamBlue, OpenATV",
+      "tags": ["GigaBlue", "4K"]
     },
     {
       "id": "zgemma-h7s",
@@ -466,10 +154,260 @@
       "cpu": "BCM7251S Dual Core",
       "ram": "1GB",
       "flash": "4GB",
-      "tuners": "2x DVB-S2X + 1x DVB-T2",
+      "tuners": "2x S2X + 1x T2/C (Triple)",
       "resolution": "4K UHD",
-      "ports": "USB 3.0, CI",
+      "lan": "Gigabit (1000 Mbit)",
+      "wifi": "Opcjonalne",
+      "slots": "1x Czytnik, 1x CI, HDD Sata",
+      "ports": "1x USB 3.0, 2x USB 2.0",
       "price": "ok. 650 zł",
+      "tags": ["Zgemma"]
+    },
+     {
+      "id": "zgemma-h11s",
+      "brand": "Zgemma",
+      "model": "H11S",
+      "os": "Enigma2",
+      "cpu": "ARM Quad Core",
+      "ram": "1GB",
+      "flash": "16GB",
+      "tuners": "1x DVB-S2X",
+      "resolution": "4K UHD",
+      "lan": "100 Mbit",
+      "wifi": "Brak",
+      "slots": "1x Czytnik kart",
+      "ports": "USB 2.0",
+      "price": "ok. 300 zł",
+      "tags": ["Zgemma"]
+    },
+    {
+      "id": "abcom-pulsar-4k",
+      "brand": "ABCOM",
+      "model": "Pulsar 4K",
+      "os": "Enigma2",
+      "cpu": "Quad Core 15.000 DMIPS",
+      "ram": "1GB DDR4",
+      "flash": "8GB",
+      "tuners": "1x DVB-S2X",
+      "resolution": "4K UHD",
+      "lan": "100 Mbit",
+      "wifi": "Slot na kartę SD",
+      "slots": "1x Czytnik, 1x CI",
+      "ports": "USB 2.0, IR",
+      "price": "ok. 400 zł",
+      "tags": ["ABCOM", "4K"]
+    },
+    {
+        "id": "dreambox-dreambox-two",
+        "brand": "Dreambox",
+        "model": "Two Ultra HD",
+        "os": "DreamOS",
+        "cpu": "6-Core Amlogic",
+        "ram": "2GB",
+        "flash": "16GB",
+        "tuners": "Twin DVB-S2X",
+        "resolution": "4K UHD",
+        "lan": "Gigabit",
+        "wifi": "Wbudowane (Dual Band)",
+        "slots": "1x Czytnik, 1x CI, Kolorowy LCD",
+        "ports": "USB 3.0, BT 5.0",
+        "price": "ok. 1450 zł",
+        "tags": ["Dreambox"]
+    },
+    {
+      "id": "vuplus-solo-se-v2",
+      "brand": "VU+",
+      "model": "Solo SE V2",
+      "os": "Enigma2",
+      "tags": ["VU+"]
+    },
+    {
+      "id": "vuplus-solo-4k",
+      "brand": "VU+",
+      "model": "Solo 4K",
+      "os": "Enigma2",
+      "tags": ["VU+"]
+    },
+    {
+      "id": "vuplus-uno-4k",
+      "brand": "VU+",
+      "model": "Uno 4K",
+      "os": "Enigma2",
+      "tags": ["VU+"]
+    },
+    {
+      "id": "vuplus-uno-4k-se",
+      "brand": "VU+",
+      "model": "Uno 4K SE",
+      "os": "Enigma2",
+      "tags": ["VU+"]
+    },
+    {
+      "id": "vuplus-duo-2",
+      "brand": "VU+",
+      "model": "Duo 2",
+      "os": "Enigma2",
+      "tags": ["VU+"]
+    },
+    {
+      "id": "vuplus-duo-4k",
+      "brand": "VU+",
+      "model": "Duo 4K",
+      "os": "Enigma2",
+      "tags": ["VU+"]
+    },
+    {
+      "id": "vuplus-ultimo-4k",
+      "brand": "VU+",
+      "model": "Ultimo 4K",
+      "os": "Enigma2",
+      "tags": ["VU+"]
+    },
+    {
+      "id": "vuplus-zero",
+      "brand": "VU+",
+      "model": "Zero",
+      "os": "Enigma2",
+      "tags": ["VU+"]
+    },
+    {
+      "id": "vuplus-solo-2",
+      "brand": "VU+",
+      "model": "Solo 2",
+      "os": "Enigma2",
+      "tags": ["VU+"]
+    },
+    {
+      "id": "vuplus-uno",
+      "brand": "VU+",
+      "model": "Uno",
+      "os": "Enigma2",
+      "tags": ["VU+"]
+    },
+    {
+      "id": "octagon-sf8008-supreme-4k",
+      "brand": "Octagon",
+      "model": "SF8008 Supreme 4K",
+      "os": "Enigma2",
+      "tags": ["Octagon", "4K"]
+    },
+    {
+      "id": "octagon-sf4008-4k",
+      "brand": "Octagon",
+      "model": "SF4008 4K",
+      "os": "Enigma2",
+      "tags": ["Octagon", "4K"]
+    },
+    {
+      "id": "octagon-sf1008p",
+      "brand": "Octagon",
+      "model": "SF1008P",
+      "os": "Enigma2",
+      "tags": ["Octagon"]
+    },
+    {
+      "id": "octagon-sx88-v2-4k",
+      "brand": "Octagon",
+      "model": "SX88 V2 4K",
+      "os": "Enigma2",
+      "tags": ["Octagon", "4K"]
+    },
+    {
+      "id": "octagon-sx888-4k",
+      "brand": "Octagon",
+      "model": "SX888 4K",
+      "os": "Enigma2",
+      "tags": ["Octagon", "4K"]
+    },
+    {
+      "id": "octagon-sf2008",
+      "brand": "Octagon",
+      "model": "SF2008",
+      "os": "Enigma2",
+      "tags": ["Octagon"]
+    },
+    {
+      "id": "octagon-sf5008",
+      "brand": "Octagon",
+      "model": "SF5008",
+      "os": "Enigma2",
+      "tags": ["Octagon"]
+    },
+    {
+      "id": "ustym-4k-s2-ott-x",
+      "brand": "Ustym",
+      "model": "4K S2 OTT X",
+      "os": "Enigma2",
+      "tags": ["Ustym", "4K"]
+    },
+    {
+      "id": "ustym-4k-s2-ott",
+      "brand": "Ustym",
+      "model": "4K S2 OTT",
+      "os": "Enigma2",
+      "tags": ["Ustym", "4K"]
+    },
+    {
+      "id": "ustym-4k-ott",
+      "brand": "Ustym",
+      "model": "4K OTT",
+      "os": "Enigma2",
+      "tags": ["Ustym", "4K"]
+    },
+    {
+      "id": "ustym-4k-s2-twin",
+      "brand": "Ustym",
+      "model": "4K S2 Twin",
+      "os": "Enigma2",
+      "tags": ["Ustym", "4K"]
+    },
+    {
+      "id": "ustym-4k-single",
+      "brand": "Ustym",
+      "model": "4K Single",
+      "os": "Enigma2",
+      "tags": ["Ustym", "4K"]
+    },
+    {
+      "id": "ustym-4k-combo",
+      "brand": "Ustym",
+      "model": "4K Combo",
+      "os": "Enigma2",
+      "tags": ["Ustym", "4K"]
+    },
+    {
+      "id": "ustym-hd-s2-twin",
+      "brand": "Ustym",
+      "model": "HD S2 Twin",
+      "os": "Enigma2",
+      "tags": ["Ustym", "HD"]
+    },
+    {
+      "id": "ustym-hd-s2-ott",
+      "brand": "Ustym",
+      "model": "HD S2 OTT",
+      "os": "Enigma2",
+      "tags": ["Ustym", "HD"]
+    },
+    {
+      "id": "zgemma-h9-combo",
+      "brand": "Zgemma",
+      "model": "H9 Combo",
+      "os": "Enigma2",
+      "tags": ["Zgemma"]
+    },
+    {
+      "id": "zgemma-h9-twin",
+      "brand": "Zgemma",
+      "model": "H9 Twin",
+      "os": "Enigma2",
+      "tags": ["Zgemma"]
+    },
+    {
+      "id": "zgemma-h9-2h",
+      "brand": "Zgemma",
+      "model": "H9.2H",
+      "os": "Enigma2",
       "tags": ["Zgemma"]
     },
     {
@@ -477,12 +415,6 @@
       "brand": "Zgemma",
       "model": "H7C",
       "os": "Enigma2",
-      "cpu": "BCM7251S Dual Core",
-      "ram": "1GB",
-      "flash": "4GB",
-      "tuners": "1x DVB-S2X + 2x DVB-T2/C",
-      "resolution": "4K UHD",
-      "price": "ok. 650 zł",
       "tags": ["Zgemma"]
     },
     {
@@ -490,25 +422,20 @@
       "brand": "Zgemma",
       "model": "H8.2H",
       "os": "Enigma2",
-      "cpu": "Cortex A7",
-      "ram": "512MB",
-      "flash": "512MB",
-      "tuners": "DVB-S2 + DVB-T2",
-      "resolution": "Full HD",
-      "price": "ok. 200 zł",
+      "tags": ["Zgemma"]
+    },
+    {
+      "id": "zgemma-h8-2s",
+      "brand": "Zgemma",
+      "model": "H8.2S",
+      "os": "Enigma2",
       "tags": ["Zgemma"]
     },
     {
       "id": "zgemma-h10-2s",
       "brand": "Zgemma",
       "model": "H10.2S",
-      "os": "Enigma2 / Android",
-      "cpu": "Hi3798MV200",
-      "ram": "2GB",
-      "flash": "16GB",
-      "tuners": "2x DVB-S2X",
-      "resolution": "4K UHD",
-      "price": "Wycofany",
+      "os": "Enigma2",
       "tags": ["Zgemma"]
     },
     {
@@ -516,12 +443,6 @@
       "brand": "Zgemma",
       "model": "H2H",
       "os": "Enigma2",
-      "cpu": "BCM7362",
-      "ram": "512MB",
-      "flash": "256MB",
-      "tuners": "DVB-S2 + DVB-T2",
-      "resolution": "Full HD",
-      "price": "Wycofany / Rynek wtórny",
       "tags": ["Zgemma"]
     },
     {
@@ -529,12 +450,6 @@
       "brand": "Zgemma",
       "model": "H2S",
       "os": "Enigma2",
-      "cpu": "BCM7362",
-      "ram": "512MB",
-      "flash": "256MB",
-      "tuners": "2x DVB-S2",
-      "resolution": "Full HD",
-      "price": "Wycofany / Rynek wtórny",
       "tags": ["Zgemma"]
     },
     {
@@ -542,13 +457,6 @@
       "brand": "Mutant",
       "model": "HD51",
       "os": "Enigma2",
-      "cpu": "BCM 7251s (1.7GHz)",
-      "ram": "1GB",
-      "flash": "4GB",
-      "tuners": "2x Wymienne (S2/T2)",
-      "resolution": "4K UHD",
-      "ports": "USB 3.0",
-      "price": "Wycofany / Rynek wtórny",
       "tags": ["Mutant"]
     },
     {
@@ -556,12 +464,6 @@
       "brand": "Mutant",
       "model": "HD60",
       "os": "Enigma2",
-      "cpu": "Hi3798MV200",
-      "ram": "1GB",
-      "flash": "8GB",
-      "tuners": "1x DVB-S2X",
-      "resolution": "4K UHD",
-      "price": "ok. 400 zł",
       "tags": ["Mutant"]
     },
     {
@@ -569,12 +471,6 @@
       "brand": "Mutant",
       "model": "HD66 SE",
       "os": "Enigma2",
-      "cpu": "Hi3798MV200",
-      "ram": "2GB",
-      "flash": "16GB",
-      "tuners": "2x DVB-S2X",
-      "resolution": "4K UHD",
-      "price": "ok. 600 zł",
       "tags": ["Mutant"]
     },
     {
@@ -582,12 +478,13 @@
       "brand": "Mutant",
       "model": "HD2400",
       "os": "Enigma2",
-      "cpu": "BCM 7424 (1.3GHz)",
-      "ram": "2GB",
-      "flash": "1GB",
-      "tuners": "4x Plug&Play",
-      "resolution": "Full HD",
-      "price": "Wycofany",
+      "tags": ["Mutant"]
+    },
+    {
+      "id": "mutant-hd500c",
+      "brand": "Mutant",
+      "model": "HD500C",
+      "os": "Enigma2",
       "tags": ["Mutant"]
     },
     {
@@ -595,13 +492,6 @@
       "brand": "GigaBlue",
       "model": "UHD Quad 4K",
       "os": "Enigma2",
-      "cpu": "BCM7252S",
-      "ram": "2GB DDR4",
-      "flash": "4GB eMMC",
-      "tuners": "FBC DVB-S2X",
-      "resolution": "4K UHD",
-      "ports": "LCD Kolor, HDMI In/Out",
-      "price": "ok. 1300 zł",
       "tags": ["GigaBlue"]
     },
     {
@@ -609,12 +499,20 @@
       "brand": "GigaBlue",
       "model": "UHD X3",
       "os": "Enigma2",
-      "cpu": "Dual Core",
-      "ram": "1GB",
-      "flash": "4GB",
-      "tuners": "FBC S2X",
-      "resolution": "4K UHD",
-      "price": "ok. 500 zł",
+      "tags": ["GigaBlue"]
+    },
+    {
+      "id": "gigablue-hd-x3",
+      "brand": "GigaBlue",
+      "model": "HD X3",
+      "os": "Enigma2",
+      "tags": ["GigaBlue"]
+    },
+    {
+      "id": "gigablue-quad-plus",
+      "brand": "GigaBlue",
+      "model": "Quad Plus",
+      "os": "Enigma2",
       "tags": ["GigaBlue"]
     },
     {
@@ -622,66 +520,48 @@
       "brand": "GigaBlue",
       "model": "IP 4K",
       "os": "Enigma2",
-      "cpu": "Quad Core 64bit",
-      "ram": "1GB",
-      "flash": "4GB",
-      "tuners": "IP Only (Multiroom Client)",
-      "resolution": "4K UHD",
-      "price": "ok. 400 zł",
       "tags": ["GigaBlue"]
     },
     {
       "id": "dreambox-dm520",
       "brand": "Dreambox",
       "model": "DM520",
-      "os": "Dreambox OS",
-      "cpu": "BCM 73625",
-      "ram": "512MB",
-      "flash": "512MB",
-      "tuners": "1x DVB-S2",
-      "resolution": "Full HD (H.265)",
-      "price": "ok. 600 zł",
+      "os": "Enigma2",
+      "tags": ["Dreambox"]
+    },
+    {
+      "id": "dreambox-dm525",
+      "brand": "Dreambox",
+      "model": "DM525",
+      "os": "Enigma2",
       "tags": ["Dreambox"]
     },
     {
       "id": "dreambox-dm900-uhd",
       "brand": "Dreambox",
       "model": "DM900 UHD",
-      "os": "Dreambox OS",
-      "cpu": "Dual Core 12K DMIPS",
-      "ram": "2GB",
-      "flash": "4GB",
-      "tuners": "Dual Plug&Play",
-      "resolution": "4K UHD",
-      "price": "ok. 1300 zł",
+      "os": "Enigma2",
       "tags": ["Dreambox"]
     },
     {
       "id": "dreambox-dreambox-one",
       "brand": "Dreambox",
       "model": "Dreambox One",
-      "os": "Dreambox OS / Android",
-      "cpu": "6-rdzeniowy (Amlogic)",
-      "ram": "2GB",
-      "flash": "16GB",
-      "tuners": "Twin DVB-S2X",
-      "resolution": "4K UHD",
-      "ports": "BT, WiFi, USB 3.0",
-      "price": "ok. 1200 zł",
+      "os": "Enigma2",
       "tags": ["Dreambox"]
     },
     {
-      "id": "dreambox-dreambox-two",
+      "id": "dreambox-dm7080-hd",
       "brand": "Dreambox",
-      "model": "Dreambox Two",
-      "os": "Dreambox OS",
-      "cpu": "6-rdzeniowy",
-      "ram": "2GB",
-      "flash": "16GB",
-      "tuners": "Twin DVB-S2X",
-      "resolution": "4K UHD",
-      "ports": "Kolorowy LCD, BT, WiFi",
-      "price": "ok. 1400 zł",
+      "model": "DM7080 HD",
+      "os": "Enigma2",
+      "tags": ["Dreambox"]
+    },
+    {
+      "id": "dreambox-dm7020-hd",
+      "brand": "Dreambox",
+      "model": "DM7020 HD",
+      "os": "Enigma2",
       "tags": ["Dreambox"]
     },
     {
@@ -689,12 +569,6 @@
       "brand": "Edision",
       "model": "OS mini",
       "os": "Enigma2",
-      "cpu": "BCM7362",
-      "ram": "512MB",
-      "flash": "512MB",
-      "tuners": "DVB-S2",
-      "resolution": "Full HD",
-      "price": "Wycofany",
       "tags": ["Edision"]
     },
     {
@@ -702,12 +576,6 @@
       "brand": "Edision",
       "model": "OS mini 4K",
       "os": "Enigma2",
-      "cpu": "Broadcom Dual Core",
-      "ram": "1GB",
-      "flash": "4GB",
-      "tuners": "DVB-S2X",
-      "resolution": "4K UHD",
-      "price": "ok. 450 zł",
       "tags": ["Edision"]
     },
     {
@@ -715,13 +583,48 @@
       "brand": "Edision",
       "model": "OS mio 4K",
       "os": "Enigma2",
-      "cpu": "Broadcom Dual Core",
-      "ram": "2GB",
-      "flash": "8GB",
-      "tuners": "DVB-S2X + T2/C",
-      "resolution": "4K UHD",
-      "ports": "WiFi (wbudowane)",
-      "price": "ok. 650 zł",
+      "tags": ["Edision"]
+    },
+    {
+      "id": "edision-os-mega",
+      "brand": "Edision",
+      "model": "OS mega",
+      "os": "Enigma2",
+      "tags": ["Edision"]
+    },
+    {
+      "id": "edision-os-nino",
+      "brand": "Edision",
+      "model": "OS nino",
+      "os": "Enigma2",
+      "tags": ["Edision"]
+    },
+    {
+      "id": "edision-os-nino-pro",
+      "brand": "Edision",
+      "model": "OS nino pro",
+      "os": "Enigma2",
+      "tags": ["Edision"]
+    },
+    {
+      "id": "edision-os-ninoplus",
+      "brand": "Edision",
+      "model": "OS nino+",
+      "os": "Enigma2",
+      "tags": ["Edision"]
+    },
+    {
+      "id": "edision-os-mioplus",
+      "brand": "Edision",
+      "model": "OS mio+",
+      "os": "Enigma2",
+      "tags": ["Edision"]
+    },
+    {
+      "id": "edision-pingulux",
+      "brand": "Edision",
+      "model": "Pingulux",
+      "os": "Enigma2",
       "tags": ["Edision"]
     },
     {
@@ -729,12 +632,6 @@
       "brand": "AX",
       "model": "AX HD61",
       "os": "Enigma2",
-      "cpu": "Hi3798MV200",
-      "ram": "2GB",
-      "flash": "8GB",
-      "tuners": "2x Slot (S2X/T2)",
-      "resolution": "4K UHD",
-      "price": "ok. 500 zł",
       "tags": ["AX"]
     },
     {
@@ -742,12 +639,20 @@
       "brand": "AX",
       "model": "AX HD60",
       "os": "Enigma2",
-      "cpu": "Hi3798MV200",
-      "ram": "1GB",
-      "flash": "8GB",
-      "tuners": "1x DVB-S2X",
-      "resolution": "4K UHD",
-      "price": "ok. 400 zł",
+      "tags": ["AX"]
+    },
+    {
+      "id": "ax-ax-multibox",
+      "brand": "AX",
+      "model": "AX Multibox",
+      "os": "Enigma2",
+      "tags": ["AX"]
+    },
+    {
+      "id": "ax-ax-uhd-4k-box",
+      "brand": "AX",
+      "model": "AX UHD 4K Box",
+      "os": "Enigma2",
       "tags": ["AX"]
     },
     {
@@ -755,12 +660,6 @@
       "brand": "AX",
       "model": "AX HD51",
       "os": "Enigma2",
-      "cpu": "BCM 7251s",
-      "ram": "1GB",
-      "flash": "4GB",
-      "tuners": "2x Wymienne",
-      "resolution": "4K UHD",
-      "price": "Wycofany",
       "tags": ["AX"]
     },
     {
@@ -768,65 +667,146 @@
       "brand": "Amiko",
       "model": "Viper 4K V40",
       "os": "Enigma2",
-      "cpu": "Hi3798MV200",
-      "ram": "1GB",
-      "flash": "4GB",
-      "tuners": "DVB-S2X",
-      "resolution": "4K UHD",
-      "price": "ok. 300 zł",
+      "tags": ["Amiko"]
+    },
+    {
+      "id": "amiko-viper-4k-v20",
+      "brand": "Amiko",
+      "model": "Viper 4K V20",
+      "os": "Enigma2",
+      "tags": ["Amiko"]
+    },
+    {
+      "id": "amiko-viper-4k-51",
+      "brand": "Amiko",
+      "model": "Viper 4K 51",
+      "os": "Enigma2",
       "tags": ["Amiko"]
     },
     {
       "id": "amiko-alien-2",
       "brand": "Amiko",
       "model": "Alien 2",
-      "os": "Spark / Enigma2 (SH4)",
-      "cpu": "SH4 450MHz",
-      "ram": "256MB",
-      "flash": "512MB",
-      "tuners": "Triple",
-      "resolution": "Full HD",
-      "price": "Zabytek / Retro",
+      "os": "Enigma2",
       "tags": ["Amiko"]
     },
     {
-      "id": "xtrend-et10000",
-      "brand": "Xtrend",
-      "model": "ET10000",
+      "id": "amiko-a4-combo",
+      "brand": "Amiko",
+      "model": "A4 Combo",
       "os": "Enigma2",
-      "cpu": "BCM7424",
-      "ram": "2GB",
-      "flash": "1GB",
-      "tuners": "4x Slot",
-      "resolution": "Full HD",
-      "price": "Wycofany",
+      "tags": ["Amiko"]
+    },
+    {
+      "id": "amiko-a5-combo",
+      "brand": "Amiko",
+      "model": "A5 Combo",
+      "os": "Enigma2",
+      "tags": ["Amiko"]
+    },
+    {
+      "id": "inne-spycat-mini",
+      "brand": "Inne",
+      "model": "Spycat Mini",
+      "os": "Enigma2",
       "tags": []
     },
     {
-      "id": "xtrend-et8500",
-      "brand": "Xtrend",
-      "model": "ET8500",
+      "id": "inne-spycat-one",
+      "brand": "Inne",
+      "model": "Spycat One",
       "os": "Enigma2",
-      "cpu": "BCM7429",
-      "ram": "1GB",
-      "flash": "512MB",
-      "tuners": "4x Slot",
-      "resolution": "Full HD",
-      "ports": "LCD 4.3 cala",
-      "price": "Wycofany",
       "tags": []
+    },
+    {
+      "id": "inne-spycat-4k",
+      "brand": "Inne",
+      "model": "Spycat 4K",
+      "os": "Enigma2",
+      "tags": []
+    },
+    {
+      "id": "inne-golden-interstar-xpeed-lx",
+      "brand": "Inne",
+      "model": "Golden Interstar Xpeed LX",
+      "os": "Enigma2",
+      "tags": []
+    },
+    {
+      "id": "inne-xtrend-et10000",
+      "brand": "Inne",
+      "model": "Xtrend ET10000",
+      "os": "Enigma2",
+      "tags": []
+    },
+    {
+      "id": "inne-xtrend-et8500",
+      "brand": "Inne",
+      "model": "Xtrend ET8500",
+      "os": "Enigma2",
+      "tags": []
+    },
+    {
+      "id": "inne-xtrend-et8000",
+      "brand": "Inne",
+      "model": "Xtrend ET8000",
+      "os": "Enigma2",
+      "tags": []
+    },
+    {
+      "id": "inne-xtrend-et7000",
+      "brand": "Inne",
+      "model": "Xtrend ET7000",
+      "os": "Enigma2",
+      "tags": []
+    },
+    {
+      "id": "technomate-tm-twin-oe",
+      "brand": "Technomate",
+      "model": "TM-Twin OE",
+      "os": "Enigma2",
+      "tags": ["Technomate"]
+    },
+    {
+      "id": "technomate-tm-nano-oe",
+      "brand": "Technomate",
+      "model": "TM-Nano OE",
+      "os": "Enigma2",
+      "tags": ["Technomate"]
+    },
+    {
+      "id": "technomate-tm-2t-oe",
+      "brand": "Technomate",
+      "model": "TM-2T OE",
+      "os": "Enigma2",
+      "tags": ["Technomate"]
     },
     {
       "id": "zgemma-h9-2h-se",
       "brand": "Zgemma",
       "model": "H9.2H SE",
       "os": "Enigma2",
-      "cpu": "Hi3798MV200",
-      "ram": "1GB",
-      "flash": "16GB eMMC",
-      "tuners": "S2X + T2",
-      "resolution": "4K UHD",
-      "price": "ok. 320 zł",
+      "tags": ["Zgemma"]
+    },
+    {
+      "id": "zgemma-h9-2h-combo",
+      "brand": "Zgemma",
+      "model": "H9.2H Combo",
+      "os": "Enigma2",
+      "tags": ["Zgemma"]
+    },
+    {
+      "id": "zgemma-h9-2s-plus",
+      "brand": "Zgemma",
+      "model": "H9.2S Plus",
+      "os": "Enigma2",
+      "tags": ["Zgemma"]
+    },
+    {
+      "id": "zgemma-h9-2s-se",
+      "brand": "Zgemma",
+      "model": "H9.2S SE",
+      "os": "Enigma2",
       "tags": ["Zgemma"]
     },
     {
@@ -834,38 +814,83 @@
       "brand": "Zgemma",
       "model": "H9S SE",
       "os": "Enigma2",
-      "cpu": "Hi3798MV200",
-      "ram": "1GB",
-      "flash": "16GB eMMC",
-      "tuners": "1x DVB-S2X",
-      "resolution": "4K UHD",
-      "price": "ok. 280 zł",
       "tags": ["Zgemma"]
+    },
+    {
+      "id": "zgemma-h9s-plus",
+      "brand": "Zgemma",
+      "model": "H9S Plus",
+      "os": "Enigma2",
+      "tags": ["Zgemma"]
+    },
+    {
+      "id": "edision-os-miniplus",
+      "brand": "Edision",
+      "model": "OS mini+",
+      "os": "Enigma2",
+      "tags": ["Edision"]
+    },
+    {
+      "id": "edision-os-mioplus-4k",
+      "brand": "Edision",
+      "model": "OS mio+ 4K",
+      "os": "Enigma2",
+      "tags": ["Edision", "4K"]
+    },
+    {
+      "id": "edision-os-mega-4k",
+      "brand": "Edision",
+      "model": "OS mega 4K",
+      "os": "Enigma2",
+      "tags": ["Edision", "4K"]
+    },
+    {
+      "id": "edision-os-nino-4k",
+      "brand": "Edision",
+      "model": "OS nino 4K",
+      "os": "Enigma2",
+      "tags": ["Edision", "4K"]
+    },
+    {
+      "id": "edision-os-nino-pro-4k",
+      "brand": "Edision",
+      "model": "OS nino pro 4K",
+      "os": "Enigma2",
+      "tags": ["Edision", "4K"]
     },
     {
       "id": "dinobot-4k-se",
       "brand": "Dinobot",
       "model": "4K SE",
-      "os": "Enigma2 + Android",
-      "cpu": "Hi3798MV200",
-      "ram": "1GB",
-      "flash": "8GB",
-      "tuners": "Combo S2X + T2",
-      "resolution": "4K UHD",
-      "price": "ok. 450 zł",
+      "os": "Enigma2",
       "tags": ["Dinobot", "4K"]
     },
     {
-      "id": "gi-gigablue-uhd-trio-4k",
-      "brand": "GI / GigaBlue",
-      "model": "Trio 4K",
+      "id": "dinobot-4k-plus",
+      "brand": "Dinobot",
+      "model": "4K Plus",
       "os": "Enigma2",
-      "cpu": "Hi3798MV200",
-      "ram": "1GB",
-      "flash": "8GB",
-      "tuners": "S2X + T2/C",
-      "resolution": "4K UHD",
-      "price": "ok. 480 zł",
+      "tags": ["Dinobot", "4K"]
+    },
+    {
+      "id": "dinobot-uhd",
+      "brand": "Dinobot",
+      "model": "UHD",
+      "os": "Enigma2",
+      "tags": ["Dinobot"]
+    },
+    {
+      "id": "gi-gigablue-uhd-trio-4k",
+      "brand": "GI",
+      "model": "GigaBlue UHD Trio 4K",
+      "os": "Enigma2",
+      "tags": ["GI", "4K"]
+    },
+    {
+      "id": "gi-gigablue-uhd-quad-4k-pro",
+      "brand": "GI",
+      "model": "GigaBlue UHD Quad 4K Pro",
+      "os": "Enigma2",
       "tags": ["GI", "4K"]
     }
   ]
