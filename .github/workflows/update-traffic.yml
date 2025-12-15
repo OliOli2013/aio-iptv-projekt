@@ -1,28 +1,86 @@
 name: Update traffic JSON
 
 on:
+  workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *' # Codziennie o północy
-  workflow_dispatch:      # Ręczne uruchamianie
+    - cron: "0 3 * * *"  # daily at 03:00 UTC
+
+permissions:
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:          # Uprawnienia zapisu
-      contents: write
-      
     steps:
-      - uses: actions/checkout@v3
-      
-      # ZMIANA: Używamy wersji 'reweo', która jest aktualnym następcą
-      - name: Traffic to JSON
-        uses: reweo/github-traffic-action@v1
-        with:
-          my_token: ${{ secrets.TRAFFIC_TOKEN }}
-          static_list: "aio-iptv-projekt"
-          
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: "Update traffic data"
-          file_pattern: "traffic/**"
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install jq
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq
+
+      - name: Fetch traffic and write JSON
+        env:
+          GH_TOKEN: ${{ secrets.TRAFFIC_TOKEN }}
+          OWNER: OliOli2013
+          REPOS: PanelAIO-Plugin MyUpdater-Plugin IPTV-Dream-Plugin PiconUpdater
+        run: |
+          set -euo pipefail
+
+          if [ -z "${GH_TOKEN:-}" ]; then
+            echo "Missing TRAFFIC_TOKEN secret. Add it in: Settings → Secrets and variables → Actions."
+            exit 1
+          fi
+
+          mkdir -p traffic
+          now=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+          for repo in $REPOS; do
+            echo "Fetching $OWNER/$repo ..."
+
+            views=$(curl -sS -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json"               "https://api.github.com/repos/$OWNER/$repo/traffic/views?per=day")
+
+            clones=$(curl -sS -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json"               "https://api.github.com/repos/$OWNER/$repo/traffic/clones?per=day")
+
+            # If GitHub returns an error JSON, fail early with a readable message
+            if echo "$views" | jq -e 'has("message") and has("documentation_url")' >/dev/null; then
+              echo "GitHub API error for views on $OWNER/$repo:"
+              echo "$views" | jq -r '.message'
+              exit 1
+            fi
+
+            if echo "$clones" | jq -e 'has("message") and has("documentation_url")' >/dev/null; then
+              echo "GitHub API error for clones on $OWNER/$repo:"
+              echo "$clones" | jq -r '.message'
+              exit 1
+            fi
+
+            vcount=$(echo "$views"  | jq -r '.count   // 0')
+            vuniq=$( echo "$views"  | jq -r '.uniques // 0')
+            ccount=$(echo "$clones" | jq -r '.count   // 0')
+            cuniq=$( echo "$clones" | jq -r '.uniques // 0')
+
+            jq -n               --arg owner "$OWNER"               --arg repo "$repo"               --arg updatedAt "$now"               --argjson views "$views"               --argjson clones "$clones"               --argjson vcount "$vcount"               --argjson vuniq "$vuniq"               --argjson ccount "$ccount"               --argjson cuniq "$cuniq"               '{
+                owner: $owner,
+                repo: $repo,
+                updatedAt: $updatedAt,
+                summary: {
+                  views:  { count: $vcount, uniques: $vuniq },
+                  clones: { count: $ccount, uniques: $cuniq }
+                },
+                raw: { views: $views, clones: $clones }
+              }' > "traffic/${repo}.json"
+          done
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add traffic/*.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "Update traffic JSON"
+          git push
