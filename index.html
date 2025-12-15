@@ -165,6 +165,30 @@
         .banner-btn:hover { background: rgba(255,255,255,0.3); }
         .banner-close { background: none; border: none; color: white; cursor: pointer; font-size: 1.2rem; margin-left: 10px; opacity: 0.8; }
 
+        /* REKLAMY */
+        .ad-banner-section {
+            text-align: center;
+            margin: 40px auto;
+            padding: 0 20px;
+            max-width: 1500px;
+        }
+        .ad-banner-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            border: 1px solid #30363d;
+            transition: transform 0.2s;
+        }
+        .ad-banner-img:hover {
+            transform: scale(1.01);
+            border-color: #58a6ff;
+        }
+        
+        /* Logika wyświetlania banerów */
+        .banner-desktop { display: inline-block; }
+        .banner-mobile { display: none; }
+
         /* MODAL KOMENTARZY */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -288,6 +312,10 @@
             .search-input-header { display: none; }
             .news-banner { flex-direction: column; text-align: center; gap: 15px; padding: 15px; }
             .top-info-bar { flex-direction: column; gap: 10px; }
+            
+            /* Zmiana banerów na mniejsze ekrany */
+            .banner-desktop { display: none; }
+            .banner-mobile { display: inline-block; }
         }
         
         /* Optymalizacja dla małych ekranów (telefony) */
@@ -511,6 +539,9 @@
             <a href="#listy" class="menu-btn">📺 Listy</a>
             <a href="#aktualnosci" class="menu-btn">📚 Porady <span class="menu-badge red">12</span></a>
             <a href="#generator" class="menu-btn">⚡ Generator</a>
+            <a href="#pliki" class="menu-btn">📂 Pliki</a>
+            <a href="#kontakt" class="menu-btn">📧 Kontakt</a>
+            <a href="#systemy" class="menu-btn">💿 Systemy</a>
             <a href="porownywarka.html" class="menu-btn">📊 Porównywarka</a>
             <a href="kreator.html" class="menu-btn">🔧 Kreator</a>
             <a href="#statystyki" class="menu-btn">📈 Statystyki</a>
@@ -1652,7 +1683,12 @@
             </div>
         </section>
 
-
+    <div class="ad-banner-section" data-aos="fade-up">
+        <a href="https://multi-click.pl/" target="_blank" rel="nofollow">
+            <img src="multi-click_banner_970x250.webp" alt="Multi-Click Sklep" class="ad-banner-img banner-desktop" style="max-height: 200px; width: auto;">
+            <img src="multi-click_banner_320x100.webp" alt="Multi-Click Sklep" class="ad-banner-img banner-mobile">
+        </a>
+    </div>
 
     <footer>
         <p>&copy; 2025 AIO-IPTV.pl | PawełPawełek</p>
@@ -1686,6 +1722,5 @@
     <script src="script.js"></script>
     
     
-    <!-- Scripts moved to script.js -->
-</body>
+    </body>
 </html>
