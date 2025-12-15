@@ -1176,10 +1176,51 @@ async function initPublicComments() {
 // =========================
 // Init (safe for subpages)
 // =========================
+// =========================
+// Comments UX: collapsible panel (mobile-friendly)
+// =========================
+let __publicCommentsBootstrapped = false;
+function ensurePublicComments() {
+  if (__publicCommentsBootstrapped) return;
+  __publicCommentsBootstrapped = true;
+  try { initCommentsCollapsible(); } catch (e) { console.warn(e); }
+}
+
+function initCommentsCollapsible() {
+  const toggle = document.getElementById('commentsToggle');
+  const panel = document.getElementById('commentsPanel');
+
+  // Fallback: if markup not present, keep previous behavior
+  if (!toggle || !panel) {
+    ensurePublicComments();
+    return;
+  }
+
+  const preferCollapsed = window.matchMedia && window.matchMedia('(max-width: 600px)').matches;
+
+  const setState = (open) => {
+    if (open) {
+      panel.hidden = false;
+      toggle.textContent = 'Ukryj';
+      toggle.setAttribute('aria-expanded', 'true');
+      ensurePublicComments();
+    } else {
+      panel.hidden = true;
+      toggle.textContent = 'Pokaż';
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+  };
+
+  // Default: desktop open, mobile collapsed
+  setState(!preferCollapsed);
+
+  toggle.addEventListener('click', () => setState(panel.hidden));
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   try { initTopInfoBar(); } catch (e) { console.warn(e); }
   try { initSectionNav(); } catch (e) { console.warn(e); }
-  try { initPublicComments(); } catch (e) { console.warn(e); }
+  try { initCommentsCollapsible(); } catch (e) { console.warn(e); }
 });
 
 

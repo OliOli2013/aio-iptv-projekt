@@ -304,7 +304,40 @@
         }
 
         /* Responsywność */
-        @media (max-width: 900px) {
+        
+        /* === UX: zwijane komentarze (nie zajmują całej strony) === */
+        #comments .comments-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 14px;
+            margin-bottom: 10px;
+        }
+        #comments .comments-title h2 { margin: 0; }
+        #comments .comments-title p { margin-bottom: 0; }
+
+        #comments .comments-toggle {
+            white-space: nowrap;
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            background: rgba(15, 23, 42, 0.55);
+            color: #e2e8f0;
+            padding: 10px 14px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.15s ease, background 0.2s ease, border-color 0.2s ease;
+        }
+        #comments .comments-toggle:hover {
+            background: rgba(15, 23, 42, 0.75);
+            border-color: rgba(139, 92, 246, 0.45);
+            transform: translateY(-1px);
+        }
+        #comments .comments-panel[hidden] { display: none; }
+
+        /* Comment list stays scrollable even with many entries */
+        #comments .comment-list { max-height: 420px; overflow-y: auto; }
+
+@media (max-width: 900px) {
             .hero-header { justify-content: center; text-align: center; flex-direction: column; }
             .header-stats-container { margin-top: 15px; width: 100%; justify-content: center; gap: 20px; }
             .main-navigation-bar { justify-content: center; padding: 10px; }
@@ -358,54 +391,37 @@
                 font-size: 0.95rem;
             }
             
-            /* Nagłówek na telefon */
+                        /* Nagłówek na telefon — wersja kompaktowa */
             .hero-header {
-                padding: 20px 15px;
+                padding: 12px 14px;
+                gap: 12px;
+                flex-wrap: nowrap;
+                align-items: center;
             }
-            
-            .brand-logos {
-                gap: 10px;
-            }
-            
-            .brand-logos span {
-                font-size: 2rem;
-            }
-            
-            .brand-text h1 {
-                font-size: 1.5rem;
-            }
-            
+
+            /* Usuń elementy „ozdobne” na mobile, zostaw tylko to co potrzebne */
             .header-stats-container {
-                gap: 15px;
-                margin-top: 10px;
+                display: none;
             }
-            
-            .h-stat-val {
-                font-size: 1.2rem;
+
+            .brand-logos span {
+                display: none;
             }
-            
-            .h-stat-label {
-                font-size: 0.65rem;
+
+            .brand-logos img {
+                height: 42px !important;
             }
-            
-            /* Nawigacja na telefon */
-            .main-navigation-bar {
-                padding: 8px 15px;
-                position: sticky;
-                top: 0;
-                z-index: 1000;
+
+            .brand-text h1 {
+                font-size: 1.25rem;
+                line-height: 1.15;
             }
-            
-            .nav-left-group {
-                gap: 8px;
+
+            /* Ukryj drugą linię opisu (ta najmniejsza) żeby nie zabierała wysokości */
+            .brand-text p:last-child {
+                display: none;
             }
-            
-            .menu-btn {
-                padding: 6px 12px;
-                font-size: 0.85rem;
-                gap: 6px;
-            }
-            
+
             /* Karty na telefon */
             .card {
                 padding: 15px;
@@ -551,8 +567,6 @@
             
             <button id="navToggle" class="menu-btn nav-toggle" type="button" aria-label="Menu">☰</button>
 <input type="text" id="searchBoxHeader" class="search-input-header" placeholder="Szukaj..." onkeyup="filterListGeneric(this.value)">
-            <a class="menu-btn icon-btn" href="https://t.me/PawelPawelek" target="_blank" rel="noopener" title="Telegram">✈️</a>
-            <a class="menu-btn icon-btn" href="https://m.me/100064704540847" target="_blank" rel="noopener" title="Messenger">💬</a>
             <button id="themeToggle" class="menu-btn" type="button" style="padding: 8px 12px;">🌞</button>
             <button class="menu-btn" onclick="sharePage()" style="padding: 8px 12px;">📤</button>
         </div>
@@ -1720,33 +1734,42 @@
     <div style="max-width: 1500px; margin: 0 auto; padding: 0 20px;">
 </div>
         <section class="card" id="comments">
-            <h2>💬 Komentarze</h2>
-            <p class="muted" style="margin-top:-6px;">Komentarze są publiczne i widoczne dla wszystkich użytkowników (system zewnętrzny).</p>
+  <div class="comments-head">
+    <div class="comments-title">
+      <h2>💬 Komentarze</h2>
+      <p class="muted" style="margin-top:-6px;">Komentarze są publiczne i widoczne dla wszystkich użytkowników (system zewnętrzny).</p>
+    </div>
+    <button class="comments-toggle" id="commentsToggle" type="button" aria-expanded="true" aria-controls="commentsPanel">
+      Ukryj
+    </button>
+  </div>
 
-            <div class="comments-public" id="comments-public">
-                <div class="comment-form">
-                    <div class="comment-form-row">
-                        <input type="text" id="commentNamePublic" class="comment-input" placeholder="Twój nick" autocomplete="nickname">
-                        <select id="commentRatingPublic" class="comment-input" aria-label="Ocena">
-                            <option value="">Ocena (opcjonalnie)</option>
-                            <option value="5">★★★★★ (5)</option>
-                            <option value="4">★★★★☆ (4)</option>
-                            <option value="3">★★★☆☆ (3)</option>
-                            <option value="2">★★☆☆☆ (2)</option>
-                            <option value="1">★☆☆☆☆ (1)</option>
-                        </select>
-                    </div>
-                    <textarea id="commentBodyPublic" class="comment-input" rows="4" placeholder="Napisz komentarz..."></textarea>
-                    <div class="comment-form-actions">
-                        <button class="comment-submit" id="commentSubmitBtn">Wyślij</button>
-                        <button class="comment-secondary" id="commentRefreshBtn" type="button">Odśwież</button>
-                    </div>
-                    <div class="muted" id="commentsStatus" style="margin-top:8px;"></div>
-                </div>
+  <div class="comments-panel" id="commentsPanel">
+    <div class="comments-public" id="comments-public">
+      <div class="comment-form">
+        <div class="comment-form-row">
+          <input type="text" id="commentNamePublic" class="comment-input" placeholder="Twój nick" autocomplete="nickname">
+          <select id="commentRatingPublic" class="comment-input" aria-label="Ocena">
+            <option value="">Ocena (opcjonalnie)</option>
+            <option value="5">★★★★★ (5)</option>
+            <option value="4">★★★★☆ (4)</option>
+            <option value="3">★★★☆☆ (3)</option>
+            <option value="2">★★☆☆☆ (2)</option>
+            <option value="1">★☆☆☆☆ (1)</option>
+          </select>
+        </div>
+        <textarea id="commentBodyPublic" class="comment-input" rows="4" placeholder="Napisz komentarz..."></textarea>
+        <div class="comment-form-actions">
+          <button class="comment-submit" id="commentSubmitBtn">Wyślij</button>
+          <button class="comment-secondary" id="commentRefreshBtn" type="button">Odśwież</button>
+        </div>
+        <div class="muted" id="commentsStatus" style="margin-top:8px;"></div>
+      </div>
 
-                <div class="comment-list" id="commentsListPublic"></div>
-            </div>
-        </section>
+      <div class="comment-list" id="commentsListPublic"></div>
+    </div>
+  </div>
+</section>
 
     <div class="ad-banner-section" data-aos="fade-up">
         <a href="https://multi-click.pl/" target="_blank" rel="nofollow">
@@ -1785,7 +1808,7 @@
                     <a class="footer-link" href="#generator">Generator One‑Liner</a>
                     <a class="footer-link" href="kreator.html">Kreator konfiguracji</a>
                     <a class="footer-link" href="porownywarka.html">Porównywarka tunerów</a>
-                    <a class="footer-link" href="#comments">Komentarze</a>
+                    <a class="footer-link" href="#komentarze">Komentarze</a>
                 </div>
 
                 <div class="footer-col">
@@ -1793,10 +1816,6 @@
                     <div class="footer-kpi">
                         <span class="kpi-dot"></span>
                         <span>Kontakt: <a class="footer-link inline" href="mailto:msisystem@t.pl">msisystem@t.pl</a></span>
-                    </div>
-                    <div class="footer-social">
-                        <a class="footer-social-btn" href="https://t.me/PawelPawelek" target="_blank" rel="noopener">✈️ Telegram</a>
-                        <a class="footer-social-btn messenger" href="https://m.me/100064704540847" target="_blank" rel="noopener">💬 Messenger</a>
                     </div>
                     <div class="footer-kpi">
                         <span class="kpi-dot warn"></span>
