@@ -483,6 +483,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         wrapper.appendChild(btn);
     });
+    
+    // NAPRAWA PRZYCISKU WSPARCIE (Mobile FAB) - obsługa istniejącego przycisku
+    const mobileFab = document.getElementById('support-fab');
+    if (mobileFab) {
+        mobileFab.addEventListener('click', (e) => {
+            e.preventDefault();
+            const supportSection = document.getElementById('wsparcie');
+            if (supportSection) {
+                supportSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    }
 });
 
 // Quiz Enigma2
@@ -1007,49 +1019,7 @@ document.head.appendChild(style);
 // Mobile: szybki dostęp do "Wsparcie / kawa"
 // =========================
 function initMobileSupportFab() {
-  try {
-    if (!window.matchMedia || !window.matchMedia('(max-width: 700px)').matches) return;
-
-    const supportSection = document.getElementById('wsparcie');
-    if (!supportSection) return;
-
-    // Jeśli CSS ukrywa sekcję na mobile, wymuś widoczność (inline ma pierwszeństwo)
-    supportSection.style.display = 'block';
-
-    // Nie twórz duplikatu
-    if (document.getElementById('supportFab')) return;
-
-    const fab = document.createElement('button');
-    fab.id = 'supportFab';
-    fab.type = 'button';
-    fab.textContent = '☕ Wsparcie';
-    fab.setAttribute('aria-label', 'Przejdź do sekcji Wsparcie');
-    fab.style.cssText = [
-      'position:fixed',
-      'left:14px',
-      'bottom:14px',
-      'z-index:9999',
-      'padding:10px 14px',
-      'border-radius:999px',
-      'border:1px solid rgba(255,255,255,.18)',
-      'background:rgba(17,24,39,.72)',
-      'backdrop-filter:blur(10px)',
-      '-webkit-backdrop-filter:blur(10px)',
-      'color:#fff',
-      'font-weight:700',
-      'font-size:13px',
-      'box-shadow:0 10px 30px rgba(0,0,0,.35)',
-      'cursor:pointer'
-    ].join(';');
-
-    fab.addEventListener('click', () => {
-      supportSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-
-    document.body.appendChild(fab);
-  } catch (e) {
-    console.warn('supportFab error', e);
-  }
+  // Funkcja wyłączona - przycisk jest już w HTML, obsługa dodana w DOMContentLoaded
 }
 
 // =========================
