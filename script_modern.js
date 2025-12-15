@@ -105,18 +105,67 @@ function animateNumber(element, target) {
 async function fetchGithubStats() {
     const user = 'OliOli2013';
     const repo = 'aio-iptv-projekt';
-    
+
     const statusWrap = document.getElementById('github-status');
     const statusLabel = document.getElementById('github-status-label');
 
+    // Hero stats (nagłówek)
+    const heroDownloads = document.getElementById('real-downloads');
+    const heroCommunity = document.getElementById('real-users');
+    const heroSupport = document.getElementById('real-support');
+
+    const setHeroValue = (el, value, title) => {
+        if (!el) return;
+        if (typeof title === 'string') el.title = title;
+        if (typeof value === 'number' && Number.isFinite(value)) {
+            el.classList.remove('skeleton');
+            animateNumber(el, Math.max(0, Math.floor(value)));
+        } else {
+            el.textContent = '—';
+        }
+    };
+
+    const sumReleaseDownloads = (releases) => {
+        if (!Array.isArray(releases)) return 0;
+        let total = 0;
+        for (const rel of releases) {
+            const assets = Array.isArray(rel.assets) ? rel.assets : [];
+            for (const a of assets) {
+                const c = Number(a.download_count || 0);
+                if (Number.isFinite(c)) total += c;
+            }
+        }
+        return total;
+    };
+
+    // Opcjonalnie: jeżeli dodasz do repo plik traffic.json (generowany np. GitHub Actions),
+    // strona użyje danych z niego (views/uniques/clones) bez potrzeby tokena w przeglądarce.
+    const tryFetchTrafficJson = async () => {
+        try {
+            const res = await fetch('traffic.json', { cache: 'no-store' });
+            if (!res.ok) return null;
+            const data = await res.json();
+            return data && typeof data === 'object' ? data : null;
+        } catch (e) {
+            return null;
+        }
+    };
+
     try {
-        const repoRes = await fetch(`https://api.github.com/repos/${user}/${repo}`);
+        const [repoRes, releasesRes, trafficJson] = await Promise.all([
+            fetch(`https://api.github.com/repos/${user}/${repo}`),
+            fetch(`https://api.github.com/repos/${user}/${repo}/releases?per_page=5`),
+            tryFetchTrafficJson()
+        ]);
+
         if (!repoRes.ok) {
             throw new Error('HTTP ' + repoRes.status);
         }
 
         const repoData = await repoRes.json();
-        
+        const releasesData = releasesRes.ok ? await releasesRes.json() : [];
+
+        // Sekcja "Statystyki projektu"
         const elStars = document.getElementById('repo-stars');
         const elWatchers = document.getElementById('repo-watchers');
         const elSize = document.getElementById('repo-size');
@@ -128,23 +177,54 @@ async function fetchGithubStats() {
         }
         if (elWatchers) {
             elWatchers.classList.remove('skeleton');
-            animateNumber(elWatchers, repoData.watchers_count || 0);
+            // watchers_count zwykle pokrywa się ze stars; forks jest bardziej użyteczne dla "ruchu społeczności"
+            const forks = repoData.forks_count || 0;
+            animateNumber(elWatchers, forks);
+            elWatchers.title = 'Forki (GitHub)';
         }
         if (elSize) {
             elSize.classList.remove('skeleton');
             const sizeMb = (repoData.size / 1024);
             elSize.textContent = sizeMb.toFixed(1) + ' MB';
         }
-
         if (elDate && repoData.pushed_at) {
             const dateObj = new Date(repoData.pushed_at);
-            const formattedDate = dateObj.toLocaleDateString('pl-PL', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric'
-            });
+            const formattedDate = dateObj.toLocaleDateString('pl-PL', { day: '2-digit', month: '2-digit', year: 'numeric' });
             elDate.textContent = formattedDate;
         }
+
+        // Hero: realne liczby (bez fikcyjnych danych)
+        const stars = Number(repoData.stargazers_count || 0);
+        const forks = Number(repoData.forks_count || 0);
+        const openIssues = Number(repoData.open_issues_count || 0);
+
+        const releasesDownloads = sumReleaseDownloads(releasesData);
+
+        // Domyślnie (publiczne): downloads z Releases, community = stars+forks, wsparcie = open issues
+        let downloadsValue = releasesDownloads;
+        let communityValue = stars + forks;
+
+        // Jeśli jest traffic.json, preferuj te dane (najbliższe wykresom GitHub Traffic)
+        if (trafficJson) {
+            if (typeof trafficJson.clones === 'number') downloadsValue = trafficJson.clones;
+            if (typeof trafficJson.uniques === 'number') communityValue = trafficJson.uniques;
+        }
+
+        setHeroValue(
+            heroDownloads,
+            downloadsValue,
+            trafficJson ? 'Clones (ostatnie 14 dni) z traffic.json' : 'Suma pobrań plików w GitHub Releases (ostatnie 5 wydań)'
+        );
+        setHeroValue(
+            heroCommunity,
+            communityValue,
+            trafficJson ? 'Unique visitors (ostatnie 14 dni) z traffic.json' : 'Społeczność: stars + forki (GitHub)'
+        );
+        setHeroValue(
+            heroSupport,
+            openIssues,
+            'Otwarte zgłoszenia (Issues/PR) w repozytorium'
+        );
 
         if (statusWrap && statusLabel) {
             statusWrap.classList.remove('error');
@@ -159,6 +239,11 @@ async function fetchGithubStats() {
             statusWrap.classList.add('error');
             statusLabel.textContent = 'API GitHub: problem z połączeniem';
         }
+
+        // Hero fallback
+        if (heroDownloads) heroDownloads.textContent = '—';
+        if (heroCommunity) heroCommunity.textContent = '—';
+        if (heroSupport) heroSupport.textContent = '—';
     }
 }
 
@@ -1040,6 +1125,22 @@ function openComments() {
   if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
+
+function canonicalPageKey(pathname) {
+  let p = String(pathname || '/');
+  // normalize index.html variants
+  if (p.endsWith('/index.html') || p.endsWith('/index.htm')) {
+    p = p.replace(/\/index\.html?$/i, '/');
+  }
+  // ensure leading slash
+  if (!p.startsWith('/')) p = '/' + p;
+  // ensure trailing slash for "directory" pages (GitHub Pages root)
+  if (!p.endsWith('/')) p = p + '/';
+  // collapse double slashes
+  p = p.replace(/\/+/g, '/');
+  return p;
+}
+
 // =========================
 // Public comments (Supabase)
 // =========================
@@ -1086,14 +1187,22 @@ async function initPublicComments() {
   }
 
   const client = window.supabase.createClient(cfg.url, cfg.anon);
-  const page = location.pathname || '/';
+  const pageRaw = location.pathname || '/';
+  const page = canonicalPageKey(pageRaw);
+  const pageKeys = Array.from(new Set([
+    page,
+    pageRaw,
+    pageRaw.endsWith('/') ? (pageRaw + 'index.html') : pageRaw,
+    pageRaw.endsWith('/index.html') ? pageRaw.replace(/\/index\.html$/i, '/') : pageRaw,
+    pageRaw.endsWith('/index.htm') ? pageRaw.replace(/\/index\.htm$/i, '/') : pageRaw,
+  ]));
 
   const load = async () => {
     if (statusEl) statusEl.textContent = 'Ładowanie komentarzy...';
     const { data, error } = await client
       .from('comments')
       .select('id,page,name,message,rating,created_at')
-      .eq('page', page)
+      .in('page', pageKeys)
       .order('created_at', { ascending: false })
       .limit(100);
 
@@ -1183,14 +1292,14 @@ let __publicCommentsBootstrapped = false;
 function ensurePublicComments() {
   if (__publicCommentsBootstrapped) return;
   __publicCommentsBootstrapped = true;
-  try { initCommentsCollapsible(); } catch (e) { console.warn(e); }
+  try { initPublicComments(); } catch (e) { console.warn(e); }
 }
 
 function initCommentsCollapsible() {
   const toggle = document.getElementById('commentsToggle');
   const panel = document.getElementById('commentsPanel');
 
-  // Fallback: if markup not present, keep previous behavior
+  // Fallback: if markup not present, just initialize comments normally
   if (!toggle || !panel) {
     ensurePublicComments();
     return;
