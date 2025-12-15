@@ -6,43 +6,152 @@
     <meta name="theme-color" content="#0d1117">
     
     <title>Wielka Porównywarka Tunerów Enigma2 | AIO-IPTV.pl</title>
-    <meta name="description" content="Kompletna baza tunerów Enigma2. Porównaj modele Zgemma, VU+, Octagon, Dreambox i inne. Ranking 2025.">
     
     <link rel="icon" type="image/png" href="pliki/logo.png">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Style dla rankingu */
-        .rank-reason { font-size: 0.85rem; color: #8b949e; margin-top: 8px; border-top: 1px solid #30363d; padding-top: 6px; line-height: 1.4; }
-        .rank-reason strong { color: #58a6ff; }
-        .ranking-item { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 20px; background: rgba(13,17,23,0.6); padding: 15px; border-radius: 8px; border: 1px solid #30363d; position: relative; transition: transform 0.2s; }
-        .ranking-item:hover { transform: translateY(-2px); border-color: #58a6ff; }
-        .rank-number { font-size: 2.2rem; font-weight: 800; color: #58a6ff; min-width: 45px; text-align: center; line-height: 1; opacity: 0.8; }
-        .rank-badge { position: absolute; top: 10px; right: 10px; font-size: 0.65rem; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px; }
-        
-        .rank-badge.bestseller { background: #d29922; color: #0d1117; }
-        .rank-badge.power { background: #f78166; color: #0d1117; }
-        .rank-badge.value { background: #238636; color: white; }
-        .rank-badge.premium { background: #a371f7; color: white; }
-        .rank-badge.hybrid { background: #0969da; color: white; }
-        
-        .rank-stats { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 5px; }
-        .rank-stats span { background: #21262d; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; color: #c9d1d9; border: 1px solid #30363d; }
+        /* --- NOWY STYL DLA SEKCJI WYBORU (GRID) --- */
+        .comparison-wrapper {
+            margin-top: 20px;
+        }
 
-        /* Style dla notatki prawnej w wynikach */
-        .comparison-notes {
-            margin-top: 25px;
-            padding: 15px;
-            background: rgba(22, 27, 34, 0.5);
+        /* Wyszukiwarka na całą szerokość */
+        .search-row {
+            margin-bottom: 25px;
+        }
+        .search-row input {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 1rem;
+            background: #0d1117;
             border: 1px solid #30363d;
             border-radius: 6px;
-            font-size: 0.75rem;
-            color: #8b949e;
-            line-height: 1.5;
+            color: #c9d1d9;
         }
-        .comparison-notes strong { color: #c9d1d9; display: block; margin-bottom: 5px; }
-        .comparison-notes ul { margin: 0; padding-left: 20px; }
-        .comparison-notes li { margin-bottom: 2px; }
+
+        /* Siatka dla dwóch kolumn wyboru */
+        .selectors-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Dwie równe kolumny */
+            gap: 30px; /* Duży odstęp między kolumnami */
+            margin-bottom: 25px;
+            align-items: start;
+        }
+
+        /* Pudełko dla pojedynczego wyboru */
+        .selector-box {
+            background: rgba(22, 27, 34, 0.7); /* Ciemniejsze tło */
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: border-color 0.3s;
+        }
+        .selector-box:hover {
+            border-color: #58a6ff;
+        }
+
+        .selector-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #58a6ff;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tuner-select {
+            width: 100%;
+            padding: 10px;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            color: white;
+            font-size: 1rem;
+        }
+
+        /* Przycisk akcji */
+        .action-row {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .compare-btn-big {
+            background: linear-gradient(180deg, #238636 0%, #2ea043 100%);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 12px 40px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 5px 15px rgba(35, 134, 54, 0.3);
+        }
+        .compare-btn-big:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(35, 134, 54, 0.4);
+        }
+
+        /* Tabela wyników */
+        .comparison-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 8px; /* Odstęp między wierszami tabeli */
+        }
+        .comparison-table th {
+            text-align: left;
+            padding: 12px 15px;
+            color: #8b949e;
+            font-size: 0.9rem;
+            border-bottom: 2px solid #30363d;
+        }
+        .comparison-table td {
+            background: rgba(33, 38, 45, 0.4);
+            padding: 15px;
+            border-top: 1px solid #30363d;
+            border-bottom: 1px solid #30363d;
+            vertical-align: middle;
+        }
+        .comparison-table tr td:first-child {
+            border-left: 1px solid #30363d;
+            border-top-left-radius: 6px;
+            border-bottom-left-radius: 6px;
+            font-weight: bold;
+            color: #c9d1d9;
+            width: 25%;
+        }
+        .comparison-table tr td:last-child {
+            border-right: 1px solid #30363d;
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 6px;
+        }
+
+        /* Mobilne (Poniżej 768px) */
+        @media (max-width: 768px) {
+            .selectors-grid {
+                grid-template-columns: 1fr; /* Jedna kolumna */
+                gap: 15px;
+            }
+            .comparison-table {
+                font-size: 0.9rem;
+            }
+            .comparison-table tr td:first-child {
+                width: 30%;
+            }
+        }
+
+        /* Notatki */
+        .comparison-notes {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(13, 17, 23, 0.5);
+            border: 1px dashed #30363d;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            color: #8b949e;
+        }
     </style>
 </head>
 <body>
@@ -51,7 +160,7 @@
     <header>
         <div style="text-align:center; line-height: 1.2;">
             <img src="https://github.com/OliOli2013/aio-iptv-projekt/raw/main/pliki/logo.png" alt="Logo AIO-IPTV" class="site-logo">
-            <p style="margin: 4px 0 0; font-size: 0.95rem;">Wielka Baza Tunerów Enigma2</p>
+            <p style="margin: 4px 0 0; font-size: 0.95rem;">Centrum Wiedzy o Tunerach</p>
         </div>
         
         <div class="nav-buttons">
@@ -64,66 +173,72 @@
         
         <div class="card full-width" data-aos="fade-up">
             <h2>🔍 Porównywarka Sprzętowa</h2>
-            <p>Największa baza w Polsce. Wybierz dwa modele i porównaj CPU, pamięć, sieć i sloty.</p>
+            <p>Wybierz dwa modele z listy, aby porównać ich podzespoły.</p>
             
-            <div class="comparison-search" style="margin: 14px 0 8px;">
-                <input id="tunerSearch" class="search-input" type="text" placeholder="🔍 Wyszukaj tuner (np. Zgemma H9, Octagon SF8008, VU+)..." />
-                <select id="brandFilter" class="search-input" style="max-width: 220px;">
-                    <option value="">Wszystkie marki</option>
-                </select>
-            </div>
-            
-            <div class="comparison-controls">
-                <div class="control-group">
-                    <label for="tuner1-select">Tuner A:</label>
-                    <select id="tuner1-select" class="tuner-select"><option value="">Wybierz...</option></select>
+            <div class="comparison-wrapper">
+                <div class="search-row">
+                    <input id="tunerSearch" type="text" placeholder="🔍 Kliknij i wpisz nazwę tunera (np. Zgemma H9, Octagon)..." />
                 </div>
-                <div class="control-group">
-                    <label for="tuner2-select">Tuner B:</label>
-                    <select id="tuner2-select" class="tuner-select"><option value="">Wybierz...</option></select>
+
+                <div class="selectors-grid">
+                    <div class="selector-box">
+                        <span class="selector-label">Tuner A</span>
+                        <select id="tuner1-select" class="tuner-select">
+                            <option value="">-- Wybierz model --</option>
+                        </select>
+                    </div>
+
+                    <div class="selector-box">
+                        <span class="selector-label">Tuner B</span>
+                        <select id="tuner2-select" class="tuner-select">
+                            <option value="">-- Wybierz model --</option>
+                        </select>
+                    </div>
                 </div>
-                <button class="nav-btn" onclick="compareTuners()" style="align-self: flex-end;">Porównaj VS</button>
+
+                <div class="action-row">
+                    <button class="compare-btn-big" onclick="compareTuners()">PORÓWNAJ MODELE</button>
+                </div>
             </div>
             
             <div id="comparison-result" style="display: none;">
-                <h3>Specyfikacja techniczna</h3>
-                <div class="comparison-table-container">
-                    <table class="comparison-table" id="comparison-table">
-                        <thead>
-                            <tr>
-                                <th>Parametr</th>
-                                <th id="tuner1-name">Tuner 1</th>
-                                <th id="tuner2-name">Tuner 2</th>
-                            </tr>
-                        </thead>
-                        <tbody id="comparison-tbody"></tbody>
-                    </table>
-                </div>
+                <h3 style="border-bottom: 1px solid #30363d; padding-bottom: 10px; margin-bottom: 20px;">
+                    Wynik porównania
+                </h3>
                 
-                <div class="comparison-verdict">
-                    <h4>Analiza AIO-IPTV</h4>
-                    <p id="verdict-text"></p>
+                <table class="comparison-table" id="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Parametr</th>
+                            <th id="tuner1-name" style="color: #58a6ff; font-size: 1.1rem;">Tuner 1</th>
+                            <th id="tuner2-name" style="color: #58a6ff; font-size: 1.1rem;">Tuner 2</th>
+                        </tr>
+                    </thead>
+                    <tbody id="comparison-tbody"></tbody>
+                </table>
+                
+                <div class="comparison-verdict" style="margin-top: 30px; padding: 20px; border-left: 4px solid #58a6ff; background: rgba(88, 166, 255, 0.1); border-radius: 0 6px 6px 0;">
+                    <h4 style="margin-top: 0; color: #58a6ff;">💡 Analiza</h4>
+                    <p id="verdict-text" style="margin: 0; font-size: 1rem; line-height: 1.6;"></p>
                 </div>
 
                 <div class="comparison-notes">
-                    <strong>⚠️ Uwagi do zestawienia:</strong>
-                    <ul>
-                        <li>Dla modeli oznaczonych jako "Rynek wtórny" lub "Wycofany" dane są historyczne i mogą wymagać aktualizacji.</li>
-                        <li>W przypadku modeli z wymiennymi tunerami (modularnych) podano konfigurację podstawową.</li>
-                        <li>Dane cenowe są orientacyjne (średnia rynkowa) i mogą się różnić w zależności od sklepu/źródła.</li>
-                        <li>Specyfikacje niektórych starszych modeli mogą być niekompletne w publicznych źródłach.</li>
-                        <li>Zalecam zweryfikowanie najnowszych specyfikacji u producentów przed zakupem.</li>
+                    <strong>⚠️ Ważne informacje:</strong>
+                    <ul style="margin: 5px 0 0 20px; padding: 0;">
+                        <li>Dla modeli oznaczonych jako "Rynek wtórny" lub "Wycofany" dane są historyczne.</li>
+                        <li>W przypadku modeli z wymiennymi głowicami podano konfigurację fabryczną.</li>
+                        <li>Dane cenowe są uśrednione z polskich sklepów (Stan: Grudzień 2025).</li>
+                        <li>Zalecamy weryfikację specyfikacji u sprzedawcy przed zakupem.</li>
                     </ul>
                 </div>
             </div>
         </div>
         
         <div class="card full-width" data-aos="fade-up" data-aos-delay="100">
-            <h2>🏆 Ranking Tunerów 2025 (Top 8)</h2>
-            <p>Zestawienie najciekawszych modeli dostępnych w polskiej dystrybucji.</p>
+            <h2>🏆 Ranking Tunerów 2025</h2>
+            <p>Najpopularniejsze wybory użytkowników w Polsce.</p>
             
             <div class="ranking-list">
-                
                 <div class="ranking-item">
                     <div class="rank-number">1</div>
                     <div class="rank-info">
@@ -134,7 +249,7 @@
                             <span>💰 ~480 zł</span>
                         </div>
                         <div class="rank-reason">
-                            <strong>Lider Rynku.</strong> Najlepszy balans ceny do możliwości. Posiada szybki procesor HiSilicon, gigabitową sieć (ważne przy NAS) i dobre wbudowane WiFi. Wersja Supreme dodaje slot na dysk M.2.
+                            <strong>Lider Rynku.</strong> Najlepszy balans ceny do możliwości. Posiada szybki procesor HiSilicon, gigabitową sieć (ważne przy NAS) i dobre WiFi. Wersja Supreme dodaje slot M.2.
                         </div>
                     </div>
                     <div class="rank-badge bestseller">Nr 1</div>
@@ -143,14 +258,14 @@
                 <div class="ranking-item">
                     <div class="rank-number">2</div>
                     <div class="rank-info">
-                        <h4>Zgemma H9S / H11S</h4>
+                        <h4>Zgemma H11S / H9S</h4>
                         <div class="rank-stats">
                             <span>💸 Tani</span>
                             <span>📺 4K UHD</span>
-                            <span>💰 ~260 zł</span>
+                            <span>💰 ~290 zł</span>
                         </div>
                         <div class="rank-reason">
-                            <strong>Król Budżetu.</strong> Absolutnie najtańszy sposób na stabilne 4K z Enigmą2. Idealny na start lub jako drugi dekoder. Brak szybkiej sieci i slotu CI+ to kompromis za niską cenę.
+                            <strong>Król Budżetu.</strong> Absolutnie najtańszy sposób na stabilne 4K z Enigmą2. Idealny na start.
                         </div>
                     </div>
                     <div class="rank-badge value">Ekonomia</div>
@@ -166,107 +281,10 @@
                             <span>💰 ~430 zł</span>
                         </div>
                         <div class="rank-reason">
-                            <strong>Najtańszy z CI+.</strong> Jeśli masz moduł Polsatu lub Canal+, to jest najtańszy tuner 4K, który go obsłuży. Zgemma i Octagon w tej cenie mają tylko czytnik kart.
+                            <strong>Najtańszy z CI+.</strong> Jeśli masz moduł Polsatu lub Canal+, to jest najtańszy tuner 4K, który go obsłuży.
                         </div>
                     </div>
                     <div class="rank-badge value">Unikat</div>
-                </div>
-
-                <div class="ranking-item">
-                    <div class="rank-number">4</div>
-                    <div class="rank-info">
-                        <h4>uClan Ustym 4K PRO</h4>
-                        <div class="rank-stats">
-                            <span>🤝 Klon Octagona</span>
-                            <span>🚀 1Gbit LAN</span>
-                            <span>💰 ~440 zł</span>
-                        </div>
-                        <div class="rank-reason">
-                            <strong>Bliźniak Giganta.</strong> Technicznie to samo co Octagon SF8008, ale w innej obudowie i z dodatkowym systemem Denys OS. Często tańszy o kilkadziesiąt złotych.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="ranking-item">
-                    <div class="rank-number">5</div>
-                    <div class="rank-info">
-                        <h4>VU+ Zero 4K (Rev. 2)</h4>
-                        <div class="rank-stats">
-                            <span>💎 Marka Premium</span>
-                            <span>🔒 CI+</span>
-                            <span>💰 ~640 zł</span>
-                        </div>
-                        <div class="rank-reason">
-                            <strong>Jakość Wykonania.</strong> Sprzęt dla fanów marki VU+. Bardzo szybki, stabilny, świetny pilot. Ma slot CI+, ale w tej cenie brakuje mu gigabitowego LANu.
-                        </div>
-                    </div>
-                    <div class="rank-badge premium">Jakość</div>
-                </div>
-
-                <div class="ranking-item">
-                    <div class="rank-number">6</div>
-                    <div class="rank-info">
-                        <h4>GigaBlue Trio 4K Pro</h4>
-                        <div class="rank-stats">
-                            <span>📡 Super WiFi</span>
-                            <span>🚀 1Gbit LAN</span>
-                            <span>💰 ~560 zł</span>
-                        </div>
-                        <div class="rank-reason">
-                            <strong>Niemiecka Solidność.</strong> Bardzo mocny konkurent w średniej półce. Wyróżnia się szybkim WiFi (1200Mbps) i dobrym wsparciem software'owym (TeamBlue).
-                        </div>
-                    </div>
-                </div>
-
-                <div class="ranking-item">
-                    <div class="rank-number">7</div>
-                    <div class="rank-info">
-                        <h4>Dreambox Two Ultra HD</h4>
-                        <div class="rank-stats">
-                            <span>🏎️ 6-rdzeni CPU</span>
-                            <span>🖥️ LCD</span>
-                            <span>💰 ~1450 zł</span>
-                        </div>
-                        <div class="rank-reason">
-                            <strong>Demon Prędkości.</strong> Najszybszy procesor na rynku (Amlogic). System działa błyskawicznie. Posiada kolorowy wyświetlacz i pilota Bluetooth.
-                        </div>
-                    </div>
-                    <div class="rank-badge power">Moc</div>
-                </div>
-
-                <div class="ranking-item">
-                    <div class="rank-number">8</div>
-                    <div class="rank-info">
-                        <h4>VU+ Duo 4K SE</h4>
-                        <div class="rank-stats">
-                            <span>📺 FBC Tuner</span>
-                            <span>💾 Dysk HDD</span>
-                            <span>💰 ~1650 zł</span>
-                        </div>
-                        <div class="rank-reason">
-                            <strong>Centrum Multimedialne.</strong> Najlepszy wybór do salonu. Głowice FBC pozwalają nagrywać 8 kanałów jednocześnie. Miejsce na dysk twardy, duży wyświetlacz i topowa jakość obrazu.
-                        </div>
-                    </div>
-                    <div class="rank-badge premium">High-End</div>
-                </div>
-
-            </div>
-        </div>
-        
-        <div class="card full-width" data-aos="fade-up" data-aos-delay="200">
-            <h2>💡 Porady zakupowe</h2>
-            
-            <div class="accordion-item">
-                <button class="accordion-header">Moduł CI+ (Polsat/Canal+)</button>
-                <div class="accordion-content">
-                    <p>Jeśli masz kartę wkładaną do modułu (CAM), musisz kupić tuner ze slotem <strong>CI+</strong>. Tanie Zgemmy i Octagony mają tylko czytnik kart (uniwersalny), który nie obsłuży sparowanych kart włożonych w moduł. Szukaj: AB Pulse, VU+, GigaBlue.</p>
-                </div>
-            </div>
-            
-            <div class="accordion-item">
-                <button class="accordion-header">Streaming w sieci (Multiroom)</button>
-                <div class="accordion-content">
-                    <p>Jeśli chcesz oglądać TV na komputerze lub telefonie, wybierz tuner z portem <strong>Gigabit LAN (1000 Mbit)</strong>. Modele 100Mbit mogą przycinać przy kanałach 4K o wysokim bitrate.</p>
                 </div>
             </div>
         </div>
@@ -274,30 +292,23 @@
 
     <footer>
         <p>&copy; 2025 AIO-IPTV.pl</p>
-        <p>Baza danych na podstawie ofert największych polskich dystrybutorów (Stan na Grudzień 2025).</p>
     </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="script.js"></script>
     
     <script>
-    // ==========================================
-    // LOGIKA PORÓWNYWARKI (Zaktualizowana)
-    // ==========================================
-
     let tunersList = [];
 
     async function loadTunersList() {
         try {
             const res = await fetch('data/tuners.json');
-            if (!res.ok) throw new Error('Błąd HTTP: ' + res.status);
+            if (!res.ok) throw new Error('Błąd HTTP');
             const json = await res.json();
             tunersList = json.tuners || [];
             populateTunerSelects(tunersList);
-            populateBrandFilter(tunersList);
         } catch (e) {
             console.error(e);
-            document.querySelector('.comparison-search').innerHTML = '<p style="color:red">Błąd ładowania bazy tunerów.</p>';
         }
     }
 
@@ -307,41 +318,27 @@
         
         list.sort((a, b) => (a.brand + a.model).localeCompare(b.brand + b.model));
 
-        const createOpts = (items) => ['<option value="">Wybierz...</option>']
+        const createOpts = (items) => ['<option value="">-- Wybierz model --</option>']
             .concat(items.map(t => `<option value="${t.id}">${t.brand} ${t.model}</option>`)).join('');
         
         s1.innerHTML = createOpts(list);
         s2.innerHTML = createOpts(list);
 
         const inp = document.getElementById('tunerSearch');
-        const brand = document.getElementById('brandFilter');
         
-        const filter = () => {
+        inp.addEventListener('input', () => {
             const q = inp.value.toLowerCase();
-            const b = brand.value;
-            const res = list.filter(t => 
-                (t.brand + ' ' + t.model).toLowerCase().includes(q) &&
-                (b === "" || t.brand === b)
-            );
+            const res = list.filter(t => (t.brand + ' ' + t.model).toLowerCase().includes(q));
             s1.innerHTML = createOpts(res);
             s2.innerHTML = createOpts(res);
-        };
-        inp.addEventListener('input', filter);
-        brand.addEventListener('change', filter);
-    }
-
-    function populateBrandFilter(list) {
-        const brands = [...new Set(list.map(t => t.brand))].sort();
-        document.getElementById('brandFilter').innerHTML = 
-            ['<option value="">Wszystkie marki</option>']
-            .concat(brands.map(b => `<option value="${b}">${b}</option>`)).join('');
+        });
     }
 
     function compareTuners() {
         const id1 = document.getElementById('tuner1-select').value;
         const id2 = document.getElementById('tuner2-select').value;
         
-        if (!id1 || !id2 || id1 === id2) { alert("Wybierz dwa różne tunery!"); return; }
+        if (!id1 || !id2) { alert("Wybierz dwa różne tunery!"); return; }
 
         const t1 = tunersList.find(t => t.id === id1);
         const t2 = tunersList.find(t => t.id === id2);
@@ -373,26 +370,11 @@
                 if (v1.includes('Gigabit') && !v2.includes('Gigabit')) s1 = 'color:#3fb950; font-weight:bold';
                 if (v2.includes('Gigabit') && !v1.includes('Gigabit')) s2 = 'color:#3fb950; font-weight:bold';
             }
-            if (f.k === 'wifi') {
-                if (v1.includes('Tak') && !v2.includes('Tak')) s1 = 'color:#3fb950; font-weight:bold';
-                if (v2.includes('Tak') && !v1.includes('Tak')) s2 = 'color:#3fb950; font-weight:bold';
-            }
-            if (f.k === 'slots') {
-                if (v1.includes('CI') && !v2.includes('CI')) s1 = 'color:#3fb950; font-weight:bold';
-                if (v2.includes('CI') && !v1.includes('CI')) s2 = 'color:#3fb950; font-weight:bold';
-            }
-            if (['ram', 'flash', 'price'].includes(f.k)) {
-                 const n1 = parseFloat(v1.replace(/ok\.|zł/g,''));
-                 const n2 = parseFloat(v2.replace(/ok\.|zł/g,''));
-                 if (!isNaN(n1) && !isNaN(n2)) {
-                     if (f.k === 'price') { 
-                        if (n1 < n2) s1 = 'color:#3fb950; font-weight:bold';
-                        if (n2 < n1) s2 = 'color:#3fb950; font-weight:bold';
-                     } else { 
-                        if (n1 > n2) s1 = 'color:#3fb950; font-weight:bold';
-                        if (n2 > n1) s2 = 'color:#3fb950; font-weight:bold';
-                     }
-                 }
+            if (['ram', 'flash'].includes(f.k)) {
+               // Prosta logika: większa liczba wygrywa
+               const n1 = parseInt(v1); const n2 = parseInt(v2);
+               if(n1 > n2) s1 = 'color:#3fb950; font-weight:bold';
+               if(n2 > n1) s2 = 'color:#3fb950; font-weight:bold';
             }
 
             tbody.innerHTML += `<tr><td><strong>${f.l}</strong></td><td style="${s1}">${v1}</td><td style="${s2}">${v2}</td></tr>`;
@@ -407,19 +389,12 @@
 
     function generateVerdict(t1, t2) {
         let text = "";
-        
         if ((t1.lan||'').includes('Gigabit') && !(t2.lan||'').includes('Gigabit')) 
-            text += `👉 <strong>${t1.model}</strong> ma znacznie szybszą kartę sieciową (1Gbit), co ułatwia przesyłanie plików. `;
+            text += `👉 <strong>${t1.model}</strong> ma szybszą sieć (Gigabit), co jest lepsze do streamingu. `;
         else if ((t2.lan||'').includes('Gigabit') && !(t1.lan||'').includes('Gigabit')) 
-            text += `👉 <strong>${t2.model}</strong> ma znacznie szybszą kartę sieciową (1Gbit). `;
-
-        if ((t1.slots||'').includes('CI') && !(t2.slots||'').includes('CI'))
-            text += `👉 <strong>${t1.model}</strong> posiada slot CI+, co pozwala na obsługę modułów (np. Polsat, Canal+). `;
-        else if ((t2.slots||'').includes('CI') && !(t1.slots||'').includes('CI'))
-            text += `👉 <strong>${t2.model}</strong> posiada slot CI+ (niezbędny dla modułów CAM). `;
-
-        if (text === "") text = "Oba tunery prezentują zbliżony poziom technologiczny. Kieruj się ceną i dostępnością.";
-        
+            text += `👉 <strong>${t2.model}</strong> ma szybszą sieć (Gigabit). `;
+            
+        if (text === "") text = "Oba tunery prezentują zbliżony poziom technologiczny. Sprawdź dostępność i cenę.";
         document.getElementById('verdict-text').innerHTML = text;
     }
 
