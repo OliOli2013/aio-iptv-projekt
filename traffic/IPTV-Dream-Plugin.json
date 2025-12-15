@@ -1,11 +1,11 @@
 {
   "owner": "OliOli2013",
   "repo": "IPTV-Dream-Plugin",
-  "updatedAt": "2025-12-15T18:51:29Z",
+  "updatedAt": "2025-12-15T19:12:28Z",
   "summary": {
     "views": {
-      "count": 237,
-      "uniques": 13
+      "count": 236,
+      "uniques": 12
     },
     "clones": {
       "count": 502,
@@ -14,14 +14,9 @@
   },
   "raw": {
     "views": {
-      "count": 237,
-      "uniques": 13,
+      "count": 236,
+      "uniques": 12,
       "views": [
-        {
-          "timestamp": "2025-12-01T00:00:00Z",
-          "count": 1,
-          "uniques": 1
-        },
         {
           "timestamp": "2025-12-02T00:00:00Z",
           "count": 90,
