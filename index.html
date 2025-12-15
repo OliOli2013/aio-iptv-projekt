@@ -462,8 +462,9 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="home_modern.css">
 </head>
-<body>
+<body data-page="home">
 
     <button onclick="topFunction()" id="topBtn" title="Wróć na górę">⬆️</button>
     <div id="particles-js"></div>
@@ -547,7 +548,9 @@
             <a href="#statystyki" class="menu-btn">📈 Statystyki</a>
         </div>
         <div class="nav-right-group">
-            <input type="text" id="searchBoxHeader" class="search-input-header" placeholder="Szukaj..." onkeyup="filterListGeneric(this.value)">
+            
+            <button id="navToggle" class="menu-btn nav-toggle" type="button" aria-label="Menu">☰</button>
+<input type="text" id="searchBoxHeader" class="search-input-header" placeholder="Szukaj..." onkeyup="filterListGeneric(this.value)">
             <button id="themeToggle" class="menu-btn" type="button" style="padding: 8px 12px;">🌞</button>
             <button class="menu-btn" onclick="sharePage()" style="padding: 8px 12px;">📤</button>
         </div>
@@ -567,6 +570,66 @@
 </div>
 
     <div class="container">
+
+        <div class="card card-intro span-all" id="start" data-aos="fade-up">
+            <div class="intro-head">
+                <div class="intro-title">
+                    <h2>Start tutaj</h2>
+                    <p>Najczęściej używane narzędzia i sekcje w jednym miejscu.</p>
+                </div>
+                <div class="intro-actions">
+                    <a class="pill-link" href="kreator.html">🔧 Kreator</a>
+                    <a class="pill-link" href="porownywarka.html">📊 Porównywarka</a>
+                    <a class="pill-link" href="#generator">⚡ Generator</a>
+                </div>
+            </div>
+
+            <div class="quick-grid" role="list">
+                <a class="quick-card" href="#wtyczki" role="listitem">
+                    <div class="quick-ico">🔌</div>
+                    <div class="quick-meta">
+                        <div class="quick-title">Wtyczki</div>
+                        <div class="quick-desc">Najważniejsze dodatki dla Enigma2 – zawsze aktualne.</div>
+                    </div>
+                </a>
+                <a class="quick-card" href="#listy" role="listitem">
+                    <div class="quick-ico">📺</div>
+                    <div class="quick-meta">
+                        <div class="quick-title">Listy kanałów</div>
+                        <div class="quick-desc">Bzyk83, JakiTaki i inne – gotowe paczki do pobrania.</div>
+                    </div>
+                </a>
+                <a class="quick-card" href="#aktualnosci" role="listitem">
+                    <div class="quick-ico">📚</div>
+                    <div class="quick-meta">
+                        <div class="quick-title">Poradniki</div>
+                        <div class="quick-desc">Instrukcje krok po kroku, FAQ i praktyczne wskazówki.</div>
+                    </div>
+                </a>
+                <a class="quick-card" href="#pliki" role="listitem">
+                    <div class="quick-ico">📂</div>
+                    <div class="quick-meta">
+                        <div class="quick-title">Pliki</div>
+                        <div class="quick-desc">Dodatkowe materiały, archiwa i narzędzia pomocnicze.</div>
+                    </div>
+                </a>
+                <a class="quick-card" href="#systemy" role="listitem">
+                    <div class="quick-ico">💿</div>
+                    <div class="quick-meta">
+                        <div class="quick-title">Systemy</div>
+                        <div class="quick-desc">Polecane obrazy, ustawienia i konfiguracje startowe.</div>
+                    </div>
+                </a>
+                <a class="quick-card" href="#kontakt" role="listitem">
+                    <div class="quick-ico">📧</div>
+                    <div class="quick-meta">
+                        <div class="quick-title">Kontakt</div>
+                        <div class="quick-desc">Szybka ścieżka do zgłoszeń i pytań.</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
         
         <div class="search-container" data-aos="fade-down" style="display: none;">
             <input type="text" id="searchBox" onkeyup="filterList()" placeholder="🔍 Szukaj wtyczki, listy lub porady...">
@@ -1544,7 +1607,7 @@
                 </div>
                 <div class="project-stat">
                     <div class="project-stat-label">Twoje wizyty</div>
-                    <div class="project-stat-value" id="local-visit-counter">1</div>
+                    <div class="project-stat-value local-visit-counter">1</div>
                 </div>
             </div>
             
@@ -1690,36 +1753,82 @@
         </a>
     </div>
 
-    <footer>
-        <p>&copy; 2025 AIO-IPTV.pl | PawełPawełek</p>
-        <p>Kontakt: <a href="mailto:msisystem@t.pl">msisystem@t.pl</a></p>
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-grid">
+                <div class="footer-col footer-brand">
+                    <div class="footer-brand-row">
+                        <img class="footer-logo" src="pliki/logo.png" alt="AIO-IPTV.pl">
+                        <div>
+                            <div class="footer-brand-name">AIO-IPTV.pl</div>
+                            <div class="footer-brand-tag">Niezbędnik Enigma2 – wtyczki, listy, poradniki</div>
+                        </div>
+                    </div>
+                    <div class="footer-note">
+                        Autorskie materiały i narzędzia dla użytkowników Enigma2. Wszystko w jednym miejscu – prosto i czytelnie.
+                    </div>
+                </div>
 
-        <p style="margin-top: 10px;">
-            🐛 Znalazłeś błąd na stronie lub w instrukcji?
-            <a href="https://github.com/OliOli2013/aio-iptv-projekt/issues" target="_blank">
-                Zgłoś go na GitHub (Issues)
-            </a>
-        </p>
+                <div class="footer-col">
+                    <div class="footer-title">Szybkie linki</div>
+                    <a class="footer-link" href="#wtyczki">Wtyczki</a>
+                    <a class="footer-link" href="#listy">Listy kanałów</a>
+                    <a class="footer-link" href="#aktualnosci">Poradniki</a>
+                    <a class="footer-link" href="#pliki">Pliki</a>
+                    <a class="footer-link" href="#statystyki">Statystyki</a>
+                </div>
 
-        <div style="margin-top: 15px;">
-            <p style="font-size: 0.8em; color: #8b949e; margin-bottom: 8px;">
-                Statystyki odwiedzin strony mogą być zbierane w sposób anonimowy (np. przez dostawcę hostingu),
-                ale nie są prezentowane publicznie w formie licznika.
-            </p>
-            <p style="font-size: 0.8em; margin-top: 8px;">
-                Twoje wizyty na tej przeglądarce: <span id="local-visit-counter">...</span>
-            </p>
-            <p style="font-size: 0.8em; margin: 0;">
-                <a href="#polityka-prywatnosci">Polityka prywatności</a> ·
-                <a href="#rodo">Informacja o przetwarzaniu danych (RODO)</a>
-            </p>
+                <div class="footer-col">
+                    <div class="footer-title">Narzędzia</div>
+                    <a class="footer-link" href="#generator">Generator One‑Liner</a>
+                    <a class="footer-link" href="kreator.html">Kreator konfiguracji</a>
+                    <a class="footer-link" href="porownywarka.html">Porównywarka tunerów</a>
+                    <a class="footer-link" href="#komentarze">Komentarze</a>
+                </div>
+
+                <div class="footer-col">
+                    <div class="footer-title">Kontakt i wsparcie</div>
+                    <div class="footer-kpi">
+                        <span class="kpi-dot"></span>
+                        <span>Kontakt: <a class="footer-link inline" href="mailto:msisystem@t.pl">msisystem@t.pl</a></span>
+                    </div>
+                    <div class="footer-kpi">
+                        <span class="kpi-dot warn"></span>
+                        <span>
+                            🐛 Znalazłeś błąd?
+                            <a class="footer-link inline" href="https://github.com/OliOli2013/aio-iptv-projekt/issues" target="_blank" rel="noopener">
+                                Zgłoś go na GitHub (Issues)
+                            </a>
+                        </span>
+                    </div>
+                    <div class="footer-kpi small">
+                        Statystyki odwiedzin mogą być zbierane anonimowo (np. przez hosting), ale nie są prezentowane publicznie w formie licznika.
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-bottom-left">
+                    <div>&copy; 2025 AIO-IPTV.pl | by Paweł Pawełek</div>
+                    <div class="footer-legal">
+                        <a href="#polityka-prywatnosci">Polityka prywatności</a>
+                        <span class="sep">·</span>
+                        <a href="#rodo">Informacja o przetwarzaniu danych (RODO)</a>
+                    </div>
+                </div>
+                <div class="footer-bottom-right">
+                    <div class="footer-visits">
+                        Twoje wizyty na tej przeglądarce: <span class="local-visit-counter">...</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="script.js"></script>
+    <script src="script_modern.js"></script>
     
     
     </body>
