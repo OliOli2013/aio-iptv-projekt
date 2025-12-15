@@ -28,6 +28,21 @@
         
         .rank-stats { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 5px; }
         .rank-stats span { background: #21262d; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; color: #c9d1d9; border: 1px solid #30363d; }
+
+        /* Style dla notatki prawnej w wynikach */
+        .comparison-notes {
+            margin-top: 25px;
+            padding: 15px;
+            background: rgba(22, 27, 34, 0.5);
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            color: #8b949e;
+            line-height: 1.5;
+        }
+        .comparison-notes strong { color: #c9d1d9; display: block; margin-bottom: 5px; }
+        .comparison-notes ul { margin: 0; padding-left: 20px; }
+        .comparison-notes li { margin-bottom: 2px; }
     </style>
 </head>
 <body>
@@ -84,9 +99,21 @@
                         <tbody id="comparison-tbody"></tbody>
                     </table>
                 </div>
+                
                 <div class="comparison-verdict">
                     <h4>Analiza AIO-IPTV</h4>
                     <p id="verdict-text"></p>
+                </div>
+
+                <div class="comparison-notes">
+                    <strong>⚠️ Uwagi do zestawienia:</strong>
+                    <ul>
+                        <li>Dla modeli oznaczonych jako "Rynek wtórny" lub "Wycofany" dane są historyczne i mogą wymagać aktualizacji.</li>
+                        <li>W przypadku modeli z wymiennymi tunerami (modularnych) podano konfigurację podstawową.</li>
+                        <li>Dane cenowe są orientacyjne (średnia rynkowa) i mogą się różnić w zależności od sklepu/źródła.</li>
+                        <li>Specyfikacje niektórych starszych modeli mogą być niekompletne w publicznych źródłach.</li>
+                        <li>Zalecam zweryfikowanie najnowszych specyfikacji u producentów przed zakupem.</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -210,16 +237,17 @@
                 <div class="ranking-item">
                     <div class="rank-number">8</div>
                     <div class="rank-info">
-                        <h4>Qviart Dual 4K</h4>
+                        <h4>VU+ Duo 4K SE</h4>
                         <div class="rank-stats">
-                            <span>🤖 Linux + Android</span>
-                            <span>💰 ~690 zł</span>
+                            <span>📺 FBC Tuner</span>
+                            <span>💾 Dysk HDD</span>
+                            <span>💰 ~1650 zł</span>
                         </div>
                         <div class="rank-reason">
-                            <strong>Hybryda.</strong> Unikalne połączenie Enigmy2 i pełnego Androida 9. Możesz używać Oscama i Netflixa na jednym urządzeniu.
+                            <strong>Centrum Multimedialne.</strong> Najlepszy wybór do salonu. Głowice FBC pozwalają nagrywać 8 kanałów jednocześnie. Miejsce na dysk twardy, duży wyświetlacz i topowa jakość obrazu.
                         </div>
                     </div>
-                    <div class="rank-badge hybrid">Hybryda</div>
+                    <div class="rank-badge premium">High-End</div>
                 </div>
 
             </div>
@@ -231,7 +259,7 @@
             <div class="accordion-item">
                 <button class="accordion-header">Moduł CI+ (Polsat/Canal+)</button>
                 <div class="accordion-content">
-                    <p>Jeśli masz kartę wkładaną do modułu (CAM), musisz kupić tuner ze slotem <strong>CI+</strong>. Tanie Zgemmy i Octagony mają tylko czytnik kart (sam plastik), który modułu nie przyjmie. Szukaj: AB Pulse, VU+, GigaBlue.</p>
+                    <p>Jeśli masz kartę wkładaną do modułu (CAM), musisz kupić tuner ze slotem <strong>CI+</strong>. Tanie Zgemmy i Octagony mają tylko czytnik kart (uniwersalny), który nie obsłuży sparowanych kart włożonych w moduł. Szukaj: AB Pulse, VU+, GigaBlue.</p>
                 </div>
             </div>
             
