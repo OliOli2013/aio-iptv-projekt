@@ -1,0 +1,26 @@
+name: Update traffic JSON
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Uruchamia się codziennie o północy
+  workflow_dispatch:      # Pozwala na ręczne uruchomienie przyciskiem
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:          # WAŻNE: Nadaje uprawnienia do zapisu w repozytorium
+      contents: write
+      
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Traffic to JSON
+        uses: sangonz193/github-traffic-action@v1.0.3
+        with:
+          my_token: ${{ secrets.TRAFFIC_TOKEN }}
+          
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Update traffic data"
+          file_pattern: traffic/*
