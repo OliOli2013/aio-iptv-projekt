@@ -105,67 +105,18 @@ function animateNumber(element, target) {
 async function fetchGithubStats() {
     const user = 'OliOli2013';
     const repo = 'aio-iptv-projekt';
-
+    
     const statusWrap = document.getElementById('github-status');
     const statusLabel = document.getElementById('github-status-label');
 
-    // Hero stats (nagłówek)
-    const heroDownloads = document.getElementById('real-downloads');
-    const heroCommunity = document.getElementById('real-users');
-    const heroSupport = document.getElementById('real-support');
-
-    const setHeroValue = (el, value, title) => {
-        if (!el) return;
-        if (typeof title === 'string') el.title = title;
-        if (typeof value === 'number' && Number.isFinite(value)) {
-            el.classList.remove('skeleton');
-            animateNumber(el, Math.max(0, Math.floor(value)));
-        } else {
-            el.textContent = '—';
-        }
-    };
-
-    const sumReleaseDownloads = (releases) => {
-        if (!Array.isArray(releases)) return 0;
-        let total = 0;
-        for (const rel of releases) {
-            const assets = Array.isArray(rel.assets) ? rel.assets : [];
-            for (const a of assets) {
-                const c = Number(a.download_count || 0);
-                if (Number.isFinite(c)) total += c;
-            }
-        }
-        return total;
-    };
-
-    // Opcjonalnie: jeżeli dodasz do repo plik traffic.json (generowany np. GitHub Actions),
-    // strona użyje danych z niego (views/uniques/clones) bez potrzeby tokena w przeglądarce.
-    const tryFetchTrafficJson = async () => {
-        try {
-            const res = await fetch('traffic.json', { cache: 'no-store' });
-            if (!res.ok) return null;
-            const data = await res.json();
-            return data && typeof data === 'object' ? data : null;
-        } catch (e) {
-            return null;
-        }
-    };
-
     try {
-        const [repoRes, releasesRes, trafficJson] = await Promise.all([
-            fetch(`https://api.github.com/repos/${user}/${repo}`),
-            fetch(`https://api.github.com/repos/${user}/${repo}/releases?per_page=5`),
-            tryFetchTrafficJson()
-        ]);
-
+        const repoRes = await fetch(`https://api.github.com/repos/${user}/${repo}`);
         if (!repoRes.ok) {
             throw new Error('HTTP ' + repoRes.status);
         }
 
         const repoData = await repoRes.json();
-        const releasesData = releasesRes.ok ? await releasesRes.json() : [];
-
-        // Sekcja "Statystyki projektu"
+        
         const elStars = document.getElementById('repo-stars');
         const elWatchers = document.getElementById('repo-watchers');
         const elSize = document.getElementById('repo-size');
@@ -177,54 +128,23 @@ async function fetchGithubStats() {
         }
         if (elWatchers) {
             elWatchers.classList.remove('skeleton');
-            // watchers_count zwykle pokrywa się ze stars; forks jest bardziej użyteczne dla "ruchu społeczności"
-            const forks = repoData.forks_count || 0;
-            animateNumber(elWatchers, forks);
-            elWatchers.title = 'Forki (GitHub)';
+            animateNumber(elWatchers, repoData.watchers_count || 0);
         }
         if (elSize) {
             elSize.classList.remove('skeleton');
             const sizeMb = (repoData.size / 1024);
             elSize.textContent = sizeMb.toFixed(1) + ' MB';
         }
+
         if (elDate && repoData.pushed_at) {
             const dateObj = new Date(repoData.pushed_at);
-            const formattedDate = dateObj.toLocaleDateString('pl-PL', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            const formattedDate = dateObj.toLocaleDateString('pl-PL', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
             elDate.textContent = formattedDate;
         }
-
-        // Hero: realne liczby (bez fikcyjnych danych)
-        const stars = Number(repoData.stargazers_count || 0);
-        const forks = Number(repoData.forks_count || 0);
-        const openIssues = Number(repoData.open_issues_count || 0);
-
-        const releasesDownloads = sumReleaseDownloads(releasesData);
-
-        // Domyślnie (publiczne): downloads z Releases, community = stars+forks, wsparcie = open issues
-        let downloadsValue = releasesDownloads;
-        let communityValue = stars + forks;
-
-        // Jeśli jest traffic.json, preferuj te dane (najbliższe wykresom GitHub Traffic)
-        if (trafficJson) {
-            if (typeof trafficJson.clones === 'number') downloadsValue = trafficJson.clones;
-            if (typeof trafficJson.uniques === 'number') communityValue = trafficJson.uniques;
-        }
-
-        setHeroValue(
-            heroDownloads,
-            downloadsValue,
-            trafficJson ? 'Clones (ostatnie 14 dni) z traffic.json' : 'Suma pobrań plików w GitHub Releases (ostatnie 5 wydań)'
-        );
-        setHeroValue(
-            heroCommunity,
-            communityValue,
-            trafficJson ? 'Unique visitors (ostatnie 14 dni) z traffic.json' : 'Społeczność: stars + forki (GitHub)'
-        );
-        setHeroValue(
-            heroSupport,
-            openIssues,
-            'Otwarte zgłoszenia (Issues/PR) w repozytorium'
-        );
 
         if (statusWrap && statusLabel) {
             statusWrap.classList.remove('error');
@@ -239,11 +159,6 @@ async function fetchGithubStats() {
             statusWrap.classList.add('error');
             statusLabel.textContent = 'API GitHub: problem z połączeniem';
         }
-
-        // Hero fallback
-        if (heroDownloads) heroDownloads.textContent = '—';
-        if (heroCommunity) heroCommunity.textContent = '—';
-        if (heroSupport) heroSupport.textContent = '—';
     }
 }
 
@@ -409,8 +324,8 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem(storageKey, String(count));
 
     counterElements.forEach((el) => { el.textContent = count; });
-    try { initSupportDrawer(); } catch (e) {}
 });
+
 
 // Kalkulator wielkości EPG
 function calculateEpgSize() {
@@ -568,7 +483,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         wrapper.appendChild(btn);
     });
-
 });
 
 // Quiz Enigma2
@@ -716,11 +630,9 @@ document.addEventListener('DOMContentLoaded', () => {
     initRatings();
     initParticles();
     initChart();
-
 });
-
 // Chart.js initialization
-// Chart.js initialization (real metrics)
+// Chart.js initialization (real metrics: prefer Traffic "Clones uniques" when available)
 async function initChart() {
     if (typeof Chart === 'undefined') return;
     const ctx = document.getElementById('popularity-chart');
@@ -750,8 +662,7 @@ async function initChart() {
     };
 
     const tryFetchLocalTraffic = async (repo) => {
-        // Optional: generated by GitHub Actions (token required) and committed to this site repo.
-        // Expected file: traffic/<repo>.json
+        // Expected file: traffic/<repo>.json (generated by GitHub Actions and committed to this site repo)
         try {
             const res = await fetch(`traffic/${encodeURIComponent(repo)}.json`, { cache: 'no-store' });
             if (!res.ok) return null;
@@ -760,6 +671,29 @@ async function initChart() {
         } catch (e) {
             return null;
         }
+    };
+
+    const getTrafficClonesUniques = (data) => {
+        // Supports both formats:
+        // 1) { summary: { clones: { uniques } } }  (recommended)
+        // 2) { clones: { uniques } }              (legacy)
+        try {
+            const v1 = data && data.summary && data.summary.clones && data.summary.clones.uniques;
+            if (Number.isFinite(Number(v1))) return Number(v1);
+            const v2 = data && data.clones && data.clones.uniques;
+            if (Number.isFinite(Number(v2))) return Number(v2);
+        } catch (e) {}
+        return null;
+    };
+
+    const getTrafficViewsUniques = (data) => {
+        try {
+            const v1 = data && data.summary && data.summary.views && data.summary.views.uniques;
+            if (Number.isFinite(Number(v1))) return Number(v1);
+            const v2 = data && data.views && data.views.uniques;
+            if (Number.isFinite(Number(v2))) return Number(v2);
+        } catch (e) {}
+        return null;
     };
 
     const fetchReleaseDownloads = async (repo) => {
@@ -793,39 +727,31 @@ async function initChart() {
             fetchRepoStars(r.repo),
         ]);
 
-        // Prefer real "Traffic" numbers if local JSON exists (closest to /graphs/traffic).
-        // Otherwise fall back to public metrics.
-        let value = null;
-        let source = '';
-        let hint = '';
+        let value = 0;
+        let source = 'Brak danych';
 
-        if (traffic && traffic.views && Number.isFinite(Number(traffic.views.uniques))) {
-            value = Number(traffic.views.uniques);
-            source = 'Traffic (Views uniques / 14 dni)';
-            hint = 'Źródło: traffic/*.json';
-        } else if (traffic && traffic.clones && Number.isFinite(Number(traffic.clones.uniques))) {
-            value = Number(traffic.clones.uniques);
+        // Prefer: Traffic (Clones uniques / 14 dni)
+        const clonesU = getTrafficClonesUniques(traffic);
+        const viewsU = getTrafficViewsUniques(traffic);
+
+        if (Number.isFinite(clonesU) && clonesU !== null) {
+            value = clonesU;
             source = 'Traffic (Clones uniques / 14 dni)';
-            hint = 'Źródło: traffic/*.json';
+        } else if (Number.isFinite(viewsU) && viewsU !== null) {
+            value = viewsU;
+            source = 'Traffic (Views uniques / 14 dni)';
         } else if (Number.isFinite(downloads) && downloads !== null) {
             value = downloads;
             source = 'Pobrania (Releases)';
-            hint = 'Źródło: GitHub API (Releases)';
         } else if (Number.isFinite(stars) && stars !== null) {
             value = stars;
             source = 'Gwiazdki (Stars)';
-            hint = 'Źródło: GitHub API';
-        } else {
-            value = 0;
-            source = 'Brak danych';
-            hint = '';
         }
 
         results.push({
             ...r,
-            value: Math.max(0, Math.floor(value || 0)),
+            value: Math.max(0, Math.floor(Number(value || 0))),
             source,
-            hint,
         });
     }
 
@@ -1078,6 +1004,55 @@ document.head.appendChild(style);
 
 
 // =========================
+// Mobile: szybki dostęp do "Wsparcie / kawa"
+// =========================
+function initMobileSupportFab() {
+  try {
+    if (!window.matchMedia || !window.matchMedia('(max-width: 700px)').matches) return;
+
+    const supportSection = document.getElementById('wsparcie');
+    if (!supportSection) return;
+
+    // Jeśli CSS ukrywa sekcję na mobile, wymuś widoczność (inline ma pierwszeństwo)
+    supportSection.style.display = 'block';
+
+    // Nie twórz duplikatu
+    if (document.getElementById('supportFab')) return;
+
+    const fab = document.createElement('button');
+    fab.id = 'supportFab';
+    fab.type = 'button';
+    fab.textContent = '☕ Wsparcie';
+    fab.setAttribute('aria-label', 'Przejdź do sekcji Wsparcie');
+    fab.style.cssText = [
+      'position:fixed',
+      'left:14px',
+      'bottom:14px',
+      'z-index:9999',
+      'padding:10px 14px',
+      'border-radius:999px',
+      'border:1px solid rgba(255,255,255,.18)',
+      'background:rgba(17,24,39,.72)',
+      'backdrop-filter:blur(10px)',
+      '-webkit-backdrop-filter:blur(10px)',
+      'color:#fff',
+      'font-weight:700',
+      'font-size:13px',
+      'box-shadow:0 10px 30px rgba(0,0,0,.35)',
+      'cursor:pointer'
+    ].join(';');
+
+    fab.addEventListener('click', () => {
+      supportSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    document.body.appendChild(fab);
+  } catch (e) {
+    console.warn('supportFab error', e);
+  }
+}
+
+// =========================
 // Top info bar (date/weather/login/notifications)
 // =========================
 function formatPolishDate(d) {
@@ -1244,22 +1219,6 @@ function openComments() {
   if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-
-function canonicalPageKey(pathname) {
-  let p = String(pathname || '/');
-  // normalize index.html variants
-  if (p.endsWith('/index.html') || p.endsWith('/index.htm')) {
-    p = p.replace(/\/index\.html?$/i, '/');
-  }
-  // ensure leading slash
-  if (!p.startsWith('/')) p = '/' + p;
-  // ensure trailing slash for "directory" pages (GitHub Pages root)
-  if (!p.endsWith('/')) p = p + '/';
-  // collapse double slashes
-  p = p.replace(/\/+/g, '/');
-  return p;
-}
-
 // =========================
 // Public comments (Supabase)
 // =========================
@@ -1306,35 +1265,14 @@ async function initPublicComments() {
   }
 
   const client = window.supabase.createClient(cfg.url, cfg.anon);
-  const pageRaw = location.pathname || '/';
-  const page = canonicalPageKey(pageRaw);
+  const page = location.pathname || '/';
 
-  // Wsteczna kompatybilność: wcześniejsze wersje mogły zapisywać "page" jako pełny URL.
-  const fullUrl = String(location.href || '').split('#')[0].split('?')[0];
-  const origin = location.origin || '';
-  const canonicalUrl = origin ? (origin + page) : page;
-
-  const pageKeys = Array.from(new Set([
-    page,
-    pageRaw,
-    pageRaw.endsWith('/') ? (pageRaw + 'index.html') : pageRaw,
-    pageRaw.endsWith('/index.html') ? pageRaw.replace(/\/index\.html$/i, '/') : pageRaw,
-    pageRaw.endsWith('/index.htm') ? pageRaw.replace(/\/index\.htm$/i, '/') : pageRaw,
-
-    // Full URL variants
-    fullUrl,
-    canonicalUrl,
-    origin ? (origin + pageRaw) : '',
-    origin ? (origin + (pageRaw.endsWith('/') ? (pageRaw + 'index.html') : pageRaw)) : '',
-    origin ? (origin + pageRaw.replace(/\/index\.html?$/i, '/')) : '',
-  ].filter(Boolean)));
-
-const load = async () => {
+  const load = async () => {
     if (statusEl) statusEl.textContent = 'Ładowanie komentarzy...';
     const { data, error } = await client
       .from('comments')
       .select('id,page,name,message,rating,created_at')
-      .in('page', pageKeys)
+      .eq('page', page)
       .order('created_at', { ascending: false })
       .limit(100);
 
@@ -1417,53 +1355,13 @@ const load = async () => {
 // =========================
 // Init (safe for subpages)
 // =========================
-// =========================
-// Comments UX: collapsible panel (mobile-friendly)
-// =========================
-let __publicCommentsBootstrapped = false;
-function ensurePublicComments() {
-  if (__publicCommentsBootstrapped) return;
-  __publicCommentsBootstrapped = true;
-  try { initPublicComments(); } catch (e) { console.warn(e); }
-}
-
-function initCommentsCollapsible() {
-  const toggle = document.getElementById('commentsToggle');
-  const panel = document.getElementById('commentsPanel');
-
-  // Fallback: if markup not present, just initialize comments normally
-  if (!toggle || !panel) {
-    ensurePublicComments();
-    return;
-  }
-
-  const preferCollapsed = window.matchMedia && window.matchMedia('(max-width: 600px)').matches;
-
-  const setState = (open) => {
-    if (open) {
-      panel.hidden = false;
-      toggle.textContent = 'Ukryj';
-      toggle.setAttribute('aria-expanded', 'true');
-      ensurePublicComments();
-    } else {
-      panel.hidden = true;
-      toggle.textContent = 'Pokaż';
-      toggle.setAttribute('aria-expanded', 'false');
-    }
-  };
-
-  // Default: desktop open, mobile collapsed
-  setState(!preferCollapsed);
-
-  toggle.addEventListener('click', () => setState(panel.hidden));
-}
-
 document.addEventListener('DOMContentLoaded', () => {
   try { initTopInfoBar(); } catch (e) { console.warn(e); }
   try { initSectionNav(); } catch (e) { console.warn(e); }
-  try { initCommentsCollapsible(); } catch (e) { console.warn(e); }
-
+  try { initPublicComments(); } catch (e) { console.warn(e); }
 });
+
+
 
 // =========================
 // Modern navigation UX (mobile toggle + scrollspy)
@@ -1514,48 +1412,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
         sections.forEach(sec => obs.observe(sec));
     }
-
 });
-
-/* --- Mobile support drawer (Coffee) --- */
-function initSupportDrawer() {
-    const fab = document.getElementById('support-fab');
-    const drawer = document.getElementById('support-drawer');
-    const closeBtn = document.getElementById('support-drawer-close');
-    const backdrop = document.getElementById('support-drawer-backdrop');
-    const content = document.getElementById('support-drawer-content');
-    const supportCard = document.getElementById('wsparcie');
-
-    if (!fab || !drawer || !content || !supportCard) return;
-
-    // Fill drawer with existing content (without duplicating large layout styles)
-    try {
-        content.innerHTML = supportCard.innerHTML;
-    } catch (e) {
-        // ignore
-    }
-
-    const open = () => {
-        drawer.classList.add('open');
-        drawer.setAttribute('aria-hidden', 'false');
-        document.documentElement.classList.add('no-scroll');
-        document.body.classList.add('no-scroll');
-    };
-
-    const close = () => {
-        drawer.classList.remove('open');
-        drawer.setAttribute('aria-hidden', 'true');
-        document.documentElement.classList.remove('no-scroll');
-        document.body.classList.remove('no-scroll');
-    };
-
-    fab.addEventListener('click', open);
-    closeBtn && closeBtn.addEventListener('click', close);
-    backdrop && backdrop.addEventListener('click', close);
-
-    // ESC
-    document.addEventListener('keydown', (ev) => {
-        if (ev.key === 'Escape' && drawer.classList.contains('open')) close();
-    });
-}
-
