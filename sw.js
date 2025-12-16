@@ -1,6 +1,6 @@
 // sw.js - Service Worker dla trybu offline
 
-const CACHE_NAME = 'aio-iptv-v3';
+const CACHE_NAME = 'aio-iptv-v3-fix1';
 const urlsToCache = [
   './',
   './index.html',
