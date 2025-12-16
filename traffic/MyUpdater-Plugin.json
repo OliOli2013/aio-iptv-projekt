@@ -1,21 +1,21 @@
 {
   "owner": "OliOli2013",
   "repo": "MyUpdater-Plugin",
-  "updatedAt": "2025-12-15T20:29:35Z",
+  "updatedAt": "2025-12-16T03:57:46Z",
   "summary": {
     "views": {
-      "count": 18,
-      "uniques": 1
+      "count": 19,
+      "uniques": 2
     },
     "clones": {
-      "count": 15,
-      "uniques": 13
+      "count": 14,
+      "uniques": 12
     }
   },
   "raw": {
     "views": {
-      "count": 18,
-      "uniques": 1,
+      "count": 19,
+      "uniques": 2,
       "views": [
         {
           "timestamp": "2025-12-10T00:00:00Z",
@@ -29,20 +29,15 @@
         },
         {
           "timestamp": "2025-12-15T00:00:00Z",
-          "count": 3,
-          "uniques": 1
+          "count": 4,
+          "uniques": 2
         }
       ]
     },
     "clones": {
-      "count": 15,
-      "uniques": 13,
+      "count": 14,
+      "uniques": 12,
       "clones": [
-        {
-          "timestamp": "2025-12-01T00:00:00Z",
-          "count": 1,
-          "uniques": 1
-        },
         {
           "timestamp": "2025-12-03T00:00:00Z",
           "count": 2,

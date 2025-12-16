@@ -1,15 +1,15 @@
 {
   "owner": "OliOli2013",
   "repo": "PanelAIO-Plugin",
-  "updatedAt": "2025-12-15T20:29:35Z",
+  "updatedAt": "2025-12-16T03:57:46Z",
   "summary": {
     "views": {
       "count": 43,
       "uniques": 13
     },
     "clones": {
-      "count": 123,
-      "uniques": 68
+      "count": 80,
+      "uniques": 47
     }
   },
   "raw": {
@@ -70,18 +70,13 @@
       ]
     },
     "clones": {
-      "count": 123,
-      "uniques": 68,
+      "count": 80,
+      "uniques": 47,
       "clones": [
         {
-          "timestamp": "2025-12-01T00:00:00Z",
-          "count": 36,
-          "uniques": 17
-        },
-        {
           "timestamp": "2025-12-02T00:00:00Z",
-          "count": 8,
-          "uniques": 5
+          "count": 1,
+          "uniques": 1
         },
         {
           "timestamp": "2025-12-03T00:00:00Z",
