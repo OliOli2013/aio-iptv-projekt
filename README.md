@@ -1,56 +1,24 @@
-AIO-IPTV / Enigma2 Hub
+# 📺 AIO-IPTV Project
+### Autorskie narzędzia, wtyczki i listy dla Enigma2
 
-Nowoczesne centrum dla użytkowników Enigma2: pliki do pobrania, poradniki, narzędzia oraz wygodny panel webowy działający na GitHub Pages. Projekt jest tworzony z myślą o image’ach OpenATV / OpenPLi / Egami oraz narzędziach typu OSCam.
+![Enigma2](https://img.shields.io/badge/Enigma2-Plugin-blue?style=for-the-badge&logo=linux)
+![Python](https://img.shields.io/badge/Python-2_%26_3-yellow?style=for-the-badge&logo=python)
+![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
 
-Co dostajesz
+---
 
-Stronę w stylu nowoczesnego panelu (GitHub Pages, bez backendu)
+## 🚀 Oficjalna Strona i Pobieranie
+Dla wygody użytkowników przygotowałem dedykowaną stronę z łatwym dostępem do plików, poradników i instalatorów:
 
-Wtyczki, listy kanałów i paczki – w jednym miejscu
+### 👉 [KLIKNIJ TUTAJ, ABY OTWORZYĆ AIO-IPTV.PL](https://olioli2013.github.io/aio-iptv-projekt/) 👈
 
-Centrum wiedzy Enigma2: wyszukiwarka + tagi + mini-tutoriale
+---
 
-Narzędzia Enigma2: gotowe komendy i akcje (z przyciskiem „kopiuj”)
+## 🛠️ Co znajdziesz w repozytorium?
+To repozytorium to kompletny niezbędnik dla użytkowników tunerów z systemem Enigma2 (OpenATV, OpenPLi itp.).
 
-AI-Chat Enigma2 (offline): szybkie podpowiedzi o piconach, listach, OSCam, logach, restartach GUI itd.
-
-Powiadomienia (dzwoneczek): changelog zmian na stronie + licznik nieprzeczytanych
-
-PWA / Offline: szybsze ładowanie i podstawowa praca bez internetu
-
-Oficjalna strona
-
-AIO-IPTV.pl – pobieranie, poradniki i narzędzia w jednym panelu.
-
-Jak to działa technicznie
-
-Projekt jest w pełni statyczny:
-
-działa na GitHub Pages
-
-bez kluczy API i bez serwera
-
-dane (wiedza, narzędzia, zmiany) są w plikach data/*.json
-
-Najważniejsze pliki
-
-index.html – strona
-
-script_modern.js – logika (AI-Chat, powiadomienia, wyszukiwarka, kopiowanie)
-
-home_modern.css / style.css – UI
-
-data/knowledge.json – baza wiedzy Enigma2
-
-data/tools.json – narzędzia/komendy
-
-data/updates.json – powiadomienia/changelog
-
-manifest.json, service-worker.js, offline.html – PWA
-
-Autor
-
-Paweł Pawełek
-Kontakt: msisystem@t.pl
-
-Licencja: MIT
+* **AIO Panel** – Wielofunkcyjny panel zarządzania systemem.
+* **IPTV Dream** – Zaawansowany odtwarzacz materiałów IPTV.
+* **Listy Kanałów** – Aktualizowane paczki (Bzyk83, JakiTaki) dla 13°E i 19°E.
+* **Updatery** – MyUpdater oraz PiconUpdater.
+* **Skrypty** – Instalatory pakietów systemowych (ffmpeg, exteplayer3, serviceapp).

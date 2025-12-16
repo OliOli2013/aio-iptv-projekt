@@ -24,6 +24,48 @@
     return await res.json();
   }
 
+
+  // -----------------------------
+  // Real AI via Supabase Edge Function (optional)
+  // -----------------------------
+  function getAIConfig() {
+    const cfg = (window.AIO_SITE || window.AIO_SITE_CONFIG || {});
+    const supabaseUrl = safeText(cfg.supabaseUrl || '').trim();
+    const anonKey = safeText(cfg.supabaseAnonKey || '').trim();
+    const fnName = safeText(cfg.aiFunctionName || 'aio-ai').trim();
+    return { supabaseUrl, anonKey, fnName, enabled: !!(supabaseUrl && anonKey) };
+  }
+
+  async function callSupabaseAI(payload) {
+    const { supabaseUrl, anonKey, fnName, enabled } = getAIConfig();
+    if (!enabled) throw new Error('AI not configured');
+    const url = `${supabaseUrl.replace(/\/$/, '')}/functions/v1/${encodeURIComponent(fnName)}`;
+
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${anonKey}`,
+        'apikey': anonKey
+      },
+      body: JSON.stringify(payload || {})
+    });
+
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      const msg = safeText(data.error || data.message || `HTTP ${res.status}`);
+      throw new Error(msg);
+    }
+    return data;
+  }
+
+  function clipText(s, maxLen) {
+    s = safeText(s);
+    if (s.length <= maxLen) return s;
+    return s.slice(0, maxLen) + `\n\n[...obcięto do ${maxLen} znaków]`;
+  }
+
+
   // -----------------------------
   // Support drawer (mobile safe)
   // -----------------------------
@@ -585,16 +627,54 @@
       return parts.join('\n');
     }
 
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const q = safeText(input.value).trim();
       if (!q) return;
+
       input.value = '';
       addMsg('user', q);
 
+      // optimistic placeholder
+      addMsg('ai', 'Przetwarzam…');
+
+      const setLastAI = (txt) => {
+        for (let i = history.length - 1; i >= 0; i--) {
+          if (history[i] && history[i].role === 'ai') {
+            history[i].text = safeText(txt);
+            break;
+          }
+        }
+        localStorage.setItem(CHAT_STORAGE, JSON.stringify(history.slice(-40)));
+        renderHistory();
+        messages.scrollTop = messages.scrollHeight;
+      };
+
+      try {
+        const cfg = getAIConfig();
+        if (cfg.enabled) {
+          const payload = {
+            mode: 'chat',
+            message: q,
+            history: history.slice(-20).map(x => ({ role: x.role, text: x.text }))
+          };
+          const data = await callSupabaseAI(payload);
+          const reply = safeText(data.reply || data.text || data.message || '');
+          setLastAI(reply || 'Brak odpowiedzi z AI.');
+          return;
+        }
+      } catch (err) {
+        // fall through to offline
+      }
+
+      // Offline fallback (KB match)
       const { best, score } = bestMatch(q);
-      const answer = (score >= 3) ? buildAnswer(best) : "Nie znalazłem dopasowania w lokalnej bazie. Spróbuj bardziej konkretnie: „picony ServiceRef”, „softcam feed OpenATV”, „init 4 init 3”.";
-      addMsg('ai', answer);
+      const answer = (score >= 3)
+        ? buildAnswer(best)
+        : "Nie znam jeszcze odpowiedzi w trybie offline. Spróbuj użyć słów kluczowych: „picony ServiceRef”, „softcam feed OpenATV”, „init 4 init 3”.
+
+Jeśli chcesz prawdziwe AI, skonfiguruj Supabase Edge Function (opis w README).";
+      setLastAI(answer);
     });
 
     // ESC close
@@ -612,7 +692,190 @@
   }
 
   // -----------------------------
-  // Boot
+  
+
+  // -----------------------------
+  // Log Analyzer (paste log -> identify -> hints / fixes)
+  // -----------------------------
+  function escapeHtml(s){
+    return safeText(s).replace(/[&<>"']/g, (c)=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+  }
+
+  function formatBlock(text){
+    // lightweight formatting (code fence if looks like log)
+    const t = safeText(text).trim();
+    const lines = t.split(/\r?\n/);
+    const short = lines.length <= 2 && t.length < 220;
+    if (short) return `<p>${escapeHtml(t)}</p>`;
+    return `<pre class="mono">${escapeHtml(t)}</pre>`;
+  }
+
+  function analyzeLogOffline(raw){
+    const text = safeText(raw);
+    const lower = text.toLowerCase();
+
+    const findings = [];
+    let kind = 'Nieznany log';
+    let cause = '';
+    const steps = [];
+
+    const add = (t)=>{ if(t) findings.push(t); };
+
+    // Crashlog / Python traceback
+    if (lower.includes('traceback (most recent call last)') || lower.includes('enigma2 crashed')) {
+      kind = 'Crashlog Enigma2 (Python/GUI)';
+      add('Wykryto „Traceback” lub frazę „enigma2 crashed”.');
+      const m1 = text.match(/File "([^"]+)".*?line (\d+)/i);
+      if (m1) add(`Podejrzany plik: ${m1[1]} (linia ${m1[2]}).`);
+      if (lower.includes('no module named')) {
+        const mm = text.match(/No module named ([A-Za-z0-9_\.]+)/i);
+        cause = mm ? `Brak modułu Python: ${mm[1]}` : 'Brak modułu Python (No module named).';
+        steps.push('Zaktualizuj listę pakietów: `opkg update`.');
+        steps.push('Doinstaluj brakujący moduł (jeśli znasz nazwę pakietu).');
+        steps.push('Jeśli błąd dotyczy wtyczki — odinstaluj ją i zainstaluj ponownie.');
+      } else if (lower.includes('skin error') || lower.includes('skin')) {
+        cause = 'Błąd skina lub brak zasobu w skinie.';
+        steps.push('Przełącz skin na domyślny (np. MetrixHD / DefaultHD) i zrestartuj GUI.');
+        steps.push('Zaktualizuj lub przeinstaluj skin / komponenty zależne.');
+      } else if (lower.includes('segmentation fault')) {
+        cause = 'Segmentation fault (problem binarny / sterownik / konflikt).';
+        steps.push('Zrestartuj GUI i sprawdź, czy problem się powtarza.');
+        steps.push('Zaktualizuj image do najnowszej wersji i sterowniki tunerów.');
+        steps.push('Wyłącz problematyczne wtyczki (szczególnie IPTV/players) i testuj po kolei.');
+      } else {
+        cause = 'Ogólny crash GUI — potrzebne są szczegóły (wtyczka/skin/sterownik).';
+        steps.push('Sprawdź ostatnio instalowane wtyczki i odinstaluj podejrzane.');
+        steps.push('Zrób restart GUI: `init 4 && sleep 2 && init 3`.');
+        steps.push('Wklej więcej fragmentu logu (początek Traceback + ostatnie 30 linii).');
+      }
+    }
+
+    // OSCam
+    if (lower.includes('oscam') && (lower.includes('reader') || lower.includes('emm') || lower.includes('ecm'))) {
+      kind = (kind === 'Nieznany log') ? 'Log OSCam' : kind;
+      add('W logu widać wpisy charakterystyczne dla OSCam (ECM/EMM/Reader).');
+      if (lower.includes('not found') || lower.includes('unknown')) {
+        steps.push('Sprawdź konfigurację: `oscam.server`, `oscam.user`, `oscam.conf`.');
+      }
+      if (lower.includes('rejected') || lower.includes('invalid')) {
+        steps.push('Sprawdź dane użytkownika/hasło oraz protokół (CCcam/newcamd).');
+      }
+    }
+
+    // opkg / install
+    if (lower.includes('opkg') || lower.includes('collected errors') || lower.includes('unknown package')) {
+      kind = (kind === 'Nieznany log') ? 'Log instalacji (opkg)' : kind;
+      add('Wykryto log z opkg (instalacja/aktualizacja pakietów).');
+      if (lower.includes('unknown package')) {
+        cause = cause || 'Pakiet nie istnieje w feedzie.';
+        steps.push('Sprawdź, czy masz poprawny feed dla image (OpenATV/OpenPLi).');
+        steps.push('Zrób `opkg update` i spróbuj ponownie.');
+      }
+      if (lower.includes('depends on')) {
+        cause = cause || 'Brak zależności pakietu.';
+        steps.push('Zainstaluj brakujące zależności lub użyj pełnego feedu.');
+      }
+    }
+
+    if (!cause) cause = 'Brak jednoznacznej przyczyny — potrzebne są dodatkowe linie kontekstu.';
+    if (!steps.length) {
+      steps.push('Wklej pełniejszy fragment logu (początek + koniec).');
+      steps.push('Podaj: image (OpenATV/OpenPLi/Egami), model tunera, ostatnio instalowane wtyczki.');
+    }
+
+    return { kind, findings, cause, steps };
+  }
+
+  function renderOfflineAnalysis(result){
+    const { kind, findings, cause, steps } = result;
+    const list = (arr)=> arr.map(x=>`<li>${escapeHtml(x)}</li>`).join('');
+    return `
+      <div class="log-result__section">
+        <div class="log-result__title">Wykryto</div>
+        <div class="log-result__pill">${escapeHtml(kind)}</div>
+      </div>
+      <div class="log-result__section">
+        <div class="log-result__title">Co zawiera log</div>
+        <ul class="log-result__list">${list(findings.length?findings:['Nie udało się jednoznacznie sklasyfikować logu.'])}</ul>
+      </div>
+      <div class="log-result__section">
+        <div class="log-result__title">Najbardziej prawdopodobna przyczyna</div>
+        <div class="log-result__text">${escapeHtml(cause)}</div>
+      </div>
+      <div class="log-result__section">
+        <div class="log-result__title">Proponowane kroki</div>
+        <ol class="log-result__list">${list(steps).replace(/<ul/,'<ol').replace(/<\/ul>/,'</ol>')}</ol>
+      </div>
+    `;
+  }
+
+  function initLogAnalyzerFinal(){
+    const drawer = qs('#log-analyzer-drawer');
+    const openBtns = qsa('.js-open-log');
+    const closeBtn = qs('#log-drawer-close');
+    const backdrop = qs('#log-drawer-backdrop');
+    const input = qs('#log-input');
+    const analyzeBtn = qs('#log-analyze-btn');
+    const clearBtn = qs('#log-clear-btn');
+    const resultEl = qs('#log-result');
+
+    if (!drawer || !input || !analyzeBtn || !resultEl) return;
+
+    const open = () => {
+      drawer.classList.add('open');
+      drawer.setAttribute('aria-hidden','false');
+      setNoScroll(true);
+      setTimeout(()=>input.focus(), 80);
+    };
+    const close = () => {
+      drawer.classList.remove('open');
+      drawer.setAttribute('aria-hidden','true');
+      setNoScroll(false);
+    };
+
+    openBtns.forEach((b)=>{
+      b.addEventListener('click',(e)=>{ e.preventDefault(); open(); });
+      b.addEventListener('touchend',(e)=>{ e.preventDefault(); e.stopPropagation(); open(); }, {passive:false});
+    });
+
+    if (closeBtn) closeBtn.addEventListener('click', close);
+    if (backdrop) backdrop.addEventListener('click', close);
+
+    if (clearBtn) clearBtn.addEventListener('click', ()=>{
+      input.value = '';
+      resultEl.innerHTML = '<div class="log-result__empty">Wynik analizy pojawi się tutaj.</div>';
+      input.focus();
+    });
+
+    analyzeBtn.addEventListener('click', async ()=>{
+      const raw = safeText(input.value).trim();
+      if (!raw) return;
+      resultEl.innerHTML = '<div class="log-result__empty">Analizuję…</div>';
+
+      try {
+        const cfg = getAIConfig();
+        if (cfg.enabled) {
+          const data = await callSupabaseAI({
+            mode: 'log',
+            log: clipText(raw, 12000)
+          });
+          const reply = safeText(data.reply || data.text || data.message || '');
+          resultEl.innerHTML = reply ? formatBlock(reply) : '<div class="log-result__empty">Brak odpowiedzi z AI.</div>';
+          return;
+        }
+      } catch (e) {
+        // fall back
+      }
+
+      const offline = analyzeLogOffline(raw);
+      resultEl.innerHTML = renderOfflineAnalysis(offline);
+    });
+
+    // ESC close
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && drawer.classList.contains('open')) close(); });
+  }
+
+// Boot
   // -----------------------------
   document.addEventListener('DOMContentLoaded', () => {
     initSupportDrawerFinal();
@@ -622,6 +885,7 @@
     initToolsFinal();
     initSystemsFinal();
     initAIChatFinal();
+    initLogAnalyzerFinal();
     initPWA();
   });
 })();

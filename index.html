@@ -505,6 +505,157 @@
     </style>
     <link rel="stylesheet" href="home_modern.css">
     <!-- Google Search Console: file verification is enabled via googlef4b9a82addbed417.html -->
+
+<style id="aio-mobile-fixes">
+/* =========================
+   Mobile UX fixes (AIO-IPTV)
+   ========================= */
+
+/* 1) Nie „przyklejaj” belki na telefonie — ma nie zasłaniać ekranu */
+@media (max-width: 820px){
+  .main-navigation-bar{ position: static !important; top:auto !important; }
+  .top-info-bar{ position: static !important; }
+}
+
+/* 2) Powiadomienia zawsze na wierzchu (nie mogą być przysłonięte) */
+.notifications-backdrop{
+  display:none;
+  position: fixed;
+  inset: 0;
+  background: rgba(2,6,23,.62);
+  z-index: 3900;
+}
+.notifications-backdrop.show{ display:block; }
+.notifications-dropdown{
+  position: fixed !important;
+  top: 58px;
+  right: 12px;
+  z-index: 4000;
+  max-width: min(520px, calc(100vw - 24px));
+}
+@media (max-width: 820px){
+  .notifications-dropdown{
+    left: 12px;
+    right: 12px;
+    top: 68px;
+  }
+}
+
+/* 3) Marquee / ticker wsparcia w górnej belce */
+.support-ticker{
+  flex: 1 1 auto;
+  min-width: 140px;
+  overflow: hidden;
+  margin: 0 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(148,163,184,.18);
+  background: rgba(2,6,23,.22);
+}
+.support-ticker__track{
+  display:flex;
+  gap: 24px;
+  white-space: nowrap;
+  padding: 8px 14px;
+  align-items:center;
+  color: #e2e8f0;
+  font-weight: 800;
+  font-size: 0.82rem;
+  letter-spacing: .2px;
+  animation: aio-marquee 18s linear infinite;
+}
+.support-ticker__track span{ opacity: .95; }
+@keyframes aio-marquee{
+  0%{ transform: translateX(0); }
+  100%{ transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce){
+  .support-ticker__track{ animation: none; }
+}
+
+/* 4) Log drawer (modal) */
+.log-drawer{ display:none; position: fixed; inset:0; z-index: 4100; }
+.log-drawer.open{ display:block; }
+.log-drawer__backdrop{ position:absolute; inset:0; background: rgba(2,6,23,.70); }
+.log-drawer__sheet{
+  position:absolute;
+  right: 16px;
+  bottom: 16px;
+  width: min(720px, calc(100vw - 32px));
+  max-height: min(84vh, 780px);
+  display:flex;
+  flex-direction:column;
+  border-radius: 18px;
+  border: 1px solid rgba(148,163,184,.20);
+  background: rgba(10,16,32,.92);
+  box-shadow: 0 28px 90px rgba(0,0,0,.70);
+  overflow:hidden;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+@media (max-width: 820px){
+  .log-drawer__sheet{
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    width: auto;
+    max-height: 86vh;
+  }
+}
+.log-drawer__header{
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(148,163,184,.16);
+}
+.log-drawer__title{ font-weight: 900; color:#e5e7eb; }
+.log-drawer__close{
+  width: 36px; height:36px; border-radius: 10px;
+  border: 1px solid rgba(148,163,184,.20);
+  background: rgba(2,6,23,.25);
+  color:#e5e7eb; font-size: 1.25rem; cursor:pointer;
+}
+.log-drawer__body{ padding: 12px 14px; overflow:auto; }
+.log-drawer__hint{ margin: 0 0 10px; color: rgba(226,232,240,.85); font-size: .92rem; }
+.log-drawer__textarea{
+  width:100%;
+  min-height: 180px;
+  max-height: 38vh;
+  resize: vertical;
+  border-radius: 14px;
+  border: 1px solid rgba(148,163,184,.20);
+  background: rgba(2,6,23,.30);
+  color: #e2e8f0;
+  padding: 12px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 12px;
+  line-height: 1.35;
+}
+.log-drawer__actions{ display:flex; gap: 10px; margin-top: 10px; }
+.log-drawer__result{
+  margin-top: 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(148,163,184,.18);
+  background: rgba(2,6,23,.20);
+  padding: 12px;
+  color: #e2e8f0;
+}
+.log-result__empty{ opacity:.75; }
+.log-drawer__footer{
+  padding: 10px 14px;
+  border-top: 1px solid rgba(148,163,184,.14);
+  color: rgba(226,232,240,.70);
+  font-size: .82rem;
+}
+
+/* 5) Log analyzer result formatting */
+.mono{ white-space: pre-wrap; word-break: break-word; font-size: 12px; line-height:1.35; margin:0; }
+.log-result__section{ margin-bottom: 12px; }
+.log-result__title{ font-weight: 900; margin-bottom: 6px; color:#e5e7eb; }
+.log-result__pill{ display:inline-block; padding: 6px 10px; border-radius: 999px; border:1px solid rgba(148,163,184,.22); background: rgba(2,6,23,.25); font-weight: 800; }
+.log-result__text{ color: rgba(226,232,240,.92); }
+.log-result__list{ margin: 0; padding-left: 18px; color: rgba(226,232,240,.92); }
+.log-result__list li{ margin: 6px 0; }
+</style>
+
 </head>
 <body data-page="home">
 
@@ -516,6 +667,14 @@
             <span class="dot-online"></span>
             <span id="current-date-display">...</span>
         </div>
+
+        <div class="support-ticker" aria-label="Wsparcie projektu">
+          <div class="support-ticker__track">
+            <span>Wesprzyj AIO‑IPTV.pl i moją twórczość • ☕ Wsparcie / Kawa • Dziękuję za każde udostępnienie i feedback • </span>
+            <span aria-hidden="true">Wesprzyj AIO‑IPTV.pl i moją twórczość • ☕ Wsparcie / Kawa • Dziękuję za każde udostępnienie i feedback • </span>
+          </div>
+        </div>
+
         <div class="status-right">
             <div class="top-btn-small" title="Kliknij aby odświeżyć" onclick="fetchWeather()">
                 <span id="weather-icon">☁️</span> <span id="weather-temp">--°C</span>
@@ -596,6 +755,7 @@
             <a href="#wiedza" class="menu-btn">🧠 Wiedza</a>
             <a href="#narzedzia" class="menu-btn">🛠 Narzędzia</a>
             <a href="#generator" class="menu-btn">⚡ Generator</a>
+            <a href="#logi" class="menu-btn js-open-log" title="Analiza logu">🧾 Logi</a>
             <a href="#pliki" class="menu-btn">📂 Pliki</a>
             <a href="#kontakt" class="menu-btn">📧 Kontakt</a>
                         <a href="#wsparcie" class="menu-btn">☕ Wsparcie</a>
@@ -2153,6 +2313,41 @@ Zaloguj się do terminala i wpisuj komendy każdą po kolei (zatwierdzając Ente
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script_modern.js"></script>
     <script src="app_final.js"></script>
+
+
+    <!-- Log Analyzer Drawer -->
+    <div class="log-drawer" id="log-analyzer-drawer" aria-hidden="true">
+      <div class="log-drawer__sheet" role="dialog" aria-modal="true" aria-labelledby="log-drawer-title">
+        <div class="log-drawer__header">
+          <div class="log-drawer__title" id="log-drawer-title">Analiza logu • Enigma2</div>
+          <button type="button" class="log-drawer__close" id="log-drawer-close" aria-label="Zamknij">×</button>
+        </div>
+
+        <div class="log-drawer__body">
+          <p class="log-drawer__hint">
+            Wklej crashlog / log OSCam / log instalacji (opkg) — panel rozpozna typ logu i zaproponuje rozwiązania.
+          </p>
+
+          <textarea id="log-input" class="log-drawer__textarea" placeholder="Wklej tutaj log (np. /home/root/logs/enigma2_crash_*.log)..." spellcheck="false"></textarea>
+
+          <div class="log-drawer__actions">
+            <button type="button" class="btn btn-primary" id="log-analyze-btn">Analizuj</button>
+            <button type="button" class="btn btn-ghost" id="log-clear-btn">Wyczyść</button>
+          </div>
+
+          <div class="log-drawer__result" id="log-result" aria-live="polite">
+            <div class="log-result__empty">Wynik analizy pojawi się tutaj.</div>
+          </div>
+        </div>
+
+        <div class="log-drawer__footer">
+          <span class="log-drawer__note">
+            Tryb AI działa po skonfigurowaniu Supabase Edge Function (klucz API jest ukryty po stronie serwera). W przeciwnym razie używany jest tryb offline.
+          </span>
+        </div>
+      </div>
+      <div class="log-drawer__backdrop" id="log-drawer-backdrop" aria-hidden="true"></div>
+    </div>
 
 </body>
 </html>
