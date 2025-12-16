@@ -1,0 +1,22 @@
+[
+  {
+    "date": "2025-12-16",
+    "title": "AI Chat (Enigma2) + Centrum wiedzy",
+    "details": "Dodano czat offline, wyszukiwarkę tematów, tagi i kopiowanie komend."
+  },
+  {
+    "date": "2025-12-16",
+    "title": "Naprawa: przycisk ☕ Wsparcie na mobile",
+    "details": "Poprawione warstwy (z-index) i obsługa dotyku."
+  },
+  {
+    "date": "2025-12-16",
+    "title": "Powiadomienia (dzwonek) — changelog",
+    "details": "Dzwonek pokazuje wszystkie zmiany z data/updates.json, licznik nieprzeczytanych i zapis w localStorage."
+  },
+  {
+    "date": "2025-12-16",
+    "title": "PWA / offline",
+    "details": "Dodano manifest, ikony, service worker i stronę offline."
+  }
+]

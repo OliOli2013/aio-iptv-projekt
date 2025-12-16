@@ -1,0 +1,55 @@
+[
+  {
+    "id": "opkg-basics",
+    "title": "opkg: update / upgrade",
+    "desc": "Podstawowe odświeżenie pakietów (uwaga na pełny upgrade).",
+    "cmds": [
+      "opkg update",
+      "opkg list-upgradable",
+      "opkg upgrade"
+    ]
+  },
+  {
+    "id": "restart-gui",
+    "title": "Restart GUI",
+    "desc": "Szybki restart interfejsu Enigma2.",
+    "cmds": [
+      "init 4 && sleep 2 && init 3"
+    ]
+  },
+  {
+    "id": "network-check",
+    "title": "Test sieci (ping)",
+    "desc": "Sprawdź łączność DNS i Internet.",
+    "cmds": [
+      "ping -c 4 1.1.1.1",
+      "ping -c 4 google.com"
+    ]
+  },
+  {
+    "id": "disk-space",
+    "title": "Miejsce na dysku",
+    "desc": "Szybka kontrola wolnego miejsca i rozmiarów katalogów.",
+    "cmds": [
+      "df -h",
+      "du -h /usr/share/enigma2 | tail -n 20"
+    ]
+  },
+  {
+    "id": "logs",
+    "title": "Logi (logread)",
+    "desc": "Ostatnie wpisy logów systemowych.",
+    "cmds": [
+      "logread | tail -n 80"
+    ]
+  },
+  {
+    "id": "softcam-feed",
+    "title": "SoftCam feed (OpenATV)",
+    "desc": "Instalacja feedu softcam.",
+    "cmds": [
+      "wget -O - -q http://updates.mynonpublic.com/oea/feed | bash",
+      "opkg update"
+    ]
+  }
+]

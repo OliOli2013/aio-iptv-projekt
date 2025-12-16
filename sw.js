@@ -1,71 +1,74 @@
-// sw.js - Service Worker dla trybu offline
-
-const CACHE_NAME = 'aio-iptv-v3-fix1';
-const urlsToCache = [
+/* AIO-IPTV Service Worker (GitHub Pages, static) */
+const CACHE_VERSION = 'aioiptv-v1.0.0';
+const CORE_ASSETS = [
   './',
   './index.html',
   './style.css',
-  './home.css',
+  './home_modern.css',
   './enhancements.css',
-  './script.js',
-  './script_modern.js',
   './enhancements.js',
-  './pliki/logo.png'
+  './script_modern.js',
+  './app_final.js',
+  './manifest.json',
+  './offline.html',
+  './assets/logo-modern.svg',
+  './assets/icons/icon-192.png',
+  './assets/icons/icon-512.png',
+  './assets/brands/enigma2.svg',
+  './assets/brands/openatv.svg',
+  './assets/brands/openpli.svg',
+  './assets/brands/egami.svg',
+  './assets/brands/oscam.svg',
+  './data/knowledge.json',
+  './data/tools.json',
+  './data/updates.json',
+  './data/systems.json',
+  './pliki/QR_buycoffee.png'
 ];
 
-// Instalacja Service Worker
-self.addEventListener('install', event => {
-  console.log('📦 Service Worker: Instalacja');
+self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(urlsToCache))
-      .then(() => self.skipWaiting())
+    caches.open(CACHE_VERSION).then((cache) => cache.addAll(CORE_ASSETS)).then(() => self.skipWaiting())
   );
 });
 
-// Aktywacja i usuwanie starych cache
-self.addEventListener('activate', event => {
-  console.log('🚀 Service Worker: Aktywacja');
+self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then(cacheNames => Promise.all(
-      cacheNames.map(cacheName => {
-        if (cacheName !== CACHE_NAME) return caches.delete(cacheName);
-      })
-    )).then(() => self.clients.claim())
+    caches.keys().then((keys) =>
+      Promise.all(keys.filter((k) => k !== CACHE_VERSION).map((k) => caches.delete(k)))
+    ).then(() => self.clients.claim())
   );
 });
 
-// Interceptowanie requestów
-self.addEventListener('fetch', event => {
-  // Pomiń requesty do zewnętrznych API
-  if (event.request.url.includes('api.') ||
-      event.request.url.includes('analytics') ||
-      event.request.url.includes('googletagmanager') ||
-      event.request.url.includes('google-analytics') ||
-      event.request.url.includes('gtag/js')) {
+self.addEventListener('fetch', (event) => {
+  const req = event.request;
+  if (req.method !== 'GET') return;
+
+  const url = new URL(req.url);
+
+  // Only handle same-origin requests
+  if (url.origin !== self.location.origin) return;
+
+  // HTML: network-first with offline fallback
+  if (req.headers.get('accept')?.includes('text/html')) {
+    event.respondWith(
+      fetch(req)
+        .then((res) => {
+          const copy = res.clone();
+          caches.open(CACHE_VERSION).then((cache) => cache.put(req, copy));
+          return res;
+        })
+        .catch(() => caches.match(req).then((r) => r || caches.match('./offline.html')))
+    );
     return;
   }
 
+  // Other assets: cache-first
   event.respondWith(
-    caches.match(event.request).then(response => {
-      if (response) return response;
-
-      return fetch(event.request).then(netResponse => {
-        if (!netResponse || netResponse.status !== 200 || netResponse.type !== 'basic') return netResponse;
-
-        const responseToCache = netResponse.clone();
-        caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseToCache));
-        return netResponse;
-      }).catch(() => {
-        if (event.request.destination === 'document') return caches.match('./index.html');
-
-        if (event.request.destination === 'image') {
-          return new Response(
-            '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect width="100%" height="100%" fill="#0f172a"/><text x="50%" y="50%" font-family="Arial" font-size="14" fill="#94a3b8" text-anchor="middle" dy=".3em">AIO-IPTV</text></svg>',
-            { headers: { 'Content-Type': 'image/svg+xml' } }
-          );
-        }
-      });
-    })
+    caches.match(req).then((cached) => cached || fetch(req).then((res) => {
+      const copy = res.clone();
+      caches.open(CACHE_VERSION).then((cache) => cache.put(req, copy));
+      return res;
+    }))
   );
 });

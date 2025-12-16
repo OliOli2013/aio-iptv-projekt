@@ -1,0 +1,154 @@
+[
+  {
+    "id": "softcam-feed",
+    "title": "SoftCam feed (OpenATV/OpenPLi) — instalacja",
+    "tags": [
+      "softcam",
+      "openatv",
+      "openpli",
+      "oscam"
+    ],
+    "summary": "Jak dodać feed i gdzie potem instalować OSCam/NCam z „Pakiety softcam”.",
+    "content": [
+      "W systemach Enigma2 SoftCam/OSCam instalujesz zwykle z feedu (opkg).",
+      "Najczęstszy scenariusz na OpenATV: doinstalować feed i potem wejść w menu pobierania pakietów softcam."
+    ],
+    "commands": [
+      {
+        "label": "Instalacja softcam feed (OpenATV)",
+        "cmd": "wget -O - -q http://updates.mynonpublic.com/oea/feed | bash"
+      },
+      {
+        "label": "Odświeżenie listy pakietów",
+        "cmd": "opkg update"
+      }
+    ],
+    "notes": [
+      "Po instalacji feedu: Menu → Wtyczki → Pobierz wtyczki → Pakiety softcam (nazwy mogą się różnić w zależności od image)."
+    ]
+  },
+  {
+    "id": "oscam-check",
+    "title": "OSCam — sprawdzenie czy działa",
+    "tags": [
+      "oscam",
+      "diagnoza",
+      "logi"
+    ],
+    "summary": "Szybkie sprawdzenie procesu i logów.",
+    "content": [
+      "Jeżeli masz dostęp SSH, sprawdź czy działa proces OSCam i czy są logi.",
+      "W wielu image panel softcam pokazuje status w GUI (Softcam Manager)."
+    ],
+    "commands": [
+      {
+        "label": "Lista procesów",
+        "cmd": "ps | grep -i oscam"
+      },
+      {
+        "label": "Porty (opcjonalnie)",
+        "cmd": "netstat -tulpn | grep -i oscam || ss -tulpn | grep -i oscam"
+      },
+      {
+        "label": "Logi systemowe (ostatnie)",
+        "cmd": "logread | tail -n 60"
+      }
+    ]
+  },
+  {
+    "id": "picons-serviceref",
+    "title": "Picony — przypisywanie po ServiceRef",
+    "tags": [
+      "picony",
+      "logo",
+      "serviceref"
+    ],
+    "summary": "Jak powinny wyglądać nazwy plików i gdzie je trzymać.",
+    "content": [
+      "Najpewniejsze mapowanie to pliki nazwane ServiceReference (ServiceRef).",
+      "Standardowy katalog: /usr/share/enigma2/picon lub /picon (zależnie od ustawień).",
+      "Po podmianie piconów czasem trzeba zrestartować GUI."
+    ],
+    "commands": [
+      {
+        "label": "Utwórz katalog picon",
+        "cmd": "mkdir -p /usr/share/enigma2/picon"
+      },
+      {
+        "label": "Restart GUI (bez reboot)",
+        "cmd": "init 4 && sleep 2 && init 3"
+      }
+    ],
+    "notes": [
+      "Jeśli image ma ustawiony inny katalog piconów, sprawdź w ustawieniach skina lub w Menedżerze picon."
+    ]
+  },
+  {
+    "id": "restart-gui",
+    "title": "Restart GUI (Enigma2) bez restartu całego tunera",
+    "tags": [
+      "restart",
+      "gui",
+      "diagnoza"
+    ],
+    "summary": "Najczęstsza komenda serwisowa.",
+    "content": [
+      "Restart GUI przydaje się po instalacji wtyczek, zmianie piconów lub skinów.",
+      "To bezpieczniejsze i szybsze niż pełny reboot."
+    ],
+    "commands": [
+      {
+        "label": "Restart GUI",
+        "cmd": "init 4 && sleep 2 && init 3"
+      }
+    ]
+  },
+  {
+    "id": "satellites-xml",
+    "title": "satellites.xml — aktualizacja i typowe problemy",
+    "tags": [
+      "satellites.xml",
+      "tuner",
+      "dvb-s"
+    ],
+    "summary": "Kiedy aktualizować i gdzie leży plik.",
+    "content": [
+      "satellites.xml zawiera definicje pozycji satelitarnych i transponderów.",
+      "Najczęściej plik znajduje się w /etc/tuxbox/ lub /etc/enigma2/ (zależy od image).",
+      "Po podmianie często wymagany jest restart GUI."
+    ],
+    "commands": [
+      {
+        "label": "Restart GUI",
+        "cmd": "init 4 && sleep 2 && init 3"
+      }
+    ]
+  },
+  {
+    "id": "root-pass",
+    "title": "Hasło roota — usunięcie lub ustawienie (SSH/Telnet)",
+    "tags": [
+      "root",
+      "ssh",
+      "bezpieczenstwo"
+    ],
+    "summary": "Najczęstsze komendy serwisowe.",
+    "content": [
+      "Na części image hasło roota bywa ustawione lub puste.",
+      "Jeżeli testujesz, usunięcie hasła (passwd -d) ułatwia szybki dostęp, ale obniża bezpieczeństwo."
+    ],
+    "commands": [
+      {
+        "label": "Usuń hasło roota",
+        "cmd": "passwd -d root"
+      },
+      {
+        "label": "Ustaw/zmień hasło roota",
+        "cmd": "passwd root"
+      }
+    ],
+    "notes": [
+      "Po zakończeniu konfiguracji zalecane jest ustawienie hasła."
+    ]
+  }
+]

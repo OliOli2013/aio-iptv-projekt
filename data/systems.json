@@ -1,0 +1,48 @@
+[
+  {
+    "id": "openatv",
+    "title": "OpenATV",
+    "desc": "Popularne image, bogate pluginy, szybkie aktualizacje.",
+    "checklist": [
+      "Ustaw sieć (DHCP lub statyczny IP) i sprawdź DNS.",
+      "Włącz dostęp SSH/Telnet (jeśli potrzebne).",
+      "Zainstaluj SoftCam feed i wybierz softcam w menedżerze.",
+      "Ustaw katalog piconów /usr/share/enigma2/picon i zrestartuj GUI.",
+      "Zrób backup ustawień po konfiguracji."
+    ]
+  },
+  {
+    "id": "openpli",
+    "title": "OpenPLi",
+    "desc": "Lekkie image, stabilne, często wybierane pod klasyczne konfiguracje.",
+    "checklist": [
+      "Sprawdź ustawienia tunera i satelity (DiSEqC).",
+      "Doinstaluj brakujące pluginy z feedu (opkg).",
+      "Skonfiguruj EPG i harmonogram aktualizacji.",
+      "Dodaj picony i sprawdź mapping po ServiceRef.",
+      "Zrób backup kanałów i ustawień."
+    ]
+  },
+  {
+    "id": "egami",
+    "title": "Egami",
+    "desc": "Image nastawione na multimedia i wygodę, często z dodatkami w GUI.",
+    "checklist": [
+      "Sprawdź menedżera softcam i konfigurację emulatora.",
+      "Ustaw ścieżki dla piconów i nagrań.",
+      "Skonfiguruj EPG i źródła.",
+      "Zweryfikuj działanie odtwarzaczy IPTV (jeśli używasz)."
+    ]
+  },
+  {
+    "id": "oscam",
+    "title": "OSCam",
+    "desc": "Najpopularniejszy softcam – konfiguracja zależy od użycia i image.",
+    "checklist": [
+      "Sprawdź czy proces działa (ps/ss).",
+      "Zweryfikuj webif (port, login).",
+      "Sprawdź logread po uruchomieniu.",
+      "Zrób kopię plików konfiguracyjnych."
+    ]
+  }
+]
