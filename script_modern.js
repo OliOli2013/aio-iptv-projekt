@@ -406,83 +406,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Statystyki GitHuba + status usług
     fetchGithubStats();
     checkServiceStatus();
-// Support Drawer Functions
-function initSupportDrawer() {
-    const fab = document.getElementById('support-fab');
-    const drawer = document.getElementById('support-drawer');
-    const closeBtn = document.getElementById('support-drawer-close');
-    const backdrop = document.getElementById('support-drawer-backdrop');
-    
-    if (!fab || !drawer) return;
-    
-    // Open drawer
-    fab.addEventListener('click', (e) => {
-        e.preventDefault();
-        drawer.style.display = 'block';
-        document.body.style.overflow = 'hidden'; // Prevent scrolling
-    });
-    
-    // Close drawer
-    const closeDrawer = () => {
-        drawer.style.display = 'none';
-        document.body.style.overflow = '';
-    };
-    
-    if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
-    if (backdrop) backdrop.addEventListener('click', closeDrawer);
-    
-    // Close with Escape key
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && drawer.style.display === 'block') {
-            closeDrawer();
-        }
-    });
-}
-
-// Mobile Navigation Drawer
-function initMobileNavDrawer() {
-    const toggle = document.getElementById('navToggle');
-    const drawer = document.getElementById('mobile-nav-drawer');
-    const closeBtns = document.querySelectorAll('[data-nav-close]');
-    
-    if (!toggle || !drawer) return;
-    
-    // Open drawer
-    toggle.addEventListener('click', () => {
-        drawer.style.display = 'block';
-        document.body.style.overflow = 'hidden';
-    });
-    
-    // Close drawer
-    const closeDrawer = () => {
-        drawer.style.display = 'none';
-        document.body.style.overflow = '';
-    };
-    
-    closeBtns.forEach(btn => {
-        btn.addEventListener('click', closeDrawer);
-    });
-    
-    // Close with Escape key
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && drawer.style.display === 'block') {
-            closeDrawer();
-        }
-    });
-}
-
-// Initialize on DOMContentLoaded
-document.addEventListener('DOMContentLoaded', () => {
-    // ... existing code ...
-    
-    // 6. Support Drawer
-    initSupportDrawer();
-    
-    // 7. Mobile Navigation Drawer
-    initMobileNavDrawer();
-    
-    // ... rest of existing code ...
-});
 
     // Etykieta czasu dla przycisku "Wróć na górę"
     if (!topTimeLabel) {
@@ -1489,6 +1412,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         sections.forEach(sec => obs.observe(sec));
     }
+
+// Support drawer + mobile navigation drawer (Support / Menu)
+try { initSupportDrawer(); } catch (e) { /* noop */ }
+try { initMobileNavDrawer(); } catch (e) { /* noop */ }
 });
 
 
@@ -1577,3 +1504,97 @@ document.addEventListener('DOMContentLoaded', () => {
     init();
   }
 })();
+// =========================
+// Support + Mobile drawers
+// =========================
+
+// Support Drawer Functions
+function initSupportDrawer() {
+    const fab = document.getElementById('support-fab');
+    const drawer = document.getElementById('support-drawer');
+    const closeBtn = document.getElementById('support-drawer-close');
+    const backdrop = document.getElementById('support-drawer-backdrop');
+
+    if (!fab || !drawer) return;
+
+    const openDrawer = (e) => {
+        if (e) e.preventDefault();
+        drawer.style.display = 'block';
+        drawer.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    };
+
+    const closeDrawer = () => {
+        drawer.style.display = 'none';
+        drawer.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    };
+
+    // Avoid double-binding
+    if (!fab.dataset.bound) {
+        fab.addEventListener('click', openDrawer);
+        fab.dataset.bound = '1';
+    }
+
+    if (closeBtn && !closeBtn.dataset.bound) {
+        closeBtn.addEventListener('click', closeDrawer);
+        closeBtn.dataset.bound = '1';
+    }
+
+    if (backdrop && !backdrop.dataset.bound) {
+        backdrop.addEventListener('click', closeDrawer);
+        backdrop.dataset.bound = '1';
+    }
+
+    // Close with Escape key
+    if (!document.body.dataset.supportEscBound) {
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && drawer.style.display === 'block') {
+                closeDrawer();
+            }
+        });
+        document.body.dataset.supportEscBound = '1';
+    }
+}
+
+// Mobile Navigation Drawer
+function initMobileNavDrawer() {
+    const toggle = document.getElementById('navToggle');
+    const drawer = document.getElementById('mobile-nav-drawer');
+    const closeBtns = document.querySelectorAll('[data-nav-close]');
+
+    if (!toggle || !drawer) return;
+
+    const openDrawer = () => {
+        drawer.style.display = 'block';
+        drawer.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    };
+
+    const closeDrawer = () => {
+        drawer.style.display = 'none';
+        drawer.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    };
+
+    if (!toggle.dataset.bound) {
+        toggle.addEventListener('click', openDrawer);
+        toggle.dataset.bound = '1';
+    }
+
+    closeBtns.forEach(btn => {
+        if (btn.dataset.bound) return;
+        btn.addEventListener('click', closeDrawer);
+        btn.dataset.bound = '1';
+    });
+
+    // Close with Escape key
+    if (!document.body.dataset.navEscBound) {
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && drawer.style.display === 'block') {
+                closeDrawer();
+            }
+        });
+        document.body.dataset.navEscBound = '1';
+    }
+}
