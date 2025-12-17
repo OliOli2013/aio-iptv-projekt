@@ -95,33 +95,6 @@
       setNoScroll(false);
     };
 
-    // Allow opening support from the top ticker (Wsparcie / Kawa)
-    const ticker = qs('.support-ticker');
-    if (ticker && ticker.dataset.boundSupportTicker !== '1') {
-      ticker.dataset.boundSupportTicker = '1';
-      ticker.setAttribute('role', 'button');
-      ticker.setAttribute('tabindex', '0');
-
-      ticker.addEventListener('touchend', (e) => {
-        lastTouch = Date.now();
-        e.preventDefault();
-        e.stopPropagation();
-        open();
-      }, { passive: false });
-
-      ticker.addEventListener('click', (e) => {
-        if (Date.now() - lastTouch < 650) return;
-        e.preventDefault();
-        e.stopPropagation();
-        open();
-      });
-
-      ticker.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
-      });
-    }
-
-
     fab.addEventListener('touchend', (e) => {
       lastTouch = Date.now();
       e.preventDefault();
@@ -863,25 +836,6 @@ Jeśli chcesz prawdziwe AI, skonfiguruj Supabase Edge Function (opis w README)."
     openBtns.forEach((b)=>{
       b.addEventListener('click',(e)=>{ e.preventDefault(); open(); });
       b.addEventListener('touchend',(e)=>{ e.preventDefault(); e.stopPropagation(); open(); }, {passive:false});
-    });
-
-    if (fileInput) fileInput.addEventListener('change', async () => {
-      const f = (fileInput.files && fileInput.files[0]) ? fileInput.files[0] : null;
-      if (!f) return;
-
-      // Guardrails: browser-side (GitHub Pages)
-      if (f.size > 2_000_000) {
-        alert('Plik jest zbyt duży (limit 2 MB). Wklej fragment logu lub wybierz mniejszy plik.');
-        fileInput.value = '';
-        return;
-      }
-      try {
-        const txt = await f.text();
-        input.value = txt;
-        input.focus();
-      } catch (e) {
-        alert('Nie udało się wczytać pliku. Upewnij się, że to plik tekstowy.');
-      }
     });
 
     if (closeBtn) closeBtn.addEventListener('click', close);

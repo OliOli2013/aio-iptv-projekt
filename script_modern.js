@@ -688,7 +688,9 @@ document.addEventListener('DOMContentLoaded', () => {
 //  MODUŁ AI CHAT (INTELLIGENCE) - WERSJA SUPABASE EDGE
 // =======================================================
 
-// initAIChat() is handled by app_final.js (Supabase + offline fallback)
+document.addEventListener('DOMContentLoaded', () => {
+    initAIChat();
+});
 
 function initAIChat() {
     // 1. Konfiguracja i pobranie kluczy
