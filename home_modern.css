@@ -1028,3 +1028,36 @@ html.no-scroll, body.no-scroll { overflow: hidden !important; }
 
 /* No-scroll helper */
 .no-scroll{ overflow: hidden !important; }
+
+/* ======================================================
+   FIX MOBILE: Naprawa paska i ukrycie menu
+   ====================================================== */
+@media (max-width: 900px) {
+    /* 1. Odczepiamy górne paski (wyjeżdżają przy scrollowaniu) */
+    body[data-page="home"] .top-info-bar,
+    body[data-page="home"] .hero-header {
+        position: relative !important;
+        top: auto !important;
+        z-index: 10;
+    }
+
+    /* 2. Przyklejamy pasek nawigacji */
+    body[data-page="home"] .main-navigation-bar {
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 9999;
+        margin: 0;
+        /* Układ */
+        justify-content: flex-end; /* Ikony do prawej */
+    }
+
+    /* 3. Ukrywamy Hamburgera (Menu się nie rozwija) */
+    body[data-page="home"] .nav-toggle {
+        display: none !important;
+    }
+
+    /* 4. Ukrywamy linki tekstowe (dla pewności) */
+    body[data-page="home"] .nav-left-group {
+        display: none !important;
+    }
+}
