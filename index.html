@@ -4,13 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H1D8KEP1W4"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-H1D8KEP1W4');
-    </script>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H1D8KEP1W4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-H1D8KEP1W4');
+</script>
+
 
     <meta name="theme-color" content="#0d1117">
     <link rel="manifest" href="manifest.json">
@@ -20,6 +22,9 @@
     
     <title>AIO-IPTV.pl | Wtyczki Enigma2, Listy, Porady</title>
     <meta name="description" content="Oficjalna strona projektu AIO-IPTV. Pobierz autorskie wtyczki Enigma2, listy kanałów Bzyk83 i JakiTaki, picony oraz sprawdź poradniki dla tunerów satelitarnych.">
+    <meta name="author" content="Paweł Pawełek">
+    <meta name="keywords" content="enigma2, iptv, openatv, wtyczki, plugin, listy kanałów, bzyk83, jakitaki, picony">
+    
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://olioli2013.github.io/aio-iptv-projekt/">
     <meta property="og:title" content="AIO-IPTV - Niezbędnik Enigma2">
@@ -30,10 +35,627 @@
     
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css"> 
-    <link rel="stylesheet" href="home_modern.css">
-    
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        /* STYLE SPECYFICZNE DLA NAGŁÓWKA I KOMENTARZY */
+        
+        /* 1. Górny pasek statusu */
+        .top-info-bar {
+            background-color: #161b22;
+            border-bottom: 1px solid #30363d;
+            padding: 8px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #8b949e;
+        }
+        .status-left { display: flex; align-items: center; gap: 10px; }
+        .dot-online { width: 10px; height: 10px; background-color: #3fb950; border-radius: 50%; display: inline-block; box-shadow: 0 0 5px #3fb950; }
+        .status-right { display: flex; gap: 15px; align-items: center; position: relative; }
+        
+        .top-btn-small { 
+            background: #21262d; border: 1px solid #30363d; padding: 4px 12px; 
+            border-radius: 4px; color: #c9d1d9; cursor: pointer; text-decoration: none; 
+            display: flex; align-items: center; gap: 6px; transition: all 0.2s; user-select: none;
+        }
+        .top-btn-small:hover { border-color: #58a6ff; color: white; background: #30363d; }
+        .badge-red { background: #f85149; color: white; font-size: 0.7em; padding: 1px 6px; border-radius: 10px; font-weight: bold; }
+
+        /* Dropdown powiadomień */
+        .notifications-dropdown {
+            display: none;
+            position: absolute;
+            top: 35px;
+            right: 0;
+            width: 300px;
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 2000;
+            overflow: hidden;
+        }
+        .notif-item { padding: 10px 15px; border-bottom: 1px solid #30363d; font-size: 0.8rem; color: #c9d1d9; cursor: pointer; display: flex; align-items: start; gap: 10px; }
+        .notif-item:hover { background: #21262d; }
+        .notif-item:last-child { border-bottom: none; }
+        .notif-icon { font-size: 1.2em; }
+
+        /* 2. Główny nagłówek (Hero) */
+        .hero-header {
+            background-color: #0d1117;
+            padding: 25px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #21262d;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .brand-area { display: flex; align-items: center; gap: 20px; }
+        .brand-logos { display: flex; align-items: center; gap: 15px; }
+        .brand-text h1 { margin: 0; font-size: 1.8rem; color: #58a6ff; line-height: 1.1; font-weight: 800; }
+        .brand-text p { margin: 2px 0 0; color: #8b949e; font-size: 0.9rem; }
+        
+        .header-stats-container { display: flex; gap: 40px; text-align: center; }
+        .h-stat-val { font-size: 1.5rem; font-weight: bold; color: #58a6ff; display: block; line-height: 1; margin-bottom: 5px; }
+        .h-stat-label { font-size: 0.7rem; color: #8b949e; letter-spacing: 1px; text-transform: uppercase; }
+
+        /* 3. Nowy pasek nawigacji */
+        .main-navigation-bar {
+            background-color: #161b22;
+            padding: 12px 40px;
+            border-bottom: 1px solid #30363d;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .nav-left-group { display: flex; gap: 12px; flex-wrap: wrap; }
+        .nav-right-group { display: flex; gap: 12px; align-items: center; }
+        
+        .menu-btn {
+            background: #21262d;
+            border: 1px solid #30363d;
+            color: #e6edf3;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+        .menu-btn:hover, .menu-btn.active { background: #238636; border-color: #2ea043; color: white; transform: translateY(-1px); }
+        .menu-badge { background: #2ea043; color: white; font-size: 0.7em; padding: 2px 6px; border-radius: 4px; }
+        .menu-badge.red { background: #da3633; }
+
+        .search-input-header {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            padding: 8px 15px;
+            border-radius: 6px;
+            color: #c9d1d9;
+            width: 220px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        .search-input-header:focus { outline: none; border-color: #58a6ff; width: 260px; }
+
+        /* 4. Baner Nowość */
+        .news-banner {
+            background: linear-gradient(90deg, #238636 0%, #2ea043 40%, #58a6ff 100%);
+            color: white;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95rem;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(35, 134, 54, 0.2);
+        }
+        .banner-content { display: flex; align-items: center; gap: 15px; font-weight: 600; }
+        .banner-actions { display: flex; gap: 10px; }
+        .banner-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.4);
+            padding: 6px 18px;
+            border-radius: 4px;
+            color: white;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .banner-btn:hover { background: rgba(255,255,255,0.3); }
+        .banner-close { background: none; border: none; color: white; cursor: pointer; font-size: 1.2rem; margin-left: 10px; opacity: 0.8; }
+
+        /* REKLAMY */
+        .ad-banner-section {
+            text-align: center;
+            margin: 40px auto;
+            padding: 0 20px;
+            max-width: 1500px;
+        }
+        .ad-banner-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            border: 1px solid #30363d;
+            transition: transform 0.2s;
+        }
+        .ad-banner-img:hover {
+            transform: scale(1.01);
+            border-color: #58a6ff;
+        }
+        
+        /* Logika wyświetlania banerów */
+        .banner-desktop { display: inline-block; }
+        .banner-mobile { display: none; }
+
+        /* MODAL KOMENTARZY */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); z-index: 2000; align-items: center; justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background: #161b22; border: 1px solid #30363d; padding: 25px; border-radius: 12px;
+            width: 90%; max-width: 600px; max-height: 80vh; overflow-y: auto;
+            position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+        }
+        .modal-close { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; color: #8b949e; cursor: pointer; background: none; border: none; }
+        
+        .comment-list { margin-top: 20px; display: flex; flex-direction: column; gap: 15px; max-height: 400px; overflow-y: auto; padding-right: 10px; }
+        .comment-list::-webkit-scrollbar { width: 6px; }
+        .comment-list::-webkit-scrollbar-track { background: #161b22; border-radius: 3px; }
+        .comment-list::-webkit-scrollbar-thumb { background: #30363d; border-radius: 3px; }
+        .comment-list::-webkit-scrollbar-thumb:hover { background: #58a6ff; }
+        
+        .comment-item { 
+            background: linear-gradient(135deg, #0d1117 0%, #161b22 100%); 
+            padding: 15px; 
+            border-radius: 10px; 
+            border: 1px solid #30363d; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            animation: slideInComment 0.3s ease-out;
+        }
+        .comment-item:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 6px 20px rgba(88, 166, 255, 0.2);
+            border-color: #58a6ff;
+        }
+        .comment-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            font-size: 0.85rem; 
+            color: #58a6ff; 
+            margin-bottom: 8px; 
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(48, 54, 61, 0.5);
+        }
+        .comment-text { 
+            font-size: 0.95rem; 
+            color: #e6edf3; 
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+        
+        @keyframes slideInComment {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translate(-50%, -20px); }
+            to { opacity: 1; transform: translate(-50%, 0); }
+        }
+        
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(10px); }
+            20% { opacity: 1; transform: translateY(0); }
+            80% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-10px); }
+        }
+        
+        .comment-form { 
+            margin-top: 25px; 
+            padding-top: 25px; 
+            border-top: 2px solid #30363d; 
+            background: rgba(13, 17, 23, 0.5);
+            border-radius: 8px;
+            padding: 20px;
+        }
+        .comment-input { 
+            width: 100%; 
+            padding: 12px 15px; 
+            background: #0d1117; 
+            border: 2px solid #30363d; 
+            color: white; 
+            border-radius: 8px; 
+            margin-bottom: 12px; 
+            font-family: inherit; 
+            font-size: 0.95rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .comment-input:focus { 
+            outline: none; 
+            border-color: #58a6ff; 
+            box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.2);
+        }
+        .comment-submit { 
+            width: 100%; 
+            padding: 12px 20px; 
+            background: linear-gradient(135deg, #238636 0%, #2ea043 100%); 
+            border: none; 
+            color: white; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(35, 134, 54, 0.3);
+        }
+        .comment-submit:hover { 
+            background: linear-gradient(135deg, #2ea043 0%, #238636 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(35, 134, 54, 0.4);
+        }
+        .comment-submit:active {
+            transform: translateY(0);
+        }
+
+        /* Responsywność */
+        
+        /* === UX: zwijane komentarze (nie zajmują całej strony) === */
+        #comments .comments-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 14px;
+            margin-bottom: 10px;
+        }
+        #comments .comments-title h2 { margin: 0; }
+        #comments .comments-title p { margin-bottom: 0; }
+
+        #comments .comments-toggle {
+            white-space: nowrap;
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            background: rgba(15, 23, 42, 0.55);
+            color: #e2e8f0;
+            padding: 10px 14px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.15s ease, background 0.2s ease, border-color 0.2s ease;
+        }
+        #comments .comments-toggle:hover {
+            background: rgba(15, 23, 42, 0.75);
+            border-color: rgba(139, 92, 246, 0.45);
+            transform: translateY(-1px);
+        }
+        #comments .comments-panel[hidden] { display: none; }
+
+        /* Comment list stays scrollable even with many entries */
+        #comments .comment-list { max-height: 420px; overflow-y: auto; }
+
+        /* Lepsze przewijanie do sekcji przy sticky menu */
+        .card[id] { scroll-margin-top: 96px; }
+
+@media (max-width: 900px) {
+            .hero-header { justify-content: center; text-align: center; flex-direction: column; }
+            .header-stats-container { margin-top: 15px; width: 100%; justify-content: center; gap: 20px; }
+            .main-navigation-bar { justify-content: center; padding: 10px; }
+            .nav-left-group { justify-content: center; }
+            .search-input-header { display: none; }
+            .news-banner { flex-direction: column; text-align: center; gap: 15px; padding: 15px; }
+            .top-info-bar { flex-direction: column; gap: 10px; }
+            
+            /* Zmiana banerów na mniejsze ekrany */
+            .banner-desktop { display: none; }
+            .banner-mobile { display: inline-block; }
+        }
+        
+        /* Optymalizacja dla małych ekranów (telefony) */
+        @media (max-width: 600px) {
+            /* Kompaktowy nagłówek na telefonach */
+            .hero-header { padding: 14px 16px; }
+            .brand-logos span { display: none; }
+            .header-stats-container { display: none; }
+            .brand-text h1 { font-size: 1.4rem; }
+            .brand-text p { font-size: 0.85rem; }
+
+            /* Modal komentarzy na telefon */
+            .modal-content {
+                width: 95%;
+                max-width: none;
+                max-height: 90vh;
+                padding: 20px 15px;
+                margin: 10px;
+            }
+            
+            .comment-list {
+                max-height: 300px;
+            }
+            
+            .comment-item {
+                padding: 12px;
+                margin-bottom: 10px;
+            }
+            
+            .comment-text {
+                font-size: 0.9rem;
+                line-height: 1.4;
+            }
+            
+            .comment-form {
+                padding: 15px;
+                margin-top: 20px;
+            }
+            
+            .comment-input {
+                padding: 10px 12px;
+                font-size: 0.9rem;
+            }
+            
+            .comment-submit {
+                padding: 10px 15px;
+                font-size: 0.95rem;
+            }
+            
+                        /* Nagłówek na telefon — wersja kompaktowa */
+            .hero-header {
+                padding: 12px 14px;
+                gap: 12px;
+                flex-wrap: nowrap;
+                align-items: center;
+            }
+
+            /* Usuń elementy „ozdobne” na mobile, zostaw tylko to co potrzebne */
+            .header-stats-container {
+                display: none;
+            }
+
+            .brand-logos span {
+                display: none;
+            }
+
+            .brand-logos img {
+                height: 42px !important;
+            }
+
+            .brand-text h1 {
+                font-size: 1.25rem;
+                line-height: 1.15;
+            }
+
+            /* Ukryj drugą linię opisu (ta najmniejsza) żeby nie zabierała wysokości */
+            .brand-text p:last-child {
+                display: none;
+            }
+
+            /* Karty na telefon */
+            .card {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+            
+            .card h2 {
+                font-size: 1.1rem;
+                margin-bottom: 10px;
+            }
+            
+            /* Plugin rating na telefon */
+            .plugin-rating {
+                padding: 8px;
+                margin-top: 8px;
+            }
+            
+            .rating-stars {
+                gap: 1px;
+            }
+            
+            .star {
+                font-size: 1rem;
+            }
+        }
+        
+        /* Bardzo małe ekrany */
+        @media (max-width: 400px) {
+            .modal-content {
+                padding: 15px 10px;
+            }
+            
+            .comment-list {
+                max-height: 250px;
+            }
+            
+            .brand-text h1 {
+                font-size: 1.3rem;
+            }
+            
+            .header-stats-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .nav-left-group {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .menu-btn {
+                font-size: 0.8rem;
+                padding: 5px 10px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="home_modern.css">
+    <!-- Google Search Console: file verification is enabled via googlef4b9a82addbed417.html -->
+
+<style id="aio-mobile-fixes">
+/* =========================
+   Mobile UX fixes (AIO-IPTV)
+   ========================= */
+
+/* 1) Nie „przyklejaj” belki na telefonie — ma nie zasłaniać ekranu */
+@media (max-width: 820px){
+  .main-navigation-bar{ position: static !important; top:auto !important; }
+  .top-info-bar{ position: static !important; }
+}
+
+/* 2) Powiadomienia zawsze na wierzchu (nie mogą być przysłonięte) */
+.notifications-backdrop{
+  display:none;
+  position: fixed;
+  inset: 0;
+  background: rgba(2,6,23,.62);
+  z-index: 3900;
+}
+.notifications-backdrop.show{ display:block; }
+.notifications-dropdown{
+  position: fixed !important;
+  top: 58px;
+  right: 12px;
+  z-index: 4000;
+  max-width: min(520px, calc(100vw - 24px));
+}
+@media (max-width: 820px){
+  .notifications-dropdown{
+    left: 12px;
+    right: 12px;
+    top: 68px;
+  }
+}
+
+/* 3) Marquee / ticker wsparcia w górnej belce */
+.support-ticker{
+  flex: 1 1 auto;
+  min-width: 140px;
+  overflow: hidden;
+  margin: 0 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(148,163,184,.18);
+  background: rgba(2,6,23,.22);
+}
+.support-ticker__track{
+  display:flex;
+  gap: 24px;
+  white-space: nowrap;
+  padding: 8px 14px;
+  align-items:center;
+  color: #e2e8f0;
+  font-weight: 800;
+  font-size: 0.82rem;
+  letter-spacing: .2px;
+  animation: aio-marquee 18s linear infinite;
+}
+.support-ticker__track span{ opacity: .95; }
+@keyframes aio-marquee{
+  0%{ transform: translateX(0); }
+  100%{ transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce){
+  .support-ticker__track{ animation: none; }
+}
+
+/* 4) Log drawer (modal) */
+.log-drawer{ display:none; position: fixed; inset:0; z-index: 4100; }
+.log-drawer.open{ display:block; }
+.log-drawer__backdrop{ position:absolute; inset:0; background: rgba(2,6,23,.70); }
+.log-drawer__sheet{
+  position:absolute;
+  right: 16px;
+  bottom: 16px;
+  width: min(720px, calc(100vw - 32px));
+  max-height: min(84vh, 780px);
+  display:flex;
+  flex-direction:column;
+  border-radius: 18px;
+  border: 1px solid rgba(148,163,184,.20);
+  background: rgba(10,16,32,.92);
+  box-shadow: 0 28px 90px rgba(0,0,0,.70);
+  overflow:hidden;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+@media (max-width: 820px){
+  .log-drawer__sheet{
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    width: auto;
+    max-height: 86vh;
+  }
+}
+.log-drawer__header{
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(148,163,184,.16);
+}
+.log-drawer__title{ font-weight: 900; color:#e5e7eb; }
+.log-drawer__close{
+  width: 36px; height:36px; border-radius: 10px;
+  border: 1px solid rgba(148,163,184,.20);
+  background: rgba(2,6,23,.25);
+  color:#e5e7eb; font-size: 1.25rem; cursor:pointer;
+}
+.log-drawer__body{ padding: 12px 14px; overflow:auto; }
+.log-drawer__hint{ margin: 0 0 10px; color: rgba(226,232,240,.85); font-size: .92rem; }
+.log-drawer__textarea{
+  width:100%;
+  min-height: 180px;
+  max-height: 38vh;
+  resize: vertical;
+  border-radius: 14px;
+  border: 1px solid rgba(148,163,184,.20);
+  background: rgba(2,6,23,.30);
+  color: #e2e8f0;
+  padding: 12px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 12px;
+  line-height: 1.35;
+}
+.log-drawer__actions{ display:flex; gap: 10px; margin-top: 10px; }
+.log-drawer__result{
+  margin-top: 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(148,163,184,.18);
+  background: rgba(2,6,23,.20);
+  padding: 12px;
+  color: #e2e8f0;
+}
+.log-result__empty{ opacity:.75; }
+.log-drawer__footer{
+  padding: 10px 14px;
+  border-top: 1px solid rgba(148,163,184,.14);
+  color: rgba(226,232,240,.70);
+  font-size: .82rem;
+}
+
+/* 5) Log analyzer result formatting */
+.mono{ white-space: pre-wrap; word-break: break-word; font-size: 12px; line-height:1.35; margin:0; }
+.log-result__section{ margin-bottom: 12px; }
+.log-result__title{ font-weight: 900; margin-bottom: 6px; color:#e5e7eb; }
+.log-result__pill{ display:inline-block; padding: 6px 10px; border-radius: 999px; border:1px solid rgba(148,163,184,.22); background: rgba(2,6,23,.25); font-weight: 800; }
+.log-result__text{ color: rgba(226,232,240,.92); }
+.log-result__list{ margin: 0; padding-left: 18px; color: rgba(226,232,240,.92); }
+.log-result__list li{ margin: 6px 0; }
+</style>
+
 </head>
 <body data-page="home">
 
@@ -67,13 +689,22 @@
                     <div class="notif-title">Aktualizacje</div>
                     <button type="button" class="notif-close" id="notifCloseBtn" aria-label="Zamknij">✕</button>
                 </div>
-                <div class="notif-list" id="notifList">
-                    </div>
+                <div class="notif-list" id="notifList"></div>
                 <div class="notif-footer">
                     <button type="button" class="notif-markall" id="notifMarkAll">Oznacz wszystko jako przeczytane</button>
                 </div>
             </div>
             <div class="notifications-backdrop" id="notifBackdrop" aria-hidden="true"></div>
+                </div>
+                <div class="notif-item">
+                    <span class="notif-icon">📺</span>
+                    <div><strong>Listy kanałów</strong><br>Nowe listy Bzyk83 (Grudzień)</div>
+                </div>
+                <div class="notif-item">
+                    <span class="notif-icon">🔧</span>
+                    <div><strong>Poradnik</strong><br>Nowy skrypt Zgemma H9S</div>
+                </div>
+            </div>
 
             <div class="top-btn-small" id="login-btn" onclick="toggleLogin()">
                 👤 <span id="user-status">Gość</span>
@@ -96,7 +727,7 @@
             <div class="brand-text">
                 <h1>AIO-IPTV.pl</h1>
                 <p>Niezbędnik Enigma2</p>
-                <p class="brand-subtitle">Autorskie Wtyczki • Listy Kanałów • Porady • Wsparcie</p>
+                <p style="font-size: 0.75rem; opacity: 0.7; margin-top: 4px;">Autorskie Wtyczki • Listy Kanałów • Porady • Wsparcie</p>
             </div>
         </div>
         
@@ -127,15 +758,16 @@
             <a href="#logi" class="menu-btn js-open-log" title="Analiza logu">🧾 Logi</a>
             <a href="#pliki" class="menu-btn">📂 Pliki</a>
             <a href="#kontakt" class="menu-btn">📧 Kontakt</a>
-            <a href="#wsparcie" class="menu-btn">☕ Wsparcie</a>
-            <a href="#systemy" class="menu-btn">💿 Systemy</a>
+                        <a href="#wsparcie" class="menu-btn">☕ Wsparcie</a>
+<a href="#systemy" class="menu-btn">💿 Systemy</a>
             <a href="porownywarka.html" class="menu-btn">📊 Porównywarka</a>
             <a href="kreator.html" class="menu-btn">🔧 Kreator</a>
             <a href="#statystyki" class="menu-btn">📈 Statystyki</a>
         </div>
         <div class="nav-right-group">
+            
             <button id="navToggle" class="menu-btn nav-toggle" type="button" aria-label="Menu">☰</button>
-            <input type="text" id="searchBoxHeader" class="search-input-header" placeholder="Szukaj..." onkeyup="filterListGeneric(this.value)">
+<input type="text" id="searchBoxHeader" class="search-input-header" placeholder="Szukaj..." onkeyup="filterListGeneric(this.value)">
             <button id="themeToggle" class="menu-btn" type="button" style="padding: 8px 12px;">🌞</button>
             <button class="menu-btn" onclick="sharePage()" style="padding: 8px 12px;">📤</button>
         </div>
@@ -152,6 +784,7 @@
             <button class="banner-close" onclick="document.getElementById('newsBanner').style.display='none'">✕</button>
         </div>
     </div>
+</div>
 
     <div class="container">
 
@@ -180,45 +813,45 @@
                     <div class="quick-ico">📺</div>
                     <div class="quick-meta">
                         <div class="quick-title">Listy kanałów</div>
-                        <div class="quick-desc">Bzyk83, JakiTaki i inne – gotowe paczki.</div>
+                        <div class="quick-desc">Bzyk83, JakiTaki i inne – gotowe paczki do pobrania.</div>
                     </div>
                 </a>
                 <a class="quick-card" href="#aktualnosci" role="listitem">
                     <div class="quick-ico">📚</div>
                     <div class="quick-meta">
                         <div class="quick-title">Poradniki</div>
-                        <div class="quick-desc">Instrukcje krok po kroku i FAQ.</div>
+                        <div class="quick-desc">Instrukcje krok po kroku, FAQ i praktyczne wskazówki.</div>
                     </div>
                 </a>
                 <a class="quick-card" href="#pliki" role="listitem">
                     <div class="quick-ico">📂</div>
                     <div class="quick-meta">
                         <div class="quick-title">Pliki</div>
-                        <div class="quick-desc">Dodatkowe materiały i narzędzia.</div>
+                        <div class="quick-desc">Dodatkowe materiały, archiwa i narzędzia pomocnicze.</div>
                     </div>
                 </a>
                 <a class="quick-card" href="#systemy" role="listitem">
                     <div class="quick-ico">💿</div>
                     <div class="quick-meta">
                         <div class="quick-title">Systemy</div>
-                        <div class="quick-desc">Polecane obrazy i konfiguracje.</div>
+                        <div class="quick-desc">Polecane obrazy, ustawienia i konfiguracje startowe.</div>
                     </div>
                 </a>
                 <a class="quick-card" href="#kontakt" role="listitem">
                     <div class="quick-ico">📧</div>
                     <div class="quick-meta">
                         <div class="quick-title">Kontakt</div>
-                        <div class="quick-desc">Szybka ścieżka do zgłoszeń.</div>
+                        <div class="quick-desc">Szybka ścieżka do zgłoszeń i pytań.</div>
                     </div>
                 </a>
             </div>
         </div>
 
+        
         <div class="search-container" data-aos="fade-down" style="display: none;">
             <input type="text" id="searchBox" onkeyup="filterList()" placeholder="🔍 Szukaj wtyczki, listy lub porady...">
         </div>
-        
-        <div class="card" id="wtyczki" data-aos="fade-up">
+<div class="card" id="wtyczki" data-aos="fade-up">
             <h2>Wtyczki (Plugins)</h2>
             <p>Najnowsze wersje moich aplikacji.</p>
             <ul class="file-list">
@@ -230,9 +863,9 @@
                         <summary>📖 <strong>Opis i funkcje</strong> (Kliknij)</summary>
                         <div class="plugin-desc-content">
                             <strong>Centrum zarządzania tunerem.</strong><br>
-                            &bull; <strong>Super Konfigurator:</strong> Kreator pierwszej instalacji.<br>
-                            &bull; <strong>Menadżer list:</strong> Pobieranie list kanałów.<br>
-                            &bull; <strong>Narzędzia:</strong> Instalator Softcam, Auto RAM Cleaner.
+                            &bull; <strong>Super Konfigurator:</strong> Kreator pierwszej instalacji (zależności, listy, softcam).<br>
+                            &bull; <strong>Menadżer list:</strong> Pobieranie list kanałów (Bzyk/JakiTaki/M3U) bezpośrednio z repozytorium.<br>
+                            &bull; <strong>Narzędzia:</strong> Instalator Softcam (Oscam/NCam), Auto RAM Cleaner, diagnostyka sieci i backup ustawień.
                         </div>
                     </details>
                     <div class="plugin-rating" data-plugin="aio-panel">
@@ -249,9 +882,125 @@
                         </div>
                     </div>
                 </li>
+
+                <li>
+                    <a class="file-link" href="https://github.com/OliOli2013/aio-iptv-projekt/raw/main/pliki/enigma2-plugin-extensions-panelaio_4.4_py2py3_init_all.ipk" title="Wersja dla starszych systemów">
+                        <span class="icon">📥</span> AIO Panel 4.4 <span class="badge badge-warning">Wylacznie Python 2</span>
+                    </a>
+                    <span class="file-desc">Wersja dla starszych systemów (np. OpenATV 6.4)</span>
+                </li>
+
+                <li>
+                    <a class="file-link" href="https://github.com/OliOli2013/aio-iptv-projekt/raw/main/pliki/enigma2-plugin-extensions-iptvdream_6.0.4_all.ipk" title="Zaawansowany player IPTV">
+                        <span class="icon">📥</span> IPTV Dream 6.0
+                    </a>
+                    <details class="plugin-details">
+                        <summary>📖 <strong>Opis i funkcje</strong> (Kliknij)</summary>
+                        <div class="plugin-desc-content">
+                            <strong>Zaawansowany odtwarzacz IPTV.</strong><br>
+                            &bull; <strong>Obsługa formatów:</strong> Listy M3U, logowanie Xtream Codes (Live/VOD/Seriale) oraz Portale MAC (Stalker).<br>
+                            &bull; <strong>Funkcje:</strong> Własny WebInterfejs do zarządzania linkami, obsługa EPG, eksport kanałów do bukietów Enigmy oraz wybór playera (Gst/Exte).
+                        </div>
+                    </details>
+                    <div class="plugin-rating" data-plugin="iptv-dream">
+                        <div class="rating-text">Oceń wtyczkę:</div>
+                        <div class="rating-stars">
+                            <span class="star" data-rating="1">⭐</span>
+                            <span class="star" data-rating="2">⭐</span>
+                            <span class="star" data-rating="3">⭐</span>
+                            <span class="star" data-rating="4">⭐</span>
+                            <span class="star" data-rating="5">⭐</span>
+                        </div>
+                        <div class="rating-stats">
+                            <span class="rating-average">4.6</span> (<span class="rating-count">203</span> ocen)
+                        </div>
+                    </div>
+                </li>
+
+                <li>
+                    <a class="file-link" href="https://github.com/OliOli2013/aio-iptv-projekt/raw/main/pliki/enigma2-plugin-extensions-piconupdater_1.2_all.ipk" title="Pobieranie logotypów kanałów">
+                        <span class="icon">📥</span> Picon Updater 1.2
+                    </a>
+                    <details class="plugin-details">
+                        <summary>📖 <strong>Opis i funkcje</strong> (Kliknij)</summary>
+                        <div class="plugin-desc-content">
+                            <strong>Narzędzie do pikon.</strong><br>
+                            &bull; Automatyczne pobieranie i aktualizacja pikon z GitHub.<br>
+                            &bull; Podgląd pikon przed pobraniem.<br>
+                            &bull; Obsługa różnych kategorii satelitarnych.
+                        </div>
+                    </details>
+                    <div class="plugin-rating" data-plugin="picon-updater">
+                        <div class="rating-text">Oceń wtyczkę:</div>
+                        <div class="rating-stars">
+                            <span class="star" data-rating="1">⭐</span>
+                            <span class="star" data-rating="2">⭐</span>
+                            <span class="star" data-rating="3">⭐</span>
+                            <span class="star" data-rating="4">⭐</span>
+                            <span class="star" data-rating="5">⭐</span>
+                        </div>
+                        <div class="rating-stats">
+                            <span class="rating-average">4.3</span> (<span class="rating-count">89</span> ocen)
+                        </div>
+                    </div>
+                </li>
+
+                <li>
+                    <a class="file-link" href="https://github.com/OliOli2013/aio-iptv-projekt/raw/main/pliki/enigma2-plugin-extensions-myupdater_5.1_all.ipk" title="Updater systemowy">
+                        <span class="icon">📥</span> MyUpdater v5.1 <span class="badge">Py2/Py3</span>
+                    </a>
+                    <details class="plugin-details">
+                        <summary>📖 <strong>Opis i funkcje</strong> (Kliknij)</summary>
+                        <div class="plugin-desc-content">
+                            <strong>Modyfikowany updater (Enhanced).</strong><br>
+                            &bull; Szybka instalacja list kanałów i pikon.<br>
+                            &bull; Inteligentna instalacja Oscam (wykrywanie feed/Levi45).<br>
+                            &bull; Diagnostyka systemu i wykrywanie dystrybucji (OpenATV/OpenPLi).
+                        </div>
+                    </details>
+                    <div class="plugin-rating" data-plugin="myupdater">
+                        <div class="rating-text">Oceń wtyczkę:</div>
+                        <div class="rating-stars">
+                            <span class="star" data-rating="1">⭐</span>
+                            <span class="star" data-rating="2">⭐</span>
+                            <span class="star" data-rating="3">⭐</span>
+                            <span class="star" data-rating="4">⭐</span>
+                            <span class="star" data-rating="5">⭐</span>
+                        </div>
+                        <div class="rating-stats">
+                            <span class="rating-average">4.7</span> (<span class="rating-count">167</span> ocen)
+                        </div>
+                    </div>
+                </li>
+
+                <li>
+                    <a class="file-link" href="https://github.com/OliOli2013/aio-iptv-projekt/raw/main/pliki/enigma2-plugin-extensions-simpleiptvepg_1.3_all.ipk" title="EPG dla IPTV">
+                        <span class="icon">📥</span> Simple IPTV EPG 1.3
+                    </a>
+                    <details class="plugin-details">
+                        <summary>📖 <strong>Opis i funkcje</strong> (Kliknij)</summary>
+                        <div class="plugin-desc-content">
+                            <strong>Proste EPG dla kanałów internetowych.</strong><br>
+                            &bull; Pozwala przypisać program telewizyjny do kanałów IPTV, które standardowo go nie posiadają.
+                        </div>
+                    </details>
+                    <div class="plugin-rating" data-plugin="simple-epg">
+                        <div class="rating-text">Oceń wtyczkę:</div>
+                        <div class="rating-stars">
+                            <span class="star" data-rating="1">⭐</span>
+                            <span class="star" data-rating="2">⭐</span>
+                            <span class="star" data-rating="3">⭐</span>
+                            <span class="star" data-rating="4">⭐</span>
+                            <span class="star" data-rating="5">⭐</span>
+                        </div>
+                        <div class="rating-stats">
+                            <span class="rating-average">4.1</span> (<span class="rating-count">74</span> ocen)
+                        </div>
+                    </div>
+                </li>
             </ul>
         </div>
-        
+
         <div class="card" id="listy" data-aos="fade-up" data-aos-delay="100">
             <h2>Listy kanałów</h2>
             <p>Paczki kanałów (Enigma2).</p>
@@ -262,248 +1011,1352 @@
                     </a>
                     <span class="file-desc">(Aktualizacja: 08.12.2025)</span>
                 </li>
+                <li>
+                    <a class="file-link" href="https://github.com/OliOli2013/PanelAIO-Lists/raw/main/archives/bzyk83_dual_13e_19e_2025-12-08.zip">
+                        <span class="icon">📥</span> Bzyk83 Dual 13°E + 19°E
+                    </a>
+                    <span class="file-desc">(Aktualizacja: 08.12.2025)</span>
+                </li>
+                <li>
+                    <a class="file-link" href="https://github.com/OliOli2013/PanelAIO-Lists/raw/main/archives/jakitaki_1x1_2025-11-30.zip">
+                        <span class="icon">📥</span> JakiTaki 13°E
+                    </a>
+                    <span class="file-desc">(Aktualizacja: 30.11.2025)</span>
+                </li>
+                <li>
+                    <a class="file-link" href="https://github.com/OliOli2013/PanelAIO-Lists/raw/main/archives/jakitaki_1x1uhd_2025-11-30.zip">
+                        <span class="icon">📥</span> JakiTaki 13°E UHD
+                    </a>
+                    <span class="file-desc">(Aktualizacja: 30.11.2025)</span>
+                </li>
+                <li>
+                    <a class="file-link" href="https://github.com/OliOli2013/PanelAIO-Lists/raw/main/archives/jakitaki_2x1_2025-11-30.zip">
+                        <span class="icon">📥</span> JakiTaki 13°E + 19°E
+                    </a>
+                    <span class="file-desc">(Aktualizacja: 30.11.2025)</span>
+                </li>
+                <li>
+                    <a class="file-link" href="https://github.com/OliOli2013/PanelAIO-Lists/raw/main/archives/jakitaki_2x1uhd_2025-11-30.zip">
+                        <span class="icon">📥</span> JakiTaki 13°E + 19°E UHD
+                    </a>
+                    <span class="file-desc">(Aktualizacja: 30.11.2025)</span>
+                </li>
             </ul>
         </div>
 
-        <section class="card" id="comments">
-          <div class="comments-head">
-            <div class="comments-title">
-              <h2>💬 Komentarze</h2>
-              <p class="muted" style="margin-top:-6px;">Komentarze są publiczne i widoczne dla wszystkich użytkowników.</p>
+        <div class="card" id="aktualnosci" data-aos="fade-up" data-aos-delay="200">
+            <h2>Poradniki</h2>
+
+            <div class="accordion-item">
+                <button class="accordion-header">Jak wybrać właściwy plik systemowy (Recovery vs Multi)</button>
+                <div class="accordion-content">
+                    <p>Na stronach wydawców (np. OpenATV) znajdziesz różne wersje plików dla swojego tunera, np.: <span class="code-snippet">_recovery_emmc.zip</span> oraz <span class="code-snippet">_multi.zip</span>. Wybór odpowiedniego jest kluczowy.</p>
+                    <hr style="border-color: #30363d; margin: 15px 0;">
+
+                    <strong style="color: #d29922;">1. Plik recovery_emmc.zip (Pełna instalacja)</strong><br>
+                    <p>To obraz ratunkowy do <strong>czystej instalacji</strong> w pamięci wewnętrznej (eMMC).<br>
+                    <strong>Użyj, jeśli:</strong> instalujesz system po raz pierwszy, chcesz całkowicie usunąć stary system i wgrać nowy, lub Twój dekoder ma błędy i chcesz go przywrócić do działania.<br>
+                    <em>Instalacja: Z pendrive'a w trybie Recovery.</em></p>
+
+                    <strong style="color: #d29922;">2. Plik multi.zip (Dla Multiboot)</strong><br>
+                    <p>Wersja przeznaczona dla użytkowników mających zainstalowany <strong>multiboot</strong> (np. OpenMultiboot lub Barry Allen).<br>
+                    <strong>Użyj, jeśli:</strong> chcesz wgrać system "obok" głównego (np. na USB) i testować różne oprogramowanie (Egami, OpenPLi) bez usuwania obecnego.</p>
+
+                    <strong style="color: #d29922;">3. Co oznacza data? (np. 20251106)</strong><br>
+                    <p>Ciąg cyfr to data kompilacji w formacie: <strong>ROK MIESIĄC DZIEŃ</strong>.<br>
+                    <span class="code-snippet">20251106</span> = 6 listopada 2025.<br>
+                    Wybieraj najnowsze daty (tzw. Nightly build), aby mieć ostatnie poprawki.</p>
+                </div>
             </div>
-            <button class="comments-toggle" id="commentsToggle" type="button" aria-expanded="true" aria-controls="commentsPanel">
-              Ukryj
-            </button>
-          </div>
 
-          <div class="comments-panel" id="commentsPanel">
-            <div class="comments-public" id="comments-public">
-              <div class="comment-form">
-                <div class="comment-form-row">
-                  <input type="text" id="commentNamePublic" class="comment-input" placeholder="Twój nick" autocomplete="nickname">
-                  <select id="commentRatingPublic" class="comment-input" aria-label="Ocena">
-                    <option value="">Ocena (opcjonalnie)</option>
-                    <option value="5">★★★★★ (5)</option>
-                    <option value="4">★★★★☆ (4)</option>
-                    <option value="3">★★★☆☆ (3)</option>
-                    <option value="2">★★☆☆☆ (2)</option>
-                    <option value="1">★☆☆☆☆ (1)</option>
-                  </select>
-                </div>
-                <textarea id="commentBodyPublic" class="comment-input" rows="4" placeholder="Napisz komentarz..."></textarea>
-                <div class="comment-form-actions">
-                  <button class="comment-submit" id="commentSubmitBtn">Wyślij</button>
-                  <button class="comment-secondary" id="commentRefreshBtn" type="button">Odśwież</button>
-                </div>
-                <div class="muted" id="commentsStatus" style="margin-top:8px;"></div>
-              </div>
 
-              <div class="comment-list" id="commentsListPublic"></div>
+            <div class="accordion-item">
+                <button class="accordion-header">Systemy Enigma2 (Image) — krótkie wprowadzenie dla użytkowników</button>
+                <div class="accordion-content">
+                    <p><strong>Image</strong> to po prostu system (oprogramowanie) dla tunera z Enigma2 — coś jak „Android ROM” dla telefonu. Różne image mogą wyglądać inaczej, mieć inne dodatki i inną częstotliwość aktualizacji.</p>
+                    <hr style="border-color: #30363d; margin: 15px 0;">
+                    <strong style="color: #d29922;">Najczęściej spotykane image</strong>
+                    <ul style="margin-top:10px; line-height:1.7;">
+                        <li><strong>OpenATV</strong> — dużo funkcji, częste aktualizacje, bardzo popularny (dobry wybór „na start” dla większości).</li>
+                        <li><strong>OpenPLi</strong> — prostota, stabilność, „czystszy” system, często lubiany przez osoby, które nie chcą nadmiaru dodatków.</li>
+                        <li><strong>OpenViX / OpenHDF / Egami</strong> — image z własnymi dodatkami i podejściem do konfiguracji (warto testować, jeśli wiesz czego szukasz).</li>
+                    </ul>
+                    <hr style="border-color: #30363d; margin: 15px 0;">
+                    <strong style="color: #d29922;">Praktyczne wskazówki (bezpieczny start)</strong>
+                    <ul style="margin-top:10px; line-height:1.7;">
+                        <li>Zawsze wybieraj obraz <strong>dokładnie pod model tunera</strong> (błędny plik = brak startu).</li>
+                        <li>Przed zmianą systemu zrób <strong>backup ustawień</strong> oraz spisz kluczowe dane (sieć, satelity, softcam, listy).</li>
+                        <li>Po świeżej instalacji: najpierw ustaw sieć i satelity, później listy kanałów i dopiero na końcu dodatki.</li>
+                    </ul>
+                </div>
             </div>
-          </div>
-        </section>
 
-        <section class="content-section" data-aos="fade-up">
-            <div class="card" id="wiedza">
-                <h2>🧠 Centrum wiedzy Enigma2</h2>
-                <p class="section-desc">Szybka baza wiedzy: OSCam/SoftCam, picony, listy, diagnostyka. Wyszukuj i kopiuj komendy.</p>
-
-                <div class="kb-toolbar">
-                    <input id="kbSearch" class="kb-search" type="search" placeholder="Szukaj (np. oscam, picony, restart GUI)..." autocomplete="off">
-                    <div class="kb-tags" id="kbTags" aria-label="Tagi"></div>
+            <div class="accordion-item">
+                <button class="accordion-header">Skins (Skórki) w Enigma2 — plusy i minusy oraz dobre praktyki</button>
+                <div class="accordion-content">
+                    <p><strong>Skin</strong> zmienia wygląd interfejsu (układ list, EPG, czcionki, paski informacji). To „warstwa wizualna” systemu, ale potrafi mieć wpływ na wygodę i wydajność.</p>
+                    <hr style="border-color: #30363d; margin: 15px 0;">
+                    <strong style="color: #2ea043;">Plusy</strong>
+                    <ul style="margin-top:10px; line-height:1.7;">
+                        <li>Lepsza czytelność (większe czcionki, lepsze EPG, bardziej intuicyjne paski info).</li>
+                        <li>Więcej informacji na ekranie (np. picony, techniczne parametry, dodatkowe pola).</li>
+                        <li>Możliwość dopasowania UI do telewizora i odległości oglądania.</li>
+                    </ul>
+                    <strong style="color: #da3633;">Minusy</strong>
+                    <ul style="margin-top:10px; line-height:1.7;">
+                        <li>Ciężkie skiny mogą spowolnić OSD (zwłaszcza na słabszych tunerach).</li>
+                        <li>Niektóre skiny bywają niekompatybilne z wtyczkami (braki rendererów/komponentów mogą powodować „zielone ekrany”).</li>
+                        <li>Po aktualizacji systemu skin może wymagać aktualizacji lub przełączenia na domyślny.</li>
+                    </ul>
+                    <hr style="border-color: #30363d; margin: 15px 0;">
+                    <strong style="color: #d29922;">Dobre praktyki</strong>
+                    <ul style="margin-top:10px; line-height:1.7;">
+                        <li>Zostaw <strong>domyślny skin</strong> jako plan awaryjny (łatwy powrót, gdy coś się „wysypie”).</li>
+                        <li>Jeśli tuner jest słabszy — wybieraj skiny „lite”, ogranicz animacje i efekty.</li>
+                        <li>Po zmianie skina wykonaj <strong>restart GUI</strong>. Jeżeli wystąpi problem — wróć do domyślnego skina.</li>
+                    </ul>
                 </div>
+            </div>
 
-                <div class="kb-layout">
-                    <div class="kb-list" id="kbList" aria-label="Lista tematów"></div>
-                    <div class="kb-view" id="kbView" aria-live="polite">
-                        <div class="kb-empty">
-                            Wybierz temat z listy po lewej lub wpisz wyszukiwanie.
-                        </div>
+            <div class="accordion-item">
+                <button class="accordion-header">Powiększenie pamięci w Zgemma H9S / H9.2S (OpenATV 7.6)</button>
+                <div class="accordion-content">
+                    <p style="color:#58a6ff;"><strong>Nowość!</strong> Skrypt pozwalający na powiększenie pamięci flash z 256 MB NAND do rozmiaru karty microSD (np. 30 GB).</p>
+                    <p>Dzięki temu zyskujesz dużo więcej miejsca na wtyczki, listy kanałów i dodatki. Dotyczy dekoderów Zgemma H9S oraz H9.2S z oprogramowaniem OpenATV 7.6.</p>
+                    <hr style="border-color: #30363d; margin: 15px 0;">
+                    
+                    <strong>1. Przygotowanie karty pamięci</strong><br>
+                    Wyłącz dekoder pilotem, a następnie wyłącz go całkowicie z prądu. Włóż kartę microSD i włącz dekoder ponownie.<br><br>
+
+                    <strong>2. Formatowanie karty w OpenATV (na ext4)</strong><br>
+                    &bull; Na pilocie naciśnij <strong>Niebieski przycisk</strong> (Dysk twardy) → <strong>Menedżer urządzeń</strong>.<br>
+                    &bull; Naciśnij <strong>Zielony</strong> (Zarządzaj) → Wybierz: <strong>„Wyczyść urządzenie pamięci masowej”</strong> (inicjalizacja).<br>
+                    &bull; Wróć do Menedżera, znów <strong>Zielony</strong> (Zarządzaj) → <strong>„Formatuj urządzenie”</strong>.<br>
+                    &bull; W polu system plików wybierz <strong>ext4</strong> i zatwierdź.<br><br>
+
+                    <strong>3. Skopiowanie skryptu na dekoder (FTP)</strong><br>
+                    &bull; Pobierz plik ZIP z sekcji "Pliki (pozostałe)" i rozpakuj go.<br>
+                    &bull; Połącz się przez FTP i skopiuj katalog ze skryptem (ten z plikiem <span class="code-snippet">H9_boot_mSD.sh</span>) do katalogu <span class="code-snippet">/usr/script/</span> w dekoderze.<br><br>
+
+                    <strong>4. Nadanie uprawnień i uruchomienie</strong><br>
+                    &bull; W FTP nadaj plikowi <span class="code-snippet">H9_boot_mSD.sh</span> atrybut <strong>755</strong>.<br>
+                    &bull; Na dekoderze: <strong>Menu → Wtyczki → Menedżer plików</strong>.<br>
+                    &bull; Przejdź do <span class="code-snippet">/usr/script/</span>, zaznacz skrypt i naciśnij OK.<br>
+                    &bull; Wybierz <strong>polecenie numer 3</strong>. Poczekaj ok. 5 minut na komunikat „Execution finished”.<br><br>
+
+                    <strong>5. Restart</strong><br>
+                    Zrestartuj dekoder (wyłącz z prądu). Po ponownym włączeniu system będzie korzystał z karty microSD.
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-header">Poradnik Multimediów, Sieci i Smart Home z Enigma 2</button>
+                <div class="accordion-content">
+                    <p>Twój tuner z Enigma2 to znacznie więcej niż tylko dekoder. To potężne centrum multimedialne, serwer strumieniowy i inteligentne urządzenie, które możesz zintegrować z resztą swojego domu.</p>
+                    
+                    <hr style="border-color: #30363d; margin: 15px 0;">
+
+                    <strong style="color: #d29922;">CZĘŚĆ 1: Kompleksowy Backup i Przywracanie</strong><br>
+                    <p><strong>A) Metoda 1: Kopia zapasowa ustawień (Szybka)</strong><br>
+                    Zapisuje ustawienia, listy kanałów, timery. Nie zapisuje systemu.<br>
+                    <em>Menu → Ustawienia → Zarządzanie oprogramowaniem → Kopia zapasowa ustawień.</em></p>
+                    
+                    <p><strong>B) Metoda 2: Pełna kopia obrazu (Disaster Recovery)</strong><br>
+                    Klonuje system 1:1. Najlepsze zabezpieczenie przed awarią.<br>
+                    Szukaj opcji: <em>ImageManager, BackupSuite</em> lub <em>Pełna kopia zapasowa</em>. Przywracanie: wgraj plik zip na pendrive i sflashuj tuner.</p>
+
+                    <hr style="border-color: #30363d; margin: 15px 0;">
+
+                    <strong style="color: #d29922;">CZĘŚĆ 2: Zaawansowany Streaming i Multiroom</strong><br>
+                    <p><strong>A) Streaming w sieci lokalnej (PC)</strong><br>
+                    Wpisz IP tunera w przeglądarce (OpenWebif). Kliknij ikonę ekranu przy kanale, pobierz plik .m3u i otwórz w VLC.</p>
+                    
+                    <p><strong>B) Streaming na urządzeniach mobilnych</strong><br>
+                    Android: <strong>dream Player</strong> | iOS: <strong>vu+ Player HD</strong>.<br>
+                    Wpisz w aplikacji IP tunera, login (root) i hasło.</p>
+                    
+                    <p><strong>C) Transkodowanie (Poza domem)</strong><br>
+                    Kompresja obrazu dla słabszego łącza (wymaga wsparcia sprzętowego tunera).<br>
+                    Konfiguracja: <em>Menu → Wtyczki → Transcoding Setup</em>.</p>
+
+                    <hr style="border-color: #30363d; margin: 15px 0;">
+
+                    <strong style="color: #d29922;">CZĘŚĆ 3: Integracja ze Smart Home (Home Assistant)</strong><br>
+                    <p>Przykłady: Automatyczne przyciemnianie świateł po włączeniu filmu, powiadomienia na ekranie TV.<br>
+                    <strong>Konfiguracja:</strong> W Home Assistant: <em>Ustawienia → Urządzenia i usługi → Dodaj integrację → Enigma2</em>. Podaj IP i hasło.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-header">Aktualizacja repozytorium (Listy kanałów)</button>
+                <div class="accordion-content">
+                    <p style="color:#58a6ff;">Dodano nowe listy kanałów Bzyk83 i JakiTaki.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-header">[Poradnik] Ustawienia DNS w Enigma 2</button>
+                <div class="accordion-content">
+                    <strong>Co to jest DNS?</strong><br>
+                    To „książka telefoniczna internetu”. Zamienia adresy (np. google.pl) na numery IP.<br><br>
+                    <strong>Dlaczego warto zmienić DNS ręcznie?</strong><br>
+                    &bull; <strong>Szybkość:</strong> Szybsze wczytywanie list IPTV i okładek.<br>
+                    &bull; <strong>Bezpieczeństwo:</strong> Blokada phishingu (np. Quad9).<br>
+                    &bull; <strong>Geolokalizacja:</strong> Omijanie blokad (np. Smart DNS).<br><br>
+                    <strong>POPULARNE SERWERY DNS:</strong><br>
+                    &bull; <strong>Google:</strong> <span class="code-snippet">8.8.8.8</span> / <span class="code-snippet">8.8.4.4</span><br>
+                    &bull; <strong>Cloudflare:</strong> <span class="code-snippet">1.1.1.1</span> / <span class="code-snippet">1.0.0.1</span><br>
+                    &bull; <strong>Quad9:</strong> <span class="code-snippet">9.9.9.9</span> (Bezpieczeństwo)<br><br>
+                    <strong>TIP - Jak zmienić w Enigma2?</strong><br>
+                    Wejdź w: <span class="code-snippet">Menu > Ustawienia > Sieć > Ustawienia DNS</span>.<br>
+                    Zmień na wybrane adresy i zapisz. Działa od razu!
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-header">[Mini-INFORMATOR] IPTV (Streamlink / DRM)</button>
+                <div class="accordion-content">
+                    <strong>Ważne:</strong> Przed wpisaniem komend wykonaj: <span class="code-snippet">opkg update</span><br><br>
+                    <strong>1. Streamlinkproxy:</strong> Przekierowuje streamy wideo do odtwarzacza.<br>
+                    Instalacja: <span class="code-snippet">opkg install streamlink</span><br><br>
+                    <strong>2. streamlinksrv:</strong> Serwer (demon) działający w tle.<br>
+                    Instalacja: <span class="code-snippet">opkg install streamlinksrv</span><br><br>
+                    <strong>3. ServiceApp:</strong> Pozwala zmienić player na <strong>Exteplayer3</strong>.<br>
+                    Instalacja: <span class="code-snippet">opkg install enigma2-plugin-systemplugins-serviceapp exteplayer3</span><br><br>
+                    <strong>PODSUMOWANIE (Komenda zbiorcza na start):</strong><br>
+                    <div class="cmd-wrapper">
+                         <div class="command-box" id="cmd-all">opkg update && opkg install streamlinksrv enigma2-plugin-systemplugins-serviceapp exteplayer3 && opkg upgrade</div>
+                         <button class="copy-btn" onclick="copyToClipboard('cmd-all')">📋 Kopiuj</button>
                     </div>
                 </div>
             </div>
-        </section>
 
-        <section class="content-section" data-aos="fade-up">
-            <div class="card" id="narzedzia">
-                <h2>🛠 Narzędzia i skróty</h2>
-                <p class="section-desc">Najczęściej używane polecenia i „one-linery” dla Enigma2.</p>
-                <div class="tools-grid" id="toolsGrid"></div>
+            <div class="accordion-item">
+                <button class="accordion-header">[Porada] Jak uruchomić kanały IPTV</button>
+                <div class="accordion-content"><p><strong>NIEZBĘDNIK IPTV z list kanałów &amp; KAMERY</strong></p>
+<p>Poniżej gotowa instrukcja instalacji pakietów przez Terminal (Telnet/SSH). Po tej konfiguracji powinny działać: kanały IPTV z list (M3U), linki YouTube oraz strumienie z kamer (HTTP/RTSP – zależnie od źródła).</p>
+
+<p><strong>📥 KROK 1: Instalacja pakietów</strong><br>
+Zaloguj się do terminala i wpisuj komendy każdą po kolei (zatwierdzając Enterem).</p>
+
+<div class="cmd-title">1️⃣ Aktualizacja listy pakietów (BARDZO WAŻNE):</div>
+<div class="cmd-wrapper">
+  <div class="command-box" id="iptv-cmd-update">opkg update</div>
+  <button class="copy-btn" onclick="copyToClipboard('iptv-cmd-update')">📋 Kopiuj</button>
+</div>
+
+<div class="cmd-title">2️⃣ Instalacja ServiceApp oraz silnika odtwarzania (ExtEplayer3):</div>
+<div class="cmd-wrapper">
+  <div class="command-box" id="iptv-cmd-serviceapp">opkg install enigma2-plugin-systemplugins-serviceapp</div>
+  <button class="copy-btn" onclick="copyToClipboard('iptv-cmd-serviceapp')">📋 Kopiuj</button>
+</div>
+<div class="cmd-wrapper">
+  <div class="command-box" id="iptv-cmd-exte">opkg install exteplayer3</div>
+  <button class="copy-btn" onclick="copyToClipboard('iptv-cmd-exte')">📋 Kopiuj</button>
+</div>
+<div class="cmd-wrapper">
+  <div class="command-box" id="iptv-cmd-ffmpeg">opkg install ffmpeg</div>
+  <button class="copy-btn" onclick="copyToClipboard('iptv-cmd-ffmpeg')">📋 Kopiuj</button>
+</div>
+
+<div class="cmd-title">3️⃣ Instalacja obsługi linków (YouTube, Twitch itp.):</div>
+<div class="cmd-wrapper">
+  <div class="command-box" id="iptv-cmd-youtubedl">opkg install python3-youtube-dl</div>
+  <button class="copy-btn" onclick="copyToClipboard('iptv-cmd-youtubedl')">📋 Kopiuj</button>
+</div>
+<div class="cmd-wrapper">
+  <div class="command-box" id="iptv-cmd-ytdlp">opkg install python3-yt-dlp</div>
+  <button class="copy-btn" onclick="copyToClipboard('iptv-cmd-ytdlp')">📋 Kopiuj</button>
+</div>
+
+<div class="cmd-title">4️⃣ Instalacja wrapperów (łączników systemowych):</div>
+<div class="cmd-wrapper">
+  <div class="command-box" id="iptv-cmd-ytdlpwrapper">opkg install enigma2-plugin-extensions-ytdlpwrapper</div>
+  <button class="copy-btn" onclick="copyToClipboard('iptv-cmd-ytdlpwrapper')">📋 Kopiuj</button>
+</div>
+<div class="cmd-wrapper">
+  <div class="command-box" id="iptv-cmd-ytdlwrapper">opkg install enigma2-plugin-extensions-ytdlwrapper</div>
+  <button class="copy-btn" onclick="copyToClipboard('iptv-cmd-ytdlwrapper')">📋 Kopiuj</button>
+</div>
+<div class="cmd-wrapper">
+  <div class="command-box" id="iptv-cmd-streamlinkwrapper">opkg install enigma2-plugin-extensions-streamlinkwrapper</div>
+  <button class="copy-btn" onclick="copyToClipboard('iptv-cmd-streamlinkwrapper')">📋 Kopiuj</button>
+</div>
+
+<div class="cmd-title">5️⃣ Instalacja serwera Streamlink:</div>
+<div class="cmd-wrapper">
+  <div class="command-box" id="iptv-cmd-streamlinksrv">opkg install streamlinksrv</div>
+  <button class="copy-btn" onclick="copyToClipboard('iptv-cmd-streamlinksrv')">📋 Kopiuj</button>
+</div>
+
+<p><strong>⚙️ KROK 2: Konfiguracja</strong></p>
+<ul style="margin: 5px 0 0 20px; padding: 0;">
+  <li>Zrób pełny restart tunera: <strong>Menu → Czuwanie/Restart → Restart</strong>.</li>
+  <li>Wejdź w: <strong>Menu → Ustawienia → Obsługa i Interfejs → ServiceApp</strong>.</li>
+  <li>Ustaw:
+    <ul style="margin: 8px 0 0 18px;">
+      <li><strong>System odtwarzania Enigma2:</strong> serviceapp</li>
+      <li><strong>Player:</strong> exteplayer3</li>
+    </ul>
+  </li>
+  <li>Naciśnij <strong>Zielony (Zapisz)</strong>.</li>
+  <li>System poprosi o restart GUI – zatwierdź.</li>
+</ul>
+
+<p style="margin-top: 10px;"><strong>✅ Gotowe!</strong> Teraz odtwarzanie strumieni IPTV z list kanałów, linków YouTube oraz kamer powinno działać poprawnie.</p></div>
             </div>
-        </section>
 
-        <section class="content-section" data-aos="fade-up">
-            <div class="card" id="systemy-aio">
-                <h2>💿 Systemy i checklisty</h2>
-                <p class="section-desc">Szybkie checklisty po instalacji dla OpenATV, OpenPLi, Egami.</p>
-                <div class="systems-grid" id="systemsGrid"></div>
+            <div class="accordion-item">
+                <button class="accordion-header">[Porada] Jak wgrać wtyczkę?</button>
+                <div class="accordion-content">
+                    1. Skopiuj plik <strong>.ipk</strong> do folderu <span class="code-snippet">/tmp</span> lub na pendrive.<br>
+                    2. Na dekoderze wejdź w:<br>
+                    <strong>Menu → Ustawienia → Menedżer oprogramowania → Instalator lokalnych pakietów ipk</strong><br>
+                    3. Wybierz /tmp lub pendrive, zaznacz plik (OK) i wciśnij zielony przycisk (Instaluj).<br>
+                    4. Po zakończeniu instalacji zrestartuj GUI.
+                </div>
             </div>
-        </section>
 
-        <div class="ad-banner-section" data-aos="fade-up">
-            <a href="https://multi-click.pl/" target="_blank" rel="nofollow">
-                <img src="multi-click_banner_970x250.webp" alt="Multi-Click Sklep" class="ad-banner-img banner-desktop" style="max-height: 200px; width: auto;">
-                <img src="multi-click_banner_320x100.webp" alt="Multi-Click Sklep" class="ad-banner-img banner-mobile">
-            </a>
         </div>
 
-        <footer class="site-footer">
-            <div class="footer-inner">
-                <div class="footer-grid">
-                    <div class="footer-col footer-brand">
-                        <div class="footer-brand-row">
-                            <img class="footer-logo" src="pliki/logo.png" alt="AIO-IPTV.pl">
-                            <div>
-                                <div class="footer-brand-name">AIO-IPTV.pl</div>
-                                <div class="footer-brand-tag">Niezbędnik Enigma2</div>
-                            </div>
-                        </div>
-                        <div class="footer-note">
-                            Autorskie materiały i narzędzia dla użytkowników Enigma2.
-                        </div>
-                    </div>
+                                <div class="card faq-panel" id="faq" data-aos="fade-up">
+            <h2>❓ FAQ / Pomoc</h2>
 
-                    <div class="footer-col">
-                        <div class="footer-title">Szybkie linki</div>
-                        <a class="footer-link" href="#wtyczki">Wtyczki</a>
-                        <a class="footer-link" href="#listy">Listy kanałów</a>
-                        <a class="footer-link" href="#aktualnosci">Poradniki</a>
-                        <a class="footer-link" href="#pliki">Pliki</a>
-                    </div>
-
-                    <div class="footer-col">
-                        <div class="footer-title">Narzędzia</div>
-                        <a class="footer-link" href="#generator">Generator One‑Liner</a>
-                        <a class="footer-link" href="kreator.html">Kreator konfiguracji</a>
-                        <a class="footer-link" href="porownywarka.html">Porównywarka tunerów</a>
-                    </div>
-
-                    <div class="footer-col">
-                        <div class="footer-title">Kontakt i wsparcie</div>
-                        <div class="footer-kpi">
-                            <span class="kpi-dot"></span>
-                            <span>Kontakt: <a class="footer-link inline" href="mailto:msisystem@t.pl">msisystem@t.pl</a></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="footer-bottom">
-                    <div class="footer-bottom-left">
-                        <div>&copy; 2025 AIO-IPTV.pl | by Paweł Pawełek</div>
-                        <div class="footer-legal">
-                            <a href="#polityka-prywatnosci">Polityka prywatności</a>
-                        </div>
-                    </div>
-                    <div class="footer-bottom-right">
-                        <div class="footer-visits">
-                            Twoje wizyty: <span class="local-visit-counter">...</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
-
-        <div id="support-drawer" class="support-drawer" aria-hidden="true" role="dialog" aria-label="Wsparcie">
-            <div class="support-drawer__sheet">
-                <div class="support-drawer__header">
-                    <div class="support-drawer__title">Wsparcie</div>
-                    <button id="support-drawer-close" class="support-drawer__close" type="button" aria-label="Zamknij">×</button>
-                </div>
-                <div class="support-drawer__content">
-                    <h3>Wesprzyj moją pracę – Dziękuję za każdą kawę! ☕</h3>
-                    <div style="margin-bottom: 15px; text-align: center;">
-                        <a href="https://buycoffee.to/pawelpawelek" target="_blank">
-                            <img src="https://buycoffee.to/static/img/share/share-button-dark.png"
-                                 style="width: 322px; height: 84px; max-width: 100%;"
-                                 alt="Postaw mi kawę na buycoffee.to">
-                        </a>
-                    </div>
-                    <p style="font-size: 0.9rem; color: #c9d1d9; line-height: 1.5;">
-                        To dla mnie – jako twórcy oprogramowania i administratora tej strony – ogromne wsparcie i realna motywacja.
-                        <br>– Pawełek
+            <div class="accordion-item">
+                <button class="accordion-header blue-header">Jak wkleić kod w Putty?</button>
+                <div class="accordion-content">
+                    <p>
+                        W oknie terminala Putty wystarczy kliknąć <strong>Prawym Przyciskiem Myszy</strong>,
+                        aby wkleić skopiowaną komendę. Skróty <code>Ctrl+V</code> / <code>Shift+Insert</code> zwykle nie działają.
                     </p>
                 </div>
             </div>
-            <div id="support-drawer-backdrop" class="support-drawer__backdrop"></div>
+
+            <div class="accordion-item">
+                <button class="accordion-header blue-header">Gdzie jest lista kanałów i bukiety?</button>
+                <div class="accordion-content">
+                    <p>
+                        Pliki list kanałów i bukietów znajdują się w katalogu
+                        <span class="code-snippet">/etc/enigma2/</span>.<br>
+                        Najważniejsze z nich to m.in.:<br>
+                        • <span class="code-snippet">bouquets.tv</span> – główny spis bukietów TV,<br>
+                        • <span class="code-snippet">userbouquet.*.tv</span> – poszczególne bukiety (np. Filmy, Sport).<br>
+                        Po wgraniu nowej listy warto zrobić <strong>restart GUI</strong>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-header blue-header">Gdzie są picony?</button>
+                <div class="accordion-content">
+                    <p>
+                        Najczęściej picony są w katalogu
+                        <span class="code-snippet">/usr/share/enigma2/picon/</span>.<br>
+                        W wielu konfiguracjach używa się zewnętrznego nośnika, np.
+                        <span class="code-snippet">/media/usb/picon/</span> lub
+                        <span class="code-snippet">/media/hdd/picon/</span>,
+                        aby nie zapychać pamięci flash dekodera.
+                    </p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-header blue-header">Gdzie jest plik satellites.xml?</button>
+                <div class="accordion-content">
+                    <p>
+                        W zależności od image plik może znajdować się w:<br>
+                        • <span class="code-snippet">/etc/tuxbox/satellites.xml</span><br>
+                        • lub <span class="code-snippet">/etc/enigma2/satellites.xml</span>.<br>
+                        To właśnie ten plik definiuje listę satelit i transponderów dostępnych w tunerze.
+                    </p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-header blue-header">Gdzie są ustawienia i logi OSCam?</button>
+                <div class="accordion-content">
+                    <p>
+                        Najczęstsza ścieżka konfiguracji to
+                        <span class="code-snippet">/etc/tuxbox/config/oscam/</span>.<br>
+                        Tam znajdują się pliki <span class="code-snippet">oscam.conf</span>,
+                        <span class="code-snippet">oscam.server</span>, <span class="code-snippet">oscam.user</span> itd.<br>
+                        Logi OSCam mogą być zapisane w pliku
+                        <span class="code-snippet">/var/log/oscam.log</span> lub w katalogu wskazanym w konfiguracji.
+                    </p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-header blue-header">Gdzie trafiają nagrania i timeshift?</button>
+                <div class="accordion-content">
+                    <p>
+                        Domyślnie nagrania są zapisywane do katalogu
+                        <span class="code-snippet">/media/hdd/movie/</span>.<br>
+                        Jeśli korzystasz z pendrive lub innego nośnika, ścieżka może być np.
+                        <span class="code-snippet">/media/usb/movie/</span>.<br>
+                        Timeshift (pauza TV) najczęściej korzysta z tego samego katalogu.
+                    </p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-header blue-header">Błąd: <code>No space left</code>?</button>
+                <div class="accordion-content">
+                    <p>
+                        Ten komunikat oznacza, że pamięć flash w dekoderze jest pełna.<br>
+                        • Usuń nieużywane wtyczki (Menu → Wtyczki).<br>
+                        • Skasuj stare picony lub logi z pamięci wewnętrznej (np. katalogi
+                        <span class="code-snippet">/usr/share/enigma2/picon/</span>,
+                        <span class="code-snippet">/var/log/</span>).<br>
+                        • Jeżeli to możliwe, przenieś cięższe dane na dysk
+                        <span class="code-snippet">/media/hdd/</span>.<br>
+                        Po sprzątnięciu zrób <strong>restart GUI</strong>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-header blue-header">Czarny ekran po instalacji image</button>
+                <div class="accordion-content">
+                    <p>
+                        Najczęściej przyczyną jest błędna lista kanałów lub brak sygnału z anteny.<br>
+                        • Wejdź w: <span class="code-snippet">Menu → Informacje → Sygnał</span> i sprawdź poziom sygnału.<br>
+                        • Jeżeli sygnał jest, wgraj aktualną listę (np. Bzyk83 / JakiTaki) i zrestartuj GUI.<br>
+                        • Upewnij się, że wybrany jest właściwy satelita (HotBird 13E, Astra itd.).
+                    </p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-header blue-header">Brak dźwięku na kanałach IPTV</button>
+                <div class="accordion-content">
+                    <p>
+                        Część list IPTV korzysta z kodeków audio, których domyślny odtwarzacz nie obsługuje.<br>
+                        • Zainstaluj: <span class="code-snippet">ServiceApp</span> i
+                          <span class="code-snippet">exteplayer3</span>.<br>
+                        • Ustaw w ServiceApp jako odtwarzacz domyślny: <strong>exteplayer3</strong>.<br>
+                        • W razie problemów z obrazem spróbuj też przełączyć się między <strong>gstplayer</strong>
+                          a <strong>exteplayer3</strong>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-header blue-header">Dekoder nie łączy się z siecią / IPTV nie działa</button>
+                <div class="accordion-content">
+                    <p>
+                        • Sprawdź, czy dekoder ma adres IP: <span class="code-snippet">Menu → Ustawienia → Sieć</span>.<br>
+                        • Ustaw ręcznie DNS, np. <span class="code-snippet">1.1.1.1</span> lub <span class="code-snippet">8.8.8.8</span>.<br>
+                        • Upewnij się, że data i godzina są poprawne – część serwisów wymaga aktualnego czasu.<br>
+                        • Jeżeli korzystasz z Wi-Fi, przetestuj połączenie na kablu Ethernet (stabilniejsze).
+                    </p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-header blue-header">Login i hasło?</button>
+                <div class="accordion-content">
+                    <p>
+                        Standardowy login to <strong>root</strong>.<br>
+                        Hasło bywa puste lub ustawione fabrycznie (np. <code>root</code>, <code>dreambox</code>, <code>pkteam</code>).<br>
+                        Jeżeli nie możesz się zalogować, sprawdź dokumentację image lub zapytaj na grupie
+                        dla swojego modelu tunera.
+                    </p>
+                </div>
+            </div>
         </div>
 
-        <button id="ai-chat-fab" class="ai-chat-fab" type="button" aria-label="AI Chat (Enigma2)">
-            🤖 AI Chat
-        </button>
-
-        <div id="ai-chat-drawer" class="ai-chat-drawer" aria-hidden="true" role="dialog" aria-label="AI Chat Enigma2">
-            <div class="ai-chat-drawer__sheet" role="document">
-                <div class="ai-chat-drawer__header">
-                    <div class="ai-chat-drawer__title">AI Chat • Enigma2</div>
-                    <button id="ai-chat-close" class="ai-chat-drawer__close" type="button" aria-label="Zamknij">✕</button>
-                </div>
-
-                <div class="ai-chat__chips" aria-label="Szybkie pytania">
-                    <button type="button" class="chip" data-chip="Jak zainstalować SoftCam feed w OpenATV?">SoftCam feed</button>
-                    <button type="button" class="chip" data-chip="Jak pobrać i przypisać picony po ServiceRef?">Picony</button>
-                    <button type="button" class="chip" data-chip="Jak zrestartować GUI (Enigma2) bez reboot?">Restart GUI</button>
-                    <button type="button" class="chip" data-chip="Co to jest OSCam i jak sprawdzić czy działa?">OSCam</button>
-                </div>
-
-                <div class="ai-chat__messages" id="aiChatMessages" aria-label="Wiadomości"></div>
-
-                <form id="aiChatForm" class="ai-chat__composer" autocomplete="off">
-                    <input id="aiChatInput" class="ai-chat__input" type="text" placeholder="Zadaj pytanie o Enigma2..." aria-label="Wpisz pytanie">
-                    <button class="ai-chat__send" type="submit" aria-label="Wyślij">Wyślij</button>
-                </form>
-
-                <div class="ai-chat__hint">Tryb: Supabase Edge Function (OpenAI)</div>
-            </div>
-            <div id="ai-chat-backdrop" class="ai-chat-drawer__backdrop" aria-hidden="true"></div>
+        <div class="card" id="slownik" data-aos="fade-up">
+            <h2>Mini-słownik pojęć (Enigma2 / IPTV)</h2>
+            <ul style="list-style:none; padding:0; margin:0; font-size:0.9rem;">
+                <li style="margin-bottom:8px;">
+                    <span class="term-tooltip" data-tooltip="Elektroniczny przewodnik po programach.">
+                        EPG
+                    </span>
+                    – elektroniczny przewodnik po programach, pokazuje ramówkę kanałów.
+                </li>
+                <li style="margin-bottom:8px;">
+                    <span class="term-tooltip" data-tooltip="Lista kanałów ułożona w bukiety / grupy.">
+                        Bouquet
+                    </span>
+                    – lista kanałów zgrupowana tematycznie (Filmy, Sport, Dzieci itd.).
+                </li>
+                <li style="margin-bottom:8px;">
+                    <span class="term-tooltip" data-tooltip="Plik tekstowy z listą kanałów lub streamów.">
+                        M3U
+                    </span>
+                    – plik z listą kanałów IPTV/streamów (adresy URL).
+                </li>
+                <li style="margin-bottom:8px;">
+                    <span class="term-tooltip" data-tooltip="Grafika z logo kanału.">
+                        Picon
+                    </span>
+                    – ikonka kanału wyświetlana w EPG i liście kanałów.
+                </li>
+                <li style="margin-bottom:8px;">
+                    <span class="term-tooltip" data-tooltip="Oprogramowanie odpowiedzialne za deszyfrowanie.">
+                        Softcam
+                    </span>
+                    – moduł obsługujący karty/prawa dostępu (Oscam, NCam itd.).
+                </li>
+                <li style="margin-bottom:8px;">
+                    <span class="term-tooltip" data-tooltip="System operacyjny dla dekodera (OpenATV, OpenPLi itd.).">
+                        Image
+                    </span>
+                    – oprogramowanie (system) zainstalowane w dekoderze.
+                </li>
+                <li style="margin-bottom:8px;">
+                    <span class="term-tooltip" data-tooltip="Główna aplikacja odpowiedzialna za obsługę TV, EPG, list kanałów.">
+                        Enigma2
+                    </span>
+                    – interfejs użytkownika działający na tunerach linuksowych (Vu+, Zgemma, Octagon...).
+                </li>
+                <li style="margin-bottom:8px;">
+                    <span class="term-tooltip" data-tooltip="Dodatkowa pamięć wymiany (swap), odciążająca pamięć RAM.">
+                        Swap
+                    </span>
+                    – plik/partycja używana jako dodatkowa pamięć na słabszych dekoderach.
+                </li>
+                <li style="margin-bottom:8px;">
+                    <span class="term-tooltip" data-tooltip="Plik z listą satelit (pozycje orbitalne, transpondery).">
+                        satellites.xml
+                    </span>
+                    – definiuje dostępne satelity i transpondery dla tunera.
+                </li>
+                <li style="margin-bottom:8px;">
+                    <span class="term-tooltip" data-tooltip="Standard głowicy satelitarnej obsługującej m.in. transmisje 4K.">
+                        DVB-S2X
+                    </span>
+                    – nowszy standard odbioru satelitarnego, pozwala na większe upakowanie kanałów.
+                </li>
+                <li style="margin-bottom:8px;">
+                    <span class="term-tooltip" data-tooltip="Odbiór naziemny DVB-T/T2 lub kablowy DVB-C.">
+                        DVB-T/T2 / DVB-C
+                    </span>
+                    – tryb pracy tunera dla telewizji naziemnej lub kablowej.
+                </li>
+                <li style="margin-bottom:8px;">
+                    <span class="term-tooltip" data-tooltip="Ciągłe nagrywanie oglądanego kanału na dysk.">
+                        Timeshift
+                    </span>
+                    – funkcja pauzowania i przewijania programu „na żywo”.
+                </li>
+                <li style="margin-bottom:8px;">
+                    <span class="term-tooltip" data-tooltip="Zadanie nagrania w przyszłości (planowane nagranie).">
+                        Timer
+                    </span>
+                    – wpis w harmonogramie nagrań (data, godzina, kanał).
+                </li>
+                <li style="margin-bottom:8px;">
+                    <span class="term-tooltip" data-tooltip="Dodatek integrujący IPTV, odtwarzacze, listy serwisów streamingowych.">
+                        Wtyczka (plugin)
+                    </span>
+                    – dodatkowy moduł rozszerzający możliwości Enigmy2 (np. Player, Panel, Updater).
+                </li>
+                <li style="margin-bottom:8px;">
+                    <span class="term-tooltip" data-tooltip="Katalog z listą kanałów, bukietami, ustawieniami GUI.">
+                        /etc/enigma2
+                    </span>
+                    – tu znajdują się pliki list kanałów, bukiety (<span class="code-snippet">userbouquet.*</span>) oraz ustawienia Enigmy2.
+                </li>
+                <li style="margin-bottom:8px;">
+                    <span class="term-tooltip" data-tooltip="Folder z grafikami picon, skórami i elementami wizualnymi.">
+                        /usr/share/enigma2
+                    </span>
+                    – katalog zawiera m.in. picony, skórki (<span class="code-snippet">skin.xml</span>) i layout interfejsu.
+                </li>
+                <li style="margin-bottom:0;">
+                    <span class="term-tooltip" data-tooltip="Główny katalog nagrań na dysku twardym lub pendrivie.">
+                        /media/hdd/movie
+                    </span>
+                    – domyślne miejsce zapisu nagrań i timeshiftu.
+                </li>
+            </ul>
         </div>
 
-        <div id="mobile-nav-drawer" class="mobile-nav-drawer" aria-hidden="true">
-            <div class="mobile-nav-drawer__backdrop" data-nav-close></div>
-            <div class="mobile-nav-drawer__sheet" role="navigation" aria-label="Menu mobilne">
-                <div class="mobile-nav-drawer__header">
-                    <div class="mobile-nav-drawer__title">Menu</div>
-                    <button class="mobile-nav-drawer__close" type="button" data-nav-close aria-label="Zamknij">✕</button>
+        <div class="card generator-card" id="generator" data-aos="fade-up">
+            <h2>⚡ Generator One-Liner</h2>
+            <p>Zaznacz, co chcesz zainstalować, a strona wygeneruje jedną, wspólną komendę do terminala (Putty itp.).</p>
+
+            <div class="generator-options">
+                <label class="gen-option">
+                    <input type="checkbox" data-target="cmd-aio">
+                    <span>AIO Panel (Zarządzanie)</span>
+                </label>
+                <label class="gen-option">
+                    <input type="checkbox" data-target="cmd-iptv">
+                    <span>IPTV Dream (Odtwarzacz)</span>
+                </label>
+                <label class="gen-option">
+                    <input type="checkbox" data-target="cmd-updater">
+                    <span>MyUpdater (Aktualizacje)</span>
+                </label>
+                <label class="gen-option">
+                    <input type="checkbox" data-target="cmd-picon">
+                    <span>PiconUpdater (Loga)</span>
+                </label>
+                <label class="gen-option">
+                    <input type="checkbox" data-target="cmd-epg">
+                    <span>Simple IPTV EPG</span>
+                </label>
+                <label class="gen-option">
+                    <input type="checkbox" data-target="cmd-softcam">
+                    <span>Softcam Feed (OpenATV)</span>
+                </label>
+                <label class="gen-option">
+                    <input type="checkbox" data-target="cmd-ajpanel">
+                    <span>AJPanel</span>
+                </label>
+                <label class="gen-option">
+                    <input type="checkbox" data-target="cmd-e2i">
+                    <span>E2iPlayer</span>
+                </label>
+                <label class="gen-option">
+                    <input type="checkbox" data-target="cmd-epgimport">
+                    <span>EPG Import (Belfagor)</span>
+                </label>
+                <label class="gen-option">
+                    <input type="checkbox" data-target="cmd-filmxy">
+                    <span>Filmy XY</span>
+                </label>
+                <label class="gen-option">
+                    <input type="checkbox" data-target="cmd-jedi">
+                    <span>Jedi Maker Xtream</span>
+                </label>
+                <label class="gen-option">
+                    <input type="checkbox" data-target="cmd-s4a">
+                    <span>S4A Updater</span>
+                </label>
+                <label class="gen-option">
+                    <input type="checkbox" data-target="cmd-levi">
+                    <span>Levi45 Softcam Emulator</span>
+                </label>
+            </div>
+
+            <div class="cmd-title">Wygenerowana komenda:</div>
+            <div class="cmd-wrapper">
+                <div class="command-box" id="generator-output"># Zaznacz przynajmniej jedną opcję powyżej...</div>
+                <button class="copy-btn" onclick="copyToClipboard('generator-output')">📋 Kopiuj</button>
+            </div>
+
+            <div class="generator-note" style="margin-top: 20px; text-align: left; background: rgba(48, 54, 61, 0.4); padding: 15px; border-radius: 6px; border-left: 4px solid #58a6ff;">
+                <strong style="font-size: 1.1em; color: #58a6ff; display: block; margin-bottom: 10px;">💡 Poradnik instalacji wtyczek (Terminal / PuTTy)</strong>
+                
+                <strong style="color: #d29922;">A) Przez OpenWebif (Terminal)</strong>
+                <ol style="margin: 5px 0 15px 20px; padding: 0;">
+                    <li>Wpisz IP tunera w przeglądarce i wybierz zakładkę <strong>Terminal</strong>.</li>
+                    <li>Wprowadź Login: <strong>root</strong> (dla wszystkich tunerów). Hasło wpisujesz "w ciemno" (nie widać znaków).<br>
+                    <em style="font-size: 0.85em; opacity: 0.7;">(Jeśli nie znasz hasła: Menu → Ustawienia → Sieć → Hasło → Zapisz. Na czystym systemie logowanie bez hasła).</em></li>
+                    <li>Po zalogowaniu kliknij <strong>Prawym Przyciskiem Myszy</strong> i wybierz <strong>"Paste from browser"</strong>.</li>
+                    <li>Wklej skopiowane wcześniej polecenie, naciśnij <strong>OK</strong>, a następnie zatwierdź <strong>Enter</strong>.</li>
+                    <li>Rozpocznie się instalacja. Po zakończeniu możesz przejść w inne miejsce OpenWebif.</li>
+                </ol>
+
+                <strong style="color: #d29922;">B) Przez program PuTTy (np. dla OpenPLi)</strong>
+                <ul style="margin: 5px 0 0 20px; padding: 0;">
+                    <li>W programie PuTTy podaj IP tunera i połącz się.</li>
+                    <li>Tutaj <strong>Prawy Przycisk Myszy</strong> od razu wkleja skopiowane polecenie.</li>
+                    <li>Zatwierdź klawiszem <strong>Enter</strong>.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card support-section" id="wsparcie" data-aos="fade-up" data-aos-delay="300">
+            <h2>Wsparcie</h2>
+            <p>Wesprzyj moją pracę – Dziękuję za każdą kawę! ☕</p>
+            <div style="margin-bottom: 15px;">
+                <a href="https://buycoffee.to/pawelpawelek" target="_blank"><img src="https://buycoffee.to/static/img/share/share-button-dark.png" style="width: 322px; height: 84px; max-width: 100%;" alt="Postaw mi kawę na buycoffee.to"></a>
+            </div>
+            <img src="pliki/QR_buycoffee.png" alt="Kod QR BuyCoffee" class="qr-code">
+            
+            <p class="support-text">
+                <strong>Dziękuję za postawienie kawy ☕</strong><br><br>
+                To dla mnie – jako twórcy oprogramowania i administratora tej strony – ogromne wsparcie i realna motywacja do dalszego rozwoju projektów oraz utrzymania serwisu na obecnym poziomie.<br>
+                Dzięki Twojej pomocy mogę poświęcać więcej czasu na rozwijanie narzędzi, aktualizacje, dokumentację i wsparcie społeczności.<br>
+                Jeśli chcesz docenić moją pracę i pomoc, możesz symbolicznie postawić mi kawę – to drobny gest, który naprawdę wiele znaczy.<br>
+                <br>– Pawełek
+            </p>
+        </div>
+<div class="card" id="pliki" data-aos="fade-up">
+            <h2>Pliki (pozostałe)</h2>
+            <ul class="file-list">
+                <li>
+                    <a class="file-link" href="https://github.com/OliOli2013/PanelAIO-Plugin/raw/main/Picony.zip" title="Paczka pikon dla satelity HotBird 13E">
+                        <span class="icon">📥</span> Picony Transparent 13°E
+                    </a>
+                    <span class="file-desc">(Paczka ZIP)</span>
+                </li>
+                <li>
+                    <a class="file-link" href="https://github.com/OliOli2013/aio-iptv-projekt/raw/main/pliki/powiekszenie%20pamieci%20ZGEMMA%20H9.S%20H9.2S.zip" title="Skrypt do powiększenia pamięci">
+                        <span class="icon">📥</span> Powiększenie pamięci do ZGEMMA H9S / H9.2S
+                    </a>
+                    <span class="file-desc">(Skrypt ZIP)</span>
+                </li>
+                 <li>
+                    <a class="file-link" href="https://github.com/OliOli2013/aio-iptv-projekt/raw/main/pliki/OpenATV_softcam_feed_v8.0.ipk" title="Softcam Feed dla OpenATV">
+                        <span class="icon">📥</span> OpenATV Softcam Feed v8.0
+                    </a>
+                    <span class="file-desc">(Paczka .ipk)</span>
+                </li>
+                 <li>
+                    <a class="file-link" href="https://github.com/OliOli2013/aio-iptv-projekt/raw/main/pliki/enigma2-plugin-extensions-streamlinkproxy_8.0.0_all.ipk" title="Wtyczka StreamlinkProxy">
+                        <span class="icon">📥</span> StreamlinkProxy 8.0.0
+                    </a>
+                    <span class="file-desc">(Paczka .ipk) - Obsługa streamów</span>
+                </li>
+                <li>
+                    <a class="file-link" href="https://github.com/OliOli2013/aio-iptv-projekt/raw/main/pliki/enigma2-plugin-systemplugins-serviceapp_0.5%20git106%20e2e47a2-r6_cortexa15hf-neon-vfpv4.ipk" title="Wtyczka ServiceApp">
+                        <span class="icon">📥</span> ServiceApp 0.5 (git106)
+                    </a>
+                    <span class="file-desc">(Paczka .ipk) - Zmiana odtwarzacza systemowego</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="card" id="kontakt" data-aos="fade-up">
+            <h2>Kontakt</h2>
+            <p>Masz pytania lub problem? Napisz do mnie.</p>
+            
+            <form action="https://formspree.io/f/xeoyreyk" method="POST" class="contact-form">
+                <input type="email" name="email" placeholder="Twój adres email (do odpowiedzi)" required>
+                <textarea name="message" placeholder="Treść wiadomości..." required></textarea>
+                <button type="submit" class="contact-btn">Wyślij wiadomość</button>
+            </form>
+
+            <div style="margin-top: 20px; padding-top: 20px;">
+                <p>Możesz też skontaktować się bezpośrednio:</p>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <a href="https://t.me/PawelPawelek" class="telegram-btn" target="_blank">✈️ Telegram</a>
+                    <a href="https://m.me/100064704540847" class="telegram-btn" style="background-color: #0084ff;" target="_blank">💬 Messenger</a>
                 </div>
-                <div class="mobile-nav-drawer__content">
-                    <a href="#wtyczki" class="mobile-nav-link" data-nav-close>🔌 Wtyczki</a>
-                    <a href="#listy" class="mobile-nav-link" data-nav-close>📺 Listy</a>
-                    <a href="#aktualnosci" class="mobile-nav-link" data-nav-close>📚 Porady</a>
-                    <a href="#generator" class="mobile-nav-link" data-nav-close>⚡ Generator</a>
-                    <a href="#pliki" class="mobile-nav-link" data-nav-close>📂 Pliki</a>
-                    <a href="#kontakt" class="mobile-nav-link" data-nav-close>📧 Kontakt</a>
-                    <a href="#wsparcie" class="mobile-nav-link" data-nav-close>☕ Wsparcie</a>
-                    <a href="#systemy" class="mobile-nav-link" data-nav-close>💿 Systemy</a>
-                    <a href="porownywarka.html" class="mobile-nav-link" data-nav-close>📊 Porównywarka</a>
-                    <a href="kreator.html" class="mobile-nav-link" data-nav-close>🔧 Kreator</a>
-                    <a href="#statystyki" class="mobile-nav-link" data-nav-close>📈 Statystyki</a>
+            </div>
+
+            <hr style="border-color: #30363d; margin: 30px 0;">
+
+            <h2>Informacje Prawne</h2>
+            <p style="margin-bottom: 15px;">Kliknij poniżej, aby rozwinąć szczegóły.</p>
+
+            <div class="accordion-item" id="polityka-prywatnosci">
+                <button class="accordion-header">Polityka prywatności</button>
+                <div class="accordion-content">
+                    <p>
+                        Niniejsza strona ma charakter informacyjny i hobbystyczny. Administratorem danych osobowych
+                        jest właściciel projektu AIO-IPTV.pl – Paweł Pawełek, kontakt:
+                        <a href="mailto:msisystem@t.pl">msisystem@t.pl</a>.
+                    </p>
+                    <p>
+                        Nie profiluję użytkowników. GitHub Pages może zbierać logi techniczne. Linki zewnętrzne mają własne zasady.
+                    </p>
+                </div>
+            </div>
+
+            <div class="accordion-item" id="rodo">
+                <button class="accordion-header">RODO</button>
+                <div class="accordion-content">
+                    <p>
+                        Przetwarzam Twój email tylko, żeby odpisać na wiadomość. Obsługuje to Formspree.
+                        Masz prawo wglądu i usunięcia danych.
+                    </p>
                 </div>
             </div>
         </div>
 
-        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-        <script src="script_modern.js"></script>
-        <script src="app_final.js"></script>
+        <div class="card" id="quiz-panel" data-aos="fade-up" style="grid-area: status;">
+            <h2>🧠 Quiz Wiedzy Enigma2</h2>
+            <p>Sprawdź swoją wiedzę o tunerach i systemie Enigma2!</p>
+            
+            <div id="quiz-container">
+                <div id="quiz-question" class="quiz-question">
+                    </div>
+                <div id="quiz-result" class="quiz-result" style="display: none;">
+                    <h3>Twój wynik: <span id="quiz-score">0</span>/5</h3>
+                    <p id="quiz-message"></p>
+                    <button class="contact-btn" onclick="restartQuiz()">🔄 Zagraj ponownie</button>
+                </div>
+                <div id="quiz-progress">
+                    <div class="quiz-progress-bar">
+                        <div class="quiz-progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <div class="log-drawer" id="log-analyzer-drawer" aria-hidden="true">
-          <div class="log-drawer__sheet" role="dialog" aria-modal="true" aria-labelledby="log-drawer-title">
-            <div class="log-drawer__header">
-              <div class="log-drawer__title" id="log-drawer-title">Analiza logu • Enigma2</div>
-              <button type="button" class="log-drawer__close" id="log-drawer-close" aria-label="Zamknij">×</button>
+        <div class="card" id="systemy" data-aos="fade-up">
+            <h2>Czyste systemy Image</h2>
+            <p>Najpopularniejsze i stabilne systemy Enigma2, które sprawdzą się na większości tunerów.</p>
+            <ul class="file-list">
+                <li>
+                    <a class="file-link" href="https://www.opena.tv/app.php/atv_images" target="_blank">
+                        <span class="icon">🌍</span> OpenATV
+                    </a>
+                    <span class="file-desc">Najczęściej używany, mnóstwo funkcji i częste aktualizacje.</span>
+                </li>
+                <li>
+                    <a class="file-link" href="https://openpli.org/download" target="_blank">
+                        <span class="icon">🌍</span> OpenPLi
+                    </a>
+                    <span class="file-desc">Stabilny, szybki i lekki system. Idealny dla purystów.</span>
+                </li>
+                <li>
+                    <a class="file-link" href="https://www.openvix.co.uk/index.php/downloads/" target="_blank">
+                        <span class="icon">🌍</span> OpenViX
+                    </a>
+                    <span class="file-desc">Popularny w UK. Ładne GUI, wsparcie OE-Alliance.</span>
+                </li>
+                <li>
+                    <a class="file-link" href="https://openspa.webhop.info/" target="_blank">
+                        <span class="icon">🌍</span> OpenSPA
+                    </a>
+                    <span class="file-desc">Hiszpański image z wieloma dodatkami multimedialnymi.</span>
+                </li>
+                <li>
+                    <a class="file-link" href="https://image.egami-image.com/" target="_blank">
+                        <span class="icon">🌍</span> Egami
+                    </a>
+                    <span class="file-desc">Niszowy, ale bardzo funkcjonalny system o unikalnym wyglądzie.</span>
+                </li>
+                <li>
+                    <a class="file-link" href="https://www.opendroid.org/" target="_blank">
+                        <span class="icon">🌍</span> OpenDroid
+                    </a>
+                    <span class="file-desc">Włoski projekt, rzadziej spotykany, ale ciekawy.</span>
+                </li>
+                <li>
+                    <a class="file-link" href="https://images.openbh.net/" target="_blank">
+                        <span class="icon">🌍</span> OpenBH
+                    </a>
+                    <span class="file-desc">Stabilny i mocny system, popularny na tunerach Vu+.</span>
+                </li>
+                <li>
+                    <a class="file-link" href="https://vuplus-support.org/wbb4/vtisoftware/" target="_blank">
+                        <span class="icon">🌍</span> VTI
+                    </a>
+                    <span class="file-desc">Dedykowany głównie dla tunerów VU+.</span>
+                </li>
+                <li>
+                    <a class="file-link" href="https://mega.nz/folder/tLYwSCwb#tRlNAq8R84mpLiQoiJxWFQ" target="_blank">
+                        <span class="icon">🌍</span> Hyperion X2 (PKTeam)
+                    </a>
+                    <span class="file-desc">Legendarny polski image. Nowoczesny wygląd, stabilność i wsparcie 4K.</span>
+                </li>
+            </ul>
+            <div style="margin-top:20px; overflow-x:auto;">
+                <h3 style="font-size:1rem; color:#58a6ff;">Porównanie popularnych image’ów</h3>
+                <table style="width:100%; border-collapse:collapse; font-size:0.85rem;">
+                    <thead>
+                        <tr>
+                            <th style="border-bottom:1px solid #30363d; padding:6px;">Cecha</th>
+                            <th style="border-bottom:1px solid #30363d; padding:6px;">OpenATV</th>
+                            <th style="border-bottom:1px solid #30363d; padding:6px;">OpenPLi</th>
+                            <th style="border-bottom:1px solid #30363d; padding:6px;">OpenViX</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding:6px;">Częstość aktualizacji</td>
+                            <td style="padding:6px;">✅ bardzo częste (nightly)</td>
+                            <td style="padding:6px;">✅ stabilne wydania</td>
+                            <td style="padding:6px;">✅ regularne</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:6px;">Szybkość działania</td>
+                            <td style="padding:6px;">⚖️ zależy od tunera</td>
+                            <td style="padding:6px;">✅ lekkie i szybkie</td>
+                            <td style="padding:6px;">✅ dobre</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:6px;">Liczba funkcji „out of the box”</td>
+                            <td style="padding:6px;">✅✅ bardzo dużo</td>
+                            <td style="padding:6px;">⚖️ raczej podstawowy zestaw</td>
+                            <td style="padding:6px;">✅ dużo dodatków</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:6px;">Polecane dla</td>
+                            <td style="padding:6px;">Użytkowników, którzy chcą „wszystko naraz”</td>
+                            <td style="padding:6px;">Fanów stabilności i prostoty</td>
+                            <td style="padding:6px;">Użytkowników z UK / OE-Alliance</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
 
-            <div class="log-drawer__body">
-              <textarea id="log-input" class="log-drawer__textarea" placeholder="Wklej tutaj log..." spellcheck="false"></textarea>
-              <div class="log-drawer__actions">
-                <button type="button" class="btn btn-primary" id="log-analyze-btn">Analizuj</button>
-                <button type="button" class="btn btn-ghost" id="log-clear-btn">Wyczyść</button>
-              </div>
-              <div class="log-drawer__result" id="log-result" aria-live="polite"></div>
+        </div>
+
+        <div class="card" id="kalkulator-epg" data-aos="fade-up">
+            <h2>Kalkulator pojemności EPG</h2>
+            <p>Oszacuj, ile miejsca zajmie EPG dla Twoich kanałów.</p>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+                <label>
+                    Liczba kanałów:
+                    <input type="number" id="epg-channels" min="1" max="2000" value="100" style="width:100%; max-width:200px;">
+                </label>
+                <label>
+                    Liczba dni EPG:
+                    <input type="number" id="epg-days" min="1" max="30" value="7" style="width:100%; max-width:200px;">
+                </label>
+                <button class="contact-btn" type="button" onclick="calculateEpgSize()">
+                    Oblicz szacowaną wielkość
+                </button>
+                <p id="epg-result" style="font-size:0.9rem; color:#8b949e; margin-top:5px;"></p>
             </div>
-          </div>
-          <div class="log-drawer__backdrop" id="log-drawer-backdrop" aria-hidden="true"></div>
+        </div>
+
+        <div class="card project-stats-card full-width" id="statystyki" data-aos="fade-up">
+            <div class="project-stats-header">
+                <div class="project-stats-title">
+                    <div class="project-stats-icon">📊</div>
+                    <div>
+                        <h2>Statystyki projektu</h2>
+                        <p>Podgląd aktywności repozytorium i wersji narzędzi AIO-IPTV.</p>
+                    </div>
+                </div>
+                <div class="stats-status" id="github-status">
+                    <span class="status-dot"></span>
+                    <span id="github-status-label">API GitHub: sprawdzanie…</span>
+                </div>
+            </div>
+
+            <div class="project-stats-row">
+                <div class="project-stat">
+                    <div class="project-stat-label">Gwiazdki GitHub</div>
+                    <div class="project-stat-value skeleton" id="repo-stars">...</div>
+                </div>
+                <div class="project-stat">
+                    <div class="project-stat-label">Obserwujący</div>
+                    <div class="project-stat-value skeleton" id="repo-watchers">...</div>
+                </div>
+                <div class="project-stat">
+                    <div class="project-stat-label">Rozmiar repozytorium</div>
+                    <div class="project-stat-value skeleton" id="repo-size">...</div>
+                </div>
+                <div class="project-stat">
+                    <div class="project-stat-label">Ostatnia aktualizacja</div>
+                    <div class="project-stat-value" id="repo-date">...</div>
+                </div>
+                <div class="project-stat">
+                    <div class="project-stat-label">Twoje wizyty</div>
+                    <div class="project-stat-value local-visit-counter">1</div>
+                </div>
+            </div>
+            
+            <div class="project-stats-chart" style="margin-top: 20px;">
+                <h3 style="font-size: 1rem; color: #58a6ff; margin-bottom: 15px;">📊 Popularność wtyczek</h3>
+                <div style="max-width: 300px; margin: 0 auto;">
+                    <canvas id="popularity-chart" width="300" height="300"></canvas>
+                </div>
+            
+                <div id="popularity-list" class="popularity-list" style="margin-top: 14px;"></div>
+                <div class="muted" style="margin-top: 10px; font-size: 0.85rem; color:#8b949e;">
+                    Jeśli w repozytorium strony istnieją pliki <span class="code-snippet">traffic/*.json</span>, wykres użyje danych „Traffic” (Views/Clones – 14 dni). W przeciwnym razie wyświetli publiczne metryki GitHub (np. pobrania z Releases).
+                </div>
+            </div>
+
+            <div class="project-stats-footer">
+                Dane pobierane automatycznie z API GitHub dla projektu
+                <span class="code-snippet">OliOli2013/aio-iptv-projekt</span>.
+            </div>
+        </div>
+
+        <div class="card" id="terminal" data-aos="fade-up">
+            <div class="terminal-bar">
+                <div class="terminal-dots">
+                    <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                </div>
+                <div class="terminal-title">root@enigma2:~</div>
+            </div>
+            
+            <p style="margin-top: 15px;">Skopiuj komendę i wklej w terminalu (np. Putty), aby zainstalować:</p>
+            
+            <div class="cmd-title">Instalacja AIO Panel:</div>
+            <div class="cmd-wrapper">
+                <div class="command-box" id="cmd-aio">wget -q "--no-check-certificate" https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh -O - | /bin/sh</div>
+                <button class="copy-btn" onclick="copyToClipboard('cmd-aio')">📋 Kopiuj</button>
+            </div>
+
+            <div class="cmd-title">Instalacja IPTV Dream:</div>
+            <div class="cmd-wrapper">
+                <div class="command-box" id="cmd-iptv">wget -q "--no-check-certificate" https://raw.githubusercontent.com/OliOli2013/IPTV-Dream-Plugin/main/installer.sh -O - | /bin/sh</div>
+                <button class="copy-btn" onclick="copyToClipboard('cmd-iptv')">📋 Kopiuj</button>
+            </div>
+
+            <div class="cmd-title">Instalacja MyUpdater:</div>
+            <div class="cmd-wrapper">
+                <div class="command-box" id="cmd-updater">wget -q -O - https://raw.githubusercontent.com/OliOli2013/MyUpdater-Plugin/main/installer.sh | sh</div>
+                <button class="copy-btn" onclick="copyToClipboard('cmd-updater')">📋 Kopiuj</button>
+            </div>
+
+            <div class="cmd-title">Instalacja PiconUpdater:</div>
+            <div class="cmd-wrapper">
+                <div class="command-box" id="cmd-picon">wget -qO - https://raw.githubusercontent.com/OliOli2013/PiconUpdater/main/installer.sh | /bin/sh</div>
+                <button class="copy-btn" onclick="copyToClipboard('cmd-picon')">📋 Kopiuj</button>
+            </div>
+
+            <div class="cmd-title">Instalacja SimpleIPTV EPG:</div>
+            <div class="cmd-wrapper">
+                <div class="command-box" id="cmd-epg">wget -qO - https://raw.githubusercontent.com/OliOli2013/SimpleIPTV_EPG/main/installer.sh | /bin/sh</div>
+                <button class="copy-btn" onclick="copyToClipboard('cmd-epg')">📋 Kopiuj</button>
+            </div>
+
+            <div class="cmd-title">Instalacja Softcam Feed:</div>
+            <div class="cmd-wrapper">
+                <div class="command-box" id="cmd-softcam">wget -O - -q http://updates.mynonpublic.com/oea/feed | bash</div>
+                <button class="copy-btn" onclick="copyToClipboard('cmd-softcam')">📋 Kopiuj</button>
+            </div>
+
+            <div class="cmd-title">Instalacja AJPanel:</div>
+            <div class="cmd-wrapper">
+                <div class="command-box" id="cmd-ajpanel">wget https://raw.githubusercontent.com/biko-73/AjPanel/main/installer.sh -O - | /bin/sh</div>
+                <button class="copy-btn" onclick="copyToClipboard('cmd-ajpanel')">📋 Kopiuj</button>
+            </div>
+
+            <div class="cmd-title">Instalacja E2iPlayer:</div>
+            <div class="cmd-wrapper">
+                <div class="command-box" id="cmd-e2i">wget -q "https://raw.githubusercontent.com/oe-mirrors/e2iplayer/refs/heads/python3/e2iplayer_install.sh" -O - | /bin/sh</div>
+                <button class="copy-btn" onclick="copyToClipboard('cmd-e2i')">📋 Kopiuj</button>
+            </div>
+
+            <div class="cmd-title">Instalacja EPG Import:</div>
+            <div class="cmd-wrapper">
+                <div class="command-box" id="cmd-epgimport">wget -q "--no-check-certificate" https://raw.githubusercontent.com/Belfagor2005/EPGImport-99/main/installer.sh -O - | /bin/bash</div>
+                <button class="copy-btn" onclick="copyToClipboard('cmd-epgimport')">📋 Kopiuj</button>
+            </div>
+
+            <div class="cmd-title">Instalacja Filmy XY:</div>
+            <div class="cmd-wrapper">
+                <div class="command-box" id="cmd-filmxy">wget -q "--no-check-certificate" https://raw.githubusercontent.com/Belfagor2005/filmxy/main/installer.sh -O - | /bin/sh</div>
+                <button class="copy-btn" onclick="copyToClipboard('cmd-filmxy')">📋 Kopiuj</button>
+            </div>
+
+            <div class="cmd-title">Instalacja Jedi Maker Xtream:</div>
+            <div class="cmd-wrapper">
+                <div class="command-box" id="cmd-jedi">wget https://raw.githubusercontent.com/biko-73/JediMakerXtream/main/installer.sh -O - | /bin/sh</div>
+                <button class="copy-btn" onclick="copyToClipboard('cmd-jedi')">📋 Kopiuj</button>
+            </div>
+
+            <div class="cmd-title">Instalacja S4A Updater:</div>
+            <div class="cmd-wrapper">
+                <div class="command-box" id="cmd-s4a">wget http://s4aupdater.one.pl/instalujs4aupdater.sh -O - | /bin/sh</div>
+                <button class="copy-btn" onclick="copyToClipboard('cmd-s4a')">📋 Kopiuj</button>
+            </div>
+
+            <div class="cmd-title">Instalacja Levi45 Emulator:</div>
+            <div class="cmd-wrapper">
+                <div class="command-box" id="cmd-levi">wget -q "--no-check-certificate" https://raw.githubusercontent.com/levi-45/Levi45Emulator/main/installer.sh -O - | /bin/sh</div>
+                <button class="copy-btn" onclick="copyToClipboard('cmd-levi')">📋 Kopiuj</button>
+            </div>
         </div>
 
     </div>
+
+    <div style="max-width: 1500px; margin: 0 auto; padding: 0 20px;">
+</div>
+        <section class="card" id="comments">
+  <div class="comments-head">
+    <div class="comments-title">
+      <h2>💬 Komentarze</h2>
+      <p class="muted" style="margin-top:-6px;">Komentarze są publiczne i widoczne dla wszystkich użytkowników (system zewnętrzny).</p>
+    </div>
+    <button class="comments-toggle" id="commentsToggle" type="button" aria-expanded="true" aria-controls="commentsPanel">
+      Ukryj
+    </button>
+  </div>
+
+  <div class="comments-panel" id="commentsPanel">
+    <div class="comments-public" id="comments-public">
+      <div class="comment-form">
+        <div class="comment-form-row">
+          <input type="text" id="commentNamePublic" class="comment-input" placeholder="Twój nick" autocomplete="nickname">
+          <select id="commentRatingPublic" class="comment-input" aria-label="Ocena">
+            <option value="">Ocena (opcjonalnie)</option>
+            <option value="5">★★★★★ (5)</option>
+            <option value="4">★★★★☆ (4)</option>
+            <option value="3">★★★☆☆ (3)</option>
+            <option value="2">★★☆☆☆ (2)</option>
+            <option value="1">★☆☆☆☆ (1)</option>
+          </select>
+        </div>
+        <textarea id="commentBodyPublic" class="comment-input" rows="4" placeholder="Napisz komentarz..."></textarea>
+        <div class="comment-form-actions">
+          <button class="comment-submit" id="commentSubmitBtn">Wyślij</button>
+          <button class="comment-secondary" id="commentRefreshBtn" type="button">Odśwież</button>
+        </div>
+        <div class="muted" id="commentsStatus" style="margin-top:8px;"></div>
+      </div>
+
+      <div class="comment-list" id="commentsListPublic"></div>
+    </div>
+  </div>
+</section>
+
+    <!-- =========================
+         NOWE: Centrum wiedzy / Narzędzia (statycznie, GitHub Pages)
+         ========================= -->
+    <section class="content-section" data-aos="fade-up">
+        <div class="card" id="wiedza">
+            <h2>🧠 Centrum wiedzy Enigma2</h2>
+            <p class="section-desc">Szybka baza wiedzy: OSCam/SoftCam, picony, listy, satellites.xml, diagnostyka. Wyszukuj, filtruj po tagach i kopiuj gotowe komendy.</p>
+
+            <div class="kb-toolbar">
+                <input id="kbSearch" class="kb-search" type="search" placeholder="Szukaj (np. oscam, picony, softcam, restart GUI)..." autocomplete="off">
+                <div class="kb-tags" id="kbTags" aria-label="Tagi"></div>
+            </div>
+
+            <div class="kb-layout">
+                <div class="kb-list" id="kbList" aria-label="Lista tematów"></div>
+                <div class="kb-view" id="kbView" aria-live="polite">
+                    <div class="kb-empty">
+                        Wybierz temat z listy po lewej lub wpisz wyszukiwanie.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section" data-aos="fade-up">
+        <div class="card" id="narzedzia">
+            <h2>🛠 Narzędzia i skróty</h2>
+            <p class="section-desc">Najczęściej używane polecenia i „one-linery” dla Enigma2. Każdy kafel ma przycisk kopiowania.</p>
+            <div class="tools-grid" id="toolsGrid"></div>
+        </div>
+    </section>
+
+    <section class="content-section" data-aos="fade-up">
+        <div class="card" id="systemy-aio">
+            <h2>💿 Systemy i checklisty</h2>
+            <p class="section-desc">OpenATV / OpenPLi / Egami – szybkie checklisty po instalacji. Zapis w przeglądarce (localStorage).</p>
+            <div class="systems-grid" id="systemsGrid"></div>
+        </div>
+    </section>
+
+    <div class="ad-banner-section" data-aos="fade-up">
+        <a href="https://multi-click.pl/" target="_blank" rel="nofollow">
+            <img src="multi-click_banner_970x250.webp" alt="Multi-Click Sklep" class="ad-banner-img banner-desktop" style="max-height: 200px; width: auto;">
+            <img src="multi-click_banner_320x100.webp" alt="Multi-Click Sklep" class="ad-banner-img banner-mobile">
+        </a>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-grid">
+                <div class="footer-col footer-brand">
+                    <div class="footer-brand-row">
+                        <img class="footer-logo" src="pliki/logo.png" alt="AIO-IPTV.pl">
+                        <div>
+                            <div class="footer-brand-name">AIO-IPTV.pl</div>
+                            <div class="footer-brand-tag">Niezbędnik Enigma2 – wtyczki, listy, poradniki</div>
+                        </div>
+                    </div>
+                    <div class="footer-note">
+                        Autorskie materiały i narzędzia dla użytkowników Enigma2. Wszystko w jednym miejscu – prosto i czytelnie.
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <div class="footer-title">Szybkie linki</div>
+                    <a class="footer-link" href="#wtyczki">Wtyczki</a>
+                    <a class="footer-link" href="#listy">Listy kanałów</a>
+                    <a class="footer-link" href="#aktualnosci">Poradniki</a>
+                    <a class="footer-link" href="#pliki">Pliki</a>
+                    <a class="footer-link" href="#statystyki">Statystyki</a>
+                </div>
+
+                <div class="footer-col">
+                    <div class="footer-title">Narzędzia</div>
+                    <a class="footer-link" href="#generator">Generator One‑Liner</a>
+                    <a class="footer-link" href="kreator.html">Kreator konfiguracji</a>
+                    <a class="footer-link" href="porownywarka.html">Porównywarka tunerów</a>
+                    <a class="footer-link" href="#komentarze">Komentarze</a>
+                </div>
+
+                <div class="footer-col">
+                    <div class="footer-title">Kontakt i wsparcie</div>
+                    <div class="footer-kpi">
+                        <span class="kpi-dot"></span>
+                        <span>Kontakt: <a class="footer-link inline" href="mailto:msisystem@t.pl">msisystem@t.pl</a></span>
+                    </div>
+
+                    <div class="footer-kpi">
+                        <span class="kpi-dot"></span>
+                        <span>✈️ Telegram: <a class="footer-link inline" href="https://t.me/PawelPawelek" target="_blank" rel="noopener">t.me/PawelPawelek</a></span>
+                    </div>
+                    <div class="footer-kpi">
+                        <span class="kpi-dot"></span>
+                        <span>💬 Messenger: <a class="footer-link inline" href="https://m.me/100064704540847" target="_blank" rel="noopener">Napisz wiadomość</a></span>
+                    </div>
+
+                    <div class="footer-kpi">
+                        <span class="kpi-dot warn"></span>
+                        <span>
+                            🐛 Znalazłeś błąd?
+                            <a class="footer-link inline" href="https://github.com/OliOli2013/aio-iptv-projekt/issues" target="_blank" rel="noopener">
+                                Zgłoś go na GitHub (Issues)
+                            </a>
+                        </span>
+                    </div>
+                    <div class="footer-kpi small">
+                        Statystyki odwiedzin mogą być zbierane anonimowo (np. przez hosting), ale nie są prezentowane publicznie w formie licznika.
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-bottom-left">
+                    <div>&copy; 2025 AIO-IPTV.pl | by Paweł Pawełek</div>
+                    <div class="footer-legal">
+                        <a href="#polityka-prywatnosci">Polityka prywatności</a>
+                        <span class="sep">·</span>
+                        <a href="#rodo">Informacja o przetwarzaniu danych (RODO)</a>
+                    </div>
+                </div>
+                <div class="footer-bottom-right">
+                    <div class="footer-visits">
+                        Twoje wizyty na tej przeglądarce: <span class="local-visit-counter">...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+<!-- Mobile quick access: Support / Coffee (non-intrusive) -->
+    <button id="support-fab" class="support-fab" type="button" aria-label="Wsparcie (Postaw kawę)">
+        ☕ Wsparcie
+    </button>
+
+    <!-- Support drawer modal -->
+    <div id="support-drawer" class="support-drawer" aria-hidden="true" role="dialog" aria-label="Wsparcie">
+        <div class="support-drawer__sheet">
+            <div class="support-drawer__header">
+                <div class="support-drawer__title">Wsparcie</div>
+                <button id="support-drawer-close" class="support-drawer__close" type="button" aria-label="Zamknij">×</button>
+            </div>
+            <div class="support-drawer__content">
+                <h3>Wesprzyj moją pracę – Dziękuję za każdą kawę! ☕</h3>
+                <div style="margin-bottom: 15px; text-align: center;">
+                    <a href="https://buycoffee.to/pawelpawelek" target="_blank">
+                        <img src="https://buycoffee.to/static/img/share/share-button-dark.png"
+                             style="width: 322px; height: 84px; max-width: 100%;"
+                             alt="Postaw mi kawę na buycoffee.to">
+                    </a>
+                </div>
+                <img src="pliki/QR_buycoffee.png"
+                     alt="Kod QR BuyCoffee"
+                     class="qr-code"
+                     style="display: block; margin: 20px auto; max-width: 200px;">
+
+                <p style="font-size: 0.9rem; color: #c9d1d9; line-height: 1.5;">
+                    <strong>Dziękuję za postawienie kawy ☕</strong><br><br>
+                    To dla mnie – jako twórcy oprogramowania i administratora tej strony – ogromne wsparcie i realna motywacja do dalszego rozwoju projektów oraz utrzymania serwisu na obecnym poziomie.<br>
+                    Dzięki Twojej pomocy mogę poświęcać więcej czasu na rozwijanie narzędzi, aktualizacje, dokumentację i wsparcie społeczności.<br>
+                    Jeśli chcesz docenić moją pracę i pomoc, możesz symbolicznie postawić mi kawę – to drobny gest, który naprawdę wiele znaczy.<br>
+                    <br>– Pawełek
+                </p>
+            </div>
+        </div>
+        <div id="support-drawer-backdrop" class="support-drawer__backdrop"></div>
+    </div>
+
+    <!-- AI Chat (Enigma2) -->
+    <button id="ai-chat-fab" class="ai-chat-fab" type="button" aria-label="AI Chat (Enigma2)">
+        🤖 AI Chat
+    </button>
+
+    <div id="ai-chat-drawer" class="ai-chat-drawer" aria-hidden="true" role="dialog" aria-label="AI Chat Enigma2">
+        <div class="ai-chat-drawer__sheet" role="document">
+            <div class="ai-chat-drawer__header">
+                <div class="ai-chat-drawer__title">AI Chat • Enigma2</div>
+                <button id="ai-chat-close" class="ai-chat-drawer__close" type="button" aria-label="Zamknij">✕</button>
+            </div>
+
+            <div class="ai-chat__chips" aria-label="Szybkie pytania">
+                <button type="button" class="chip" data-chip="Jak zainstalować SoftCam feed w OpenATV?">SoftCam feed</button>
+                <button type="button" class="chip" data-chip="Jak pobrać i przypisać picony po ServiceRef?">Picony</button>
+                <button type="button" class="chip" data-chip="Jak zrestartować GUI (Enigma2) bez reboot?">Restart GUI</button>
+                <button type="button" class="chip" data-chip="Co to jest OSCam i jak sprawdzić czy działa?">OSCam</button>
+            </div>
+
+            <div class="ai-chat__messages" id="aiChatMessages" aria-label="Wiadomości"></div>
+
+            <form id="aiChatForm" class="ai-chat__composer" autocomplete="off">
+                <input id="aiChatInput" class="ai-chat__input" type="text" placeholder="Zadaj pytanie o Enigma2..." aria-label="Wpisz pytanie">
+                <button class="ai-chat__send" type="submit" aria-label="Wyślij">Wyślij</button>
+            </form>
+
+            <div class="ai-chat__hint">Tryb statyczny (GitHub Pages): odpowiedzi bazują na lokalnej bazie wiedzy.</div>
+        </div>
+        <div id="ai-chat-backdrop" class="ai-chat-drawer__backdrop" aria-hidden="true"></div>
+    </div>
+
+    <!-- Mobile navigation drawer -->
+    <div id="mobile-nav-drawer" class="mobile-nav-drawer" aria-hidden="true">
+        <div class="mobile-nav-drawer__backdrop" data-nav-close></div>
+        <div class="mobile-nav-drawer__sheet" role="navigation" aria-label="Menu mobilne">
+            <div class="mobile-nav-drawer__header">
+                <div class="mobile-nav-drawer__title">Menu</div>
+                <button class="mobile-nav-drawer__close" type="button" data-nav-close aria-label="Zamknij">✕</button>
+            </div>
+            <div class="mobile-nav-drawer__content">
+                <a href="#wtyczki" class="mobile-nav-link" data-nav-close>🔌 Wtyczki</a>
+                <a href="#listy" class="mobile-nav-link" data-nav-close>📺 Listy</a>
+                <a href="#aktualnosci" class="mobile-nav-link" data-nav-close>📚 Porady</a>
+                <a href="#generator" class="mobile-nav-link" data-nav-close>⚡ Generator</a>
+                <a href="#pliki" class="mobile-nav-link" data-nav-close>📂 Pliki</a>
+                <a href="#kontakt" class="mobile-nav-link" data-nav-close>📧 Kontakt</a>
+                <a href="#wsparcie" class="mobile-nav-link" data-nav-close>☕ Wsparcie</a>
+                <a href="#systemy" class="mobile-nav-link" data-nav-close>💿 Systemy</a>
+                <a href="porownywarka.html" class="mobile-nav-link" data-nav-close>📊 Porównywarka</a>
+                <a href="kreator.html" class="mobile-nav-link" data-nav-close>🔧 Kreator</a>
+                <a href="#statystyki" class="mobile-nav-link" data-nav-close>📈 Statystyki</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script_modern.js"></script>
+    <script src="app_final.js"></script>
+
+
+    <!-- Log Analyzer Drawer -->
+    <div class="log-drawer" id="log-analyzer-drawer" aria-hidden="true">
+      <div class="log-drawer__sheet" role="dialog" aria-modal="true" aria-labelledby="log-drawer-title">
+        <div class="log-drawer__header">
+          <div class="log-drawer__title" id="log-drawer-title">Analiza logu • Enigma2</div>
+          <button type="button" class="log-drawer__close" id="log-drawer-close" aria-label="Zamknij">×</button>
+        </div>
+
+        <div class="log-drawer__body">
+          <p class="log-drawer__hint">
+            Wklej crashlog / log OSCam / log instalacji (opkg) — panel rozpozna typ logu i zaproponuje rozwiązania.
+          </p>
+
+          <textarea id="log-input" class="log-drawer__textarea" placeholder="Wklej tutaj log (np. /home/root/logs/enigma2_crash_*.log)..." spellcheck="false"></textarea>
+
+          
+          <div class="log-drawer__file">
+            <label class="log-file-label">
+              Wczytaj plik logu:
+              <input type="file" id="log-file" accept=".log,.txt,.crash,.conf,.cfg" />
+            </label>
+            <div class="log-file-hint">Obsługiwane są pliki tekstowe. Jeśli masz log w .gz — rozpakuj go przed wgraniem.</div>
+          </div>
+
+<div class="log-drawer__actions">
+            <button type="button" class="btn btn-primary" id="log-analyze-btn">Analizuj</button>
+            <button type="button" class="btn btn-ghost" id="log-clear-btn">Wyczyść</button>
+          </div>
+
+          <div class="log-drawer__result" id="log-result" aria-live="polite">
+            <div class="log-result__empty">Wynik analizy pojawi się tutaj.</div>
+          </div>
+        </div>
+
+        <div class="log-drawer__footer">
+          <span class="log-drawer__note">
+            Tryb AI działa po skonfigurowaniu Supabase Edge Function (klucz API jest ukryty po stronie serwera). W przeciwnym razie używany jest tryb offline.
+          </span>
+        </div>
+      </div>
+      <div class="log-drawer__backdrop" id="log-drawer-backdrop" aria-hidden="true"></div>
+    </div>
+
 </body>
 </html>
