@@ -86,7 +86,30 @@
   // -----------------------------
   // Mobile nav drawer (polished)
   // -----------------------------
-  function initMobileNavFinal() {
+  
+  // Safe global helper for inline onclick="openComments()" (works even before initCommentsFinal runs)
+  window.openComments = window.openComments || function openComments() {
+    const section = document.getElementById('comments');
+    const panel = document.getElementById('commentsPanel');
+    const toggle = document.getElementById('commentsToggle');
+
+    if (panel && panel.hasAttribute('hidden')) {
+      panel.removeAttribute('hidden');
+      if (toggle) {
+        toggle.textContent = 'Ukryj';
+        toggle.setAttribute('aria-expanded', 'true');
+      }
+    }
+    try { window.location.hash = '#comments'; } catch(e) {}
+    const target = section || panel;
+    if (target && target.scrollIntoView) {
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }));
+    }
+  };
+
+function initMobileNavFinal() {
     const toggle = qs('#navToggle');
     const drawer = qs('#mobile-nav-drawer');
     if (!toggle || !drawer) return;
@@ -214,6 +237,16 @@
   // -----------------------------
   function initCommentsFinal() {
     const section = qs('#comments');
+    // Ensure "Zobacz komentarze" works reliably on mobile (touch)
+    try {
+      const bannerBtn = document.querySelector('.news-banner .banner-btn');
+      if (bannerBtn && !bannerBtn.dataset.boundComments) {
+        bannerBtn.dataset.boundComments = '1';
+        bannerBtn.addEventListener('touchend', (e) => { e.preventDefault(); window.openComments(); }, { passive: false });
+        bannerBtn.addEventListener('click', (e) => { /* keep inline onclick */ }, { passive: true });
+      }
+    } catch(e) {}
+
     const panel = qs('#commentsPanel');
     const toggle = qs('#commentsToggle');
 
@@ -660,8 +693,11 @@
   // PWA registration
   // -----------------------------
   function initPWA() {
+    // Offline mode disabled. Unregister any existing Service Workers to avoid offline.html.
     if (!('serviceWorker' in navigator)) return;
-    navigator.serviceWorker.register('./sw.js').catch(() => {});
+    navigator.serviceWorker.getRegistrations()
+      .then((regs) => regs.forEach((r) => r.unregister()))
+      .catch(() => {});
   }
 
   // -----------------------------

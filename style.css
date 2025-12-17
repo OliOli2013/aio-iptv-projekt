@@ -1005,3 +1005,8 @@ body.light .rating-average {
         max-height: 85vh;
     }
 }
+
+
+@media (max-width: 700px){
+  .hero-header{ display:none !important; }
+}

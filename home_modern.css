@@ -1319,3 +1319,48 @@ body[data-page="home"] .news-banner * {
     right: auto !important;
   }
 }
+
+
+
+/* ===== Mobile cleanup (requested) ===== */
+@media (max-width: 700px){
+  /* Hide large hero header (AIO IPTV + logo) – mobile uses only the thin sticky bar */
+  .hero-header{ display:none !important; }
+
+  /* Thin sticky top bar: only menu + weather + share */
+  .main-navigation-bar{
+    padding: 8px 12px !important;
+    gap: 8px !important;
+  }
+  .nav-left-group{ display:none !important; }
+  #searchBoxHeader, #themeToggle{ display:none !important; }
+
+  .nav-right-group{
+    width: 100% !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+  }
+  #navToggle{ padding: 8px 12px !important; }
+  .weather-mini{
+    flex: 1 1 auto !important;
+    justify-content: center !important;
+    padding: 6px 10px !important;
+  }
+
+  /* Ensure banner buttons are always clickable on mobile */
+  .news-banner, .banner-actions, .banner-btn{
+    pointer-events: auto !important;
+  }
+
+  /* Move Coffee/AI Chat to the other side (left) on mobile */
+  .support-fab, .ai-chat-fab{
+    left: 14px !important;
+    right: auto !important;
+  }
+  .ai-chat-fab{ bottom: 60px !important; }
+}
+
+/* Reduce background distraction further */
+#particles-js{
+  opacity: 0.35;
+}

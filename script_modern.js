@@ -427,9 +427,13 @@ async function fetchWeather() {
   };
 
   const reverseGeocode = async (lat, lon) => {
-    // Prefer Open-Meteo reverse geocoding (CORS-friendly), fallback to Nominatim.
+    // Reverse geocoding for city name (CORS-friendly). If it fails, return empty string.
+    const latEnc = encodeURIComponent(lat);
+    const lonEnc = encodeURIComponent(lon);
+
+    // 1) Open‑Meteo reverse geocoding
     try {
-      const url = `https://geocoding-api.open-meteo.com/v1/reverse?latitude=${encodeURIComponent(lat)}&longitude=${encodeURIComponent(lon)}&language=pl&count=1`;
+      const url = `https://geocoding-api.open-meteo.com/v1/reverse?latitude=${latEnc}&longitude=${lonEnc}&language=pl&count=1`;
       const res = await fetch(url, { cache: 'no-store' });
       if (res.ok) {
         const j = await res.json();
@@ -439,9 +443,13 @@ async function fetchWeather() {
       }
     } catch (e) { /* ignore */ }
 
+    // 2) Nominatim (OSM) fallback
     try {
-      const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lon)}&accept-language=pl`;
-      const res = await fetch(url, { cache: 'no-store' });
+      const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latEnc}&lon=${lonEnc}&accept-language=pl`;
+      const res = await fetch(url, {
+        cache: 'no-store',
+        headers: { 'Accept': 'application/json' }
+      });
       if (!res.ok) return '';
       const j = await res.json();
       const a = (j && j.address) || {};
@@ -475,7 +483,7 @@ async function fetchWeather() {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_COORDS) || 'null');
     if (saved && Number.isFinite(saved.lat) && Number.isFinite(saved.lon)) {
-      await updateWeather(saved.lat, saved.lon, saved.name);
+      await updateWeather(saved.lat, saved.lon, (saved.name && saved.name !== DEFAULT.name) ? saved.name : null);
     } else {
       await updateWeather(DEFAULT.lat, DEFAULT.lon, DEFAULT.name);
     }
@@ -749,11 +757,11 @@ function initParticles() {
     particlesJS('particles-js', {
         particles: {
             // Subtelne, mało rozpraszające „pyłki” (zamiast obrazków / „rączek”)
-            number: { value: 18, density: { enable: true, value_area: 1200 } },
+            number: { value: 10, density: { enable: true, value_area: 1400 } },
             shape: { type: 'circle' },
-            opacity: { value: 0.14, random: true },
-            size: { value: 2.2, random: true },
-            move: { enable: true, speed: 0.25, direction: 'none', out_mode: 'out' },
+            opacity: { value: 0.06, random: true },
+            size: { value: 1.8, random: true },
+            move: { enable: true, speed: 0.10, direction: 'none', out_mode: 'out' },
             line_linked: { enable: false }
         },
         interactivity: {
@@ -787,17 +795,7 @@ function highlightStars(stars, r) {
 }
 
 // MOBILE SUPPORT FAB & HEADER
-function initMobileSupportFab() {
-    if(window.innerWidth > 700 || document.getElementById('supportFab')) return;
-    const fab = document.createElement('button');
-    fab.id = 'supportFab';
-    fab.textContent = '☕ Wsparcie';
-    fab.style.cssText = 'position:fixed;left:14px;bottom:14px;z-index:999;padding:10px 15px;background:#238636;color:white;border-radius:20px;border:none;font-weight:bold;box-shadow:0 5px 15px rgba(0,0,0,0.3)';
-    fab.addEventListener('click', () => {
-        document.getElementById('wsparcie')?.scrollIntoView({ behavior: 'smooth' });
-    });
-    document.body.appendChild(fab);
-}
+function initMobileSupportFab() { /* disabled – using unified floating buttons */ }
 
 // COMMENTS (SUPABASE - PUBLIC)
 async function initPublicComments() {
@@ -866,8 +864,7 @@ async function initPublicComments() {
 
 // URUCHOMIENIE FUNKCJI
 document.addEventListener('DOMContentLoaded', () => {
-    try { initMobileSupportFab(); } catch(e){}
-    try { initPublicComments(); } catch(e){}
+try { initPublicComments(); } catch(e){}
     
     const navToggle = document.getElementById('navToggle');
     const navBar = document.querySelector('.main-navigation-bar');
