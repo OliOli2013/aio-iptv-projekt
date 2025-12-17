@@ -683,7 +683,40 @@ Jeśli chcesz prawdziwe AI, skonfiguruj Supabase Edge Function (opis w README)."
     });
   }
 
+  
   // -----------------------------
+  // Nick / profil (lekki tryb lokalny)
+  // -----------------------------
+  function initNicknameFinal(){
+    const btn = qs('#login-btn');
+    const label = qs('#user-status');
+    if (!btn || !label) return;
+
+    const KEY = 'aio_user_nick_v1';
+    const saved = safeText(localStorage.getItem(KEY) || '').trim();
+    if (saved) label.textContent = saved;
+
+    if (btn.dataset.boundNick === '1') return;
+    btn.dataset.boundNick = '1';
+
+    btn.addEventListener('click', () => {
+      const current = safeText(localStorage.getItem(KEY) || '').trim();
+      const initial = current || '';
+      const v = prompt('Podaj nick (opcjonalnie). Puste = Gość.', initial);
+      if (v === null) return;
+
+      const nick = safeText(v).trim().slice(0, 24);
+      if (!nick) {
+        localStorage.removeItem(KEY);
+        label.textContent = 'Gość';
+        return;
+      }
+      localStorage.setItem(KEY, nick);
+      label.textContent = nick;
+    });
+  }
+
+// -----------------------------
   // PWA registration
   // -----------------------------
   function initPWA() {
@@ -815,6 +848,7 @@ Jeśli chcesz prawdziwe AI, skonfiguruj Supabase Edge Function (opis w README)."
     const closeBtn = qs('#log-drawer-close');
     const backdrop = qs('#log-drawer-backdrop');
     const input = qs('#log-input');
+    const fileInput = qs('#log-file');
     const analyzeBtn = qs('#log-analyze-btn');
     const clearBtn = qs('#log-clear-btn');
     const resultEl = qs('#log-result');
@@ -845,6 +879,26 @@ Jeśli chcesz prawdziwe AI, skonfiguruj Supabase Edge Function (opis w README)."
       input.value = '';
       resultEl.innerHTML = '<div class="log-result__empty">Wynik analizy pojawi się tutaj.</div>';
       input.focus();
+    });
+
+
+    if (fileInput) fileInput.addEventListener('change', async () => {
+      const f = (fileInput.files && fileInput.files[0]) ? fileInput.files[0] : null;
+      if (!f) return;
+
+      // Basic guardrails (GitHub Pages / browser)
+      if (f.size > 2_000_000) {
+        alert('Plik jest zbyt duży (limit 2 MB). Wklej fragment logu lub wybierz mniejszy plik.');
+        fileInput.value = '';
+        return;
+      }
+      try {
+        const text = await f.text();
+        input.value = text;
+        input.focus();
+      } catch (e) {
+        alert('Nie udało się wczytać pliku. Upewnij się, że to plik tekstowy.');
+      }
     });
 
     analyzeBtn.addEventListener('click', async ()=>{
@@ -878,6 +932,7 @@ Jeśli chcesz prawdziwe AI, skonfiguruj Supabase Edge Function (opis w README)."
 // Boot
   // -----------------------------
   document.addEventListener('DOMContentLoaded', () => {
+    initNicknameFinal();
     initSupportDrawerFinal();
     initMobileNavFinal();
     initNotificationsFinal();

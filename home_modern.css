@@ -1028,3 +1028,116 @@ html.no-scroll, body.no-scroll { overflow: hidden !important; }
 
 /* No-scroll helper */
 .no-scroll{ overflow: hidden !important; }
+
+
+/* =========================================================
+   HEADER REDESIGN (v2025-12) — spójna, nowoczesna nawigacja
+   - stabilna wysokość (bez zasłaniania treści na mobile)
+   - poziomy scroll dla zakładek na desktop
+   - drawer menu na mobile
+   ========================================================= */
+body[data-page="home"]{
+  --aio-topbar-h: 44px;
+  --aio-nav-h: 58px;
+  --aio-sticky-offset: calc(var(--aio-topbar-h) + var(--aio-nav-h) + 14px);
+}
+html{ scroll-padding-top: var(--aio-sticky-offset); }
+
+body[data-page="home"] .top-info-bar{
+  position: sticky !important;
+  top: 0;
+  z-index: 1200;
+  height: var(--aio-topbar-h);
+  padding: 0 16px !important;
+  gap: 14px;
+  flex-wrap: nowrap !important;
+}
+body[data-page="home"] .status-left{ flex: 0 0 auto; }
+body[data-page="home"] .support-ticker{
+  flex: 1 1 auto;
+  min-width: 140px;
+  overflow: hidden;
+}
+body[data-page="home"] .support-ticker .ticker-scroll{ white-space: nowrap; }
+body[data-page="home"] .status-right{ flex: 0 0 auto; gap: 10px; }
+
+body[data-page="home"] .hero-header{
+  padding: 18px 16px !important;
+  gap: 14px;
+}
+body[data-page="home"] .brand-area{ flex-wrap: nowrap; }
+body[data-page="home"] .brand-badges{
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+body[data-page="home"] .brand-badges::-webkit-scrollbar{ display:none; }
+body[data-page="home"] .brand-badge{
+  height: 18px;
+  max-width: 90px;
+  flex: 0 0 auto;
+}
+
+body[data-page="home"] .main-navigation-bar{
+  position: sticky !important;
+  top: var(--aio-topbar-h);
+  z-index: 1150;
+  padding: 10px 16px !important;
+  flex-wrap: nowrap !important;
+}
+body[data-page="home"] .nav-left-group{
+  flex-wrap: nowrap !important;
+  overflow-x: auto;
+  scrollbar-width:none;
+  -webkit-overflow-scrolling: touch;
+  gap: 10px !important;
+}
+body[data-page="home"] .nav-left-group::-webkit-scrollbar{ display:none; }
+body[data-page="home"] .menu-btn{ white-space: nowrap; flex: 0 0 auto; }
+
+body[data-page="home"] .nav-right-group{ flex: 0 0 auto; gap:10px; }
+body[data-page="home"] .search-input-header{ width: 280px; max-width: 32vw; }
+
+@media (max-width: 900px){
+  body[data-page="home"]{
+    --aio-topbar-h: 44px;
+    --aio-nav-h: 56px;
+    --aio-sticky-offset: calc(var(--aio-topbar-h) + var(--aio-nav-h) + 12px);
+  }
+  body[data-page="home"] .support-ticker{ display:none !important; }
+  body[data-page="home"] .header-stats-container{ display:none !important; }
+  body[data-page="home"] .nav-left-group{ display:none !important; }
+  body[data-page="home"] .search-input-header{ display:none !important; }
+  body[data-page="home"] .main-navigation-bar{ justify-content: space-between; }
+  body[data-page="home"] .hero-header{ padding: 14px 16px !important; }
+}
+
+@media (max-width: 600px){
+  body[data-page="home"] .top-btn-small{ padding: 6px 10px; }
+  body[data-page="home"] .hero-header .brand-text h1{ font-size: 1.35rem; }
+  body[data-page="home"] .hero-header .brand-text p{ font-size: .85rem; }
+}
+
+/* Log analyzer: wczytywanie pliku */
+.log-drawer__file{ margin: 10px 0 6px; }
+.log-file-label{
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(148,163,184,.25);
+  border-radius: 12px;
+}
+.log-file-label input[type="file"]{
+  max-width: 240px;
+  width: 100%;
+}
+.log-file-hint{
+  margin-top: 6px;
+  font-size: 12px;
+  color: #94a3b8;
+  line-height: 1.3;
+}

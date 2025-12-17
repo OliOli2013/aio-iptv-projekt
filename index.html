@@ -662,53 +662,45 @@
     <button onclick="topFunction()" id="topBtn" title="Wróć na górę">⬆️</button>
     <div id="particles-js"></div>
 
-    <div class="top-info-bar">
+    <div class="top-info-bar" role="banner">
         <div class="status-left">
-            <span class="dot-online"></span>
-            <span id="current-date-display">...</span>
+            <span class="dot-online" aria-hidden="true"></span>
+            <span id="current-date-display">--</span>
         </div>
 
-        <div class="support-ticker" aria-label="Wsparcie projektu">
-          <div class="support-ticker__track">
-            <span>Wesprzyj AIO‑IPTV.pl i moją twórczość • ☕ Wsparcie / Kawa • Dziękuję za każde udostępnienie i feedback • </span>
-            <span aria-hidden="true">Wesprzyj AIO‑IPTV.pl i moją twórczość • ☕ Wsparcie / Kawa • Dziękuję za każde udostępnienie i feedback • </span>
-          </div>
+        <div class="support-ticker" aria-label="Informacje i wsparcie">
+            <div class="ticker-scroll">
+                <span>Wesprzyj AIO-IPTV.pl i moją twórczość • ☕ Wsparcie / Kawa • Dziękuję za każde udostępnienie i feedback • </span>
+                <span>Wesprzyj AIO-IPTV.pl i moją twórczość • ☕ Wsparcie / Kawa • Dziękuję za każde udostępnienie i feedback • </span>
+            </div>
         </div>
 
         <div class="status-right">
-            <div class="top-btn-small" title="Kliknij aby odświeżyć" onclick="fetchWeather()">
+            <a class="top-btn-small" href="#wsparcie" title="Wesprzyj projekt">☕ Wsparcie</a>
+
+            <button class="top-btn-small" type="button" title="Pogoda" aria-label="Pogoda">
                 <span id="weather-icon">☁️</span> <span id="weather-temp">--°C</span>
-            </div>
-            
-            <div class="top-btn-small" title="Powiadomienia" onclick="toggleNotifications()">
-                🔔 <span class="badge-red" id="notif-badge">0</span>
-            </div>
-            
+            </button>
+
+            <button class="top-btn-small" type="button" title="Powiadomienia" aria-label="Powiadomienia" onclick="toggleNotifications()">
+                🔔 <span class="badge-red" id="notif-badge" style="display:none;">0</span>
+            </button>
+
             <div class="notifications-dropdown" id="notificationsDropdown" aria-hidden="true">
                 <div class="notif-header">
-                    <div class="notif-title">Aktualizacje</div>
-                    <button type="button" class="notif-close" id="notifCloseBtn" aria-label="Zamknij">✕</button>
+                    <strong>Powiadomienia</strong>
+                    <button class="close-notif-btn" id="notifCloseBtn" aria-label="Zamknij">✖</button>
                 </div>
                 <div class="notif-list" id="notifList"></div>
                 <div class="notif-footer">
-                    <button type="button" class="notif-markall" id="notifMarkAll">Oznacz wszystko jako przeczytane</button>
+                    <button id="notifMarkAll">Oznacz jako przeczytane</button>
                 </div>
             </div>
             <div class="notifications-backdrop" id="notifBackdrop" aria-hidden="true"></div>
-                </div>
-                <div class="notif-item">
-                    <span class="notif-icon">📺</span>
-                    <div><strong>Listy kanałów</strong><br>Nowe listy Bzyk83 (Grudzień)</div>
-                </div>
-                <div class="notif-item">
-                    <span class="notif-icon">🔧</span>
-                    <div><strong>Poradnik</strong><br>Nowy skrypt Zgemma H9S</div>
-                </div>
-            </div>
 
-            <div class="top-btn-small" id="login-btn" onclick="toggleLogin()">
+            <button class="top-btn-small" id="login-btn" type="button" aria-label="Profil / Nick">
                 👤 <span id="user-status">Gość</span>
-            </div>
+            </button>
         </div>
     </div>
 
@@ -2294,10 +2286,14 @@ Zaloguj się do terminala i wpisuj komendy każdą po kolei (zatwierdzając Ente
                 <button class="mobile-nav-drawer__close" type="button" data-nav-close aria-label="Zamknij">✕</button>
             </div>
             <div class="mobile-nav-drawer__content">
+
                 <a href="#wtyczki" class="mobile-nav-link" data-nav-close>🔌 Wtyczki</a>
                 <a href="#listy" class="mobile-nav-link" data-nav-close>📺 Listy</a>
                 <a href="#aktualnosci" class="mobile-nav-link" data-nav-close>📚 Porady</a>
+                <a href="#wiedza" class="mobile-nav-link" data-nav-close>🧠 Wiedza</a>
+                <a href="#narzedzia" class="mobile-nav-link" data-nav-close>🛠️ Narzędzia</a>
                 <a href="#generator" class="mobile-nav-link" data-nav-close>⚡ Generator</a>
+                <a href="#logi" class="mobile-nav-link js-open-log" data-nav-close>🧾 Logi (analiza)</a>
                 <a href="#pliki" class="mobile-nav-link" data-nav-close>📂 Pliki</a>
                 <a href="#kontakt" class="mobile-nav-link" data-nav-close>📧 Kontakt</a>
                 <a href="#wsparcie" class="mobile-nav-link" data-nav-close>☕ Wsparcie</a>
@@ -2305,6 +2301,7 @@ Zaloguj się do terminala i wpisuj komendy każdą po kolei (zatwierdzając Ente
                 <a href="porownywarka.html" class="mobile-nav-link" data-nav-close>📊 Porównywarka</a>
                 <a href="kreator.html" class="mobile-nav-link" data-nav-close>🔧 Kreator</a>
                 <a href="#statystyki" class="mobile-nav-link" data-nav-close>📈 Statystyki</a>
+
             </div>
         </div>
     </div>
@@ -2329,6 +2326,15 @@ Zaloguj się do terminala i wpisuj komendy każdą po kolei (zatwierdzając Ente
           </p>
 
           <textarea id="log-input" class="log-drawer__textarea" placeholder="Wklej tutaj log (np. /home/root/logs/enigma2_crash_*.log)..." spellcheck="false"></textarea>
+
+          <div class="log-drawer__file">
+            <label class="log-file-label">
+              Wczytaj plik logu:
+              <input type="file" id="log-file" accept=".log,.txt,.crash,.conf,.cfg" />
+            </label>
+            <div class="log-file-hint">Obsługiwane są pliki tekstowe. Jeśli masz log w .gz — rozpakuj go przed wgraniem.</div>
+          </div>
+
 
           <div class="log-drawer__actions">
             <button type="button" class="btn btn-primary" id="log-analyze-btn">Analizuj</button>
