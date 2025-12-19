@@ -1,27 +1,22 @@
 {
   "owner": "OliOli2013",
   "repo": "IPTV-Dream-Plugin",
-  "updatedAt": "2025-12-18T03:56:14Z",
+  "updatedAt": "2025-12-19T03:57:28Z",
   "summary": {
     "views": {
-      "count": 148,
+      "count": 115,
       "uniques": 11
     },
     "clones": {
-      "count": 148,
-      "uniques": 113
+      "count": 121,
+      "uniques": 97
     }
   },
   "raw": {
     "views": {
-      "count": 148,
+      "count": 115,
       "uniques": 11,
       "views": [
-        {
-          "timestamp": "2025-12-04T00:00:00Z",
-          "count": 33,
-          "uniques": 1
-        },
         {
           "timestamp": "2025-12-05T00:00:00Z",
           "count": 2,
@@ -70,18 +65,13 @@
       ]
     },
     "clones": {
-      "count": 148,
-      "uniques": 113,
+      "count": 121,
+      "uniques": 97,
       "clones": [
         {
-          "timestamp": "2025-12-04T00:00:00Z",
-          "count": 26,
-          "uniques": 21
-        },
-        {
           "timestamp": "2025-12-05T00:00:00Z",
-          "count": 16,
-          "uniques": 16
+          "count": 15,
+          "uniques": 15
         },
         {
           "timestamp": "2025-12-06T00:00:00Z",
