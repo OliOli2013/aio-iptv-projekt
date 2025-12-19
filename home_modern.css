@@ -1364,3 +1364,82 @@ body[data-page="home"] .news-banner * {
 #particles-js{
   opacity: 0.35;
 }
+/* === AIO Panel v5.0 update + holiday message (minimal additions) === */
+body[data-page="home"] .update-ribbon{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 14px;
+  font-weight: 800;
+  letter-spacing: .2px;
+  color: #e6edf3;
+  background: rgba(46, 160, 67, 0.18);
+  border: 1px solid rgba(63, 185, 80, 0.55);
+  box-shadow: 0 0 18px rgba(63, 185, 80, 0.28);
+  text-shadow: 0 0 10px rgba(63, 185, 80, 0.25);
+  white-space: nowrap;
+  margin-right: 6px;
+}
+
+@media (prefers-reduced-motion: no-preference){
+  body[data-page="home"] .update-ribbon{
+    animation: aioUpdatePulse 2.6s ease-in-out infinite;
+  }
+  @keyframes aioUpdatePulse{
+    0%, 100%{ box-shadow: 0 0 18px rgba(63, 185, 80, 0.22); }
+    50%{ box-shadow: 0 0 28px rgba(63, 185, 80, 0.42); }
+  }
+}
+
+body[data-page="home"] .support-marquee{
+  position: relative;
+  overflow: hidden;
+  flex: 1 1 auto;
+  min-width: 220px;
+}
+
+body[data-page="home"] .support-marquee .support-text{
+  display: inline-block;
+  white-space: nowrap;
+  padding-left: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference){
+  body[data-page="home"] .support-marquee .support-text{
+    animation: supportMarquee 18s linear infinite;
+  }
+  @keyframes supportMarquee{
+    0%{ transform: translateX(0); }
+    100%{ transform: translateX(-100%); }
+  }
+}
+
+body[data-page="home"] .holiday-wish{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 0.86rem;
+  letter-spacing: .15px;
+  white-space: nowrap;
+  color: #fff7e6;
+  background: linear-gradient(90deg, rgba(180, 0, 0, 0.36), rgba(0, 120, 0, 0.30));
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 0 18px rgba(255, 215, 0, 0.16);
+}
+
+body[data-page="home"] .holiday-wish::before{
+  content: "✦";
+  margin-right: 8px;
+  opacity: .9;
+}
+
+body[data-page="home"] .holiday-wish::after{
+  content: "✦";
+  margin-left: 8px;
+  opacity: .9;
+}
