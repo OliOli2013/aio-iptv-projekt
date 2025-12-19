@@ -8,7 +8,8 @@
   "use strict";
 
   const I18N = {
-    pl: {
+          support_thanks: "Dzięki!",
+pl: {
       // Top / navigation
       cta_update_download: 'Aktualizacja <strong>AIO Panel v5.0</strong> — Pobierz teraz',
       nav_plugins: "Wtyczki",
@@ -88,6 +89,7 @@
       btn_sign_up: "Sign up",
       footer_support_title: "Support",
       support_cta: "Support the project",
+      support_thanks: "Thanks!",
     },
   };
 
