@@ -232,6 +232,30 @@ body[data-page="home"] .main-navigation-bar {
   backdrop-filter: blur(10px);
 }
 
+/* Mobile-only CTA (update download) – hidden on desktop by default */
+body[data-page="home"] .mobile-update-cta{
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 12px;
+  border-radius: 14px;
+  text-decoration: none;
+  color: #e6edf3;
+  font-weight: 900;
+  letter-spacing: .2px;
+  background: rgba(46, 160, 67, 0.18);
+  border: 1px solid rgba(63, 185, 80, 0.62);
+  box-shadow: 0 0 20px rgba(63, 185, 80, 0.22);
+  text-shadow: 0 0 12px rgba(63, 185, 80, 0.18);
+}
+body[data-page="home"] .mobile-update-cta:hover{
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+body[data-page="home"] .mobile-update-cta:active{
+  transform: translateY(0px) scale(0.99);
+}
+
 body[data-page="home"] .menu-btn {
   background: rgba(30, 41, 59, 0.65);
   border: 1px solid var(--border);
@@ -1198,6 +1222,25 @@ html.no-scroll, body.no-scroll { overflow: hidden !important; }
     min-height: 50px;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
+  }
+
+  /* Mobile CTA: "Aktualizacja AIO Panel v5.0 — Pobierz teraz" (above controls) */
+  body[data-page="home"] .mobile-update-cta{
+    display: flex;
+    width: 100%;
+    flex: 0 0 100%;
+    order: -1;
+    margin: 2px 0 8px;
+  }
+
+  /* Drawer must sit above the sticky navigation (otherwise taps are blocked) */
+  body[data-page="home"] .mobile-nav-drawer{ z-index: 20000; }
+
+  /* When the drawer is open, hide the sticky bar to avoid overlap */
+  body.nav-drawer-open[data-page="home"] .main-navigation-bar{
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
   }
 
   /* Ukryj „zakładki” w poziomie – zostają w menu rozwijanym */

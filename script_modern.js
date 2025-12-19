@@ -657,14 +657,23 @@ function initMobileNavDrawer() {
     const closeBtns = document.querySelectorAll('[data-nav-close]');
     
     if (!toggle || !drawer) return;
-    toggle.addEventListener('click', () => {
+    const openDrawer = () => {
         drawer.style.display = 'block';
+        drawer.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('nav-drawer-open');
         document.body.style.overflow = 'hidden';
-    });
+    };
     const closeDrawer = () => {
         drawer.style.display = 'none';
+        drawer.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('nav-drawer-open');
         document.body.style.overflow = '';
     };
+
+    toggle.addEventListener('click', () => {
+        if (drawer.style.display === 'block') closeDrawer();
+        else openDrawer();
+    });
     closeBtns.forEach(btn => btn.addEventListener('click', closeDrawer));
 }
 

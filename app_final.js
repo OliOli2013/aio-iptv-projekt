@@ -115,8 +115,20 @@ function initMobileNavFinal() {
     if (!toggle || !drawer) return;
 
     let lastTouch = 0;
-    const open = () => { drawer.classList.add('open'); drawer.style.display = 'block'; setNoScroll(true); };
-    const close = () => { drawer.classList.remove('open'); drawer.style.display = 'none'; setNoScroll(false); };
+    const open = () => {
+      drawer.classList.add('open');
+      drawer.style.display = 'block';
+      drawer.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('nav-drawer-open');
+      setNoScroll(true);
+    };
+    const close = () => {
+      drawer.classList.remove('open');
+      drawer.style.display = 'none';
+      drawer.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('nav-drawer-open');
+      setNoScroll(false);
+    };
 
     toggle.addEventListener('touchend', (e) => { lastTouch = Date.now(); e.preventDefault(); open(); }, { passive: false });
     toggle.addEventListener('click', (e) => { if (Date.now() - lastTouch < 650) return; e.preventDefault(); open(); });
