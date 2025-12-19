@@ -586,10 +586,14 @@ body[data-page="home"] .site-footer {
   background: rgba(15, 23, 42, 0.82);
   border-top: 1px solid rgba(148, 163, 184, 0.14);
   padding: 34px 0;
+  /* Override legacy global footer rule (style.css) that centers everything */
+  text-align: left;
+  margin-top: 0;
 }
 
 body[data-page="home"] .footer-inner {
-  max-width: 1400px;
+  /* Slightly narrower footer on desktop to avoid excessive whitespace */
+  max-width: 1280px;
   margin: 0 auto;
   padding: 0 22px;
 }
@@ -598,6 +602,7 @@ body[data-page="home"] .footer-grid {
   display: grid;
   grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
   gap: 22px;
+  align-items: start;
   padding-bottom: 22px;
   border-bottom: 1px solid rgba(148, 163, 184, 0.12);
 }
