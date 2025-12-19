@@ -558,7 +558,7 @@
     <div class="notifications-dropdown" id="notificationsDropdown" aria-hidden="true">
         <div class="notif-header">
             <div class="notif-title">Aktualizacje</div>
-            <button type="button" class="notif-close" id="notifCloseBtn" aria-label="Zamknij">✕</button>
+            <button type="button" class="notif-close" id="notifCloseBtn" aria-label="Zamknij" data-i18n-aria-label="aria_close">✕</button>
         </div>
         <div class="notif-list" id="notifList"></div>
         <div class="notif-footer">
@@ -588,19 +588,19 @@
         <!-- Mobile-only CTA (shown via CSS media query). Keeps desktop layout unchanged. -->
         <a class="mobile-update-cta" href="pliki/enigma2-plugin-extensions-panelaio_5.0_all.ipk" download title="Pobierz AIO Panel v5.0">Aktualizacja <strong>AIO Panel v5.0</strong> — Pobierz teraz</a>
         <div class="nav-left-group">
-            <a href="#wtyczki" class="menu-btn">🔌 Wtyczki <span class="menu-badge">5</span></a>
-            <a href="#listy" class="menu-btn">📺 Listy</a>
-            <a href="#aktualnosci" class="menu-btn">📚 Porady <span class="menu-badge red">12</span></a>
-            <a href="#wiedza" class="menu-btn">🧠 Wiedza</a>
-            <a href="#narzedzia" class="menu-btn">🛠 Narzędzia</a>
-            <a href="#generator" class="menu-btn">⚡ Generator</a>
-            <a href="#pliki" class="menu-btn">📂 Pliki</a>
-            <a href="#kontakt" class="menu-btn">📧 Kontakt</a>
-                        <a href="#wsparcie" class="menu-btn">☕ Wsparcie</a>
-<a href="#systemy" class="menu-btn">💿 Systemy</a>
-            <a href="porownywarka.html" class="menu-btn">📊 Porównywarka</a>
-            <a href="kreator.html" class="menu-btn">🔧 Kreator</a>
-            <a href="#statystyki" class="menu-btn">📈 Statystyki</a>
+            <a href="#wtyczki" class="menu-btn">🔌 <span data-i18n="nav_plugins">Wtyczki</span> <span class="menu-badge">5</span></a>
+            <a href="#listy" class="menu-btn">📺 <span data-i18n="nav_lists">Listy</span></a>
+            <a href="#aktualnosci" class="menu-btn">📚 <span data-i18n="nav_guides">Porady</span> <span class="menu-badge red">12</span></a>
+            <a href="#wiedza" class="menu-btn">🧠 <span data-i18n="nav_knowledge">Wiedza</span></a>
+            <a href="#narzedzia" class="menu-btn">🛠 <span data-i18n="nav_tools">Narzędzia</span></a>
+            <a href="#generator" class="menu-btn">⚡ <span data-i18n="nav_generator">Generator</span></a>
+            <a href="#pliki" class="menu-btn">📂 <span data-i18n="nav_files">Pliki</span></a>
+            <a href="#kontakt" class="menu-btn">📧 <span data-i18n="nav_contact">Kontakt</span></a>
+                        <a href="#wsparcie" class="menu-btn">☕ <span data-i18n="nav_support">Wsparcie</span></a>
+<a href="#systemy" class="menu-btn">💿 <span data-i18n="nav_systems">Systemy</span></a>
+            <a href="porownywarka.html" class="menu-btn">📊 <span data-i18n="nav_comparison">Porównywarka</span></a>
+            <a href="kreator.html" class="menu-btn">🔧 <span data-i18n="nav_creator">Kreator</span></a>
+            <a href="#statystyki" class="menu-btn">📈 <span data-i18n="nav_stats">Statystyki</span></a>
         </div>
         <div class="nav-right-group">
             
@@ -625,8 +625,8 @@
             <span><strong>NOWOŚĆ!</strong> System komentarzy jest już dostępny!</span>
         </div>
         <div class="banner-actions">
-            <button class="banner-btn" onclick="openComments()">Zobacz komentarze</button>
-            <button class="banner-btn" onclick="alert('Zapisano do newslettera!')">Zapisz się</button>
+            <button class="banner-btn" onclick="openComments()"><span data-i18n="btn_view_comments">Zobacz komentarze</span></button>
+            <button class="banner-btn" onclick="alert('Zapisano do newslettera!')"><span data-i18n="btn_sign_up">Zapisz się</span></button>
             <button class="banner-close" onclick="document.getElementById('newsBanner').style.display='none'">✕</button>
         </div>
     </div>
@@ -637,13 +637,13 @@
         <div class="card card-intro span-all" id="start" data-aos="fade-up">
             <div class="intro-head">
                 <div class="intro-title">
-                    <h2>Start tutaj</h2>
-                    <p>Najczęściej używane narzędzia i sekcje w jednym miejscu.</p>
+                    <h2><span data-i18n="start_here_title">Start tutaj</span></h2>
+                    <p><span data-i18n="start_here_desc">Najczęściej używane narzędzia i sekcje w jednym miejscu.</span></p>
                 </div>
                 <div class="intro-actions">
-                    <a class="pill-link" href="kreator.html">🔧 Kreator</a>
-                    <a class="pill-link" href="porownywarka.html">📊 Porównywarka</a>
-                    <a class="pill-link" href="#generator">⚡ Generator</a>
+                    <a class="pill-link" href="kreator.html">🔧 <span data-i18n="nav_creator">Kreator</span></a>
+                    <a class="pill-link" href="porownywarka.html">📊 <span data-i18n="nav_comparison">Porównywarka</span></a>
+                    <a class="pill-link" href="#generator">⚡ <span data-i18n="nav_generator">Generator</span></a>
                 </div>
             </div>
 
@@ -651,15 +651,15 @@
                 <a class="quick-card" href="#wtyczki" role="listitem">
                     <div class="quick-ico">🔌</div>
                     <div class="quick-meta">
-                        <div class="quick-title">Wtyczki</div>
-                        <div class="quick-desc">Najważniejsze dodatki dla Enigma2 – zawsze aktualne.</div>
+                        <div class="quick-title" data-i18n="quick_plugins_title">Wtyczki</div>
+                        <div class="quick-desc" data-i18n="quick_plugins_desc">Najważniejsze dodatki dla Enigma2 – zawsze aktualne.</div>
                     </div>
                 </a>
                 <a class="quick-card" href="#listy" role="listitem">
                     <div class="quick-ico">📺</div>
                     <div class="quick-meta">
-                        <div class="quick-title">Listy kanałów</div>
-                        <div class="quick-desc">Bzyk83, JakiTaki i inne – gotowe paczki do pobrania.</div>
+                        <div class="quick-title" data-i18n="quick_lists_title">Listy kanałów</div>
+                        <div class="quick-desc" data-i18n="quick_lists_desc">Bzyk83, JakiTaki i inne – gotowe paczki do pobrania.</div>
                     </div>
                 </a>
                 <a class="quick-card" href="#aktualnosci" role="listitem">
@@ -1421,7 +1421,7 @@ Zaloguj się do terminala i wpisuj komendy każdą po kolei (zatwierdzając Ente
         </div>
 
         <div class="card generator-card" id="generator" data-aos="fade-up">
-            <h2>⚡ Generator One-Liner</h2>
+            <h2>⚡ <span data-i18n="nav_generator">Generator</span> One-Liner</h2>
             <p>Zaznacz, co chcesz zainstalować, a strona wygeneruje jedną, wspólną komendę do terminala (Putty itp.).</p>
 
             <div class="generator-options">
@@ -1960,7 +1960,7 @@ Zaloguj się do terminala i wpisuj komendy każdą po kolei (zatwierdzając Ente
 
     <section class="content-section" data-aos="fade-up">
         <div class="card" id="narzedzia">
-            <h2>🛠 Narzędzia i skróty</h2>
+            <h2>🛠 <span data-i18n="nav_tools">Narzędzia</span> i skróty</h2>
             <p class="section-desc">Najczęściej używane polecenia i „one-linery” dla Enigma2. Każdy kafel ma przycisk kopiowania.</p>
             <div class="tools-grid" id="toolsGrid"></div>
         </div>
@@ -1968,7 +1968,7 @@ Zaloguj się do terminala i wpisuj komendy każdą po kolei (zatwierdzając Ente
 
     <section class="content-section" data-aos="fade-up">
         <div class="card" id="systemy-aio">
-            <h2>💿 Systemy i checklisty</h2>
+            <h2>💿 <span data-i18n="nav_systems">Systemy</span> i checklisty</h2>
             <p class="section-desc">OpenATV / OpenPLi / Egami – szybkie checklisty po instalacji. Zapis w przeglądarce (localStorage).</p>
             <div class="systems-grid" id="systemsGrid"></div>
         </div>
@@ -2063,8 +2063,8 @@ Zaloguj się do terminala i wpisuj komendy każdą po kolei (zatwierdzając Ente
         </div>
     </footer>
 <!-- Mobile quick access: Support / Coffee (non-intrusive) -->
-    <button id="support-fab" class="support-fab" type="button" aria-label="Wsparcie (Postaw kawę)">
-        ☕ Wsparcie
+    <button id="support-fab" class="support-fab" type="button" aria-label="Wsparcie (Postaw kawę)" data-i18n-aria-label="aria_support_coffee">
+        ☕ <span data-i18n="nav_support">Wsparcie</span>
     </button>
 
     <!-- Support drawer modal -->
@@ -2072,7 +2072,7 @@ Zaloguj się do terminala i wpisuj komendy każdą po kolei (zatwierdzając Ente
         <div class="support-drawer__sheet">
             <div class="support-drawer__header">
                 <div class="support-drawer__title">Wsparcie</div>
-                <button id="support-drawer-close" class="support-drawer__close" type="button" aria-label="Zamknij">×</button>
+                <button id="support-drawer-close" class="support-drawer__close" type="button" aria-label="Zamknij" data-i18n-aria-label="aria_close">×</button>
             </div>
             <div class="support-drawer__content">
                 <h3>Wesprzyj moją pracę – Dziękuję za każdą kawę! ☕</h3>
@@ -2109,7 +2109,7 @@ Zaloguj się do terminala i wpisuj komendy każdą po kolei (zatwierdzając Ente
         <div class="ai-chat-drawer__sheet" role="document">
             <div class="ai-chat-drawer__header">
                 <div class="ai-chat-drawer__title">AI Chat • Enigma2</div>
-                <button id="ai-chat-close" class="ai-chat-drawer__close" type="button" aria-label="Zamknij">✕</button>
+                <button id="ai-chat-close" class="ai-chat-drawer__close" type="button" aria-label="Zamknij" data-i18n-aria-label="aria_close">✕</button>
             </div>
 
             <div class="ai-chat__chips" aria-label="Szybkie pytania">
@@ -2136,21 +2136,21 @@ Zaloguj się do terminala i wpisuj komendy każdą po kolei (zatwierdzając Ente
         <div class="mobile-nav-drawer__backdrop" data-nav-close></div>
         <div class="mobile-nav-drawer__sheet" role="navigation" aria-label="Menu mobilne">
             <div class="mobile-nav-drawer__header">
-                <div class="mobile-nav-drawer__title">Menu</div>
-                <button class="mobile-nav-drawer__close" type="button" data-nav-close aria-label="Zamknij">✕</button>
+                <div class="mobile-nav-drawer__title" data-i18n="mobile_menu_title">Menu</div>
+                <button class="mobile-nav-drawer__close" type="button" data-nav-close aria-label="Zamknij" data-i18n-aria-label="aria_close">✕</button>
             </div>
             <div class="mobile-nav-drawer__content">
-                <a href="#wtyczki" class="mobile-nav-link" data-nav-close>🔌 Wtyczki</a>
-                <a href="#listy" class="mobile-nav-link" data-nav-close>📺 Listy</a>
-                <a href="#aktualnosci" class="mobile-nav-link" data-nav-close>📚 Porady</a>
-                <a href="#generator" class="mobile-nav-link" data-nav-close>⚡ Generator</a>
-                <a href="#pliki" class="mobile-nav-link" data-nav-close>📂 Pliki</a>
-                <a href="#kontakt" class="mobile-nav-link" data-nav-close>📧 Kontakt</a>
-                <a href="#wsparcie" class="mobile-nav-link" data-nav-close>☕ Wsparcie</a>
-                <a href="#systemy" class="mobile-nav-link" data-nav-close>💿 Systemy</a>
-                <a href="porownywarka.html" class="mobile-nav-link" data-nav-close>📊 Porównywarka</a>
-                <a href="kreator.html" class="mobile-nav-link" data-nav-close>🔧 Kreator</a>
-                <a href="#statystyki" class="mobile-nav-link" data-nav-close>📈 Statystyki</a>
+                <a href="#wtyczki" class="mobile-nav-link" data-nav-close>🔌 <span data-i18n="nav_plugins">Wtyczki</span></a>
+                <a href="#listy" class="mobile-nav-link" data-nav-close>📺 <span data-i18n="nav_lists">Listy</span></a>
+                <a href="#aktualnosci" class="mobile-nav-link" data-nav-close>📚 <span data-i18n="nav_guides">Porady</span></a>
+                <a href="#generator" class="mobile-nav-link" data-nav-close>⚡ <span data-i18n="nav_generator">Generator</span></a>
+                <a href="#pliki" class="mobile-nav-link" data-nav-close>📂 <span data-i18n="nav_files">Pliki</span></a>
+                <a href="#kontakt" class="mobile-nav-link" data-nav-close>📧 <span data-i18n="nav_contact">Kontakt</span></a>
+                <a href="#wsparcie" class="mobile-nav-link" data-nav-close>☕ <span data-i18n="nav_support">Wsparcie</span></a>
+                <a href="#systemy" class="mobile-nav-link" data-nav-close>💿 <span data-i18n="nav_systems">Systemy</span></a>
+                <a href="porownywarka.html" class="mobile-nav-link" data-nav-close>📊 <span data-i18n="nav_comparison">Porównywarka</span></a>
+                <a href="kreator.html" class="mobile-nav-link" data-nav-close>🔧 <span data-i18n="nav_creator">Kreator</span></a>
+                <a href="#statystyki" class="mobile-nav-link" data-nav-close>📈 <span data-i18n="nav_stats">Statystyki</span></a>
             </div>
         </div>
     </div>
@@ -2159,6 +2159,7 @@ Zaloguj się do terminala i wpisuj komendy każdą po kolei (zatwierdzając Ente
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script_modern.js"></script>
     <script src="app_final.js"></script>
+    <script src="i18n.js"></script>
 
 </body>
 </html>
