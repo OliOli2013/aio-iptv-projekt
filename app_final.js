@@ -138,6 +138,42 @@ function initMobileNavFinal() {
       btn.addEventListener('touchend', close, { passive: true });
     });
 
+    // Ensure menu items actually navigate on mobile.
+    // Some mobile browsers may swallow anchor/page navigation when the drawer
+    // closes in the same gesture, so we perform navigation explicitly.
+    qsa('a[href]', drawer).forEach((a) => {
+      let lastTouchLink = 0;
+
+      const navigate = (e, isTouch) => {
+        const href = a.getAttribute('href');
+        if (!href) return;
+
+        if (isTouch) lastTouchLink = Date.now();
+        // Ignore the synthetic click that follows a touch.
+        if (!isTouch && (Date.now() - lastTouchLink) < 650) return;
+
+        e.preventDefault();
+        close();
+
+        if (href.startsWith('#')) {
+          const id = href.slice(1);
+          try { history.pushState(null, '', href); } catch(_) { try { window.location.hash = href; } catch(__) {} }
+
+          const target = document.getElementById(id);
+          if (target && target.scrollIntoView) {
+            requestAnimationFrame(() => requestAnimationFrame(() => {
+              target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }));
+          }
+        } else {
+          window.location.href = href;
+        }
+      };
+
+      a.addEventListener('touchend', (e) => navigate(e, true), { passive: false });
+      a.addEventListener('click', (e) => navigate(e, false));
+    });
+
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && (drawer.classList.contains('open') || drawer.style.display === 'block')) close();
     });
