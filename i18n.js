@@ -1,46 +1,33 @@
 /* Simple i18n (PL/EN) – auto language based on browser/OS, with optional localStorage override.
    Keys are applied to elements via:
-   - data-i18n="key"        -> textContent
-   - data-i18n-html="key"   -> innerHTML
-   - data-i18n-aria-label="key" -> aria-label
+   - data-i18n="key"              -> textContent
+   - data-i18n-html="key"         -> innerHTML
+   - data-i18n-aria-label="key"   -> aria-label
 */
 (function () {
   "use strict";
 
   const I18N = {
-          support_thanks: "Dzięki!",
-pl: {
-      // Top / navigation
+    pl: {
       cta_update_download: 'Aktualizacja <strong>AIO Panel v5.0</strong> — Pobierz teraz',
-      nav_plugins: "Wtyczki",
-      nav_lists: "Listy",
+      nav_plugins: "Wtyczki Enigma2",
+      nav_lists: "Listy kanałów",
       nav_channel_lists: "Listy kanałów",
-      nav_guides: "Porady",
-      nav_knowledge: "Wiedza",
-      nav_tools: "Narzędzia",
-      nav_generator: "Generator",
-      nav_files: "Pliki",
+      nav_guides: "Porady i instrukcje",
+      nav_knowledge: "Baza wiedzy",
+      nav_tools: "Narzędzia systemowe",
+      nav_generator: "Generator One‑Liner",
+      nav_files: "Pliki do pobrania",
       nav_contact: "Kontakt",
-      nav_support: "Wsparcie",
-      nav_systems: "Systemy",
-      nav_comparison: "Porównywarka",
-      nav_creator: "Kreator",
-      nav_stats: "Statystyki",
-
-      // Mobile drawer
-      mobile_menu_title: "Menu",
-      aria_close: "Zamknij",
-      aria_support_coffee: "Wsparcie (Postaw kawę)",
-
-      // Home quick start cards
-      quick_plugins_title: "Wtyczki",
-      quick_plugins_desc: "Najważniejsze dodatki dla Enigma2 – zawsze aktualne.",
+      nav_support: "Wsparcie projektu",
+      nav_systems: "Systemy Enigma2",
+      nav_comparison: "Porównywarka tunerów",
+      nav_creator: "Kreator konfiguracji",
+      nav_stats: "Statystyki odwiedzin",
       quick_lists_title: "Listy kanałów",
       quick_lists_desc: "Bzyk83, JakiTaki i inne – gotowe paczki do pobrania.",
       quick_guides_title: "Porady",
       quick_guides_desc: "Instrukcje, triki i rozwiązania problemów krok po kroku.",
-
-      // Sections / UI
       start_here_title: "Start tutaj",
       start_here_desc: "Najczęściej używane narzędzia i sekcje w jednym miejscu.",
       new_comments_banner: "NOWOŚĆ! System komentarzy jest już dostępny!",
@@ -48,40 +35,33 @@ pl: {
       btn_sign_up: "Zapisz się",
       footer_support_title: "Wsparcie",
       support_cta: "Wesprzyj projekt",
-    },
-
-    en: {
-      // Top / navigation
-      cta_update_download: 'Update: <strong>AIO Panel v5.0</strong> — Download now',
-      nav_plugins: "Plugins",
-      nav_lists: "Lists",
-      nav_channel_lists: "Channel lists",
-      nav_guides: "Guides",
-      nav_knowledge: "Knowledge",
-      nav_tools: "Tools",
-      nav_generator: "Generator",
-      nav_files: "Files",
-      nav_contact: "Contact",
-      nav_support: "Support",
-      nav_systems: "Systems",
-      nav_comparison: "Comparison",
-      nav_creator: "Creator",
-      nav_stats: "Statistics",
-
-      // Mobile drawer
+      support_thanks: "Dzięki!",
       mobile_menu_title: "Menu",
-      aria_close: "Close",
-      aria_support_coffee: "Support (Buy me a coffee)",
-
-      // Home quick start cards
-      quick_plugins_title: "Plugins",
-      quick_plugins_desc: "Essential add-ons for Enigma2 — always up to date.",
+      aria_close: "Zamknij",
+      aria_support_coffee: "Wsparcie (Postaw kawę)",
+      quick_plugins_title: "Wtyczki",
+      quick_plugins_desc: "Najważniejsze dodatki dla Enigma2 – zawsze aktualne.",
+    },
+    en: {
+      cta_update_download: 'Update: <strong>AIO Panel v5.0</strong> — Download now',
+      nav_plugins: "Enigma2 plugins",
+      nav_lists: "Channel lists",
+      nav_channel_lists: "Channel lists",
+      nav_guides: "Guides & tutorials",
+      nav_knowledge: "Knowledge base",
+      nav_tools: "System tools",
+      nav_generator: "One‑liner generator",
+      nav_files: "Downloads",
+      nav_contact: "Contact",
+      nav_support: "Project support",
+      nav_systems: "Enigma2 systems",
+      nav_comparison: "Receiver comparison",
+      nav_creator: "Config builder",
+      nav_stats: "Visit statistics",
       quick_lists_title: "Channel lists",
       quick_lists_desc: "Bzyk83, JakiTaki and more — ready-to-download packs.",
       quick_guides_title: "Guides",
       quick_guides_desc: "Step-by-step instructions, tips and troubleshooting.",
-
-      // Sections / UI
       start_here_title: "Start here",
       start_here_desc: "Most-used tools and sections in one place.",
       new_comments_banner: "NEW! The comments system is now available!",
@@ -90,80 +70,41 @@ pl: {
       footer_support_title: "Support",
       support_cta: "Support the project",
       support_thanks: "Thanks!",
+      mobile_menu_title: "Menu",
+      aria_close: "Close",
+      aria_support_coffee: "Support (Buy me a coffee)",
+      quick_plugins_title: "Plugins",
+      quick_plugins_desc: "Essential add-ons for Enigma2 — always up to date.",
     },
   };
 
-  function normalizeLang(raw) {
-    const l = (raw || "").toLowerCase();
-    if (l.startsWith("pl")) return "pl";
-    return "en";
+  function getLang() {
+    const saved = (localStorage.getItem("aio_lang") || "").toLowerCase();
+    if (saved === "pl" || saved === "en") return saved;
+    const nav = (navigator.language || navigator.userLanguage || "pl").toLowerCase();
+    return nav.startsWith("pl") ? "pl" : "en";
   }
 
-  function detectLang() {
-    // Manual override (optional)
-    try {
-      const saved = window.localStorage && localStorage.getItem("aio_lang");
-      if (saved) return normalizeLang(saved);
-    } catch (e) {}
-
-    // Device/browser language
-    const nav = window.navigator;
-    const candidate = (nav.languages && nav.languages[0]) || nav.language || nav.userLanguage || "pl";
-    return normalizeLang(candidate);
-  }
-
-  function applyTranslations(lang) {
+  function applyI18n(lang) {
     const dict = I18N[lang] || I18N.pl;
 
-    // Update <html lang="">
-    try { document.documentElement.lang = lang; } catch (e) {}
-
-    // textContent
     document.querySelectorAll("[data-i18n]").forEach((el) => {
       const key = el.getAttribute("data-i18n");
-      if (!key) return;
-      const val = dict[key];
-      if (typeof val === "string") el.textContent = val;
+      if (dict[key] != null) el.textContent = dict[key];
     });
 
-    // innerHTML
     document.querySelectorAll("[data-i18n-html]").forEach((el) => {
       const key = el.getAttribute("data-i18n-html");
-      if (!key) return;
-      const val = dict[key];
-      if (typeof val === "string") el.innerHTML = val;
+      if (dict[key] != null) el.innerHTML = dict[key];
     });
 
-    // aria-label
     document.querySelectorAll("[data-i18n-aria-label]").forEach((el) => {
       const key = el.getAttribute("data-i18n-aria-label");
-      if (!key) return;
-      const val = dict[key];
-      if (typeof val === "string") el.setAttribute("aria-label", val);
+      if (dict[key] != null) el.setAttribute("aria-label", dict[key]);
     });
   }
 
-  // Expose minimal API (optional, for later adding a language toggle)
-  window.AIO_I18N = {
-    setLang: function (lang) {
-      const normalized = normalizeLang(lang);
-      try { localStorage.setItem("aio_lang", normalized); } catch (e) {}
-      applyTranslations(normalized);
-    },
-    getLang: function () {
-      return detectLang();
-    }
-  };
-
-  // Apply on ready (and once more after load to catch late-initialized UI)
-  const lang = detectLang();
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", function () {
-      applyTranslations(lang);
-      window.setTimeout(function () { applyTranslations(lang); }, 250);
-    });
-  } else {
-    applyTranslations(lang);
-    window.setTimeout(function () { applyTranslations(lang); }, 250);
-  }
+  document.addEventListener("DOMContentLoaded", function () {
+    applyI18n(getLang());
+  });
 })();
