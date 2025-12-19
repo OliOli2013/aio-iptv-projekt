@@ -45,6 +45,8 @@
       new_comments_banner: "NOWOŚĆ! System komentarzy jest już dostępny!",
       btn_view_comments: "Zobacz komentarze",
       btn_sign_up: "Zapisz się",
+      footer_support_title: "Wsparcie",
+      support_cta: "Wesprzyj projekt",
     },
 
     en: {
@@ -84,6 +86,8 @@
       new_comments_banner: "NEW! The comments system is now available!",
       btn_view_comments: "View comments",
       btn_sign_up: "Sign up",
+      footer_support_title: "Support",
+      support_cta: "Support the project",
     },
   };
 

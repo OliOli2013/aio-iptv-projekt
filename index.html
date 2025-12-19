@@ -2030,6 +2030,53 @@ Zaloguj się do terminala i wpisuj komendy każdą po kolei (zatwierdzając Ente
                         <span>💬 Messenger: <a class="footer-link inline" href="https://m.me/100064704540847" target="_blank" rel="noopener">Napisz wiadomość</a></span>
                     </div>
 
+                    <div class="footer-support">
+                        <div class="footer-support-title" data-i18n="footer_support_title">Wsparcie</div>
+                        <div class="footer-support-row">
+                            <a class="support-btn support-revolut" href="https://revolut.me/pawelz75" target="_blank" rel="noopener" aria-label="Wsparcie przez Revolut">
+                                <span class="support-logo" aria-hidden="true">
+                                    <!-- Revolut (simple mark) -->
+                                    <svg viewBox="0 0 64 64" role="img" focusable="false" aria-hidden="true">
+                                        <defs>
+                                            <linearGradient id="revG" x1="0" y1="0" x2="1" y2="1">
+                                                <stop offset="0" stop-color="#3b82f6"/>
+                                                <stop offset="1" stop-color="#22d3ee"/>
+                                            </linearGradient>
+                                        </defs>
+                                        <circle cx="32" cy="32" r="28" fill="url(#revG)"/>
+                                        <path d="M22 46V18h13.6c7 0 11.4 3.5 11.4 9.5 0 4.8-3 8-8.2 8.8L46 46h-7.6l-6.2-9.2h-3.8V46H22zm6.4-14.6h6.4c3.4 0 5.3-1.4 5.3-4s-1.9-4-5.3-4h-6.4v8z" fill="#0b1220"/>
+                                    </svg>
+                                </span>
+                                <span class="support-text">
+                                    <span class="support-name">Revolut</span>
+                                    <span class="support-sub" data-i18n="support_cta">Wesprzyj projekt</span>
+                                </span>
+                            </a>
+
+                            <a id="paypalSupportBtn" class="support-btn support-paypal" href="#" target="_blank" rel="noopener" aria-label="Wsparcie przez PayPal"
+                               data-paypal="aHR0cHM6Ly93d3cucGF5cGFsLmNvbS9kb25hdGUvP2J1c2luZXNzPXBhd2VsemFyenlraTYxQGdtYWlsLmNvbSZjdXJyZW5jeV9jb2RlPVBMTiZpdGVtX25hbWU9V3NwYXJjaWUlMjBBSU8tSVBUVg==">
+                                <span class="support-logo" aria-hidden="true">
+                                    <!-- PayPal (simple mark) -->
+                                    <svg viewBox="0 0 64 64" role="img" focusable="false" aria-hidden="true">
+                                        <defs>
+                                            <linearGradient id="ppG" x1="0" y1="0" x2="1" y2="1">
+                                                <stop offset="0" stop-color="#60a5fa"/>
+                                                <stop offset="1" stop-color="#a78bfa"/>
+                                            </linearGradient>
+                                        </defs>
+                                        <circle cx="32" cy="32" r="28" fill="url(#ppG)"/>
+                                        <path d="M25 46l4-26h13c6 0 10 3.4 10 8.8 0 7.2-5.4 11.2-13.4 11.2h-6.2l-1 6H25zm9.1-12.2h4.5c4.1 0 6.6-1.8 6.6-5 0-2.2-1.5-3.5-4.3-3.5h-6.1l-0.7 8.5z" fill="#0b1220"/>
+                                    </svg>
+                                </span>
+                                <span class="support-text">
+                                    <span class="support-name">PayPal</span>
+                                    <span class="support-sub" data-i18n="support_cta">Wesprzyj projekt</span>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+
+
                     <div class="footer-kpi">
                         <span class="kpi-dot warn"></span>
                         <span>
@@ -2160,6 +2207,17 @@ Zaloguj się do terminala i wpisuj komendy każdą po kolei (zatwierdzając Ente
     <script src="script_modern.js"></script>
     <script src="app_final.js"></script>
     <script src="i18n.js"></script>
+    <script>
+      (function () {
+        try {
+          var btn = document.getElementById('paypalSupportBtn');
+          if (!btn) return;
+          var payload = btn.getAttribute('data-paypal');
+          if (!payload) return;
+          btn.href = atob(payload);
+        } catch (e) {}
+      })();
+    </script>
 
 </body>
 </html>
