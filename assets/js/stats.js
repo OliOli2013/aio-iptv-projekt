@@ -1,124 +1,69 @@
 (function () {
   'use strict';
 
-  const qs = (s, r = document) => r.querySelector(s);
-  const qsa = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const DEFAULT_MEASUREMENT_ID = 'G-H1D8KEP1W4';
 
-  function relUrl(path) {
-    return new URL(path, document.baseURI).toString();
+  function detectLang() {
+    const nav = navigator.languages && navigator.languages.length ? navigator.languages[0] : (navigator.language || 'en');
+    return /^pl/i.test(nav) ? 'pl' : 'en';
   }
 
-  async function safeFetchJSON(url) {
-    const res = await fetch(url, { cache: 'no-store' });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    return await res.json();
+  function baseUrl(path) {
+    // GitHub Pages safe base
+    const base = document.baseURI || window.location.href;
+    return new URL(path, base).toString();
   }
 
-  function fmt(n) {
-    if (n === null || n === undefined || n === '') return '—';
-    const x = Number(n);
-    if (!isFinite(x)) return String(n);
-    return x.toLocaleString();
-  }
-
-  function setText(id, v) {
-    const el = document.getElementById(id);
-    if (el) el.textContent = v;
-  }
-
-  async function loadGitHub(repo) {
+  async function loadConfig() {
     try {
-      const res = await fetch('https://api.github.com/repos/' + repo, { cache: 'no-store' });
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      const d = await res.json();
-      setText('repoStars', fmt(d.stargazers_count));
-      setText('repoWatchers', fmt(d.subscribers_count ?? d.watchers_count));
-      setText('repoForks', fmt(d.forks_count));
-      setText('repoUpdated', d.pushed_at ? new Date(d.pushed_at).toLocaleDateString() : '—');
-      const a = qs('#repoLink');
-      if (a) a.href = 'https://github.com/' + repo;
-      const span = qs('#repoName');
-      if (span) span.textContent = repo;
-    } catch (_) {}
-  }
-
-  function renderTopPages(rows) {
-    const tbody = qs('#topPagesBody');
-    if (!tbody) return;
-    tbody.innerHTML = '';
-    (rows || []).slice(0, 15).forEach((r, idx) => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>${idx + 1}</td>
-        <td><code>${String(r.path || r.pagePath || '').replace(/</g, '&lt;')}</code></td>
-        <td style="text-align:right">${fmt(r.views ?? r.screenPageViews ?? r.pageviews)}</td>
-      `;
-      tbody.appendChild(tr);
-    });
-    if (!tbody.children.length) {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `<td colspan="3" style="opacity:.75;padding:14px 10px">Brak danych.</td>`;
-      tbody.appendChild(tr);
+      const res = await fetch(baseUrl('data/analytics_config.json'), { cache: 'no-store' });
+      if (!res.ok) throw new Error('config_fetch_failed');
+      return await res.json();
+    } catch (e) {
+      return { measurement_id: DEFAULT_MEASUREMENT_ID, looker_embed_url: '' };
     }
   }
 
-  async function loadGA4(endpoint, range) {
-    const status = qs('#gaStatus');
-    const url = new URL(endpoint);
-    url.searchParams.set('range', range);
-
-    status && (status.textContent = 'Ładuję dane…');
-
-    const data = await safeFetchJSON(url.toString());
-
-    setText('kpiUsers', fmt(data.totals?.activeUsers));
-    setText('kpiSessions', fmt(data.totals?.sessions));
-    setText('kpiViews', fmt(data.totals?.screenPageViews));
-    setText('kpiRange', data.rangeLabel || range);
-
-    renderTopPages(data.topPages || []);
-    status && (status.textContent = 'OK');
+  function setText(id, text) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = text;
   }
 
-  function initRangeButtons(endpoint) {
-    const btns = qsa('[data-range]');
-    const setActive = (r) => {
-      btns.forEach((b) => b.classList.toggle('active', b.getAttribute('data-range') === r));
-    };
+  function showNotice(text) {
+    const el = document.getElementById('statsNotice');
+    if (!el) return;
+    el.style.display = 'block';
+    el.textContent = text;
+  }
 
-    const run = async (r) => {
-      setActive(r);
-      try {
-        await loadGA4(endpoint, r);
-      } catch (e) {
-        const status = qs('#gaStatus');
-        status && (status.textContent = 'Błąd: nie udało się pobrać statystyk.');
-      }
-    };
-
-    btns.forEach((b) => b.addEventListener('click', () => run(b.getAttribute('data-range'))));
-
-    // default
-    run('7d');
+  function setIframe(url) {
+    const frame = document.getElementById('statsFrame');
+    if (!frame) return;
+    frame.src = url;
   }
 
   document.addEventListener('DOMContentLoaded', async () => {
-    try {
-      const cfg = await safeFetchJSON(relUrl('data/analytics_config.json'));
-      const endpoint = (cfg.statsEndpoint || '').trim();
-      const repo = (cfg.githubRepo || 'OliOli2013/aio-iptv-projekt').trim();
+    const lang = detectLang();
 
-      loadGitHub(repo);
-
-      if (!endpoint) {
-        const status = qs('#gaStatus');
-        status && (status.textContent = 'Brak skonfigurowanego endpointu API (data/analytics_config.json → statsEndpoint).');
-        return;
-      }
-
-      initRangeButtons(endpoint);
-    } catch (_) {
-      // ignore
+    if (lang === 'pl') {
+      setText('statsTitle', 'Statystyki');
+      setText('statsSub', 'Panel statystyk (Google Analytics 4) osadzony z Looker Studio.');
+      setText('statsHint', 'Jeśli widzisz pusty panel, sprawdź czy raport Looker Studio jest udostępniony (publiczny lub dla zalogowanych).');
+    } else {
+      setText('statsTitle', 'Analytics');
+      setText('statsSub', 'Analytics dashboard (Google Analytics 4) embedded from Looker Studio.');
+      setText('statsHint', 'If the panel is blank, verify the Looker Studio report sharing settings (public or signed-in users).');
     }
+
+    const cfg = await loadConfig();
+    const embed = (cfg && typeof cfg.looker_embed_url === 'string') ? cfg.looker_embed_url.trim() : '';
+    if (!embed) {
+      showNotice(lang === 'pl'
+        ? 'Brak adresu osadzenia Looker Studio. Wklej link embed w pliku data/analytics_config.json (pole "looker_embed_url").'
+        : 'Missing Looker Studio embed URL. Paste the embed link into data/analytics_config.json ("looker_embed_url").'
+      );
+      return;
+    }
+    setIframe(embed);
   });
 })();
