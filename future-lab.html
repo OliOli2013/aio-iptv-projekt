@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Future Lab — AIO-IPTV.pl</title>
+  <link rel="icon" href="pliki/logo.png" />
+  <link rel="stylesheet" href="assets/css/site.css?v=next1" />
+</head>
+<body data-page="next">
+  <div class="topbar">
+    <div class="container">
+      <div class="topbar-inner">
+        <a class="brand" href="index.html" aria-label="AIO-IPTV.pl">
+          <img src="pliki/logo.png" alt="AIO-IPTV.pl" />
+          <div>
+            <div class="name">AIO‑IPTV.pl</div>
+            <span class="tag">Enigma2 • IPTV • Tools • AI</span>
+          </div>
+        </a>
+        <a class="pill pill-accent" href="pliki/enigma2-plugin-extensions-panelaio_5.0_all.ipk" download>
+          <span data-i18n="cta_update">Aktualizacja: AIO Panel v5.0</span>
+          <strong data-i18n="cta_download">Pobierz teraz</strong>
+        </a>
+        <div class="spacer"></div>
+        <div class="notif">
+          <button id="bellBtn" class="icon-btn" aria-label="Updates">🔔</button>
+          <div id="notifPanel" class="notif-panel" aria-live="polite"></div>
+        </div>
+        <button id="navToggle" class="icon-btn" aria-label="Menu">☰</button>
+      </div>
+    </div>
+    <div class="nav">
+      <div class="container">
+        <div class="nav-inner nav">
+          <a href="index.html" data-i18n="nav_home">Start</a>
+          <a href="ai-chat.html" data-i18n="nav_ai">AI-Chat Enigma2</a>
+          <a href="plugins.html" data-i18n="nav_plugins">Wtyczki</a>
+          <a href="channel-lists.html" data-i18n="nav_lists">Listy kanałów</a>
+          <a href="guides.html" data-i18n="nav_guides">Poradniki</a>
+          <a href="tools.html" data-i18n="nav_tools">Narzędzia</a>
+          <a href="downloads.html" data-i18n="nav_downloads">Pobieranie</a>
+          <a href="systems.html" data-i18n="nav_systems">Systemy</a>
+          <a href="contact.html" data-i18n="nav_contact">Kontakt</a>
+          <a href="support.html" data-i18n="nav_support">Wsparcie</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="drawerBackdrop" class="drawer-backdrop" data-drawer-close></div>
+  <aside id="mobileDrawer" class="drawer" aria-hidden="true">
+    <div class="drawer-head">
+      <div class="drawer-title">Menu</div>
+      <button class="icon-btn" data-drawer-close aria-label="Close">✕</button>
+    </div>
+    <a href="index.html">🏠 <span data-i18n="nav_home">Start</span></a>
+    <a href="ai-chat.html">🤖 <span data-i18n="nav_ai">AI-Chat Enigma2</span></a>
+    <a href="plugins.html">🧩 <span data-i18n="nav_plugins">Wtyczki</span></a>
+    <a href="channel-lists.html">📺 <span data-i18n="nav_lists">Listy kanałów</span></a>
+    <a href="guides.html">📘 <span data-i18n="nav_guides">Poradniki</span></a>
+    <a href="tools.html">🛠 <span data-i18n="nav_tools">Narzędzia</span></a>
+    <a href="downloads.html">⬇️ <span data-i18n="nav_downloads">Pobieranie</span></a>
+    <a href="systems.html">💿 <span data-i18n="nav_systems">Systemy</span></a>
+    <a href="contact.html">✉️ <span data-i18n="nav_contact">Kontakt</span></a>
+    <a href="stats.html"><span data-i18n="nav_stats">Statystyki</span></a>
+    <a href="support.html">☕ <span data-i18n="nav_support">Wsparcie</span></a>
+  </aside>
+
+  <main class="container">
+    <section class="page-head">
+      <h1>🧪 Future Lab (XXII wiek)</h1>
+      <p class="muted" data-i18n="futurelab_sub">
+        Zestaw narzędzi dla użytkowników Enigma2: analiza konfiguracji, diagnostyka oraz eksploracja ServiceRef/piconów.
+      </p>
+    </section>
+
+    <section class="grid-2">
+      <div class="card">
+        <h2 data-i18n="cfgdiff_title">Config Diff</h2>
+        <p class="muted" data-i18n="cfgdiff_desc">
+          Porównaj pliki /etc/enigma2/settings „przed i po” i wygeneruj raport zmian.
+        </p>
+
+        <div class="field-row">
+          <label class="field">
+            <span data-i18n="cfgdiff_before">Plik „przed”</span>
+            <input id="cfgBefore" type="file" accept=".txt,.conf,.settings,*/*" />
+          </label>
+          <label class="field">
+            <span data-i18n="cfgdiff_after">Plik „po”</span>
+            <input id="cfgAfter" type="file" accept=".txt,.conf,.settings,*/*" />
+          </label>
+        </div>
+
+        <div class="link-row">
+          <button id="cfgDiffBtn" class="btn primary" type="button" data-i18n="cfgdiff_run">Generuj raport</button>
+          <button id="cfgDiffDownload" class="btn" type="button" disabled data-i18n="cfgdiff_download">Pobierz raport</button>
+        </div>
+
+        <div class="note" id="cfgDiffSummary">—</div>
+        <div class="table-wrap">
+          <table class="table" id="cfgDiffTable">
+            <thead>
+              <tr>
+                <th data-i18n="cfgdiff_col_type">Typ</th>
+                <th data-i18n="cfgdiff_col_key">Klucz</th>
+                <th data-i18n="cfgdiff_col_before">Przed</th>
+                <th data-i18n="cfgdiff_col_after">Po</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 data-i18n="check_title">Auto‑Checklist</h2>
+        <p class="muted" data-i18n="check_desc">
+          Jeden klik: testy online (przeglądarka) + gotowe komendy do diagnostyki tunera.
+        </p>
+        <div class="link-row">
+          <button id="checkRun" class="btn primary" type="button" data-i18n="check_run">Uruchom testy</button>
+          <button id="checkCopy" class="btn" type="button" data-i18n="check_copy">Kopiuj komendy do tunera</button>
+        </div>
+        <div class="note" id="checkResults">—</div>
+        <div class="cmd-wrapper" style="margin-top:12px">
+          <div class="command-box" id="checkCmds"># Kliknij „Uruchom testy” — tu pojawią się rekomendowane komendy.</div>
+          <button class="copy-btn" onclick="copyToClipboard('checkCmds')">📋 <span data-i18n="copy">Kopiuj</span></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 data-i18n="sr_title">ServiceRef Explorer</h2>
+      <p class="muted" data-i18n="sr_desc">
+        Wyszukiwarka kanałów z próbki (lamedb) lub z pliku użytkownika + eksport listy nazw piconów.
+      </p>
+
+      <div class="field-row">
+        <label class="field" style="flex:1">
+          <span data-i18n="sr_search">Szukaj</span>
+          <input id="srSearch" type="text" placeholder="Canal+ / Polsat / HBO..." />
+        </label>
+        <label class="field" style="max-width:420px">
+          <span data-i18n="sr_file">Wczytaj lamedb</span>
+          <input id="srFile" type="file" accept="*/*" />
+        </label>
+      </div>
+
+      <div class="link-row" style="margin-top:10px">
+        <button id="srLoadSample" class="btn" type="button" data-i18n="sr_sample">Wczytaj próbkę (z repo)</button>
+        <button id="srExport" class="btn primary" type="button" disabled data-i18n="sr_export">Eksport CSV (ServiceRef → picon)</button>
+      </div>
+
+      <div class="note" id="srSummary">—</div>
+
+      <div class="table-wrap">
+        <table class="table" id="srTable">
+          <thead>
+            <tr>
+              <th data-i18n="sr_col_name">Kanał</th>
+              <th data-i18n="sr_col_ref">ServiceRef</th>
+              <th data-i18n="sr_col_picon">Nazwa picon</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="ad-banner-section">
+      <a href="https://multi-click.pl/" target="_blank" rel="nofollow noopener">
+        <img src="multi-click_banner_970x250.webp" alt="Multi-Click Sklep" class="ad-banner-img banner-desktop" />
+        <img src="multi-click_banner_320x100.webp" alt="Multi-Click Sklep" class="ad-banner-img banner-mobile" />
+      </a>
+    </div>
+  </main>
+
+  <!-- Footer: reuse from other pages -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand-row">
+            <img src="pliki/logo.png" class="footer-logo" alt="AIO-IPTV.pl" />
+            <div>
+              <div class="footer-brand-name">AIO-IPTV.pl</div>
+              <div class="footer-brand-tag">Enigma2 • IPTV • Tools • AI</div>
+            </div>
+          </div>
+          <div class="footer-note">Nowoczesne centrum Enigma2: wtyczki, listy, poradniki, narzędzia oraz AI‑Chat. Dostępne po polsku i po angielsku.</div>
+        </div>
+        <div>
+          <div class="footer-title">Nawigacja</div>
+          <a class="footer-link" href="index.html">Start</a>
+          <a class="footer-link" href="ai-chat.html">AI‑Chat</a>
+          <a class="footer-link" href="downloads.html">Pobieranie</a>
+          <a class="footer-link" href="guides.html">Poradniki</a>
+        </div>
+        <div>
+          <div class="footer-title">Sekcje</div>
+          <a class="footer-link" href="plugins.html">Wtyczki</a>
+          <a class="footer-link" href="channel-lists.html">Listy kanałów</a>
+          <a class="footer-link" href="tools.html">Narzędzia</a>
+          <a class="footer-link" href="systems.html">Systemy</a>
+        </div>
+        <div>
+          <div class="footer-title">Kontakt i wsparcie</div>
+          <div class="footer-kpi"><span>📧</span><span>Email: <a class="footer-link inline" href="mailto:msisystem@t.pl">msisystem@t.pl</a></span></div>
+          <div class="footer-kpi"><span>✈️</span><span>Telegram: <a class="footer-link inline" href="https://t.me/PawelPawelek" target="_blank" rel="noopener">t.me/PawelPawelek</a></span></div>
+          <div class="footer-kpi"><span>💬</span><span>Messenger: <a class="footer-link inline" href="https://m.me/100064704540847" target="_blank" rel="noopener">Napisz wiadomość</a></span></div>
+          <div class="footer-support">
+            <div class="footer-title" style="margin-bottom:10px" data-i18n="support">Wesprzyj projekt</div>
+            <div class="footer-support-row">
+              <a class="support-btn support-revolut" href="https://revolut.me/pawelz75" target="_blank" rel="noopener" aria-label="Revolut">
+                <span class="support-logo">
+                  <svg viewBox="0 0 64 64" role="img" focusable="false" aria-hidden="true"><defs><linearGradient id="revG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3b82f6"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs><circle cx="32" cy="32" r="28" fill="url(#revG)"/><path d="M22 46V18h13.6c7 0 11.4 3.5 11.4 9.5 0 4.8-3 8-8.2 8.8L46 46h-7.6l-6.2-9.2h-3.8V46H22zm6.4-14.6h6.4c3.4 0 5.3-1.4 5.3-4s-1.9-4-5.3-4h-6.4v8z" fill="#0b1220"/></svg>
+                </span>
+                <span class="support-text"><span class="support-name">Revolut</span><span class="support-sub">Dzięki!</span></span>
+              </a>
+              <a id="paypalSupportBtn" class="support-btn support-paypal" href="#" target="_blank" rel="noopener" aria-label="PayPal" data-paypal="aHR0cHM6Ly93d3cucGF5cGFsLmNvbS9zZW5kP3JlY2lwaWVudD1wYXdlbHphcnp5Y2tpNjFAZ21haWwuY29tJmN1cnJlbmN5Q29kZT1QTE4=">
+                <span class="support-logo">
+                  <svg viewBox="0 0 64 64" role="img" focusable="false" aria-hidden="true"><defs><linearGradient id="ppG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#60a5fa"/><stop offset="1" stop-color="#a78bfa"/></linearGradient></defs><circle cx="32" cy="32" r="28" fill="url(#ppG)"/><path d="M25 46l4-26h13c6 0 10 3.4 10 8.8 0 7.2-5.4 11.2-13.4 11.2h-6.2l-1 6H25zm9.1-12.2h4.5c4.1 0 6.6-1.8 6.6-5 0-2.2-1.5-3.5-4.3-3.5h-6.1l-0.7 8.5z" fill="#0b1220"/></svg>
+                </span>
+                <span class="support-text"><span class="support-name">PayPal</span><span class="support-sub">Dzięki!</span></span>
+              </a>
+            </div>
+          </div>
+          <div class="footer-kpi" style="margin-top:12px; font-size:.88rem; opacity:.85"><span>🐛</span><span>Błąd? <a class="footer-link inline" href="https://github.com/OliOli2013/aio-iptv-projekt/issues" target="_blank" rel="noopener">Zgłoś na GitHub</a></span></div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>© <span id="year"></span> AIO‑IPTV.pl • Paweł Pawełek</div>
+        <div class="footer-legal"><a href="support.html">Wsparcie</a><a href="contact.html">Kontakt</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="assets/js/site.js?v=next1"></script>
+  <script src="assets/js/future-lab.js?v=next1"></script>
+</body>
+</html>

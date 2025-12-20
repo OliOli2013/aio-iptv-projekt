@@ -1,0 +1,8 @@
+{
+  "mode": "online",
+  "provider": "supabase-edge",
+  "supabaseUrl": "https://pynjjeobqzxbrvmqofcw.supabase.co",
+  "supabaseAnonKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB5bmpqZW9icXp4YnJ2bXFvZmN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU3NDA5MDYsImV4cCI6MjA4MTMxNjkwNn0.XSBB0DJw27Wrn41nranqFyj8YI0-YjLzX52dkdrgkrg",
+  "functionName": "ai-chat",
+  "endpoint": "https://pynjjeobqzxbrvmqofcw.supabase.co/functions/v1/ai-chat"
+}

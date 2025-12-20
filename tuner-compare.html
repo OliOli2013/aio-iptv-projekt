@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>AIO-IPTV.pl — Enigma2 Hub</title>
+<title>Porównywarka tunerów — AIO-IPTV.pl</title>
 <link href="pliki/logo.png" rel="icon"/>
 <link href="assets/css/site.css?v=next1" rel="stylesheet"/>
 </head>
@@ -66,69 +66,40 @@
 <a href="stats.html">Statystyki</a><a href="support.html">☕ <span data-i18n="nav_support">Wsparcie</span></a>
 </aside>
 <main class="container">
-<section class="hero">
-<div class="hero-grid">
-<div class="hero-card">
-<h1 data-i18n="hero_title">AIO-IPTV.pl — Enigma2 przyszłości</h1>
-<p data-i18n="hero_sub">Porządek zamiast chaosu: podstrony, narzędzia i AI-Chat Enigma2 w jednym miejscu. Strona dostępna po polsku i po angielsku.</p>
-<div class="hero-actions">
-<a class="btn primary" href="ai-chat.html">🤖 <span data-i18n="nav_ai">AI-Chat Enigma2</span></a>
-<a class="btn" href="downloads.html">⬇️ <span data-i18n="nav_downloads">Pobieranie</span></a>
-<a class="btn" href="tools.html">🛠 <span data-i18n="nav_tools">Narzędzia</span></a>
-<a class="btn" href="guides.html">📘 <span data-i18n="nav_guides">Poradniki</span></a>
-</div><div class="seasonal-badge">Paweł Pawełek - życzy Zdrowych Wesołych Świąt</div>
-</div>
-<div class="hero-card">
-<div class="kpi">
-<div class="k"><div class="t">AI‑Chat</div><div class="v">Offline KB</div></div>
-<div class="k"><div class="t">AIO Panel</div><div class="v">v5.0</div></div>
-<div class="k"><div class="t">Narzędzia</div><div class="v">One‑Liner / Kreator</div></div>
-<div class="k"><div class="t">Porównywarka</div><div class="v">Tunery</div></div>
-</div>
-<div style="margin-top:14px; color:var(--muted); line-height:1.55">
-        Strona jest podzielona na czytelne sekcje. Wybierz temat z nawigacji u góry.
-      </div>
-</div>
-</div>
-</section>
 <section class="section">
 <div class="section-head">
 <div>
-<h2 class="section-title" data-i18n="latest">Najnowsze</h2>
-<p class="section-sub">Aktualności i szybkie wejścia do najczęściej używanych części serwisu.</p>
-</div>
-</div>
-<div class="grid">
-<div class="card">
-<h3>🔔 Aktualizacje</h3>
-<p>W prawym górnym rogu znajdziesz dzwoneczek z listą nowości (AIO Panel v5.0, AI‑Chat Enigma2 i inne).</p>
-<div class="link-row">
-<a class="btn" href="support.html">☕ Wsparcie</a>
-<a class="btn" href="contact.html">✉️ Kontakt</a>
+<h2 class="section-title" data-i18n="tuner_compare_title">Porównywarka tunerów</h2>
+<p class="section-sub" data-i18n="tuner_compare_sub">Filtruj po marce, tagach i wyszukuj po specyfikacji.</p>
 </div>
 </div>
 <div class="card">
-<h3>📦 Pobieranie</h3>
-<p>Wtyczki i pliki do Enigma2 w jednym miejscu, z jasnym opisem do czego służą.</p>
-<div class="link-row">
-<a class="btn primary" href="downloads.html">Otwórz pobieranie</a>
+<div style="display:grid; gap:10px; grid-template-columns: 1fr 1fr 2fr">
+<div>
+<div style="color:var(--muted); font-weight:800; margin-bottom:6px" data-i18n="label_brand">Marka</div>
+<select id="brandFilter" style="width:100%; padding:12px; border-radius:14px; border:1px solid rgba(148,163,184,.18); background:rgba(0,0,0,.18); color:var(--text)">
+<option data-i18n="all" value="">Wszystkie</option>
+</select>
+</div>
+<div>
+<div style="color:var(--muted); font-weight:800; margin-bottom:6px" data-i18n="label_tag">Tag</div>
+<select id="tagFilter" style="width:100%; padding:12px; border-radius:14px; border:1px solid rgba(148,163,184,.18); background:rgba(0,0,0,.18); color:var(--text)">
+<option data-i18n="all" value="">Wszystkie</option>
+</select>
+</div>
+<div>
+<div style="color:var(--muted); font-weight:800; margin-bottom:6px" data-i18n="label_search">Szukaj</div>
+<input data-i18n-placeholder="tuner_search_ph" id="tunerQuery" placeholder="Np. 4K, VU+, gigabit, DVB-S2X" style="width:100%; padding:12px; border-radius:14px; border:1px solid rgba(148,163,184,.18); background:rgba(0,0,0,.18); color:var(--text)" type="text"/>
 </div>
 </div>
-<div class="card">
-<h3>🧠 Centrum wiedzy</h3>
-<p>Poradniki, FAQ i mini‑słownik pojęć. Najważniejsze tematy w czytelnych podstronach.</p>
-<div class="link-row">
-<a class="btn" href="guides.html">Przejdź do poradników</a>
 </div>
+<div class="card" style="margin-top:12px; display:flex; align-items:center; justify-content:space-between; gap:12px">
+  <div style="color:var(--muted)"><span data-i18n="results">Wyniki</span>: <strong id="tunersCount">0 / 0</strong></div>
+  <button class="btn" data-i18n="show_more" id="tunersMore" type="button" style="display:none">Pokaż więcej</button>
 </div>
-</div>
+<div id="tunersHost"></div>
 </section>
-<div class="ad-banner-section" data-page="ads">
-<a href="https://multi-click.pl/" rel="nofollow noopener" target="_blank">
-<img alt="Multi-Click Sklep" class="ad-banner-img banner-desktop" src="multi-click_banner_970x250.webp"/>
-<img alt="Multi-Click Sklep" class="ad-banner-img banner-mobile" src="multi-click_banner_320x100.webp"/>
-</a>
-</div></main>
+</main>
 <footer class="site-footer">
 <div class="footer-inner">
 <div class="footer-grid">
@@ -194,5 +165,6 @@
 </footer>
 <script>document.getElementById('year').textContent=new Date().getFullYear();</script>
 <script src="assets/js/site.js?v=next1"></script>
+<script src="assets/js/tuners.js?v=next1"></script>
 </body>
 </html>

@@ -1,19 +1,17 @@
 <!DOCTYPE html>
-<html lang="pl" data-theme="dark">
+
+<html data-theme="dark" lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#0d1117">
-    
-    <title>Kreator Konfiguracji Enigma2 | AIO-IPTV.pl</title>
-    <meta name="description" content="Intuicyjny kreator konfiguracji dla tunerów Enigma2. Wygeneruj gotowe pliki w 5 minut!">
-    <meta name="author" content="Paweł Pawełek">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="#0d1117" name="theme-color"/>
+<title>Kreator Konfiguracji Enigma2 | AIO-IPTV.pl</title>
+<meta content="Intuicyjny kreator konfiguracji dla tunerów Enigma2. Wygeneruj gotowe pliki w 5 minut!" name="description"/>
+<meta content="Paweł Pawełek" name="author"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"/>
+<link href="style.css" rel="stylesheet"/>
+<style>
         :root {
             --primary: #58a6ff;
             --success: #238636;
@@ -781,513 +779,460 @@
             from { transform: translateX(0); opacity: 1; }
             to { transform: translateX(100%); opacity: 0; }
         }
-    </style>    <link rel="apple-touch-icon" href="logo.png">
-    <link rel="icon" type="image/png" href="logo.png">
-
+    </style> <link href="logo.png" rel="apple-touch-icon"/>
+<link href="logo.png" rel="icon" type="image/png"/>
 </head>
 <body data-theme="dark">
-    <!-- Header -->
-    <header>
-        <div class="header-content">
-            <img src="https://github.com/OliOli2013/aio-iptv-projekt/raw/main/pliki/logo.png" alt="Logo AIO-IPTV" class="site-logo">
-            <div class="header-info">
-                <h1>Kreator Konfiguracji</h1>
-                <p>Enigma2 • Tunery satelitarne • AIO-IPTV</p>
-            </div>
-        </div>
-        
-        <div class="nav-buttons">
-            <a href="index.html" class="btn btn-secondary">
-                <i class="fas fa-home"></i> Strona główna
+<!-- Header -->
+<header>
+<div class="header-content">
+<img alt="Logo AIO-IPTV" class="site-logo" src="https://github.com/OliOli2013/aio-iptv-projekt/raw/main/pliki/logo.png"/>
+<div class="header-info">
+<h1>Kreator Konfiguracji</h1>
+<p>Enigma2 • Tunery satelitarne • AIO-IPTV</p>
+</div>
+</div>
+<div class="nav-buttons">
+<a class="btn btn-secondary" href="index.html">
+<i class="fas fa-home"></i> Strona główna
             </a>
-            <button class="btn btn-secondary" id="themeToggle">
-                <i class="fas fa-moon"></i> Motyw
+<button class="btn btn-secondary" id="themeToggle">
+<i class="fas fa-moon"></i> Motyw
             </button>
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <div class="main-container">
-        <!-- Wizard Header -->
-        <div class="wizard-container">
-            <div class="wizard-header" data-aos="fade-up">
-                <h2 style="font-size: 1.8rem; margin-bottom: 10px;">
-                    <i class="fas fa-wand-magic-sparkles" style="color: var(--primary);"></i>
+</div>
+</header>
+<!-- Main Content -->
+<div class="main-container">
+<!-- Wizard Header -->
+<div class="wizard-container">
+<div class="wizard-header" data-aos="fade-up">
+<h2 style="font-size: 1.8rem; margin-bottom: 10px;">
+<i class="fas fa-wand-magic-sparkles" style="color: var(--primary);"></i>
                     Kreator Konfiguracji Enigma2
                 </h2>
-                <p style="font-size: 1rem; opacity: 0.9; margin-bottom: 15px;">
+<p style="font-size: 1rem; opacity: 0.9; margin-bottom: 15px;">
                     Stwórz idealną konfigurację dla swojego tunera w 5 prostych kroków
                 </p>
-                <div style="display: flex; align-items: center; justify-content: center; gap: 15px; flex-wrap: wrap;">
-                    <div style="display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
-                        <i class="fas fa-check-circle" style="color: var(--success);"></i>
-                        <span>Gotowe pliki</span>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
-                        <i class="fas fa-bolt" style="color: var(--warning);"></i>
-                        <span>Szybka instalacja</span>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
-                        <i class="fas fa-shield-alt" style="color: var(--primary);"></i>
-                        <span>Bezpieczna konfiguracja</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Stepper -->
-            <div class="wizard-stepper" data-aos="fade-up" data-aos-delay="100">
-                <div class="stepper-line"></div>
-                <div class="stepper-progress" id="stepperProgress"></div>
-                
-                <div class="stepper-item active" data-step="1">
-                    <div class="stepper-circle">1</div>
-                    <div class="stepper-label">Tuner</div>
-                </div>
-                
-                <div class="stepper-item" data-step="2">
-                    <div class="stepper-circle">2</div>
-                    <div class="stepper-label">System</div>
-                </div>
-                
-                <div class="stepper-item" data-step="3">
-                    <div class="stepper-circle">3</div>
-                    <div class="stepper-label">Sieć</div>
-                </div>
-                
-                <div class="stepper-item" data-step="4">
-                    <div class="stepper-circle">4</div>
-                    <div class="stepper-label">Satelity</div>
-                </div>
-                
-                <div class="stepper-item" data-step="5">
-                    <div class="stepper-circle">5</div>
-                    <div class="stepper-label">Gotowe!</div>
-                </div>
-            </div>
-
-            <!-- Wizard Content -->
-            <div class="wizard-content" data-aos="fade-up" data-aos-delay="200">
-                <!-- Step 1: Tuner Selection -->
-                <div class="wizard-step active" id="step1">
-                    <div class="step-title">
-                        <i class="fas fa-satellite-dish"></i>
+<div style="display: flex; align-items: center; justify-content: center; gap: 15px; flex-wrap: wrap;">
+<div style="display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
+<i class="fas fa-check-circle" style="color: var(--success);"></i>
+<span>Gotowe pliki</span>
+</div>
+<div style="display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
+<i class="fas fa-bolt" style="color: var(--warning);"></i>
+<span>Szybka instalacja</span>
+</div>
+<div style="display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
+<i class="fas fa-shield-alt" style="color: var(--primary);"></i>
+<span>Bezpieczna konfiguracja</span>
+</div>
+</div>
+</div>
+<!-- Stepper -->
+<div class="wizard-stepper" data-aos="fade-up" data-aos-delay="100">
+<div class="stepper-line"></div>
+<div class="stepper-progress" id="stepperProgress"></div>
+<div class="stepper-item active" data-step="1">
+<div class="stepper-circle">1</div>
+<div class="stepper-label">Tuner</div>
+</div>
+<div class="stepper-item" data-step="2">
+<div class="stepper-circle">2</div>
+<div class="stepper-label">System</div>
+</div>
+<div class="stepper-item" data-step="3">
+<div class="stepper-circle">3</div>
+<div class="stepper-label">Sieć</div>
+</div>
+<div class="stepper-item" data-step="4">
+<div class="stepper-circle">4</div>
+<div class="stepper-label">Satelity</div>
+</div>
+<div class="stepper-item" data-step="5">
+<div class="stepper-circle">5</div>
+<div class="stepper-label">Gotowe!</div>
+</div>
+</div>
+<!-- Wizard Content -->
+<div class="wizard-content" data-aos="fade-up" data-aos-delay="200">
+<!-- Step 1: Tuner Selection -->
+<div class="wizard-step active" id="step1">
+<div class="step-title">
+<i class="fas fa-satellite-dish"></i>
                         Wybierz swój tuner
                     </div>
-                    <div class="step-subtitle">
+<div class="step-subtitle">
                         Wybierz model tunera, dla którego konfigurujemy
                     </div>
-                    
-                    <div class="card-selector">
-                        <div class="config-card" data-value="zgemma">
-                            <div class="config-card-icon">
-                                <i class="fas fa-tv"></i>
-                            </div>
-                            <div class="config-card-title">
+<div class="card-selector">
+<div class="config-card" data-value="zgemma">
+<div class="config-card-icon">
+<i class="fas fa-tv"></i>
+</div>
+<div class="config-card-title">
                                 Zgemma H9S / H9.2S
                                 <span class="badge badge-popular">Domyślny</span>
-                            </div>
-                            <div class="config-card-desc">
+</div>
+<div class="config-card-desc">
                                 Idealny dla początkujących, tani, dobry stosunek jakości do ceny. 
                                 Wsparcie dla 4K HDR. Najpopularniejszy w Polsce.
                             </div>
-                        </div>
-                        
-                        <div class="config-card" data-value="vuplus">
-                            <div class="config-card-icon">
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <div class="config-card-title">
+</div>
+<div class="config-card" data-value="vuplus">
+<div class="config-card-icon">
+<i class="fas fa-star"></i>
+</div>
+<div class="config-card-title">
                                 VU+ Duo 4K / Uno 4K
                                 <span class="badge badge-pro">Premium</span>
-                            </div>
-                            <div class="config-card-desc">
+</div>
+<div class="config-card-desc">
                                 Profesjonalne tunery, dual tuner, najwyższa jakość obrazu.
                                 Dla zaawansowanych użytkowników.
                             </div>
-                        </div>
-                        
-                        <div class="config-card" data-value="octagon">
-                            <div class="config-card-icon">
-                                <i class="fas fa-bolt"></i>
-                            </div>
-                            <div class="config-card-title">
+</div>
+<div class="config-card" data-value="octagon">
+<div class="config-card-icon">
+<i class="fas fa-bolt"></i>
+</div>
+<div class="config-card-title">
                                 Octagon SF8008
                             </div>
-                            <div class="config-card-desc">
+<div class="config-card-desc">
                                 Szybki, nowoczesny, z slotem M.2. Dobry wybór do multimediów.
                                 Dobry stosunek jakości do ceny.
                             </div>
-                        </div>
-                        
-                        <div class="config-card" data-value="mutant">
-                            <div class="config-card-icon">
-                                <i class="fas fa-cogs"></i>
-                            </div>
-                            <div class="config-card-title">
+</div>
+<div class="config-card" data-value="mutant">
+<div class="config-card-icon">
+<i class="fas fa-cogs"></i>
+</div>
+<div class="config-card-title">
                                 Mutant HD51 / HD60
                             </div>
-                            <div class="config-card-desc">
+<div class="config-card-desc">
                                 Stabilne działanie, dobre wsparcie społeczności.
                                 Dla wymagających użytkowników.
                             </div>
-                        </div>
-                        
-                        <div class="config-card" data-value="dreambox">
-                            <div class="config-card-icon">
-                                <i class="fas fa-gem"></i>
-                            </div>
-                            <div class="config-card-title">
+</div>
+<div class="config-card" data-value="dreambox">
+<div class="config-card-icon">
+<i class="fas fa-gem"></i>
+</div>
+<div class="config-card-title">
                                 Dreambox
                             </div>
-                            <div class="config-card-desc">
+<div class="config-card-desc">
                                 Oryginalne tunery Enigma, najlepsze wsparcie.
                                 Dla purystów i profesjonalistów.
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Step 2: System Selection -->
-                <div class="wizard-step" id="step2">
-                    <div class="step-title">
-                        <i class="fas fa-microchip"></i>
+</div>
+</div>
+</div>
+<!-- Step 2: System Selection -->
+<div class="wizard-step" id="step2">
+<div class="step-title">
+<i class="fas fa-microchip"></i>
                         Wybierz system (Image)
                     </div>
-                    <div class="step-subtitle">
+<div class="step-subtitle">
                         Oprogramowanie dla Twojego tunera
                     </div>
-                    
-                    <div class="card-selector">
-                        <div class="config-card" data-value="openatv">
-                            <div class="config-card-icon">
-                                <i class="fab fa-linux"></i>
-                            </div>
-                            <div class="config-card-title">
+<div class="card-selector">
+<div class="config-card" data-value="openatv">
+<div class="config-card-icon">
+<i class="fab fa-linux"></i>
+</div>
+<div class="config-card-title">
                                 OpenATV
                                 <span class="badge badge-popular">Domyślny</span>
-                            </div>
-                            <div class="config-card-desc">
+</div>
+<div class="config-card-desc">
                                 Najpopularniejszy, częste aktualizacje, mnóstwo wtyczek.
                                 Zalecany dla większości użytkowników.
                             </div>
-                        </div>
-                        
-                        <div class="config-card" data-value="openpli">
-                            <div class="config-card-icon">
-                                <i class="fas fa-leaf"></i>
-                            </div>
-                            <div class="config-card-title">
+</div>
+<div class="config-card" data-value="openpli">
+<div class="config-card-icon">
+<i class="fas fa-leaf"></i>
+</div>
+<div class="config-card-title">
                                 OpenPLi
                             </div>
-                            <div class="config-card-desc">
+<div class="config-card-desc">
                                 Stabilny, lekki, dla purystów. Mniej wtyczek,
                                 ale bardziej stabilny niż OpenATV.
                             </div>
-                        </div>
-                        
-                        <div class="config-card" data-value="openvix">
-                            <div class="config-card-icon">
-                                <i class="fas fa-eye"></i>
-                            </div>
-                            <div class="config-card-title">
+</div>
+<div class="config-card" data-value="openvix">
+<div class="config-card-icon">
+<i class="fas fa-eye"></i>
+</div>
+<div class="config-card-title">
                                 OpenViX
                             </div>
-                            <div class="config-card-desc">
+<div class="config-card-desc">
                                 Ładny interfejs, popularny w UK. Dobre wsparcie
                                 dla brytyjskich kanałów.
                             </div>
-                        </div>
-                        
-                        <div class="config-card" data-value="egami">
-                            <div class="config-card-icon">
-                                <i class="fas fa-palette"></i>
-                            </div>
-                            <div class="config-card-title">
+</div>
+<div class="config-card" data-value="egami">
+<div class="config-card-icon">
+<i class="fas fa-palette"></i>
+</div>
+<div class="config-card-title">
                                 Egami
                             </div>
-                            <div class="config-card-desc">
+<div class="config-card-desc">
                                 Unikalny wygląd, niszowy. Dla użytkowników,
                                 którzy szukają czegoś innego.
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Step 3: Network Configuration -->
-                <div class="wizard-step" id="step3">
-                    <div class="step-title">
-                        <i class="fas fa-network-wired"></i>
+</div>
+</div>
+</div>
+<!-- Step 3: Network Configuration -->
+<div class="wizard-step" id="step3">
+<div class="step-title">
+<i class="fas fa-network-wired"></i>
                         Konfiguracja sieci
                     </div>
-                    <div class="step-subtitle">
+<div class="step-subtitle">
                         Ustawienia połączenia internetowego
                     </div>
-                    
-                    <div class="form-group">
-                        <div class="toggle-switch">
-                            <div class="toggle-label">
-                                <i class="fas fa-wifi"></i>
+<div class="form-group">
+<div class="toggle-switch">
+<div class="toggle-label">
+<i class="fas fa-wifi"></i>
                                 Konfiguracja automatyczna (DHCP)
                             </div>
-                            <label class="toggle">
-                                <input type="checkbox" id="networkAuto" checked>
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <div id="manualConfig" style="display: none;">
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label class="form-label">Adres IP</label>
-                                <input type="text" class="form-control" id="ipAddress" placeholder="192.168.1.100">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">Brama (Gateway)</label>
-                                <input type="text" class="form-control" id="gateway" placeholder="192.168.1.1">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">DNS 1</label>
-                                <input type="text" class="form-control" id="dns1" placeholder="8.8.8.8">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group" style="margin-top: 20px;">
-                        <label class="form-label">
-                            <i class="fas fa-sync-alt"></i>
+<label class="toggle">
+<input checked="" id="networkAuto" type="checkbox"/>
+<span class="toggle-slider"></span>
+</label>
+</div>
+</div>
+<div id="manualConfig" style="display: none;">
+<div class="form-grid">
+<div class="form-group">
+<label class="form-label">Adres IP</label>
+<input class="form-control" id="ipAddress" placeholder="192.168.1.100" type="text"/>
+</div>
+<div class="form-group">
+<label class="form-label">Brama (Gateway)</label>
+<input class="form-control" id="gateway" placeholder="192.168.1.1" type="text"/>
+</div>
+<div class="form-group">
+<label class="form-label">DNS 1</label>
+<input class="form-control" id="dns1" placeholder="8.8.8.8" type="text"/>
+</div>
+</div>
+</div>
+<div class="form-group" style="margin-top: 20px;">
+<label class="form-label">
+<i class="fas fa-sync-alt"></i>
                             Tryb aktualizacji wtyczek
                         </label>
-                        <select class="form-control" id="updateMode">
-                            <option value="auto">Automatycznie (zalecane)</option>
-                            <option value="manual">Ręcznie</option>
-                            <option value="notify">Powiadomienia tylko</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Step 4: Satellites -->
-                <div class="wizard-step" id="step4">
-                    <div class="step-title">
-                        <i class="fas fa-satellite"></i>
+<select class="form-control" id="updateMode">
+<option value="auto">Automatycznie (zalecane)</option>
+<option value="manual">Ręcznie</option>
+<option value="notify">Powiadomienia tylko</option>
+</select>
+</div>
+</div>
+<!-- Step 4: Satellites -->
+<div class="wizard-step" id="step4">
+<div class="step-title">
+<i class="fas fa-satellite"></i>
                         Konfiguracja satelit
                     </div>
-                    <div class="step-subtitle">
+<div class="step-subtitle">
                         Wybierz satelity, które chcesz odbierać
                     </div>
-                    
-                    <div class="multi-select">
-                        <div class="tag-selector" data-sat="13e">
-                            <i class="fas fa-fire"></i> HotBird 13°E <span class="badge badge-popular" style="margin-left: 5px;">Domyślny</span>
-                        </div>
-                        <div class="tag-selector" data-sat="19e">
+<div class="multi-select">
+<div class="tag-selector" data-sat="13e">
+<i class="fas fa-fire"></i> HotBird 13°E <span class="badge badge-popular" style="margin-left: 5px;">Domyślny</span>
+</div>
+<div class="tag-selector" data-sat="19e">
                             Astra 19.2°E
                         </div>
-                        <div class="tag-selector" data-sat="23e">
+<div class="tag-selector" data-sat="23e">
                             Astra 23.5°E
                         </div>
-                        <div class="tag-selector" data-sat="28e">
+<div class="tag-selector" data-sat="28e">
                             Astra 28.2°E
                         </div>
-                        <div class="tag-selector" data-sat="0.8w">
+<div class="tag-selector" data-sat="0.8w">
                             Thor/Intelsat 0.8°W
                         </div>
-                        <div class="tag-selector" data-sat="4.8e">
+<div class="tag-selector" data-sat="4.8e">
                             Astra 4.8°E
                         </div>
-                    </div>
-                    
-                    <div style="margin-top: 30px;">
-                        <h4 style="margin-bottom: 15px;">
-                            <i class="fas fa-sliders-h"></i>
+</div>
+<div style="margin-top: 30px;">
+<h4 style="margin-bottom: 15px;">
+<i class="fas fa-sliders-h"></i>
                             Zaawansowane opcje
                         </h4>
-                        
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label class="form-label">Typ instalacji anteny</label>
-                                <select class="form-control" id="installType">
-                                    <option value="single">Pojedynczy LNB (domyślnie)</option>
-                                    <option value="diseqc">DiSEqC (przełącznik)</option>
-                                    <option value="motor">USALS (silnik obrotowy)</option>
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">Format listy kanałów</label>
-                                <select class="form-control" id="channelFormat">
-                                    <option value="bouquet">Boukety (zalecane)</option>
-                                    <option value="single">Jedna lista</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Step 5: Summary & Download -->
-                <div class="wizard-step" id="step5">
-                    <div class="step-title">
-                        <i class="fas fa-check-circle" style="color: var(--success);"></i>
+<div class="form-grid">
+<div class="form-group">
+<label class="form-label">Typ instalacji anteny</label>
+<select class="form-control" id="installType">
+<option value="single">Pojedynczy LNB (domyślnie)</option>
+<option value="diseqc">DiSEqC (przełącznik)</option>
+<option value="motor">USALS (silnik obrotowy)</option>
+</select>
+</div>
+<div class="form-group">
+<label class="form-label">Format listy kanałów</label>
+<select class="form-control" id="channelFormat">
+<option value="bouquet">Boukety (zalecane)</option>
+<option value="single">Jedna lista</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+<!-- Step 5: Summary & Download -->
+<div class="wizard-step" id="step5">
+<div class="step-title">
+<i class="fas fa-check-circle" style="color: var(--success);"></i>
                         Gotowe do pobrania!
                     </div>
-                    <div class="step-subtitle">
+<div class="step-subtitle">
                         Twoja konfiguracja została wygenerowana
                     </div>
-                    
-                    <!-- Preview -->
-                    <div class="preview-panel">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                            <h4 style="margin: 0; font-size: 1.1rem;">
-                                <i class="fas fa-file-code"></i>
+<!-- Preview -->
+<div class="preview-panel">
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+<h4 style="margin: 0; font-size: 1.1rem;">
+<i class="fas fa-file-code"></i>
                                 Podgląd konfiguracji
                             </h4>
-                            <button class="btn btn-secondary" onclick="copyConfig()" style="padding: 8px 16px; font-size: 13px;">
-                                <i class="far fa-copy"></i> Kopiuj
+<button class="btn btn-secondary" onclick="copyConfig()" style="padding: 8px 16px; font-size: 13px;">
+<i class="far fa-copy"></i> Kopiuj
                             </button>
-                        </div>
-                        <pre class="code-block" id="configPreview" style="font-family: 'Courier New', monospace; font-size: 12px; margin: 0; white-space: pre-wrap; word-wrap: break-word;"># Konfiguracja zostanie wygenerowana po ukończeniu wszystkich kroków</pre>
-                    </div>
-                    
-                    <!-- Download Options -->
-                    <div class="download-grid">
-                        <div class="download-card" onclick="downloadFile('network')">
-                            <div class="download-icon">
-                                <i class="fas fa-wifi"></i>
-                            </div>
-                            <h3 style="margin: 10px 0 5px; font-size: 1.1rem;">Sieć</h3>
-                            <p style="margin: 0; font-size: 0.9rem; opacity: 0.8;">Pliki konfiguracyjne sieci</p>
-                        </div>
-                        
-                        <div class="download-card" onclick="downloadFile('satellites')">
-                            <div class="download-icon">
-                                <i class="fas fa-satellite"></i>
-                            </div>
-                            <h3 style="margin: 10px 0 5px; font-size: 1.1rem;">Satelity</h3>
-                            <p style="margin: 0; font-size: 0.9rem; opacity: 0.8;">Ustawienia satelit</p>
-                        </div>
-                        
-                        <div class="download-card" onclick="downloadFile('bouquets')">
-                            <div class="download-icon">
-                                <i class="fas fa-tv"></i>
-                            </div>
-                            <h3 style="margin: 10px 0 5px; font-size: 1.1rem;">Boukety</h3>
-                            <p style="margin: 0; font-size: 0.9rem; opacity: 0.8;">Listy kanałów</p>
-                        </div>
-                        
-                        <div class="download-card" onclick="downloadAll()">
-                            <div class="download-icon">
-                                <i class="fas fa-file-archive"></i>
-                            </div>
-                            <h3 style="margin: 10px 0 5px; font-size: 1.1rem;">Komplet</h3>
-                            <p style="margin: 0; font-size: 0.9rem; opacity: 0.8;">ZIP z pełną konfiguracją</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Plugin Installation -->
-                    <div style="margin-top: 25px; padding: 20px; background: rgba(210, 153, 34, 0.05); border-radius: 12px; border: 1px solid var(--border);">
-                        <h4 style="margin-top: 0; font-size: 1.1rem;">
-                            <i class="fas fa-plug"></i>
+</div>
+<pre class="code-block" id="configPreview" style="font-family: 'Courier New', monospace; font-size: 12px; margin: 0; white-space: pre-wrap; word-wrap: break-word;"># Konfiguracja zostanie wygenerowana po ukończeniu wszystkich kroków</pre>
+</div>
+<!-- Download Options -->
+<div class="download-grid">
+<div class="download-card" onclick="downloadFile('network')">
+<div class="download-icon">
+<i class="fas fa-wifi"></i>
+</div>
+<h3 style="margin: 10px 0 5px; font-size: 1.1rem;">Sieć</h3>
+<p style="margin: 0; font-size: 0.9rem; opacity: 0.8;">Pliki konfiguracyjne sieci</p>
+</div>
+<div class="download-card" onclick="downloadFile('satellites')">
+<div class="download-icon">
+<i class="fas fa-satellite"></i>
+</div>
+<h3 style="margin: 10px 0 5px; font-size: 1.1rem;">Satelity</h3>
+<p style="margin: 0; font-size: 0.9rem; opacity: 0.8;">Ustawienia satelit</p>
+</div>
+<div class="download-card" onclick="downloadFile('bouquets')">
+<div class="download-icon">
+<i class="fas fa-tv"></i>
+</div>
+<h3 style="margin: 10px 0 5px; font-size: 1.1rem;">Boukety</h3>
+<p style="margin: 0; font-size: 0.9rem; opacity: 0.8;">Listy kanałów</p>
+</div>
+<div class="download-card" onclick="downloadAll()">
+<div class="download-icon">
+<i class="fas fa-file-archive"></i>
+</div>
+<h3 style="margin: 10px 0 5px; font-size: 1.1rem;">Komplet</h3>
+<p style="margin: 0; font-size: 0.9rem; opacity: 0.8;">ZIP z pełną konfiguracją</p>
+</div>
+</div>
+<!-- Plugin Installation -->
+<div style="margin-top: 25px; padding: 20px; background: rgba(210, 153, 34, 0.05); border-radius: 12px; border: 1px solid var(--border);">
+<h4 style="margin-top: 0; font-size: 1.1rem;">
+<i class="fas fa-plug"></i>
                             Instalacja wtyczek AIO-IPTV
                         </h4>
-                        
-                        <div style="margin: 15px 0;">
-                            <p style="margin: 0 0 10px; font-size: 0.95rem;">Skopiuj poniższe komendy i wklej je w terminalu tunera:</p>
-                            
-                            <div style="background: rgba(0, 0, 0, 0.3); border-radius: 8px; padding: 15px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 12px;">
-                                <div style="color: var(--warning);"># AIO Panel (Panel zarządzania):</div>
-                                <div style="margin-left: 10px; color: var(--text);">wget -q "--no-check-certificate" https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh -O - | /bin/sh</div>
-                                
-                                <div style="color: var(--warning); margin-top: 10px;"># IPTV Dream (Listy IPTV):</div>
-                                <div style="margin-left: 10px; color: var(--text);">wget -q "--no-check-certificate" https://raw.githubusercontent.com/OliOli2013/IPTV-Dream-Plugin/main/installer.sh -O - | /bin/sh</div>
-                            </div>
-                            
-                            <button class="btn btn-secondary" onclick="copyInstallCommands()" style="padding: 8px 16px; font-size: 13px; margin-top: 10px;">
-                                <i class="far fa-copy"></i> Kopiuj komendy instalacyjne
+<div style="margin: 15px 0;">
+<p style="margin: 0 0 10px; font-size: 0.95rem;">Skopiuj poniższe komendy i wklej je w terminalu tunera:</p>
+<div style="background: rgba(0, 0, 0, 0.3); border-radius: 8px; padding: 15px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 12px;">
+<div style="color: var(--warning);"># AIO Panel (Panel zarządzania):</div>
+<div style="margin-left: 10px; color: var(--text);">wget -q "--no-check-certificate" https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh -O - | /bin/sh</div>
+<div style="color: var(--warning); margin-top: 10px;"># IPTV Dream (Listy IPTV):</div>
+<div style="margin-left: 10px; color: var(--text);">wget -q "--no-check-certificate" https://raw.githubusercontent.com/OliOli2013/IPTV-Dream-Plugin/main/installer.sh -O - | /bin/sh</div>
+</div>
+<button class="btn btn-secondary" onclick="copyInstallCommands()" style="padding: 8px 16px; font-size: 13px; margin-top: 10px;">
+<i class="far fa-copy"></i> Kopiuj komendy instalacyjne
                             </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Installation Guide -->
-                    <div style="margin-top: 25px; padding: 20px; background: rgba(88, 166, 255, 0.05); border-radius: 12px; border: 1px solid var(--border);">
-                        <h4 style="margin-top: 0; font-size: 1.1rem;">
-                            <i class="fas fa-book"></i>
+</div>
+</div>
+<!-- Installation Guide -->
+<div style="margin-top: 25px; padding: 20px; background: rgba(88, 166, 255, 0.05); border-radius: 12px; border: 1px solid var(--border);">
+<h4 style="margin-top: 0; font-size: 1.1rem;">
+<i class="fas fa-book"></i>
                             Jak zainstalować?
                         </h4>
-                        
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px;">
-                            <div>
-                                <h5 style="margin: 10px 0 5px; font-size: 1rem;"><i class="fas fa-1" style="color: var(--primary);"></i> Pobierz pliki</h5>
-                                <p style="margin: 0; font-size: 0.9rem; opacity: 0.8;">Pobierz wybrane pliki na komputer.</p>
-                            </div>
-                            
-                            <div>
-                                <h5 style="margin: 10px 0 5px; font-size: 1rem;"><i class="fas fa-2" style="color: var(--primary);"></i> Połącz FTP</h5>
-                                <p style="margin: 0; font-size: 0.9rem; opacity: 0.8;">Połącz się z tunerem przez FTP.</p>
-                            </div>
-                            
-                            <div>
-                                <h5 style="margin: 10px 0 5px; font-size: 1rem;"><i class="fas fa-3" style="color: var(--primary);"></i> Wgraj pliki</h5>
-                                <p style="margin: 0; font-size: 0.9rem; opacity: 0.8;">Skopiuj pliki do /etc/enigma2/.</p>
-                            </div>
-                            
-                            <div>
-                                <h5 style="margin: 10px 0 5px; font-size: 1rem;"><i class="fas fa-4" style="color: var(--primary);"></i> Zrestartuj</h5>
-                                <p style="margin: 0; font-size: 0.9rem; opacity: 0.8;">Zrestartuj tuner lub GUI Enigma2.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="wizard-actions">
-                    <div>
-                        <button class="btn btn-secondary" id="prevBtn" onclick="prevStep()">
-                            <i class="fas fa-arrow-left"></i> Wstecz
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px;">
+<div>
+<h5 style="margin: 10px 0 5px; font-size: 1rem;"><i class="fas fa-1" style="color: var(--primary);"></i> Pobierz pliki</h5>
+<p style="margin: 0; font-size: 0.9rem; opacity: 0.8;">Pobierz wybrane pliki na komputer.</p>
+</div>
+<div>
+<h5 style="margin: 10px 0 5px; font-size: 1rem;"><i class="fas fa-2" style="color: var(--primary);"></i> Połącz FTP</h5>
+<p style="margin: 0; font-size: 0.9rem; opacity: 0.8;">Połącz się z tunerem przez FTP.</p>
+</div>
+<div>
+<h5 style="margin: 10px 0 5px; font-size: 1rem;"><i class="fas fa-3" style="color: var(--primary);"></i> Wgraj pliki</h5>
+<p style="margin: 0; font-size: 0.9rem; opacity: 0.8;">Skopiuj pliki do /etc/enigma2/.</p>
+</div>
+<div>
+<h5 style="margin: 10px 0 5px; font-size: 1rem;"><i class="fas fa-4" style="color: var(--primary);"></i> Zrestartuj</h5>
+<p style="margin: 0; font-size: 0.9rem; opacity: 0.8;">Zrestartuj tuner lub GUI Enigma2.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="wizard-actions">
+<div>
+<button class="btn btn-secondary" id="prevBtn" onclick="prevStep()">
+<i class="fas fa-arrow-left"></i> Wstecz
                         </button>
-                    </div>
-                    
-                    <div class="progress-info">
-                        <span id="stepCounter">Krok 1 z 5</span>
-                        <div style="width: 80px; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden;">
-                            <div id="progressBar" style="height: 100%; background: var(--primary); width: 20%;"></div>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <button class="btn btn-primary" id="nextBtn" onclick="nextStep()">
+</div>
+<div class="progress-info">
+<span id="stepCounter">Krok 1 z 5</span>
+<div style="width: 80px; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden;">
+<div id="progressBar" style="height: 100%; background: var(--primary); width: 20%;"></div>
+</div>
+</div>
+<div>
+<button class="btn btn-primary" id="nextBtn" onclick="nextStep()">
                             Dalej <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Quick Actions -->
-            <div class="quick-actions">
-                <div class="btn-group">
-                    <button class="btn btn-secondary" onclick="resetWizard()">
-                        <i class="fas fa-redo"></i> Zacznij od nowa
+</button>
+</div>
+</div>
+</div>
+<!-- Quick Actions -->
+<div class="quick-actions">
+<div class="btn-group">
+<button class="btn btn-secondary" onclick="resetWizard()">
+<i class="fas fa-redo"></i> Zacznij od nowa
                     </button>
-                    <button class="btn btn-secondary" onclick="window.print()">
-                        <i class="fas fa-print"></i> Drukuj instrukcję
+<button class="btn btn-secondary" onclick="window.print()">
+<i class="fas fa-print"></i> Drukuj instrukcję
                     </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <p>&copy; 2025 AIO-IPTV.pl | Kreator Konfiguracji Enigma2</p>
-            <p>Automatyczne generowanie plików dla tunerów satelitarnych</p>
-        </div>
-    </footer>
-
-    <!-- Scripts -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-content">
+<p>© 2025 AIO-IPTV.pl | Kreator Konfiguracji Enigma2</p>
+<p>Automatyczne generowanie plików dla tunerów satelitarnych</p>
+</div>
+</footer>
+<!-- Scripts -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
         // Initialize AOS
         AOS.init({
             duration: 800,

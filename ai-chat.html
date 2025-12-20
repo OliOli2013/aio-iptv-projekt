@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>AIO-IPTV.pl — Enigma2 Hub</title>
+<title>AI‑Chat Enigma2 — AIO-IPTV.pl</title>
 <link href="pliki/logo.png" rel="icon"/>
 <link href="assets/css/site.css?v=next1" rel="stylesheet"/>
 </head>
@@ -65,70 +65,49 @@
 <a href="contact.html">✉️ <span data-i18n="nav_contact">Kontakt</span></a>
 <a href="stats.html">Statystyki</a><a href="support.html">☕ <span data-i18n="nav_support">Wsparcie</span></a>
 </aside>
-<main class="container">
-<section class="hero">
-<div class="hero-grid">
-<div class="hero-card">
-<h1 data-i18n="hero_title">AIO-IPTV.pl — Enigma2 przyszłości</h1>
-<p data-i18n="hero_sub">Porządek zamiast chaosu: podstrony, narzędzia i AI-Chat Enigma2 w jednym miejscu. Strona dostępna po polsku i po angielsku.</p>
-<div class="hero-actions">
-<a class="btn primary" href="ai-chat.html">🤖 <span data-i18n="nav_ai">AI-Chat Enigma2</span></a>
-<a class="btn" href="downloads.html">⬇️ <span data-i18n="nav_downloads">Pobieranie</span></a>
-<a class="btn" href="tools.html">🛠 <span data-i18n="nav_tools">Narzędzia</span></a>
-<a class="btn" href="guides.html">📘 <span data-i18n="nav_guides">Poradniki</span></a>
-</div><div class="seasonal-badge">Paweł Pawełek - życzy Zdrowych Wesołych Świąt</div>
-</div>
-<div class="hero-card">
-<div class="kpi">
-<div class="k"><div class="t">AI‑Chat</div><div class="v">Offline KB</div></div>
-<div class="k"><div class="t">AIO Panel</div><div class="v">v5.0</div></div>
-<div class="k"><div class="t">Narzędzia</div><div class="v">One‑Liner / Kreator</div></div>
-<div class="k"><div class="t">Porównywarka</div><div class="v">Tunery</div></div>
-</div>
-<div style="margin-top:14px; color:var(--muted); line-height:1.55">
-        Strona jest podzielona na czytelne sekcje. Wybierz temat z nawigacji u góry.
-      </div>
-</div>
-</div>
-</section>
-<section class="section">
-<div class="section-head">
-<div>
-<h2 class="section-title" data-i18n="latest">Najnowsze</h2>
-<p class="section-sub">Aktualności i szybkie wejścia do najczęściej używanych części serwisu.</p>
-</div>
-</div>
-<div class="grid">
-<div class="card">
-<h3>🔔 Aktualizacje</h3>
-<p>W prawym górnym rogu znajdziesz dzwoneczek z listą nowości (AIO Panel v5.0, AI‑Chat Enigma2 i inne).</p>
-<div class="link-row">
-<a class="btn" href="support.html">☕ Wsparcie</a>
-<a class="btn" href="contact.html">✉️ Kontakt</a>
-</div>
-</div>
-<div class="card">
-<h3>📦 Pobieranie</h3>
-<p>Wtyczki i pliki do Enigma2 w jednym miejscu, z jasnym opisem do czego służą.</p>
-<div class="link-row">
-<a class="btn primary" href="downloads.html">Otwórz pobieranie</a>
-</div>
-</div>
-<div class="card">
-<h3>🧠 Centrum wiedzy</h3>
-<p>Poradniki, FAQ i mini‑słownik pojęć. Najważniejsze tematy w czytelnych podstronach.</p>
-<div class="link-row">
-<a class="btn" href="guides.html">Przejdź do poradników</a>
-</div>
-</div>
-</div>
-</section>
-<div class="ad-banner-section" data-page="ads">
-<a href="https://multi-click.pl/" rel="nofollow noopener" target="_blank">
-<img alt="Multi-Click Sklep" class="ad-banner-img banner-desktop" src="multi-click_banner_970x250.webp"/>
-<img alt="Multi-Click Sklep" class="ad-banner-img banner-mobile" src="multi-click_banner_320x100.webp"/>
-</a>
-</div></main>
+
+<main class="page">
+  <div class="container">
+    <h1>AI‑Chat Enigma2</h1>
+    <p>
+      AI‑Chat jest dostępny bezpośrednio na stronie jako okno czatu (prawy dolny róg). Dzięki temu nie musisz opuszczać AIO‑IPTV.pl,
+      aby zadawać pytania o Enigma2.
+    </p>
+
+    <div class="card">
+      <h2>Tryb OFFLINE (domyślny)</h2>
+      <p>
+        Odpowiedzi bazują na lokalnej bazie wiedzy (<code>data/knowledge.json</code>). To szybki tryb pomocy do typowych problemów
+        (picony, listy, softcam feed, podstawowe ustawienia, najczęstsze błędy).
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Tryb ONLINE (ChatGPT / OpenAI) — bez opuszczania strony</h2>
+      <p>
+        Ze względów bezpieczeństwa klucza API nie da się trzymać w czystym HTML/JS na GitHub Pages. Jeżeli masz już wykupioną usługę i skonfigurowany
+        prywatny endpoint (np. Cloudflare Worker / Vercel / Supabase Edge Function), możesz włączyć tryb ONLINE:
+      </p>
+      <ol>
+        <li>Otwórz plik <code>data/aichat_config.json</code></li>
+        <li>Ustaw <code>"mode": "online"</code></li>
+        <li>Wklej adres do <code>"endpoint"</code> (musi przyjmować POST i zwracać JSON z polem <code>reply</code> lub <code>text</code>)</li>
+      </ol>
+      <p class="muted">
+        Jeśli endpoint jest niedostępny, AI‑Chat automatycznie wróci do trybu OFFLINE.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Opcjonalnie: otwarcie ChatGPT w nowej karcie</h2>
+      <p>
+        Jeżeli wolisz pracę w osobnym oknie, możesz otworzyć ChatGPT w nowej karcie:
+        <a href="https://chat.openai.com/" target="_blank" rel="noopener">ChatGPT</a>.
+      </p>
+    </div>
+  </div>
+</main>
+
 <footer class="site-footer">
 <div class="footer-inner">
 <div class="footer-grid">
@@ -194,5 +173,6 @@
 </footer>
 <script>document.getElementById('year').textContent=new Date().getFullYear();</script>
 <script src="assets/js/site.js?v=next1"></script>
+<script src="assets/js/ai-chat.js?v=next1"></script>
 </body>
 </html>

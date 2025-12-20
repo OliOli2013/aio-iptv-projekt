@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>AIO-IPTV.pl — Enigma2 Hub</title>
+<title>Wsparcie — AIO-IPTV.pl</title>
 <link href="pliki/logo.png" rel="icon"/>
 <link href="assets/css/site.css?v=next1" rel="stylesheet"/>
 </head>
@@ -66,64 +66,74 @@
 <a href="stats.html">Statystyki</a><a href="support.html">☕ <span data-i18n="nav_support">Wsparcie</span></a>
 </aside>
 <main class="container">
-<section class="hero">
-<div class="hero-grid">
-<div class="hero-card">
-<h1 data-i18n="hero_title">AIO-IPTV.pl — Enigma2 przyszłości</h1>
-<p data-i18n="hero_sub">Porządek zamiast chaosu: podstrony, narzędzia i AI-Chat Enigma2 w jednym miejscu. Strona dostępna po polsku i po angielsku.</p>
-<div class="hero-actions">
-<a class="btn primary" href="ai-chat.html">🤖 <span data-i18n="nav_ai">AI-Chat Enigma2</span></a>
-<a class="btn" href="downloads.html">⬇️ <span data-i18n="nav_downloads">Pobieranie</span></a>
-<a class="btn" href="tools.html">🛠 <span data-i18n="nav_tools">Narzędzia</span></a>
-<a class="btn" href="guides.html">📘 <span data-i18n="nav_guides">Poradniki</span></a>
-</div><div class="seasonal-badge">Paweł Pawełek - życzy Zdrowych Wesołych Świąt</div>
+<section class="section"><div class="section-head"><div><h2 class="section-title">Wsparcie projektu</h2><p class="section-sub">Jeśli strona Ci pomaga — możesz wesprzeć rozwój.</p></div></div></section>
+<div class="card support-section" data-aos="fade-up" data-aos-delay="300" id="wsparcie">
+<h2>Wsparcie</h2>
+<p>Wesprzyj moją pracę – Dziękuję za każdą kawę! ☕</p>
+<div style="margin-bottom: 15px;">
+<a href="https://buycoffee.to/pawelpawelek" target="_blank"><img alt="Postaw mi kawę na buycoffee.to" src="https://buycoffee.to/static/img/share/share-button-dark.png" style="width: 322px; height: 84px; max-width: 100%;"/></a>
 </div>
-<div class="hero-card">
-<div class="kpi">
-<div class="k"><div class="t">AI‑Chat</div><div class="v">Offline KB</div></div>
-<div class="k"><div class="t">AIO Panel</div><div class="v">v5.0</div></div>
-<div class="k"><div class="t">Narzędzia</div><div class="v">One‑Liner / Kreator</div></div>
-<div class="k"><div class="t">Porównywarka</div><div class="v">Tunery</div></div>
+<img alt="Kod QR BuyCoffee" class="qr-code" src="pliki/QR_buycoffee.png"/>
+<p class="support-text">
+<strong>Dziękuję za postawienie kawy ☕</strong><br/><br/>
+                To dla mnie – jako twórcy oprogramowania i administratora tej strony – ogromne wsparcie i realna motywacja do dalszego rozwoju projektów oraz utrzymania serwisu na obecnym poziomie.<br/>
+                Dzięki Twojej pomocy mogę poświęcać więcej czasu na rozwijanie narzędzi, aktualizacje, dokumentację i wsparcie społeczności.<br/>
+                Jeśli chcesz docenić moją pracę i pomoc, możesz symbolicznie postawić mi kawę – to drobny gest, który naprawdę wiele znaczy.<br/>
+<br/>– Pawełek
+            </p>
 </div>
-<div style="margin-top:14px; color:var(--muted); line-height:1.55">
-        Strona jest podzielona na czytelne sekcje. Wybierz temat z nawigacji u góry.
-      </div>
-</div>
-</div>
-</section>
-<section class="section">
-<div class="section-head">
+<div class="card project-stats-card full-width" data-aos="fade-up" id="statystyki">
+<div class="project-stats-header">
+<div class="project-stats-title">
+<div class="project-stats-icon">📊</div>
 <div>
-<h2 class="section-title" data-i18n="latest">Najnowsze</h2>
-<p class="section-sub">Aktualności i szybkie wejścia do najczęściej używanych części serwisu.</p>
+<h2>Statystyki projektu</h2>
+<p>Podgląd aktywności repozytorium i wersji narzędzi AIO-IPTV.</p>
 </div>
 </div>
-<div class="grid">
-<div class="card">
-<h3>🔔 Aktualizacje</h3>
-<p>W prawym górnym rogu znajdziesz dzwoneczek z listą nowości (AIO Panel v5.0, AI‑Chat Enigma2 i inne).</p>
-<div class="link-row">
-<a class="btn" href="support.html">☕ Wsparcie</a>
-<a class="btn" href="contact.html">✉️ Kontakt</a>
+<div class="stats-status" id="github-status">
+<span class="status-dot"></span>
+<span id="github-status-label">API GitHub: sprawdzanie…</span>
 </div>
 </div>
-<div class="card">
-<h3>📦 Pobieranie</h3>
-<p>Wtyczki i pliki do Enigma2 w jednym miejscu, z jasnym opisem do czego służą.</p>
-<div class="link-row">
-<a class="btn primary" href="downloads.html">Otwórz pobieranie</a>
+<div class="project-stats-row">
+<div class="project-stat">
+<div class="project-stat-label">Gwiazdki GitHub</div>
+<div class="project-stat-value skeleton" id="repo-stars">...</div>
+</div>
+<div class="project-stat">
+<div class="project-stat-label">Obserwujący</div>
+<div class="project-stat-value skeleton" id="repo-watchers">...</div>
+</div>
+<div class="project-stat">
+<div class="project-stat-label">Rozmiar repozytorium</div>
+<div class="project-stat-value skeleton" id="repo-size">...</div>
+</div>
+<div class="project-stat">
+<div class="project-stat-label">Ostatnia aktualizacja</div>
+<div class="project-stat-value" id="repo-date">...</div>
+</div>
+<div class="project-stat">
+<div class="project-stat-label">Twoje wizyty</div>
+<div class="project-stat-value local-visit-counter">1</div>
 </div>
 </div>
-<div class="card">
-<h3>🧠 Centrum wiedzy</h3>
-<p>Poradniki, FAQ i mini‑słownik pojęć. Najważniejsze tematy w czytelnych podstronach.</p>
-<div class="link-row">
-<a class="btn" href="guides.html">Przejdź do poradników</a>
+<div class="project-stats-chart" style="margin-top: 20px;">
+<h3 style="font-size: 1rem; color: #58a6ff; margin-bottom: 15px;">📊 Popularność wtyczek</h3>
+<div style="max-width: 300px; margin: 0 auto;">
+<canvas height="300" id="popularity-chart" width="300"></canvas>
 </div>
+<div class="popularity-list" id="popularity-list" style="margin-top: 14px;"></div>
+<div class="muted" style="margin-top: 10px; font-size: 0.85rem; color:#8b949e;">
+                    Jeśli w repozytorium strony istnieją pliki <span class="code-snippet">traffic/*.json</span>, wykres użyje danych „Traffic” (Views/Clones – 14 dni). W przeciwnym razie wyświetli publiczne metryki GitHub (np. pobrania z Releases).
+                </div>
 </div>
+<div class="project-stats-footer">
+                Dane pobierane automatycznie z API GitHub dla projektu
+                <span class="code-snippet">OliOli2013/aio-iptv-projekt</span>.
+            </div>
 </div>
-</section>
-<div class="ad-banner-section" data-page="ads">
+<div class="ad-banner-section">
 <a href="https://multi-click.pl/" rel="nofollow noopener" target="_blank">
 <img alt="Multi-Click Sklep" class="ad-banner-img banner-desktop" src="multi-click_banner_970x250.webp"/>
 <img alt="Multi-Click Sklep" class="ad-banner-img banner-mobile" src="multi-click_banner_320x100.webp"/>

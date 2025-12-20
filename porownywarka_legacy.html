@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="#0d1117" name="theme-color"/>
+<title>Inteligentna Porównywarka Tunerów | AIO-IPTV.pl</title>
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="style.css" rel="stylesheet"/>
+<style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            --secondary-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --dark-bg: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --card-border: rgba(148, 163, 184, 0.1);
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-blue: #3b82f6;
+        }
+
+        /* --- NOWA STRUKTURA PORÓWNYWARKI --- */
+        .comparison-hero {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
+            border-radius: 20px;
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(10px);
+        }
+
+        .comparison-hero h2 {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .comparison-hero p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Wyszukiwarka - nowy design */
+        .search-section {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent-purple);
+            z-index: 2;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 18px 20px 18px 55px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 2px solid var(--card-border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.15);
+        }
+
+        /* Karty wyboru tunerów - nowy design */
+        .tuner-selector-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .tuner-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 25px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .tuner-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-purple);
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.5);
+        }
+
+        .tuner-card.active {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--primary-gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.5rem;
+        }
+
+        .card-title h3 {
+            margin: 0 0 5px 0;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+        }
+
+        .card-title span {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .custom-select {
+            position: relative;
+        }
+
+        .custom-select select {
+            width: 100%;
+            padding: 14px 45px 14px 15px;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            appearance: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .custom-select select:focus {
+            outline: none;
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+        }
+
+        .custom-select::after {
+            content: '▼';
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent-purple);
+            pointer-events: none;
+            font-size: 0.8rem;
+        }
+
+        /* Przycisk porównania */
+        .compare-action {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .compare-btn {
+            background: var(--secondary-gradient);
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .compare-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+        }
+
+        .compare-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Sekcja wyników */
+        .results-section {
+            margin-top: 40px;
+            animation: fadeIn 0.6s ease;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+        }
+
+        .tuner-badge {
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .badge-a {
+            background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+        }
+
+        .badge-b {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        /* Nowa tabela porównawcza */
+        .comparison-table-modern {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+        }
+
+        .comparison-table-modern th {
+            background: rgba(30, 41, 59, 0.9);
+            padding: 20px;
+            text-align: left;
+            color: var(--text-secondary);
+            font-weight: 600;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .comparison-table-modern td {
+            padding: 20px;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.05);
+            transition: background 0.2s ease;
+        }
+
+        .comparison-table-modern tr:hover td {
+            background: rgba(30, 41, 59, 0.3);
+        }
+
+        .comparison-table-modern .param-name {
+            color: var(--text-primary);
+            font-weight: 600;
+            width: 30%;
+            border-right: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .comparison-table-modern .param-value {
+            color: var(--text-secondary);
+        }
+
+        .highlight {
+            color: var(--accent-green) !important;
+            font-weight: 600;
+        }
+
+        .winner-badge {
+            display: inline-block;
+            background: var(--accent-green);
+            color: white;
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        /* Panel analizy AI */
+        .ai-analysis {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
+            border-radius: 16px;
+            padding: 30px;
+            margin-top: 40px;
+            border: 1px solid var(--card-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-analysis::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--primary-gradient);
+        }
+
+        .ai-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .ai-icon {
+            background: var(--primary-gradient);
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.3rem;
+        }
+
+        .ai-content {
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+
+        .recommendation-tag {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--accent-green);
+            padding: 8px 15px;
+            border-radius: 20px;
+            margin-top: 15px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        /* Tagi */
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .tag {
+            padding: 6px 12px;
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+        }
+
+        .tag.highlight-tag {
+            background: rgba(139, 92, 246, 0.2);
+            color: var(--accent-purple);
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        /* Responsywność */
+        @media (max-width: 768px) {
+            .tuner-selector-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .comparison-table-modern th,
+            .comparison-table-modern td {
+                padding: 15px 10px;
+                font-size: 0.9rem;
+            }
+            
+            .comparison-hero h2 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Animacje */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(139, 92, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
+        }
+    </style> <link href="logo.png" rel="apple-touch-icon"/>
+<link href="logo.png" rel="icon" type="image/png"/>
+</head>
+<body>
+<button id="topBtn" onclick="topFunction()" title="Wróć na górę"><i class="fas fa-chevron-up"></i></button>
+<header>
+<div class="header-content">
+<img alt="Logo AIO-IPTV" class="site-logo" src="https://github.com/OliOli2013/aio-iptv-projekt/raw/main/pliki/logo.png"/>
+<p class="header-subtitle">Centrum Wiedzy o Tunerach</p>
+</div>
+<div class="nav-buttons">
+<a class="nav-btn" href="index.html"><i class="fas fa-home"></i> Strona główna</a>
+<button class="nav-btn" id="themeToggle" type="button"><i class="fas fa-sun"></i></button>
+</div>
+</header>
+<div class="container">
+<!-- Sekcja hero -->
+<div class="comparison-hero" data-aos="fade-up">
+<h2><i class="fas fa-chart-line"></i> Inteligentna Porównywarka</h2>
+<p>Porównaj szczegółowo dowolne modele tunerów Enigma2. Nasze algorytmy pomogą Ci wybrać idealny sprzęt dla Twoich potrzeb.</p>
+</div>
+<!-- Wyszukiwarka -->
+<div class="search-section" data-aos="fade-up" data-aos-delay="100">
+<i class="fas fa-search search-icon"></i>
+<input class="search-input" id="tunerSearch" placeholder="Wyszukaj tuner po nazwie, marce lub specyfikacji..." type="text"/>
+</div>
+<!-- Karty wyboru tunerów -->
+<div class="tuner-selector-grid">
+<div class="tuner-card" data-aos="fade-right" data-aos-delay="150" id="cardA">
+<div class="card-header">
+<div class="card-icon">
+<i class="fas fa-satellite-dish"></i>
+</div>
+<div class="card-title">
+<h3>Tuner A</h3>
+<span>Wybierz pierwszy model do porównania</span>
+</div>
+</div>
+<div class="custom-select">
+<select id="tuner1-select">
+<option value="">-- Wybierz model --</option>
+</select>
+</div>
+<div class="tag-container" id="tagsA"></div>
+</div>
+<div class="tuner-card" data-aos="fade-left" data-aos-delay="150" id="cardB">
+<div class="card-header">
+<div class="card-icon">
+<i class="fas fa-tv"></i>
+</div>
+<div class="card-title">
+<h3>Tuner B</h3>
+<span>Wybierz drugi model do porównania</span>
+</div>
+</div>
+<div class="custom-select">
+<select id="tuner2-select">
+<option value="">-- Wybierz model --</option>
+</select>
+</div>
+<div class="tag-container" id="tagsB"></div>
+</div>
+</div>
+<!-- Przycisk porównania -->
+<div class="compare-action" data-aos="fade-up" data-aos-delay="200">
+<button class="compare-btn" disabled="" id="compareBtn" onclick="compareTuners()">
+<i class="fas fa-balance-scale"></i> PORÓWNAJ TUNERY
+            </button>
+</div>
+<!-- Wyniki porównania -->
+<div class="results-section" id="comparison-result" style="display: none;">
+<div class="results-header">
+<h3 style="color: var(--text-primary); margin: 0;"><i class="fas fa-chart-bar"></i> Szczegółowe porównanie</h3>
+<div style="display: flex; gap: 15px;">
+<span class="tuner-badge badge-a" id="badgeA">TUNER A</span>
+<span class="tuner-badge badge-b" id="badgeB">TUNER B</span>
+</div>
+</div>
+<table class="comparison-table-modern">
+<thead>
+<tr>
+<th class="param-name">Parametr</th>
+<th id="tuner1-name">Tuner 1</th>
+<th id="tuner2-name">Tuner 2</th>
+</tr>
+</thead>
+<tbody id="comparison-tbody"></tbody>
+</table>
+<!-- Analiza AI -->
+<div class="ai-analysis" id="aiAnalysis">
+<div class="ai-header">
+<div class="ai-icon">
+<i class="fas fa-robot"></i>
+</div>
+<div>
+<h4 style="color: var(--text-primary); margin: 0 0 5px 0;">Analiza AI</h4>
+<p style="color: var(--text-secondary); margin: 0; font-size: 0.9rem;">Inteligentna ocena na podstawie specyfikacji</p>
+</div>
+</div>
+<div class="ai-content" id="aiText"></div>
+<div class="recommendation-tag" id="recommendationTag"></div>
+</div>
+</div>
+<!-- Ranking -->
+<div class="card full-width" data-aos="fade-up" data-aos-delay="300" style="margin-top: 50px;">
+<h2 style="color: var(--text-primary);"><i class="fas fa-trophy"></i> Top 3 Rekomendacje 2025</h2>
+<p style="color: var(--text-secondary);">Najlepiej oceniane modele przez społeczność</p>
+<div class="ranking-list">
+<div class="ranking-item">
+<div class="rank-number" style="background: var(--primary-gradient);">1</div>
+<div class="rank-info">
+<h4>Octagon SF8008 Supreme</h4>
+<div class="rank-stats">
+<span><i class="fas fa-bolt"></i> HiSilicon Quad</span>
+<span><i class="fas fa-wifi"></i> Dual Band WiFi</span>
+<span><i class="fas fa-sd-card"></i> Slot M.2 NVMe</span>
+</div>
+<div class="rank-reason">
+<strong>Najlepszy stosunek ceny do jakości.</strong> Posiada wszystkie nowoczesne funkcje w przystępnej cenie. Idealny do streamingu 4K i pracy z serwerami IPTV.
+                        </div>
+</div>
+<div class="rank-badge" style="background: var(--accent-purple);">Top Pick</div>
+</div>
+<div class="ranking-item">
+<div class="rank-number" style="background: var(--secondary-gradient);">2</div>
+<div class="rank-info">
+<h4>Zgemma H11S</h4>
+<div class="rank-stats">
+<span><i class="fas fa-wallet"></i> Budżetowy</span>
+<span><i class="fas fa-expand"></i> 4K UHD</span>
+<span><i class="fas fa-memory"></i> 16GB Flash</span>
+</div>
+<div class="rank-reason">
+<strong>Najtańszy sposób na Enigmę2 w 4K.</strong> Doskonały wybór dla osób zaczynających przygodę z tunerami. Stabilny, wydajny i łatwy w konfiguracji.
+                        </div>
+</div>
+<div class="rank-badge" style="background: var(--accent-green);">Wartość</div>
+</div>
+<div class="ranking-item">
+<div class="rank-number" style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);">3</div>
+<div class="rank-info">
+<h4>VU+ Duo 4K SE</h4>
+<div class="rank-stats">
+<span><i class="fas fa-crown"></i> Premium</span>
+<span><i class="fas fa-satellite"></i> FBC Tuner</span>
+<span><i class="fas fa-tachometer-alt"></i> 3GB RAM</span>
+</div>
+<div class="rank-reason">
+<strong>Flagiowy model dla wymagających.</strong> Najwyższa jakość wykonania, potężne podzespoły i pełna kompatybilność ze wszystkimi rozwiązaniami.
+                        </div>
+</div>
+<div class="rank-badge" style="background: var(--accent-blue);">Premium</div>
+</div>
+</div>
+</div>
+</div>
+<footer>
+<p>© 2025 AIO-IPTV.pl | Inteligentne porównanie technologii</p>
+</footer>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="script.js"></script>
+<script>
+    let tunersList = [];
+    let selectedTuner1 = null;
+    let selectedTuner2 = null;
+
+    async function loadTunersList() {
+        try {
+            const res = await fetch('data/tuners.json');
+            if (!res.ok) throw new Error('Błąd HTTP');
+            const json = await res.json();
+            tunersList = json.tuners || [];
+            populateTunerSelects(tunersList);
+            setupSearch();
+            setupSelectListeners();
+        } catch (e) {
+            console.error(e);
+            showError('Nie udało się załadować bazy tunerów. Sprawdź połączenie.');
+        }
+    }
+
+    function populateTunerSelects(list) {
+        const s1 = document.getElementById('tuner1-select');
+        const s2 = document.getElementById('tuner2-select');
+        
+        list.sort((a, b) => (a.brand + a.model).localeCompare(b.brand + b.model));
+
+        const createOpts = (items) => {
+            let html = '<option value="">-- Wybierz model --</option>';
+            items.forEach(t => {
+                html += `<option value="${t.id}" data-brand="${t.brand}" data-model="${t.model}">${t.brand} ${t.model}</option>`;
+            });
+            return html;
+        };
+        
+        s1.innerHTML = createOpts(list);
+        s2.innerHTML = createOpts(list);
+    }
+
+    function setupSearch() {
+        const inp = document.getElementById('tunerSearch');
+        
+        inp.addEventListener('input', () => {
+            const q = inp.value.toLowerCase();
+            const results = tunersList.filter(t => 
+                t.brand.toLowerCase().includes(q) || 
+                t.model.toLowerCase().includes(q) ||
+                (t.tags && t.tags.some(tag => tag.toLowerCase().includes(q))) ||
+                (t.cpu && t.cpu.toLowerCase().includes(q))
+            );
+            
+            const s1 = document.getElementById('tuner1-select');
+            const s2 = document.getElementById('tuner2-select');
+            
+            const createOpts = (items) => {
+                let html = '<option value="">-- Wybierz model --</option>';
+                items.forEach(t => {
+                    html += `<option value="${t.id}" data-brand="${t.brand}" data-model="${t.model}">${t.brand} ${t.model}</option>`;
+                });
+                return html;
+            };
+            
+            s1.innerHTML = createOpts(results);
+            s2.innerHTML = createOpts(results);
+            
+            if (selectedTuner1) {
+                s1.value = selectedTuner1.id;
+            }
+            if (selectedTuner2) {
+                s2.value = selectedTuner2.id;
+            }
+        });
+    }
+
+    function setupSelectListeners() {
+        const s1 = document.getElementById('tuner1-select');
+        const s2 = document.getElementById('tuner2-select');
+        const compareBtn = document.getElementById('compareBtn');
+        
+        s1.addEventListener('change', (e) => {
+            const id = e.target.value;
+            selectedTuner1 = id ? tunersList.find(t => t.id === id) : null;
+            updateCard('A', selectedTuner1);
+            updateCompareButton();
+        });
+        
+        s2.addEventListener('change', (e) => {
+            const id = e.target.value;
+            selectedTuner2 = id ? tunersList.find(t => t.id === id) : null;
+            updateCard('B', selectedTuner2);
+            updateCompareButton();
+        });
+        
+        function updateCompareButton() {
+            compareBtn.disabled = !(selectedTuner1 && selectedTuner2);
+            if (selectedTuner1 && selectedTuner2) {
+                compareBtn.classList.add('pulse');
+            } else {
+                compareBtn.classList.remove('pulse');
+            }
+        }
+    }
+
+    function updateCard(cardLetter, tuner) {
+        const card = document.getElementById(`card${cardLetter}`);
+        const tagsContainer = document.getElementById(`tags${cardLetter}`);
+        
+        if (!tuner) {
+            card.classList.remove('active');
+            tagsContainer.innerHTML = '';
+            return;
+        }
+        
+        card.classList.add('active');
+        
+        // Aktualizuj tagi
+        tagsContainer.innerHTML = '';
+        if (tuner.tags && Array.isArray(tuner.tags)) {
+            tuner.tags.forEach(tag => {
+                const tagEl = document.createElement('span');
+                tagEl.className = 'tag';
+                tagEl.textContent = tag;
+                tagsContainer.appendChild(tagEl);
+            });
+        }
+        
+        // Dodaj tagi na podstawie specyfikacji
+        if (tuner.resolution && tuner.resolution.includes('4K')) {
+            const tag = document.createElement('span');
+            tag.className = 'tag highlight-tag';
+            tag.textContent = '4K';
+            tagsContainer.appendChild(tag);
+        }
+        
+        if (tuner.lan && tuner.lan.includes('Gigabit')) {
+            const tag = document.createElement('span');
+            tag.className = 'tag highlight-tag';
+            tag.textContent = 'Gigabit';
+            tagsContainer.appendChild(tag);
+        }
+    }
+
+    function compareTuners() {
+        if (!selectedTuner1 || !selectedTuner2) {
+            showError('Wybierz oba tunery do porównania!');
+            return;
+        }
+        
+        // Aktualizuj nagłówki
+        document.getElementById('tuner1-name').innerHTML = `${selectedTuner1.brand} ${selectedTuner1.model}`;
+        document.getElementById('tuner2-name').innerHTML = `${selectedTuner2.brand} ${selectedTuner2.model}`;
+        
+        document.getElementById('badgeA').textContent = `${selectedTuner1.brand} ${selectedTuner1.model}`;
+        document.getElementById('badgeB').textContent = `${selectedTuner2.brand} ${selectedTuner2.model}`;
+        
+        // Generuj tabelę porównania
+        generateComparisonTable();
+        
+        // Generuj analizę AI
+        generateAIAnalysis();
+        
+        // Pokaż wyniki
+        const resultSection = document.getElementById('comparison-result');
+        resultSection.style.display = 'block';
+        resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function generateComparisonTable() {
+        const t1 = selectedTuner1;
+        const t2 = selectedTuner2;
+        const tbody = document.getElementById('comparison-tbody');
+        tbody.innerHTML = '';
+        
+        const fields = [
+            { k: 'cpu', l: 'Procesor', icon: 'fas fa-microchip' },
+            { k: 'ram', l: 'Pamięć RAM', icon: 'fas fa-memory' },
+            { k: 'flash', l: 'Pamięć Flash', icon: 'fas fa-hdd' },
+            { k: 'tuners', l: 'Głowice tunerów', icon: 'fas fa-satellite-dish' },
+            { k: 'resolution', l: 'Rozdzielczość', icon: 'fas fa-desktop' },
+            { k: 'lan', l: 'Port LAN', icon: 'fas fa-network-wired' },
+            { k: 'wifi', l: 'WiFi', icon: 'fas fa-wifi' },
+            { k: 'slots', l: 'Sloty rozszerzeń', icon: 'fas fa-sd-card' },
+            { k: 'ports', l: 'Porty USB', icon: 'fas fa-usb' },
+            { k: 'price', l: 'Cena (średnia)', icon: 'fas fa-tag' }
+        ];
+        
+        fields.forEach(f => {
+            const v1 = t1[f.k] || 'Brak danych';
+            const v2 = t2[f.k] || 'Brak danych';
+            
+            let cell1Class = '';
+            let cell2Class = '';
+            
+            // Logika podświetlania lepszych wartości
+            if (f.k === 'ram' || f.k === 'flash') {
+                const num1 = extractNumber(v1);
+                const num2 = extractNumber(v2);
+                if (num1 > num2) cell1Class = 'highlight';
+                if (num2 > num1) cell2Class = 'highlight';
+            }
+            
+            if (f.k === 'lan') {
+                if (v1.includes('Gigabit') && !v2.includes('Gigabit')) {
+                    cell1Class = 'highlight';
+                    cell1HTML = v1 + ' <span class="winner-badge">LEPSZE</span>';
+                }
+                if (v2.includes('Gigabit') && !v1.includes('Gigabit')) {
+                    cell2Class = 'highlight';
+                    v2 = v2 + ' <span class="winner-badge">LEPSZE</span>';
+                }
+            }
+            
+            if (f.k === 'wifi') {
+                if (v1 !== 'Brak' && v2 === 'Brak') cell1Class = 'highlight';
+                if (v2 !== 'Brak' && v1 === 'Brak') cell2Class = 'highlight';
+            }
+            
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="param-name"><i class="${f.icon}"></i> ${f.l}</td>
+                <td class="param-value ${cell1Class}">${v1}</td>
+                <td class="param-value ${cell2Class}">${v2}</td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+    function generateAIAnalysis() {
+        const t1 = selectedTuner1;
+        const t2 = selectedTuner2;
+        const aiText = document.getElementById('aiText');
+        const recTag = document.getElementById('recommendationTag');
+        
+        let analysis = '';
+        let recommendation = '';
+        
+        // Prosta logika analizy
+        const price1 = extractPrice(t1.price);
+        const price2 = extractPrice(t2.price);
+        
+        // Porównanie głównych parametrów
+        const score1 = calculateScore(t1);
+        const score2 = calculateScore(t2);
+        
+        if (score1 > score2 * 1.2) {
+            analysis = `<strong>${t1.brand} ${t1.model}</strong> wyraźnie przewyższa ${t2.brand} ${t2.model} pod względem parametrów technicznych. `;
+            if (price1 <= price2) {
+                analysis += `Jest to lepszy wybór zarówno pod względem wydajności, jak i ceny.`;
+                recommendation = `Rekomendujemy: ${t1.brand} ${t1.model}`;
+            } else {
+                analysis += `Mimo wyższej ceny, oferuje lepszą wartość dzięki nowocześniejszym podzespołom.`;
+                recommendation = `Wydajność vs. cena: ${t1.brand} ${t1.model}`;
+            }
+        } else if (score2 > score1 * 1.2) {
+            analysis = `<strong>${t2.brand} ${t2.model}</strong> oferuje lepsze parametry niż ${t1.brand} ${t1.model}. `;
+            if (price2 <= price1) {
+                analysis += `Stanowi lepszy wybór zarówno pod względem technicznym, jak i finansowym.`;
+                recommendation = `Rekomendujemy: ${t2.brand} ${t2.model}`;
+            } else {
+                analysis += `Wyższa cena jest uzasadniona lepszą wydajnością i funkcjonalnością.`;
+                recommendation = `Premium wybór: ${t2.brand} ${t2.model}`;
+            }
+        } else {
+            analysis = `Oba tunery oferują zbliżone parametry techniczne. `;
+            if (price1 < price2 * 0.8) {
+                analysis += `<strong>${t1.brand} ${t1.model}</strong> jest wyraźnie tańszy przy podobnej funkcjonalności.`;
+                recommendation = `Lepsza wartość: ${t1.brand} ${t1.model}`;
+            } else if (price2 < price1 * 0.8) {
+                analysis += `<strong>${t2.brand} ${t2.model}</strong> oferuje lepszy stosunek ceny do jakości.`;
+                recommendation = `Lepsza wartość: ${t2.brand} ${t2.model}`;
+            } else {
+                analysis += `Różnica w cenie jest niewielka. Wybór powinien zależeć od specyficznych potrzeb (np. dostępność slotów, WiFi).`;
+                recommendation = `Porównaj szczegóły`;
+            }
+        }
+        
+        // Dodaj szczegółowe uwagi
+        if (t1.lan && t1.lan.includes('Gigabit') && !t2.lan.includes('Gigabit')) {
+            analysis += ` <br><br><i class="fas fa-info-circle"></i> Tylko ${t1.brand} ${t1.model} posiada port Gigabit Ethernet, co jest istotne dla streamingu wysokiej jakości.`;
+        }
+        
+        if (t1.wifi && t1.wifi !== 'Brak' && t2.wifi === 'Brak') {
+            analysis += ` <br><br><i class="fas fa-info-circle"></i> ${t1.brand} ${t1.model} ma wbudowane WiFi, co eliminuje konieczność użycia adaptera USB.`;
+        }
+        
+        aiText.innerHTML = analysis;
+        recTag.textContent = recommendation;
+    }
+
+    function calculateScore(tuner) {
+        let score = 0;
+        
+        // RAM
+        const ram = extractNumber(tuner.ram);
+        if (ram >= 2000) score += 30;
+        else if (ram >= 1000) score += 20;
+        else if (ram >= 512) score += 10;
+        
+        // Flash
+        const flash = extractNumber(tuner.flash);
+        if (flash >= 16000) score += 25;
+        else if (flash >= 8000) score += 20;
+        else if (flash >= 4000) score += 15;
+        else if (flash >= 256) score += 5;
+        
+        // Gigabit LAN
+        if (tuner.lan && tuner.lan.includes('Gigabit')) score += 15;
+        
+        // WiFi
+        if (tuner.wifi && tuner.wifi !== 'Brak') score += 10;
+        
+        // 4K
+        if (tuner.resolution && tuner.resolution.includes('4K')) score += 20;
+        
+        // Multiple tuners
+        if (tuner.tuners) {
+            if (tuner.tuners.includes('Twin') || tuner.tuners.includes('2x')) score += 10;
+            if (tuner.tuners.includes('Combo')) score += 5;
+        }
+        
+        return score;
+    }
+
+    function extractNumber(str) {
+        if (!str) return 0;
+        const match = str.match(/\d+/);
+        return match ? parseInt(match[0]) : 0;
+    }
+
+    function extractPrice(str) {
+        if (!str) return 9999;
+        const match = str.match(/\d+/);
+        return match ? parseInt(match[0]) : 9999;
+    }
+
+    function showError(message) {
+        // Możesz dodać ładny system powiadomień
+        alert(message);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadTunersList();
+        AOS.init({ duration: 800 });
+    });
+    </script>
+</body>
+</html>

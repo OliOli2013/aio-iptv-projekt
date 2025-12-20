@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>AIO-IPTV.pl — Enigma2 Hub</title>
+<title>Generator One‑Liner — AIO-IPTV.pl</title>
 <link href="pliki/logo.png" rel="icon"/>
 <link href="assets/css/site.css?v=next1" rel="stylesheet"/>
 </head>
@@ -66,69 +66,89 @@
 <a href="stats.html">Statystyki</a><a href="support.html">☕ <span data-i18n="nav_support">Wsparcie</span></a>
 </aside>
 <main class="container">
-<section class="hero">
-<div class="hero-grid">
-<div class="hero-card">
-<h1 data-i18n="hero_title">AIO-IPTV.pl — Enigma2 przyszłości</h1>
-<p data-i18n="hero_sub">Porządek zamiast chaosu: podstrony, narzędzia i AI-Chat Enigma2 w jednym miejscu. Strona dostępna po polsku i po angielsku.</p>
-<div class="hero-actions">
-<a class="btn primary" href="ai-chat.html">🤖 <span data-i18n="nav_ai">AI-Chat Enigma2</span></a>
-<a class="btn" href="downloads.html">⬇️ <span data-i18n="nav_downloads">Pobieranie</span></a>
-<a class="btn" href="tools.html">🛠 <span data-i18n="nav_tools">Narzędzia</span></a>
-<a class="btn" href="guides.html">📘 <span data-i18n="nav_guides">Poradniki</span></a>
-</div><div class="seasonal-badge">Paweł Pawełek - życzy Zdrowych Wesołych Świąt</div>
+<section class="section"><div class="section-head"><div><h2 class="section-title">Generator One‑Liner</h2><p class="section-sub">Generuj szybkie komendy do terminala.</p></div></div></section>
+<div class="card generator-card" data-aos="fade-up" id="generator">
+<h2>⚡ <span data-i18n="nav_generator">Generator</span> One-Liner</h2>
+<p>Zaznacz, co chcesz zainstalować, a strona wygeneruje jedną, wspólną komendę do terminala (Putty itp.).</p>
+<div class="generator-options">
+<label class="gen-option">
+<input class="gen-check" data-target="cmd-aio" type="checkbox"/>
+<span>AIO Panel (Zarządzanie)</span>
+</label>
+<label class="gen-option">
+<input class="gen-check" data-target="cmd-iptv" type="checkbox"/>
+<span>IPTV Dream (Odtwarzacz)</span>
+</label>
+<label class="gen-option">
+<input class="gen-check" data-target="cmd-updater" type="checkbox"/>
+<span>MyUpdater (Aktualizacje)</span>
+</label>
+<label class="gen-option">
+<input class="gen-check" data-target="cmd-picon" type="checkbox"/>
+<span>PiconUpdater (Loga)</span>
+</label>
+<label class="gen-option">
+<input class="gen-check" data-target="cmd-epg" type="checkbox"/>
+<span>Simple IPTV EPG</span>
+</label>
+<label class="gen-option">
+<input class="gen-check" data-target="cmd-softcam" type="checkbox"/>
+<span>Softcam Feed (OpenATV)</span>
+</label>
+<label class="gen-option">
+<input class="gen-check" data-target="cmd-ajpanel" type="checkbox"/>
+<span>AJPanel</span>
+</label>
+<label class="gen-option">
+<input class="gen-check" data-target="cmd-e2i" type="checkbox"/>
+<span>E2iPlayer</span>
+</label>
+<label class="gen-option">
+<input class="gen-check" data-target="cmd-epgimport" type="checkbox"/>
+<span>EPG Import (Belfagor)</span>
+</label>
+<label class="gen-option">
+<input class="gen-check" data-target="cmd-filmxy" type="checkbox"/>
+<span>Filmy XY</span>
+</label>
+<label class="gen-option">
+<input class="gen-check" data-target="cmd-jedi" type="checkbox"/>
+<span>Jedi Maker Xtream</span>
+</label>
+<label class="gen-option">
+<input class="gen-check" data-target="cmd-s4a" type="checkbox"/>
+<span>S4A Updater</span>
+</label>
+<label class="gen-option">
+<input class="gen-check" data-target="cmd-levi" type="checkbox"/>
+<span>Levi45 Softcam Emulator</span>
+</label>
 </div>
-<div class="hero-card">
-<div class="kpi">
-<div class="k"><div class="t">AI‑Chat</div><div class="v">Offline KB</div></div>
-<div class="k"><div class="t">AIO Panel</div><div class="v">v5.0</div></div>
-<div class="k"><div class="t">Narzędzia</div><div class="v">One‑Liner / Kreator</div></div>
-<div class="k"><div class="t">Porównywarka</div><div class="v">Tunery</div></div>
-</div>
-<div style="margin-top:14px; color:var(--muted); line-height:1.55">
-        Strona jest podzielona na czytelne sekcje. Wybierz temat z nawigacji u góry.
-      </div>
-</div>
-</div>
-</section>
-<section class="section">
-<div class="section-head">
-<div>
-<h2 class="section-title" data-i18n="latest">Najnowsze</h2>
-<p class="section-sub">Aktualności i szybkie wejścia do najczęściej używanych części serwisu.</p>
-</div>
-</div>
-<div class="grid">
-<div class="card">
-<h3>🔔 Aktualizacje</h3>
-<p>W prawym górnym rogu znajdziesz dzwoneczek z listą nowości (AIO Panel v5.0, AI‑Chat Enigma2 i inne).</p>
-<div class="link-row">
-<a class="btn" href="support.html">☕ Wsparcie</a>
-<a class="btn" href="contact.html">✉️ Kontakt</a>
+<div class="cmd-title">Wygenerowana komenda:</div>
+<div class="cmd-wrapper">
+<div class="command-box" id="generator-output"># Zaznacz przynajmniej jedną opcję powyżej...</div>
+<button class="copy-btn" onclick="copyToClipboard('generator-output')">📋 Kopiuj</button>
+</div><div id="one-liner-hidden-commands" style="display:none"><div class="command-box" id="cmd-aio">wget -q "--no-check-certificate" https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh -O - | /bin/sh</div><div class="command-box" id="cmd-iptv">wget -q "--no-check-certificate" https://raw.githubusercontent.com/OliOli2013/IPTV-Dream-Plugin/main/installer.sh -O - | /bin/sh</div><div class="command-box" id="cmd-updater">wget -q -O - https://raw.githubusercontent.com/OliOli2013/MyUpdater-Plugin/main/installer.sh | sh</div><div class="command-box" id="cmd-picon">wget -qO - https://raw.githubusercontent.com/OliOli2013/PiconUpdater/main/installer.sh | /bin/sh</div><div class="command-box" id="cmd-epg">wget -qO - https://raw.githubusercontent.com/OliOli2013/SimpleIPTV_EPG/main/installer.sh | /bin/sh</div><div class="command-box" id="cmd-softcam">wget -O - -q http://updates.mynonpublic.com/oea/feed | bash</div><div class="command-box" id="cmd-ajpanel">wget https://raw.githubusercontent.com/biko-73/AjPanel/main/installer.sh -O - | /bin/sh</div><div class="command-box" id="cmd-e2i">wget -q "https://raw.githubusercontent.com/oe-mirrors/e2iplayer/refs/heads/python3/e2iplayer_install.sh" -O - | /bin/sh</div><div class="command-box" id="cmd-epgimport">wget -q "--no-check-certificate" https://raw.githubusercontent.com/Belfagor2005/EPGImport-99/main/installer.sh -O - | /bin/bash</div><div class="command-box" id="cmd-filmxy">wget -q "--no-check-certificate" https://raw.githubusercontent.com/Belfagor2005/filmxy/main/installer.sh -O - | /bin/sh</div><div class="command-box" id="cmd-jedi">wget https://raw.githubusercontent.com/biko-73/JediMakerXtream/main/installer.sh -O - | /bin/sh</div><div class="command-box" id="cmd-s4a">wget http://s4aupdater.one.pl/instalujs4aupdater.sh -O - | /bin/sh</div><div class="command-box" id="cmd-levi">wget -q "--no-check-certificate" https://raw.githubusercontent.com/levi-45/Levi45Emulator/main/installer.sh -O - | /bin/sh</div></div>
+<div class="generator-note" style="margin-top: 20px; text-align: left; background: rgba(48, 54, 61, 0.4); padding: 15px; border-radius: 6px; border-left: 4px solid #58a6ff;">
+<strong style="font-size: 1.1em; color: #58a6ff; display: block; margin-bottom: 10px;">💡 Poradnik instalacji wtyczek (Terminal / PuTTy)</strong>
+<strong style="color: #d29922;">A) Przez OpenWebif (Terminal)</strong>
+<ol style="margin: 5px 0 15px 20px; padding: 0;">
+<li>Wpisz IP tunera w przeglądarce i wybierz zakładkę <strong>Terminal</strong>.</li>
+<li>Wprowadź Login: <strong>root</strong> (dla wszystkich tunerów). Hasło wpisujesz "w ciemno" (nie widać znaków).<br/>
+<em style="font-size: 0.85em; opacity: 0.7;">(Jeśli nie znasz hasła: Menu → Ustawienia → Sieć → Hasło → Zapisz. Na czystym systemie logowanie bez hasła).</em></li>
+<li>Po zalogowaniu kliknij <strong>Prawym Przyciskiem Myszy</strong> i wybierz <strong>"Paste from browser"</strong>.</li>
+<li>Wklej skopiowane wcześniej polecenie, naciśnij <strong>OK</strong>, a następnie zatwierdź <strong>Enter</strong>.</li>
+<li>Rozpocznie się instalacja. Po zakończeniu możesz przejść w inne miejsce OpenWebif.</li>
+</ol>
+<strong style="color: #d29922;">B) Przez program PuTTy (np. dla OpenPLi)</strong>
+<ul style="margin: 5px 0 0 20px; padding: 0;">
+<li>W programie PuTTy podaj IP tunera i połącz się.</li>
+<li>Tutaj <strong>Prawy Przycisk Myszy</strong> od razu wkleja skopiowane polecenie.</li>
+<li>Zatwierdź klawiszem <strong>Enter</strong>.</li>
+</ul>
 </div>
 </div>
-<div class="card">
-<h3>📦 Pobieranie</h3>
-<p>Wtyczki i pliki do Enigma2 w jednym miejscu, z jasnym opisem do czego służą.</p>
-<div class="link-row">
-<a class="btn primary" href="downloads.html">Otwórz pobieranie</a>
-</div>
-</div>
-<div class="card">
-<h3>🧠 Centrum wiedzy</h3>
-<p>Poradniki, FAQ i mini‑słownik pojęć. Najważniejsze tematy w czytelnych podstronach.</p>
-<div class="link-row">
-<a class="btn" href="guides.html">Przejdź do poradników</a>
-</div>
-</div>
-</div>
-</section>
-<div class="ad-banner-section" data-page="ads">
-<a href="https://multi-click.pl/" rel="nofollow noopener" target="_blank">
-<img alt="Multi-Click Sklep" class="ad-banner-img banner-desktop" src="multi-click_banner_970x250.webp"/>
-<img alt="Multi-Click Sklep" class="ad-banner-img banner-mobile" src="multi-click_banner_320x100.webp"/>
-</a>
-</div></main>
+</main>
 <footer class="site-footer">
 <div class="footer-inner">
 <div class="footer-grid">
