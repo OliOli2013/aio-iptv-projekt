@@ -529,3 +529,15 @@ a{color:inherit}
   color: #94a3b8;
 }
 html.ai-lock{overflow:hidden;}
+
+/* --- AIO-IPTV FIX: dropdown list readability on dark theme (Chrome/Windows, GitHub Pages) --- */
+select{color-scheme: dark;}
+select option, select optgroup{
+  background-color: var(--bg0) !important;
+  color: var(--text) !important;
+}
+select option:checked{
+  background-color: rgba(96,165,250,.22) !important;
+  color: var(--text) !important;
+}
+/* --- end fix --- */
