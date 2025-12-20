@@ -531,39 +531,64 @@ a{color:inherit}
 html.ai-lock{overflow:hidden;}
 
 
-/* Notifications badge */
-.icon-btn{position:relative}
-.bell-badge{
-  position:absolute;
-  right:-6px;
-  top:-6px;
-  min-width:18px;
-  height:18px;
-  padding:0 5px;
-  border-radius:999px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  font-size:11px;
-  font-weight:900;
-  line-height:1;
-  color:#0b1220;
-  background:linear-gradient(135deg, #60a5fa, #a78bfa);
-  border:1px solid rgba(255,255,255,.35);
-  box-shadow:0 10px 30px rgba(0,0,0,.35);
+/* --- Patch: Contact page form + accordion aesthetics --- */
+.contact-form{display:flex;flex-direction:column;gap:12px;max-width:520px}
+.contact-form input,.contact-form textarea{
+  width:100%;
+  padding:12px 14px;
+  border-radius:14px;
+  border:1px solid rgba(148,163,184,.18);
+  background:rgba(0,0,0,.18);
+  color:var(--text);
+  outline:none;
 }
-.notif-title{font-weight:900;margin:4px 6px 10px}
-.notif-ic{width:26px;opacity:.95;display:flex;align-items:flex-start;justify-content:center}
-.notif-h{font-weight:900}
-.notif-d{margin-top:6px;opacity:.85;line-height:1.35}
+.contact-form input::placeholder,.contact-form textarea::placeholder{color:rgba(148,163,184,.75)}
+.contact-form textarea{min-height:140px;resize:vertical}
+.contact-btn{align-self:flex-start}
+@media (max-width:640px){
+  .contact-form{max-width:100%}
+  .contact-btn{width:100%}
+}
 
-/* Stats page */
-.stats-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.stats-range{display:flex;gap:8px;flex-wrap:wrap}
-.stats-range .btn.active{outline:2px solid rgba(96,165,250,.5)}
-.table-wrap{overflow:auto;border-radius:16px;border:1px solid rgba(148,163,184,.14);background:rgba(255,255,255,.03)}
-.table{width:100%;border-collapse:collapse;min-width:520px}
-.table th,.table td{padding:10px 12px;border-bottom:1px solid rgba(148,163,184,.12);vertical-align:top}
-.table th{font-size:.86rem;text-transform:uppercase;letter-spacing:.06em;color:rgba(148,163,184,.95);text-align:left}
-.table tbody tr:hover{background:rgba(255,255,255,.03)}
-.table code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:.92em}
+/* Accordion (Kontakt -> Informacje prawne) */
+.accordion-item{
+  margin-top:10px;
+  border:1px solid rgba(148,163,184,.14);
+  border-radius:16px;
+  overflow:hidden;
+  background:rgba(255,255,255,.03);
+}
+.accordion-header{
+  width:100%;
+  text-align:left;
+  padding:12px 14px;
+  border:0;
+  cursor:pointer;
+  font-weight:900;
+  color:var(--text);
+  background:rgba(0,0,0,.22);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.accordion-header::after{
+  content:"+";
+  font-weight:900;
+  opacity:.85;
+}
+.accordion-item.open .accordion-header::after{content:"–"}
+.accordion-content{
+  display:none;
+  padding:12px 14px;
+  color:rgba(226,232,240,.92);
+  border-top:1px solid rgba(148,163,184,.10);
+}
+.accordion-item.open .accordion-content{display:block}
+.accordion-content p{margin:0 0 10px}
+.accordion-content p:last-child{margin-bottom:0}
+
+/* Future Lab diff badges */
+.badge{display:inline-flex;align-items:center;justify-content:center;padding:3px 8px;border-radius:999px;font-size:.75rem;font-weight:900;border:1px solid rgba(148,163,184,.18);background:rgba(255,255,255,.04)}
+.badge.added{border-color:rgba(34,197,94,.35);background:rgba(34,197,94,.10)}
+.badge.removed{border-color:rgba(239,68,68,.35);background:rgba(239,68,68,.10)}
+.badge.changed{border-color:rgba(245,158,11,.35);background:rgba(245,158,11,.10)}

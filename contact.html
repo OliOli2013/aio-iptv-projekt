@@ -175,6 +175,23 @@
 <script>document.getElementById('year').textContent=new Date().getFullYear();</script>
 <script src="assets/js/site.js?v=next1"></script>
 
-<script src="assets/js/stats-nav.js" defer></script>
+<script>
+  // Kontakt: accordion toggles
+  (function(){
+    var items = document.querySelectorAll('.accordion-item');
+    var headers = document.querySelectorAll('.accordion-header');
+    headers.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var item = btn.closest('.accordion-item');
+        if(!item) return;
+        item.classList.toggle('open');
+      });
+    });
+    // open first by default (privacy)
+    var firstItem = document.querySelector('.accordion-item');
+    if(firstItem) firstItem.classList.add('open');
+  })();
+</script>
+
 </body>
 </html>
