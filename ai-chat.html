@@ -68,42 +68,12 @@
 
 <main class="page">
   <div class="container">
-    <h1>AI‑Chat Enigma2</h1>
-    <p>
-      AI‑Chat jest dostępny bezpośrednio na stronie jako okno czatu (prawy dolny róg). Dzięki temu nie musisz opuszczać AIO‑IPTV.pl,
-      aby zadawać pytania o Enigma2.
-    </p>
+    <h1 id="aiChatPageTitle">AI‑Chat Enigma2</h1>
+    <p class="muted" id="aiChatPageHint">Okno czatu powinno otworzyć się automatycznie. Jeśli nie widzisz okna, użyj przycisku „AI Chat” w prawym dolnym rogu.</p>
 
     <div class="card">
-      <h2>Tryb OFFLINE (domyślny)</h2>
-      <p>
-        Odpowiedzi bazują na lokalnej bazie wiedzy (<code>data/knowledge.json</code>). To szybki tryb pomocy do typowych problemów
-        (picony, listy, softcam feed, podstawowe ustawienia, najczęstsze błędy).
-      </p>
-    </div>
-
-    <div class="card">
-      <h2>Tryb ONLINE (ChatGPT / OpenAI) — bez opuszczania strony</h2>
-      <p>
-        Ze względów bezpieczeństwa klucza API nie da się trzymać w czystym HTML/JS na GitHub Pages. Jeżeli masz już wykupioną usługę i skonfigurowany
-        prywatny endpoint (np. Cloudflare Worker / Vercel / Supabase Edge Function), możesz włączyć tryb ONLINE:
-      </p>
-      <ol>
-        <li>Otwórz plik <code>data/aichat_config.json</code></li>
-        <li>Ustaw <code>"mode": "online"</code></li>
-        <li>Wklej adres do <code>"endpoint"</code> (musi przyjmować POST i zwracać JSON z polem <code>reply</code> lub <code>text</code>)</li>
-      </ol>
-      <p class="muted">
-        Jeśli endpoint jest niedostępny, AI‑Chat automatycznie wróci do trybu OFFLINE.
-      </p>
-    </div>
-
-    <div class="card">
-      <h2>Opcjonalnie: otwarcie ChatGPT w nowej karcie</h2>
-      <p>
-        Jeżeli wolisz pracę w osobnym oknie, możesz otworzyć ChatGPT w nowej karcie:
-        <a href="https://chat.openai.com/" target="_blank" rel="noopener">ChatGPT</a>.
-      </p>
+      <p class="muted" id="aiChatPageLoading">Uruchamiam AI‑Chat…</p>
+      <button class="btn" id="openAiChatBtn" type="button">Otwórz AI‑Chat</button>
     </div>
   </div>
 </main>
