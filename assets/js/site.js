@@ -2,10 +2,9 @@
   'use strict';
 
   // =========================
-  // KONFIGURACJA AIO-IPTV (DANE DOSTĘPOWE)
+  // KONFIGURACJA AIO-IPTV (SUPABASE)
   // =========================
   window.AIO_SITE = window.AIO_SITE || {};
-  // Twoje dane wpisane na sztywno:
   window.AIO_SITE.supabaseUrl = "https://pynjjeobqzxbrvmqofcw.supabase.co";
   window.AIO_SITE.supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB5bmpqZW9icXp4YnJ2bXFvZmN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU3NDA5MDYsImV4cCI6MjA4MTMxNjkwNn0.XSBB0DJw27Wrn41nranqFyj8YI0-YjLzX52dkdrgkrg";
 
@@ -27,63 +26,33 @@
   const lang = detectLang();
   document.documentElement.setAttribute('lang', lang);
 
-  function getLang() {
-    return lang;
-  }
+  function getLang() { return lang; }
 
   const dict = {
     pl: {
       nav_home: 'Start',
-      nav_ai: 'AI-Chat Enigma2',
-      nav_plugins: 'Wtyczki',
-      nav_lists: 'Listy kanałów',
-      nav_guides: 'Poradniki',
-      nav_tools: 'Narzędzia',
-      nav_downloads: 'Pobieranie',
-      nav_systems: 'Systemy',
-      nav_contact: 'Kontakt',
-      nav_support: 'Wsparcie',
-      nav_stats: 'Statystyki',
-      nav_futurelab: 'Future Lab',
-      cta_update: 'Aktualizacja: AIO Panel v5.0',
-      cta_download: 'Pobierz teraz',
       updates: 'Nowości',
-      support: 'Wesprzyj projekt',
-      marquee_text: 'Wesprzyj AIO‑IPTV — kawa pomaga rozwijać stronę i autorskie wtyczki: AIO Panel, IPTV Dream i inne.',
+      marquee_text: 'Wesprzyj AIO‑IPTV — kawa pomaga rozwijać stronę i autorskie wtyczki.',
       marquee_cta: 'Postaw kawę',
       holiday: 'Paweł Pawełek — życzy Zdrowych Wesołych Świąt',
       generator_hint: '# Zaznacz przynajmniej jedną opcję powyżej...',
       ai_placeholder: 'Zadaj pytanie o Enigma2…',
       ai_send: 'Wyślij',
-      ai_hint: 'Podpowiedź: pytaj np. „jak zainstalować softcam feed?” albo „gdzie są picony?”.',
-      ai_mode_offline: 'Tryb: OFFLINE (baza wiedzy)',
+      ai_hint: 'Podpowiedź: pytaj np. „jak zainstalować softcam?”',
+      ai_mode_offline: 'Tryb: OFFLINE',
       ai_mode_online: 'Tryb: ONLINE'
     },
     en: {
       nav_home: 'Home',
-      nav_ai: 'AI-Chat Enigma2',
-      nav_plugins: 'Plugins',
-      nav_lists: 'Channel lists',
-      nav_guides: 'Guides',
-      nav_tools: 'Tools',
-      nav_downloads: 'Downloads',
-      nav_systems: 'Systems',
-      nav_contact: 'Contact',
-      nav_support: 'Support',
-      nav_stats: 'Stats',
-      nav_futurelab: 'Future Lab',
-      cta_update: 'Update: AIO Panel v5.0',
-      cta_download: 'Download now',
       updates: 'Updates',
-      support: 'Support the project',
-      marquee_text: 'Support AIO‑IPTV — coffee helps build the site and original plugins: AIO Panel, IPTV Dream and more.',
+      marquee_text: 'Support AIO‑IPTV — coffee helps build the site.',
       marquee_cta: 'Buy coffee',
       holiday: 'Paweł Pawełek — wishes you a joyful holiday season',
       generator_hint: '# Select at least one option above...',
       ai_placeholder: 'Ask about Enigma2…',
       ai_send: 'Send',
-      ai_hint: 'Tip: ask “how to install softcam feed?” or “where are picons?”.',
-      ai_mode_offline: 'Mode: OFFLINE (knowledge base)',
+      ai_hint: 'Tip: ask “how to install softcam?”',
+      ai_mode_offline: 'Mode: OFFLINE',
       ai_mode_online: 'Mode: ONLINE'
     }
   };
@@ -103,20 +72,18 @@
       const v = t(k);
       if (v) el.setAttribute('placeholder', v);
     });
-    qsa('[data-i18n-aria]').forEach((el) => {
-      const k = el.getAttribute('data-i18n-aria');
-      const v = t(k);
-      if (v) el.setAttribute('aria-label', v);
-    });
   }
 
   // -------------------------
   // Helpers
   // -------------------------
   function escapeHtml(s) {
-    return String(s ?? '').replace(/[&<>"']/g, (m) =>
-      ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[m]
-    );
+    return String(s || '')
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#039;');
   }
 
   function relUrl(path) {
@@ -146,39 +113,17 @@
     if (!el) return;
     const text = (el.innerText || el.textContent || '').trim();
     if (!text) return;
-
-    const btn = (function () {
-      const maybe = el.parentElement ? el.parentElement.querySelector('button.copy-btn') : null;
-      return maybe;
-    })();
-
-    const flash = () => {
-      if (!btn) return;
-      const prev = btn.textContent;
-      btn.textContent = lang === 'pl' ? '✅ Skopiowano!' : '✅ Copied!';
-      btn.classList.add('copied');
-      setTimeout(() => {
-        btn.textContent = prev;
-        btn.classList.remove('copied');
-      }, 1100);
-    };
-
     try {
       await navigator.clipboard.writeText(text);
-      flash();
-    } catch (_) {
-      const ta = document.createElement('textarea');
-      ta.value = text;
-      ta.style.position = 'fixed';
-      ta.style.left = '-9999px';
-      document.body.appendChild(ta);
-      ta.select();
-      try {
-        document.execCommand('copy');
-      } catch (e) {}
-      document.body.removeChild(ta);
-      flash();
-    }
+      const btn = el.parentElement ? el.parentElement.querySelector('button.copy-btn') : null;
+      if (btn) {
+        const prev = btn.textContent;
+        btn.textContent = '✅';
+        setTimeout(() => btn.textContent = prev, 1500);
+      } else {
+        alert('Skopiowano!');
+      }
+    } catch (_) {}
   };
 
   // -------------------------
@@ -204,7 +149,7 @@
   }
 
   // -------------------------
-  // Mobile drawer
+  // Drawer
   // -------------------------
   function initDrawer() {
     const btn = qs('#navToggle');
@@ -235,7 +180,7 @@
   }
 
   // -------------------------
-  // TWOJA ORYGINALNA FUNKCJA IKON (BEZ ZMIAN)
+  // Mobile Top Icons (Twoja oryginalna funkcja - BEZ ZMIAN)
   // -------------------------
   function isMobilePortrait() {
     return (window.innerWidth <= 720) && (window.innerHeight >= window.innerWidth);
@@ -519,7 +464,7 @@
   }
 
   // -----------------------------
-  // AI-Chat Enigma2
+  // AI-Chat Enigma2 (drawer, offline KB + optional online endpoint / Supabase)
   // -----------------------------
   function injectAIChatMarkup() {
     if (document.getElementById('ai-chat-fab')) return;
@@ -651,6 +596,9 @@
   }
 
   function makeOnlineClient(cfg) {
+    // Supported configurations:
+    // 1) Supabase (recommended): { mode:"online", supabase:{ url, anonKey, function:"ai-chat" } }
+    // 2) Generic endpoint: { mode:"online", endpoint:"https://...", headers:{...} }
     const supa = cfg && cfg.supabase ? cfg.supabase : null;
     if (cfg && cfg.mode === 'online' && supa && supa.url && supa.anonKey) {
       const fn = supa.function || 'ai-chat';
@@ -765,44 +713,43 @@
   }
 
   // -------------------------
-  // DODANE: Komentarze w Kontakt (Supabase)
+  // KOMENTARZE W KONTAKCIE (Dodane bezpiecznie)
   // -------------------------
   function initContactComments() {
     const contact = qs('#kontakt');
-    if (!contact) return;
+    if (!contact) return; // Jeśli nie ma sekcji #kontakt, nie robimy nic
 
     const cfg = window.AIO_SITE || {};
     const url = cfg.supabaseUrl;
     const anon = cfg.supabaseAnonKey;
     if (!url || !anon) return;
 
-    // Usuwamy stare bloki technologiczne jeśli są, żeby zrobić miejsce na komentarze
-    removeContactTechBlock();
-
     let wrap = qs('#contactComments', contact);
     if (!wrap) {
       wrap = document.createElement('div');
       wrap.id = 'contactComments';
-      // Stylowanie kontenera komentarzy
-      wrap.style.marginTop = '25px';
+      // Stylowanie pasujące do ciemnego motywu
+      wrap.style.marginTop = '20px';
       wrap.style.padding = '20px';
       wrap.style.background = 'rgba(22, 27, 34, 0.6)';
       wrap.style.borderRadius = '8px';
       wrap.style.border = '1px solid #30363d';
       
+      // HTML formularza i listy komentarzy
       wrap.innerHTML = `
-        <h3 style="margin:0 0 10px 0; color:#58a6ff; font-size:1.2rem;">💬 Komentarze</h3>
+        <h3 style="margin:0 0 10px 0; font-size:1.2rem; color:#58a6ff;">💬 Komentarze</h3>
         <p style="margin:0 0 15px 0; opacity:.85; font-size:0.9rem; color:#8b949e;">Dodaj publiczny komentarz lub opinię.</p>
         
         <div class="cc-form" style="display:flex; flex-direction:column; gap:10px;">
-          <input id="ccName" type="text" placeholder="Twój nick" style="padding:10px; background:#0d1117; border:1px solid #30363d; border-radius:6px; color:#e6edf3;">
+          <input id="ccName" type="text" placeholder="Twój nick" style="padding:10px; background:#0d1117; border:1px solid #30363d; border-radius:6px; color:#e6edf3; font-family:inherit;">
           <textarea id="ccMsg" rows="3" placeholder="Treść komentarza..." style="padding:10px; background:#0d1117; border:1px solid #30363d; border-radius:6px; color:#e6edf3; font-family:inherit;"></textarea>
-          <button id="ccSend" class="btn" style="background:#238636; color:white; border:none; padding:10px 20px; border-radius:6px; cursor:pointer; align-self:flex-start; font-weight:600;">Dodaj komentarz</button>
+          <button id="ccSend" class="btn" style="background:#238636; color:white; border:none; padding:10px 20px; border-radius:6px; cursor:pointer; font-weight:600; align-self:flex-start;">Dodaj komentarz</button>
         </div>
         
         <div id="ccStatus" style="margin-top:10px; font-size:0.85rem;"></div>
         <div id="ccList" style="margin-top:20px; display:flex; flex-direction:column; gap:15px;"></div>
       `;
+      // Dodajemy na sam koniec kontenera #kontakt
       contact.appendChild(wrap);
     }
 
@@ -817,7 +764,7 @@
     const render = (items) => {
       elList.innerHTML = '';
       if (!items || !items.length) {
-        elList.innerHTML = `<div style="opacity:.6; font-style:italic;">Brak komentarzy. Bądź pierwszy!</div>`;
+        elList.innerHTML = `<div style="opacity:.6; font-style:italic; padding:10px;">Brak komentarzy. Bądź pierwszy!</div>`;
         return;
       }
       for (const it of items) {
@@ -828,7 +775,9 @@
         
         const itemDiv = document.createElement('div');
         itemDiv.style.borderBottom = '1px solid #30363d';
-        itemDiv.style.paddingBottom = '10px';
+        itemDiv.style.padding = '10px';
+        itemDiv.style.background = 'rgba(13,17,23,0.4)';
+        itemDiv.style.borderRadius = '6px';
         
         itemDiv.innerHTML = `
           <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
@@ -852,7 +801,7 @@
         const { data, error } = await client
           .from('comments')
           .select('*')
-          .eq('page', 'kontakt') // Ważne: filtrujemy komentarze tylko dla strony 'kontakt'
+          .eq('page', 'kontakt')
           .order('created_at', { ascending: false })
           .limit(50);
 
@@ -882,7 +831,7 @@
         await load();
       } catch (e) {
         console.error(e);
-        setStatus('Błąd wysyłania (sprawdź konsolę/RLS).', false);
+        setStatus('Błąd wysyłania.', false);
       } finally {
         elSend.disabled = false;
       }
@@ -891,37 +840,129 @@
     (async () => {
       const ok = await ensureSupabaseV2();
       if (!ok) return setStatus('Błąd biblioteki bazy danych.', false);
-      
       try {
         client = window.supabase.createClient(url, anon);
         elName.value = localStorage.getItem('aio_cc_name') || '';
         elSend.addEventListener('click', send);
         await load();
-      } catch(e) {
-        console.error(e);
-      }
+      } catch(e) { console.error(e); }
     })();
   }
 
-  function removeContactTechBlock() {
-    const contact = qs('#kontakt');
-    if (!contact) return;
-    const heads = qsa('h3', contact);
-    // Usuwamy sekcję "Technologie" w zakładce Kontakt, żeby było czyściej
-    const h = heads.find((x) => /technologie/i.test(x.textContent || ''));
-    if (!h) return;
-    const container = h.closest('div'); 
-    if (container) container.style.display = 'none';
+  // -------------------------
+  // PUBLIC COMMENTS (na innych stronach, np. index)
+  // -------------------------
+  function renderStars(n) {
+    const v = Number(n);
+    if (!v || v < 1 || v > 5) return '';
+    return '★★★★★'.slice(0, v) + '☆☆☆☆☆'.slice(0, 5 - v);
+  }
+
+  async function initPublicComments() {
+    const listEl = document.getElementById('commentsListPublic');
+    const statusEl = document.getElementById('commentsStatus');
+    
+    if (!listEl) return;
+
+    const ok = await ensureSupabaseV2();
+    if (!ok) {
+        if (statusEl) statusEl.textContent = 'Błąd biblioteki.';
+        return;
+    }
+
+    const url = window.AIO_SITE.supabaseUrl;
+    const key = window.AIO_SITE.supabaseAnonKey;
+    if (!url || !key) return;
+
+    const client = window.supabase.createClient(url, key);
+    const page = (location.pathname === '/' || location.pathname.endsWith('index.html')) ? '/' : location.pathname;
+
+    const loadComments = async () => {
+        if (statusEl) statusEl.textContent = 'Ładowanie...';
+        const { data, error } = await client
+            .from('comments')
+            .select('*')
+            .eq('page', page)
+            .order('created_at', { ascending: false })
+            .limit(50);
+
+        if (error) {
+            if (statusEl) statusEl.textContent = 'Błąd.';
+            return;
+        }
+
+        if (statusEl) statusEl.textContent = '';
+        if (!data || data.length === 0) {
+            listEl.innerHTML = '<div style="opacity:0.7; padding:10px;">Brak komentarzy. Bądź pierwszy!</div>';
+            return;
+        }
+
+        listEl.innerHTML = data.map(c => {
+            const nick = escapeHtml(c.name || 'Anonim');
+            const msg = escapeHtml(c.message || '');
+            const date = c.created_at ? new Date(c.created_at).toLocaleString('pl-PL') : '';
+            const stars = c.rating ? `<span style="color:#d29922; margin-left:10px;">${renderStars(c.rating)}</span>` : '';
+            return `
+            <div class="comment-item">
+                <div class="comment-header">
+                    <span style="font-weight:bold; color:#58a6ff;">${nick}</span>
+                    ${stars}
+                    <span style="font-size:0.8em; opacity:0.7;">${date}</span>
+                </div>
+                <div class="comment-text" style="margin-top:5px; line-height:1.4;">${msg}</div>
+            </div>`;
+        }).join('');
+    };
+
+    const btnSend = document.getElementById('commentSubmitBtn');
+    if (btnSend) {
+        btnSend.addEventListener('click', async (e) => {
+            e.preventDefault();
+            const nameInput = document.getElementById('commentNamePublic');
+            const msgInput = document.getElementById('commentBodyPublic');
+            const rateInput = document.getElementById('commentRatingPublic');
+
+            const name = nameInput.value.trim() || 'Anonim';
+            const message = msgInput.value.trim();
+            const rating = rateInput.value ? parseInt(rateInput.value) : null;
+
+            if (message.length < 3) {
+                alert('Za krótki komentarz.');
+                return;
+            }
+
+            btnSend.disabled = true;
+            btnSend.textContent = '...';
+
+            const payload = { page: page, name: name, message: message };
+            if (rating) payload.rating = rating;
+
+            const { error } = await client.from('comments').insert(payload);
+            if (error) {
+                alert('Błąd: ' + error.message);
+            } else {
+                msgInput.value = '';
+                if(rateInput) rateInput.value = '';
+                loadComments();
+            }
+            btnSend.disabled = false;
+            btnSend.textContent = 'Wyślij';
+        });
+    }
+    
+    const btnRefresh = document.getElementById('commentRefreshBtn');
+    if (btnRefresh) btnRefresh.addEventListener('click', loadComments);
+    loadComments();
   }
 
   // -------------------------
-  // INIT
+  // START
   // -------------------------
   document.addEventListener('DOMContentLoaded', () => {
     applyI18n();
     initAnalytics();
     initDrawer();
-    setupMobileTopIcons(); // Twoja funkcja od ikon
+    setupMobileTopIcons();
     setActiveNav();
     initUpdates();
     initPayPal();
@@ -929,7 +970,8 @@
     initAIChatDrawer();
     initOneLinerGenerator();
     
-    // Uruchomienie komentarzy w Kontakt
+    // KOMENTARZE
     initContactComments();
+    initPublicComments();
   });
 })();
