@@ -1,11 +1,19 @@
 (function () {
   'use strict';
 
+  // =========================
+  // KONFIGURACJA AIO-IPTV (DANE DOSTĘPOWE)
+  // =========================
+  window.AIO_SITE = window.AIO_SITE || {};
+  // Twoje dane wpisane na sztywno:
+  window.AIO_SITE.supabaseUrl = "https://pynjjeobqzxbrvmqofcw.supabase.co";
+  window.AIO_SITE.supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB5bmpqZW9icXp4YnJ2bXFvZmN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU3NDA5MDYsImV4cCI6MjA4MTMxNjkwNn0.XSBB0DJw27Wrn41nranqFyj8YI0-YjLzX52dkdrgkrg";
+
   const qs = (s, r = document) => r.querySelector(s);
   const qsa = (s, r = document) => Array.from(r.querySelectorAll(s));
 
   // -------------------------
-  // i18n (auto by device; PL fallback)
+  // i18n
   // -------------------------
   const LANG_KEY = 'aio_lang';
 
@@ -37,22 +45,14 @@
       nav_support: 'Wsparcie',
       nav_stats: 'Statystyki',
       nav_futurelab: 'Future Lab',
-
       cta_update: 'Aktualizacja: AIO Panel v5.0',
       cta_download: 'Pobierz teraz',
-
       updates: 'Nowości',
       support: 'Wesprzyj projekt',
-
-      marquee_text:
-        'Wesprzyj AIO‑IPTV — kawa pomaga rozwijać stronę i autorskie wtyczki: AIO Panel, IPTV Dream i inne.',
+      marquee_text: 'Wesprzyj AIO‑IPTV — kawa pomaga rozwijać stronę i autorskie wtyczki: AIO Panel, IPTV Dream i inne.',
       marquee_cta: 'Postaw kawę',
-      holiday:
-        'Paweł Pawełek — życzy Zdrowych Wesołych Świąt',
-
+      holiday: 'Paweł Pawełek — życzy Zdrowych Wesołych Świąt',
       generator_hint: '# Zaznacz przynajmniej jedną opcję powyżej...',
-
-      // AI Chat
       ai_placeholder: 'Zadaj pytanie o Enigma2…',
       ai_send: 'Wyślij',
       ai_hint: 'Podpowiedź: pytaj np. „jak zainstalować softcam feed?” albo „gdzie są picony?”.',
@@ -72,22 +72,14 @@
       nav_support: 'Support',
       nav_stats: 'Stats',
       nav_futurelab: 'Future Lab',
-
       cta_update: 'Update: AIO Panel v5.0',
       cta_download: 'Download now',
-
       updates: 'Updates',
       support: 'Support the project',
-
-      marquee_text:
-        'Support AIO‑IPTV — coffee helps build the site and original plugins: AIO Panel, IPTV Dream and more.',
+      marquee_text: 'Support AIO‑IPTV — coffee helps build the site and original plugins: AIO Panel, IPTV Dream and more.',
       marquee_cta: 'Buy coffee',
-      holiday:
-        'Paweł Pawełek — wishes you a joyful holiday season',
-
+      holiday: 'Paweł Pawełek — wishes you a joyful holiday season',
       generator_hint: '# Select at least one option above...',
-
-      // AI Chat
       ai_placeholder: 'Ask about Enigma2…',
       ai_send: 'Send',
       ai_hint: 'Tip: ask “how to install softcam feed?” or “where are picons?”.',
@@ -128,7 +120,6 @@
   }
 
   function relUrl(path) {
-    // Works on GitHub Pages subpaths
     return new URL(path, document.baseURI).toString();
   }
 
@@ -136,6 +127,18 @@
     const res = await fetch(url, { cache: 'no-store' });
     if (!res.ok) throw new Error('HTTP ' + res.status);
     return await res.json();
+  }
+
+  function ensureSupabaseV2() {
+    return new Promise((resolve) => {
+      if (window.supabase && typeof window.supabase.createClient === 'function') return resolve(true);
+      const s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+      s.async = true;
+      s.onload = () => resolve(true);
+      s.onerror = () => resolve(false);
+      document.head.appendChild(s);
+    });
   }
 
   window.copyToClipboard = async function (elementId) {
@@ -179,34 +182,25 @@
   };
 
   // -------------------------
-  // Analytics (GA4 tag injection)
+  // Analytics
   // -------------------------
   async function initAnalytics() {
-    // Optional config file. Safe for GitHub Pages (no secrets).
     try {
       const cfg = await safeFetchJSON(relUrl('data/analytics_config.json'));
       const mid = (cfg && cfg.measurement_id) ? String(cfg.measurement_id).trim() : '';
       if (!mid) return;
-
-      // Avoid double-inject
       if (window.__aioGtagLoaded) return;
-
       window.dataLayer = window.dataLayer || [];
       function gtag(){ window.dataLayer.push(arguments); }
       window.gtag = window.gtag || gtag;
-
       const s = document.createElement('script');
       s.async = true;
       s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(mid);
       document.head.appendChild(s);
-
       gtag('js', new Date());
       gtag('config', mid, { anonymize_ip: true });
-
       window.__aioGtagLoaded = true;
-    } catch (_) {
-      // ignore
-    }
+    } catch (_) {}
   }
 
   // -------------------------
@@ -241,8 +235,7 @@
   }
 
   // -------------------------
-  // Mobile top icons layout (mobile portrait)
-  // Desired order (left): bell, menu, coffee
+  // TWOJA ORYGINALNA FUNKCJA IKON (BEZ ZMIAN)
   // -------------------------
   function isMobilePortrait() {
     return (window.innerWidth <= 720) && (window.innerHeight >= window.innerWidth);
@@ -250,11 +243,7 @@
 
   function ensureCoffeeLink(coffeeEl) {
     if (!coffeeEl) return null;
-
-    // If it's already a link/button, keep it
     if (coffeeEl.tagName === 'A' || coffeeEl.tagName === 'BUTTON') return coffeeEl;
-
-    // If it's a span/icon (e.g. <span class="support-ico">☕</span>), wrap it with a link
     const a = document.createElement('a');
     a.href = '#wsparcie';
     a.className = 'mobile-coffee-link';
@@ -272,8 +261,6 @@
     a.style.textDecoration = 'none';
     a.style.fontSize = '18px';
     a.style.color = '#fff';
-
-    // move node inside link
     const parent = coffeeEl.parentNode;
     a.appendChild(coffeeEl);
     if (parent) parent.insertBefore(a, coffeeEl.nextSibling);
@@ -281,13 +268,10 @@
   }
 
   function moveMobileTopIcons() {
-    // Only on mobile portrait
     if (!isMobilePortrait()) return;
 
-    // Prefer explicit elements
     const menuBtn = qs('#navToggle');
     if (menuBtn) {
-      // Make hamburger more visible
       menuBtn.style.color = '#fff';
       menuBtn.style.filter = 'brightness(1.9) saturate(1.2)';
       menuBtn.style.textShadow = '0 0 8px rgba(255,255,255,.18)';
@@ -299,7 +283,6 @@
       bellBtn.style.filter = 'brightness(1.2) saturate(1.1)';
     }
 
-    // Find the "coffee" icon near top bar (best effort)
     const topBar = qs('.top-support-bar') || qs('.topbar') || qs('header') || document.body;
     let coffeeEl =
       qs('.support-ico', topBar) ||
@@ -308,12 +291,10 @@
       qs('a[aria-label*="kaw" i],a[title*="kaw" i],a[href*="wspar" i],a[href*="coffee" i]', topBar) ||
       null;
 
-    // If we found a span icon, wrap it into a link
     if (coffeeEl && coffeeEl.tagName === 'SPAN') {
       coffeeEl = ensureCoffeeLink(coffeeEl);
     }
 
-    // If we still don't have coffee, create a fallback link (to #wsparcie)
     if (!coffeeEl) {
       const fallback = document.createElement('a');
       fallback.href = '#wsparcie';
@@ -336,14 +317,12 @@
       coffeeEl = fallback;
     }
 
-    // Choose insertion point: the support copy area in top bar
     const target =
       qs('.support-copy', topBar) ||
       qs('.top-support-inner', topBar) ||
       qs('.top-support-bar', topBar) ||
       topBar;
 
-    // Create (or reuse) row container
     let row = qs('#mobileTopIconRow', topBar);
     if (!row) {
       row = document.createElement('div');
@@ -355,24 +334,18 @@
       row.style.flex = '0 0 auto';
     }
 
-    // Insert row at the beginning of target
     if (target && row.parentNode !== target) {
       target.insertBefore(row, target.firstChild);
     }
 
-    // Move elements into row in desired order
-    // Important: moving nodes preserves event listeners
     if (bellBtn && bellBtn.parentNode !== row) row.appendChild(bellBtn);
     if (menuBtn && menuBtn.parentNode !== row) row.appendChild(menuBtn);
 
-    // Put coffee as the third icon (ensure it's a node in DOM)
     if (coffeeEl) {
-      // If coffeeEl is not in DOM (fallback), add it now
       if (!coffeeEl.isConnected) row.appendChild(coffeeEl);
       else if (coffeeEl.parentNode !== row) row.appendChild(coffeeEl);
     }
 
-    // Hide the horizontal navigation bar on mobile to avoid misleading swipe
     const navBar = qs('.nav') || qs('.main-nav') || qs('#mainNav');
     if (navBar) {
       navBar.style.display = 'none';
@@ -380,9 +353,7 @@
   }
 
   function setupMobileTopIcons() {
-    // Run once after layout
     moveMobileTopIcons();
-    // Re-run on rotation / resize (throttled)
     let t = null;
     const rerun = () => {
       if (t) clearTimeout(t);
@@ -391,7 +362,6 @@
     window.addEventListener('resize', rerun);
     window.addEventListener('orientationchange', rerun);
   }
-
 
   // -------------------------
   // Active nav
@@ -406,7 +376,7 @@
   }
 
   // -------------------------
-  // Notifications bell (changelog from data/updates.json)
+  // Notifications bell
   // -------------------------
   function parseTs(it) {
     if (typeof it.ts === 'number' && isFinite(it.ts)) return it.ts;
@@ -428,7 +398,6 @@
     const panel = qs('#notifPanel');
     if (!bell || !panel) return;
 
-    // Badge
     let badge = bell.querySelector('.bell-badge');
     if (!badge) {
       badge = document.createElement('span');
@@ -489,8 +458,6 @@
         panel.dataset.loaded = '1';
       }
       panel.classList.add('open');
-
-      // Mark as read (on open)
       const newest = Number(panel.dataset.newestTs || '0') || 0;
       if (newest > 0) setSeen(newest);
       badge.style.display = 'none';
@@ -510,12 +477,11 @@
       }
     });
 
-    // refresh badge in background
     load().catch(() => {});
   }
 
   // -------------------------
-  // PayPal obfuscation (personal)
+  // PayPal obfuscation
   // -------------------------
   function initPayPal() {
     const btn = qs('#paypalSupportBtn');
@@ -528,7 +494,7 @@
   }
 
   // -------------------------
-  // Top marquee (coffee + holiday)
+  // Top marquee
   // -------------------------
   function initMarquee() {
     if (qs('#aioMarqueeBar')) return;
@@ -553,7 +519,7 @@
   }
 
   // -----------------------------
-  // AI-Chat Enigma2 (drawer, offline KB + optional online endpoint / Supabase)
+  // AI-Chat Enigma2
   // -----------------------------
   function injectAIChatMarkup() {
     if (document.getElementById('ai-chat-fab')) return;
@@ -685,9 +651,6 @@
   }
 
   function makeOnlineClient(cfg) {
-    // Supported configurations:
-    // 1) Supabase (recommended): { mode:"online", supabase:{ url, anonKey, function:"ai-chat" } }
-    // 2) Generic endpoint: { mode:"online", endpoint:"https://...", headers:{...} }
     const supa = cfg && cfg.supabase ? cfg.supabase : null;
     if (cfg && cfg.mode === 'online' && supa && supa.url && supa.anonKey) {
       const fn = supa.function || 'ai-chat';
@@ -801,16 +764,172 @@
     update();
   }
 
+  // -------------------------
+  // DODANE: Komentarze w Kontakt (Supabase)
+  // -------------------------
+  function initContactComments() {
+    const contact = qs('#kontakt');
+    if (!contact) return;
+
+    const cfg = window.AIO_SITE || {};
+    const url = cfg.supabaseUrl;
+    const anon = cfg.supabaseAnonKey;
+    if (!url || !anon) return;
+
+    // Usuwamy stare bloki technologiczne jeśli są, żeby zrobić miejsce na komentarze
+    removeContactTechBlock();
+
+    let wrap = qs('#contactComments', contact);
+    if (!wrap) {
+      wrap = document.createElement('div');
+      wrap.id = 'contactComments';
+      // Stylowanie kontenera komentarzy
+      wrap.style.marginTop = '25px';
+      wrap.style.padding = '20px';
+      wrap.style.background = 'rgba(22, 27, 34, 0.6)';
+      wrap.style.borderRadius = '8px';
+      wrap.style.border = '1px solid #30363d';
+      
+      wrap.innerHTML = `
+        <h3 style="margin:0 0 10px 0; color:#58a6ff; font-size:1.2rem;">💬 Komentarze</h3>
+        <p style="margin:0 0 15px 0; opacity:.85; font-size:0.9rem; color:#8b949e;">Dodaj publiczny komentarz lub opinię.</p>
+        
+        <div class="cc-form" style="display:flex; flex-direction:column; gap:10px;">
+          <input id="ccName" type="text" placeholder="Twój nick" style="padding:10px; background:#0d1117; border:1px solid #30363d; border-radius:6px; color:#e6edf3;">
+          <textarea id="ccMsg" rows="3" placeholder="Treść komentarza..." style="padding:10px; background:#0d1117; border:1px solid #30363d; border-radius:6px; color:#e6edf3; font-family:inherit;"></textarea>
+          <button id="ccSend" class="btn" style="background:#238636; color:white; border:none; padding:10px 20px; border-radius:6px; cursor:pointer; align-self:flex-start; font-weight:600;">Dodaj komentarz</button>
+        </div>
+        
+        <div id="ccStatus" style="margin-top:10px; font-size:0.85rem;"></div>
+        <div id="ccList" style="margin-top:20px; display:flex; flex-direction:column; gap:15px;"></div>
+      `;
+      contact.appendChild(wrap);
+    }
+
+    const elName = qs('#ccName', wrap);
+    const elMsg = qs('#ccMsg', wrap);
+    const elSend = qs('#ccSend', wrap);
+    const elStatus = qs('#ccStatus', wrap);
+    const elList = qs('#ccList', wrap);
+
+    let client = null;
+
+    const render = (items) => {
+      elList.innerHTML = '';
+      if (!items || !items.length) {
+        elList.innerHTML = `<div style="opacity:.6; font-style:italic;">Brak komentarzy. Bądź pierwszy!</div>`;
+        return;
+      }
+      for (const it of items) {
+        const name = escapeHtml(String(it.name || 'Anonim'));
+        const msg = escapeHtml(String(it.message || ''));
+        const d = it.created_at ? new Date(it.created_at) : null;
+        const when = d && !isNaN(d.getTime()) ? d.toLocaleString('pl-PL') : '';
+        
+        const itemDiv = document.createElement('div');
+        itemDiv.style.borderBottom = '1px solid #30363d';
+        itemDiv.style.paddingBottom = '10px';
+        
+        itemDiv.innerHTML = `
+          <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+            <strong style="color:#58a6ff;">${name}</strong>
+            <span style="font-size:0.8rem; color:#8b949e;">${escapeHtml(when)}</span>
+          </div>
+          <div style="color:#c9d1d9; line-height:1.5; font-size:0.95rem;">${msg.replace(/\n/g, '<br>')}</div>
+        `;
+        elList.appendChild(itemDiv);
+      }
+    };
+
+    const setStatus = (t, ok = true) => {
+      elStatus.textContent = t || '';
+      elStatus.style.color = ok ? '#3fb950' : '#f85149';
+    };
+
+    const load = async () => {
+      try {
+        setStatus('Ładowanie...');
+        const { data, error } = await client
+          .from('comments')
+          .select('*')
+          .eq('page', 'kontakt') // Ważne: filtrujemy komentarze tylko dla strony 'kontakt'
+          .order('created_at', { ascending: false })
+          .limit(50);
+
+        if (error) throw error;
+        render(Array.isArray(data) ? data : []);
+        setStatus('');
+      } catch (e) {
+        setStatus('Błąd wczytywania komentarzy.', false);
+      }
+    };
+
+    const send = async () => {
+      const name = (elName.value || '').trim() || 'Anonim';
+      const message = (elMsg.value || '').trim();
+      if (!message) return setStatus('Wpisz treść komentarza.', false);
+
+      elSend.disabled = true;
+      try {
+        setStatus('Wysyłanie...');
+        const payload = { page: 'kontakt', name, message };
+        const { error } = await client.from('comments').insert(payload);
+        if (error) throw error;
+
+        elMsg.value = '';
+        localStorage.setItem('aio_cc_name', name);
+        setStatus('Dodano komentarz!', true);
+        await load();
+      } catch (e) {
+        console.error(e);
+        setStatus('Błąd wysyłania (sprawdź konsolę/RLS).', false);
+      } finally {
+        elSend.disabled = false;
+      }
+    };
+
+    (async () => {
+      const ok = await ensureSupabaseV2();
+      if (!ok) return setStatus('Błąd biblioteki bazy danych.', false);
+      
+      try {
+        client = window.supabase.createClient(url, anon);
+        elName.value = localStorage.getItem('aio_cc_name') || '';
+        elSend.addEventListener('click', send);
+        await load();
+      } catch(e) {
+        console.error(e);
+      }
+    })();
+  }
+
+  function removeContactTechBlock() {
+    const contact = qs('#kontakt');
+    if (!contact) return;
+    const heads = qsa('h3', contact);
+    // Usuwamy sekcję "Technologie" w zakładce Kontakt, żeby było czyściej
+    const h = heads.find((x) => /technologie/i.test(x.textContent || ''));
+    if (!h) return;
+    const container = h.closest('div'); 
+    if (container) container.style.display = 'none';
+  }
+
+  // -------------------------
+  // INIT
+  // -------------------------
   document.addEventListener('DOMContentLoaded', () => {
     applyI18n();
     initAnalytics();
     initDrawer();
-    setupMobileTopIcons();
+    setupMobileTopIcons(); // Twoja funkcja od ikon
     setActiveNav();
     initUpdates();
     initPayPal();
     initMarquee();
     initAIChatDrawer();
     initOneLinerGenerator();
+    
+    // Uruchomienie komentarzy w Kontakt
+    initContactComments();
   });
 })();
