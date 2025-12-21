@@ -261,7 +261,121 @@
     return isNaN(d) ? 0 : d;
   }
 
-  function iconForType(type) {
+  
+  // Mobile portrait navigation UX:
+  // - ensures navigation links are fully visible (no confusing horizontal swipe),
+  // - optionally moves the hamburger (#navToggle) to the left side near the coffee/cup button.
+  function fixMobileNavPortrait() {
+    const mq = window.matchMedia ? window.matchMedia('(max-width: 768px)') : null;
+    const isPortraitSmall = mq ? mq.matches : (window.innerWidth <= 768);
+
+    const toggle = qs('#navToggle');
+    if (!toggle) return;
+
+    // Inject minimal CSS once (scoped by body class + data attribute).
+    let styleEl = qs('#aioMobileNavPortraitStyle');
+    if (!styleEl) {
+      styleEl = document.createElement('style');
+      styleEl.id = 'aioMobileNavPortraitStyle';
+      styleEl.textContent = `
+        @media (max-width: 768px) {
+          body.aio-mobile-nav-wrap [data-aio-nav-row="1"] {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            overflow-x: visible !important;
+            white-space: normal !important;
+            gap: 6px !important;
+            row-gap: 6px !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 4px !important;
+          }
+          body.aio-mobile-nav-wrap [data-aio-nav-row="1"] a,
+          body.aio-mobile-nav-wrap [data-aio-nav-row="1"] button {
+            flex: 1 0 48% !important;
+            min-width: auto !important;
+            max-width: calc(50% - 3px) !important;
+            padding: 8px 6px !important;
+            font-size: clamp(11px, 2.8vw, 14px) !important;
+            line-height: 1.2 !important;
+            text-align: center !important;
+            word-break: break-word !important;
+            overflow-wrap: break-word !important;
+          }
+
+          /* Ensure content fits viewport */
+          body.aio-mobile-nav-wrap {
+            overflow-x: hidden !important;
+          }
+
+          /* Adjust marquee for mobile */
+          @media (max-width: 768px) {
+            .marquee-bar {
+              padding: 6px 0 !important;
+            }
+            .marquee-inner {
+              gap: 8px !important;
+              padding: 0 8px !important;
+            }
+            .marquee-track {
+              font-size: clamp(10px, 2.5vw, 12px) !important;
+            }
+            .marquee-cta {
+              padding: 4px 10px !important;
+              font-size: clamp(10px, 2.5vw, 12px) !important;
+            }
+          }
+        }
+      `;
+      document.head.appendChild(styleEl);
+    }
+
+    // Tag the best nav container within topbar
+    const topRoot = qs('.topbar') || qs('#topbar') || document.body;
+    const containers = qsa('nav, .nav, .nav-links, .topbar-nav, ul', topRoot);
+
+    let best = null;
+    let bestN = 0;
+    for (const el of containers) {
+      const n = el.querySelectorAll('a').length;
+      if (n > bestN) { best = el; bestN = n; }
+    }
+    if (best) best.setAttribute('data-aio-nav-row', '1');
+
+    document.body.classList.toggle('aio-mobile-nav-wrap', !!isPortraitSmall);
+
+    // Move hamburger near the coffee/cup link (if present) in portrait small.
+    if (isPortraitSmall) {
+      const coffee =
+        qs('a[aria-label*="kaw" i]') ||
+        qs('a[title*="kaw" i]') ||
+        qs('a[href*="kaw" i]') ||
+        qs('a[href*="coffee" i]') ||
+        qs('button[aria-label*="kaw" i]');
+
+      if (coffee && coffee.parentElement) {
+        const p = coffee.parentElement;
+        if (toggle.parentElement !== p) {
+          try { p.insertBefore(toggle, coffee); } catch (_) {}
+        } else {
+          // ensure ordering
+          try {
+            if (coffee.previousElementSibling !== toggle) p.insertBefore(toggle, coffee);
+          } catch (_) {}
+        }
+        toggle.style.marginRight = '10px';
+      }
+    } else {
+      const actions = qs('.topbar-actions') || qs('.header-actions') || qs('#headerActions') || qs('.actions');
+      if (actions && toggle.parentElement !== actions) {
+        try { actions.appendChild(toggle); } catch (_) {}
+      }
+      toggle.style.marginRight = '';
+    }
+  }
+
+
+function iconForType(type) {
     const t = String(type || '').toLowerCase();
     if (t === 'fix') return '🛠';
     if (t === 'feature') return '✨';
@@ -557,7 +671,6 @@
 
   async function initAIChatDrawer() {
     injectAIChatMarkup();
-    ensureViewportMeta();
     applyI18n();
 
     const fab = document.getElementById('ai-chat-fab');
@@ -649,52 +762,16 @@
     update();
   }
 
-  function ensureViewportMeta() {
-    // Some pages (or cached variants) may miss meta viewport; without it mobile renders as "desktop site".
-    const has = document.querySelector('meta[name="viewport"]');
-    if (has) return;
-    const m = document.createElement('meta');
-    m.name = 'viewport';
-    m.content = 'width=device-width, initial-scale=1.0, viewport-fit=cover';
-    const head = document.head || document.getElementsByTagName('head')[0];
-    if (head) head.appendChild(m);
-  }
-
-  function initMobileNavPortraitFix() {
-    // On small portrait screens: avoid confusing horizontal swipe on the nav bar
-    // and move hamburger to the left for easier access.
-    const apply = () => {
-      const isPortraitSmall =
-        window.matchMedia &&
-        window.matchMedia('(max-width: 560px) and (orientation: portrait)').matches;
-
-      const topbarInner = qs('.topbar-inner');
-      const toggle = qs('#navToggle');
-      const navBar = qs('.nav'); // horizontal nav bar container
-
-      if (isPortraitSmall) {
-        // Move hamburger to the far left (before brand) if possible.
-        if (topbarInner && toggle && topbarInner.firstElementChild !== toggle) {
-          topbarInner.insertBefore(toggle, topbarInner.firstElementChild);
-        }
-        // Hide horizontal nav bar; navigation available via drawer.
-        if (navBar) navBar.style.display = 'none';
-      } else {
-        // Restore default placements on larger screens/landscape
-        if (navBar) navBar.style.display = '';
-      }
-    };
-
-    apply();
-    window.addEventListener('resize', apply, { passive: true });
-    window.addEventListener('orientationchange', apply, { passive: true });
-  }
-
   document.addEventListener('DOMContentLoaded', () => {
     applyI18n();
     initAnalytics();
     initDrawer();
-    initMobileNavPortraitFix();
+    fixMobileNavPortrait();
+    // keep it responsive to rotations/resizes
+    let __aioNavFixT = null;
+    const __aioNavFix = () => { clearTimeout(__aioNavFixT); __aioNavFixT = setTimeout(fixMobileNavPortrait, 80); };
+    window.addEventListener('resize', __aioNavFix, { passive: true });
+    window.addEventListener('orientationchange', __aioNavFix, { passive: true });
     setActiveNav();
     initUpdates();
     initPayPal();
