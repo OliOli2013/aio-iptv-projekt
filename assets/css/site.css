@@ -672,3 +672,102 @@ html.ai-lock{overflow:hidden;}
 
 
 ::selection{ background: rgba(59,167,255,.35); color: var(--text); }
+
+/* =========================
+   Support page – donation panel
+   ========================= */
+.support-section .support-head {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.support-section .support-head h2 {
+  margin: 0;
+}
+
+.support-section .support-head p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.support-grid{
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.support-qr-card{
+  border: 1px solid var(--stroke);
+  background: rgba(2, 6, 23, 0.28);
+  border-radius: 16px;
+  padding: 14px;
+  text-align: center;
+}
+
+.support-qr-title{
+  font-weight: 800;
+  letter-spacing: .2px;
+  margin-bottom: 10px;
+}
+
+.support-qr{
+  width: 100%;
+  max-width: 240px;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.03);
+  padding: 10px;
+}
+
+.support-qr-sub{
+  margin-top: 10px;
+  font-size: .9rem;
+  color: var(--muted);
+}
+
+.support-actions-title{
+  font-weight: 800;
+  margin: 2px 0 10px;
+  color: var(--text);
+}
+
+.support-actions-grid{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.support-copy{
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,.08);
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.support-copy strong{
+  color: var(--text);
+}
+
+.support-sign{
+  margin-top: 8px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+@media (max-width: 980px){
+  .support-grid{
+    grid-template-columns: 1fr;
+  }
+  .support-actions-grid{
+    grid-template-columns: 1fr;
+  }
+  .support-qr{
+    max-width: 220px;
+  }
+}

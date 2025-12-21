@@ -429,13 +429,15 @@
   // PayPal obfuscation
   // -------------------------
   function initPayPal() {
-    const btn = qs('#paypalSupportBtn');
-    if (!btn) return;
-    try {
-      const b64 = btn.getAttribute('data-paypal');
-      if (!b64) return;
-      btn.setAttribute('href', atob(b64));
-    } catch (_) {}
+    const btns = qsa('[data-paypal]');
+    if (!btns || !btns.length) return;
+    btns.forEach((btn) => {
+      try {
+        const b64 = btn.getAttribute('data-paypal');
+        if (!b64) return;
+        btn.setAttribute('href', atob(b64));
+      } catch (_) {}
+    });
   }
 
   // -------------------------
