@@ -70,19 +70,52 @@
 <div class="card" data-aos="fade-up" id="kontakt">
 <h2>Kontakt</h2>
 <p>Masz pytania lub problem? Napisz do mnie.</p>
-<form action="https://formspree.io/f/xeoyreyk" class="contact-form" method="POST">
-<input name="email" placeholder="Twój adres email (do odpowiedzi)" required="" type="email"/>
-<textarea name="message" placeholder="Treść wiadomości..." required=""></textarea>
-<button class="contact-btn" type="submit">Wyślij wiadomość</button>
-</form>
-<div style="margin-top: 20px; padding-top: 20px;">
-<p>Możesz też skontaktować się bezpośrednio:</p>
-<div style="display: flex; gap: 10px; flex-wrap: wrap;">
-<a class="telegram-btn" href="https://t.me/PawelPawelek" target="_blank">✈️ Telegram</a>
-<a class="telegram-btn" href="https://m.me/100064704540847" style="background-color: #0084ff;" target="_blank">💬 Messenger</a>
+<!-- Kontakt: formularz i szybkie kanały. -->
+<div class="contact-grid">
+  <div class="contact-card">
+    <h2 class="contact-title">Napisz do mnie</h2>
+    <p class="contact-subtitle">Masz pytania lub problem z Enigma2? Opisz krótko sytuację, podaj model tunera i image (OpenATV/OpenPLi).</p>
+
+    <form action="https://formspree.io/f/xeoyreyk" class="contact-form" method="POST">
+      <label class="contact-label" for="contactEmail">Twój e-mail (do odpowiedzi)</label>
+      <input id="contactEmail" name="email" type="email" autocomplete="email" placeholder="np. twoj@email.com" required />
+
+      <label class="contact-label" for="contactMessage">Wiadomość</label>
+      <textarea id="contactMessage" name="message" rows="6" placeholder="Np. model tunera, image, opis problemu, błąd z logu…" required></textarea>
+
+      <div class="contact-actions">
+        <button class="btn btn-primary" type="submit">Wyślij wiadomość</button>
+        <span class="contact-note">Formularz działa przez Formspree. Twoje dane służą tylko do odpowiedzi.</span>
+      </div>
+    </form>
+  </div>
+
+  <aside class="contact-card contact-side">
+    <h2 class="contact-title">Szybki kontakt</h2>
+    <div class="contact-links">
+      <a class="contact-link contact-link-telegram" href="https://t.me/PawelPawelek" target="_blank" rel="noopener">Telegram</a>
+      <a class="contact-link contact-link-messenger" href="https://m.me/100064704540847" target="_blank" rel="noopener">Messenger</a>
+      <a class="contact-link contact-link-mail" href="mailto:msisystem@t.pl">msisystem@t.pl</a>
+    </div>
+
+    <div class="contact-divider"></div>
+
+    <h3 class="contact-mini-title">Wsparcie projektu</h3>
+    <p class="contact-subtitle">Jeśli chcesz pomóc w rozwoju strony i wtyczek: „Postaw kawę”.</p>
+    <a class="btn btn-ghost" href="support.html">Przejdź do wsparcia</a>
+
+    <div class="contact-divider"></div>
+
+    <h3 class="contact-mini-title">Technologie</h3>
+    <p class="contact-subtitle">
+      AI‑Chat w trybie ONLINE może korzystać z prywatnego endpointu (np. Supabase Edge Functions).
+    </p>
+    <!-- Supabase (https://supabase.com/) – backend dla trybu ONLINE (Edge Functions). Nie umieszczaj kluczy prywatnych w GitHub Pages. -->
+    <a class="contact-link contact-link-supabase" href="https://supabase.com/" target="_blank" rel="noopener">Supabase</a>
+  </aside>
 </div>
-</div>
-<hr style="border-color: #30363d; margin: 30px 0;"/>
+
+<hr class="contact-hr"/>
 <h2>Informacje Prawne</h2>
 <p style="margin-bottom: 15px;">Kliknij poniżej, aby rozwinąć szczegóły.</p>
 <div class="accordion-item" id="polityka-prywatnosci">
@@ -174,24 +207,5 @@
 </footer>
 <script>document.getElementById('year').textContent=new Date().getFullYear();</script>
 <script src="assets/js/site.js?v=next1"></script>
-
-<script>
-  // Kontakt: accordion toggles
-  (function(){
-    var items = document.querySelectorAll('.accordion-item');
-    var headers = document.querySelectorAll('.accordion-header');
-    headers.forEach(function(btn){
-      btn.addEventListener('click', function(){
-        var item = btn.closest('.accordion-item');
-        if(!item) return;
-        item.classList.toggle('open');
-      });
-    });
-    // open first by default (privacy)
-    var firstItem = document.querySelector('.accordion-item');
-    if(firstItem) firstItem.classList.add('open');
-  })();
-</script>
-
 </body>
 </html>
