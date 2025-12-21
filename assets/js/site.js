@@ -240,109 +240,6 @@
     });
   }
 
-
-  // -------------------------
-  // Mobile portrait: prevent horizontal nav from hiding items (wrap instead of swipe)
-  // -------------------------
-  function fixMobileNavOverflow() {
-    const mq = window.matchMedia('(max-width: 860px)');
-    const mqPortrait = window.matchMedia('(orientation: portrait)');
-
-    const isVisible = (el) => !!(el && (el.offsetWidth || el.offsetHeight || el.getClientRects().length));
-    const hasManyLinks = (el) => qsa('a', el).filter((a) => (a.textContent || '').trim().length > 0).length >= 6;
-
-    const targets = () => {
-      const list = [];
-      // Common containers
-      [
-        qs('#topNav'),
-        qs('#mainNav'),
-        qs('#navLinks'),
-        qs('.nav-links'),
-        qs('.navLinks'),
-        qs('.top-nav'),
-        qs('.topnav'),
-        qs('.header-nav'),
-        qs('header nav ul'),
-        qs('header nav .links'),
-        qs('header .nav ul'),
-      ].forEach((x) => x && list.push(x));
-
-      // Heuristic: any element in header that is scrollable-x and contains many links
-      qsa('header *').forEach((el) => {
-        if (!isVisible(el)) return;
-        const cs = getComputedStyle(el);
-        const ox = cs.overflowX;
-        if (ox === 'auto' || ox === 'scroll') {
-          if (hasManyLinks(el)) list.push(el);
-        }
-      });
-
-      // Unique
-      return Array.from(new Set(list));
-    };
-
-    function apply() {
-      const narrow = mq.matches && mqPortrait.matches;
-      targets().forEach((el) => {
-        if (!isVisible(el) || !hasManyLinks(el)) return;
-
-        // Remember we touched it, so we can revert on wide screens
-        el.dataset.aioMobileWrap = el.dataset.aioMobileWrap || '1';
-
-        if (narrow) {
-          // Force wrap, remove horizontal scrolling
-          el.style.overflowX = 'visible';
-          el.style.overflow = 'visible';
-          el.style.whiteSpace = 'normal';
-
-          // If it's a UL, make it flex
-          if (el.tagName === 'UL') {
-            el.style.display = 'flex';
-            el.style.flexWrap = 'wrap';
-            el.style.gap = '8px';
-            el.style.rowGap = '8px';
-            el.style.paddingRight = '12px';
-            qsa('li', el).forEach((li) => {
-              li.style.flex = '0 0 auto';
-              li.style.margin = '0';
-            });
-          } else {
-            // Generic flex-wrap if container is flex
-            const display = getComputedStyle(el).display;
-            if (display === 'flex' || display === 'inline-flex') {
-              el.style.flexWrap = 'wrap';
-              el.style.gap = '8px';
-              el.style.rowGap = '8px';
-              el.style.alignItems = 'center';
-              el.style.justifyContent = 'flex-start';
-              el.style.paddingRight = '12px';
-            }
-          }
-
-          // Slightly tighten link spacing on small screens
-          qsa('a', el).forEach((a) => {
-            a.style.fontSize = '14px';
-            a.style.padding = '10px 12px';
-            a.style.lineHeight = '1.1';
-          });
-        } else {
-          // Revert inline styles set by us (wide or landscape)
-          if (el.dataset.aioMobileWrap) {
-            ['overflowX','overflow','whiteSpace','display','flexWrap','gap','rowGap','alignItems','justifyContent','paddingRight']
-              .forEach((k) => { try { el.style[k] = ''; } catch (_) {} });
-            qsa('li', el).forEach((li) => { li.style.flex = ''; li.style.margin=''; });
-            qsa('a', el).forEach((a) => { a.style.fontSize=''; a.style.padding=''; a.style.lineHeight=''; });
-          }
-        }
-      });
-    }
-
-    apply();
-    window.addEventListener('resize', apply);
-    window.addEventListener('orientationchange', apply);
-  }
-
   // -------------------------
   // Active nav
   // -------------------------
@@ -364,7 +261,89 @@
     return isNaN(d) ? 0 : d;
   }
 
-  function iconForType(type) {
+  
+  // Mobile portrait navigation UX:
+  // - ensures navigation links are fully visible (no confusing horizontal swipe),
+  // - optionally moves the hamburger (#navToggle) to the left side near the coffee/cup button.
+  function fixMobileNavPortrait() {
+    const mq = window.matchMedia ? window.matchMedia('(max-width: 520px) and (orientation: portrait)') : null;
+    const isPortraitSmall = mq ? mq.matches : (window.innerWidth <= 520);
+
+    const toggle = qs('#navToggle');
+    if (!toggle) return;
+
+    // Inject minimal CSS once (scoped by body class + data attribute).
+    let styleEl = qs('#aioMobileNavPortraitStyle');
+    if (!styleEl) {
+      styleEl = document.createElement('style');
+      styleEl.id = 'aioMobileNavPortraitStyle';
+      styleEl.textContent = `
+        @media (max-width: 520px) and (orientation: portrait) {
+          body.aio-mobile-nav-wrap [data-aio-nav-row="1"] {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            overflow-x: visible !important;
+            white-space: normal !important;
+            gap: 10px !important;
+            row-gap: 10px !important;
+            align-items: center !important;
+          }
+          body.aio-mobile-nav-wrap [data-aio-nav-row="1"] a,
+          body.aio-mobile-nav-wrap [data-aio-nav-row="1"] button {
+            flex: 1 0 44% !important;
+            min-width: 130px !important;
+          }
+        }
+      `;
+      document.head.appendChild(styleEl);
+    }
+
+    // Tag the best nav container within topbar
+    const topRoot = qs('.topbar') || qs('#topbar') || document.body;
+    const containers = qsa('nav, .nav, .nav-links, .topbar-nav, ul', topRoot);
+
+    let best = null;
+    let bestN = 0;
+    for (const el of containers) {
+      const n = el.querySelectorAll('a').length;
+      if (n > bestN) { best = el; bestN = n; }
+    }
+    if (best) best.setAttribute('data-aio-nav-row', '1');
+
+    document.body.classList.toggle('aio-mobile-nav-wrap', !!isPortraitSmall);
+
+    // Move hamburger near the coffee/cup link (if present) in portrait small.
+    if (isPortraitSmall) {
+      const coffee =
+        qs('a[aria-label*="kaw" i]') ||
+        qs('a[title*="kaw" i]') ||
+        qs('a[href*="kaw" i]') ||
+        qs('a[href*="coffee" i]') ||
+        qs('button[aria-label*="kaw" i]');
+
+      if (coffee && coffee.parentElement) {
+        const p = coffee.parentElement;
+        if (toggle.parentElement !== p) {
+          try { p.insertBefore(toggle, coffee); } catch (_) {}
+        } else {
+          // ensure ordering
+          try {
+            if (coffee.previousElementSibling !== toggle) p.insertBefore(toggle, coffee);
+          } catch (_) {}
+        }
+        toggle.style.marginRight = '10px';
+      }
+    } else {
+      const actions = qs('.topbar-actions') || qs('.header-actions') || qs('#headerActions') || qs('.actions');
+      if (actions && toggle.parentElement !== actions) {
+        try { actions.appendChild(toggle); } catch (_) {}
+      }
+      toggle.style.marginRight = '';
+    }
+  }
+
+
+function iconForType(type) {
     const t = String(type || '').toLowerCase();
     if (t === 'fix') return '🛠';
     if (t === 'feature') return '✨';
@@ -755,7 +734,12 @@
     applyI18n();
     initAnalytics();
     initDrawer();
-    fixMobileNavOverflow();
+    fixMobileNavPortrait();
+    // keep it responsive to rotations/resizes
+    let __aioNavFixT = null;
+    const __aioNavFix = () => { clearTimeout(__aioNavFixT); __aioNavFixT = setTimeout(fixMobileNavPortrait, 80); };
+    window.addEventListener('resize', __aioNavFix, { passive: true });
+    window.addEventListener('orientationchange', __aioNavFix, { passive: true });
     setActiveNav();
     initUpdates();
     initPayPal();
