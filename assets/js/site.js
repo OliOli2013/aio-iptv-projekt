@@ -210,7 +210,7 @@
   }
 
   // -------------------------
-  // Mobile drawer
+  // Mobile drawer (improved UX + accessibility)
   // -------------------------
   function initDrawer() {
     const btn = qs('#navToggle');
@@ -218,26 +218,187 @@
     const back = qs('#drawerBackdrop');
     if (!btn || !drawer || !back) return;
 
-    const open = () => {
-      drawer.classList.add('open');
-      back.classList.add('open');
-      document.body.style.overflow = 'hidden';
-      drawer.setAttribute('aria-hidden', 'false');
-    };
-    const close = () => {
-      drawer.classList.remove('open');
-      back.classList.remove('open');
-      document.body.style.overflow = '';
+    // Ensure IDs/ARIA are wired
+    try {
+      btn.setAttribute('aria-controls', 'mobileDrawer');
+      btn.setAttribute('aria-expanded', 'false');
       drawer.setAttribute('aria-hidden', 'true');
+      back.setAttribute('aria-hidden', 'true');
+      if (!drawer.hasAttribute('tabindex')) drawer.setAttribute('tabindex', '-1');
+    } catch (_) {}
+
+    // Inject minimal CSS if theme doesn't provide it (prevents "menu opens but is invisible")
+    if (!document.getElementById('aioDrawerCss')) {
+      const style = document.createElement('style');
+      style.id = 'aioDrawerCss';
+      style.textContent = `
+        #drawerBackdrop{opacity:0;pointer-events:none;transition:opacity .18s ease;}
+        #drawerBackdrop.open{opacity:1;pointer-events:auto;}
+        #mobileDrawer{transform:translateX(110%);transition:transform .22s ease;will-change:transform;}
+        #mobileDrawer.open{transform:translateX(0);}
+        @media (prefers-reduced-motion: reduce){
+          #drawerBackdrop,#mobileDrawer{transition:none !important;}
+        }
+      `;
+      document.head.appendChild(style);
+    }
+
+    const focusableSel =
+      'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
+
+    const getFocusable = () =>
+      qsa(focusableSel, drawer).filter((el) => el && el.offsetParent !== null);
+
+    let lastFocus = null;
+    let scrollY = 0;
+
+    const lockScroll = () => {
+      scrollY = window.scrollY || window.pageYOffset || 0;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+      document.body.style.width = '100%';
     };
 
-    btn.addEventListener('click', open);
+    const unlockScroll = () => {
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      document.body.style.width = '';
+      window.scrollTo(0, scrollY);
+    };
+
+    const open = () => {
+      if (drawer.classList.contains('open')) return;
+      lastFocus = document.activeElement;
+      drawer.classList.add('open');
+      back.classList.add('open');
+      lockScroll();
+      try {
+        drawer.setAttribute('aria-hidden', 'false');
+        back.setAttribute('aria-hidden', 'false');
+        btn.setAttribute('aria-expanded', 'true');
+      } catch (_) {}
+
+      // Focus first focusable item (or drawer itself)
+      setTimeout(() => {
+        const f = getFocusable();
+        (f[0] || drawer).focus && (f[0] || drawer).focus();
+      }, 30);
+    };
+
+    const close = () => {
+      if (!drawer.classList.contains('open')) return;
+      drawer.classList.remove('open');
+      back.classList.remove('open');
+      unlockScroll();
+      try {
+        drawer.setAttribute('aria-hidden', 'true');
+        back.setAttribute('aria-hidden', 'true');
+        btn.setAttribute('aria-expanded', 'false');
+      } catch (_) {}
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    };
+
+    // Toggle
+    btn.addEventListener(
+      'click',
+      (e) => {
+        e.preventDefault();
+        drawer.classList.contains('open') ? close() : open();
+      },
+      { passive: false }
+    );
+
+    // Backdrop closes
     back.addEventListener('click', close);
-    qsa('[data-drawer-close]').forEach((x) => x.addEventListener('click', close));
-    qsa('a', drawer).forEach((a) => a.addEventListener('click', close));
+
+    // Explicit close buttons
+    qsa('[data-drawer-close]', drawer).forEach((x) => x.addEventListener('click', close));
+
+    // Clicking a link closes the drawer (except same-page anchors)
+    qsa('a', drawer).forEach((a) =>
+      a.addEventListener('click', () => {
+        const href = String(a.getAttribute('href') || '');
+        if (href.startsWith('#')) return;
+        close();
+      })
+    );
+
+    // Keyboard: ESC closes, TAB is trapped within drawer when open
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') close();
+      if (!drawer.classList.contains('open')) return;
+
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        close();
+        return;
+      }
+
+      if (e.key === 'Tab') {
+        const f = getFocusable();
+        if (!f.length) {
+          e.preventDefault();
+          return;
+        }
+        const firstEl = f[0];
+        const lastEl = f[f.length - 1];
+
+        if (e.shiftKey && document.activeElement === firstEl) {
+          e.preventDefault();
+          lastEl.focus();
+        } else if (!e.shiftKey && document.activeElement === lastEl) {
+          e.preventDefault();
+          firstEl.focus();
+        }
+      }
     });
+
+    // Swipe-to-close (mobile)
+    let touch = null;
+
+    function drawerSide() {
+      const r = drawer.getBoundingClientRect();
+      // If it starts at/near left edge -> left drawer, otherwise right drawer
+      return r.left < 40 ? 'left' : 'right';
+    }
+
+    drawer.addEventListener(
+      'touchstart',
+      (e) => {
+        if (!drawer.classList.contains('open')) return;
+        const t = e.touches && e.touches[0];
+        if (!t) return;
+        touch = { x: t.clientX, y: t.clientY, side: drawerSide(), time: Date.now() };
+      },
+      { passive: true }
+    );
+
+    drawer.addEventListener(
+      'touchend',
+      (e) => {
+        if (!touch || !drawer.classList.contains('open')) return;
+        const t = e.changedTouches && e.changedTouches[0];
+        if (!t) return;
+        const dx = t.clientX - touch.x;
+        const dy = t.clientY - touch.y;
+        const absX = Math.abs(dx);
+        const absY = Math.abs(dy);
+
+        // Horizontal gesture threshold
+        if (absX > 70 && absX > absY * 1.2) {
+          if (touch.side === 'left' && dx < -70) close();
+          if (touch.side === 'right' && dx > 70) close();
+        }
+        touch = null;
+      },
+      { passive: true }
+    );
+
+    // Expose close/open for other UI if needed
+    window.__aioDrawer = { open, close };
   }
 
   // -------------------------
