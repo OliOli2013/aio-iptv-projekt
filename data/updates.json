@@ -1,24 +1,31 @@
 [
   {
+    "date": "2025-12-22",
+    "ts": 1766361600000,
+    "type": "release",
+    "title": "IPTV Dream 6.1 — pełne PL/EN + auto język systemu",
+    "details": "Zastąpiono wersję 6.0 pakietem 6.1 (enigma2-plugin-extensions-iptvdream_6.1_all.ipk). Dodano kompletne tłumaczenie EN, przetłumaczone komunikaty/okna oraz automatyczne dopasowanie języka do ustawień systemu."
+  },
+  {
     "date": "2025-12-21",
     "ts": 1766275200000,
     "type": "fix",
     "title": "Future Lab: pełne uruchomienie narzędzi + log",
-    "details": "Naprawiono obsługę Config Diff / Auto‑Checklist / ServiceRef Explorer oraz dodano panel logów działań." 
+    "details": "Naprawiono obsługę Config Diff / Auto‑Checklist / ServiceRef Explorer oraz dodano panel logów działań."
   },
   {
     "date": "2025-12-21",
     "ts": 1766275200000,
     "type": "change",
     "title": "UI: dzwoneczek (nieprzeczytane) + menu mobilne + akordeony",
-    "details": "Dodano licznik nieprzeczytanych aktualizacji, poprawiono interakcje menu na mobile i przywrócono rozwijanie sekcji w FAQ/Pomoc." 
+    "details": "Dodano licznik nieprzeczytanych aktualizacji, poprawiono interakcje menu na mobile i przywrócono rozwijanie sekcji w FAQ/Pomoc."
   },
   {
     "date": "2025-12-21",
     "ts": 1766275200000,
     "type": "feature",
     "title": "UI: przycisk „Do góry” + szybkie odświeżenie cache",
-    "details": "Pojawia się po przewinięciu strony; dodatkowo w panelu aktualizacji dodano przycisk do czyszczenia cache UI." 
+    "details": "Pojawia się po przewinięciu strony; dodatkowo w panelu aktualizacji dodano przycisk do czyszczenia cache UI."
   },
   {
     "date": "2025-12-19",

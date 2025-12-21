@@ -958,7 +958,44 @@
   }
 
   // -------------------------
-  // START
+  
+  // -------------------------
+  // Topbar promos (AIO Panel / IPTV Dream)
+  // -------------------------
+  function initTopPromos() {
+    const bar = document.querySelector('.topbar-inner');
+    if (!bar) return;
+
+    const pills = bar.querySelectorAll('a.pill');
+    const firstPill = bar.querySelector('a.pill-accent') || (pills.length ? pills[0] : null);
+
+    // Emphasize existing pill
+    if (firstPill) firstPill.classList.add('pill-prominent');
+
+    // Avoid duplicates
+    if (bar.querySelector('a.pill-iptvdream')) return;
+
+    const lang = (typeof getLang === 'function') ? getLang() : 'pl';
+    const label = (lang === 'en') ? 'Update: IPTV Dream v6.1' : 'Aktualizacja: IPTV Dream v6.1';
+    const cta = (lang === 'en') ? 'Download now' : 'Pobierz teraz';
+
+    const a = document.createElement('a');
+    a.className = 'pill pill-accent pill-prominent pill-iptvdream';
+    a.setAttribute('href', 'pliki/enigma2-plugin-extensions-iptvdream_6.1_all.ipk');
+    a.setAttribute('download', '');
+    a.innerHTML = `<span>${label}</span> <strong>${cta}</strong>`;
+
+    if (firstPill && firstPill.nextSibling) {
+      firstPill.insertAdjacentElement('afterend', a);
+    } else {
+      // Put after brand link if no pill exists
+      const brand = bar.querySelector('.brand');
+      if (brand) brand.insertAdjacentElement('afterend', a);
+      else bar.appendChild(a);
+    }
+  }
+
+// START
   // -------------------------
   document.addEventListener('DOMContentLoaded', () => {
     applyI18n();
@@ -966,6 +1003,7 @@
     initDrawer();
     setupMobileTopIcons();
     setActiveNav();
+    initTopPromos();
     initUpdates();
     initPayPal();
     initMarquee();
