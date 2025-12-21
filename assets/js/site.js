@@ -4,12 +4,6 @@
   const qs = (s, r = document) => r.querySelector(s);
   const qsa = (s, r = document) => Array.from(r.querySelectorAll(s));
 
-  const absUrl = (p) => {
-    try { return new URL(p, document.baseURI).toString(); }
-    catch (e) { return p; }
-  };
-
-
   // -------------------------
   // i18n (auto by device; PL fallback)
   // -------------------------
@@ -491,14 +485,31 @@
   }
 
   async function safeFetchJSON(url) {
-    const u = absUrl(url);
-    const res = await fetch(u, { cache: 'no-store' });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    return await res.json();
+    // GitHub Pages friendly (repo subpath) + cache-bust
+    const base = new URL('.', document.baseURI);
+    const candidates = [];
+    try {
+      const u = new URL(String(url), base);
+      if (!u.searchParams.has('v')) u.searchParams.set('v', String(Date.now()));
+      candidates.push(u.toString());
+    } catch (e) {}
+    // as-is fallback
+    candidates.push(String(url));
+
+    let lastErr = null;
+    for (const u of candidates) {
+      try {
+        const res = await fetch(u, { cache: 'no-store' });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return await res.json();
+      } catch (e) {
+        lastErr = e;
+      }
+    }
+    throw lastErr || new Error('Fetch failed');
   }
 
   async function initAIChatDrawer() {
-) {
     injectAIChatMarkup();
 
     const fab = document.getElementById('ai-chat-fab');
@@ -513,13 +524,27 @@
     const input = document.getElementById('aiChatInput');
     const meta = document.getElementById('ai-chat-meta');
 
-    let cfg = { mode: 'offline', endpoint: '' };
-    try { cfg = await safeFetchJSON('data/aichat_config.json?cb=' + Date.now()); } catch (e) {}
+    let cfg = {
+      mode: 'offline',
+      provider: '',
+      endpoint: '',
+      // Supabase optional
+      supabaseUrl: '',
+      supabaseAnonKey: '',
+      functionName: 'ai-chat',
+      offlineKnowledge: 'data/knowledge.json'
+    };
+    try { cfg = Object.assign(cfg, await safeFetchJSON('data/aichat_config.json')); } catch (e) {}
 
-    meta.textContent = (cfg.mode === 'online' && cfg.endpoint) ? 'Tryb: ONLINE' : 'Tryb: OFFLINE (baza wiedzy)';
+    const onlineReady = (cfg.mode === 'online') && (
+      (cfg.provider === 'supabase' && cfg.supabaseUrl && cfg.supabaseAnonKey && !String(cfg.supabaseAnonKey).includes('...')) ||
+      (cfg.endpoint && String(cfg.endpoint).trim())
+    );
+
+    meta.textContent = onlineReady ? 'Tryb: ONLINE' : 'Tryb: OFFLINE (baza wiedzy)';
 
     let kb = [];
-    try { kb = await safeFetchJSON('./data/knowledge.json'); } catch (e) { kb = []; }
+    try { kb = await safeFetchJSON(cfg.offlineKnowledge || 'data/knowledge.json'); } catch (e) { kb = []; }
 
     form && form.addEventListener('submit', async (ev) => {
       ev.preventDefault();
@@ -530,35 +555,44 @@
 
       if (cfg.mode === 'online') {
         try {
-          let endpoint = (cfg.endpoint || '').toString().trim();
+          let replyText = '';
 
-          const supaUrl = (cfg.supabaseUrl || (window.AIO_SITE && window.AIO_SITE.supabaseUrl) || '').toString().trim();
-          const supaKey = (cfg.supabaseAnonKey || (window.AIO_SITE && window.AIO_SITE.supabaseAnonKey) || '').toString().trim();
-          const fnName = (cfg.functionName || 'ai-chat').toString().trim();
+          if (cfg.provider === 'supabase' && cfg.supabaseUrl && cfg.supabaseAnonKey && !String(cfg.supabaseAnonKey).includes('...')) {
+            const base = String(cfg.supabaseUrl).replace(/\/+$/, '');
+            const fn = String(cfg.functionName || 'ai-chat');
+            const endpoint = base + '/functions/v1/' + encodeURIComponent(fn);
 
-          const headers = { 'Content-Type': 'application/json' };
-          if (!endpoint && supaUrl) {
-            endpoint = supaUrl.replace(/\/$/, '') + '/functions/v1/' + fnName;
-          }
-          if (supaKey && endpoint && endpoint.indexOf('supabase.co/functions/') !== -1) {
-            headers.apikey = supaKey;
-            headers.Authorization = 'Bearer ' + supaKey;
-          }
-
-          if (endpoint) {
             const res = await fetch(endpoint, {
               method: 'POST',
-              headers,
+              headers: {
+                'Content-Type': 'application/json',
+                'apikey': String(cfg.supabaseAnonKey),
+                'Authorization': 'Bearer ' + String(cfg.supabaseAnonKey)
+              },
               body: JSON.stringify({ message: q, query: q, source: 'aio-iptv', locale: getLang() })
             });
             if (!res.ok) throw new Error('HTTP ' + res.status);
             const data = await res.json();
-            const reply = (data.reply || data.text || data.message || '').toString().trim();
-            renderChatMessage('bot', reply || 'Brak odpowiedzi z trybu ONLINE.');
+            replyText = (data && (data.reply || data.text || data.answer)) ? String(data.reply || data.text || data.answer) : '';
+          } else if (cfg.endpoint && String(cfg.endpoint).trim()) {
+            const res = await fetch(cfg.endpoint, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ message: q, query: q, source: 'aio-iptv', locale: getLang() })
+            });
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const data = await res.json();
+            replyText = (data && (data.reply || data.text || data.answer)) ? String(data.reply || data.text || data.answer) : '';
+          }
+
+          if (replyText) {
+            renderChatMessage('bot', replyText);
             return;
           }
+          // If ONLINE configured but returns empty, fall through to OFFLINE
         } catch (e) {
           renderChatMessage('bot', 'Nie udało się połączyć z trybem ONLINE. Odpowiadam z bazy offline.');
+          // fall through to offline
         }
       }
 
@@ -569,27 +603,61 @@
   }
 
 
-document.addEventListener('DOMContentLoaded', () => {
-    const safe = (fn) => { try { fn && fn(); } catch (e) { console.warn('[AIO] init error', e); } };
-    const safeAsync = (fn) => {
-      try {
-        const p = fn && fn();
-        if (p && typeof p.then === 'function' && typeof p.catch === 'function') {
-          p.catch((e) => console.warn('[AIO] async init error', e));
-        }
-      } catch (e) {
-        console.warn('[AIO] async init error', e);
+
+
+  // -------------------------
+  // Accordions (FAQ / Poradniki / Centrum wiedzy)
+  // -------------------------
+  function initAccordions() {
+    // Supports markup:
+    // .accordion-item > .accordion-header + .accordion-content
+    // and any [data-accordion-header] + [data-accordion-content]
+    const toggle = (item, content, open) => {
+      const isOpen = (open !== undefined) ? open : !item.classList.contains('is-open');
+      item.classList.toggle('is-open', isOpen);
+      item.classList.toggle('open', isOpen); // legacy
+      if (content) {
+        content.style.maxHeight = isOpen ? (content.scrollHeight + 'px') : '0px';
+        content.style.overflow = 'hidden';
+        content.style.transition = 'max-height .22s ease';
       }
     };
 
-    safe(applyI18n);
-    safe(initDrawer);
-    safe(setActiveNav);
-    safe(initPayPal);
-    safe(initMarquee);
-    safe(initOneLinerGenerator);
-    safe(initExternalCounter);
-    safeAsync(initUpdates);
-    safeAsync(initAIChatDrawer);
+    // Initialize heights
+    qsa('.accordion-item').forEach(item => {
+      const btn = qs('.accordion-header', item) || qs('[data-accordion-header]', item);
+      const content = qs('.accordion-content', item) || qs('[data-accordion-content]', item) || (btn ? btn.nextElementSibling : null);
+      if (!btn || !content) return;
+      // Start collapsed unless already marked open
+      const initiallyOpen = item.classList.contains('is-open') || item.classList.contains('open') || btn.getAttribute('aria-expanded') === 'true';
+      content.style.maxHeight = initiallyOpen ? (content.scrollHeight + 'px') : '0px';
+      content.style.overflow = 'hidden';
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const nowOpen = !(item.classList.contains('is-open') || item.classList.contains('open'));
+        btn.setAttribute('aria-expanded', nowOpen ? 'true' : 'false');
+        toggle(item, content, nowOpen);
+      });
+    });
+
+    // Recompute on resize
+    window.addEventListener('resize', () => {
+      qsa('.accordion-item.is-open, .accordion-item.open').forEach(item => {
+        const content = qs('.accordion-content', item) || qs('[data-accordion-content]', item) || qs('*:not(.accordion-header)', item);
+        if (content) content.style.maxHeight = (content.scrollHeight + 'px');
+      });
+    });
+  }
+document.addEventListener('DOMContentLoaded', () => {
+    applyI18n();
+    initDrawer();
+    setActiveNav();
+    initUpdates();
+    initPayPal();
+    initMarquee();
+    initAIChatDrawer();
+    initExternalCounter();
+    initOneLinerGenerator();
+    initAccordions();
   });
 })();
