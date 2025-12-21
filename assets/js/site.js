@@ -127,7 +127,16 @@
     );
   }
 
-  function relUrl(path) {
+  
+  function injectStyleOnce(id, cssText) {
+    if (document.getElementById(id)) return;
+    const style = document.createElement('style');
+    style.id = id;
+    style.textContent = cssText;
+    document.head.appendChild(style);
+  }
+
+function relUrl(path) {
     // Works on GitHub Pages subpaths
     return new URL(path, document.baseURI).toString();
   }
@@ -239,159 +248,6 @@
       if (e.key === 'Escape') close();
     });
   }
-
-  // -------------------------
-  // Mobile top icons layout (mobile portrait)
-  // Desired order (left): bell, menu, coffee
-  // -------------------------
-  function isMobilePortrait() {
-    return (window.innerWidth <= 720) && (window.innerHeight >= window.innerWidth);
-  }
-
-  function ensureCoffeeLink(coffeeEl) {
-    if (!coffeeEl) return null;
-
-    // If it's already a link/button, keep it
-    if (coffeeEl.tagName === 'A' || coffeeEl.tagName === 'BUTTON') return coffeeEl;
-
-    // If it's a span/icon (e.g. <span class="support-ico">☕</span>), wrap it with a link
-    const a = document.createElement('a');
-    a.href = '#wsparcie';
-    a.className = 'mobile-coffee-link';
-    a.setAttribute('aria-label', 'Wsparcie (Postaw kawę)');
-    a.style.display = 'inline-flex';
-    a.style.alignItems = 'center';
-    a.style.justifyContent = 'center';
-    a.style.width = '38px';
-    a.style.height = '38px';
-    a.style.borderRadius = '999px';
-    a.style.border = '1px solid rgba(255,255,255,.18)';
-    a.style.background = 'rgba(255,255,255,.06)';
-    a.style.boxShadow = '0 10px 28px rgba(0,0,0,.35)';
-    a.style.backdropFilter = 'blur(10px)';
-    a.style.textDecoration = 'none';
-    a.style.fontSize = '18px';
-    a.style.color = '#fff';
-
-    // move node inside link
-    const parent = coffeeEl.parentNode;
-    a.appendChild(coffeeEl);
-    if (parent) parent.insertBefore(a, coffeeEl.nextSibling);
-    return a;
-  }
-
-  function moveMobileTopIcons() {
-    // Only on mobile portrait
-    if (!isMobilePortrait()) return;
-
-    // Prefer explicit elements
-    const menuBtn = qs('#navToggle');
-    if (menuBtn) {
-      // Make hamburger more visible
-      menuBtn.style.color = '#fff';
-      menuBtn.style.filter = 'brightness(1.9) saturate(1.2)';
-      menuBtn.style.textShadow = '0 0 8px rgba(255,255,255,.18)';
-    }
-
-    const bellBtn = qs('#bellBtn') || qs('#newsBellBtn') || qs('#notifBtn');
-    if (bellBtn) {
-      bellBtn.style.color = '#fff';
-      bellBtn.style.filter = 'brightness(1.2) saturate(1.1)';
-    }
-
-    // Find the "coffee" icon near top bar (best effort)
-    const topBar = qs('.top-support-bar') || qs('.topbar') || qs('header') || document.body;
-    let coffeeEl =
-      qs('.support-ico', topBar) ||
-      qs('.coffee', topBar) ||
-      qs('.coffee-btn', topBar) ||
-      qs('a[aria-label*="kaw" i],a[title*="kaw" i],a[href*="wspar" i],a[href*="coffee" i]', topBar) ||
-      null;
-
-    // If we found a span icon, wrap it into a link
-    if (coffeeEl && coffeeEl.tagName === 'SPAN') {
-      coffeeEl = ensureCoffeeLink(coffeeEl);
-    }
-
-    // If we still don't have coffee, create a fallback link (to #wsparcie)
-    if (!coffeeEl) {
-      const fallback = document.createElement('a');
-      fallback.href = '#wsparcie';
-      fallback.className = 'mobile-coffee-link';
-      fallback.setAttribute('aria-label', 'Wsparcie (Postaw kawę)');
-      fallback.textContent = '☕';
-      fallback.style.display = 'inline-flex';
-      fallback.style.alignItems = 'center';
-      fallback.style.justifyContent = 'center';
-      fallback.style.width = '38px';
-      fallback.style.height = '38px';
-      fallback.style.borderRadius = '999px';
-      fallback.style.border = '1px solid rgba(255,255,255,.18)';
-      fallback.style.background = 'rgba(255,255,255,.06)';
-      fallback.style.boxShadow = '0 10px 28px rgba(0,0,0,.35)';
-      fallback.style.backdropFilter = 'blur(10px)';
-      fallback.style.textDecoration = 'none';
-      fallback.style.fontSize = '18px';
-      fallback.style.color = '#fff';
-      coffeeEl = fallback;
-    }
-
-    // Choose insertion point: the support copy area in top bar
-    const target =
-      qs('.support-copy', topBar) ||
-      qs('.top-support-inner', topBar) ||
-      qs('.top-support-bar', topBar) ||
-      topBar;
-
-    // Create (or reuse) row container
-    let row = qs('#mobileTopIconRow', topBar);
-    if (!row) {
-      row = document.createElement('div');
-      row.id = 'mobileTopIconRow';
-      row.style.display = 'inline-flex';
-      row.style.alignItems = 'center';
-      row.style.gap = '8px';
-      row.style.marginRight = '10px';
-      row.style.flex = '0 0 auto';
-    }
-
-    // Insert row at the beginning of target
-    if (target && row.parentNode !== target) {
-      target.insertBefore(row, target.firstChild);
-    }
-
-    // Move elements into row in desired order
-    // Important: moving nodes preserves event listeners
-    if (bellBtn && bellBtn.parentNode !== row) row.appendChild(bellBtn);
-    if (menuBtn && menuBtn.parentNode !== row) row.appendChild(menuBtn);
-
-    // Put coffee as the third icon (ensure it's a node in DOM)
-    if (coffeeEl) {
-      // If coffeeEl is not in DOM (fallback), add it now
-      if (!coffeeEl.isConnected) row.appendChild(coffeeEl);
-      else if (coffeeEl.parentNode !== row) row.appendChild(coffeeEl);
-    }
-
-    // Hide the horizontal navigation bar on mobile to avoid misleading swipe
-    const navBar = qs('.nav') || qs('.main-nav') || qs('#mainNav');
-    if (navBar) {
-      navBar.style.display = 'none';
-    }
-  }
-
-  function setupMobileTopIcons() {
-    // Run once after layout
-    moveMobileTopIcons();
-    // Re-run on rotation / resize (throttled)
-    let t = null;
-    const rerun = () => {
-      if (t) clearTimeout(t);
-      t = setTimeout(moveMobileTopIcons, 120);
-    };
-    window.addEventListener('resize', rerun);
-    window.addEventListener('orientationchange', rerun);
-  }
-
 
   // -------------------------
   // Active nav
@@ -553,6 +409,242 @@
   }
 
   // -----------------------------
+  
+
+  // -----------------------------
+  // Public comments (Supabase) — ONLY for Kontakt section
+  // -----------------------------
+  function initContactComments() {
+    // Only on pages that include Kontakt section
+    const kontakt = document.getElementById('kontakt') || document.querySelector('[data-section="kontakt"]');
+    if (!kontakt) return;
+
+    // Avoid double init
+    if (document.getElementById('contact-comments-root')) return;
+
+    // Minimal styling (kept in JS to avoid extra file edits)
+    injectStyleOnce('contact-comments-css', `
+      .contact-comments { margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,.10); }
+      .contact-comments__head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:10px; }
+      .contact-comments__title { font-size: 18px; margin: 0; }
+      .contact-comments__note { font-size: 12px; opacity: .8; margin: 0; }
+      .contact-comments__actions { display:flex; gap:8px; flex-wrap:wrap; }
+      .contact-comments__btn {
+        border: 1px solid rgba(255,255,255,.18);
+        background: rgba(255,255,255,.06);
+        color: inherit;
+        border-radius: 12px;
+        padding: 8px 10px;
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .contact-comments__btn:hover { background: rgba(255,255,255,.10); }
+      .contact-comments__grid { display:grid; gap:10px; }
+      .contact-comments__row { display:grid; grid-template-columns: 180px 1fr; gap:10px; align-items:start; }
+      .contact-comments__row input, .contact-comments__row textarea {
+        width: 100%;
+        border: 1px solid rgba(255,255,255,.16);
+        background: rgba(0,0,0,.18);
+        color: inherit;
+        border-radius: 12px;
+        padding: 10px 12px;
+        outline: none;
+      }
+      .contact-comments__row textarea { min-height: 96px; resize: vertical; }
+      .contact-comments__status { font-size: 13px; opacity: .9; }
+      .comment-list { display:grid; gap:10px; margin-top: 12px; }
+      .comment-item {
+        border: 1px solid rgba(255,255,255,.12);
+        background: rgba(255,255,255,.04);
+        border-radius: 14px;
+        padding: 10px 12px;
+      }
+      .comment-header { display:flex; align-items:center; justify-content:space-between; gap:10px; font-size: 13px; opacity: .92; }
+      .comment-text { margin-top: 6px; white-space: pre-wrap; }
+      @media (max-width: 560px) {
+        .contact-comments__row { grid-template-columns: 1fr; }
+      }
+    `);
+
+    // Inject markup into Kontakt card
+    const wrap = document.createElement('div');
+    wrap.className = 'contact-comments';
+    wrap.id = 'contact-comments-root';
+    wrap.innerHTML = `
+      <div class="contact-comments__head">
+        <div>
+          <h3 class="contact-comments__title">Komentarze</h3>
+          <p class="contact-comments__note">Komentarze są publiczne. Proszę bez danych wrażliwych.</p>
+        </div>
+        <div class="contact-comments__actions">
+          <button class="contact-comments__btn" type="button" id="contactCommentRefresh">Odśwież</button>
+        </div>
+      </div>
+
+      <div class="contact-comments__grid">
+        <div class="contact-comments__row">
+          <input id="contactCommentName" type="text" placeholder="Twój nick (opcjonalnie)" autocomplete="nickname">
+          <div></div>
+        </div>
+        <div class="contact-comments__row">
+          <textarea id="contactCommentBody" placeholder="Treść komentarza..." autocomplete="off"></textarea>
+          <div>
+            <button class="contact-comments__btn" type="button" id="contactCommentSend">Dodaj komentarz</button>
+            <div class="contact-comments__status" id="contactCommentStatus" style="margin-top:8px;"></div>
+          </div>
+        </div>
+
+        <!-- honeypot (anti-spam) -->
+        <input type="text" id="contactCommentHp" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <div class="comment-list" id="contactCommentsList"></div>
+      </div>
+    `;
+
+    kontakt.appendChild(wrap);
+
+    const statusEl = document.getElementById('contactCommentStatus');
+    const listEl = document.getElementById('contactCommentsList');
+    const btnSend = document.getElementById('contactCommentSend');
+    const btnRefresh = document.getElementById('contactCommentRefresh');
+
+    // Basic client-side throttle (reduces accidental double posts)
+    const throttleKey = 'aio_contact_comment_last_ts';
+    const canPostNow = () => {
+      const last = Number(localStorage.getItem(throttleKey) || '0');
+      return Date.now() - last > 15000; // 15s
+    };
+    const markPosted = () => localStorage.setItem(throttleKey, String(Date.now()));
+
+    const setStatus = (msg, kind='') => {
+      if (!statusEl) return;
+      statusEl.textContent = msg || '';
+      statusEl.style.opacity = msg ? '1' : '0';
+    };
+
+    const ensureSdk = () => new Promise((resolve) => {
+      if (window.supabase && typeof window.supabase.createClient === 'function') return resolve(true);
+      const s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+      s.async = true;
+      s.onload = () => resolve(true);
+      s.onerror = () => resolve(false);
+      document.head.appendChild(s);
+    });
+
+    const run = async () => {
+      // Config from window (if you keep it elsewhere), otherwise fallback to values from the old working site
+      window.AIO_SITE = window.AIO_SITE || {};
+      const sbUrl = window.AIO_SITE.supabaseUrl || 'https://pynjjeobqzxbrvmqofcw.supabase.co';
+      const sbKey = window.AIO_SITE.supabaseAnonKey || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB5bmpqZW9icXp4YnJ2bXFvZmN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU3NDA5MDYsImV4cCI6MjA4MTMxNjkwNn0.XSBB0DJw27Wrn41nranqFyj8YI0-YjLzX52dkdrgkrg';
+
+      const ok = await ensureSdk();
+      if (!ok || !window.supabase) {
+        setStatus('Nie udało się załadować biblioteki komentarzy (Supabase).', 'err');
+        return;
+      }
+
+      const client = window.supabase.createClient(sbUrl, sbKey);
+      const pageKey = 'kontakt'; // canonical key for Kontakt section
+      const legacyKeys = Array.from(new Set([pageKey, (location.pathname || '/'), '/']));
+
+      const escape = (s) => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+      const render = (rows) => {
+        if (!listEl) return;
+        if (!rows || !rows.length) {
+          listEl.innerHTML = '<div class="comment-item"><div class="comment-text">Brak komentarzy. Bądź pierwszy.</div></div>';
+          return;
+        }
+        listEl.innerHTML = rows.map((c) => {
+          const name = escape(c.name || 'Anonim');
+          const msg = escape(c.message || '');
+          const dt = c.created_at ? new Date(c.created_at) : null;
+          const when = dt ? dt.toLocaleString() : '';
+          return `
+            <div class="comment-item">
+              <div class="comment-header">
+                <strong>${name}</strong>
+                <span>${escape(when)}</span>
+              </div>
+              <div class="comment-text">${msg}</div>
+            </div>
+          `;
+        }).join('');
+      };
+
+      const load = async () => {
+        setStatus('Ładuję komentarze…');
+        const { data, error } = await client
+          .from('comments')
+          .select('*')
+          .in('page', legacyKeys)
+          .order('created_at', { ascending: false })
+          .limit(50);
+
+        if (error) {
+          console.error(error);
+          setStatus('Błąd pobierania komentarzy: ' + (error.message || 'unknown'));
+          return;
+        }
+        setStatus('');
+        render(data || []);
+      };
+
+      const send = async () => {
+        const hp = document.getElementById('contactCommentHp');
+        if (hp && hp.value) return; // bot
+
+        if (!canPostNow()) {
+          setStatus('Odczekaj chwilę przed kolejnym komentarzem (anty-spam).');
+          return;
+        }
+
+        const nameEl = document.getElementById('contactCommentName');
+        const bodyEl = document.getElementById('contactCommentBody');
+        const name = (nameEl?.value || '').trim();
+        const message = (bodyEl?.value || '').trim();
+        if (!message) {
+          setStatus('Wpisz treść komentarza.');
+          return;
+        }
+
+        btnSend && (btnSend.disabled = true);
+        setStatus('Wysyłam…');
+
+        const { error } = await client.from('comments').insert({
+          page: pageKey,
+          name: name || 'Anonim',
+          message
+        });
+
+        btnSend && (btnSend.disabled = false);
+
+        if (error) {
+          console.error(error);
+          setStatus('Błąd wysyłania: ' + (error.message || 'unknown'));
+          return;
+        }
+
+        markPosted();
+        if (bodyEl) bodyEl.value = '';
+        setStatus('Dodano komentarz.');
+        await load();
+        setTimeout(() => setStatus(''), 1500);
+      };
+
+      btnRefresh && btnRefresh.addEventListener('click', load);
+      btnSend && btnSend.addEventListener('click', send);
+
+      await load();
+    };
+
+    run().catch((e) => {
+      console.error(e);
+      setStatus('Błąd modułu komentarzy.');
+    });
+  }
+
   // AI-Chat Enigma2 (drawer, offline KB + optional online endpoint / Supabase)
   // -----------------------------
   function injectAIChatMarkup() {
@@ -805,12 +897,12 @@
     applyI18n();
     initAnalytics();
     initDrawer();
-    setupMobileTopIcons();
     setActiveNav();
     initUpdates();
     initPayPal();
     initMarquee();
     initAIChatDrawer();
     initOneLinerGenerator();
+    initContactComments();
   });
 })();
