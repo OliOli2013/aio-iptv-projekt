@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title>Baza wiedzy i checklisty — AIO-IPTV.pl</title>
+<link href="pliki/logo.png" rel="icon"/>
+<link href="assets/css/site.css?v=next1" rel="stylesheet"/>
+</head>
+<body data-page="next">
+<div class="topbar">
+<div class="container">
+<div class="topbar-inner">
+<a aria-label="AIO-IPTV.pl" class="brand" href="index.html">
+<img alt="AIO-IPTV.pl" src="pliki/logo.png"/>
+<div>
+<div class="name">AIO‑IPTV.pl</div>
+<span class="tag">Enigma2 • IPTV • Tools • AI</span>
+</div>
+</a>
+<a class="pill pill-accent" download="" href="pliki/enigma2-plugin-extensions-panelaio_5.0_all.ipk">
+<span data-i18n="cta_update">Aktualizacja: AIO Panel v5.0</span>
+<strong data-i18n="cta_download">Pobierz teraz</strong>
+</a>
+<div class="spacer"></div>
+<div class="notif">
+<button aria-label="Updates" class="icon-btn" id="bellBtn">🔔</button>
+<div aria-live="polite" class="notif-panel" id="notifPanel"></div>
+</div>
+<button aria-label="Menu" class="icon-btn" id="navToggle">☰</button>
+</div>
+</div>
+<div class="nav">
+<div class="container">
+<div class="nav-inner nav">
+<a data-i18n="nav_home" href="index.html">Start</a>
+<a data-i18n="nav_ai" href="ai-chat.html">AI-Chat Enigma2</a>
+<a data-i18n="nav_plugins" href="plugins.html">Wtyczki</a>
+<a data-i18n="nav_lists" href="channel-lists.html">Listy kanałów</a>
+<a data-i18n="nav_guides" href="guides.html">Poradniki</a>
+<a data-i18n="nav_tools" href="tools.html">Narzędzia</a>
+<a data-i18n="nav_downloads" href="downloads.html">Pobieranie</a>
+<a data-i18n="nav_systems" href="systems.html">Systemy</a>
+<a data-i18n="nav_contact" href="contact.html">Kontakt</a>
+<a data-i18n="nav_opinion" href="contact.html#opinia">Podziel się opinią</a>
+<a data-i18n="nav_support" href="support.html">Wsparcie</a>
+</div>
+</div>
+</div>
+</div>
+<div class="drawer-backdrop" data-drawer-close="" id="drawerBackdrop"></div>
+<aside aria-hidden="true" class="drawer" id="mobileDrawer">
+<div class="drawer-head">
+<div class="drawer-title">Menu</div>
+<button aria-label="Close" class="icon-btn" data-drawer-close="">✕</button>
+</div>
+<a href="index.html">🏠 <span data-i18n="nav_home">Start</span></a>
+<a href="ai-chat.html">🤖 <span data-i18n="nav_ai">AI-Chat Enigma2</span></a>
+<a href="plugins.html">🧩 <span data-i18n="nav_plugins">Wtyczki</span></a>
+<a href="channel-lists.html">📺 <span data-i18n="nav_lists">Listy kanałów</span></a>
+<a href="guides.html">📘 <span data-i18n="nav_guides">Poradniki</span></a>
+<a href="tools.html">🛠 <span data-i18n="nav_tools">Narzędzia</span></a>
+<a href="downloads.html">⬇️ <span data-i18n="nav_downloads">Pobieranie</span></a>
+<a href="systems.html">💿 <span data-i18n="nav_systems">Systemy</span></a>
+<a href="contact.html">✉️ <span data-i18n="nav_contact">Kontakt</span></a>
+<a href="contact.html#opinia">💬 <span data-i18n="nav_opinion">Podziel się opinią</span></a>
+<a href="stats.html">Statystyki</a><a href="support.html">☕ <span data-i18n="nav_support">Wsparcie</span></a>
+</aside>
+<main class="container">
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2 class="h2">📚 Baza wiedzy i checklisty Enigma2 (dla początkujących)</h2>
+        <p class="lead">
+          Jedno miejsce z praktycznymi krokami: od wyboru systemu i pierwszej instalacji, przez listy kanałów/EPG/picony,
+          aż po diagnostykę typowych problemów. Treści są pisane „po ludzku” i w kolejności, w jakiej realnie robi się konfigurację.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="card" data-aos="fade-up" id="start">
+    <h2>Start w 30 minut (skrót dla początkujących)</h2>
+    <p>Jeśli chcesz szybko postawić tuner i mieć działającą bazę do dalszej rozbudowy – zrób te kroki w kolejności.</p>
+    <details class="details-note" open>
+      <summary>✅ Checklista „pierwsze 30 minut”</summary>
+      <div style="margin-top:10px">
+        <ol>
+          <li>Ustaw język, region i <strong>czas</strong> (strefa + synchronizacja czasu).</li>
+          <li>Skonfiguruj sieć (LAN/Wi‑Fi) i sprawdź, czy masz <strong>IP + DNS</strong>.</li>
+          <li>Skonfiguruj tuner(y) i sygnał (S/T/C) – sprawdź <strong>jakość</strong>.</li>
+          <li>Wgraj listę kanałów lub zrób skan (zależnie od potrzeb).</li>
+          <li>Ustaw EPG (minimum: poprawny czas + źródło/tryb EPG).</li>
+          <li>Zainstaluj picony (jedna lokalizacja) i zrób restart GUI.</li>
+          <li>Zrób szybki <strong>backup ustawień</strong> (żeby mieć punkt powrotu).</li>
+        </ol>
+        <p class="muted">Po każdym większym kroku (lista kanałów, picony, duże zmiany ustawień) – restart GUI jest normalny i często konieczny.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="card" data-aos="fade-up" id="toc">
+    <h2>Spis treści</h2>
+    <ul class="file-list">
+      <li><a class="file-link" href="#wybor-systemu"><span class="icon">💿</span> Wybór systemu (Image) i polecane opcje</a></li>
+      <li><a class="file-link" href="#instalacja"><span class="icon">🧰</span> Instalacja i pierwsze uruchomienie</a></li>
+      <li><a class="file-link" href="#siec"><span class="icon">🌐</span> Sieć i internet</a></li>
+      <li><a class="file-link" href="#pamiec"><span class="icon">💽</span> Dysk/USB, pamięć, nagrywanie i timeshift</a></li>
+      <li><a class="file-link" href="#tuner"><span class="icon">📡</span> Konfiguracja tunera i sygnału (S/T/C)</a></li>
+      <li><a class="file-link" href="#kanaly"><span class="icon">📺</span> Kanały, bukiety, porządek</a></li>
+      <li><a class="file-link" href="#epg"><span class="icon">🗓️</span> EPG (program TV)</a></li>
+      <li><a class="file-link" href="#picony"><span class="icon">🖼️</span> Picony</a></li>
+      <li><a class="file-link" href="#wtyczki"><span class="icon">🧩</span> Wtyczki i aktualizacje</a></li>
+      <li><a class="file-link" href="#iptv"><span class="icon">📶</span> IPTV/streaming</a></li>
+      <li><a class="file-link" href="#webif"><span class="icon">🖥️</span> WebIF, dostęp z sieci, pliki</a></li>
+      <li><a class="file-link" href="#backup"><span class="icon">💾</span> Backup i przywracanie</a></li>
+      <li><a class="file-link" href="#diagnostyka"><span class="icon">🩺</span> Diagnostyka: objawy i rozwiązania</a></li>
+      <li><a class="file-link" href="#dobrepraktyki"><span class="icon">✅</span> Dobre praktyki</a></li>
+    </ul>
+  </div>
+
+  <div class="card" data-aos="fade-up" id="wybor-systemu">
+    <h2>💿 Wybór systemu (Image) – co wybrać na start</h2>
+    <p>
+      „System” w Enigma2 to tzw. <strong>Image</strong> (np. OpenATV, OpenPLi). Dla początkujących liczy się:
+      stabilność, łatwość konfiguracji, dostępność wtyczek i wsparcie społeczności. Nie omawiamy DreamOS.
+    </p>
+
+    <details class="details-note">
+      <summary>🔰 Szybka rekomendacja (początkujący)</summary>
+      <div style="margin-top:10px">
+        <ul>
+          <li><strong>OpenATV</strong> – najłatwiej o poradniki i dodatki, dużo opcji w menu.</li>
+          <li><strong>OpenPLi</strong> – lekko i stabilnie, mniej „bajerów”, bardzo dobra baza.</li>
+          <li><strong>OpenBH / OpenVIX / OpenHDF / Egami / OpenNFR</strong> – alternatywy; różnice zwykle w wyglądzie i domyślnych ustawieniach.</li>
+          <li><strong>VTi</strong> – popularne u użytkowników Vu+ (specyficzne środowisko i dodatki).</li>
+        </ul>
+        <p class="muted">Wskazówka: jeśli dopiero zaczynasz, wybierz image, który najczęściej używają posiadacze Twojego tunera.</p>
+      </div>
+    </details>
+
+    <details class="details-note">
+      <summary>📥 Skąd pobierać systemy (oficjalne źródła)</summary>
+      <div style="margin-top:10px">
+        <ul>
+          <li><a class="file-link" href="https://www.opena.tv/app.php/atv_images" target="_blank" rel="noopener">OpenATV – obrazy systemu</a></li>
+          <li><a class="file-link" href="https://openpli.org/download" target="_blank" rel="noopener">OpenPLi – pobieranie</a></li>
+          <li><a class="file-link" href="https://www.openbh.net/" target="_blank" rel="noopener">OpenBH – strona projektu</a></li>
+          <li><a class="file-link" href="https://openvix.co.uk/" target="_blank" rel="noopener">OpenVIX – strona projektu</a></li>
+          <li><a class="file-link" href="https://www.hdfreaks.cc/" target="_blank" rel="noopener">OpenHDF – strona projektu</a></li>
+          <li><a class="file-link" href="https://egami-image.com/" target="_blank" rel="noopener">Egami – strona projektu</a></li>
+          <li><a class="file-link" href="https://vuplus-support.org/wbb4/" target="_blank" rel="noopener">Vu+ community (VTi / wsparcie)</a></li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="details-note">
+      <summary>🧠 Python 2 vs Python 3 – jak uniknąć problemów z wtyczkami</summary>
+      <div style="margin-top:10px">
+        <ul>
+          <li>Nowsze image (np. OpenATV 7.x, OpenPLi 9.x) są na <strong>Python 3</strong>.</li>
+          <li>Starsze image bywają na <strong>Python 2</strong> – wymagają wersji wtyczek „Py2”.</li>
+          <li>Jeśli instalacja wtyczki się nie udaje albo wysypuje – pierwsze pytanie: <strong>Py2 czy Py3?</strong></li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="card" data-aos="fade-up" id="instalacja">
+    <h2>🧰 Instalacja i pierwsze uruchomienie</h2>
+    <p>Bezpieczna instalacja „od zera” oraz podstawowa konfiguracja po pierwszym starcie.</p>
+
+    <details class="details-note">
+      <summary>1) Przygotowanie pendrive do flashowania</summary>
+      <div style="margin-top:10px">
+        <p><strong>Cel:</strong> przygotować nośnik, z którego tuner wgra system. <strong>Czas:</strong> 5–10 min.</p>
+        <ol>
+          <li>Sformatuj pendrive na <strong>FAT32</strong> (najlepiej 2–16 GB).</li>
+          <li>Rozpakuj pobrany image na komputerze.</li>
+          <li>Skopiuj na pendrive dokładnie to, co wymaga image (zwykle folder z plikami flash).</li>
+          <li>Sprawdź, czy nie wkleiłeś ZIP – mają być <strong>rozpakowane</strong> pliki.</li>
+          <li>Bezpiecznie odłącz pendrive.</li>
+        </ol>
+        <p><strong>Najczęstsze błędy:</strong> pendrive w NTFS/exFAT, zły folder dla modelu, skopiowany ZIP.</p>
+      </div>
+    </details>
+
+    <details class="details-note">
+      <summary>2) Flashowanie systemu na tunerze</summary>
+      <div style="margin-top:10px">
+        <p><strong>Cel:</strong> wgrać image i uruchomić kreator. <strong>Czas:</strong> 5–15 min.</p>
+        <ol>
+          <li>Wyłącz tuner (przycisk z tyłu lub odłącz z prądu).</li>
+          <li>Włóż pendrive do USB (często najlepiej USB 2.0).</li>
+          <li>Włącz tuner i wykonaj ewentualne potwierdzenie (OK/POWER) jeśli jest wymagane.</li>
+          <li>Poczekaj do końca procesu; po zakończeniu wyjmij pendrive.</li>
+        </ol>
+        <p class="muted">Jeśli tuner „flashuje w kółko” – pendrive zostaje w środku albo pliki są w złym miejscu.</p>
+      </div>
+    </details>
+
+    <details class="details-note">
+      <summary>3) Pierwsze uruchomienie – checklista „must-have”</summary>
+      <div style="margin-top:10px">
+        <p><strong>Cel:</strong> postawić stabilną bazę. <strong>Czas:</strong> 10–20 min.</p>
+        <ol>
+          <li>Język, region, <strong>czas</strong> (strefa + automatyczna synchronizacja).</li>
+          <li>Sieć: LAN/Wi‑Fi + sprawdzenie IP/DNS.</li>
+          <li>Tunery: typ (S/T/C) + konfiguracja sygnału.</li>
+          <li>Kanały: skan lub gotowa lista.</li>
+          <li>EPG: włącz, sprawdź, ustaw podstawy.</li>
+          <li><strong>Restart GUI</strong>.</li>
+        </ol>
+      </div>
+    </details>
+
+    <details class="details-note">
+      <summary>4) Pilot, HDMI‑CEC, rozdzielczość – szybkie ustawienia</summary>
+      <div style="margin-top:10px">
+        <ul>
+          <li>Ustaw rozdzielczość (np. 1080p) i tryb przeplotu/progresywny zgodnie z TV.</li>
+          <li>Jeśli TV „steruje tunerem” przez HDMI‑CEC i przeszkadza – wyłącz HDMI‑CEC w ustawieniach.</li>
+          <li>Sprawdź mapowanie przycisków pilota tylko jeśli coś faktycznie nie działa.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="card" data-aos="fade-up" id="siec">
+    <h2>🌐 Sieć i internet</h2>
+    <p>Sieć to fundament. Problemy z EPG, aktualizacjami i streamingiem w 70% wynikają z internetu lub czasu/DNS.</p>
+
+    <details class="details-note">
+      <summary>Checklista: „internet działa na pewno”</summary>
+      <div style="margin-top:10px">
+        <ol>
+          <li>Adres IP (np. 192.168.x.x).</li>
+          <li>Bramka (gateway) ustawiona.</li>
+          <li>DNS ustawiony (router lub stabilny publiczny DNS).</li>
+          <li>Test: otwórz WebIF (jeśli używasz) lub sprawdź aktualizację listy pakietów.</li>
+          <li>Wi‑Fi sprawia problemy? Zrób test na LAN.</li>
+        </ol>
+      </div>
+    </details>
+
+    <details class="details-note">
+      <summary>Objaw: „nie działa EPG / nie pobiera wtyczek”</summary>
+      <div style="margin-top:10px">
+        <ul>
+          <li>Sprawdź <strong>czas</strong> (zła data potrafi blokować HTTPS).</li>
+          <li>Sprawdź <strong>DNS</strong> (częsty problem po zmianie routera).</li>
+          <li>Jeśli masz opcję – testowo wyłącz IPv6 (czasem pomaga przy problemach z połączeniem).</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="details-note">
+      <summary>Wi‑Fi: 3 proste zasady, żeby było stabilniej</summary>
+      <div style="margin-top:10px">
+        <ul>
+          <li>Jeśli możesz – używaj <strong>LAN</strong> (kabel) do streamingu i aktualizacji.</li>
+          <li>Wi‑Fi: preferuj 5 GHz (krótszy zasięg, ale mniej zakłóceń) jeśli tuner i router wspierają.</li>
+          <li>Ustaw tuner bliżej routera lub użyj lepszego adaptera Wi‑Fi, jeśli sygnał jest słaby.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="card" data-aos="fade-up" id="pamiec">
+    <h2>💽 Dysk/USB, pamięć, nagrywanie i timeshift</h2>
+    <p>To ważne, bo EPG, picony i nagrania mogą zjadać miejsce. Dla początkujących kluczowe jest: „gdzie trzymać dane” i „żeby nośnik był zawsze dostępny”.</p>
+
+    <details class="details-note">
+      <summary>Gdzie trzymać picony/EPG/nagrania? (prosty wybór)</summary>
+      <div style="margin-top:10px">
+        <ul>
+          <li><strong>Nagrania i timeshift:</strong> dysk/USB (najlepiej stały, nie „losowy pendrive”).</li>
+          <li><strong>Picony:</strong> flash przy małej ilości, USB/dysk przy dużej.</li>
+          <li><strong>EPG:</strong> może być w pamięci tunera, ale przy dużej bazie lepiej przenieść na dysk/USB.</li>
+        </ul>
+        <p class="muted">Jeśli przenosisz EPG/picony na USB – upewnij się, że USB zawsze jest wpięte i montuje się przy starcie.</p>
+      </div>
+    </details>
+
+    <details class="details-note">
+      <summary>Timeshift (pauza na żywo) – jak uniknąć problemów</summary>
+      <div style="margin-top:10px">
+        <ul>
+          <li>Ustaw timeshift na szybki nośnik (dysk/USB), nie na pamięć tunera.</li>
+          <li>Jeśli timeshift powoduje freezy – sprawdź szybkość nośnika lub wyłącz auto‑timeshift.</li>
+          <li>Niektóre tanie pendrive nie nadają się do ciągłego zapisu.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="details-note">
+      <summary>Mało miejsca w pamięci tunera – szybka checklista</summary>
+      <div style="margin-top:10px">
+        <ul>
+          <li>Usuń nieużywane skiny i wtyczki.</li>
+          <li>Przenieś picony na USB/dysk.</li>
+          <li>Wyczyść duże pliki logów (jeśli wiesz gdzie są).</li>
+          <li>Rozważ rozszerzenie pamięci tylko jeśli masz sprawdzony poradnik dla swojego modelu.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="card" data-aos="fade-up" id="tuner">
+    <h2>📡 Konfiguracja tunera i sygnału (S/T/C)</h2>
+    <p>Najpierw sygnał. Jeśli jakość jest słaba – reszta ustawień nie pomoże.</p>
+
+    <details class="details-note">
+      <summary>DVB‑S/S2 (satelita): podstawy dla początkujących</summary>
+      <div style="margin-top:10px">
+        <ul>
+          <li>Wybierz poprawny tryb instalacji: pojedyncza antena / DiSEqC / obrotnica.</li>
+          <li>Wskaż satelitę zgodną z Twoją instalacją (np. 13.0E, 19.2E – zależy od ustawienia anteny).</li>
+          <li>W pomiarze sygnału liczy się <strong>jakość</strong> bardziej niż „poziom”.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="details-note">
+      <summary>DVB‑T/T2 (naziemna): szybka konfiguracja</summary>
+      <div style="margin-top:10px">
+        <ul>
+          <li>Ustaw kraj/region.</li>
+          <li>Zrób skan automatyczny; ręczny tylko jeśli wiesz które muxy.</li>
+          <li>Jeśli są zaniki – sprawdź antenę, wzmacniacz i zasilanie anteny.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="details-note">
+      <summary>DVB‑C (kablówka): typowe przyczyny braku kanałów</summary>
+      <div style="margin-top:10px">
+        <ul>
+          <li>Niepoprawny symbol rate/modulacja.</li>
+          <li>Brak profilu operatora w systemie – potrzebne ustawienia ręczne.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="card" data-aos="fade-up" id="kanaly">
+    <h2>📺 Kanały, bukiety i porządek</h2>
+    <p>Najczęściej korzysta się z gotowych list (szybko) albo ze skanowania (pewność dopasowania). Porządek w FAV oszczędza czas.</p>
+
+    <details class="details-note">
+      <summary>Skan czy gotowa lista?</summary>
+      <div style="margin-top:10px">
+        <ul>
+          <li><strong>Skan:</strong> najlepszy, gdy masz nietypową instalację albo chcesz „pewność dopasowania”.</li>
+          <li><strong>Gotowa lista:</strong> najszybszy start, ale musi pasować do Twojego sygnału i ustawień.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="details-note">
+      <summary>Bezpieczna instalacja listy (żeby nie zawiesić GUI)</summary>
+      <div style="margin-top:10px">
+        <ol>
+          <li>Zrób backup ustawień.</li>
+          <li>Wgraj listę zgodnie z instrukcją (lub przez narzędzie/wtyczkę).</li>
+          <li><strong>Restart GUI</strong>.</li>
+          <li>Jeśli są problemy: wróć do backupu albo zrób skan i spróbuj innej listy.</li>
+        </ol>
+      </div>
+    </details>
+
+    <details class="details-note">
+      <summary>Ulubione (FAV) – polecany układ dla początkujących</summary>
+      <div style="margin-top:10px">
+        <ul>
+          <li>FAV 1: Najczęściej oglądane</li>
+          <li>FAV 2: Sport</li>
+          <li>FAV 3: Filmy/Seriale</li>
+          <li>FAV 4: Dzieci/Informacje</li>
+        </ul>
+        <p class="muted">Mniej znaczy lepiej – podstawowa lista 20–40 kanałów to najlepszy start.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="card" data-aos="fade-up" id="epg">
+    <h2>🗓️ EPG (program TV)</h2>
+    <p>EPG bywa kapryśne. Najczęstsze przyczyny problemów: zły czas, brak źródła EPG, zapis na nośniku który nie jest montowany.</p>
+
+    <details class="details-note">
+      <summary>EPG: minimum, żeby działało</summary>
+      <div style="margin-top:10px">
+        <ul>
+          <li>Poprawny <strong>czas</strong> i strefa czasowa.</li>
+          <li>Włączone EPG (EIT lub import – zależnie od systemu).</li>
+          <li>Jeśli zapisujesz EPG na dysk/USB – nośnik musi być dostępny przy starcie.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="details-note">
+      <summary>Objaw: EPG puste</summary>
+      <div style="margin-top:10px">
+        <ol>
+          <li>Sprawdź datę/godzinę.</li>
+          <li>Zostań chwilę na kanale (czasem EIT ładuje się z opóźnieniem).</li>
+          <li>Jeśli używasz importu – uruchom import ręcznie i sprawdź, czy zakończył się poprawnie.</li>
+          <li>Restart GUI.</li>
+        </ol>
+      </div>
+    </details>
+
+    <details class="details-note">
+      <summary>Objaw: EPG znika po restarcie</summary>
+      <div style="margin-top:10px">
+        <ul>
+          <li>EPG na USB/dysku – sprawdź montowanie nośnika.</li>
+          <li>Sprawdź miejsce na dysku i w pamięci.</li>
+          <li>Nie czyść EPG automatycznie zbyt często.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="card" data-aos="fade-up" id="picony">
+    <h2>🖼️ Picony</h2>
+    <p>Picony (logo kanałów) mają działać „same”. Najważniejsze: jedna lokalizacja, dopasowany zestaw i restart GUI.</p>
+
+    <details class="details-note">
+      <summary>Gdzie trzymać picony? (flash vs USB/dysk)</summary>
+      <div style="margin-top:10px">
+        <ul>
+          <li><strong>Flash:</strong> szybciej, ale zajmuje miejsce.</li>
+          <li><strong>USB/dysk:</strong> lepiej przy dużych zestawach i małej pamięci tunera.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="details-note">
+      <summary>Checklista: picony nie wyświetlają się</summary>
+      <div style="margin-top:10px">
+        <ol>
+          <li>Sprawdź nazwę katalogu: <code>picon</code>.</li>
+          <li>Sprawdź format plików (np. PNG) i czy faktycznie istnieją w katalogu.</li>
+          <li>Upewnij się, że zestaw jest dopasowany do mapowania (często po <strong>ServiceRef</strong>).</li>
+          <li>Restart GUI.</li>
+        </ol>
+      </div>
+    </details>
+
+    <details class="details-note">
+      <summary>Menu zwalnia po piconach – co zrobić</summary>
+      <div style="margin-top:10px">
+        <ul>
+          <li>Usuń duplikaty i zostaw jeden katalog picon.</li>
+          <li>Przenieś picony na szybszy nośnik.</li>
+          <li>Nie trzymaj kilku zestawów naraz.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="card" data-aos="fade-up" id="wtyczki">
+    <h2>🧩 Wtyczki i aktualizacje</h2>
+    <p>Najpierw stabilna baza, potem dodatki. Instaluj po jednej rzeczy i testuj.</p>
+
+    <details class="details-note">
+      <summary>Zasada „3 kroków” przed instalacją wtyczki</summary>
+      <div style="margin-top:10px">
+        <ol>
+          <li>Backup ustawień.</li>
+          <li>Sprawdź zgodność (Py2/Py3, system, model tunera).</li>
+          <li>Po instalacji: restart GUI (jeśli wymagany).</li>
+        </ol>
+      </div>
+    </details>
+
+    <details class="details-note">
+      <summary>Objaw: nie da się zainstalować pakietu</summary>
+      <div style="margin-top:10px">
+        <ul>
+          <li>Sprawdź internet/DNS.</li>
+          <li>Sprawdź ilość wolnego miejsca.</li>
+          <li>W menedżerze pakietów wykonaj aktualizację list (opcja typu „odśwież”).</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="details-note">
+      <summary>Aktualizacje systemu: kiedy robić</summary>
+      <div style="margin-top:10px">
+        <ul>
+          <li>Aktualizuj, gdy masz konkretny powód (błąd, nowa funkcja, ważne poprawki).</li>
+          <li>Po dużej aktualizacji: restart GUI, czasem restart tunera.</li>
+          <li>Jeśli wszystko działa stabilnie – nie aktualizuj „co dzień” bez potrzeby.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="card" data-aos="fade-up" id="iptv">
+    <h2>📶 IPTV/streaming</h2>
+    <p>Streaming jest wrażliwy na sieć i źródło streamu. Poniżej bezpieczne podstawy diagnostyki i konfiguracji.</p>
+
+    <details class="details-note">
+      <summary>Checklista „pierwszy test IPTV”</summary>
+      <div style="margin-top:10px">
+        <ol>
+          <li>Testuj kilka kanałów o różnych porach (dzień + wieczór).</li>
+          <li>Jeśli tnie: Wi‑Fi → sprawdź na LAN.</li>
+          <li>Nie ustawiaj ogromnego bufora „na ślepo”. Najpierw sprawdź sieć i źródło.</li>
+          <li>Jeśli działa na PC, a na tunerze nie – problem może być w odtwarzaczu/konfiguracji tunera.</li>
+        </ol>
+        <p class="muted">Uwaga: korzystaj z legalnych źródeł i usług.</p>
+      </div>
+    </details>
+
+    <details class="details-note">
+      <summary>Objaw: ładuje i zatrzymuje co chwilę</summary>
+      <div style="margin-top:10px">
+        <ul>
+          <li>Wi‑Fi → LAN test.</li>
+          <li>DNS → zmień na stabilny.</li>
+          <li>Wieczorem tnie, rano działa → często przeciążone źródło streamu.</li>
+          <li>Sprawdź, czy tuner nie jest przeciążony (słabsze modele mają limity).</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="details-note">
+      <summary>Objaw: brak dźwięku albo problemy z kodekami</summary>
+      <div style="margin-top:10px">
+        <ul>
+          <li>Sprawdź ustawienia audio (PCM/bitstream).</li>
+          <li>Sprawdź, czy problem jest tylko na jednym źródle.</li>
+          <li>Po zmianach: restart GUI.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="card" data-aos="fade-up" id="webif">
+    <h2>🖥️ WebIF, dostęp z sieci i pliki</h2>
+    <p>Wygodne zarządzanie tunerem z komputera/telefonu: podgląd kanałów, lista nagrań, szybkie ustawienia.</p>
+
+    <details class="details-note">
+      <summary>WebIF (interfejs WWW) – jak sprawdzić czy działa</summary>
+      <div style="margin-top:10px">
+        <ol>
+          <li>Sprawdź IP tunera w ustawieniach sieci.</li>
+          <li>W przeglądarce na komputerze/telefonie wpisz IP (np. <code>http://192.168.1.50</code>).</li>
+          <li>Jeśli nie działa: sprawdź, czy wtyczka WebIF jest włączona / zainstalowana (zależy od image).</li>
+        </ol>
+      </div>
+    </details>
+
+    <details class="details-note">
+      <summary>Przenoszenie plików (picony, listy, backup) – proste opcje</summary>
+      <div style="margin-top:10px">
+        <ul>
+          <li>Najprościej: przez USB (pendrive) – kopiujesz i wgrywasz na tuner.</li>
+          <li>W sieci: FTP/SFTP (dla początkujących: używaj klienta z graficznym interfejsem).</li>
+          <li>Uważaj na uprawnienia plików, jeśli coś „nie widać” po wgraniu.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="card" data-aos="fade-up" id="backup">
+    <h2>💾 Backup i przywracanie</h2>
+    <p>Backup to ubezpieczenie. Zrób go zanim zaczniesz eksperymentować.</p>
+
+    <details class="details-note">
+      <summary>Co warto backupować (minimum)</summary>
+      <div style="margin-top:10px">
+        <ul>
+          <li>Ustawienia Enigma2 (konfiguracja, bukiety, lista kanałów).</li>
+          <li>Picony (jeśli duży zestaw i instalowane ręcznie).</li>
+          <li>Konfiguracje ważnych wtyczek.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="details-note">
+      <summary>Backup przed zmianami – checklista</summary>
+      <div style="margin-top:10px">
+        <ol>
+          <li>Zrób backup w systemie / wtyczce backup.</li>
+          <li>Zapisz go na USB/dysku/sieci.</li>
+          <li>Dopiero potem: lista kanałów / aktualizacja / nowe wtyczki.</li>
+        </ol>
+      </div>
+    </details>
+
+    <details class="details-note">
+      <summary>Przywracanie po awarii – kolejność</summary>
+      <div style="margin-top:10px">
+        <ol>
+          <li>Sieć + tunery (podstawa).</li>
+          <li>Lista kanałów/bukiety.</li>
+          <li>EPG/picony.</li>
+          <li>Dodatki i wtyczki na końcu.</li>
+          <li>Restart GUI.</li>
+        </ol>
+      </div>
+    </details>
+  </div>
+
+  <div class="card" data-aos="fade-up" id="diagnostyka">
+    <h2>🩺 Diagnostyka: objawy → szybki test → naprawa</h2>
+    <p>Gdy nie wiesz od czego zacząć – zacznij tutaj.</p>
+
+    <details class="details-note">
+      <summary>Objaw: brak kanałów / „czarny ekran”</summary>
+      <div style="margin-top:10px">
+        <ol>
+          <li>Sprawdź kanał FTA (darmowy), czy jest obraz.</li>
+          <li>Sprawdź jakość sygnału w pomiarze.</li>
+          <li>Sprawdź konfigurację tunera (satelita/DVB‑T kraj/DVB‑C parametry).</li>
+          <li>Po wgraniu listy? Wróć do backupu lub zrób skan.</li>
+        </ol>
+      </div>
+    </details>
+
+    <details class="details-note">
+      <summary>Objaw: freezy / restarty GUI / „zamulanie”</summary>
+      <div style="margin-top:10px">
+        <ul>
+          <li>Sprawdź wolne miejsce w pamięci.</li>
+          <li>Odłącz wadliwy USB (czasem nośnik powoduje przycinki).</li>
+          <li>Wyłącz/odinstaluj ostatnio dodaną wtyczkę i przetestuj.</li>
+          <li>Jeśli problem pojawił się po aktualizacji – przywróć backup.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="details-note">
+      <summary>Objaw: brak internetu</summary>
+      <div style="margin-top:10px">
+        <ol>
+          <li>Sprawdź kabel/Wi‑Fi.</li>
+          <li>Sprawdź IP, bramę i DNS.</li>
+          <li>Zrestartuj router i tuner.</li>
+          <li>Jeśli tylko tuner ma problem – zmień kabel/port, przetestuj inny DNS.</li>
+        </ol>
+      </div>
+    </details>
+
+    <details class="details-note">
+      <summary>Objaw: picony/EPG znikają po restarcie</summary>
+      <div style="margin-top:10px">
+        <ul>
+          <li>EPG/picony na USB/dysku → sprawdź montowanie nośnika przy starcie.</li>
+          <li>Sprawdź uprawnienia i czy nośnik nie jest „tylko do odczytu”.</li>
+          <li>Sprawdź miejsce na dysku/pamięci.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="details-note">
+      <summary>Objaw: „nie ma wolnego tunera” / problem z nagrywaniem</summary>
+      <div style="margin-top:10px">
+        <ul>
+          <li>Sprawdź ile masz głowic (tunerów) i jakie mają zadania.</li>
+          <li>Przy nagrywaniu z satelity pamiętaj, że ogranicza Cię transponder/pasmo (zależnie od instalacji).</li>
+          <li>Jeśli to częste – rozważ drugą głowicę/kabel lub popraw konfigurację (np. Unicable, jeśli masz).</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="card" data-aos="fade-up" id="dobrepraktyki">
+    <h2>✅ Dobre praktyki</h2>
+
+    <details class="details-note">
+      <summary>Checklist: „żeby system był stabilny”</summary>
+      <div style="margin-top:10px">
+        <ul>
+          <li>Dodawaj zmiany po jednej (łatwiej znaleźć winowajcę problemu).</li>
+          <li>Backup przed większym ruchem.</li>
+          <li>Jeden katalog picon, jedna lista, bez duplikatów.</li>
+          <li>Nie aktualizuj codziennie, jeśli wszystko działa.</li>
+          <li>Jeśli korzystasz z dostępu zdalnego – ustaw bezpieczne hasło.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="details-note">
+      <summary>Co robić, gdy nie wiesz, czy winna jest „lista”, „system” czy „sieć”</summary>
+      <div style="margin-top:10px">
+        <ol>
+          <li>Sprawdź podstawy: czas + internet + sygnał.</li>
+          <li>Jeśli problem pojawił się po zmianie – cofnij zmianę (backup).</li>
+          <li>Przetestuj „czystą” sytuację: kanał FTA, bez streamingu, bez nowych dodatków.</li>
+          <li>Dopiero potem diagnozuj szczegóły.</li>
+        </ol>
+      </div>
+    </details>
+
+    <details class="details-note">
+      <summary>„Złota zasada”</summary>
+      <div style="margin-top:10px">
+        <p>
+          Najczęściej problem powoduje <strong>ostatnia zmiana</strong>. Cofnij ją, sprawdź, a dopiero potem szukaj dalej.
+          To oszczędza czas i nerwy.
+        </p>
+      </div>
+    </details>
+  </div>
+
+  <div class="card" data-aos="fade-up" id="powiazane">
+    <h2>Powiązane sekcje na stronie</h2>
+    <ul class="file-list">
+      <li><a class="file-link" href="guides.html"><span class="icon">📘</span> Poradniki – instrukcje i przykłady</a></li>
+      <li><a class="file-link" href="channel-lists.html"><span class="icon">📺</span> Listy kanałów – gotowe paczki</a></li>
+      <li><a class="file-link" href="tools.html"><span class="icon">🛠</span> Narzędzia – testy i konfiguratory</a></li>
+      <li><a class="file-link" href="support.html"><span class="icon">☕</span> Wsparcie projektu</a></li>
+    </ul>
+  </div>
+</main></main>
+<footer class="site-footer">
+<div class="footer-inner">
+<div class="footer-grid">
+<div>
+<div class="footer-brand-row">
+<img alt="AIO-IPTV.pl" class="footer-logo" src="pliki/logo.png"/>
+<div>
+<div class="footer-brand-name">AIO-IPTV.pl</div>
+<div class="footer-brand-tag">Enigma2 • IPTV • Tools • AI</div>
+</div>
+</div>
+<div class="footer-note">
+          Nowoczesne centrum Enigma2: wtyczki, listy, poradniki, narzędzia oraz AI‑Chat. Dostępne po polsku i po angielsku.
+        </div>
+</div>
+<div>
+<div class="footer-title">Nawigacja</div>
+<a class="footer-link" href="index.html">Start</a>
+<a class="footer-link" href="ai-chat.html">AI‑Chat</a>
+<a class="footer-link" href="downloads.html">Pobieranie</a>
+<a class="footer-link" href="guides.html">Poradniki</a>
+</div>
+<div>
+<div class="footer-title">Sekcje</div>
+<a class="footer-link" href="plugins.html">Wtyczki</a>
+<a class="footer-link" href="channel-lists.html">Listy kanałów</a>
+<a class="footer-link" href="tools.html">Narzędzia</a>
+<a class="footer-link" href="systems.html">Systemy</a>
+</div>
+<div>
+<div class="footer-title">Kontakt i wsparcie</div>
+<div class="footer-kpi"><span>📧</span><span>Email: <a class="footer-link inline" href="mailto:msisystem@t.pl">msisystem@t.pl</a></span></div>
+<div class="footer-kpi"><span>✈️</span><span>Telegram: <a class="footer-link inline" href="https://t.me/PawelPawelek" rel="noopener" target="_blank">t.me/PawelPawelek</a></span></div>
+<div class="footer-kpi"><span>💬</span><span>Messenger: <a class="footer-link inline" href="https://m.me/100064704540847" rel="noopener" target="_blank">Napisz wiadomość</a></span></div>
+<div class="footer-support">
+<div class="footer-title" data-i18n="support" style="margin-bottom:10px">Wesprzyj projekt</div>
+<div class="footer-support-row">
+<a aria-label="Revolut" class="support-btn support-revolut" href="https://revolut.me/pawelz75" rel="noopener" target="_blank">
+<span class="support-logo">
+<svg aria-hidden="true" focusable="false" role="img" viewbox="0 0 64 64"><defs><lineargradient id="revG" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#3b82f6"></stop><stop offset="1" stop-color="#22d3ee"></stop></lineargradient></defs><circle cx="32" cy="32" fill="url(#revG)" r="28"></circle><path d="M22 46V18h13.6c7 0 11.4 3.5 11.4 9.5 0 4.8-3 8-8.2 8.8L46 46h-7.6l-6.2-9.2h-3.8V46H22zm6.4-14.6h6.4c3.4 0 5.3-1.4 5.3-4s-1.9-4-5.3-4h-6.4v8z" fill="#0b1220"></path></svg>
+</span>
+<span class="support-text"><span class="support-name">Revolut</span><span class="support-sub">Dzięki!</span></span>
+</a>
+<a aria-label="PayPal" class="support-btn support-paypal" data-paypal="aHR0cHM6Ly93d3cucGF5cGFsLmNvbS9zZW5kP3JlY2lwaWVudD1wYXdlbHphcnp5Y2tpNjFAZ21haWwuY29tJmN1cnJlbmN5Q29kZT1QTE4=" href="#" id="paypalSupportBtn" rel="noopener" target="_blank">
+<span class="support-logo">
+<svg aria-hidden="true" focusable="false" role="img" viewbox="0 0 64 64"><defs><lineargradient id="ppG" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#60a5fa"></stop><stop offset="1" stop-color="#a78bfa"></stop></lineargradient></defs><circle cx="32" cy="32" fill="url(#ppG)" r="28"></circle><path d="M25 46l4-26h13c6 0 10 3.4 10 8.8 0 7.2-5.4 11.2-13.4 11.2h-6.2l-1 6H25zm9.1-12.2h4.5c4.1 0 6.6-1.8 6.6-5 0-2.2-1.5-3.5-4.3-3.5h-6.1l-0.7 8.5z" fill="#0b1220"></path></svg>
+</span>
+<span class="support-text"><span class="support-name">PayPal</span><span class="support-sub">Dzięki!</span></span>
+</a>
+</div>
+</div>
+<div class="footer-kpi" style="margin-top:12px; font-size:.88rem; opacity:.85"><span>🐛</span><span>Błąd? <a class="footer-link inline" href="https://github.com/OliOli2013/aio-iptv-projekt/issues" rel="noopener" target="_blank">Zgłoś na GitHub</a></span></div>
+</div>
+</div>
+<div class="footer-bottom">
+<div>© <span id="year"></span> AIO‑IPTV.pl • Paweł Pawełek</div>
+<div class="footer-legal">
+<a href="support.html">Wsparcie</a>
+<a href="contact.html">Kontakt</a>
+<a href="contact.html#opinia">Podziel się opinią</a>
+</div>
+</div>
+</div>
+</footer>
+<script>document.getElementById('year').textContent=new Date().getFullYear();</script>
+<script src="assets/js/site.js?v=next1"></script>
+
+<script src="assets/js/stats-nav.js" defer></script>
+</body>
+</html>
