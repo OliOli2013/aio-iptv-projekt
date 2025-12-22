@@ -10,7 +10,11 @@
   const I18N = {
     pl: {
       cta_update_download: 'Aktualizacja <strong>AIO Panel v5.0</strong> — Pobierz teraz',
-      nav_plugins: "Wtyczki Enigma2",
+      nav_plugins: "Wtyczki / Pobieranie",
+      nav_downloads: "Pobieranie",
+      tab_my_plugins: "Moje wtyczki",
+      tab_required_downloads: "Niezbędne dla Enigma2",
+      plugins_combo_sub: "Wybierz widok: wtyczki mojego autorstwa albo paczki niezbędne dla użytkowników Enigma2.",
       nav_lists: "Listy kanałów",
       nav_channel_lists: "Listy kanałów",
       nav_guides: "Porady i instrukcje",
@@ -44,7 +48,11 @@
     },
     en: {
       cta_update_download: 'Update: <strong>AIO Panel v5.0</strong> — Download now',
-      nav_plugins: "Enigma2 plugins",
+      nav_plugins: "Plugins / Downloads",
+      nav_downloads: "Downloads",
+      tab_my_plugins: "My plugins",
+      tab_required_downloads: "Essentials for Enigma2",
+      plugins_combo_sub: "Choose a view: my own plugins or essential packages for Enigma2 users.",
       nav_lists: "Channel lists",
       nav_channel_lists: "Channel lists",
       nav_guides: "Guides & tutorials",
