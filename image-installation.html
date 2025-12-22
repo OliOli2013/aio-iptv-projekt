@@ -112,16 +112,19 @@
 </div>
 
 <!-- ========================= -->
+<!-- ========================= -->
 <!-- USTYM -->
 <!-- ========================= -->
 <div class="card" id="ustym">
   <h2>Ustym</h2>
-  <p>Instrukcja instalacji gotowego backupu OpenATV z poziomu menu.</p>
+  <p>Instrukcje dla modeli <strong>Ustym 4K Pro</strong> oraz <strong>Ustym Twin</strong>: instalacja gotowego backupu OpenATV z poziomu menu oraz wgranie czystego image z pendrive.</p>
 
-  <details class="details-note" id="ustym-combo" data-model="ustym combo">
-    <summary><strong>Ustym COMBO</strong> — instalacja backupu OpenATV (z poziomu menu)</summary>
+  <details class="details-note" id="ustym-4kpro-twin" data-model="ustym 4k pro ustym pro ustym twin ustym combo">
+    <summary><strong>Ustym 4K Pro / Twin</strong> — backup OpenATV (menu) oraz czysty image (USB)</summary>
+
+    <h3 style="margin-top:12px;">1) Instalacja backupu OpenATV (z poziomu menu)</h3>
     <p style="margin-top:10px;"><strong>Przygotowanie:</strong> włóż pendrive do portu USB w dekoderze (plik backupu pozostaje spakowany).</p>
-    <h3 style="margin-top:12px;">Wgrywanie softu (backup OpenATV)</h3>
+    <h4 style="margin-top:10px;">Wgrywanie softu (backup OpenATV)</h4>
     <ol>
       <li>Naciśnij <strong>NIEBIESKI</strong> przycisk na pilocie.</li>
       <li>Wejdź w <strong>Menedżer oprogramowania</strong>.</li>
@@ -129,40 +132,32 @@
       <li>Wybierz <strong>Kopia zapasowa systemu</strong>.</li>
       <li>Wybierz plik backupu <strong>openatv-…</strong></li>
       <li>Wybierz <strong>Slot 1</strong>.</li>
-      <li>Na pytanie: <em>„Czy chcesz wykonać kopię zapasową?”</em> wybierz <strong>NIE</strong>.</li>
-      <li>Wybierz: <strong>Zainstaluj – tylko obraz kopii zapasowej</strong>.</li>
-      <li>Poczekaj: <em>Rozpakowywanie systemu…</em> → <em>Wgrywanie oprogramowania…</em></li>
-      <li>Proces trwa zwykle <strong>kilkanaście minut</strong>.</li>
-      <li>Po zakończeniu tuner uruchomi się ponownie z nowym softem.</li>
-    </ol>
-  </details>
-
-  <details class="details-note" id="ustym-twin" data-model="ustym twin">
-    <summary><strong>Ustym TWIN</strong> — instalacja backupu OpenATV (z poziomu menu)</summary>
-    <p style="margin-top:10px;"><strong>Przygotowanie:</strong> włóż pendrive do portu USB w dekoderze (plik backupu pozostaje spakowany).</p>
-    <h3 style="margin-top:12px;">Wgrywanie softu (backup OpenATV)</h3>
-    <ol>
-      <li>Naciśnij <strong>NIEBIESKI</strong> przycisk na pilocie.</li>
-      <li><strong>Menedżer oprogramowania</strong> → <strong>Instalacja systemu online</strong>.</li>
-      <li><strong>Kopia zapasowa systemu</strong> → wybierz plik <strong>openatv-…</strong></li>
-      <li>Wybierz <strong>Slot 1</strong>.</li>
-      <li>Na pytanie o kopię zapasową wybierz <strong>NIE</strong>.</li>
+      <li>Na pytanie: <strong>Czy chcesz wykonać kopię zapasową?</strong> wybierz <strong>NIE</strong>.</li>
       <li>Wybierz: <strong>Zainstaluj – tylko obraz kopii zapasowej</strong>.</li>
       <li>Poczekaj na rozpakowanie i wgrywanie (kilkanaście minut).</li>
-      <li>Tuner uruchomi się ponownie z nowym softem.</li>
+      <li>Po zakończeniu dekoder uruchomi się ponownie z nowym softem.</li>
+    </ol>
+
+    <h3 style="margin-top:14px;">2) Wgranie czystego image (USB)</h3>
+    <p><strong>Uwaga:</strong> pliki z archiwum wypakuj <strong>bezpośrednio na pendrive</strong> (bez dodatkowego katalogu).</p>
+    <ol>
+      <li>Wypakuj zawartość image na pendrive (FAT32) <strong>bez tworzenia katalogu</strong>.</li>
+      <li>Włóż pendrive do portu USB <strong>z tyłu</strong> dekodera.</li>
+      <li>Podłącz dekoder do prądu, jednocześnie trzymając przycisk <strong>POWER</strong> z przodu.</li>
+      <li>Poczekaj aż na wyświetlaczu pojawi się <strong>UPTD - NECO</strong>, następnie puść <strong>POWER</strong>.</li>
+      <li>Pilotem na ekranie TV wybierz <strong>drugą opcję od góry</strong> i naciśnij <strong>OK</strong> <strong>2 razy</strong>.</li>
+      <li>System wgra się automatycznie, a tuner uruchomi się samoczynnie po zakończeniu.</li>
     </ol>
   </details>
 </div>
-
-<!-- ========================= -->
 <!-- OCTAGON -->
 <!-- ========================= -->
 <div class="card" id="octagon">
   <h2>Octagon</h2>
   <p>Instrukcje wgrywania czystego image z pendrive.</p>
 
-  <details class="details-note" id="octagon-sf8008-combo" data-model="octagon sf8008 combo">
-    <summary><strong>Octagon SF8008 COMBO</strong> — wgranie czystego image (USB)</summary>
+  <details class="details-note" id="octagon-sf8008-combo" data-model="octagon sf8008 combo twin supreme">
+    <summary><strong>Octagon SF8008 COMBO / TWIN / SUPREME</strong> — wgranie czystego image (USB)</summary>
 
     <h3 style="margin-top:12px;">Wymagania pendrive</h3>
     <ul>
@@ -172,19 +167,17 @@
 
     <h3>Przygotowanie plików</h3>
     <ol>
-      <li>Pobrany soft wypakuj z pliku ZIP na pendrive sformatowany w FAT32.</li>
-      <li>Na pendrive mają znajdować się: katalog <strong>octagon</strong> oraz pliki: <strong>apploader.bin</strong>, <strong>bootargs.bin</strong>, <strong>fastboot.bin</strong>, <strong>usb_update.bin</strong>.</li>
+      <li>Pobrany soft <strong>wypakuj na pendrive</strong> (FAT32).</li>
+      <li><strong>Ważne:</strong> pliki mają trafić <strong>bezpośrednio</strong> na pendrive — <strong>bez dodatkowego katalogu</strong> (czyli po wypakowaniu wszystko ma być w głównym katalogu pendrive).</li>
     </ol>
 
     <h3>Wgrywanie (flash)</h3>
     <ol>
-      <li>Wyłącz tuner przełącznikiem na tylnym panelu.</li>
-      <li>Wciśnij i trzymaj <strong>POWER</strong> na przednim panelu, następnie włącz tuner przełącznikiem z tyłu.</li>
-      <li>Trzymaj POWER aż na wyświetlaczu pojawi się <strong>UPdt</strong>.</li>
-      <li>W menu wybierz opcję <strong>4 Recovery From USB</strong> / <strong>Flash Recovery Image</strong>.</li>
-      <li>Zatwierdź komunikat aktualizacji przyciskiem <strong>OK</strong>.</li>
-      <li>Tuner rozpocznie aktualizację. Postęp będzie widoczny na ekranie TV.</li>
-      <li>Po zakończeniu tuner zrestartuje się i uruchomi z nowym oprogramowaniem.</li>
+      <li>Włóż pendrive do portu USB <strong>z tyłu</strong> tunera.</li>
+      <li>Podłącz tuner do prądu, jednocześnie trzymając przycisk <strong>POWER</strong> na przednim panelu.</li>
+      <li>Poczekaj, aż na wyświetlaczu pojawi się <strong>UPTD - NECO</strong>, następnie puść <strong>POWER</strong>.</li>
+      <li>Pilotem na ekranie TV wybierz <strong>drugą opcję od góry</strong> i naciśnij <strong>OK</strong> <strong>2 razy</strong>.</li>
+      <li>Poczekaj na wgranie systemu. Tuner uruchomi się samoczynnie po zakończeniu.</li>
     </ol>
   </details>
 </div>
@@ -450,11 +443,36 @@
   function openFromHash(){
     var h = (location.hash || '').replace('#','').trim();
     if(!h) return;
-    var el = document.getElementById(h);
+
+    // Alias mapping (dla kompatybilności ze starszymi linkami / nazwami modeli)
+    var alias = {
+      'ustym-combo': 'ustym-4kpro-twin',
+      'ustym-twin': 'ustym-4kpro-twin',
+      'ustym-4kpro': 'ustym-4kpro-twin',
+      'octagon-sf8008': 'octagon-sf8008-combo',
+      'octagon-sf8008-twin': 'octagon-sf8008-combo',
+      'octagon-sf8008-supreme': 'octagon-sf8008-combo'
+    };
+
+    var targetId = alias[h] || h;
+    var el = document.getElementById(targetId);
+
     if(el && el.tagName && el.tagName.toLowerCase() === 'details'){
       el.open = true;
       setTimeout(function(){ el.scrollIntoView({block:'start', behavior:'smooth'}); }, 60);
+      return;
     }
+
+    // Jeśli hash wskazuje na element wewnątrz, spróbuj otworzyć najbliższy <details>
+    if(el && el.closest){
+      var d = el.closest('details');
+      if(d){
+        d.open = true;
+        setTimeout(function(){ d.scrollIntoView({block:'start', behavior:'smooth'}); }, 60);
+      }
+    }
+  }
+
   }
 
   function setupSearch(){
