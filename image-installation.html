@@ -270,6 +270,30 @@
       <li>Po wykryciu aktualizacji <strong>potwierdź OK</strong> (na pilocie / panelu) i poczekaj na zakończenie.</li>
     </ol>
   </details>
+
+  <details class="details-note" id="mutant-hd2400" data-model="mutant hd2400">
+    <summary><strong>Mutant HD2400</strong> — wgranie czystego image (USB)</summary>
+
+    <h3 style="margin-top:12px;">Przygotowanie pendrive</h3>
+    <ol style="margin-top:10px;">
+      <li>Sformatuj pendrive w <strong>FAT32</strong>.</li>
+      <li>Pobierz image dla <strong>HD2400</strong> i rozpakuj na komputerze.</li>
+      <li>W rozpakowanych plikach znajdziesz folder <strong>hd2400</strong> — skopiuj cały folder <strong>hd2400</strong> bezpośrednio na pendrive (do katalogu głównego).</li>
+    </ol>
+
+    <h3 style="margin-top:12px;">Wgrywanie</h3>
+    <ol style="margin-top:10px;">
+      <li>Odłącz tuner od prądu (lub wyłącz przełącznikiem, jeśli model go posiada).</li>
+      <li>Upewnij się, że do tunera nie są podłączone inne urządzenia USB.</li>
+      <li>Włóż pendrive z image do portu USB w tunerze.</li>
+      <li>Podłącz zasilanie.</li>
+      <li>Gdy na wyświetlaczu pojawi się komunikat <strong>„Image Found”</strong>, naciśnij przycisk <strong>UP</strong> na panelu przednim, aby rozpocząć flashowanie.</li>
+      <li>Po zakończeniu tuner uruchomi się ponownie automatycznie.</li>
+    </ol>
+
+    <p style="margin-top:10px;"><strong>Uwaga:</strong> podczas flashowania <strong>nie odłączaj zasilania</strong>.</p>
+  </details>
+
 </div>
 
 <!-- ========================= -->
@@ -443,6 +467,149 @@
 </div>
 
 <!-- ========================= -->
+
+<!-- ========================= -->
+<!-- PULSE -->
+<!-- ========================= -->
+<div class="card" id="pulse">
+  <h2>PULSE</h2>
+  <p>Instrukcja instalacji obrazu (USB). Modele: <strong>PULSE 4K</strong> oraz <strong>PULSE 4K mini</strong>.</p>
+
+  <details class="details-note" id="pulse-4k" data-model="pulse 4k pulse4k">
+    <summary><strong>PULSE 4K</strong> — instalacja przez USB</summary>
+
+    <h3 style="margin-top:12px;">Co będzie potrzebne</h3>
+    <ul style="margin-top:10px;">
+      <li>Pendrive sformatowany w <strong>FAT32</strong> (dla lepszej zgodności).</li>
+      <li>Wybrany image dla PULSE 4K.</li>
+      <li>Program do rozpakowania (np. 7-Zip / WinRAR / WinZip).</li>
+    </ul>
+
+    <h3 style="margin-top:12px;">Przygotowanie pendrive</h3>
+    <ol style="margin-top:10px;">
+      <li>Sformatuj pendrive w <strong>FAT32</strong>.</li>
+      <li>Pobierz image i <strong>rozpakuj</strong> na komputerze.</li>
+      <li>Po rozpakowaniu zwykle powstaną 3 pliki: <strong>force_pulse4k.txt</strong>, plik informacyjny (np. „Citaj...”) oraz plik ZIP z obrazem (np. <strong>openatv-..._copy_to_usb_root.zip</strong>).</li>
+      <li>Skopiuj <strong>force_pulse4k.txt</strong> oraz plik ZIP z obrazem (np. <strong>openatv-..._copy_to_usb_root.zip</strong>) <strong>bezpośrednio do katalogu głównego</strong> pendrive (bez dodatkowych folderów).</li>
+    </ol>
+
+    <h3 style="margin-top:12px;">Wgrywanie</h3>
+    <ol style="margin-top:10px;">
+      <li>Włóż pendrive do tunera.</li>
+      <li>Uruchom tuner i postępuj zgodnie z komunikatami na ekranie (jeśli pojawi się pytanie o aktualizację — <strong>potwierdź OK</strong>).</li>
+      <li>Proces trwa zwykle około <strong>2–5 minut</strong>.</li>
+    </ol>
+
+    <p style="margin-top:10px;"><strong>Uwaga:</strong> podczas flashowania <strong>nie odłączaj zasilania</strong> — grozi to uszkodzeniem oprogramowania.</p>
+  </details>
+
+  <details class="details-note" id="pulse-4k-mini" data-model="pulse 4k mini pulse4k mini">
+    <summary><strong>PULSE 4K mini</strong> — instalacja przez USB</summary>
+    <p style="margin-top:10px;">Instrukcja jest taka sama jak dla PULSE 4K:</p>
+    <ol style="margin-top:10px;">
+      <li>Pendrive <strong>FAT32</strong>.</li>
+      <li>Rozpakuj paczkę z image na komputerze.</li>
+      <li>Skopiuj <strong>force_pulse4k.txt</strong> oraz plik ZIP z obrazem (np. <strong>openatv-..._copy_to_usb_root.zip</strong>) do katalogu głównego pendrive.</li>
+      <li>Włóż pendrive do tunera, uruchom i w razie pytania <strong>potwierdź OK</strong>.</li>
+    </ol>
+    <p style="margin-top:10px;"><strong>Uwaga:</strong> w trakcie flashowania nie odłączaj zasilania.</p>
+  </details>
+</div>
+
+
+<!-- ========================= -->
+<!-- MEDIALINK -->
+<!-- ========================= -->
+<div class="card" id="medialink">
+  <h2>Medialink</h2>
+  <p>Model: <strong>Ixuss Zero</strong>. Metoda: wgranie czystego image z pendrive (USB).</p>
+
+  <details class="details-note" id="medialink-ixuss-zero" data-model="medialink ixuss zero ixusszero">
+    <summary><strong>Medialink Ixuss Zero</strong> — wgranie czystego image (USB)</summary>
+
+    <h3 style="margin-top:12px;">Przygotowanie pendrive</h3>
+    <ol style="margin-top:10px;">
+      <li>Sformatuj pendrive w <strong>FAT32</strong>.</li>
+      <li>Pobierz image i rozpakuj na komputerze.</li>
+      <li>W rozpakowanych plikach znajdziesz folder <strong>medialink</strong> — skopiuj cały folder <strong>medialink</strong> bezpośrednio na pendrive (do katalogu głównego).</li>
+    </ol>
+
+    <h3 style="margin-top:12px;">Wgrywanie</h3>
+    <ol style="margin-top:10px;">
+      <li>Odłącz tuner od prądu.</li>
+      <li>Upewnij się, że do tunera nie są podłączone inne urządzenia USB.</li>
+      <li>Włóż pendrive z image do jednego z portów USB.</li>
+      <li>Podłącz zasilanie i poczekaj na komunikaty na wyświetlaczu.</li>
+      <li>Podczas startu na wyświetlaczu może pojawić się skrócony komunikat typu <strong>„If you w”</strong> — wtedy naciśnij przycisk <strong>UP</strong> na panelu przednim.</li>
+      <li>W trakcie wgrywania zobaczysz komunikat <strong>„upgrading”</strong>. <strong>Nie odłączaj zasilania.</strong></li>
+      <li>Po zakończeniu pojawi się komunikat typu <strong>„Please R”</strong> (prośba o restart) — oznacza to, że flashowanie zakończyło się poprawnie.</li>
+      <li>Odłącz zasilanie, odczekaj około <strong>10 sekund</strong> i włącz tuner ponownie, aby uruchomić konfigurację.</li>
+    </ol>
+  </details>
+</div>
+
+
+<!-- ========================= -->
+<!-- PROTEK -->
+<!-- ========================= -->
+<div class="card" id="protek">
+  <h2>Protek</h2>
+  <p>Model: <strong>Protek 9911 LX</strong>. Metoda: USB Flash (pendrive FAT32).</p>
+
+  <details class="details-note" id="protek-9911-lx" data-model="protek 9911 lx protek9911">
+    <summary><strong>Protek 9911 LX</strong> — wgranie czystego image (USB)</summary>
+
+    <h3 style="margin-top:12px;">Przygotowanie pendrive</h3>
+    <ol style="margin-top:10px;">
+      <li>Sformatuj pendrive w <strong>FAT32</strong>. Zalecany jest mały pendrive (często lepiej działają starsze USB 2.0).</li>
+      <li>Rozpakuj image na komputerze.</li>
+      <li>Skopiuj na pendrive folder z paczki (np. <strong>„Protek 4K”</strong>) wraz z zawartością — bezpośrednio do katalogu głównego pendrive.</li>
+    </ol>
+
+    <h3 style="margin-top:12px;">Wgrywanie</h3>
+    <ol style="margin-top:10px;">
+      <li>Wyłącz tuner przełącznikiem z tyłu (jeśli jest).</li>
+      <li>Włóż pendrive do portu USB (zgodnie z opisem modelu — często sprawdza się lewy port).</li>
+      <li>Przytrzymaj przycisk <strong>POWER</strong> na panelu przednim.</li>
+      <li>Włącz tuner przełącznikiem z tyłu i nadal trzymaj POWER.</li>
+      <li>Poczekaj, aż na wyświetlaczu pojawi się informacja o rozpoczęciu flashowania — wtedy puść POWER.</li>
+      <li>Po zakończeniu tuner uruchomi się w trybie instalacji/kreatora.</li>
+    </ol>
+    <p style="margin-top:10px;"><strong>Uwaga:</strong> nie odłączaj zasilania podczas flashowania.</p>
+  </details>
+</div>
+
+
+<!-- ========================= -->
+<!-- DINOBOT -->
+<!-- ========================= -->
+<div class="card" id="dinobot">
+  <h2>Dinobot</h2>
+  <p>Model: <strong>Dinobot 4K SE</strong>. Metoda: USB Flash.</p>
+
+  <details class="details-note" id="dinobot-4k-se" data-model="dinobot 4k se dinobot4k">
+    <summary><strong>Dinobot 4K SE</strong> — wgranie czystego image (USB)</summary>
+
+    <h3 style="margin-top:12px;">Przygotowanie pendrive</h3>
+    <ol style="margin-top:10px;">
+      <li>Sformatuj pendrive w <strong>FAT32</strong>.</li>
+      <li>Pobierz image dla Dinobot 4K SE i rozpakuj na komputerze.</li>
+      <li>Skopiuj folder <strong>dinobot</strong> (z rozpakowanej paczki) na pendrive (do katalogu głównego).</li>
+    </ol>
+
+    <h3 style="margin-top:12px;">Wgrywanie</h3>
+    <ol style="margin-top:10px;">
+      <li>Włóż pendrive do portu USB z boku tunera.</li>
+      <li>Włącz tuner.</li>
+      <li>Jeśli na wyświetlaczu pojawi się komunikat <strong>„Menu”</strong>, naciśnij <strong>ZIELONY</strong> przycisk na pilocie, aby rozpocząć aktualizację.</li>
+      <li>Poczekaj na zakończenie — tuner uruchomi się z nowym oprogramowaniem.</li>
+    </ol>
+
+    <p style="margin-top:10px;"><strong>Uwaga:</strong> podczas flashowania nie odłączaj zasilania.</p>
+  </details>
+</div>
+
+
 <!-- DREAMBOX -->
 <!-- ========================= -->
 <div class="card" id="dreambox">
@@ -654,6 +821,35 @@
       <li>Poczekaj do uruchomienia dekodera.</li>
     </ol>
   </details>
+
+  <details class="details-note" id="zgemma-h10-combo" data-model="zgemma h10 combo h10">
+    <summary><strong>Zgemma H10 Combo</strong> — recovery + flash image do slotu (USB)</summary>
+
+    <h3 style="margin-top:12px;">Przygotowanie pendrive</h3>
+    <ol style="margin-top:10px;">
+      <li>Sformatuj pendrive w <strong>FAT32</strong> (zalecane: tablica partycji <strong>MBR</strong>).</li>
+      <li>Pobierz wybrany image (np. OpenATV, OpenPLi, OpenSPA).</li>
+      <li>Jeśli paczka zawiera <strong>recovery</strong> oraz właściwy <strong>image</strong>: rozpakuj na pendrive tylko pliki <strong>recovery</strong>, a plik image pozostaw <strong>spakowany</strong> (ZIP) — zgodnie z opisem paczki.</li>
+    </ol>
+
+    <h3 style="margin-top:12px;">Uruchomienie trybu recovery</h3>
+    <ol style="margin-top:10px;">
+      <li>Wyłącz tuner (z tyłu) i włóż pendrive do USB.</li>
+      <li>Włącz tuner przełącznikiem z tyłu i <strong>przytrzymaj przycisk POWER na pilocie</strong>.</li>
+      <li>Poczekaj, aż tuner przejdzie do <strong>trybu recovery</strong> (proces może być widoczny w zachowaniu urządzenia).</li>
+    </ol>
+
+    <h3 style="margin-top:12px;">Wgrywanie image</h3>
+    <ol style="margin-top:10px;">
+      <li>W trybie recovery wybierz <strong>Flash local image</strong>.</li>
+      <li>Wskaż plik image (ZIP) z pendrive.</li>
+      <li>Wybierz slot (zwykle dostępne są <strong>4 sloty</strong>) i rozpocznij flashowanie.</li>
+      <li>Po zakończeniu wybierz slot, z którego tuner ma się uruchomić.</li>
+    </ol>
+
+    <p style="margin-top:10px;"><strong>Uwaga:</strong> w trakcie flashowania nie odłączaj zasilania.</p>
+  </details>
+
 </div>
 
 
