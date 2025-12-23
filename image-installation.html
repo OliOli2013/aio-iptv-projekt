@@ -100,8 +100,12 @@
   <div style="display:flex; flex-wrap:wrap; gap:10px; margin:12px 0 18px;">
     <a class="file-link" href="#ustym"><span class="icon">📦</span> Ustym</a>
     <a class="file-link" href="#octagon"><span class="icon">📦</span> Octagon</a>
+    <a class="file-link" href="#ax"><span class="icon">📦</span> AX 4K BOX</a>
+    <a class="file-link" href="#gigablue"><span class="icon">📦</span> GigaBlue</a>
     <a class="file-link" href="#vuplus"><span class="icon">📦</span> Vu+</a>
     <a class="file-link" href="#zgemma"><span class="icon">📦</span> Zgemma</a>
+    <a class="file-link" href="#dreambox"><span class="icon">📦</span> Dreambox</a>
+    <a class="file-link" href="#nbox"><span class="icon">📦</span> Nbox</a>
   </div>
 
   <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
@@ -180,6 +184,19 @@
       <li>Poczekaj na wgranie systemu. Tuner uruchomi się samoczynnie po zakończeniu.</li>
     </ol>
   </details>
+
+  <details class="details-note" id="octagon-sf4008" data-model="octagon sf4008">
+    <summary><strong>Octagon SF4008</strong> — wgranie czystego image (USB)</summary>
+    <ol style="margin-top:10px;">
+      <li>Po pobraniu rozpakuj plik i wgraj katalog <strong>sf4008</strong> na pendrive (FAT32).</li>
+      <li>Wyłącz tuner.</li>
+      <li>Włóż pendrive do dowolnego gniazda USB.</li>
+      <li>Włącz tuner.</li>
+      <li>Po wyświetleniu się komunikatu na ekranie dotknij/naciśnij <strong>POWER</strong> — rozpocznie się aktualizacja.</li>
+      <li>Po zakończeniu tuner zrestartuje się i uruchomi z nowym oprogramowaniem.</li>
+    </ol>
+  </details>
+
 </div>
 
 <!-- ========================= -->
@@ -347,6 +364,153 @@
       <li>Włóż pendrive do USB i podłącz tuner do prądu.</li>
       <li>Gdy pojawi się <strong>USB</strong>, naciśnij przycisk zasilania z przodu (<strong>POWER</strong>) i trzymaj do napisu <strong>flash</strong>, potem puść.</li>
       <li>Poczekaj do uruchomienia dekodera.</li>
+    </ol>
+  </details>
+</div>
+
+
+<!-- ========================= -->
+<!-- AX 4K BOX -->
+<!-- ========================= -->
+<div class="card" id="ax">
+  <h2>AX 4K BOX</h2>
+  <p>Instrukcje wgrywania czystego image z pendrive (USB) dla modeli HD51 i HD61.</p>
+
+  <details class="details-note" id="ax-hd51" data-model="ax 4k box hd51 ax hd51">
+    <summary><strong>AX 4K BOX HD51</strong> — wgranie czystego image (USB)</summary>
+    <ol style="margin-top:10px;">
+      <li>Po pobraniu rozpakuj plik i wgraj katalog <strong>hd51</strong> na pendrive (FAT32).</li>
+      <li>Wyłącz tuner, wyciągając wtyczkę z gniazda zasilacza.</li>
+      <li>Włóż pendrive do dowolnego gniazda USB.</li>
+      <li>Wciśnij i trzymaj przycisk <strong>POWER</strong> z przodu, a następnie (trzymając go) włóż wtyk zasilacza do gniazda.</li>
+      <li>Puść przycisk po pojawieniu się komunikatu <strong>„flashing”</strong> na wyświetlaczu.</li>
+      <li>Po aktualizacji tuner sam się uruchomi.</li>
+    </ol>
+  </details>
+
+  <details class="details-note" id="ax-hd61" data-model="ax 4k box hd61 ax hd61">
+    <summary><strong>AX 4K BOX HD61</strong> — wgranie czystego image (bootmenu → flash local image)</summary>
+    <ol style="margin-top:10px;">
+      <li>Wgraj pobrany soft na pendrive sformatowany w <strong>FAT32</strong>.</li>
+      <li>Wyłącz tuner.</li>
+      <li>Włóż pendrive do dowolnego gniazda USB.</li>
+      <li>Włącz tuner przełącznikiem z tyłu odbiornika.</li>
+      <li>Przytrzymaj <strong>POWER</strong> na przednim panelu — po chwili na wyświetlaczu pojawi się <strong>„rCUY”</strong>.</li>
+      <li>Po chwili na telewizorze pojawi się szare menu.</li>
+      <li>Wybierz <strong>Bootmenu</strong>.</li>
+      <li>Wybierz <strong>Flash local image</strong>.</li>
+      <li>Wybierz nazwę pendrive’a.</li>
+      <li>Wybierz wgrany plik.</li>
+      <li>Wybierz <strong>Linux 1</strong>.</li>
+      <li>Pojawi się pasek postępu aktualizacji (Flashing).</li>
+      <li>Po zakończeniu wyłącz i włącz tuner.</li>
+    </ol>
+  </details>
+</div>
+
+
+<!-- ========================= -->
+<!-- GIGABLUE -->
+<!-- ========================= -->
+<div class="card" id="gigablue">
+  <h2>GigaBlue</h2>
+  <p>Instrukcje wgrywania czystego image z pendrive (USB).</p>
+
+  <details class="details-note" id="gigablue-uhd-trio-4k" data-model="gigablue uhd trio 4k gigablue trio 4k">
+    <summary><strong>GigaBlue UHD Trio 4K</strong> — wgranie czystego image (USB)</summary>
+
+    <ol style="margin-top:10px;">
+      <li>Z pliku ZIP na pendrive (FAT32) przekopiuj pliki: <strong>apploader.bin</strong>, <strong>bootargs.bin</strong>, <strong>fastboot.bin</strong>, <strong>usb_update.bin</strong>.</li>
+      <li>Wyłącz tuner przełącznikiem na tylnym panelu.</li>
+      <li>Wciśnij i trzymaj przycisk <strong>POWER</strong> na przednim panelu, po czym włącz tuner przełącznikiem z tyłu.</li>
+      <li>Przycisk trzymaj do momentu, aż na wyświetlaczu pojawi się <strong>UPdt</strong>.</li>
+      <li>Po pojawieniu się menu wybierz (w zależności od bootloadera) opcję <strong>4 Recovery From USB</strong> lub <strong>Flash Recovery Image</strong>.</li>
+      <li>Rozpocznie się aktualizacja — czerwona dioda na panelu będzie pulsować, a postęp będzie widoczny na ekranie TV.</li>
+      <li>Po zakończeniu tuner zrestartuje się i uruchomi z nowym oprogramowaniem.</li>
+    </ol>
+  </details>
+</div>
+
+
+<!-- ========================= -->
+<!-- DREAMBOX -->
+<!-- ========================= -->
+<div class="card" id="dreambox">
+  <h2>Dreambox</h2>
+  <p>Wgrywanie image odbywa się przez <strong>webinterface</strong> (przeglądarkę internetową). Potrzebujesz komputera/laptopa oraz połączenia Dreamboxa z routerem najlepiej kablem LAN.</p>
+
+  <details class="details-note" id="dreambox-webflash" data-model="dreambox dm webinterface flash">
+    <summary><strong>Dreambox</strong> — wgrywanie image przez przeglądarkę (webinterface)</summary>
+
+    <h3 style="margin-top:12px;">Co jest potrzebne</h3>
+    <ul style="margin-top:10px;">
+      <li>Komputer lub laptop w tej samej sieci.</li>
+      <li>Połączenie Dreamboxa z routerem (najlepiej <strong>LAN</strong>).</li>
+      <li>Plik image do wgrania (z oficjalnej strony lub zaufanego źródła, np. <a href="http://dreamboxupdate.com" rel="noopener" target="_blank">dreamboxupdate.com</a>).</li>
+    </ul>
+
+    <h3>Tryb serwisowy (Rescue/Service mode)</h3>
+    <p style="margin-top:10px;">Sposób wejścia może się różnić w zależności od modelu/bootloadera. Najczęściej:</p>
+    <ol style="margin-top:10px;">
+      <li>Wyłącz tuner przełącznikiem (jeśli jest) lub odłącz zasilanie.</li>
+      <li>Przytrzymaj przycisk <strong>POWER</strong> (czasem <strong>strzałkę w górę</strong>) na panelu.</li>
+      <li>Włącz tuner (podłącz zasilanie / przełącznik), trzymając przycisk do momentu, aż na ekranie pojawi się <strong>adres IP</strong>.</li>
+    </ol>
+
+    <h3>Wgrywanie image</h3>
+    <ol style="margin-top:10px;">
+      <li>Na komputerze wpisz wyświetlony adres IP w przeglądarce.</li>
+      <li>Wybierz <strong>Firmware upload</strong>.</li>
+      <li>Kliknij <strong>Browse/Przeglądaj</strong> i wskaż plik image.</li>
+      <li><strong>Odznacz</strong> checkboxy zachowujące stare ustawienia (żeby wgrać „czysto”).</li>
+      <li>Kliknij <strong>GO</strong> i poczekaj na zakończenie.</li>
+      <li>Na końcu kliknij <strong>Click here to reboot</strong> — tuner uruchomi się z nowym oprogramowaniem.</li>
+    </ol>
+  </details>
+</div>
+
+
+<!-- ========================= -->
+<!-- NBOX -->
+<!-- ========================= -->
+<div class="card" id="nbox">
+  <h2>Nbox</h2>
+  <p>Instrukcja wgrywania softu przez pendrive (dla początkujących — krok po kroku). Używaj <strong>właściwych plików</strong> pod swój model.</p>
+
+  <details class="details-note" id="nbox-usb-flash" data-model="nbox n-box nbox usb flash">
+    <summary><strong>Nbox</strong> — wgranie softu przez pendrive (update.img / rootfs.img / kernel.img)</summary>
+
+    <h3 style="margin-top:12px;">Przygotowanie pendrive</h3>
+    <ol style="margin-top:10px;">
+      <li>Użyj pendrive <strong>nie większego niż 4 GB</strong> i sformatuj go w <strong>FAT32</strong>.</li>
+      <li>Skopiuj na pendrive (do katalogu głównego) trzy pliki: <strong>update.img</strong>, <strong>rootfs.img</strong>, <strong>kernel.img</strong>.</li>
+    </ol>
+
+    <h3>Wgrywanie</h3>
+    <ol style="margin-top:10px;">
+      <li>Wciśnij przycisk <strong>POWER</strong> na panelu przednim.</li>
+      <li>Trzymając POWER, podłącz tuner do prądu.</li>
+      <li>Po chwili pojawi się <strong>boot</strong>, a następnie <strong>PROG</strong>.</li>
+      <li>Puść przycisk POWER, gdy pokaże się <strong>PROG</strong>.</li>
+      <li>Poczekaj do zakończenia procesu (na wyświetlaczu pojawi się <strong>OK</strong>).</li>
+    </ol>
+
+    <h3>Komunikaty na wyświetlaczu (co oznaczają)</h3>
+    <ul style="margin-top:10px;">
+      <li><strong>L–1</strong> — ładowanie <strong>kernel.img</strong> do pamięci</li>
+      <li><strong>S–1</strong> — zapis <strong>kernel.img</strong> do NAND</li>
+      <li><strong>E–1</strong> — błąd w fazie L–1</li>
+      <li><strong>L–2</strong> — ładowanie <strong>rootfs.img</strong> do pamięci</li>
+      <li><strong>S–2</strong> — zapis <strong>rootfs.img</strong> do NAND</li>
+      <li><strong>E–2</strong> — błąd w fazie L–2</li>
+      <li><strong>FAIL</strong> — problem z plikami/pendrive (sprawdź FAT32, rozmiar pendrive, nazwy plików)</li>
+    </ul>
+
+    <h3>Po wgraniu</h3>
+    <ol style="margin-top:10px;">
+      <li>Wyłącz tuner z prądu i wyjmij pendrive.</li>
+      <li>Włącz ponownie tuner i poczekaj na start.</li>
+      <li>Jeśli tuner nie uruchamia się z NAND: po napisie <strong>boot</strong> użyj strzałek na panelu, wybierz <strong>NAND</strong> i potwierdź <strong>OK</strong>.</li>
     </ol>
   </details>
 </div>
