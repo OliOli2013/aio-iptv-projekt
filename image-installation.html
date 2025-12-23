@@ -106,7 +106,15 @@
     <a class="file-link" href="#zgemma"><span class="icon">📦</span> Zgemma</a>
     <a class="file-link" href="#dreambox"><span class="icon">📦</span> Dreambox</a>
     <a class="file-link" href="#nbox"><span class="icon">📦</span> Nbox</a>
-  </div>
+  <a class="file-link" href="#ax"><span class="icon">📦</span> AX</a>
+<a class="file-link" href="#mutant"><span class="icon">📦</span> Mutant</a>
+<a class="file-link" href="#gigablue"><span class="icon">📦</span> GigaBlue</a>
+<a class="file-link" href="#formuler"><span class="icon">📦</span> Formuler</a>
+<a class="file-link" href="#ariva"><span class="icon">📦</span> Ariva</a>
+<a class="file-link" href="#qviart"><span class="icon">📦</span> Qviart</a>
+<a class="file-link" href="#dreambox"><span class="icon">📦</span> Dreambox</a>
+<a class="file-link" href="#nbox"><span class="icon">📦</span> Nbox</a>
+</div>
 
   <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
     <input id="modelSearch" type="text" placeholder="Szukaj modelu (np. H9, Solo2, SF8008, Ustym)..." style="flex:1; min-width:260px; padding:12px 14px; border-radius:14px; border:1px solid rgba(148,163,184,.2); background:rgba(15,23,42,.55); color:#e2e8f0;">
@@ -197,6 +205,286 @@
     </ol>
   </details>
 
+
+<details class="details-note" id="octagon-sf4008" data-model="octagon sf4008">
+  <summary><strong>Octagon SF4008</strong> — wgranie czystego image (USB)</summary>
+  <ol style="margin-top:10px;">
+    <li>Po pobraniu <strong>rozpakuj</strong> plik i wgraj na pendrive katalog <strong>sf4008</strong>.</li>
+    <li>Wyłącz tuner.</li>
+    <li>Włóż pendrive do dowolnego gniazda USB.</li>
+    <li>Włącz tuner.</li>
+    <li>Po wyświetleniu komunikatu na ekranie <strong>dotknij/naciśnij POWER</strong> — rozpocznie się aktualizacja.</li>
+    <li>Po zakończeniu tuner zrestartuje się i uruchomi z nowym oprogramowaniem.</li>
+  </ol>
+</details>
+
+<!-- ========================= -->
+<!-- AX -->
+<!-- ========================= -->
+<div class="card" id="ax">
+  <h2>AX (4K BOX)</h2>
+  <p>Instrukcje wgrywania czystego image na modele AX. Uwaga: kroki mogą się różnić zależnie od bootloadera — wykonuj dokładnie wg instrukcji dla modelu.</p>
+
+  <details class="details-note" id="ax-hd51" data-model="ax 4k box hd51 ax hd51">
+    <summary><strong>AX 4K BOX HD51</strong> — wgranie czystego image (USB)</summary>
+    <ol style="margin-top:10px;">
+      <li>Po pobraniu rozpakuj plik i wgraj na pendrive katalog <strong>hd51</strong>.</li>
+      <li>Wyłącz tuner (odłącz zasilanie).</li>
+      <li>Włóż pendrive do dowolnego gniazda USB.</li>
+      <li>Wciśnij i trzymaj <strong>POWER</strong> z przodu, a następnie podłącz zasilanie.</li>
+      <li>Puszczasz przycisk po pojawieniu się komunikatu <strong>„flashing”</strong> na wyświetlaczu.</li>
+      <li>Po aktualizacji tuner uruchomi się sam.</li>
+    </ol>
+  </details>
+
+  <details class="details-note" id="ax-hd61" data-model="ax 4k box hd61 ax hd61">
+    <summary><strong>AX 4K BOX HD61</strong> — wgranie czystego image (bootmenu)</summary>
+    <ol style="margin-top:10px;">
+      <li>Wgraj obraz na pendrive sformatowany w <strong>FAT32</strong>.</li>
+      <li>Wyłącz tuner.</li>
+      <li>Włóż pendrive do dowolnego gniazda USB.</li>
+      <li>Włącz tuner przełącznikiem z tyłu.</li>
+      <li>Przytrzymaj <strong>POWER</strong> na przednim panelu — po chwili na wyświetlaczu pojawi się <strong>„rCUY”</strong>.</li>
+      <li>Po chwili na TV pojawi się szare menu → wybierz <strong>Bootmenu</strong>.</li>
+      <li>Wybierz <strong>Flash local image</strong> → wybierz nazwę pendrive → wskaż wgrany plik.</li>
+      <li>Wybierz <strong>Linux 1</strong> i potwierdź.</li>
+      <li>Po zakończeniu wyłącz i włącz tuner.</li>
+    </ol>
+  </details>
+</div>
+
+<!-- ========================= -->
+<!-- MUTANT -->
+<!-- ========================= -->
+<div class="card" id="mutant">
+  <h2>Mutant</h2>
+  <p>Modele: <strong>HD51 / HD60 / HD66SE</strong>. Metoda: USB Flash.</p>
+
+  <details class="details-note" id="mutant-hd51-hd60-hd66se" data-model="mutant hd51 hd60 hd66se">
+    <summary><strong>Mutant (HD51 / HD60 / HD66SE)</strong> — USB Flash</summary>
+    <ol style="margin-top:10px;">
+      <li>Sformatuj pendrive w <strong>FAT32</strong>.</li>
+      <li>Skopiuj folder <strong>/mutant/</strong> z plikami <strong>kernel.bin</strong> i <strong>rootfs.bin</strong>.</li>
+      <li>Włóż pendrive do tunera.</li>
+      <li>Włącz zasilanie.</li>
+      <li>Po wykryciu aktualizacji <strong>potwierdź OK</strong> (na pilocie / panelu) i poczekaj na zakończenie.</li>
+    </ol>
+  </details>
+</div>
+
+<!-- ========================= -->
+<!-- GIGABLUE -->
+<!-- ========================= -->
+<div class="card" id="gigablue">
+  <h2>GigaBlue</h2>
+  <p>Wgrywanie czystego image przez USB. W zależności od modelu mogą występować różne pliki startowe.</p>
+
+  <details class="details-note" id="gigablue-uhd-trio-4k" data-model="gigablue uhd trio 4k trio4k">
+    <summary><strong>GigaBlue UHD Trio 4K</strong> — wgranie czystego image (USB)</summary>
+    <ol style="margin-top:10px;">
+      <li>Z pliku ZIP na pendrive (FAT32) przekopiuj pliki: <strong>apploader.bin</strong>, <strong>bootargs.bin</strong>, <strong>fastboot.bin</strong>, <strong>usb_update.bin</strong>.</li>
+      <li>Wyłącz tuner przełącznikiem na tylnym panelu.</li>
+      <li>Wciśnij i przytrzymaj <strong>POWER</strong> na przednim panelu i włącz tuner przełącznikiem. Trzymaj POWER do momentu, aż pojawi się <strong>UPdt</strong> na wyświetlaczu.</li>
+      <li>W menu wybierz (zależnie od bootloadera) <strong>Recovery From USB</strong> lub <strong>Flash Recovery Image</strong>.</li>
+      <li>W trakcie aktualizacji pulsuje czerwona dioda; postęp widać na ekranie TV.</li>
+      <li>Po zakończeniu tuner zrestartuje się i uruchomi z wgranym oprogramowaniem.</li>
+    </ol>
+  </details>
+
+  <details class="details-note" id="gigablue-ue-quad-uhd" data-model="gigablue ue 4k quad 4k uhd">
+    <summary><strong>GigaBlue (UE 4K / Quad 4K / UHD)</strong> — USB Flash</summary>
+    <ol style="margin-top:10px;">
+      <li>Sformatuj pendrive w <strong>FAT32</strong>.</li>
+      <li>Skopiuj folder <strong>/gigablue/</strong> z plikami <strong>kernel.bin</strong> i <strong>rootfs.bin</strong>.</li>
+      <li>Wyłącz tuner, włóż pendrive, a następnie włącz zasilanie.</li>
+      <li>Po wykryciu aktualizacji <strong>potwierdź flash przyciskiem OK</strong>.</li>
+      <li>Poczekaj na zakończenie i restart tunera.</li>
+    </ol>
+  </details>
+</div>
+
+<!-- ========================= -->
+<!-- FORMULER -->
+<!-- ========================= -->
+<div class="card" id="formuler">
+  <h2>Formuler</h2>
+  <p>Modele: <strong>F1 / F3 / F4 / F4 Turbo</strong>. Metoda: USB Flash.</p>
+
+  <details class="details-note" id="formuler-f1-f3-f4" data-model="formuler f1 f3 f4 f4 turbo">
+    <summary><strong>Formuler (F1 / F3 / F4 / F4 Turbo)</strong> — USB Flash</summary>
+    <ol style="margin-top:10px;">
+      <li>Sformatuj pendrive w <strong>FAT32</strong>.</li>
+      <li>Rozpakuj obraz i skopiuj folder <strong>/formuler/</strong> z plikami <strong>kernel.bin</strong> i <strong>rootfs.bin</strong>.</li>
+      <li>Włóż pendrive do tunera.</li>
+      <li>Uruchom tuner i poczekaj na wykrycie aktualizacji.</li>
+      <li>Gdy pojawi się komunikat o aktualizacji — potwierdź (OK) i poczekaj na zakończenie.</li>
+    </ol>
+  </details>
+</div>
+
+<!-- ========================= -->
+<!-- ARIVA ATV -->
+<!-- ========================= -->
+<div class="card" id="ariva">
+  <h2>Ariva ATV (Enigma2)</h2>
+  <p>Instrukcja uruchomienia i instalacji Enigma2 na urządzeniach Ariva ATV.</p>
+
+  <details class="details-note" id="ariva-atv-combo-tt" data-model="ariva atv combo tt enigma2 e2">
+    <summary><strong>ENIGMA2 (Ariva ATV Combo / Ariva ATV TT)</strong> — instalacja/uruchomienie</summary>
+    <ol style="margin-top:10px;">
+      <li>Sformatuj pendrive na <strong>FAT32</strong>.</li>
+      <li>Pobierz odpowiedni obraz dla swojego modelu.</li>
+      <li>Trzy pliki z archiwum umieść na USB w folderze <strong>e2/update</strong>.</li>
+      <li>W aplikacji <strong>LiveTV</strong> włącz używanie Enigma2: <strong>Setup → Misc → Preference → Use E2: [Enable]</strong>.</li>
+      <li>Włóż pendrive do Arivy i podczas uruchamiania <strong>klikaj ZIELONY</strong> przycisk na pilocie.</li>
+      <li>Po pojawieniu się planszy z wyborem systemu naciśnij <strong>NIEBIESKI</strong> przycisk na pilocie.</li>
+      <li>Poczekaj na instalację i uruchomienie Enigma2.</li>
+    </ol>
+  </details>
+</div>
+
+<!-- ========================= -->
+<!-- QVIART DUAL -->
+<!-- ========================= -->
+<div class="card" id="qviart">
+  <h2>Qviart Dual</h2>
+  <p>Model z dual-boot: Linux Enigma2 oraz Android. Poniżej masz instrukcje instalacji Enigma2 (restore), przełączania systemów oraz trybów odzyskiwania.</p>
+
+  <details class="details-note" id="qviart-dual-e2-usb" data-model="qviart dual enigma2 e2up restore openatv">
+    <summary><strong>Qviart Dual</strong> — instalacja Enigma2 (Linux E2) przez USB (OpenATV „restore”)</summary>
+    <h3 style="margin-top:12px;">Przygotowanie USB</h3>
+    <ol>
+      <li>Sformatuj pamięć USB w systemie <strong>FAT32</strong>.</li>
+      <li>Pobierz najnowszy obraz OpenATV: wariant <strong>„restore”</strong>.</li>
+      <li>Rozpakuj ZIP — powstanie folder <strong>dual</strong> (z plikami w środku). Skopiuj folder <strong>dual</strong> na USB.</li>
+    </ol>
+
+    <h3 style="margin-top:12px;">Wgrywanie (E2UP)</h3>
+    <ol>
+      <li>Wyłącz dekoder przełącznikiem z tyłu.</li>
+      <li>Podłącz USB do portu przedniego lub tylnego.</li>
+      <li>Naciśnij i przytrzymaj <strong>POWER ON</strong> na panelu przednim i włącz dekoder przełącznikiem z tyłu.</li>
+      <li>Na wyświetlaczu pojawią się opcje — przełączaj je przyciskiem <strong>POWER ON</strong> aż trafisz na <strong>„E2UP”</strong>.</li>
+      <li>Gdy na wyświetlaczu będzie <strong>E2UP</strong>, aktualizacja ruszy automatycznie (zwykle do 5 minut).</li>
+      <li>Po zakończeniu tuner uruchomi się z nowym softem, a na TV pojawi się kreator pierwszej konfiguracji.</li>
+    </ol>
+  </details>
+
+  <details class="details-note" id="qviart-dual-switch-remote" data-model="qviart dual przełączanie android enigma2 pilot boot">
+    <summary><strong>Qviart Dual</strong> — szybka zmiana systemu pilotem (Android ↔ Enigma2)</summary>
+    <h3 style="margin-top:12px;">Start Enigma2 (Android → E2)</h3>
+    <ol>
+      <li>Wyłącz i włącz dekoder przełącznikiem z tyłu.</li>
+      <li>Gdy na wyświetlaczu pojawi się <strong>„Boot”</strong> — naciśnij i przytrzymaj <strong>1</strong> na pilocie przez 10–15 sekund.</li>
+    </ol>
+
+    <h3 style="margin-top:12px;">Start Android (E2 → Android)</h3>
+    <ol>
+      <li>Wyłącz i włącz dekoder przełącznikiem z tyłu.</li>
+      <li>Gdy na wyświetlaczu pojawi się <strong>„Boot”</strong> — naciśnij i przytrzymaj <strong>0</strong> na pilocie przez 10–15 sekund.</li>
+    </ol>
+
+    <h3 style="margin-top:12px;">Przełączanie „w obie strony”</h3>
+    <ol>
+      <li>Wyłącz i włącz dekoder przełącznikiem z tyłu.</li>
+      <li>Na <strong>Boot</strong> przytrzymaj <strong>POWER ON</strong> na pilocie 10–15 sekund.</li>
+      <li>Jeśli ostatnio był Android — przełączy na Enigma2 i odwrotnie.</li>
+    </ol>
+  </details>
+
+  <details class="details-note" id="qviart-dual-switch-menu" data-model="qviart dual dual mode menu">
+    <summary><strong>Qviart Dual</strong> — zmiana systemu z poziomu menu (Dual Mode)</summary>
+    <ol style="margin-top:10px;">
+      <li>Będąc w Enigma2 wejdź: <strong>Menu → Standby/Restart → Dual Mode</strong>.</li>
+      <li>Potwierdź <strong>TAK</strong> — dekoder przejdzie do Android.</li>
+      <li>W Android w menu „E2” wybierz np. <strong>Go back last time booted</strong> albo <strong>Slot 1</strong>, aby wrócić do Enigma2.</li>
+    </ol>
+  </details>
+
+  <details class="details-note" id="qviart-dual-android-update" data-model="qviart dual android aktualizacja ota usb">
+    <summary><strong>Qviart Dual</strong> — aktualizacja Android (USB lub OTA)</summary>
+    <h3 style="margin-top:12px;">USB</h3>
+    <ol>
+      <li>Sformatuj USB w <strong>FAT32</strong>.</li>
+      <li>Pobierz oprogramowanie Android i skopiuj plik <strong>.bin</strong> na USB.</li>
+      <li>Wejdź: <strong>Ustawienia główne → Aktualizacji → Aktualizacji USB</strong> i wybierz plik do instalacji.</li>
+    </ol>
+
+    <h3 style="margin-top:12px;">OTA (aktualizacja sieciowa)</h3>
+    <ol>
+      <li>Wejdź: <strong>Ustawienia główne → Aktualizacji → Aktualizacji sieciowej</strong>.</li>
+      <li>Jeśli jest nowsza wersja, pojawi się opcja pobrania i instalacji.</li>
+    </ol>
+  </details>
+
+  <details class="details-note" id="qviart-dual-recovery-android" data-model="qviart dual recovery android romupdate">
+    <summary><strong>Qviart Dual</strong> — odzyskiwanie Android (USB)</summary>
+    <ol style="margin-top:10px;">
+      <li>Sformatuj USB w <strong>FAT32</strong>.</li>
+      <li>Pobierz oprogramowanie i zmień nazwę pliku na <strong>RomUpdate.bin</strong>.</li>
+      <li>Utwórz folder <strong>RomUpdate</strong> w katalogu głównym USB i skopiuj tam <strong>RomUpdate.bin</strong>.</li>
+      <li>Wyłącz dekoder przełącznikiem z tyłu.</li>
+      <li>Podłącz USB, włącz dekoder i przytrzymaj <strong>POWER ON</strong> na panelu przednim.</li>
+      <li>Na wyświetlaczu wybierz opcję <strong>„UPDT”</strong> (przełączasz POWER ON) — aktualizacja ruszy automatycznie.</li>
+      <li>Po zakończeniu dekoder uruchomi Android.</li>
+    </ol>
+  </details>
+
+  <details class="details-note" id="qviart-dual-warning" data-model="qviart dual problem boot slot 2 3 4 android 2.0">
+    <summary><strong>Uwaga</strong>: problem ze starszym Android 2.0 (blokada po wyborze Slot #2/#3/#4)</summary>
+    <p style="margin-top:10px;">Jeśli wybierzesz slot bez zainstalowanego obrazu E2, dekoder może utknąć na „Boot”.</p>
+    <ol style="margin-top:10px;">
+      <li>Wyłącz dekoder przełącznikiem z tyłu.</li>
+      <li>Włącz ponownie.</li>
+      <li>Gdy zobaczysz obraz startowy na TV, przytrzymaj <strong>0</strong> na pilocie przez 10–15 sekund.</li>
+      <li>Wrócisz do Android, skąd możesz uruchomić poprawny slot E2.</li>
+    </ol>
+  </details>
+</div>
+
+<!-- ========================= -->
+<!-- DREAMBOX -->
+<!-- ========================= -->
+<div class="card" id="dreambox">
+  <h2>Dreambox</h2>
+  <p>Programowanie odbywa się przez webinterface. Potrzebujesz komputera/laptopa oraz połączenia kablowego z routerem.</p>
+
+  <details class="details-note" id="dreambox-webif" data-model="dreambox webinterface flash ip firmware upload">
+    <summary><strong>Dreambox</strong> — wgrywanie image przez WebInterface</summary>
+    <ol style="margin-top:10px;">
+      <li>Połącz Dreambox kablem LAN z routerem.</li>
+      <li>Wejdź w tryb serwisowy: w starszych modelach przytrzymaj <strong>POWER</strong> lub <strong>strzałkę w górę</strong> (zależnie od bootloadera) i włącz tuner.</li>
+      <li>Trzymaj przycisk do momentu, aż na ekranie pojawi się <strong>adres IP</strong>.</li>
+      <li>Wpisz ten adres IP w przeglądarce na komputerze — otworzy się strona programowania Dreamboxa.</li>
+      <li>Wybierz <strong>Firmware upload</strong> → <strong>Przeglądaj</strong> i wskaż plik image.</li>
+      <li>Odznacz checkboxy zachowujące stare ustawienia (jeśli chcesz „czysty start”).</li>
+      <li>Kliknij <strong>GO</strong> i poczekaj na zakończenie.</li>
+      <li>Po zakończeniu kliknij <strong>Click here to reboot</strong> — tuner uruchomi się z nowym softem.</li>
+    </ol>
+  </details>
+</div>
+
+<!-- ========================= -->
+<!-- NBOX -->
+<!-- ========================= -->
+<div class="card" id="nbox">
+  <h2>Nbox</h2>
+  <p>Instrukcja wgrania softu przez pendrive (Enigma2) — tryb PROG.</p>
+
+  <details class="details-note" id="nbox-usb" data-model="nbox enigma2 prog update.img rootfs.img kernel.img">
+    <summary><strong>Nbox</strong> — wgranie softu przez pendrive (PROG)</summary>
+    <ol style="margin-top:10px;">
+      <li>Użyj pendrive <strong>nie większego niż 4 GB</strong> i sformatuj go na <strong>FAT32</strong>.</li>
+      <li>Skopiuj na pendrive trzy pliki: <strong>update.img</strong>, <strong>rootfs.img</strong>, <strong>kernel.img</strong>.</li>
+      <li>Wciśnij <strong>POWER</strong> na panelu frontowym i podłącz tuner do prądu.</li>
+      <li>Po chwili pojawi się <strong>boot</strong>, a następnie <strong>PROG</strong> — wtedy puść POWER.</li>
+      <li>Jeśli pojawi się <strong>FAIL</strong> — oznacza problem z plikami/pendrive.</li>
+      <li>Podczas aktualizacji zobaczysz komunikaty: <strong>L-1/S-1</strong> (kernel), <strong>L-2/S-2</strong> (rootfs). Zakończenie poprawne: <strong>OK</strong>.</li>
+      <li>Po wgraniu wyłącz tuner z prądu, wyjmij pendrive i włącz ponownie.</li>
+      <li>Sprawdź, czy tuner uruchamia się z <strong>NAND</strong> — jeśli nie, użyj strzałek na panelu po napisie boot, wybierz NAND i zatwierdź OK.</li>
+    </ol>
+  </details>
+</div>
 </div>
 
 <!-- ========================= -->
@@ -603,31 +891,45 @@
 <script src="assets/js/site.js?v=next1"></script>
 <script>
 (function(){
-  function normalize(s){ return String(s||'').toLowerCase().replace(/\s+/g,' ').trim(); }
+  function normalize(s){
+    return String(s || '').toLowerCase().replace(/\s+/g,' ').trim();
+  }
+
   function openFromHash(){
     var h = (location.hash || '').replace('#','').trim();
     if(!h) return;
 
-    // Alias mapping (dla kompatybilności ze starszymi linkami / nazwami modeli)
+    // Alias mapping (kompatybilność ze starszymi linkami / skrótami)
     var alias = {
       'ustym-combo': 'ustym-4kpro-twin',
       'ustym-twin': 'ustym-4kpro-twin',
       'ustym-4kpro': 'ustym-4kpro-twin',
       'octagon-sf8008': 'octagon-sf8008-combo',
       'octagon-sf8008-twin': 'octagon-sf8008-combo',
-      'octagon-sf8008-supreme': 'octagon-sf8008-combo'
+      'octagon-sf8008-supreme': 'octagon-sf8008-combo',
+      'octagon-sf4008': 'octagon-sf4008',
+      'ax-hd51': 'ax-hd51',
+      'ax-hd61': 'ax-hd61',
+      'mutant': 'mutant-hd51-hd60-hd66se',
+      'gigablue': 'gigablue-ue-quad-uhd',
+      'formuler': 'formuler-f1-f3-f4',
+      'ariva': 'ariva-atv-combo-tt',
+      'qviart': 'qviart-dual-e2-usb',
+      'dreambox': 'dreambox-webif',
+      'nbox': 'nbox-usb'
     };
 
     var targetId = alias[h] || h;
     var el = document.getElementById(targetId);
 
+    // Jeśli hash wskazuje na <details>, otwórz go
     if(el && el.tagName && el.tagName.toLowerCase() === 'details'){
       el.open = true;
       setTimeout(function(){ el.scrollIntoView({block:'start', behavior:'smooth'}); }, 60);
       return;
     }
 
-    // Jeśli hash wskazuje na element wewnątrz, spróbuj otworzyć najbliższy <details>
+    // Jeśli hash wskazuje na element wewnątrz, otwórz najbliższy <details>
     if(el && el.closest){
       var d = el.closest('details');
       if(d){
@@ -637,8 +939,6 @@
     }
   }
 
-  }
-
   function setupSearch(){
     var input = document.getElementById('modelSearch');
     var clear = document.getElementById('clearSearch');
@@ -646,22 +946,26 @@
     if(!input) return;
 
     var items = Array.prototype.slice.call(document.querySelectorAll('details[data-model]'));
+
     function apply(){
       var q = normalize(input.value);
       var visible = 0;
+
       items.forEach(function(d){
         var key = normalize(d.getAttribute('data-model'));
-        var title = normalize((d.querySelector('summary')||{}).textContent || '');
+        var title = normalize((d.querySelector('summary') || {}).textContent || '');
         var ok = !q || key.indexOf(q) !== -1 || title.indexOf(q) !== -1;
         d.style.display = ok ? '' : 'none';
         if(ok) visible++;
       });
+
       if(hint){
         hint.textContent = q ? ('Wyniki: ' + visible + ' • Szukasz: ' + input.value) : '';
       }
     }
 
     input.addEventListener('input', apply);
+
     if(clear){
       clear.addEventListener('click', function(){
         input.value = '';
@@ -669,6 +973,7 @@
         input.focus();
       });
     }
+
     apply();
   }
 
@@ -676,8 +981,10 @@
     setupSearch();
     openFromHash();
   });
+
   window.addEventListener('hashchange', openFromHash);
 })();
+</script>
 </script>
 
 <script src="assets/js/stats-nav.js" defer></script>
