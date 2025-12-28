@@ -42,9 +42,13 @@
 
       marquee_text:
         'Wesprzyj AIO‑IPTV — kawa pomaga rozwijać stronę i autorskie wtyczki: AIO Panel, IPTV Dream i inne.',
+      marquee_text2: 'Wsparcie (kawa): Revolut i PayPal — dziękuję!',
       marquee_cta: 'Postaw kawę',
       holiday:
         'Paweł Pawełek — życzy Zdrowych Wesołych Świąt',
+
+      // (nieużywane w marquee; zostawione na przyszłość)
+      newyear_greeting: 'Szczęśliwego Nowego Roku 2026 życzy Paweł Pawełek!',
 
       generator_hint: '# Zaznacz przynajmniej jedną opcję powyżej...',
       show_more: 'Pokaż więcej',
@@ -86,9 +90,13 @@
 
       marquee_text:
         'Support AIO‑IPTV — coffee helps build the site and original plugins: AIO Panel, IPTV Dream and more.',
+      marquee_text2: 'Coffee support: Revolut & PayPal — thank you!',
       marquee_cta: 'Buy coffee',
       holiday:
         'Paweł Pawełek — wishes you a joyful holiday season',
+
+      // (not used in marquee; kept for future use)
+      newyear_greeting: 'Happy New Year 2026 — from Paweł Pawełek!',
 
       generator_hint: '# Select at least one option above...',
       show_more: 'Show more',
@@ -305,7 +313,7 @@
           <span class="marquee-pill">☕</span>
           <div class="marquee-track" aria-label="marquee">
             <div class="marquee-text">${escapeHtml(t('marquee_text'))}</div>
-            <div class="marquee-text">${escapeHtml(t('holiday'))}</div>
+            <div class="marquee-text">${escapeHtml(t('marquee_text2'))}</div>
           </div>
           <a class="marquee-cta" href="support.html">${escapeHtml(t('marquee_cta'))}</a>
         </div>

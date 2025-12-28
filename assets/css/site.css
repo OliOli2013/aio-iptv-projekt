@@ -246,9 +246,9 @@ a{color:inherit} a:hover{color:var(--accent)}
   gap:8px;
   padding:6px 10px;
   border-radius: 999px;
-  border:1px solid var(--stroke);
-  background: rgba(15,23,42,.55);
-  color:#e2e8f0;
+  border:1px solid rgba(251,191,36,.28);
+  background: rgba(251,191,36,.10);
+  color:#fffbeb;
   font-weight:700;
   font-size:.86rem;
   white-space:nowrap;
@@ -262,7 +262,7 @@ a{color:inherit} a:hover{color:var(--accent)}
 .marquee-text{
   display:inline-block;
   white-space:nowrap;
-  color:#cbd5e1;
+  color:#fde68a;
   font-weight:700;
   letter-spacing:.2px;
   padding-left: 100%;
@@ -278,14 +278,56 @@ a{color:inherit} a:hover{color:var(--accent)}
   gap:8px;
   padding:7px 12px;
   border-radius: 999px;
-  border:1px solid rgba(34,197,94,.25);
-  background: rgba(34,197,94,.12);
-  color:#dcfce7;
+  border:1px solid rgba(251,191,36,.55);
+  background: rgba(251,191,36,.22);
+  color:#fffbeb;
   font-weight:800;
   text-decoration:none;
   white-space:nowrap;
+  box-shadow: 0 12px 30px rgba(251,191,36,.14);
 }
-.marquee-cta:hover{ border-color: rgba(96,165,250,.6); background: rgba(96,165,250,.14); color:#e0f2fe; }
+.marquee-cta:hover{ border-color: rgba(245,158,11,.85); background: rgba(245,158,11,.28); color:#0b1220; }
+
+/* Countdown badge (home) */
+.year-countdown{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  padding: 9px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(251,191,36,.38);
+  background: rgba(251,191,36,.12);
+  color:#fffbeb;
+  font-weight:900;
+  font-size:.92rem;
+  margin-top: 10px;
+  box-shadow: 0 14px 34px rgba(251,191,36,.10);
+}
+.year-countdown .yc-label{opacity:.95;}
+.year-countdown .yc-time{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(251,191,36,.25);
+  background: rgba(2,6,23,.35);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+.year-countdown .yc-part{display:inline-flex; align-items:baseline; gap:6px;}
+.year-countdown .yc-num{font-size:1.05rem; color:#fff;}
+.year-countdown .yc-unit{font-size:.78rem; color:#fef3c7; opacity:.9;}
+.year-countdown .yc-sep{color: rgba(251,191,36,.9); font-weight:900;}
+
+.year-countdown.done{
+  border-color: rgba(34,197,94,.38);
+  background: rgba(34,197,94,.14);
+  color:#dcfce7;
+  box-shadow: 0 14px 34px rgba(34,197,94,.10);
+}
+.year-countdown.done .yc-icon{font-size:1.1rem;}
+.year-countdown.done .yc-msg{font-weight:900;}
 
 /* Seasonal badge */
 .seasonal-badge{

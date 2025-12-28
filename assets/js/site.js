@@ -33,8 +33,15 @@
       nav_home: 'Start',
       updates: 'Nowości',
       marquee_text: 'Wesprzyj AIO‑IPTV — kawa pomaga rozwijać stronę i autorskie wtyczki.',
+      marquee_text2: 'Wsparcie (kawa): Revolut i PayPal — dziękuję!',
       marquee_cta: 'Postaw kawę',
       holiday: 'Paweł Pawełek — życzy Zdrowych Wesołych Świąt',
+      countdown_label: 'Odliczanie do końca 2025:',
+      newyear_greeting: 'Szczęśliwego Nowego Roku 2026 życzy Paweł Pawełek!',
+      unit_days: 'dni',
+      unit_hours: 'godz',
+      unit_minutes: 'min',
+      unit_seconds: 'sek',
       generator_hint: '# Zaznacz przynajmniej jedną opcję powyżej...',
       ai_placeholder: 'Zadaj pytanie o Enigma2…',
       ai_send: 'Wyślij',
@@ -46,8 +53,15 @@
       nav_home: 'Home',
       updates: 'Updates',
       marquee_text: 'Support AIO‑IPTV — coffee helps build the site.',
+      marquee_text2: 'Coffee support: Revolut & PayPal — thank you!',
       marquee_cta: 'Buy coffee',
       holiday: 'Paweł Pawełek — wishes you a joyful holiday season',
+      countdown_label: 'Countdown to the end of 2025:',
+      newyear_greeting: 'Happy New Year 2026 — from Paweł Pawełek!',
+      unit_days: 'days',
+      unit_hours: 'h',
+      unit_minutes: 'min',
+      unit_seconds: 's',
       generator_hint: '# Select at least one option above...',
       ai_placeholder: 'Ask about Enigma2…',
       ai_send: 'Send',
@@ -508,7 +522,7 @@ function injectImageInstallNav() {
           <span class="marquee-pill">☕</span>
           <div class="marquee-track" aria-label="marquee">
             <div class="marquee-text">${escapeHtml(t('marquee_text'))}</div>
-            <div class="marquee-text">${escapeHtml(t('holiday'))}</div>
+            <div class="marquee-text">${escapeHtml(t('marquee_text2'))}</div>
           </div>
           <a class="marquee-cta" href="support.html">${escapeHtml(t('marquee_cta'))}</a>
         </div>
@@ -516,6 +530,68 @@ function injectImageInstallNav() {
     `;
 
     document.body.insertBefore(bar, document.body.firstChild);
+  }
+
+  // -------------------------
+  // Countdown (end of 2025) + New Year wishes from 01.01.2026
+  // -------------------------
+  function initYearCountdown() {
+    const el = qs('#yearCountdown');
+    if (!el) return;
+
+    // Midnight in Poland (CET) on 01.01.2026 = 2025-12-31 23:00:00Z
+    const targetTs = Date.parse('2025-12-31T23:00:00Z');
+    if (!isFinite(targetTs)) return;
+
+    const pad2 = (n) => String(n).padStart(2, '0');
+
+    const renderNewYear = () => {
+      el.classList.add('done');
+      el.innerHTML = `
+        <span class="yc-icon">🎉</span>
+        <span class="yc-msg">${escapeHtml(t('newyear_greeting'))}</span>
+      `;
+    };
+
+    const tick = () => {
+      const now = Date.now();
+      const diffMs = targetTs - now;
+
+      if (diffMs <= 0) {
+        renderNewYear();
+        return false;
+      }
+
+      el.classList.remove('done');
+
+      const totalSec = Math.floor(diffMs / 1000);
+      const days = Math.floor(totalSec / 86400);
+      const hours = Math.floor((totalSec % 86400) / 3600);
+      const minutes = Math.floor((totalSec % 3600) / 60);
+      const seconds = totalSec % 60;
+
+      el.innerHTML = `
+        <span class="yc-label">${escapeHtml(t('countdown_label'))}</span>
+        <span class="yc-time" aria-label="countdown">
+          <span class="yc-part"><span class="yc-num">${days}</span><span class="yc-unit">${escapeHtml(t('unit_days'))}</span></span>
+          <span class="yc-sep">•</span>
+          <span class="yc-part"><span class="yc-num">${pad2(hours)}</span><span class="yc-unit">${escapeHtml(t('unit_hours'))}</span></span>
+          <span class="yc-part"><span class="yc-num">${pad2(minutes)}</span><span class="yc-unit">${escapeHtml(t('unit_minutes'))}</span></span>
+          <span class="yc-part"><span class="yc-num">${pad2(seconds)}</span><span class="yc-unit">${escapeHtml(t('unit_seconds'))}</span></span>
+        </span>
+      `;
+
+      return true;
+    };
+
+    // Initial render
+    const keepRunning = tick();
+    if (!keepRunning) return;
+
+    const timer = setInterval(() => {
+      const ok = tick();
+      if (!ok) clearInterval(timer);
+    }, 1000);
   }
 
   // -----------------------------
@@ -1061,6 +1137,7 @@ function injectImageInstallNav() {
     initUpdates();
     initPayPal();
     initMarquee();
+    initYearCountdown();
     initAIChatDrawer();
     initOneLinerGenerator();
     
