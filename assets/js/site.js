@@ -595,24 +595,6 @@ function injectImageInstallNav() {
       if (!ok) clearInterval(timer);
     }, 1000);
   }
-  // -------------------------
-  // Multi-Click banner: disable after 01.02.2026
-  // -------------------------
-  function initMultiClickAds() {
-    try {
-      const cutoff = new Date('2026-02-01T00:00:00');
-      const now = new Date();
-      if (isNaN(cutoff.getTime())) return;
-      if (now < cutoff) return;
-
-      document.querySelectorAll('.ad-banner-section').forEach((sec) => {
-        const img = sec.querySelector('img[src*="multi-click_banner"], img[src*="multi-click_banner_"], img[src*="multi-click"]');
-        if (img) sec.style.display = 'none';
-      });
-    } catch (e) {}
-  }
-
-
   // -----------------------------
   // AI-Chat Enigma2 (drawer, offline KB + optional online endpoint / Supabase)
   // -----------------------------
@@ -1157,8 +1139,7 @@ function injectImageInstallNav() {
     initPayPal();
     initMarquee();
     initYearCountdown();
-    initMultiClickAds();
-    initAIChatDrawer();
+initAIChatDrawer();
     initOneLinerGenerator();
     
     // KOMENTARZE
