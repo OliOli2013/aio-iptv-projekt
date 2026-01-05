@@ -277,9 +277,10 @@ a{color:inherit} a:hover{color:var(--accent)}
 .marquee-text{
   display:inline-block;
   white-space:nowrap;
-  color:#fde68a;
+  color: #22d3ee;
   font-weight:700;
   letter-spacing:.2px;
+  text-shadow: 0 0 14px rgba(34,211,238,.35);
   padding-left: 100%;
   animation: marqueeMove 18s linear infinite;
 }

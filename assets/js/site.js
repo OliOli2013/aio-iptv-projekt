@@ -560,7 +560,7 @@ function injectImageInstallNav() {
       const diffMs = targetTs - now;
 
       if (diffMs <= 0) {
-        renderNewYear();
+        el.textContent = ''; el.classList.add('done');
         return false;
       }
 

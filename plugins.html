@@ -79,6 +79,116 @@
     <a class="pill" href="#pobieranie" id="tabReq" role="tab" aria-selected="false" aria-controls="pobieranie">
       ⬇️ <span data-i18n="tab_required_downloads">Niezbędne dla Enigma2</span>
     </a>
+    <a class="pill" href="#aio-panel" id="tabAIO" role="tab" aria-selected="false" aria-controls="panelAIO">
+      🧰 <span data-i18n="tab_aio_panel">AIO Panel</span>
+    </a>
+  </div>
+</div>
+<div id="panelAIO" class="tab-panel" hidden>
+  <div class="card" data-aos="fade-up" id="aio-panel">
+    <h2>Panel AIO v6.0 (Enigma2)</h2>
+    <p><strong>Data wydania:</strong> 04.01.2024</p>
+    <p>
+      <a class="btn primary" download href="pliki/enigma2-plugin-extensions-panelaio_6.0_all.ipk" title="Pobierz AIO Panel v6.0">
+        📥 Pobierz AIO Panel v6.0
+      </a>
+    </p>
+
+    <h3>Opis funkcji dla użytkowników</h3>
+    <p>
+      <strong>Panel AIO</strong> to wtyczka typu <em>All-in-One</em>, która zbiera w jednym miejscu najczęściej używane akcje na tunerze:
+      listy kanałów, instalatory wtyczek, narzędzia systemowe, diagnostykę i czyszczenie.
+      Wszystko obsługujesz z pilota, bez SSH/FTP i bez grzebania w plikach.
+    </p>
+
+    <h3>Sterowanie (pilot)</h3>
+    <ul>
+      <li>Lewo/Prawo – przełączanie zakładek (są 4 zakładki)</li>
+      <li>OK – wykonaj zaznaczoną akcję</li>
+      <li>Czerwony – język PL</li>
+      <li>Zielony – język EN</li>
+      <li>Żółty – Restart GUI</li>
+      <li>Niebieski – sprawdź aktualizacje wtyczki</li>
+    </ul>
+
+    <h3>1) 📺 Zakładka: Listy kanałów</h3>
+    <p>W tej sekcji masz gotowe pozycje do instalacji list kanałów, pobierane online.</p>
+    <p><strong>Co w praktyce robi wtyczka:</strong></p>
+    <ul>
+      <li>Pobiera listy z repozytorium (manifest online) – menu aktualizuje się na bieżąco, bez wydawania nowych wersji wtyczki.</li>
+      <li>Dodatkowo pobiera listy z S4aUpdater (dynamicznie) – integracja źródeł w jednym miejscu.</li>
+      <li>Obsługuje różne typy pozycji:
+        <ul>
+          <li>Archiwa ZIP/TAR (klasyczna instalacja listy kanałów)</li>
+          <li>Dodanie bukietu z M3U (wtyczka potrafi wczytać M3U i zrobić z tego bukiet w Enigma2)</li>
+          <li>Dodanie bukietu REF (gotowy bukiet jako plik userbouquet)</li>
+        </ul>
+      </li>
+      <li>Podczas instalacji listy czyści stare bukiety (żeby uniknąć „śmieci” i konfliktów), instaluje nową listę i na końcu przeładowuje ustawienia/bukiety.</li>
+    </ul>
+
+    <h3>2) 🔑 Zakładka: Softcam i Wtyczki</h3>
+    <p>
+      To jest Twoje „centrum instalatorów” i podstawowych akcji dla osób, które korzystają z softcam/emu wyłącznie w legalnych zastosowaniach
+      (np. własne uprawnienia/karta/abonament).
+    </p>
+    <p><strong>W tej zakładce masz:</strong></p>
+    <ul>
+      <li>Szybkie akcje:
+        <ul>
+          <li>Restart OSCam</li>
+          <li>Kasowanie hasła do OSCam WebIF (gdy ktoś je zapomni)</li>
+          <li>Zarządzanie oscam.dvbapi (opcje pod E2 / integracja pod dvbapi)</li>
+        </ul>
+      </li>
+      <li>Instalatory:
+        <ul>
+          <li>Softcam Feed (instalacja źródła pakietów dla softcam)</li>
+          <li>OSCam (auto instalator) – wykrywa najlepszą dostępną wersję z feeda</li>
+          <li>NCam (instalator)</li>
+        </ul>
+      </li>
+      <li>Instalatory popularnych dodatków online (jednym kliknięciem), m.in.:
+        <ul>
+          <li>XStreamity, IPTV Dream, ServiceApp, StreamlinkProxy</li>
+          <li>AJPanel, E2iPlayer (install/update), EPGImport</li>
+          <li>S4aUpdater, JediMakerXtream, YouTube</li>
+          <li>Repo/Feed j00zek + E2Kodi v2 (dobierane pod wersję Pythona)</li>
+        </ul>
+      </li>
+      <li><strong>Ważne praktycznie:</strong> wtyczka ma mechanizm wykrywania typu obrazu (np. OpenATV/OpenPLi/VTi/Hyperion) i może ukrywać/ograniczać wybrane akcje, jeśli na danym obrazie bywają niestabilne.</li>
+    </ul>
+
+    <h3>3) ⚙️ Zakładka: Narzędzia systemowe (System Tools Suite)</h3>
+    <p>To sekcja typowo „serwisowa” — przydatna, gdy tuner ma działać stabilnie i bez kombinowania.</p>
+    <ul>
+      <li><strong>✨ Super Konfigurator (Pierwsza instalacja)</strong> – automatyczny „wizard” dla świeżego systemu:
+        <ul>
+          <li>instalacja samych zależności (wget/tar/unzip),</li>
+          <li>konfiguracja podstawowa (zależności + lista kanałów + feed + oscam),</li>
+          <li>konfiguracja pełna (to samo + dodatkowo picony).</li>
+        </ul>
+        Po zakończeniu wykonuje przeładowanie ustawień/restart GUI (w zależności od kroku).
+      </li>
+      <li><strong>🗑️ Menadżer deinstalacji (opkg)</strong> – lista zainstalowanych pakietów i bezpieczne usuwanie z poziomu GUI.</li>
+      <li><strong>📡 Aktualizacja satellites.xml</strong> – szybka aktualizacja pliku satellites.xml.</li>
+      <li><strong>🖼️ Picony (Transparent)</strong> – pobranie paczki piconów i instalacja do <code>/usr/share/enigma2/picon</code> (z nadpisywaniem i porządkowaniem katalogu).</li>
+      <li><strong>📊 Monitor Systemowy</strong> – CPU, RAM, temperatura (jeśli dostępna), zajętość dysku (/ oraz /media/hdd).</li>
+      <li><strong>📄 Przeglądarka logów</strong> – podgląd najważniejszych logów (messages/syslog/enigma2.log), przełączanie lewo/prawo, auto-odświeżanie (żółty).</li>
+      <li><strong>⏰ Menedżer Cron</strong> – dodawanie/edycja/włączanie/wyłączanie/usuwanie wpisów + reload cron.</li>
+      <li><strong>🔌 Menedżer usług</strong> – Start/Stop/Restart + status (SSH/FTP/Samba/NFS/Cron/Telnet), działa na systemd oraz init.d (fallback).</li>
+      <li><strong>💾 Backup/Restore</strong> – kopia i przywracanie listy kanałów oraz konfiguracji OSCam.</li>
+    </ul>
+
+    <h3>4) ℹ️ Zakładka: Info i Diagnostyka</h3>
+    <ul>
+      <li><strong>🔄 Aktualizacja wtyczki</strong> – sprawdzanie online nowszej wersji, informacje o zmianach, instalacja; po aktualizacji wymagany restart GUI.</li>
+      <li><strong>🌐 Diagnostyka sieci</strong> – IP lokalne, brama, DNS, IP publiczne, ping (średni + utrata pakietów), orientacyjny test download/upload (best-effort).</li>
+      <li><strong>💾 Wolne miejsce (flash/dysk)</strong> – szybki podgląd zajętości.</li>
+      <li><strong>🧹 Czyszczenie systemu</strong> – czyszczenie <code>/tmp</code> oraz cache RAM (drop_caches).</li>
+      <li><strong>⏱️ Auto RAM Cleaner</strong> – interwał (OFF / 10 / 30 / 60 min), ustawienie zapamiętywane i przywracane po restarcie GUI.</li>
+      <li><strong>🔑 Hasło FTP</strong> – ustaw/usuń hasło FTP z poziomu GUI (bez terminala).</li>
+    </ul>
   </div>
 </div>
 <div id="panelMine" class="tab-panel">
@@ -86,35 +196,6 @@
 <h2>Wtyczki (Plugins)</h2>
 <p>Najnowsze wersje moich aplikacji.</p>
 <ul class="file-list">
-<li>
-<a class="file-link" download href="pliki/enigma2-plugin-extensions-panelaio_6.0_all.ipk" title="Wielofunkcyjny panel zarządzania">
-<span class="icon">📥</span> AIO Panel v6.0 <span class="badge">Python 3</span>
-</a>
-
-<details class="plugin-details">
-<summary>📖 <strong>Opis i funkcje</strong> (Kliknij)</summary>
-<div class="plugin-desc-content">
-<strong>Centrum zarządzania tunerem (Enigma2).</strong><br/>
-• <strong>Konfiguracja IPTV – zależności:</strong> automatyczna instalacja ServiceApp, ExtPlayer3, ffmpeg, youtube-dl, yt-dlp, wrapperów oraz streamlinksrv.<br/>
-• <strong>Diagnostyka sieci:</strong> czytelne podsumowanie (IP tunera/publiczne), ping oraz speedtest (DL/UL).<br/>
-• <strong>Auto RAM Cleaner:</strong> trwałe zapamiętywanie ustawień po restarcie GUI i systemu.<br/>
-• <strong>Super Konfigurator:</strong> domyślna lista kanałów ustawiona na „Paweł Pawełek 13E”.<br/>
-• <strong>OSCam:</strong> stabilniejsze „oscam.dvbapi – zarządzaj” (eliminacja crashy).<br/>
-• <strong>Narzędzia:</strong> listy kanałów, picony, softcam feed, aktualizacja satellites.xml, test internetu/ping, kopia zapasowa ustawień.<br/>
-</div>
-</details>
-
-<details class="plugin-details">
-<summary>🆕 <strong>Co nowego w v6.0</strong> (Kliknij)</summary>
-<div class="plugin-desc-content">
-- <strong>NOWOŚĆ:</strong> Dodano funkcję „Konfiguracja IPTV – zależności” (automatyczna instalacja: ServiceApp, ExtPlayer3, ffmpeg, youtube-dl, yt-dlp, wrappery, streamlinksrv).<br/>
-- <strong>ULEPSZENIE:</strong> Rozbudowana Diagnostyka Sieci (czytelne podsumowanie: IP Tunera/Publiczne, Ping, Speedtest DL/UL).<br/>
-- <strong>ULEPSZENIE:</strong> Auto RAM Cleaner — trwałe zapamiętywanie ustawień po restarcie GUI i systemu.<br/>
-- <strong>ZMIANA:</strong> Super Konfigurator — domyślna lista kanałów zmieniona na „Paweł Pawełek 13E”.<br/>
-- <strong>POPRAWKA:</strong> Stabilizacja „oscam.dvbapi – zarządzaj” (poprawa działania i eliminacja crashy).<br/>
-</div>
-</details>
-</li>
 <li>
   <a class="file-link" href="https://github.com/OliOli2013/aio-iptv-projekt/raw/main/pliki/enigma2-plugin-extensions-opencamview_1.3_all.ipk" title="Podgląd kamer IP (RTSP) w Enigma2">
     <span class="icon">📥</span> OpenCamView 1.3 <span class="badge">Py2/Py3</span>
@@ -391,48 +472,58 @@
 
 <script>
 (function(){
+  function setSelected(activeId, allIds){
+    allIds.forEach(function(id){
+      var el = document.getElementById(id);
+      if(!el) return;
+      if(id === activeId){
+        el.classList.add('pill-accent');
+        el.setAttribute('aria-selected','true');
+      }else{
+        el.classList.remove('pill-accent');
+        el.setAttribute('aria-selected','false');
+      }
+    });
+  }
+
   function showTab(which){
-    var mine = document.getElementById('panelMine');
-    var req  = document.getElementById('pobieranie');
+    var panelMine = document.getElementById('panelMine');
+    var panelReq  = document.getElementById('pobieranie');
+    var panelAIO  = document.getElementById('panelAIO');
+
     var tabMine = document.getElementById('tabMine');
     var tabReq  = document.getElementById('tabReq');
-    if(!mine || !req || !tabMine || !tabReq) return;
+    var tabAIO  = document.getElementById('tabAIO');
 
-    var showReq = (which === 'req');
+    if(!panelMine || !panelReq || !panelAIO || !tabMine || !tabReq || !tabAIO) return;
 
-    if(showReq){
-      req.removeAttribute('hidden');
-      mine.setAttribute('hidden','hidden');
-      tabReq.classList.add('pill-accent');
-      tabMine.classList.remove('pill-accent');
-      tabReq.setAttribute('aria-selected','true');
-      tabMine.setAttribute('aria-selected','false');
-    }else{
-      mine.removeAttribute('hidden');
-      req.setAttribute('hidden','hidden');
-      tabMine.classList.add('pill-accent');
-      tabReq.classList.remove('pill-accent');
-      tabMine.setAttribute('aria-selected','true');
-      tabReq.setAttribute('aria-selected','false');
-    }
+    var panels = { mine: panelMine, req: panelReq, aio: panelAIO };
+
+    Object.keys(panels).forEach(function(k){
+      if(k === which) panels[k].removeAttribute('hidden');
+      else panels[k].setAttribute('hidden','hidden');
+    });
+
+    setSelected(which === 'req' ? 'tabReq' : (which === 'aio' ? 'tabAIO' : 'tabMine'), ['tabMine','tabReq','tabAIO']);
   }
 
   function syncFromHash(){
     var h = (location.hash || '').toLowerCase();
-    if(h === '#pobieranie' || h === '#pliki'){
+    if(h.includes('pobieranie') || h.includes('pliki')){
       showTab('req');
+    }else if(h.includes('aio-panel') || h.includes('panelaio') || h.includes('aio')){
+      showTab('aio');
     }else{
-      // default and '#wtyczki'
       showTab('mine');
     }
   }
 
   document.addEventListener('click', function(e){
-    var a = e.target.closest ? e.target.closest('#tabMine, #tabReq') : null;
+    var a = e.target.closest ? e.target.closest('#tabMine, #tabReq, #tabAIO') : null;
     if(!a) return;
-    // allow hash update but ensure the panel is visible immediately
-    if(a.id === 'tabReq'){ showTab('req'); }
-    else { showTab('mine'); }
+    if(a.id === 'tabReq') showTab('req');
+    else if(a.id === 'tabAIO') showTab('aio');
+    else showTab('mine');
   }, true);
 
   window.addEventListener('hashchange', syncFromHash);
