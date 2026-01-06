@@ -851,3 +851,33 @@ html.ai-lock{overflow:hidden;}
   .topbar-inner{flex-wrap: wrap;}
   .pill-prominent{width: 100%; justify-content: space-between;}
 }
+
+
+/* ===== Clickable cards (Home quick access) ===== */
+a.card.card-link{display:block; text-decoration:none; color:inherit}
+a.card.card-link:hover{border-color:rgba(96,165,250,.45)}
+a.card.card-link h3{margin:0 0 8px}
+a.card.card-link .btn{pointer-events:none}
+
+/* ===== Gallery (Plugins) ===== */
+.gallery-grid{display:grid; gap:12px; grid-template-columns:repeat(3,1fr); margin-top:12px}
+.gallery-thumb{display:block; text-decoration:none; color:inherit; border-radius:16px; overflow:hidden; border:1px solid var(--stroke); background:rgba(0,0,0,.18)}
+.gallery-thumb:hover{border-color:rgba(96,165,250,.45)}
+.gallery-thumb img{width:100%; height:210px; object-fit:cover; display:block}
+.gallery-thumb .cap{padding:10px 12px; font-size:.85rem; font-weight:800; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; background:rgba(0,0,0,.14); border-top:1px solid rgba(148,163,184,.12)}
+
+/* Lightbox (dialog) */
+dialog.aio-lightbox{width:min(980px,96vw); border:1px solid var(--stroke); border-radius:18px; padding:0; background:rgba(5,8,22,.96); box-shadow:var(--shadow)}
+dialog.aio-lightbox::backdrop{background:rgba(0,0,0,.70)}
+.aio-lightbox .lb-head{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 14px; border-bottom:1px solid rgba(148,163,184,.12)}
+.aio-lightbox .lb-title{font-weight:950}
+.aio-lightbox .lb-body{padding:14px}
+.aio-lightbox img{width:100%; height:auto; display:block; border-radius:16px; border:1px solid rgba(148,163,184,.14)}
+
+@media (max-width: 980px){
+  .gallery-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width: 560px){
+  .gallery-grid{grid-template-columns:1fr}
+  .gallery-thumb img{height:220px}
+}

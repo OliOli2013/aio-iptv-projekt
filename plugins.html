@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <title>Wtyczki i Pobieranie — AIO-IPTV.pl</title>
 <link href="pliki/logo.png" rel="icon"/>
-<link href="assets/css/site.css?v=next1" rel="stylesheet"/>
+<link href="assets/css/site.css?v=next2" rel="stylesheet"/>
 </head>
 <body data-page="next">
 <div class="topbar">
@@ -81,6 +81,9 @@
     </a>
     <a class="pill" href="#aio-panel" id="tabAIO" role="tab" aria-selected="false" aria-controls="panelAIO">
       🧰 <span data-i18n="tab_aio_panel">AIO Panel</span>
+    </a>
+    <a class="pill" href="#nagrania-on-demand" id="tabNOD" role="tab" aria-selected="false" aria-controls="panelNOD">
+      🎬 <span>Nagrania On Demand</span>
     </a>
   </div>
 </div>
@@ -191,6 +194,92 @@
     </ul>
   </div>
 </div>
+
+<div id="panelNOD" class="tab-panel" hidden>
+  <div class="card" data-aos="fade-up" id="nagrania-on-demand">
+    <h2>Wtyczka „Nagrania On Demand” v1.0.4</h2>
+    <p><strong>Autor:</strong> Paweł Pawełek • <strong>Wersja:</strong> 1.0.4</p>
+    <p>
+      Koniec z bałaganem w nagraniach: wtyczka pokazuje <strong>czystą listę multimediów</strong> (bez plików technicznych typu
+      <code>.meta</code>, <code>.eit</code>, <code>.ap</code>, <code>.sc</code>), a podzielone nagrania odtwarza jako <strong>jeden film ciągiem</strong>.
+    </p>
+
+    <p>
+      <a class="btn primary" download href="pliki/enigma2-plugin-extensions-nagraniaondemand_1.0.4_all.ipk" title="Pobierz Nagrania On Demand v1.0.4">
+        📥 Pobierz wtyczkę (IPK)
+      </a>
+    </p>
+
+    <h3>Co potrafi wersja 1.0.4?</h3>
+    <ul>
+      <li><strong>Inteligentna lista:</strong> ukrywa pliki techniczne — jedna pozycja = jeden film.</li>
+      <li><strong>Scalanie nagrań:</strong> części typu <code>film.ts.001</code>, <code>film.ts.002</code> są widoczne jako jeden plik i odtwarzają się ciągiem.</li>
+      <li><strong>Prawdziwe nazwy:</strong> wyświetla tytuł programu z pliku <code>.meta</code> (jeśli istnieje), zamiast surowej nazwy pliku.</li>
+      <li><strong>Formaty:</strong> nagrania <code>.ts</code> oraz popularne wideo (<code>.mkv</code>, <code>.mp4</code>, <code>.avi</code>) i audio (<code>.mp3</code>, <code>.flac</code>, <code>.wav</code> i inne).</li>
+      <li><strong>Bezpieczne usuwanie:</strong> usuwa nagranie po potwierdzeniu i kasuje też pliki towarzyszące.</li>
+    </ul>
+
+    <h3>Gdzie szuka plików?</h3>
+    <ul>
+      <li><strong>AUTO:</strong> skanuje typowe lokalizacje nagrań (np. <code>/media/hdd/movie</code>) oraz nośniki w <code>/media</code> i <code>/mnt</code>.</li>
+      <li><strong>RĘCZNY:</strong> możesz wskazać dowolny folder (opcja pod <strong>Żółtym</strong> przyciskiem).</li>
+    </ul>
+
+    <h3>Sterowanie (pilot)</h3>
+    <ul>
+      <li><strong>OK</strong> – odtwórz</li>
+      <li><strong>STOP</strong> – zatrzymaj / powrót</li>
+      <li><strong>🔴 Czerwony</strong> – usuń (z potwierdzeniem)</li>
+      <li><strong>🟢 Zielony</strong> – odśwież listę</li>
+      <li><strong>🟡 Żółty</strong> – ustawienia wyszukiwania (Auto/Ręczny, wybór folderu)</li>
+      <li><strong>🔵 Niebieski</strong> – wyjście</li>
+    </ul>
+
+    <h3>Wymagania</h3>
+    <p>Działa na Enigma2 z Python 3 (OpenATV, OpenPLi i inne). Wymaga standardowego <strong>MoviePlayer</strong> w systemie.</p>
+
+    <h3>Galeria</h3>
+    <p style="color:var(--muted)">Kliknij miniaturę, aby powiększyć.</p>
+
+    <div class="gallery-grid">
+      <a class="gallery-thumb" href="pliki/a1.png" data-full="pliki/a1.png" data-title="Nagrania On Demand — ekran 1">
+        <img src="pliki/a1.png" alt="Nagrania On Demand — ekran 1" loading="lazy"/>
+        <div class="cap">a1</div>
+      </a>
+      <a class="gallery-thumb" href="pliki/a2.png" data-full="pliki/a2.png" data-title="Nagrania On Demand — ekran 2">
+        <img src="pliki/a2.png" alt="Nagrania On Demand — ekran 2" loading="lazy"/>
+        <div class="cap">a2</div>
+      </a>
+      <a class="gallery-thumb" href="pliki/a3.png" data-full="pliki/a3.png" data-title="Nagrania On Demand — ekran 3">
+        <img src="pliki/a3.png" alt="Nagrania On Demand — ekran 3" loading="lazy"/>
+        <div class="cap">a3</div>
+      </a>
+      <a class="gallery-thumb" href="pliki/a4.png" data-full="pliki/a4.png" data-title="Nagrania On Demand — ekran 4">
+        <img src="pliki/a4.png" alt="Nagrania On Demand — ekran 4" loading="lazy"/>
+        <div class="cap">a4</div>
+      </a>
+      <a class="gallery-thumb" href="pliki/a5.png" data-full="pliki/a5.png" data-title="Nagrania On Demand — ekran 5">
+        <img src="pliki/a5.png" alt="Nagrania On Demand — ekran 5" loading="lazy"/>
+        <div class="cap">a5</div>
+      </a>
+      <a class="gallery-thumb" href="pliki/a6.png" data-full="pliki/a6.png" data-title="Nagrania On Demand — ekran 6">
+        <img src="pliki/a6.png" alt="Nagrania On Demand — ekran 6" loading="lazy"/>
+        <div class="cap">a6</div>
+      </a>
+    </div>
+  </div>
+
+  <dialog class="aio-lightbox" id="lightboxDialog" aria-label="Podgląd obrazka">
+    <div class="lb-head">
+      <div class="lb-title" id="lightboxTitle">Podgląd</div>
+      <button class="icon-btn" id="lightboxClose" aria-label="Zamknij">✕</button>
+    </div>
+    <div class="lb-body">
+      <img id="lightboxImg" alt="Podgląd" src=""/>
+    </div>
+  </dialog>
+</div>
+
 <div id="panelMine" class="tab-panel">
 <div class="card" data-aos="fade-up" id="wtyczki">
 <h2>Wtyczki (Plugins)</h2>
@@ -490,44 +579,99 @@
     var panelMine = document.getElementById('panelMine');
     var panelReq  = document.getElementById('pobieranie');
     var panelAIO  = document.getElementById('panelAIO');
+    var panelNOD  = document.getElementById('panelNOD');
 
     var tabMine = document.getElementById('tabMine');
     var tabReq  = document.getElementById('tabReq');
     var tabAIO  = document.getElementById('tabAIO');
+    var tabNOD  = document.getElementById('tabNOD');
 
-    if(!panelMine || !panelReq || !panelAIO || !tabMine || !tabReq || !tabAIO) return;
+    if(!panelMine || !panelReq || !panelAIO || !panelNOD || !tabMine || !tabReq || !tabAIO || !tabNOD) return;
 
-    var panels = { mine: panelMine, req: panelReq, aio: panelAIO };
+    var panels = { mine: panelMine, req: panelReq, aio: panelAIO, nod: panelNOD };
 
     Object.keys(panels).forEach(function(k){
       if(k === which) panels[k].removeAttribute('hidden');
       else panels[k].setAttribute('hidden','hidden');
     });
 
-    setSelected(which === 'req' ? 'tabReq' : (which === 'aio' ? 'tabAIO' : 'tabMine'), ['tabMine','tabReq','tabAIO']);
+    var activeTab = (which === 'req') ? 'tabReq' : (which === 'aio') ? 'tabAIO' : (which === 'nod') ? 'tabNOD' : 'tabMine';
+    setSelected(activeTab, ['tabMine','tabReq','tabAIO','tabNOD']);
+  }
+
+  function scrollToHash(){
+    var id = (location.hash || '').replace('#','');
+    if(!id) return;
+    var el = document.getElementById(id);
+    if(!el) return;
+    try{ el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }catch(_){ el.scrollIntoView(true); }
   }
 
   function syncFromHash(){
     var h = (location.hash || '').toLowerCase();
-    if(h.includes('pobieranie') || h.includes('pliki')){
+    if(h.includes('nagrania-on-demand') || h.includes('nagrania') || h.includes('ondemand') || h.includes('on-demand') || h.includes('nod')){
+      showTab('nod');
+      setTimeout(scrollToHash, 0);
+    }else if(h.includes('pobieranie') || h.includes('pliki')){
       showTab('req');
-    }else if(h.includes('aio-panel') || h.includes('panelaio') || h.includes('aio')){
+      setTimeout(scrollToHash, 0);
+    }else if(h.includes('aio-panel') || h.includes('panelaio') || h === '#aio'){
       showTab('aio');
+      setTimeout(scrollToHash, 0);
     }else{
       showTab('mine');
     }
   }
 
+  // Tabs click
   document.addEventListener('click', function(e){
-    var a = e.target.closest ? e.target.closest('#tabMine, #tabReq, #tabAIO') : null;
+    var a = e.target.closest ? e.target.closest('#tabMine, #tabReq, #tabAIO, #tabNOD') : null;
     if(!a) return;
     if(a.id === 'tabReq') showTab('req');
     else if(a.id === 'tabAIO') showTab('aio');
+    else if(a.id === 'tabNOD') showTab('nod');
     else showTab('mine');
   }, true);
 
+  // Gallery lightbox
+  function initLightbox(){
+    var dlg = document.getElementById('lightboxDialog');
+    var img = document.getElementById('lightboxImg');
+    var ttl = document.getElementById('lightboxTitle');
+    var btn = document.getElementById('lightboxClose');
+    if(!dlg || !img || !ttl || !btn) return;
+    if(typeof dlg.showModal !== 'function') return; // fallback = open in new tab
+
+    function close(){ try{ if(dlg.open) dlg.close(); }catch(_){} }
+
+    document.addEventListener('click', function(e){
+      var a = e.target.closest ? e.target.closest('a.gallery-thumb') : null;
+      if(!a) return;
+      if(!a.closest || !a.closest('.gallery-grid')) return;
+      e.preventDefault();
+      var full = a.getAttribute('data-full') || a.getAttribute('href');
+      var title = a.getAttribute('data-title') || 'Podgląd';
+      ttl.textContent = title;
+      img.src = full;
+      img.alt = title;
+      try{ dlg.showModal(); }catch(_){ window.location.href = full; }
+    }, true);
+
+    btn.addEventListener('click', close);
+    dlg.addEventListener('click', function(e){
+      if(e.target === dlg) close();
+    });
+    dlg.addEventListener('cancel', function(e){
+      e.preventDefault();
+      close();
+    });
+  }
+
   window.addEventListener('hashchange', syncFromHash);
-  document.addEventListener('DOMContentLoaded', syncFromHash);
+  document.addEventListener('DOMContentLoaded', function(){
+    syncFromHash();
+    initLightbox();
+  });
 })();
 </script>
 
