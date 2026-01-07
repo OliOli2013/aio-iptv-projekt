@@ -1147,3 +1147,72 @@ initAIChatDrawer();
     initPublicComments();
   });
 })();
+
+
+/* ===== Quick Access injector (spójne kafelki na podstronach) ===== */
+(function(){
+  'use strict';
+
+  function el(tag, attrs, children){
+    var e=document.createElement(tag);
+    if(attrs){
+      Object.keys(attrs).forEach(function(k){
+        if(k === 'class') e.className = attrs[k];
+        else e.setAttribute(k, attrs[k]);
+      });
+    }
+    (children||[]).forEach(function(c){
+      if(typeof c === 'string') e.appendChild(document.createTextNode(c));
+      else if(c) e.appendChild(c);
+    });
+    return e;
+  }
+
+  function initQuickAccess(){
+    try{
+      var page = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+      if(page === 'plugins.html') return; // plugins ma własne zakładki
+
+      var main = document.querySelector('main.container');
+      if(!main) return;
+
+      if(main.querySelector('.quick-access')) return;
+
+      var section = el('section', { class:'card quick-access', 'aria-label':'Szybki dostęp' }, []);
+      var head = el('div', { class:'qa-head' }, [
+        el('h2', null, ['Szybki dostęp']),
+        el('div', { class:'muted small' }, ['Najczęściej używane narzędzia i wtyczki w jednym miejscu.'])
+      ]);
+      var grid = el('div', { class:'qa-grid' }, []);
+
+      var items = [
+        { href:'plugins.html#aio-panel', title:'AIO Panel', sub:'Panel narzędzi v6.x' },
+        { href:'plugins.html#nagrania-on-demand', title:'Nagrania On Demand', sub:'Porządek w nagraniach' },
+        { href:'plugins.html#opencamview', title:'OpenCamView', sub:'Podgląd kamer RTSP' },
+        { href:'plugins.html#iptv-dream', title:'IPTV Dream', sub:'IPTV + eksport do bukietów' },
+        { href:'one-liner.html', title:'Generator One‑Liner', sub:'Komendy i instalatory' },
+        { href:'tuner-compare.html', title:'Porównywarka tunerów', sub:'Dobór sprzętu' },
+        { href:'config-builder.html', title:'Kreator konfiguracji', sub:'Ustawienia i checklisty' },
+        { href:'guides.html', title:'Poradniki', sub:'Instrukcje i tipy' }
+      ];
+
+      items.forEach(function(x){
+        var a = el('a', { class:'qa', href:x.href }, [
+          el('div', { class:'qa-title' }, [x.title]),
+          el('div', { class:'qa-sub' }, [x.sub])
+        ]);
+        grid.appendChild(a);
+      });
+
+      section.appendChild(head);
+      section.appendChild(grid);
+
+      // Wstaw na początek main (nie przed hero, bo hero jest wewnątrz main)
+      main.insertBefore(section, main.firstChild);
+    }catch(e){
+      // silent
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', initQuickAccess);
+})();

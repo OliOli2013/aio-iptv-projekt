@@ -1,5 +1,12 @@
 [
   {
+    "date": "2026-01-07",
+    "ts": 1767744000000,
+    "type": "release",
+    "title": "Nagrania On Demand v1.0.4 — nowa wtyczka",
+    "details": "Dodano wtyczkę „Nagrania On Demand” v1.0.4 (porządek w nagraniach: ukrywanie plików technicznych, scalanie części, tytuły z .meta). Plik: enigma2-plugin-extensions-nagraniaondemand_1.0.4_all.ipk"
+  },
+  {
     "date": "2026-01-04",
     "ts": 1767484800000,
     "type": "release",

@@ -4,14 +4,13 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
 <title>Wtyczki i Pobieranie — AIO-IPTV.pl</title>
-<link href="pliki/logo.png" rel="icon"/>
-<link href="assets/css/site.css?v=next2" rel="stylesheet"/>
-</head>
+<link href="pliki/logo.png" rel="icon">
+<link href="assets/css/site.css?v=next1" rel="stylesheet">
+</link></link></head>
 <body data-page="next">
 <div class="topbar">
 <div class="container">
@@ -72,235 +71,352 @@
 <main class="container">
 <section class="section"><div class="section-head"><div><h2 class="section-title">Wtyczki i Pobieranie</h2><p class="section-sub">Wersje, opisy oraz linki do pobierania.</p></div></div></section>
 <div class="tabs-row" data-aos="fade-up">
-  <div class="tabs-pills" role="tablist" aria-label="Wybór widoku">
-    <a class="pill pill-accent" href="#wtyczki" id="tabMine" role="tab" aria-selected="true" aria-controls="panelMine">
+<div aria-label="Wybór widoku" class="tabs-pills" role="tablist">
+<a aria-controls="panelMine" aria-selected="true" class="pill pill-accent" href="#wtyczki" id="tabMine" role="tab">
       🧩 <span data-i18n="tab_my_plugins">Moje wtyczki</span>
-    </a>
-    <a class="pill" href="#pobieranie" id="tabReq" role="tab" aria-selected="false" aria-controls="pobieranie">
+</a>
+<a aria-controls="pobieranie" aria-selected="false" class="pill" href="#pobieranie" id="tabReq" role="tab">
       ⬇️ <span data-i18n="tab_required_downloads">Niezbędne dla Enigma2</span>
-    </a>
-    <a class="pill" href="#aio-panel" id="tabAIO" role="tab" aria-selected="false" aria-controls="panelAIO">
+</a>
+<a aria-controls="panelAIO" aria-selected="false" class="pill" href="#aio-panel" id="tabAIO" role="tab">
       🧰 <span data-i18n="tab_aio_panel">AIO Panel</span>
-    </a>
-    <a class="pill" href="#nagrania-on-demand" id="tabNOD" role="tab" aria-selected="false" aria-controls="panelNOD">
-      🎬 <span>Nagrania On Demand</span>
-    </a>
-  </div>
+</a>
+
+<a aria-controls="panelNOD" aria-selected="false" class="pill" href="#nagrania-on-demand" id="tabNOD" role="tab">🎬 <span>Nagrania On Demand</span></a>
+<a aria-controls="panelOCV" aria-selected="false" class="pill" href="#opencamview" id="tabOCV" role="tab">📷 <span>OpenCamView</span></a>
+<a aria-controls="panelDream" aria-selected="false" class="pill" href="#iptv-dream" id="tabDream" role="tab">📺 <span>IPTV Dream</span></a>
 </div>
-<div id="panelAIO" class="tab-panel" hidden>
-  <div class="card" data-aos="fade-up" id="aio-panel">
-    <h2>Panel AIO v6.0 (Enigma2)</h2>
-    <p><strong>Data wydania:</strong> 04.01.2024</p>
-    <p>
-      <a class="btn primary" download href="pliki/enigma2-plugin-extensions-panelaio_6.0_all.ipk" title="Pobierz AIO Panel v6.0">
+</div>
+<div class="tab-panel" hidden="" id="panelAIO">
+<div class="card" data-aos="fade-up" id="aio-panel">
+<h2>Panel AIO v6.0 (Enigma2)</h2>
+<p><strong>Data wydania:</strong> 04.01.2024</p>
+<p>
+<a class="btn primary" download="" href="pliki/enigma2-plugin-extensions-panelaio_6.0_all.ipk" title="Pobierz AIO Panel v6.0">
         📥 Pobierz AIO Panel v6.0
       </a>
-    </p>
-
-    <h3>Opis funkcji dla użytkowników</h3>
-    <p>
-      <strong>Panel AIO</strong> to wtyczka typu <em>All-in-One</em>, która zbiera w jednym miejscu najczęściej używane akcje na tunerze:
+</p>
+<h3>Opis funkcji dla użytkowników</h3>
+<p>
+<strong>Panel AIO</strong> to wtyczka typu <em>All-in-One</em>, która zbiera w jednym miejscu najczęściej używane akcje na tunerze:
       listy kanałów, instalatory wtyczek, narzędzia systemowe, diagnostykę i czyszczenie.
       Wszystko obsługujesz z pilota, bez SSH/FTP i bez grzebania w plikach.
     </p>
-
-    <h3>Sterowanie (pilot)</h3>
-    <ul>
-      <li>Lewo/Prawo – przełączanie zakładek (są 4 zakładki)</li>
-      <li>OK – wykonaj zaznaczoną akcję</li>
-      <li>Czerwony – język PL</li>
-      <li>Zielony – język EN</li>
-      <li>Żółty – Restart GUI</li>
-      <li>Niebieski – sprawdź aktualizacje wtyczki</li>
-    </ul>
-
-    <h3>1) 📺 Zakładka: Listy kanałów</h3>
-    <p>W tej sekcji masz gotowe pozycje do instalacji list kanałów, pobierane online.</p>
-    <p><strong>Co w praktyce robi wtyczka:</strong></p>
-    <ul>
-      <li>Pobiera listy z repozytorium (manifest online) – menu aktualizuje się na bieżąco, bez wydawania nowych wersji wtyczki.</li>
-      <li>Dodatkowo pobiera listy z S4aUpdater (dynamicznie) – integracja źródeł w jednym miejscu.</li>
-      <li>Obsługuje różne typy pozycji:
+<h3>Sterowanie (pilot)</h3>
+<ul>
+<li>Lewo/Prawo – przełączanie zakładek (są 4 zakładki)</li>
+<li>OK – wykonaj zaznaczoną akcję</li>
+<li>Czerwony – język PL</li>
+<li>Zielony – język EN</li>
+<li>Żółty – Restart GUI</li>
+<li>Niebieski – sprawdź aktualizacje wtyczki</li>
+</ul>
+<h3>1) 📺 Zakładka: Listy kanałów</h3>
+<p>W tej sekcji masz gotowe pozycje do instalacji list kanałów, pobierane online.</p>
+<p><strong>Co w praktyce robi wtyczka:</strong></p>
+<ul>
+<li>Pobiera listy z repozytorium (manifest online) – menu aktualizuje się na bieżąco, bez wydawania nowych wersji wtyczki.</li>
+<li>Dodatkowo pobiera listy z S4aUpdater (dynamicznie) – integracja źródeł w jednym miejscu.</li>
+<li>Obsługuje różne typy pozycji:
         <ul>
-          <li>Archiwa ZIP/TAR (klasyczna instalacja listy kanałów)</li>
-          <li>Dodanie bukietu z M3U (wtyczka potrafi wczytać M3U i zrobić z tego bukiet w Enigma2)</li>
-          <li>Dodanie bukietu REF (gotowy bukiet jako plik userbouquet)</li>
-        </ul>
-      </li>
-      <li>Podczas instalacji listy czyści stare bukiety (żeby uniknąć „śmieci” i konfliktów), instaluje nową listę i na końcu przeładowuje ustawienia/bukiety.</li>
-    </ul>
-
-    <h3>2) 🔑 Zakładka: Softcam i Wtyczki</h3>
-    <p>
+<li>Archiwa ZIP/TAR (klasyczna instalacja listy kanałów)</li>
+<li>Dodanie bukietu z M3U (wtyczka potrafi wczytać M3U i zrobić z tego bukiet w Enigma2)</li>
+<li>Dodanie bukietu REF (gotowy bukiet jako plik userbouquet)</li>
+</ul>
+</li>
+<li>Podczas instalacji listy czyści stare bukiety (żeby uniknąć „śmieci” i konfliktów), instaluje nową listę i na końcu przeładowuje ustawienia/bukiety.</li>
+</ul>
+<h3>2) 🔑 Zakładka: Softcam i Wtyczki</h3>
+<p>
       To jest Twoje „centrum instalatorów” i podstawowych akcji dla osób, które korzystają z softcam/emu wyłącznie w legalnych zastosowaniach
       (np. własne uprawnienia/karta/abonament).
     </p>
-    <p><strong>W tej zakładce masz:</strong></p>
-    <ul>
-      <li>Szybkie akcje:
+<p><strong>W tej zakładce masz:</strong></p>
+<ul>
+<li>Szybkie akcje:
         <ul>
-          <li>Restart OSCam</li>
-          <li>Kasowanie hasła do OSCam WebIF (gdy ktoś je zapomni)</li>
-          <li>Zarządzanie oscam.dvbapi (opcje pod E2 / integracja pod dvbapi)</li>
-        </ul>
-      </li>
-      <li>Instalatory:
+<li>Restart OSCam</li>
+<li>Kasowanie hasła do OSCam WebIF (gdy ktoś je zapomni)</li>
+<li>Zarządzanie oscam.dvbapi (opcje pod E2 / integracja pod dvbapi)</li>
+</ul>
+</li>
+<li>Instalatory:
         <ul>
-          <li>Softcam Feed (instalacja źródła pakietów dla softcam)</li>
-          <li>OSCam (auto instalator) – wykrywa najlepszą dostępną wersję z feeda</li>
-          <li>NCam (instalator)</li>
-        </ul>
-      </li>
-      <li>Instalatory popularnych dodatków online (jednym kliknięciem), m.in.:
+<li>Softcam Feed (instalacja źródła pakietów dla softcam)</li>
+<li>OSCam (auto instalator) – wykrywa najlepszą dostępną wersję z feeda</li>
+<li>NCam (instalator)</li>
+</ul>
+</li>
+<li>Instalatory popularnych dodatków online (jednym kliknięciem), m.in.:
         <ul>
-          <li>XStreamity, IPTV Dream, ServiceApp, StreamlinkProxy</li>
-          <li>AJPanel, E2iPlayer (install/update), EPGImport</li>
-          <li>S4aUpdater, JediMakerXtream, YouTube</li>
-          <li>Repo/Feed j00zek + E2Kodi v2 (dobierane pod wersję Pythona)</li>
-        </ul>
-      </li>
-      <li><strong>Ważne praktycznie:</strong> wtyczka ma mechanizm wykrywania typu obrazu (np. OpenATV/OpenPLi/VTi/Hyperion) i może ukrywać/ograniczać wybrane akcje, jeśli na danym obrazie bywają niestabilne.</li>
-    </ul>
-
-    <h3>3) ⚙️ Zakładka: Narzędzia systemowe (System Tools Suite)</h3>
-    <p>To sekcja typowo „serwisowa” — przydatna, gdy tuner ma działać stabilnie i bez kombinowania.</p>
-    <ul>
-      <li><strong>✨ Super Konfigurator (Pierwsza instalacja)</strong> – automatyczny „wizard” dla świeżego systemu:
+<li>XStreamity, IPTV Dream, ServiceApp, StreamlinkProxy</li>
+<li>AJPanel, E2iPlayer (install/update), EPGImport</li>
+<li>S4aUpdater, JediMakerXtream, YouTube</li>
+<li>Repo/Feed j00zek + E2Kodi v2 (dobierane pod wersję Pythona)</li>
+</ul>
+</li>
+<li><strong>Ważne praktycznie:</strong> wtyczka ma mechanizm wykrywania typu obrazu (np. OpenATV/OpenPLi/VTi/Hyperion) i może ukrywać/ograniczać wybrane akcje, jeśli na danym obrazie bywają niestabilne.</li>
+</ul>
+<h3>3) ⚙️ Zakładka: Narzędzia systemowe (System Tools Suite)</h3>
+<p>To sekcja typowo „serwisowa” — przydatna, gdy tuner ma działać stabilnie i bez kombinowania.</p>
+<ul>
+<li><strong>✨ Super Konfigurator (Pierwsza instalacja)</strong> – automatyczny „wizard” dla świeżego systemu:
         <ul>
-          <li>instalacja samych zależności (wget/tar/unzip),</li>
-          <li>konfiguracja podstawowa (zależności + lista kanałów + feed + oscam),</li>
-          <li>konfiguracja pełna (to samo + dodatkowo picony).</li>
-        </ul>
+<li>instalacja samych zależności (wget/tar/unzip),</li>
+<li>konfiguracja podstawowa (zależności + lista kanałów + feed + oscam),</li>
+<li>konfiguracja pełna (to samo + dodatkowo picony).</li>
+</ul>
         Po zakończeniu wykonuje przeładowanie ustawień/restart GUI (w zależności od kroku).
       </li>
-      <li><strong>🗑️ Menadżer deinstalacji (opkg)</strong> – lista zainstalowanych pakietów i bezpieczne usuwanie z poziomu GUI.</li>
-      <li><strong>📡 Aktualizacja satellites.xml</strong> – szybka aktualizacja pliku satellites.xml.</li>
-      <li><strong>🖼️ Picony (Transparent)</strong> – pobranie paczki piconów i instalacja do <code>/usr/share/enigma2/picon</code> (z nadpisywaniem i porządkowaniem katalogu).</li>
-      <li><strong>📊 Monitor Systemowy</strong> – CPU, RAM, temperatura (jeśli dostępna), zajętość dysku (/ oraz /media/hdd).</li>
-      <li><strong>📄 Przeglądarka logów</strong> – podgląd najważniejszych logów (messages/syslog/enigma2.log), przełączanie lewo/prawo, auto-odświeżanie (żółty).</li>
-      <li><strong>⏰ Menedżer Cron</strong> – dodawanie/edycja/włączanie/wyłączanie/usuwanie wpisów + reload cron.</li>
-      <li><strong>🔌 Menedżer usług</strong> – Start/Stop/Restart + status (SSH/FTP/Samba/NFS/Cron/Telnet), działa na systemd oraz init.d (fallback).</li>
-      <li><strong>💾 Backup/Restore</strong> – kopia i przywracanie listy kanałów oraz konfiguracji OSCam.</li>
-    </ul>
-
-    <h3>4) ℹ️ Zakładka: Info i Diagnostyka</h3>
-    <ul>
-      <li><strong>🔄 Aktualizacja wtyczki</strong> – sprawdzanie online nowszej wersji, informacje o zmianach, instalacja; po aktualizacji wymagany restart GUI.</li>
-      <li><strong>🌐 Diagnostyka sieci</strong> – IP lokalne, brama, DNS, IP publiczne, ping (średni + utrata pakietów), orientacyjny test download/upload (best-effort).</li>
-      <li><strong>💾 Wolne miejsce (flash/dysk)</strong> – szybki podgląd zajętości.</li>
-      <li><strong>🧹 Czyszczenie systemu</strong> – czyszczenie <code>/tmp</code> oraz cache RAM (drop_caches).</li>
-      <li><strong>⏱️ Auto RAM Cleaner</strong> – interwał (OFF / 10 / 30 / 60 min), ustawienie zapamiętywane i przywracane po restarcie GUI.</li>
-      <li><strong>🔑 Hasło FTP</strong> – ustaw/usuń hasło FTP z poziomu GUI (bez terminala).</li>
-    </ul>
-  </div>
+<li><strong>🗑️ Menadżer deinstalacji (opkg)</strong> – lista zainstalowanych pakietów i bezpieczne usuwanie z poziomu GUI.</li>
+<li><strong>📡 Aktualizacja satellites.xml</strong> – szybka aktualizacja pliku satellites.xml.</li>
+<li><strong>🖼️ Picony (Transparent)</strong> – pobranie paczki piconów i instalacja do <code>/usr/share/enigma2/picon</code> (z nadpisywaniem i porządkowaniem katalogu).</li>
+<li><strong>📊 Monitor Systemowy</strong> – CPU, RAM, temperatura (jeśli dostępna), zajętość dysku (/ oraz /media/hdd).</li>
+<li><strong>📄 Przeglądarka logów</strong> – podgląd najważniejszych logów (messages/syslog/enigma2.log), przełączanie lewo/prawo, auto-odświeżanie (żółty).</li>
+<li><strong>⏰ Menedżer Cron</strong> – dodawanie/edycja/włączanie/wyłączanie/usuwanie wpisów + reload cron.</li>
+<li><strong>🔌 Menedżer usług</strong> – Start/Stop/Restart + status (SSH/FTP/Samba/NFS/Cron/Telnet), działa na systemd oraz init.d (fallback).</li>
+<li><strong>💾 Backup/Restore</strong> – kopia i przywracanie listy kanałów oraz konfiguracji OSCam.</li>
+</ul>
+<h3>4) ℹ️ Zakładka: Info i Diagnostyka</h3>
+<ul>
+<li><strong>🔄 Aktualizacja wtyczki</strong> – sprawdzanie online nowszej wersji, informacje o zmianach, instalacja; po aktualizacji wymagany restart GUI.</li>
+<li><strong>🌐 Diagnostyka sieci</strong> – IP lokalne, brama, DNS, IP publiczne, ping (średni + utrata pakietów), orientacyjny test download/upload (best-effort).</li>
+<li><strong>💾 Wolne miejsce (flash/dysk)</strong> – szybki podgląd zajętości.</li>
+<li><strong>🧹 Czyszczenie systemu</strong> – czyszczenie <code>/tmp</code> oraz cache RAM (drop_caches).</li>
+<li><strong>⏱️ Auto RAM Cleaner</strong> – interwał (OFF / 10 / 30 / 60 min), ustawienie zapamiętywane i przywracane po restarcie GUI.</li>
+<li><strong>🔑 Hasło FTP</strong> – ustaw/usuń hasło FTP z poziomu GUI (bez terminala).</li>
+</ul>
 </div>
-
-<div id="panelNOD" class="tab-panel" hidden>
-  <div class="card" data-aos="fade-up" id="nagrania-on-demand">
-    <h2>Wtyczka „Nagrania On Demand” v1.0.4</h2>
-    <p><strong>Autor:</strong> Paweł Pawełek • <strong>Wersja:</strong> 1.0.4</p>
-    <p>
-      Koniec z bałaganem w nagraniach: wtyczka pokazuje <strong>czystą listę multimediów</strong> (bez plików technicznych typu
-      <code>.meta</code>, <code>.eit</code>, <code>.ap</code>, <code>.sc</code>), a podzielone nagrania odtwarza jako <strong>jeden film ciągiem</strong>.
+</div><div class="tab-panel" hidden="" id="panelNOD">
+<div class="card" data-aos="fade-up" id="nagrania-on-demand">
+<h2>Nagrania On Demand v1.0.4 (Enigma2)</h2>
+<p><strong>Autor:</strong> Paweł Pawełek</p>
+<p>
+<a class="btn primary" download="" href="pliki/enigma2-plugin-extensions-nagraniaondemand_1.0.4_all.ipk" title="Pobierz Nagrania On Demand v1.0.4">
+        📥 Pobierz Nagrania On Demand v1.0.4
+      </a>
+</p>
+<h3>Do czego służy wtyczka</h3>
+<p>
+<strong>Nagrania On Demand</strong> porządkuje listę nagrań i multimediów w Enigma2: ukrywa pliki techniczne
+      (<code>.meta</code>, <code>.eit</code>, <code>.sc</code> itd.), scala nagrania podzielone na części
+      (<code>*.ts.001</code>, <code>*.ts.002</code>…) i pokazuje <em>prawdziwe tytuły</em> odczytane z pliku <code>.meta</code>.
     </p>
-
-    <p>
-      <a class="btn primary" download href="pliki/enigma2-plugin-extensions-nagraniaondemand_1.0.4_all.ipk" title="Pobierz Nagrania On Demand v1.0.4">
-        📥 Pobierz wtyczkę (IPK)
-      </a>
-    </p>
-
-    <h3>Co potrafi wersja 1.0.4?</h3>
-    <ul>
-      <li><strong>Inteligentna lista:</strong> ukrywa pliki techniczne — jedna pozycja = jeden film.</li>
-      <li><strong>Scalanie nagrań:</strong> części typu <code>film.ts.001</code>, <code>film.ts.002</code> są widoczne jako jeden plik i odtwarzają się ciągiem.</li>
-      <li><strong>Prawdziwe nazwy:</strong> wyświetla tytuł programu z pliku <code>.meta</code> (jeśli istnieje), zamiast surowej nazwy pliku.</li>
-      <li><strong>Formaty:</strong> nagrania <code>.ts</code> oraz popularne wideo (<code>.mkv</code>, <code>.mp4</code>, <code>.avi</code>) i audio (<code>.mp3</code>, <code>.flac</code>, <code>.wav</code> i inne).</li>
-      <li><strong>Bezpieczne usuwanie:</strong> usuwa nagranie po potwierdzeniu i kasuje też pliki towarzyszące.</li>
-    </ul>
-
-    <h3>Gdzie szuka plików?</h3>
-    <ul>
-      <li><strong>AUTO:</strong> skanuje typowe lokalizacje nagrań (np. <code>/media/hdd/movie</code>) oraz nośniki w <code>/media</code> i <code>/mnt</code>.</li>
-      <li><strong>RĘCZNY:</strong> możesz wskazać dowolny folder (opcja pod <strong>Żółtym</strong> przyciskiem).</li>
-    </ul>
-
-    <h3>Sterowanie (pilot)</h3>
-    <ul>
-      <li><strong>OK</strong> – odtwórz</li>
-      <li><strong>STOP</strong> – zatrzymaj / powrót</li>
-      <li><strong>🔴 Czerwony</strong> – usuń (z potwierdzeniem)</li>
-      <li><strong>🟢 Zielony</strong> – odśwież listę</li>
-      <li><strong>🟡 Żółty</strong> – ustawienia wyszukiwania (Auto/Ręczny, wybór folderu)</li>
-      <li><strong>🔵 Niebieski</strong> – wyjście</li>
-    </ul>
-
-    <h3>Wymagania</h3>
-    <p>Działa na Enigma2 z Python 3 (OpenATV, OpenPLi i inne). Wymaga standardowego <strong>MoviePlayer</strong> w systemie.</p>
-
-    <h3>Galeria</h3>
-    <p style="color:var(--muted)">Kliknij miniaturę, aby powiększyć.</p>
-
-    <div class="gallery-grid">
-      <a class="gallery-thumb" href="pliki/a1.png" data-full="pliki/a1.png" data-title="Nagrania On Demand — ekran 1">
-        <img src="pliki/a1.png" alt="Nagrania On Demand — ekran 1" loading="lazy"/>
-        <div class="cap">a1</div>
-      </a>
-      <a class="gallery-thumb" href="pliki/a2.png" data-full="pliki/a2.png" data-title="Nagrania On Demand — ekran 2">
-        <img src="pliki/a2.png" alt="Nagrania On Demand — ekran 2" loading="lazy"/>
-        <div class="cap">a2</div>
-      </a>
-      <a class="gallery-thumb" href="pliki/a3.png" data-full="pliki/a3.png" data-title="Nagrania On Demand — ekran 3">
-        <img src="pliki/a3.png" alt="Nagrania On Demand — ekran 3" loading="lazy"/>
-        <div class="cap">a3</div>
-      </a>
-      <a class="gallery-thumb" href="pliki/a4.png" data-full="pliki/a4.png" data-title="Nagrania On Demand — ekran 4">
-        <img src="pliki/a4.png" alt="Nagrania On Demand — ekran 4" loading="lazy"/>
-        <div class="cap">a4</div>
-      </a>
-      <a class="gallery-thumb" href="pliki/a5.png" data-full="pliki/a5.png" data-title="Nagrania On Demand — ekran 5">
-        <img src="pliki/a5.png" alt="Nagrania On Demand — ekran 5" loading="lazy"/>
-        <div class="cap">a5</div>
-      </a>
-      <a class="gallery-thumb" href="pliki/a6.png" data-full="pliki/a6.png" data-title="Nagrania On Demand — ekran 6">
-        <img src="pliki/a6.png" alt="Nagrania On Demand — ekran 6" loading="lazy"/>
-        <div class="cap">a6</div>
-      </a>
-    </div>
-  </div>
-
-  <dialog class="aio-lightbox" id="lightboxDialog" aria-label="Podgląd obrazka">
-    <div class="lb-head">
-      <div class="lb-title" id="lightboxTitle">Podgląd</div>
-      <button class="icon-btn" id="lightboxClose" aria-label="Zamknij">✕</button>
-    </div>
-    <div class="lb-body">
-      <img id="lightboxImg" alt="Podgląd" src=""/>
-    </div>
-  </dialog>
+<h3>Najważniejsze funkcje</h3>
+<ul>
+<li><strong>Inteligentna lista:</strong> 1 pozycja = 1 film (bez „śmietnika” technicznego).</li>
+<li><strong>Scalanie nagrań:</strong> odtwarzanie ciągiem nagrań podzielonych na części.</li>
+<li><strong>Prawdziwe nazwy:</strong> tytuł z <code>.meta</code> (jeśli istnieje), zamiast surowej nazwy pliku.</li>
+<li><strong>Obsługiwane formaty:</strong> <code>.ts</code>, <code>.mkv</code>, <code>.mp4</code>, <code>.avi</code> oraz audio (<code>.mp3</code>, <code>.flac</code>, <code>.wav</code> i inne).</li>
+</ul>
+<h3>Gdzie wtyczka szuka plików</h3>
+<ul>
+<li><strong>AUTO:</strong> skanuje typowe lokalizacje nagrań (np. <code>/media/hdd/movie</code>) oraz nośniki w <code>/media</code> i <code>/mnt</code>.</li>
+<li><strong>RĘCZNY:</strong> możesz wskazać dowolny folder (opcja pod <strong>Żółtym</strong> przyciskiem).</li>
+</ul>
+<h3>Sterowanie pilotem</h3>
+<ul class="key-list">
+<li><strong>OK</strong> — odtwórz</li>
+<li><strong>STOP</strong> — zatrzymaj / powrót</li>
+<li><strong class="k-red">Czerwony</strong> — usuń (z potwierdzeniem; usuwa też pliki towarzyszące)</li>
+<li><strong class="k-green">Zielony</strong> — odśwież listę</li>
+<li><strong class="k-yellow">Żółty</strong> — ustawienia wyszukiwania (Auto/Ręczny, wybór folderu)</li>
+<li><strong class="k-blue">Niebieski</strong> — wyjście</li>
+</ul>
+<h3>Galeria</h3>
+<p class="muted small">Kliknij miniaturę, aby otworzyć podgląd w pełnym rozmiarze.</p>
+<div class="plugin-gallery">
+<a href="pliki/a1.png" rel="noopener" target="_blank"><img alt="Nagrania On Demand — ekran 1" loading="lazy" src="pliki/a1.png"/></a>
+<a href="pliki/a2.png" rel="noopener" target="_blank"><img alt="Nagrania On Demand — ekran 2" loading="lazy" src="pliki/a2.png"/></a>
+<a href="pliki/a3.png" rel="noopener" target="_blank"><img alt="Nagrania On Demand — ekran 3" loading="lazy" src="pliki/a3.png"/></a>
+<a href="pliki/a4.png" rel="noopener" target="_blank"><img alt="Nagrania On Demand — ekran 4" loading="lazy" src="pliki/a4.png"/></a>
+<a href="pliki/a5.png" rel="noopener" target="_blank"><img alt="Nagrania On Demand — ekran 5" loading="lazy" src="pliki/a5.png"/></a>
+<a href="pliki/a6.png" rel="noopener" target="_blank"><img alt="Nagrania On Demand — ekran 6" loading="lazy" src="pliki/a6.png"/></a>
 </div>
-
-<div id="panelMine" class="tab-panel">
+<p class="muted small"><strong>Wymagania:</strong> Enigma2 z Python 3 (OpenATV, OpenPLi itd.) + standardowy MoviePlayer w systemie.</p>
+</div>
+</div><div class="tab-panel" hidden="" id="panelOCV">
+<div class="card" data-aos="fade-up" id="opencamview">
+<h2>OpenCamView v1.3 (Enigma2)</h2>
+<p><strong>Version:</strong> 1.3</p>
+<p>
+<a class="btn primary" download="" href="pliki/enigma2-plugin-extensions-opencamview_1.3_all.ipk" title="Pobierz OpenCamView v1.3">
+        📥 Pobierz OpenCamView v1.3
+      </a>
+</p>
+<h3>Do czego służy wtyczka</h3>
+<p>
+<strong>OpenCamView</strong> umożliwia podgląd kamer IP w Enigma2 po RTSP bez przerabiania list kanałów.
+      Kamery dodajesz i edytujesz wprost z GUI (nazwa, IP, port, login, hasło, ścieżka RTSP), a podgląd uruchamiasz jednym kliknięciem.
+    </p>
+<h3>Najważniejsze funkcje</h3>
+<ul>
+<li>Dodawanie / edycja / usuwanie kamer z poziomu wtyczki.</li>
+<li><strong>OK</strong> — szybki podgląd wybranej kamery.</li>
+<li><strong>INFO / EPG / HELP</strong> — tryb MultiView (TV + podgląd kamery w PiP).</li>
+<li>Skróty numeryczne <strong>0–4</strong> (m.in. Domofon/Intercom, eksport, pomoc).</li>
+<li>Eksport kamer do bukietu Enigma2 (usługi 4097) oraz eksport do pliku M3U.</li>
+<li>Wbudowany skaner sieci do szybkiego wyszukiwania kamer w LAN.</li>
+</ul>
+<h3>Sterowanie pilotem</h3>
+<ul class="key-list">
+<li><strong>OK</strong> — odtwórz kamerę</li>
+<li><strong class="k-green">Zielony</strong> — dodaj kamerę</li>
+<li><strong class="k-yellow">Żółty</strong> — edytuj kamerę</li>
+<li><strong class="k-red">Czerwony</strong> — usuń kamerę</li>
+<li><strong class="k-blue">Niebieski</strong> — skaner sieci</li>
+<li><strong>INFO / EPG / HELP</strong> — MultiView (TV + PiP)</li>
+<li><strong>0</strong> — ustaw wybraną kamerę jako <em>Domofon/Intercom</em></li>
+<li><strong>1</strong> — otwórz <em>Domofon/Intercom</em></li>
+<li><strong>2</strong> — eksport do bukietu</li>
+<li><strong>3</strong> — eksport do M3U</li>
+<li><strong>4</strong> — pomoc</li>
+<li><strong>EXIT</strong> — wyjście</li>
+</ul>
+<h3>Galeria</h3>
+<p class="muted small">Kliknij miniaturę, aby otworzyć podgląd w pełnym rozmiarze.</p>
+<div class="plugin-gallery">
+<a href="pliki/1.png" rel="noopener" target="_blank"><img alt="OpenCamView — ekran 1" loading="lazy" src="pliki/1.png"/></a>
+<a href="pliki/2.png" rel="noopener" target="_blank"><img alt="OpenCamView — ekran 2" loading="lazy" src="pliki/2.png"/></a>
+<a href="pliki/3.png" rel="noopener" target="_blank"><img alt="OpenCamView — ekran 3" loading="lazy" src="pliki/3.png"/></a>
+<a href="pliki/4.png" rel="noopener" target="_blank"><img alt="OpenCamView — ekran 4" loading="lazy" src="pliki/4.png"/></a>
+</div>
+<p class="muted small">
+<strong>Wskazówka:</strong> jeżeli kamera nie odtwarza się, sprawdź poprawność RTSP (IP/port/ścieżka) i dostępność strumienia w sieci LAN.
+    </p>
+</div>
+</div><div class="tab-panel" hidden="" id="panelDream">
+<div class="card" data-aos="fade-up" id="iptv-dream">
+<h2>IPTV Dream v6.2 (Enigma2)</h2>
+<p>
+<a class="btn primary" download="" href="pliki/enigma2-plugin-extensions-iptvdream_6.2_all.ipk" title="Pobierz IPTV Dream v6.2">
+        📥 Pobierz IPTV Dream v6.2
+      </a>
+</p>
+<h3>Do czego służy IPTV Dream</h3>
+<p>
+<strong>IPTV Dream v6.2</strong> pozwala wczytać listy IPTV (M3U URL/plik, Xtream Codes, MAC Portal),
+      a następnie <strong>wyeksportować kanały do bukietów Enigma2</strong>, zainstalować źródła EPG (EPGImport) i pobrać/generować pikony.
+      Ma też wygodny <strong>WebIF</strong>, żeby dane wklejać z telefonu/PC zamiast pilotem.
+    </p>
+<h3>Skróty (pilot) — najważniejsze</h3>
+<ul class="key-list">
+<li><strong>1–9 / OK</strong> — wybór pozycji menu</li>
+<li><strong class="k-red">Czerwony</strong> — wyjście</li>
+<li><strong class="k-green">Zielony</strong> — sprawdź aktualizacje</li>
+<li><strong class="k-yellow">Żółty</strong> — instaluj źródła EPG</li>
+<li><strong class="k-blue">Niebieski</strong> — eksport do bukietu</li>
+</ul>
+<h3>Galeria</h3>
+<p class="muted small">Kliknij miniaturę, aby otworzyć podgląd w pełnym rozmiarze.</p>
+<div class="plugin-gallery">
+<a href="pliki/b1.jpg" rel="noopener" target="_blank"><img alt="IPTV Dream — ekran 1" loading="lazy" src="pliki/b1.jpg"/></a>
+<a href="pliki/b2.jpg" rel="noopener" target="_blank"><img alt="IPTV Dream — ekran 2" loading="lazy" src="pliki/b2.jpg"/></a>
+</div>
+<details class="details-note" style="margin-top:14px;">
+<summary>📖 Pełna instrukcja użytkownika + opis funkcji (kliknij)</summary>
+<div class="details-body">
+<h3>1) Do czego służy IPTV Dream v6.2</h3>
+<ul>
+<li>wczytanie listy IPTV z: M3U (URL), M3U (plik), Xtream Codes, MAC Portal (Stalker/MAG)</li>
+<li>szybki eksport kanałów do bukietów Enigma2 (standardowa lista TV)</li>
+<li>instalacja i przygotowanie źródeł EPG dla EPGImport</li>
+<li>pobieranie i generowanie piconów</li>
+<li>funkcje pomocnicze: ulubione, cache/historia, logi/debug, język PL/EN, aktualizacje</li>
+<li>WebIF: wpisywanie danych z komputera/telefonu</li>
+</ul>
+<h3>2) Wymagania</h3>
+<ul>
+<li>Enigma2 + internet</li>
+<li>zalecane: EPGImport (z feedu, jeśli nie jest w systemie)</li>
+<li>LAN (jeśli używasz WebIF)</li>
+</ul>
+<h3>3) Instalacja</h3>
+<ul>
+<li>Menu → Ustawienia → Zarządzanie oprogramowaniem → Instaluj lokalny pakiet (plik w /tmp)</li>
+<li>SSH: <code>opkg install /tmp/enigma2-plugin-extensions-iptvdream_6.2_all.ipk</code></li>
+<li>Po instalacji zalecany restart GUI</li>
+</ul>
+<h3>4) Menu główne — pozycje 1–9 (skrót)</h3>
+<ol>
+<li>M3U z URL</li>
+<li>M3U z pliku</li>
+<li>Xtream Codes</li>
+<li>MAC Portal</li>
+<li>Ulubione</li>
+<li>Zarządzanie</li>
+<li>Statystyki</li>
+<li>Web Interfejs (ON/OFF) + adres</li>
+<li>Aktualizacje</li>
+</ol>
+<h3>5) Eksport do bukietu (NIEBIESKI) — kluczowa funkcja</h3>
+<p>
+          Po wczytaniu playlisty (M3U/Xtream/MAC) naciśnij <strong>NIEBIESKI</strong>,
+          wybierz grupy do eksportu i poczekaj na odświeżenie bukietów.
+        </p>
+<h3>6) EPG</h3>
+<p>
+          Zainstaluj źródła EPG (<strong>ŻÓŁTY</strong>), a następnie uruchom import w wtyczce <strong>EPGImport</strong>.
+        </p>
+<h3>7) Pikony</h3>
+<p>
+          Funkcja „Pobierz pikony” zapisuje logo do <code>/usr/share/enigma2/picon</code>.
+          Gdy po pobraniu nie widać logo — wykonaj restart GUI.
+        </p>
+<h3>8) WebIF — użycie</h3>
+<ol>
+<li>Włącz WebIF w pozycji 8.</li>
+<li>Wejdź w przeglądarce na adres <code>http://IP_DEKODERA:9999</code>.</li>
+<li>Wklej dane (M3U/Xtream/MAC) i wyślij do dekodera (wtyczka musi być otwarta na tunerze).</li>
+</ol>
+<h3>9) Lokalizacje plików (dla zaawansowanych)</h3>
+<ul>
+<li>Konfiguracja: <code>/etc/enigma2/iptvdream_v6_config.json</code></li>
+<li>Portale MAC: <code>/etc/enigma2/iptvdream_mac.json</code></li>
+<li>Ulubione: <code>/etc/enigma2/iptv_dream_favorites.json</code></li>
+<li>Cache: <code>/tmp/iptvdream_v6_cache</code></li>
+<li>Pikony: <code>/usr/share/enigma2/picon</code></li>
+<li>Log: <code>/tmp/iptvdream.log</code></li>
+<li>EPGImport: <code>/etc/epgimport/iptvdream.sources.xml</code>, <code>/etc/epgimport/iptvdream.channels.xml</code></li>
+<li>Bukiety: <code>/etc/enigma2/userbouquet.iptv_dream_*.tv</code></li>
+</ul>
+<p class="muted small"><strong>Bezpieczeństwo:</strong> WebIF działa po HTTP bez logowania — używaj wyłącznie w sieci domowej i wyłącz, gdy nie jest potrzebny.</p>
+</div>
+</details>
+</div>
+</div>
+<div class="tab-panel" id="panelMine">
 <div class="card" data-aos="fade-up" id="wtyczki">
 <h2>Wtyczki (Plugins)</h2>
 <p>Najnowsze wersje moich aplikacji.</p>
 <ul class="file-list">
 <li>
-  <a class="file-link" href="https://github.com/OliOli2013/aio-iptv-projekt/raw/main/pliki/enigma2-plugin-extensions-opencamview_1.3_all.ipk" title="Podgląd kamer IP (RTSP) w Enigma2">
-    <span class="icon">📥</span> OpenCamView 1.3 <span class="badge">Py2/Py3</span>
-  </a>
-  <details class="plugin-details">
-    <summary>📖 <strong>Opis i funkcje</strong> (Kliknij)</summary>
-    <div class="plugin-desc-content">
-      <strong>Podgląd kamer IP (RTSP) bez edytowania list kanałów.</strong><br/>
+<a class="file-link" href="https://github.com/OliOli2013/aio-iptv-projekt/raw/main/pliki/enigma2-plugin-extensions-nagraniaondemand_1.0.4_all.ipk" title="Czytelna lista nagrań bez plików technicznych">
+<span class="icon">📥</span> Nagrania On Demand 1.0.4 <span class="badge">Py3</span>
+</a>
+<details class="plugin-details">
+<summary>📖 <strong>Opis i funkcje</strong> (Kliknij)</summary>
+<div class="plugin-desc-content">
+<strong>Porządek w nagraniach:</strong> ukrywa pliki techniczne (.meta/.eit/.sc), scala nagrania podzielone na części i wyświetla tytuły z .meta.
+      <br/><span class="muted small">Szczegóły + screeny: przejdź do zakładki <a href="#nagrania-on-demand">Nagrania On Demand</a>.</span>
+</div>
+</details>
+</li>
+<li>
+<a class="file-link" href="https://github.com/OliOli2013/aio-iptv-projekt/raw/main/pliki/enigma2-plugin-extensions-opencamview_1.3_all.ipk" title="Podgląd kamer IP (RTSP) w Enigma2">
+<span class="icon">📥</span> OpenCamView 1.3 <span class="badge">Py2/Py3</span>
+</a>
+<details class="plugin-details">
+<summary>📖 <strong>Opis i funkcje</strong> (Kliknij)</summary>
+<div class="plugin-desc-content">
+<strong>Podgląd kamer IP (RTSP) bez edytowania list kanałów.</strong><br/>
       • Dodawanie / edycja / usuwanie kamer z GUI (Nazwa, IP, Port, Login, Hasło, Ścieżka).<br/>
       • Podgląd jednym kliknięciem (OK) oraz skróty numeryczne (0–4, w tym Domofon).<br/>
       • Eksport kamer do bukietu Enigma2 (kanały 4097) oraz eksport do pliku M3U.<br/>
       • Wersja 1.3: naprawa blue screen przy edycji, eksport wybranych kamer / pojedynczych, szybsze dodawanie (pamiętanie pól) oraz poprawki GUI.
     </div>
-  </details>
+</details>
 </li>
-
 <li>
 <a class="file-link" href="https://github.com/OliOli2013/aio-iptv-projekt/raw/main/pliki/enigma2-plugin-extensions-panelaio_4.4_py2py3_init_all.ipk" title="Wersja dla starszych systemów">
 <span class="icon">📥</span> AIO Panel 4.4 <span class="badge badge-warning">Wylacznie Python 2</span>
@@ -415,26 +531,25 @@
 </ul>
 </div>
 </div>
-<div id="pobieranie" class="tab-panel" hidden>
+<div class="tab-panel" hidden="" id="pobieranie">
 <div class="card" data-aos="fade-up" id="pliki">
 <h2>Pliki (pozostałe)</h2>
 <ul class="file-list">
-
 <li>
-  <a class="file-link" download href="pliki/enigma2-plugin-extensions-panelaio_6.0_all.ipk" title="Wielofunkcyjny panel zarządzania (AIO Panel)">
-    <span class="icon">📥</span> AIO Panel v6.0
+<a class="file-link" download="" href="pliki/enigma2-plugin-extensions-panelaio_6.0_all.ipk" title="Wielofunkcyjny panel zarządzania (AIO Panel)">
+<span class="icon">📥</span> AIO Panel v6.0
   </a>
-  <span class="file-desc">(Paczka .ipk) — Panel narzędziowy Enigma2: IPTV zależności, diagnostyka sieci, RAM Cleaner, konfigurator, OSCam</span>
+<span class="file-desc">(Paczka .ipk) — Panel narzędziowy Enigma2: IPTV zależności, diagnostyka sieci, RAM Cleaner, konfigurator, OSCam</span>
 </li>
 <li>
-  <a class="file-link" download href="pliki/enigma2-plugin-extensions-iptvdream_6.2_all.ipk" title="Zaawansowany player IPTV (PL/EN)">
-    <span class="icon">📥</span> IPTV Dream 6.2
+<a class="file-link" download="" href="pliki/enigma2-plugin-extensions-iptvdream_6.2_all.ipk" title="Zaawansowany player IPTV (PL/EN)">
+<span class="icon">📥</span> IPTV Dream 6.2
   </a>
-  <span class="file-desc">(Paczka .ipk) — PL/EN + WebIF + stabilniejsza sieć + log</span>
-  <details class="plugin-details">
-    <summary>📖 <strong>Co nowego w v6.2</strong> (Kliknij)</summary>
-    <div class="plugin-desc-content">
-      <strong>[PL]</strong><br/>
+<span class="file-desc">(Paczka .ipk) — PL/EN + WebIF + stabilniejsza sieć + log</span>
+<details class="plugin-details">
+<summary>📖 <strong>Co nowego w v6.2</strong> (Kliknij)</summary>
+<div class="plugin-desc-content">
+<strong>[PL]</strong><br/>
       - Pełne tłumaczenie wtyczki na PL/EN (wszystkie ekrany, menu, komunikaty i okna dialogowe).<br/>
       - Uzupełniono brakujące tłumaczenia m.in. w: MAC Portal (Dodaj/Usuń), Statystyki oraz komunikatach informacyjnych.<br/>
       - Poprawiono WebIF: wersja wyświetla się poprawnie (v6.2 zamiast v6.0) oraz dodano pełne tłumaczenie PL/EN w oknie webowym.<br/>
@@ -443,7 +558,7 @@
       - Dodano diagnostykę: centralny log (/tmp/iptvdream.log), tryb DEBUG oraz maskowanie danych wrażliwych w logach.<br/>
       - Usprawniono płynność działania: ograniczono przycięcia podczas pobierania i parsowania list.<br/>
       - Porządki w paczce: usunięto artefakty __pycache__/*.pyc z dystrybucji.<br/><br/>
-      <strong>[EN]</strong><br/>
+<strong>[EN]</strong><br/>
       - Complete PL/EN bilingual support (all screens, menus, messages, and dialogs translated).<br/>
       - Fixed missing translations, including: MAC Portal (Add/Delete), Statistics, and information popups.<br/>
       - WebIF fixes: correct version display (v6.2 instead of v6.0) and full PL/EN translation in the web interface.<br/>
@@ -453,9 +568,8 @@
       - Improved UI responsiveness: reduced freezes during playlist download and parsing.<br/>
       - Package cleanup: removed __pycache__/*.pyc artifacts from the release.
     </div>
-  </details>
+</details>
 </li>
-
 <li>
 <a class="file-link" href="https://github.com/OliOli2013/PanelAIO-Plugin/raw/main/Picony.zip" title="Paczka pikon dla satelity HotBird 13E">
 <span class="icon">📥</span> Picony Transparent 13°E
@@ -556,9 +670,7 @@
 </footer>
 <script>document.getElementById('year').textContent=new Date().getFullYear();</script>
 <script src="assets/js/site.js?v=next1"></script>
-
-<script src="assets/js/stats-nav.js" defer></script>
-
+<script defer="" src="assets/js/stats-nav.js"></script>
 <script>
 (function(){
   function setSelected(activeId, allIds){
@@ -576,104 +688,81 @@
   }
 
   function showTab(which){
-    var panelMine = document.getElementById('panelMine');
-    var panelReq  = document.getElementById('pobieranie');
-    var panelAIO  = document.getElementById('panelAIO');
-    var panelNOD  = document.getElementById('panelNOD');
+    var panelMine  = document.getElementById('panelMine');
+    var panelReq   = document.getElementById('pobieranie');
+    var panelAIO   = document.getElementById('panelAIO');
+    var panelNOD   = document.getElementById('panelNOD');
+    var panelOCV   = document.getElementById('panelOCV');
+    var panelDream = document.getElementById('panelDream');
 
-    var tabMine = document.getElementById('tabMine');
-    var tabReq  = document.getElementById('tabReq');
-    var tabAIO  = document.getElementById('tabAIO');
-    var tabNOD  = document.getElementById('tabNOD');
+    var tabMine  = document.getElementById('tabMine');
+    var tabReq   = document.getElementById('tabReq');
+    var tabAIO   = document.getElementById('tabAIO');
+    var tabNOD   = document.getElementById('tabNOD');
+    var tabOCV   = document.getElementById('tabOCV');
+    var tabDream = document.getElementById('tabDream');
 
-    if(!panelMine || !panelReq || !panelAIO || !panelNOD || !tabMine || !tabReq || !tabAIO || !tabNOD) return;
+    if(!panelMine || !panelReq || !panelAIO || !tabMine || !tabReq || !tabAIO) return;
 
-    var panels = { mine: panelMine, req: panelReq, aio: panelAIO, nod: panelNOD };
+    var panels = {
+      mine: panelMine,
+      req: panelReq,
+      aio: panelAIO,
+      nod: panelNOD,
+      ocv: panelOCV,
+      dream: panelDream
+    };
 
     Object.keys(panels).forEach(function(k){
-      if(k === which) panels[k].removeAttribute('hidden');
-      else panels[k].setAttribute('hidden','hidden');
+      var p = panels[k];
+      if(!p) return;
+      if(k === which) p.removeAttribute('hidden');
+      else p.setAttribute('hidden','hidden');
     });
 
-    var activeTab = (which === 'req') ? 'tabReq' : (which === 'aio') ? 'tabAIO' : (which === 'nod') ? 'tabNOD' : 'tabMine';
-    setSelected(activeTab, ['tabMine','tabReq','tabAIO','tabNOD']);
-  }
+    var activeId =
+      which === 'req' ? 'tabReq' :
+      which === 'aio' ? 'tabAIO' :
+      which === 'nod' ? 'tabNOD' :
+      which === 'ocv' ? 'tabOCV' :
+      which === 'dream' ? 'tabDream' :
+      'tabMine';
 
-  function scrollToHash(){
-    var id = (location.hash || '').replace('#','');
-    if(!id) return;
-    var el = document.getElementById(id);
-    if(!el) return;
-    try{ el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }catch(_){ el.scrollIntoView(true); }
+    setSelected(activeId, ['tabMine','tabReq','tabAIO','tabNOD','tabOCV','tabDream']);
   }
 
   function syncFromHash(){
     var h = (location.hash || '').toLowerCase();
-    if(h.includes('nagrania-on-demand') || h.includes('nagrania') || h.includes('ondemand') || h.includes('on-demand') || h.includes('nod')){
-      showTab('nod');
-      setTimeout(scrollToHash, 0);
-    }else if(h.includes('pobieranie') || h.includes('pliki')){
+
+    if(h.includes('pobieranie') || h.includes('pliki')){
       showTab('req');
-      setTimeout(scrollToHash, 0);
-    }else if(h.includes('aio-panel') || h.includes('panelaio') || h === '#aio'){
+    }else if(h.includes('nagran') || h.includes('ondemand')){
+      showTab('nod');
+    }else if(h.includes('opencam')){
+      showTab('ocv');
+    }else if(h.includes('iptv-dream') || h.includes('iptvdream') || h.includes('dream')){
+      showTab('dream');
+    }else if(h.includes('aio-panel') || h.includes('panelaio') || h.includes('aio')){
       showTab('aio');
-      setTimeout(scrollToHash, 0);
     }else{
       showTab('mine');
     }
   }
 
-  // Tabs click
   document.addEventListener('click', function(e){
-    var a = e.target.closest ? e.target.closest('#tabMine, #tabReq, #tabAIO, #tabNOD') : null;
+    var a = e.target.closest ? e.target.closest('#tabMine, #tabReq, #tabAIO, #tabNOD, #tabOCV, #tabDream') : null;
     if(!a) return;
     if(a.id === 'tabReq') showTab('req');
     else if(a.id === 'tabAIO') showTab('aio');
     else if(a.id === 'tabNOD') showTab('nod');
+    else if(a.id === 'tabOCV') showTab('ocv');
+    else if(a.id === 'tabDream') showTab('dream');
     else showTab('mine');
   }, true);
 
-  // Gallery lightbox
-  function initLightbox(){
-    var dlg = document.getElementById('lightboxDialog');
-    var img = document.getElementById('lightboxImg');
-    var ttl = document.getElementById('lightboxTitle');
-    var btn = document.getElementById('lightboxClose');
-    if(!dlg || !img || !ttl || !btn) return;
-    if(typeof dlg.showModal !== 'function') return; // fallback = open in new tab
-
-    function close(){ try{ if(dlg.open) dlg.close(); }catch(_){} }
-
-    document.addEventListener('click', function(e){
-      var a = e.target.closest ? e.target.closest('a.gallery-thumb') : null;
-      if(!a) return;
-      if(!a.closest || !a.closest('.gallery-grid')) return;
-      e.preventDefault();
-      var full = a.getAttribute('data-full') || a.getAttribute('href');
-      var title = a.getAttribute('data-title') || 'Podgląd';
-      ttl.textContent = title;
-      img.src = full;
-      img.alt = title;
-      try{ dlg.showModal(); }catch(_){ window.location.href = full; }
-    }, true);
-
-    btn.addEventListener('click', close);
-    dlg.addEventListener('click', function(e){
-      if(e.target === dlg) close();
-    });
-    dlg.addEventListener('cancel', function(e){
-      e.preventDefault();
-      close();
-    });
-  }
-
   window.addEventListener('hashchange', syncFromHash);
-  document.addEventListener('DOMContentLoaded', function(){
-    syncFromHash();
-    initLightbox();
-  });
+  document.addEventListener('DOMContentLoaded', syncFromHash);
 })();
 </script>
-
 </body>
 </html>
