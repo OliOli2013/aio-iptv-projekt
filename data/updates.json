@@ -1,10 +1,10 @@
 [
   {
-    "date": "2026-01-07",
-    "ts": 1767744000000,
+    "date": "2026-01-09",
+    "ts": 1767916800000,
     "type": "release",
-    "title": "Nagrania On Demand v1.0.4 — nowa wtyczka",
-    "details": "Dodano wtyczkę „Nagrania On Demand” v1.0.4 (porządek w nagraniach: ukrywanie plików technicznych, scalanie części, tytuły z .meta). Plik: enigma2-plugin-extensions-nagraniaondemand_1.0.4_all.ipk"
+    "title": "Nagrania On Demand v2.0 — nagrywanie systemowe + IPTV/SAT + EPG + stabilność",
+    "details": "Zastąpiono wersję 1.0.4 pakietem 2.0 (enigma2-plugin-extensions-nagraniaondemand_2.0_all.ipk). Zmiany: (1) integracja z nagrywaniem systemowym („Nagraj teraz” przez InfoBar/REC, fallbacki dla OpenATV/OpenPLi i innych image), (2) IPTV + SAT — nagrywanie bieżącego kanału również dla IPTV z bukietów (w zakresie dopuszczonym przez system) oraz timery dla usług z bukietów, (3) systemowe EPG — otwieranie pełnego EPG i EPG bieżącego kanału z fallbackami (GraphMultiEPG/MultiEPG/EPGSelection), (4) naprawa green screen w „Dodaj timer ręcznie” (stabilna ścieżka: InfoBar/TimerEditList → TimerEntry), (5) poprawki stabilności i zgodności (brakujące metody/klasy zależnie od dystrybucji), (6) pełne PL/EN zależne od języka systemu + poprawione wyświetlanie znaków."
   },
   {
     "date": "2026-01-04",

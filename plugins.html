@@ -189,11 +189,12 @@
 </div>
 </div><div class="tab-panel" hidden="" id="panelNOD">
 <div class="card" data-aos="fade-up" id="nagrania-on-demand">
-<h2>Nagrania On Demand v1.0.4 (Enigma2)</h2>
+<h2>Nagrania On Demand v2.0 (Enigma2)</h2>
 <p><strong>Autor:</strong> Paweł Pawełek</p>
+<p><strong>Wersja:</strong> 2.0 • <strong>Data:</strong> 09.01.2026</p>
 <p>
-<a class="btn primary" download="" href="pliki/enigma2-plugin-extensions-nagraniaondemand_1.0.4_all.ipk" title="Pobierz Nagrania On Demand v1.0.4">
-        📥 Pobierz Nagrania On Demand v1.0.4
+<a class="btn primary" download="" href="pliki/enigma2-plugin-extensions-nagraniaondemand_2.0_all.ipk" title="Pobierz Nagrania On Demand v2.0">
+        📥 Pobierz Nagrania On Demand v2.0
       </a>
 </p>
 <h3>Do czego służy wtyczka</h3>
@@ -208,6 +209,16 @@
 <li><strong>Scalanie nagrań:</strong> odtwarzanie ciągiem nagrań podzielonych na części.</li>
 <li><strong>Prawdziwe nazwy:</strong> tytuł z <code>.meta</code> (jeśli istnieje), zamiast surowej nazwy pliku.</li>
 <li><strong>Obsługiwane formaty:</strong> <code>.ts</code>, <code>.mkv</code>, <code>.mp4</code>, <code>.avi</code> oraz audio (<code>.mp3</code>, <code>.flac</code>, <code>.wav</code> i inne).</li>
+</ul>
+<h3>Nowości w wersji 2.0 (09.01.2026)</h3>
+<p>Poniżej zestaw zmian i ulepszeń względem wersji 1.0.4 — dodane funkcje nagrywania i timery są realizowane możliwie „systemowo”, z fallbackami dla różnych image (OpenATV, OpenPLi i inne).</p>
+<ul>
+<li><strong>Integracja z nagrywaniem systemowym (maksymalna kompatybilność):</strong> „Nagraj teraz” uruchamiane przez mechanizmy systemowe (InfoBar/REC), z fallbackami dla różnych dystrybucji.</li>
+<li><strong>IPTV + SAT:</strong> nagrywanie bieżącego kanału działa również dla kanałów IPTV z list/bukietów (w zakresie dopuszczonym przez dany system); timery mogą być tworzone dla usług z bukietów, w tym IPTV.</li>
+<li><strong>EPG (systemowe):</strong> otwieranie „Pełnego EPG” i „EPG bieżącego kanału” w sposób możliwie systemowy, z fallbackami do dostępnych ekranów EPG (<code>GraphMultiEPG</code> / <code>MultiEPG</code> / <code>EPGSelection</code>).</li>
+<li><strong>Dodaj timer ręcznie — naprawa crasha:</strong> usunięto green screen wynikający z różnic w wymaganych argumentach <code>TimerEntry</code>; wprowadzono stabilną ścieżkę: <code>InfoBar/TimerEditList</code> → fallback do <code>TimerEntry</code> z poprawnie utworzonym obiektem timera.</li>
+<li><strong>Stabilność i zgodność:</strong> odporność na brakujące metody/klasy w zależności od dystrybucji (różnice nazw metod, dostępność ekranów).</li>
+<li><strong>Język / tłumaczenie PL/EN:</strong> pełne napisy PL/EN zależne od języka ustawionego w systemie (Polski → PL, inny → EN) + uporządkowane teksty pod kątem poprawnego wyświetlania znaków.</li>
 </ul>
 <h3>Gdzie wtyczka szuka plików</h3>
 <ul>
@@ -391,15 +402,12 @@
 <p>Najnowsze wersje moich aplikacji.</p>
 <ul class="file-list">
 <li>
-<a class="file-link" href="https://github.com/OliOli2013/aio-iptv-projekt/raw/main/pliki/enigma2-plugin-extensions-nagraniaondemand_1.0.4_all.ipk" title="Czytelna lista nagrań bez plików technicznych">
-<span class="icon">📥</span> Nagrania On Demand 1.0.4 <span class="badge">Py3</span>
+<a class="file-link" href="https://github.com/OliOli2013/aio-iptv-projekt/raw/main/pliki/enigma2-plugin-extensions-nagraniaondemand_2.0_all.ipk" title="Czytelna lista nagrań bez plików technicznych">
+<span class="icon">📥</span> Nagrania On Demand 2.0 <span class="badge">Py3</span>
 </a>
 <details class="plugin-details">
 <summary>📖 <strong>Opis i funkcje</strong> (Kliknij)</summary>
-<div class="plugin-desc-content">
-<strong>Porządek w nagraniach:</strong> ukrywa pliki techniczne (.meta/.eit/.sc), scala nagrania podzielone na części i wyświetla tytuły z .meta.
-      <br/><span class="muted small">Szczegóły + screeny: przejdź do zakładki <a href="#nagrania-on-demand">Nagrania On Demand</a>.</span>
-</div>
+<div class="plugin-desc-content"><strong>Porządek w nagraniach:</strong> ukrywa pliki techniczne (.meta/.eit/.sc), scala nagrania podzielone na części i wyświetla tytuły z .meta.<br/><strong>Wersja 2.0:</strong> integracja z nagrywaniem systemowym („Nagraj teraz”), timery także dla usług z bukietów (w tym IPTV — zależnie od image), systemowe EPG (pełne i bieżącego kanału) oraz poprawki stabilności (m.in. „Dodaj timer ręcznie” bez green screen).<br/><span class="muted small">Szczegóły + screeny: przejdź do zakładki <a href="#nagrania-on-demand">Nagrania On Demand</a>.</span></div>
 </details>
 </li>
 <li>
