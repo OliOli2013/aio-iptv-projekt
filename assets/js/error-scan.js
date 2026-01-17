@@ -1,481 +1,527 @@
-/* Enigma2 error scanner (client-side):
-   - Optional OCR via Tesseract.js (loaded on error-scan.html)
-   - Pattern-based classification with practical suggestions.
+/*
+  error-scan.js — Professional Enigma2 error intake (Image OCR + Text) -> AI‑Chat Enigma2
 
-   Notes:
-   - No uploads are sent to any server.
-   - Keep this file self-contained to avoid impacting other site functions.
+  Features:
+  - Image: upload / drag&drop / paste (Ctrl+V)
+  - OCR (local, in-browser) with lightweight preprocessing (contrast/threshold)
+  - Text: paste or type crashlog/traceback
+  - One-click: send text to built‑in AI‑Chat drawer (injected by assets/js/site.js)
+
+  Privacy:
+  - Images never leave the browser.
+  - Only text is sent to AI‑Chat (and only if user clicks Send / enables auto-send).
+
+  Integration contract (provided by assets/js/site.js):
+  - #ai-chat-fab (button to open drawer)
+  - #aiChatInput (input)
+  - #aiChatForm  (form submit handler)
 */
 (function () {
-  "use strict";
+  'use strict';
 
+  // ----------------------------
+  // Language helpers
+  // ----------------------------
   function getLang() {
-    const saved = (localStorage.getItem("aio_lang") || "").toLowerCase();
-    if (saved === "pl" || saved === "en") return saved;
-    const nav = (navigator.language || navigator.userLanguage || "pl").toLowerCase();
-    return nav.startsWith("pl") ? "pl" : "en";
+    const saved = (localStorage.getItem('aio_lang') || '').toLowerCase();
+    if (saved === 'pl' || saved === 'en') return saved;
+    const nav = (navigator.language || navigator.userLanguage || 'pl').toLowerCase();
+    return nav.startsWith('pl') ? 'pl' : 'en';
   }
 
-  const L = {
+  const I18N = {
     pl: {
-      none: "Nie rozpoznano jednoznacznego błędu. Poniżej znajdziesz kilka kroków diagnostycznych, które zwykle prowadzą do rozwiązania.",
-      stepsTitle: "Sugerowane kroki",
-      foundTitle: "Rozpoznany problem",
-      evidence: "Wykryte frazy",
-      rawTitle: "Tekst do analizy",
-      copy: "Kopiuj",
-      copied: "Skopiowano",
-      tips: [
-        "Jeśli to zielony ekran: sprawdź najnowszy crashlog (zwykle /home/root/logs/ lub /media/hdd/).",
-        "Wyłącz/odinstaluj ostatnio dodaną wtyczkę/skórkę i uruchom GUI ponownie.",
-        "Zweryfikuj wersję Pythona w image (Python 2 vs 3) i dopasuj wtyczki do systemu.",
-      ],
-      ocrFail: "OCR nie powiódł się. Spróbuj wgrać wyraźniejszy obraz lub wklej fragment crashloga w polu tekstowym.",
-      noText: "Brak tekstu do analizy. Wgraj obraz lub wklej crashlog.",
+      ocrBtn: 'Odczytaj tekst (OCR)',
+      ocrWorking: 'Trwa OCR…',
+      ocrEmpty: 'OCR nie wykrył tekstu. Spróbuj wyraźniejszego zrzutu lub wklej crashlog.',
+      noText: 'Brak tekstu. Wklej crashlog/komunikat albo wykonaj OCR z obrazu.',
+      sent: 'Wysłano do AI‑Chat. Sprawdź odpowiedź w oknie czatu.',
+      aiMissing: 'Nie wykryto modułu AI‑Chat na tej stronie. Upewnij się, że ładuje się assets/js/site.js.',
+      copyOk: 'Skopiowano.',
+      prepOk: 'Tekst przygotowany. Teraz kliknij „Diagnozuj w AI‑Chat”.',
+      hint: 'Wskazówka: najlepsze wyniki daje 20–80 linii crashloga z tracebackiem.',
     },
     en: {
-      none: "No clear error signature detected. Below are troubleshooting steps that usually lead to a fix.",
-      stepsTitle: "Suggested steps",
-      foundTitle: "Detected issue",
-      evidence: "Matched phrases",
-      rawTitle: "Analyzed text",
-      copy: "Copy",
-      copied: "Copied",
-      tips: [
-        "If this is a green screen: check the latest crashlog (often /home/root/logs/ or /media/hdd/).",
-        "Disable/uninstall the last added plugin/skin and restart the GUI.",
-        "Verify your image Python version (Python 2 vs 3) and match plugins accordingly.",
-      ],
-      ocrFail: "OCR failed. Try a clearer image or paste a crashlog excerpt into the text box.",
-      noText: "No text to analyze. Upload an image or paste a crashlog.",
+      ocrBtn: 'Read text (OCR)',
+      ocrWorking: 'OCR running…',
+      ocrEmpty: 'OCR did not detect text. Try a clearer screenshot or paste a crashlog.',
+      noText: 'No text provided. Paste an error/crashlog or run OCR on an image.',
+      sent: 'Sent to AI‑Chat. Check the chat drawer for the reply.',
+      aiMissing: 'AI‑Chat module not found on this page. Ensure assets/js/site.js is loaded.',
+      copyOk: 'Copied.',
+      prepOk: 'Text prepared. Now click “Diagnose in AI‑Chat”.',
+      hint: 'Tip: best results come from 20–80 lines of crashlog including traceback.',
     },
   };
 
   function t(key) {
     const lang = getLang();
-    return (L[lang] && L[lang][key]) || L.pl[key] || "";
+    return (I18N[lang] && I18N[lang][key]) || (I18N.pl && I18N.pl[key]) || '';
   }
 
-  // Pattern library (keep small & practical; can be extended later).
-  function getRules() {
-    const lang = getLang();
-
-    const PL = {
-      modalOpen: {
-        title: "RuntimeError: Modal open",
-        desc: "Wtyczka próbuje otworzyć nowe okno (session.open) gdy inne okno modalne jest już aktywne.",
-        steps: [
-          "Zrób restart GUI (Menu → Standby/Restart → Restart GUI).",
-          "Zaktualizuj wtyczkę do wersji zgodnej z Twoim image (często poprawka polega na użyciu session.openWithCallback / zabezpieczeniu wielokrotnego otwierania okien).",
-          "Jeśli błąd pojawia się po wejściu do konkretnej sekcji: usuń/wyłącz ostatnio dodaną wtyczkę i sprawdź ponownie.",
-        ],
-      },
-      noModule: {
-        title: "Brak modułu / ImportError",
-        desc: "Wtyczka lub skrypt nie znajduje wymaganego modułu albo jest niezgodny z wersją Pythona.",
-        steps: [
-          "Sprawdź, czy używasz Pythona 2 czy 3 w Twoim image. Wtyczki muszą być skompilowane/pod ten sam Python.",
-          "Doinstaluj wymagane pakiety (opkg) lub użyj wersji wtyczki dedykowanej Twojemu systemowi.",
-          "Jeśli w crashlogu widać konkretną nazwę modułu: wyszukaj ją w feedzie (Menu → Pobierz wtyczki) lub w dokumentacji wtyczki.",
-        ],
-      },
-      skin: {
-        title: "Błąd skina (SkinError)",
-        desc: "System nie może wczytać elementu skórki (brak widgetu/komponentu lub konflikt definicji XML).",
-        steps: [
-          "Przełącz skórkę na domyślną (jeśli GUI się uruchamia) i uruchom GUI ponownie.",
-          "Zaktualizuj/ponownie zainstaluj skina. Często problemem jest niezgodność z wersją Enigma2.",
-          "Jeśli błąd dotyczy konkretnego pliku skin.xml: przywróć kopię zapasową albo usuń ostatnie modyfikacje.",
-        ],
-      },
-      segv: {
-        title: "Błąd krytyczny (Segmentation fault / signal 11)",
-        desc: "Awaria na poziomie natywnym (biblioteki/C++), często związana ze sterownikami, bibliotekami lub niestabilną wtyczką.",
-        steps: [
-          "Zaktualizuj image / sterowniki i wykonaj restart GUI.",
-          "Odinstaluj ostatnio dodane wtyczki (zwłaszcza te z binarnymi bibliotekami) i przetestuj ponownie.",
-          "Sprawdź wolne miejsce/RAM (zbyt mało pamięci również bywa przyczyną niestabilności).",
-        ],
-      },
-      network: {
-        title: "Problem z siecią/SSL",
-        desc: "Błąd pobierania (wget/curl) lub handshake SSL/TLS. Często wynika z braku certyfikatów, złej daty systemowej lub blokady DNS.",
-        steps: [
-          "Sprawdź datę i czas w tunerze (błędna data powoduje problemy z SSL).",
-          "Zainstaluj/odśwież certyfikaty CA (np. pakiet ca-certificates) i uruchom GUI ponownie.",
-          "Zweryfikuj DNS (np. ustaw 1.1.1.1 / 8.8.8.8) i przetestuj ping.",
-        ],
-      },
-      busyboxOpkg: {
-        title: "Problem z opkg (feed/konflikty)",
-        desc: "Instalacja pakietu nie powiodła się (zależności, konflikty, brak miejsca).",
-        steps: [
-          "Wykonaj: opkg update, a następnie spróbuj ponownie instalacji.",
-          "Sprawdź wolne miejsce na / (df -h) i usuń niepotrzebne pakiety.",
-          "Jeśli komunikat mówi o konflikcie: odinstaluj poprzednią wersję wtyczki/pakietu i zainstaluj na czysto.",
-        ],
-      },
-      fileNotFound: {
-        title: "Brak pliku/ścieżki (Errno 2)",
-        desc: "Wtyczka odwołuje się do pliku, którego nie ma w systemie (zła ścieżka, brak uprawnień, brak montowania HDD/USB).",
-        steps: [
-          "Upewnij się, że dysk (HDD/USB) jest zamontowany (mount) i ma prawidłową ścieżkę.",
-          "Jeśli to plik wtyczki: zainstaluj ją ponownie lub przywróć brakujący plik.",
-          "Sprawdź uprawnienia katalogu (chmod/chown) – szczególnie w /tmp, /usr, /etc.",
-        ],
-      },
-    };
-
-    const EN = {
-      modalOpen: {
-        title: "RuntimeError: Modal open",
-        desc: "A plugin tries to open a new screen (session.open) while another modal screen is already active.",
-        steps: [
-          "Restart the GUI (Menu → Standby/Restart → Restart GUI).",
-          "Update the plugin to a version compatible with your image (common fix: use session.openWithCallback / guard against multiple opens).",
-          "If it happens when entering a specific section: uninstall/disable the last installed plugin and test again.",
-        ],
-      },
-      noModule: {
-        title: "Missing module / ImportError",
-        desc: "A plugin or script cannot import a required module or is incompatible with your Python version.",
-        steps: [
-          "Check whether your image uses Python 2 or Python 3. Plugins must match the same Python version.",
-          "Install missing dependencies (opkg) or use the plugin build dedicated to your system.",
-          "If the crashlog shows the exact module name: look it up in your feed (Download plugins) or the plugin documentation.",
-        ],
-      },
-      skin: {
-        title: "Skin error (SkinError)",
-        desc: "Enigma2 cannot load a skin element (missing widget/component or XML definition conflict).",
-        steps: [
-          "Switch to the default skin (if the GUI boots) and restart the GUI.",
-          "Update/reinstall the skin (often a version mismatch with your Enigma2 build).",
-          "If the crash mentions skin.xml: restore a backup or revert recent edits.",
-        ],
-      },
-      segv: {
-        title: "Critical crash (Segmentation fault / signal 11)",
-        desc: "Native-level crash (C++/libraries), often driver/library related or caused by an unstable binary plugin.",
-        steps: [
-          "Update your image/drivers and restart the GUI.",
-          "Remove recently installed plugins (especially those shipping binary libs) and test again.",
-          "Check free storage/RAM (low memory can also cause instability).",
-        ],
-      },
-      network: {
-        title: "Network / SSL issue",
-        desc: "Download errors (wget/curl) or SSL/TLS handshake failures, often due to missing CA certs, wrong system time, or DNS blocking.",
-        steps: [
-          "Verify receiver date/time (wrong time breaks SSL validation).",
-          "Install/refresh CA certificates (e.g., ca-certificates) and restart the GUI.",
-          "Verify DNS (e.g., 1.1.1.1 / 8.8.8.8) and test ping.",
-        ],
-      },
-      busyboxOpkg: {
-        title: "opkg problem (feed/conflicts)",
-        desc: "Package install failed (dependencies, conflicts, insufficient space).",
-        steps: [
-          "Run: opkg update, then retry installation.",
-          "Check free space on / (df -h) and remove unused packages.",
-          "If it mentions a conflict: remove the older package/plugin and install cleanly.",
-        ],
-      },
-      fileNotFound: {
-        title: "Missing file/path (Errno 2)",
-        desc: "A plugin references a file that does not exist (wrong path, permissions, or missing HDD/USB mount).",
-        steps: [
-          "Make sure the drive (HDD/USB) is mounted (mount) and the path is correct.",
-          "If it is a plugin file: reinstall the plugin or restore the missing file.",
-          "Check directory permissions (chmod/chown) — especially /tmp, /usr, /etc.",
-        ],
-      },
-    };
-
-    const R = lang === "en" ? EN : PL;
-
-    return [
-      {
-        id: "modalOpen",
-        score: 10,
-        patterns: ["runtimeerror: modal open", "modal open"],
-        data: R.modalOpen,
-      },
-      {
-        id: "skin",
-        score: 9,
-        patterns: ["skinerror", "error loading skin", "skin\u0020error"],
-        data: R.skin,
-      },
-      {
-        id: "noModule",
-        score: 8,
-        patterns: ["no module named", "importerror", "cannot import name"],
-        data: R.noModule,
-      },
-      {
-        id: "segv",
-        score: 7,
-        patterns: ["segmentation fault", "signal 11", "sigsegv"],
-        data: R.segv,
-      },
-      {
-        id: "network",
-        score: 6,
-        patterns: ["ssl", "tls", "certificate verify failed", "handshake", "wget:"],
-        data: R.network,
-      },
-      {
-        id: "busyboxOpkg",
-        score: 5,
-        patterns: ["opkg", "cannot satisfy the following dependencies", "unknown package", "collected errors"],
-        data: R.busyboxOpkg,
-      },
-      {
-        id: "fileNotFound",
-        score: 4,
-        patterns: ["errno 2", "no such file or directory"],
-        data: R.fileNotFound,
-      },
-    ];
-  }
-
-  function normalize(text) {
-    return (text || "")
-      .toString()
-      .replace(/\r/g, "\n")
-      .replace(/\n{3,}/g, "\n\n")
-      .toLowerCase();
-  }
-
-  function analyze(text) {
-    const norm = normalize(text);
-    const rules = getRules();
-    const hits = [];
-
-    for (const rule of rules) {
-      const matched = [];
-      for (const p of rule.patterns) {
-        try {
-          const re = new RegExp(p, "i");
-          if (re.test(norm)) matched.push(p);
-        } catch (_) {
-          if (norm.indexOf(p.toLowerCase()) !== -1) matched.push(p);
-        }
-      }
-      if (matched.length) {
-        hits.push({
-          id: rule.id,
-          score: rule.score + matched.length,
-          matched,
-          data: rule.data,
-        });
-      }
-    }
-
-    hits.sort((a, b) => b.score - a.score);
-    return { norm, hits };
+  // ----------------------------
+  // DOM helpers
+  // ----------------------------
+  function $(id) {
+    return document.getElementById(id);
   }
 
   function escapeHtml(s) {
-    return (s || "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/\"/g, "&quot;")
-      .replace(/'/g, "&#039;");
+    return (s || '')
+      .toString()
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
   }
 
-  function renderResult(text) {
-    const el = document.getElementById("result");
+  function setResult(html) {
+    const el = $('result');
     if (!el) return;
-
-    const { hits } = analyze(text);
-
-    const lang = getLang();
-    const baseTips = (L[lang] && L[lang].tips) || L.pl.tips;
-
-    let html = "";
-
-    if (hits.length) {
-      const best = hits[0];
-      html += `
-        <div style="display:flex; gap:10px; align-items:flex-start; flex-wrap:wrap">
-          <div style="font-weight:800">${escapeHtml(t("foundTitle"))}:</div>
-          <div style="font-weight:800">${escapeHtml(best.data.title)}</div>
-        </div>
-        <div style="margin-top:10px; color:var(--muted)">${escapeHtml(best.data.desc)}</div>
-      `;
-      html += `
-        <div style="margin-top:14px; font-weight:800">${escapeHtml(t("stepsTitle"))}</div>
-        <ol style="margin-top:10px; padding-left: 18px">
-          ${best.data.steps.map((s) => `<li style="margin: 6px 0">${escapeHtml(s)}</li>`).join("")}
-        </ol>
-      `;
-
-      const evidence = [...new Set(hits.flatMap((h) => h.matched))].slice(0, 10);
-      if (evidence.length) {
-        html += `
-          <div style="margin-top:14px; color:var(--muted)">
-            <span style="font-weight:700">${escapeHtml(t("evidence"))}:</span>
-            <span>${escapeHtml(evidence.join(", "))}</span>
-          </div>
-        `;
-      }
-    } else {
-      html += `<div style="color:var(--muted)">${escapeHtml(t("none"))}</div>`;
-      html += `
-        <div style="margin-top:14px; font-weight:800">${escapeHtml(t("stepsTitle"))}</div>
-        <ol style="margin-top:10px; padding-left: 18px">
-          ${baseTips.map((s) => `<li style="margin: 6px 0">${escapeHtml(s)}</li>`).join("")}
-        </ol>
-      `;
-    }
-
-    const trimmed = (text || "").trim();
-    if (trimmed) {
-      html += `
-        <div style="margin-top:16px; display:flex; justify-content:space-between; gap:12px; align-items:center; flex-wrap:wrap">
-          <div style="font-weight:800">${escapeHtml(t("rawTitle"))}</div>
-          <button id="copyRaw" class="btn" type="button">${escapeHtml(t("copy"))}</button>
-        </div>
-        <pre style="margin-top:10px; padding:12px 14px; border-radius:16px; border:1px solid rgba(255,255,255,.12); background: rgba(0,0,0,.2); overflow:auto; max-height: 260px;">${escapeHtml(trimmed)}</pre>
-      `;
-    }
-
     el.innerHTML = html;
+  }
 
-    const copyBtn = document.getElementById("copyRaw");
-    if (copyBtn && trimmed) {
-      copyBtn.addEventListener("click", async () => {
-        try {
-          await navigator.clipboard.writeText(trimmed);
-          const old = copyBtn.textContent;
-          copyBtn.textContent = t("copied");
-          setTimeout(() => (copyBtn.textContent = old), 1200);
-        } catch (_) {
-          // silently ignore
-        }
-      });
+  function setProgress(show, pct) {
+    const wrap = $('scanProgress');
+    const pctEl = $('scanPct');
+    const bar = $('scanBar');
+    if (!wrap || !pctEl || !bar) return;
+    wrap.style.display = show ? 'block' : 'none';
+    if (show) {
+      const p = Math.max(0, Math.min(100, Number(pct || 0)));
+      pctEl.textContent = p + '%';
+      bar.style.width = p + '%';
     }
   }
 
-  async function runOcr(imgEl) {
-    if (!window.Tesseract || !imgEl) throw new Error("tesseract_missing");
-
-    const progressWrap = document.getElementById("scanProgress");
-    const pctEl = document.getElementById("scanPct");
-    const barEl = document.getElementById("scanBar");
-    if (progressWrap) progressWrap.style.display = "block";
-    if (pctEl) pctEl.textContent = "0%";
-    if (barEl) barEl.style.width = "0%";
-
-    const { data } = await window.Tesseract.recognize(imgEl, "eng", {
-      logger: (m) => {
-        if (m && m.status === "recognizing text" && typeof m.progress === "number") {
-          const p = Math.max(0, Math.min(1, m.progress));
-          const pct = Math.round(p * 100);
-          if (pctEl) pctEl.textContent = pct + "%";
-          if (barEl) barEl.style.width = pct + "%";
-        }
-      },
-    });
-
-    if (progressWrap) progressWrap.style.display = "none";
-    return (data && data.text) || "";
+  // ----------------------------
+  // AI-Chat integration
+  // ----------------------------
+  function aiChatAvailable() {
+    return !!($('ai-chat-fab') && $('aiChatInput') && $('aiChatForm'));
   }
 
-  function setButtons(enabled) {
-    const scanBtn = document.getElementById("scanBtn");
-    const clearBtn = document.getElementById("clearBtn");
-    if (scanBtn) scanBtn.disabled = !enabled;
-    if (clearBtn) clearBtn.disabled = !enabled;
+  function buildPrompt(rawText) {
+    const lang = getLang();
+    const text = (rawText || '').trim();
+
+    if (lang === 'pl') {
+      return (
+        'Przeanalizuj błąd Enigma2 na podstawie poniższego tekstu (crashlog / traceback / OCR).\n' +
+        'Podaj: 1) prawdopodobną przyczynę, 2) konkretne kroki naprawy, 3) komendy weryfikacyjne, 4) co jeszcze wkleić z logów, jeśli brakuje danych.\n\n' +
+        '--- TEXT START ---\n' +
+        text +
+        '\n--- TEXT END ---'
+      );
+    }
+
+    return (
+      'Analyze this Enigma2 error based on the text below (crashlog / traceback / OCR).\n' +
+      'Provide: 1) most likely root cause, 2) concrete fix steps, 3) verification commands, 4) what additional log lines are needed if data is missing.\n\n' +
+      '--- TEXT START ---\n' +
+      text +
+      '\n--- TEXT END ---'
+    );
+  }
+
+  function openAndSendToAIChat(text) {
+    const trimmed = (text || '').trim();
+    if (!trimmed) {
+      setResult('<div style="color:var(--muted)">' + escapeHtml(t('noText')) + '</div>');
+      return false;
+    }
+
+    if (!aiChatAvailable()) {
+      setResult('<div style="color:var(--muted)">' + escapeHtml(t('aiMissing')) + '</div>');
+      return false;
+    }
+
+    // Open drawer
+    try {
+      $('ai-chat-fab').click();
+    } catch (_) {}
+
+    // Fill & submit
+    const prompt = buildPrompt(trimmed);
+    setTimeout(function () {
+      try {
+        const input = $('aiChatInput');
+        const form = $('aiChatForm');
+        if (!input || !form) return;
+        input.value = prompt;
+        form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+        setResult(
+          '<div style="display:flex; gap:10px; align-items:flex-start; flex-wrap:wrap">' +
+            '<div style="font-weight:800">OK</div>' +
+            '<div style="color:var(--muted)">' +
+            escapeHtml(t('sent')) +
+            '</div>' +
+          '</div>' +
+          '<div style="margin-top:10px; color:var(--muted)">' + escapeHtml(t('hint')) + '</div>'
+        );
+      } catch (_) {
+        setResult('<div style="color:var(--muted)">' + escapeHtml(t('aiMissing')) + '</div>');
+      }
+    }, 120);
+
+    return true;
+  }
+
+  // ----------------------------
+  // Image handling + OCR
+  // ----------------------------
+  function fileToDataURL(file) {
+    return new Promise(function (resolve, reject) {
+      const r = new FileReader();
+      r.onload = function () {
+        resolve(String(r.result || ''));
+      };
+      r.onerror = reject;
+      r.readAsDataURL(file);
+    });
+  }
+
+  async function loadPreviewFromFile(file) {
+    const previewWrap = $('imagePreview');
+    const previewImg = $('previewImg');
+    const scanBtn = $('scanBtn');
+    const clearBtn = $('clearBtn');
+
+    if (!file || !previewImg) return;
+
+    const url = await fileToDataURL(file);
+    previewImg.src = url;
+    if (previewWrap) previewWrap.style.display = 'block';
+    if (scanBtn) scanBtn.disabled = false;
+    if (clearBtn) clearBtn.disabled = false;
+
+    // enable AI button depending on text
+    syncButtons();
+  }
+
+  function preprocessToCanvas(img) {
+    // Preprocessing for screenshots: scale up + grayscale + contrast + simple threshold
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+
+    const w = img.naturalWidth || img.width;
+    const h = img.naturalHeight || img.height;
+
+    // Scale up small images for better OCR
+    const scale = w < 900 ? Math.min(2.0, 900 / Math.max(1, w)) : 1.0;
+    canvas.width = Math.round(w * scale);
+    canvas.height = Math.round(h * scale);
+
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const data = imageData.data;
+
+    // Compute mean luminance
+    let sum = 0;
+    for (let i = 0; i < data.length; i += 4) {
+      const r = data[i];
+      const g = data[i + 1];
+      const b = data[i + 2];
+      const y = (0.2126 * r + 0.7152 * g + 0.0722 * b) | 0;
+      sum += y;
+    }
+    const mean = sum / (data.length / 4);
+
+    // Threshold around mean, with a small bias towards darker text
+    const thr = Math.max(60, Math.min(200, mean * 0.92));
+
+    for (let i = 0; i < data.length; i += 4) {
+      const r = data[i];
+      const g = data[i + 1];
+      const b = data[i + 2];
+      let y = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+
+      // Contrast boost (simple)
+      y = (y - mean) * 1.35 + mean;
+
+      const v = y < thr ? 0 : 255;
+      data[i] = v;
+      data[i + 1] = v;
+      data[i + 2] = v;
+      data[i + 3] = 255;
+    }
+
+    ctx.putImageData(imageData, 0, 0);
+    return canvas;
+  }
+
+  async function runOcrFromPreview() {
+    const previewImg = $('previewImg');
+    const textArea = $('e2Text');
+    const scanBtn = $('scanBtn');
+    const autoSendAi = $('autoSendAi');
+
+    if (!previewImg || !previewImg.src) return;
+    if (!window.Tesseract) {
+      setResult('<div style="color:var(--muted)">Tesseract.js is not loaded.</div>');
+      return;
+    }
+
+    if (scanBtn) {
+      scanBtn.disabled = true;
+      scanBtn.textContent = t('ocrWorking');
+    }
+
+    setProgress(true, 0);
+
+    try {
+      // Ensure image is loaded
+      if (!previewImg.complete) {
+        await new Promise(function (res) {
+          previewImg.onload = res;
+          previewImg.onerror = res;
+        });
+      }
+
+      const canvas = preprocessToCanvas(previewImg);
+      const lang = getLang() === 'pl' ? 'pol+eng' : 'eng';
+
+      const out = await window.Tesseract.recognize(canvas, lang, {
+        logger: function (m) {
+          if (m && m.status === 'recognizing text' && typeof m.progress === 'number') {
+            setProgress(true, Math.round(m.progress * 100));
+          }
+        },
+      });
+
+      const text = (out && out.data && out.data.text ? out.data.text : '').trim();
+
+      if (!text) {
+        setResult('<div style="color:var(--muted)">' + escapeHtml(t('ocrEmpty')) + '</div>');
+        if (textArea) textArea.value = '';
+      } else {
+        if (textArea) textArea.value = text;
+        setResult('<div style="color:var(--muted)">' + escapeHtml(t('prepOk')) + '</div>');
+        if (autoSendAi && autoSendAi.checked) {
+          openAndSendToAIChat(text);
+        }
+      }
+
+      syncButtons();
+    } catch (e) {
+      setResult('<div style="color:var(--muted)">' + escapeHtml(t('ocrEmpty')) + '</div>');
+    } finally {
+      setProgress(false, 0);
+      if (scanBtn) {
+        scanBtn.disabled = false;
+        scanBtn.textContent = t('ocrBtn');
+      }
+    }
+  }
+
+  // ----------------------------
+  // Text utilities
+  // ----------------------------
+  function getTextValue() {
+    const ta = $('e2Text');
+    return (ta && ta.value ? ta.value : '').trim();
+  }
+
+  function syncButtons() {
+    const txt = getTextValue();
+    const sendAiBtn = $('sendAiBtn');
+    const sendAiFromTextBtn = $('sendAiFromTextBtn');
+    const copyTextBtn = $('copyTextBtn');
+    const clearBtn = $('clearBtn');
+
+    const hasText = !!txt;
+
+    if (sendAiBtn) sendAiBtn.disabled = !hasText;
+    if (sendAiFromTextBtn) sendAiFromTextBtn.disabled = !hasText;
+    if (copyTextBtn) copyTextBtn.disabled = !hasText;
+
+    // Clear button is enabled if either image or text present
+    const img = $('previewImg');
+    const hasImg = !!(img && img.src);
+    if (clearBtn) clearBtn.disabled = !(hasText || hasImg);
+  }
+
+  async function copyToClipboard(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      setResult('<div style="color:var(--muted)">' + escapeHtml(t('copyOk')) + '</div>');
+    } catch (_) {
+      // ignore
+    }
   }
 
   function clearAll() {
-    const file = document.getElementById("e2Image");
-    const txt = document.getElementById("e2Text");
-    const preview = document.getElementById("imagePreview");
-    const img = document.getElementById("previewImg");
-    if (file) file.value = "";
-    if (txt) txt.value = "";
-    if (preview) preview.style.display = "none";
-    if (img) img.src = "";
-    setButtons(false);
-    const el = document.getElementById("result");
-    if (el) {
-      el.innerHTML = `<div style="color:var(--muted)">${escapeHtml(t("noText"))}</div>`;
-    }
+    const fileInput = $('e2Image');
+    const previewWrap = $('imagePreview');
+    const previewImg = $('previewImg');
+    const textArea = $('e2Text');
+    const scanBtn = $('scanBtn');
+
+    if (fileInput) fileInput.value = '';
+    if (previewWrap) previewWrap.style.display = 'none';
+    if (previewImg) previewImg.src = '';
+    if (textArea) textArea.value = '';
+    if (scanBtn) scanBtn.disabled = true;
+
+    setResult(
+      '<div style="color:var(--muted)">1) Wczytaj obraz lub wklej tekst. 2) Odczytaj OCR (jeśli to obraz). 3) Kliknij „Diagnozuj w AI‑Chat”.</div>'
+    );
+
+    syncButtons();
   }
 
-  document.addEventListener("DOMContentLoaded", function () {
-    const fileInput = document.getElementById("e2Image");
-    const scanBtn = document.getElementById("scanBtn");
-    const clearBtn = document.getElementById("clearBtn");
-    const previewWrap = document.getElementById("imagePreview");
-    const previewImg = document.getElementById("previewImg");
-    const textArea = document.getElementById("e2Text");
-    const analyzeTextBtn = document.getElementById("analyzeTextBtn");
+  // ----------------------------
+  // Drag&Drop + Paste
+  // ----------------------------
+  function isImageFile(f) {
+    return f && f.type && f.type.startsWith('image/');
+  }
+
+  function handleFile(file) {
+    if (!isImageFile(file)) return;
+    loadPreviewFromFile(file);
+  }
+
+  function initDropZone() {
+    const dz = $('dropZone');
+    const fileInput = $('e2Image');
+    if (!dz) return;
+
+    // Click opens file picker
+    dz.addEventListener('click', function (ev) {
+      // avoid focusing when clicking on input/button inside
+      const tag = (ev.target && ev.target.tagName) ? ev.target.tagName.toLowerCase() : '';
+      if (tag === 'input' || tag === 'button' || tag === 'label') return;
+      fileInput && fileInput.click();
+    });
+
+    function prevent(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(function (evt) {
+      dz.addEventListener(evt, prevent);
+    });
+
+    dz.addEventListener('dragenter', function () {
+      dz.style.borderColor = 'rgba(255,255,255,.42)';
+      dz.style.background = 'rgba(0,0,0,.26)';
+    });
+
+    dz.addEventListener('dragleave', function () {
+      dz.style.borderColor = 'rgba(255,255,255,.22)';
+      dz.style.background = 'rgba(0,0,0,.18)';
+    });
+
+    dz.addEventListener('drop', function (e) {
+      dz.style.borderColor = 'rgba(255,255,255,.22)';
+      dz.style.background = 'rgba(0,0,0,.18)';
+      const dt = e.dataTransfer;
+      if (!dt || !dt.files || !dt.files.length) return;
+      handleFile(dt.files[0]);
+    });
+
+    // Paste image from clipboard
+    document.addEventListener('paste', function (e) {
+      if (!e.clipboardData) return;
+      const items = e.clipboardData.items;
+      if (!items) return;
+
+      for (let i = 0; i < items.length; i++) {
+        const it = items[i];
+        if (it && it.kind === 'file') {
+          const f = it.getAsFile && it.getAsFile();
+          if (isImageFile(f)) {
+            handleFile(f);
+            return;
+          }
+        }
+      }
+    });
+  }
+
+  // ----------------------------
+  // Boot
+  // ----------------------------
+  document.addEventListener('DOMContentLoaded', function () {
+    // Ensure OCR button has correct label
+    const scanBtn = $('scanBtn');
+    if (scanBtn) scanBtn.textContent = t('ocrBtn');
+
+    const fileInput = $('e2Image');
+    const clearBtn = $('clearBtn');
+    const analyzeTextBtn = $('analyzeTextBtn');
+    const sendAiBtn = $('sendAiBtn');
+    const sendAiFromTextBtn = $('sendAiFromTextBtn');
+    const copyTextBtn = $('copyTextBtn');
+    const textArea = $('e2Text');
+
+    initDropZone();
 
     if (fileInput) {
-      fileInput.addEventListener("change", () => {
+      fileInput.addEventListener('change', function () {
         const f = fileInput.files && fileInput.files[0];
         if (!f) {
-          setButtons(false);
-          if (previewWrap) previewWrap.style.display = "none";
+          syncButtons();
           return;
         }
-        setButtons(true);
-
-        // Preview
-        try {
-          const url = URL.createObjectURL(f);
-          if (previewImg) previewImg.src = url;
-          if (previewWrap) previewWrap.style.display = "block";
-        } catch (_) {
-          // ignore preview failures
-        }
+        handleFile(f);
       });
     }
 
     if (scanBtn) {
-      scanBtn.addEventListener("click", async () => {
-        if (!previewImg || !previewImg.src) return;
-        scanBtn.disabled = true;
-        try {
-          const txt = await runOcr(previewImg);
-          const cleaned = (txt || "").trim();
-          if (!cleaned) {
-            renderResult(t("ocrFail"));
-          } else {
-            if (textArea) textArea.value = cleaned;
-            renderResult(cleaned);
-          }
-        } catch (_) {
-          renderResult(t("ocrFail"));
-        } finally {
-          scanBtn.disabled = false;
-        }
-      });
-    }
-
-    if (analyzeTextBtn) {
-      analyzeTextBtn.addEventListener("click", () => {
-        const txt = (textArea && textArea.value) || "";
-        if (!txt.trim()) {
-          renderResult(t("noText"));
-          return;
-        }
-        renderResult(txt);
-        setButtons(true);
+      scanBtn.addEventListener('click', function () {
+        runOcrFromPreview();
       });
     }
 
     if (clearBtn) {
-      clearBtn.addEventListener("click", clearAll);
+      clearBtn.addEventListener('click', clearAll);
+    }
+
+    if (textArea) {
+      textArea.addEventListener('input', function () {
+        syncButtons();
+      });
+    }
+
+    if (analyzeTextBtn) {
+      analyzeTextBtn.addEventListener('click', function () {
+        const txt = getTextValue();
+        if (!txt) {
+          setResult('<div style="color:var(--muted)">' + escapeHtml(t('noText')) + '</div>');
+          syncButtons();
+          return;
+        }
+        setResult('<div style="color:var(--muted)">' + escapeHtml(t('prepOk')) + '</div>');
+        syncButtons();
+      });
+    }
+
+    if (sendAiBtn) {
+      sendAiBtn.addEventListener('click', function () {
+        openAndSendToAIChat(getTextValue());
+      });
+    }
+
+    if (sendAiFromTextBtn) {
+      sendAiFromTextBtn.addEventListener('click', function () {
+        openAndSendToAIChat(getTextValue());
+      });
+    }
+
+    if (copyTextBtn) {
+      copyTextBtn.addEventListener('click', function () {
+        const txt = getTextValue();
+        if (!txt) return;
+        copyToClipboard(txt);
+      });
     }
 
     // Initial state
-    setButtons(false);
+    syncButtons();
   });
 })();
