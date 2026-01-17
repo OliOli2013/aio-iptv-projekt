@@ -81,31 +81,35 @@
         <div>
           <h1 class="section-title" data-i18n="error_scan_title">Diagnoza błędów Enigma2</h1>
           <p class="section-sub" data-i18n="error_scan_sub">
-            Dodaj zrzut ekranu z błędem (np. zielony ekran / komunikat) albo wklej fragment crashloga. System spróbuje rozpoznać problem i poda sugerowane rozwiązanie.
+            Dodaj zrzut ekranu z błędem (np. Green Screen / komunikat) albo wklej fragment crashloga. Tekst zostanie odczytany lokalnie, a następnie możesz jednym kliknięciem wysłać go do wbudowanego AI‑Chat Enigma2, który poda przyczynę i konkretne kroki naprawy.
           </p>
         </div>
       </div>
 
       <div class="grid" style="grid-template-columns: 1.2fr .8fr; align-items: start">
         <div class="card">
-          <h3 data-i18n="error_scan_upload">1) Dodaj obraz z błędem</h3>
-          <p style="margin-top:8px; color:var(--muted); line-height:1.55" data-i18n="error_scan_hint">
-            Obsługiwane: PNG/JPG/WEBP. Rozpoznawanie działa w przeglądarce (nie wysyłamy plików na serwer).
+          <h3>1) Obraz (upload / przeciągnij / wklej)</h3>
+          <p style="margin-top:8px; color:var(--muted); line-height:1.55">
+            Możesz przeciągnąć plik na pole poniżej albo wkleić obraz ze schowka (Ctrl+V). OCR działa lokalnie w przeglądarce — na serwer trafia wyłącznie tekst, jeśli zdecydujesz się wysłać go do AI‑Chat.
           </p>
 
-          <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:14px">
-            <input id="e2Image" type="file" accept="image/*" style="max-width: 320px" />
-            <button id="scanBtn" class="btn primary" type="button" disabled>
-              <span data-i18n="error_scan_btn">Rozpoznaj błąd</span>
-            </button>
-            <button id="clearBtn" class="btn" type="button" disabled>
-              <span data-i18n="error_scan_clear">Wyczyść</span>
-            </button>
+          <div id="dropZone" style="margin-top:14px; padding:16px; border-radius:18px; border:1px dashed rgba(255,255,255,.22); background: rgba(0,0,0,.18)">
+            <div style="display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap">
+              <div>
+                <div style="font-weight:800">Upuść obraz tutaj</div>
+                <div id="pasteHint" style="margin-top:4px; color:var(--muted)">lub kliknij i wybierz plik / wklej Ctrl+V</div>
+              </div>
+              <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center">
+                <input id="e2Image" type="file" accept="image/*" style="max-width: 320px" />
+                <button id="scanBtn" class="btn primary" type="button" disabled>Odczytaj tekst (OCR)</button>
+                <button id="clearBtn" class="btn" type="button" disabled>Wyczyść</button>
+              </div>
+            </div>
           </div>
 
           <div id="scanProgress" class="card" style="margin-top:14px; display:none">
             <div style="display:flex; justify-content:space-between; gap:12px; align-items:center">
-              <div style="font-weight:700" data-i18n="error_scan_progress">Trwa analiza…</div>
+              <div style="font-weight:700">Trwa analiza…</div>
               <div id="scanPct" style="color:var(--muted)">0%</div>
             </div>
             <div style="height:10px; background: rgba(255,255,255,.08); border-radius: 999px; margin-top:10px; overflow:hidden">
@@ -114,38 +118,54 @@
           </div>
 
           <div id="imagePreview" style="margin-top:14px; display:none">
-            <div style="font-weight:700; margin-bottom:10px" data-i18n="error_scan_preview">Podgląd</div>
+            <div style="font-weight:700; margin-bottom:10px">Podgląd</div>
             <img id="previewImg" alt="Preview" style="width:100%; max-height:340px; object-fit:contain; border-radius:16px; background: rgba(0,0,0,.25)" />
+          </div>
+
+          <div class="card" style="margin-top:14px">
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap">
+              <div>
+                <div style="font-weight:800">Wyślij do AI‑Chat Enigma2</div>
+                <div style="margin-top:4px; color:var(--muted)">Najlepsza skuteczność: OCR / crashlog → AI‑Chat.</div>
+              </div>
+              <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center">
+                <label style="display:flex; gap:8px; align-items:center; color:var(--muted)">
+                  <input id="autoSendAi" type="checkbox" />
+                  Auto‑wyślij po OCR
+                </label>
+                <button id="sendAiBtn" class="btn" type="button" disabled>Diagnozuj w AI‑Chat</button>
+              </div>
+            </div>
           </div>
         </div>
 
         <div class="card">
-          <h3 data-i18n="error_scan_paste">2) Lub wklej tekst</h3>
-          <p style="margin-top:8px; color:var(--muted); line-height:1.55" data-i18n="error_scan_paste_hint">
-            Jeśli masz crashlog, wklej 20–60 linii (najlepiej z tracebackiem).
+          <h3>2) Tekst (wklej lub wpisz)</h3>
+          <p style="margin-top:8px; color:var(--muted); line-height:1.55">
+            Wklej crashlog (20–80 linii) lub sam traceback. Jeżeli masz tylko komunikat z ekranu, też możesz go wkleić.
           </p>
-          <textarea id="e2Text" rows="10" placeholder="Traceback (most recent call last):\n  File ..." style="width:100%; margin-top:12px; padding:12px 14px; border-radius:16px; border:1px solid rgba(255,255,255,.12); background: rgba(0,0,0,.2); color: inherit; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;"></textarea>
+
+          <textarea id="e2Text" rows="12" placeholder="Traceback (most recent call last):\n  File ..." style="width:100%; margin-top:12px; padding:12px 14px; border-radius:16px; border:1px solid rgba(255,255,255,.12); background: rgba(0,0,0,.2); color: inherit; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;"></textarea>
+
           <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:12px">
-            <button id="analyzeTextBtn" class="btn" type="button">
-              <span data-i18n="error_scan_analyze_text">Analizuj tekst</span>
-            </button>
+            <button id="analyzeTextBtn" class="btn" type="button">Przygotuj diagnozę</button>
+            <button id="sendAiFromTextBtn" class="btn primary" type="button" disabled>Wyślij tekst do AI‑Chat</button>
+            <button id="copyTextBtn" class="btn" type="button" disabled>Kopiuj tekst</button>
           </div>
         </div>
       </div>
 
       <div class="card" style="margin-top:18px">
-        <h3 data-i18n="error_scan_result">Wynik</h3>
+        <h3>Wynik</h3>
         <div id="result" style="margin-top:12px; line-height:1.7; color: var(--text)">
-          <div style="color:var(--muted)" data-i18n="error_scan_result_empty">
-            Dodaj obraz lub wklej tekst, aby otrzymać diagnozę.
-          </div>
+          <div style="color:var(--muted)">1) Wczytaj obraz lub wklej tekst. 2) Odczytaj OCR (jeśli to obraz). 3) Kliknij „Diagnozuj w AI‑Chat”.</div>
         </div>
       </div>
 
       <div class="card" style="margin-top:18px">
-        <h3 data-i18n="error_scan_privacy">Prywatność</h3>
-        <p style="margin-top:10px; color:var(--muted); line-height:1.7" data-i18n="error_scan_privacy_text">
-          Rozpoznawanie tekstu jest wykonywane lokalnie w Twojej przeglądarce (Tesseract.js). Plik nie jest wysyłany na serwer AIO‑IPTV.pl.
+        <h3>Prywatność</h3>
+        <p style="margin-top:10px; color:var(--muted); line-height:1.7">
+          OCR działa lokalnie (Tesseract.js). Obraz nie jest wysyłany. Do AI‑Chat wysyłany jest wyłącznie tekst, który widzisz w polu tekstowym.
         </p>
       </div>
     </section>
