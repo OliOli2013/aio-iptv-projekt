@@ -49,6 +49,23 @@
       ai_hint: 'Podpowiedź: pytaj np. „jak zainstalować softcam?”',
       ai_mode_offline: 'Tryb: OFFLINE',
       ai_mode_online: 'Tryb: ONLINE'
+      ,
+      nav_error_scan: 'Diagnoza błędów',
+      error_scan_title: 'Diagnoza błędów Enigma2',
+      error_scan_sub: 'Dodaj zrzut ekranu z błędem (np. zielony ekran / komunikat) albo wklej fragment crashloga. System spróbuje rozpoznać problem i poda sugerowane rozwiązanie.',
+      error_scan_upload: '1) Dodaj obraz z błędem',
+      error_scan_hint: 'Obsługiwane: PNG/JPG/WEBP. Rozpoznawanie działa w przeglądarce (nie wysyłamy plików na serwer).',
+      error_scan_btn: 'Rozpoznaj błąd',
+      error_scan_clear: 'Wyczyść',
+      error_scan_progress: 'Trwa analiza…',
+      error_scan_preview: 'Podgląd',
+      error_scan_paste: '2) Lub wklej tekst',
+      error_scan_paste_hint: 'Jeśli masz crashlog, wklej 20–60 linii (najlepiej z tracebackiem).',
+      error_scan_analyze_text: 'Analizuj tekst',
+      error_scan_result: 'Wynik',
+      error_scan_result_empty: 'Dodaj obraz lub wklej tekst, aby otrzymać diagnozę.',
+      error_scan_privacy: 'Prywatność',
+      error_scan_privacy_text: 'Rozpoznawanie tekstu jest wykonywane lokalnie w Twojej przeglądarce (Tesseract.js). Plik nie jest wysyłany na serwer AIO‑IPTV.pl.'
     },
     en: {
       nav_home: 'Home',
@@ -70,6 +87,23 @@
       ai_hint: 'Tip: ask “how to install softcam?”',
       ai_mode_offline: 'Mode: OFFLINE',
       ai_mode_online: 'Mode: ONLINE'
+      ,
+      nav_error_scan: 'Error diagnostics',
+      error_scan_title: 'Enigma2 error diagnostics',
+      error_scan_sub: 'Upload a screenshot with the error (green screen / message) or paste a crashlog excerpt. The system will try to identify the issue and suggest a fix.',
+      error_scan_upload: '1) Upload an error image',
+      error_scan_hint: 'Supported: PNG/JPG/WEBP. Recognition runs in your browser (no file uploads to the server).',
+      error_scan_btn: 'Detect error',
+      error_scan_clear: 'Clear',
+      error_scan_progress: 'Analyzing…',
+      error_scan_preview: 'Preview',
+      error_scan_paste: '2) Or paste text',
+      error_scan_paste_hint: 'If you have a crashlog, paste 20–60 lines (ideally including the traceback).',
+      error_scan_analyze_text: 'Analyze text',
+      error_scan_result: 'Result',
+      error_scan_result_empty: 'Upload an image or paste text to get a diagnosis.',
+      error_scan_privacy: 'Privacy',
+      error_scan_privacy_text: 'Text recognition runs locally in your browser (Tesseract.js). The file is not uploaded to the AIO‑IPTV.pl server.'
     }
   };
 

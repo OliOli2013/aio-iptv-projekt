@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <title>Diagnoza błędów — AIO-IPTV.pl</title>
+  <link href="pliki/logo.png" rel="icon"/>
+  <link href="assets/css/site.css?v=next1" rel="stylesheet"/>
+</head>
+
+<body data-page="next">
+  <div class="topbar">
+    <div class="container">
+      <div class="topbar-inner">
+        <a aria-label="AIO-IPTV.pl" class="brand" href="index.html">
+          <img alt="AIO-IPTV.pl" src="pliki/logo.png"/>
+          <div>
+            <div class="name">AIO‑IPTV.pl</div>
+            <span class="tag">Enigma2 • IPTV • Tools • AI</span>
+          </div>
+        </a>
+        <a class="pill pill-accent" download="" href="pliki/enigma2-plugin-extensions-panelaio_6.0_all.ipk">
+          <span data-i18n="cta_update">Aktualizacja: AIO Panel v6.0</span>
+          <strong data-i18n="cta_download">Pobierz teraz</strong>
+        </a>
+        <div class="spacer"></div>
+        <div class="notif">
+          <button aria-label="Updates" class="icon-btn" id="bellBtn">🔔</button>
+          <div aria-live="polite" class="notif-panel" id="notifPanel"></div>
+        </div>
+        <button aria-label="Menu" class="icon-btn" id="navToggle">☰</button>
+      </div>
+    </div>
+    <div class="nav">
+      <div class="container">
+        <div class="nav-inner nav">
+          <a data-i18n="nav_home" href="index.html">Start</a>
+          <a data-i18n="nav_ai" href="ai-chat.html">AI-Chat Enigma2</a>
+          <a data-i18n="nav_plugins" href="plugins.html">Wtyczki</a>
+          <a data-i18n="nav_lists" href="channel-lists.html">Listy kanałów</a>
+          <a data-i18n="nav_guides" href="guides.html">Poradniki</a>
+          <a data-i18n="nav_tools" href="tools.html">Narzędzia</a>
+          <a data-i18n="nav_error_scan" href="error-scan.html">Diagnoza błędów</a>
+          <a data-i18n="nav_systems" href="systems.html">Systemy</a>
+          <a data-i18n="nav_contact" href="contact.html">Kontakt</a>
+          <a data-i18n="nav_opinion" href="contact.html#opinia">Podziel się opinią</a>
+          <a data-i18n="nav_support" href="support.html">Wsparcie</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="drawer-backdrop" data-drawer-close="" id="drawerBackdrop"></div>
+  <aside aria-hidden="true" class="drawer" id="mobileDrawer">
+    <div class="drawer-head">
+      <div class="drawer-title">Menu</div>
+      <button aria-label="Close" class="icon-btn" data-drawer-close="">✕</button>
+    </div>
+    <a href="index.html">🏠 <span data-i18n="nav_home">Start</span></a>
+    <a href="ai-chat.html">🤖 <span data-i18n="nav_ai">AI-Chat Enigma2</span></a>
+    <a href="plugins.html">🧩 <span data-i18n="nav_plugins">Wtyczki</span></a>
+    <a href="channel-lists.html">📺 <span data-i18n="nav_lists">Listy kanałów</span></a>
+    <a href="guides.html">📘 <span data-i18n="nav_guides">Poradniki</span></a>
+    <a href="tools.html">🛠 <span data-i18n="nav_tools">Narzędzia</span></a>
+    <a href="error-scan.html">🩺 <span data-i18n="nav_error_scan">Diagnoza błędów</span></a>
+    <a href="systems.html">💿 <span data-i18n="nav_systems">Systemy</span></a>
+    <a href="contact.html">✉️ <span data-i18n="nav_contact">Kontakt</span></a>
+    <a href="contact.html#opinia">💬 <span data-i18n="nav_opinion">Podziel się opinią</span></a>
+    <a href="stats.html">Statystyki</a>
+    <a href="support.html">☕ <span data-i18n="nav_support">Wsparcie</span></a>
+  </aside>
+
+  <main class="container">
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h1 class="section-title" data-i18n="error_scan_title">Diagnoza błędów Enigma2</h1>
+          <p class="section-sub" data-i18n="error_scan_sub">
+            Dodaj zrzut ekranu z błędem (np. zielony ekran / komunikat) albo wklej fragment crashloga. System spróbuje rozpoznać problem i poda sugerowane rozwiązanie.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid" style="grid-template-columns: 1.2fr .8fr; align-items: start">
+        <div class="card">
+          <h3 data-i18n="error_scan_upload">1) Dodaj obraz z błędem</h3>
+          <p style="margin-top:8px; color:var(--muted); line-height:1.55" data-i18n="error_scan_hint">
+            Obsługiwane: PNG/JPG/WEBP. Rozpoznawanie działa w przeglądarce (nie wysyłamy plików na serwer).
+          </p>
+
+          <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:14px">
+            <input id="e2Image" type="file" accept="image/*" style="max-width: 320px" />
+            <button id="scanBtn" class="btn primary" type="button" disabled>
+              <span data-i18n="error_scan_btn">Rozpoznaj błąd</span>
+            </button>
+            <button id="clearBtn" class="btn" type="button" disabled>
+              <span data-i18n="error_scan_clear">Wyczyść</span>
+            </button>
+          </div>
+
+          <div id="scanProgress" class="card" style="margin-top:14px; display:none">
+            <div style="display:flex; justify-content:space-between; gap:12px; align-items:center">
+              <div style="font-weight:700" data-i18n="error_scan_progress">Trwa analiza…</div>
+              <div id="scanPct" style="color:var(--muted)">0%</div>
+            </div>
+            <div style="height:10px; background: rgba(255,255,255,.08); border-radius: 999px; margin-top:10px; overflow:hidden">
+              <div id="scanBar" style="height:10px; width:0%; background: var(--accent); border-radius: 999px"></div>
+            </div>
+          </div>
+
+          <div id="imagePreview" style="margin-top:14px; display:none">
+            <div style="font-weight:700; margin-bottom:10px" data-i18n="error_scan_preview">Podgląd</div>
+            <img id="previewImg" alt="Preview" style="width:100%; max-height:340px; object-fit:contain; border-radius:16px; background: rgba(0,0,0,.25)" />
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 data-i18n="error_scan_paste">2) Lub wklej tekst</h3>
+          <p style="margin-top:8px; color:var(--muted); line-height:1.55" data-i18n="error_scan_paste_hint">
+            Jeśli masz crashlog, wklej 20–60 linii (najlepiej z tracebackiem).
+          </p>
+          <textarea id="e2Text" rows="10" placeholder="Traceback (most recent call last):\n  File ..." style="width:100%; margin-top:12px; padding:12px 14px; border-radius:16px; border:1px solid rgba(255,255,255,.12); background: rgba(0,0,0,.2); color: inherit; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;"></textarea>
+          <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:12px">
+            <button id="analyzeTextBtn" class="btn" type="button">
+              <span data-i18n="error_scan_analyze_text">Analizuj tekst</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:18px">
+        <h3 data-i18n="error_scan_result">Wynik</h3>
+        <div id="result" style="margin-top:12px; line-height:1.7; color: var(--text)">
+          <div style="color:var(--muted)" data-i18n="error_scan_result_empty">
+            Dodaj obraz lub wklej tekst, aby otrzymać diagnozę.
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:18px">
+        <h3 data-i18n="error_scan_privacy">Prywatność</h3>
+        <p style="margin-top:10px; color:var(--muted); line-height:1.7" data-i18n="error_scan_privacy_text">
+          Rozpoznawanie tekstu jest wykonywane lokalnie w Twojej przeglądarce (Tesseract.js). Plik nie jest wysyłany na serwer AIO‑IPTV.pl.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand-row">
+            <img alt="AIO-IPTV.pl" class="footer-logo" src="pliki/logo.png"/>
+            <div>
+              <div class="footer-brand-name">AIO-IPTV.pl</div>
+              <div class="footer-brand-tag">Enigma2 • IPTV • Tools • AI</div>
+            </div>
+          </div>
+          <div class="footer-note">
+            Nowoczesne centrum Enigma2: wtyczki, listy, poradniki, narzędzia oraz AI‑Chat. Dostępne po polsku i po angielsku.
+          </div>
+        </div>
+        <div>
+          <div class="footer-title">Nawigacja</div>
+          <a class="footer-link" href="index.html">Start</a>
+          <a class="footer-link" href="ai-chat.html">AI‑Chat</a>
+          <a class="footer-link" href="plugins.html#pobieranie">Pobieranie</a>
+          <a class="footer-link" href="guides.html">Poradniki</a>
+        </div>
+        <div>
+          <div class="footer-title">Sekcje</div>
+          <a class="footer-link" href="plugins.html">Wtyczki</a>
+          <a class="footer-link" href="channel-lists.html">Listy kanałów</a>
+          <a class="footer-link" href="tools.html">Narzędzia</a>
+          <a class="footer-link" href="error-scan.html">Diagnoza błędów</a>
+        </div>
+        <div>
+          <div class="footer-title">Kontakt i wsparcie</div>
+          <div class="footer-kpi"><span>📧</span><span>Email: <a class="footer-link inline" href="mailto:msisystem@t.pl">msisystem@t.pl</a></span></div>
+          <div class="footer-kpi"><span>✈️</span><span>Telegram: <a class="footer-link inline" href="https://t.me/PawelPawelek" rel="noopener" target="_blank">t.me/PawelPawelek</a></span></div>
+          <div class="footer-kpi"><span>💬</span><span>Messenger: <a class="footer-link inline" href="https://m.me/100064704540847" rel="noopener" target="_blank">Napisz wiadomość</a></span></div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>© <span id="year"></span> AIO‑IPTV.pl • Paweł Pawełek</div>
+        <div class="footer-legal">
+          <a href="support.html">Wsparcie</a>
+          <a href="contact.html">Kontakt</a>
+          <a href="contact.html#opinia">Podziel się opinią</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>document.getElementById('year').textContent=new Date().getFullYear();</script>
+  <script src="assets/js/site.js?v=next1"></script>
+  <script src="assets/js/stats-nav.js" defer></script>
+
+  <!-- OCR (runs locally in the browser) -->
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js" crossorigin="anonymous"></script>
+  <script src="assets/js/error-scan.js?v=1" defer></script>
+</body>
+</html>
