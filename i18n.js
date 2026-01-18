@@ -9,7 +9,7 @@
 
   const I18N = {
     pl: {
-      cta_update_download: 'Aktualizacja <strong>AIO Panel v6.0</strong> — Pobierz teraz',
+      cta_update_download: 'Aktualizacja <strong>AIO Panel v6.1</strong> — Pobierz teraz',
       nav_plugins: "Wtyczki / Pobieranie",
       nav_downloads: "Pobieranie",
       tab_my_plugins: "Moje wtyczki",
@@ -47,7 +47,7 @@
       quick_plugins_desc: "Najważniejsze dodatki dla Enigma2 – zawsze aktualne.",
     },
     en: {
-      cta_update_download: 'Update: <strong>AIO Panel v6.0</strong> — Download now',
+      cta_update_download: 'Update: <strong>AIO Panel v6.1</strong> — Download now',
       nav_plugins: "Plugins / Downloads",
       nav_downloads: "Downloads",
       tab_my_plugins: "My plugins",
