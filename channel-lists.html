@@ -71,59 +71,19 @@
 </aside>
 <main class="container">
 <section class="section"><div class="section-head"><div><h2 class="section-title">Listy kanałów</h2><p class="section-sub">Zestawy list i instrukcje instalacji.</p></div></div></section>
-<div class="card" data-aos="fade-up" data-aos-delay="100" id="listy">
+<div class="card" data-aos="fade-up" data-aos-delay="100" id="listy" data-manifest-url="https://raw.githubusercontent.com/OliOli2013/PanelAIO-Lists/main/manifest.json">
 <h2>Listy kanałów</h2>
 <p>Paczki kanałów (Enigma2).</p>
-<ul class="file-list">
-<li>
-<a class="file-link" href="https://github.com/OliOli2013/PanelAIO-Lists/raw/main/archives/Pawel_Pawelek_HB_13E_04.01.2026.zip">
-<span class="icon">📥</span> Paweł Pawełek HotBird 13°E
-                    </a>
-<span class="file-desc">(Aktualizacja: 04.01.2026)</span>
-</li>
-<li>
-<a class="file-link" href="https://github.com/OliOli2013/PanelAIO-Lists/raw/main/archives/Pawel_Pawelek_DUAL_13E_19.2E_04.01.2026.zip">
-<span class="icon">📥</span> Paweł Pawełek Dual 13°E + 19.2°E
-                    </a>
-<span class="file-desc">(Aktualizacja: 04.01.2026)</span>
-</li>
-<li>
-<a class="file-link" href="https://github.com/OliOli2013/PanelAIO-Lists/raw/main/archives/bzyk83_hb_13E_2025-12-08.zip">
-<span class="icon">📥</span> Bzyk83 HotBird 13°E
-                    </a>
-<span class="file-desc">(Aktualizacja: 08.12.2025)</span>
-</li>
-<li>
-<a class="file-link" href="https://github.com/OliOli2013/PanelAIO-Lists/raw/main/archives/bzyk83_dual_13e_19e_2025-12-08.zip">
-<span class="icon">📥</span> Bzyk83 Dual 13°E + 19°E
-                    </a>
-<span class="file-desc">(Aktualizacja: 08.12.2025)</span>
-</li>
-<li>
-<a class="file-link" href="https://github.com/OliOli2013/PanelAIO-Lists/raw/main/archives/jakitaki_1x1_2026-01-04.zip">
-<span class="icon">📥</span> JakiTaki 13°E
-                    </a>
-<span class="file-desc">(Aktualizacja: 04.01.2026)</span>
-</li>
-<li>
-<a class="file-link" href="https://github.com/OliOli2013/PanelAIO-Lists/raw/main/archives/jakitaki_1x1uhd_2026-01-04.zip">
-<span class="icon">📥</span> JakiTaki 13°E UHD
-                    </a>
-<span class="file-desc">(Aktualizacja: 04.01.2026)</span>
-</li>
-<li>
-<a class="file-link" href="https://github.com/OliOli2013/PanelAIO-Lists/raw/main/archives/jakitaki_2x1_2026-01-04.zip">
-<span class="icon">📥</span> JakiTaki 13°E + 19°E
-                    </a>
-<span class="file-desc">(Aktualizacja: 04.01.2026)</span>
-</li>
-<li>
-<a class="file-link" href="https://github.com/OliOli2013/PanelAIO-Lists/raw/main/archives/jakitaki_2x1uhd_2026-01-04.zip">
-<span class="icon">📥</span> JakiTaki 13°E + 19°E UHD
-                    </a>
-<span class="file-desc">(Aktualizacja: 04.01.2026)</span>
-</li>
-</ul>
+<p id="listsLoading" style="margin-top:10px; color:var(--muted);">Ładowanie list z manifest.json…</p>
+<div id="listsError" style="display:none; margin-top:10px; color:#fca5a5;"></div>
+
+<div id="listsWrap" style="display:none;">
+  <h3 style="margin-top:14px;">Paczki kanałów (Enigma2)</h3>
+  <ul class="file-list" id="channelPacks"></ul>
+
+  <h3 id="bouquetsHeading" style="margin-top:18px;">Bukiety IPTV</h3>
+  <ul class="file-list" id="bouquetLists"></ul>
+</div>
 </div>
 </main>
 <footer class="site-footer">
@@ -194,5 +154,131 @@
 <script src="assets/js/site.js?v=next1"></script>
 
 <script src="assets/js/stats-nav.js" defer></script>
+<script>
+(function(){
+  'use strict';
+
+  function escapeHtml(s){
+    return String(s || '')
+      .replaceAll('&','&amp;')
+      .replaceAll('<','&lt;')
+      .replaceAll('>','&gt;')
+      .replaceAll('"','&quot;')
+      .replaceAll("'","&#039;");
+  }
+
+  function formatDateISO(iso){
+    // expected: YYYY-MM-DD (fallback: return original)
+    var m = String(iso || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if(!m) return String(iso || '');
+    return m[3] + '.' + m[2] + '.' + m[1];
+  }
+
+  function el(tag, attrs, html){
+    var node = document.createElement(tag);
+    if(attrs){
+      Object.keys(attrs).forEach(function(k){
+        if(k === 'class') node.className = attrs[k];
+        else if(k === 'style') node.setAttribute('style', attrs[k]);
+        else node.setAttribute(k, attrs[k]);
+      });
+    }
+    if(html != null) node.innerHTML = html;
+    return node;
+  }
+
+  function buildItem(item, isBouquet){
+    var li = el('li');
+    var icon = isBouquet ? '📄' : '📥';
+    var title = escapeHtml(item.name || item.id || 'Lista');
+    var href = String(item.url || '#');
+
+    var a = el('a', { class: 'file-link', href: href, target: '_blank', rel: 'noopener' },
+      '<span class="icon">' + icon + '</span> ' + title
+    );
+    li.appendChild(a);
+
+    var meta = [];
+    if(item.author) meta.push(escapeHtml(item.author));
+    if(item.version) meta.push('Aktualizacja: ' + escapeHtml(formatDateISO(item.version)));
+    if(isBouquet && item.bouquet_id) meta.push(escapeHtml(item.bouquet_id));
+
+    if(meta.length){
+      li.appendChild(el('span', { class: 'file-desc' }, '(' + meta.join(' • ') + ')'));
+    }
+
+    if(item.description){
+      li.appendChild(el('div', { class: 'file-desc', style: 'opacity:.88; margin:2px 0 10px 0;' }, escapeHtml(item.description)));
+    }
+
+    return li;
+  }
+
+  async function loadManifest(){
+    var card = document.getElementById('listy');
+    var manifestUrl = (card && card.dataset && card.dataset.manifestUrl) ? card.dataset.manifestUrl : '';
+    if(!manifestUrl) throw new Error('Brak adresu manifest.json');
+
+    // cache-bust to reflect changes quickly on GitHub Pages/CDN
+    var url = manifestUrl + (manifestUrl.indexOf('?') === -1 ? '?' : '&') + 't=' + Date.now();
+
+    var res = await fetch(url, { cache: 'no-store' });
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    return await res.json();
+  }
+
+  function render(items){
+    var loading = document.getElementById('listsLoading');
+    var err = document.getElementById('listsError');
+    var wrap = document.getElementById('listsWrap');
+    var packsUl = document.getElementById('channelPacks');
+    var bouqUl = document.getElementById('bouquetLists');
+    var bouqHead = document.getElementById('bouquetsHeading');
+
+    if(!packsUl || !bouqUl) return;
+
+    packsUl.innerHTML = '';
+    bouqUl.innerHTML = '';
+
+    var packs = [];
+    var bouquets = [];
+
+    (Array.isArray(items) ? items : []).forEach(function(it){
+      var t = String((it && it.type) || '').toUpperCase();
+      if(t === 'BOUQUET') bouquets.push(it);
+      else packs.push(it);
+    });
+
+    packs.forEach(function(it){ packsUl.appendChild(buildItem(it, false)); });
+    bouquets.forEach(function(it){ bouqUl.appendChild(buildItem(it, true)); });
+
+    if(bouquets.length === 0){
+      if(bouqHead) bouqHead.style.display = 'none';
+      bouqUl.style.display = 'none';
+    }
+
+    if(loading) loading.style.display = 'none';
+    if(err) err.style.display = 'none';
+    if(wrap) wrap.style.display = 'block';
+  }
+
+  function showError(message){
+    var loading = document.getElementById('listsLoading');
+    var err = document.getElementById('listsError');
+    var wrap = document.getElementById('listsWrap');
+    if(loading) loading.style.display = 'none';
+    if(wrap) wrap.style.display = 'none';
+    if(err){
+      err.style.display = 'block';
+      err.textContent = message || 'Nie udało się wczytać list.';
+    }
+  }
+
+  loadManifest().then(render).catch(function(e){
+    showError('Błąd wczytywania manifest.json: ' + (e && e.message ? e.message : String(e)));
+  });
+})();
+</script>
+
 </body>
 </html>
