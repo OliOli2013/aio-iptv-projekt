@@ -1220,7 +1220,7 @@ initAIChatDrawer();
       var grid = el('div', { class:'qa-grid' }, []);
 
       var items = [
-        { href:'plugins.html#aio-panel', title:'AIO Panel', sub:'Panel narzędzi v6.x' },
+        { href:'plugins.html#aio-panel', title:'AIO Panel', sub:'Panel narzędzi v7.x' },
         { href:'plugins.html#nagrania-on-demand', title:'Nagrania On Demand', sub:'Porządek w nagraniach' },
         { href:'plugins.html#opencamview', title:'OpenCamView', sub:'Podgląd kamer RTSP' },
         { href:'plugins.html#iptv-dream', title:'IPTV Dream', sub:'IPTV + eksport do bukietów' },

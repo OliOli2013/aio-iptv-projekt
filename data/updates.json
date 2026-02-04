@@ -1,10 +1,10 @@
 [
   {
-    "date": "2026-01-18",
-    "ts": 1768694400000,
+    "date": "2026-02-04",
+    "ts": 1770163200000,
     "type": "release",
-    "title": "AIO Panel v6.1 — aktualizacja wtyczki",
-    "details": "Dodano nową paczkę do pobrania: AIO-Panel_6.1_all.ipk (zakładka /pliki). Wersja 6.1 jest teraz ustawiona jako domyślna na stronie głównej zamiast 6.0."
+    "title": "AIO Panel v7.0 — aktualizacja wtyczki",
+    "details": "Dodano nową paczkę do pobrania: AIO-Panel_7.0_all.ipk (zakładka /pliki). Wersja 7.0 jest teraz ustawiona jako domyślna na stronie głównej zamiast 6.1."
   },
   {
     "date": "2026-01-12",
