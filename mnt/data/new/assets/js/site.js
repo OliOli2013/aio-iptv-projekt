@@ -34,7 +34,7 @@
       nav_stats: 'Statystyki',
       nav_futurelab: 'Future Lab',
 
-      cta_update: 'Aktualizacja: AIO Panel v7.0',
+      cta_update: 'Aktualizacja: AIO Panel v7.1',
       cta_download: 'Pobierz teraz',
 
       updates: 'Nowości',
@@ -82,7 +82,7 @@
       nav_stats: 'Stats',
       nav_futurelab: 'Future Lab',
 
-      cta_update: 'Update: AIO Panel v7.0',
+      cta_update: 'Update: AIO Panel v7.1',
       cta_download: 'Download now',
 
       updates: 'Updates',

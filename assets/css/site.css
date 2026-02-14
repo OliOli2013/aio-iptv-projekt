@@ -841,11 +841,34 @@ html.ai-lock{overflow:hidden;}
 .pill-prominent{
   padding: 12px 14px;
   font-size: .95rem;
-  border-color: rgba(59,167,255,.90);
-  box-shadow: 0 0 0 1px rgba(59,167,255,.25), 0 10px 26px rgba(0,0,0,.28);
+  border-color: rgba(59,167,255,.95);
+  background: linear-gradient(135deg, rgba(59,167,255,.32), rgba(34,211,238,.18));
+  box-shadow:
+    0 0 0 1px rgba(59,167,255,.35),
+    0 12px 28px rgba(0,0,0,.32),
+    0 0 18px rgba(59,167,255,.18);
+  animation: pillPulseGlow 2.4s ease-in-out infinite;
 }
+
+.pill-prominent:hover{
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 0 1px rgba(59,167,255,.55),
+    0 16px 34px rgba(0,0,0,.35),
+    0 0 26px rgba(59,167,255,.28);
+}
+
+@keyframes pillPulseGlow{
+  0%, 100%{
+    filter: brightness(1.02);
+  }
+  50%{
+    filter: brightness(1.12);
+  }
+}
+
 .pill-iptvdream{
-  background: rgba(59,167,255,.22);
+  background: linear-gradient(135deg, rgba(59,167,255,.28), rgba(34,211,238,.16));
 }
 @media (max-width: 820px){
   .topbar-inner{flex-wrap: wrap;}

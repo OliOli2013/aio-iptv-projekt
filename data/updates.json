@@ -1,10 +1,10 @@
 [
   {
-    "date": "2026-02-04",
-    "ts": 1770163200000,
+    "date": "2026-02-14",
+    "ts": 1771027202000,
     "type": "release",
-    "title": "AIO Panel v7.0 — aktualizacja wtyczki",
-    "details": "Dodano nową paczkę do pobrania: AIO-Panel_7.0_all.ipk (zakładka /pliki). Wersja 7.0 jest teraz ustawiona jako domyślna na stronie głównej zamiast 6.1."
+    "title": "AIO Panel v7.1 — aktualizacja wtyczki",
+    "details": "Dodano nową paczkę do pobrania: enigma2-plugin-extensions-panelaio_7.1_all.ipk (zakładka /pliki). Wersja 7.1 jest teraz ustawiona jako domyślna na stronie zamiast 7.0."
   },
   {
     "date": "2026-01-12",
@@ -42,11 +42,11 @@
     "details": "Dodano nową zakładkę „Nowe Projekty” oraz pierwszą publikację: OpenCamView v1.1. Na podstronie jest opis działania, najważniejsze informacje (safe area, MultiView PiP, Domofon) oraz mini galeria zrzutów + plik .ipk do pobrania."
   },
   {
-    "date": "2025-12-22",
-    "ts": 1766361600000,
+    "date": "2026-02-14",
+    "ts": 1771027201000,
     "type": "release",
-    "title": "IPTV Dream 6.2 — PL/EN + WebIF + stabilniejsza sieć + log",
-    "details": "Zastąpiono wersję 6.1 pakietem 6.2 (enigma2-plugin-extensions-iptvdream_6.2_all.ipk). Dodano kompletne PL/EN (w tym brakujące tłumaczenia w MAC Portal i Statystykach), poprawiono WebIF (wersja v6.2 + PL/EN), ulepszono warstwę sieci (timeouty, retry, backoff), cache i inteligentne odświeżanie list (ETag/Last-Modified), dodano diagnostykę (/tmp/iptvdream.log, DEBUG, maskowanie danych), poprawiono płynność oraz usunięto artefakty __pycache__."
+    "title": "IPTV Dream 6.3 — aktualizacja wtyczki",
+    "details": "Dodano nową paczkę do pobrania: enigma2-plugin-extensions-iptvdream_6.3_all.ipk (zakładka /pliki). Wersja 6.3 jest teraz ustawiona jako domyślna na stronie zamiast 6.2."
   },
   {
     "date": "2025-12-21",
