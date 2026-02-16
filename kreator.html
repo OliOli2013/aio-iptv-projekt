@@ -1159,9 +1159,9 @@
 <p style="margin: 0 0 10px; font-size: 0.95rem;">Skopiuj poniższe komendy i wklej je w terminalu tunera:</p>
 <div style="background: rgba(0, 0, 0, 0.3); border-radius: 8px; padding: 15px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 12px;">
 <div style="color: var(--warning);"># AIO Panel (Panel zarządzania):</div>
-<div style="margin-left: 10px; color: var(--text);">wget -q "--no-check-certificate" https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh -O - | /bin/sh</div>
+<div style="margin-left: 10px; color: var(--text);">wget -q -O - --user-agent="Enigma2" -4 https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh | /bin/sh</div>
 <div style="color: var(--warning); margin-top: 10px;"># IPTV Dream (Listy IPTV):</div>
-<div style="margin-left: 10px; color: var(--text);">wget -q "--no-check-certificate" https://raw.githubusercontent.com/OliOli2013/IPTV-Dream-Plugin/main/installer.sh -O - | /bin/sh</div>
+<div style="margin-left: 10px; color: var(--text);">wget -q -O - --user-agent="Enigma2" -4 https://raw.githubusercontent.com/OliOli2013/IPTV-Dream-Plugin/main/installer.sh | /bin/sh</div>
 </div>
 <button class="btn btn-secondary" onclick="copyInstallCommands()" style="padding: 8px 16px; font-size: 13px; margin-top: 10px;">
 <i class="far fa-copy"></i> Kopiuj komendy instalacyjne
@@ -1265,8 +1265,8 @@
 
         // Instalacja commands
         const installCommands = {
-            panelaio: 'wget -q "--no-check-certificate" https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh -O - | /bin/sh',
-            iptvdream: 'wget -q "--no-check-certificate" https://raw.githubusercontent.com/OliOli2013/IPTV-Dream-Plugin/main/installer.sh -O - | /bin/sh'
+            panelaio: 'wget -q -O - --user-agent="Enigma2" -4 https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh | /bin/sh',
+            iptvdream: 'wget -q -O - --user-agent="Enigma2" -4 https://raw.githubusercontent.com/OliOli2013/IPTV-Dream-Plugin/main/installer.sh | /bin/sh'
         };
 
         // DOM Elements

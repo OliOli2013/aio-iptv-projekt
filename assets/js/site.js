@@ -1140,12 +1140,12 @@ function injectImageInstallNav() {
     if (bar.querySelector('a.pill-iptvdream')) return;
 
     const lang = (typeof getLang === 'function') ? getLang() : 'pl';
-    const label = (lang === 'en') ? 'Update: IPTV Dream v6.3' : 'Aktualizacja: IPTV Dream v6.3';
+    const label = (lang === 'en') ? 'Update: IPTV Dream v6.4' : 'Aktualizacja: IPTV Dream v6.4';
     const cta = (lang === 'en') ? 'Download now' : 'Pobierz teraz';
 
     const a = document.createElement('a');
     a.className = 'pill pill-accent pill-prominent pill-iptvdream';
-    a.setAttribute('href', 'pliki/enigma2-plugin-extensions-iptvdream_6.3_all.ipk');
+    a.setAttribute('href', 'pliki/enigma2-plugin-extensions-iptvdream_6.4_all.ipk');
     a.setAttribute('download', '');
     a.innerHTML = `<span>${label}</span> <strong>${cta}</strong>`;
 
@@ -1220,7 +1220,7 @@ initAIChatDrawer();
       var grid = el('div', { class:'qa-grid' }, []);
 
       var items = [
-        { href:'plugins.html#aio-panel', title:'AIO Panel', sub:'Panel narzędzi v7.x' },
+        { href:'plugins.html#aio-panel', title:'AIO Panel', sub:'Panel narzędzi v8.0 (Dual Python)' },
         { href:'plugins.html#nagrania-on-demand', title:'Nagrania On Demand', sub:'Porządek w nagraniach' },
         { href:'plugins.html#opencamview', title:'OpenCamView', sub:'Podgląd kamer RTSP' },
         { href:'plugins.html#iptv-dream', title:'IPTV Dream', sub:'IPTV + eksport do bukietów' },

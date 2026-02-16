@@ -5,10 +5,15 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 
+
+<meta name="description" content="Generator One‑Liner dla Enigma2: instalacja AIO Panel 8.0 i IPTV Dream 6.4. Enigma2 Python 2 3 plugin — instalator z User‑Agent Enigma2 i IPv4 (-4)."/>
+<meta name="keywords" content="one-liner Enigma2, Enigma2 Python 2 3 plugin, AIO Panel 8.0 installer, IPTV Dream installer, wget -4 user-agent Enigma2"/>
+<meta property="og:title" content="Generator One‑Liner — AIO Panel 8.0 (Dual Python)"/>
+<meta property="og:description" content="Generator One‑Liner dla Enigma2: instalacja AIO Panel 8.0 i IPTV Dream 6.4. Enigma2 Python 2 3 plugin — instalator z User‑Agent Enigma2 i IPv4 (-4)."/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<title>Generator One‑Liner — AIO-IPTV.pl</title>
+<title>One‑Liner instalator — AIO Panel 8.0 (Dual Python) | AIO‑IPTV.pl</title>
 <link href="pliki/logo.png" rel="icon"/>
 <link href="assets/css/site.css?v=next1" rel="stylesheet"/>
 </head>
@@ -23,8 +28,8 @@
 <span class="tag">Enigma2 • IPTV • Tools • AI</span>
 </div>
 </a>
-<a class="pill pill-accent" download="" href="pliki/enigma2-plugin-extensions-panelaio_7.1_all.ipk">
-<span data-i18n="cta_update">Aktualizacja: AIO Panel v7.1</span>
+<a class="pill pill-accent" download="" href="pliki/enigma2-plugin-extensions-panelaio_8.0_all.ipk">
+<span data-i18n="cta_update">Aktualizacja: AIO Panel v8.0 (Python 2 & 3 – Universal)</span>
 <strong data-i18n="cta_download">Pobierz teraz</strong>
 </a>
 <div class="spacer"></div>
@@ -75,11 +80,11 @@
 <h2>⚡ <span data-i18n="nav_generator">Generator</span> One-Liner</h2>
 <p>Zaznacz, co chcesz zainstalować, a strona wygeneruje jedną, wspólną komendę do terminala (Putty itp.).</p>
 <div class="generator-options">
-<label class="gen-option">
+<label class="gen-option" id="aio">
 <input class="gen-check" data-target="cmd-aio" type="checkbox"/>
 <span>AIO Panel (Zarządzanie)</span>
 </label>
-<label class="gen-option">
+<label class="gen-option" id="iptv">
 <input class="gen-check" data-target="cmd-iptv" type="checkbox"/>
 <span>IPTV Dream (Odtwarzacz)</span>
 </label>
@@ -132,7 +137,21 @@
 <div class="cmd-wrapper">
 <div class="command-box" id="generator-output"># Zaznacz przynajmniej jedną opcję powyżej...</div>
 <button class="copy-btn" onclick="copyToClipboard('generator-output')">📋 Kopiuj</button>
-</div><div id="one-liner-hidden-commands" style="display:none"><div class="command-box" id="cmd-aio">wget -q "--no-check-certificate" https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh -O - | /bin/sh</div><div class="command-box" id="cmd-iptv">wget -q "--no-check-certificate" https://raw.githubusercontent.com/OliOli2013/IPTV-Dream-Plugin/main/installer.sh -O - | /bin/sh</div><div class="command-box" id="cmd-updater">wget -q -O - https://raw.githubusercontent.com/OliOli2013/MyUpdater-Plugin/main/installer.sh | sh</div><div class="command-box" id="cmd-picon">wget -qO - https://raw.githubusercontent.com/OliOli2013/PiconUpdater/main/installer.sh | /bin/sh</div><div class="command-box" id="cmd-epg">wget -qO - https://raw.githubusercontent.com/OliOli2013/SimpleIPTV_EPG/main/installer.sh | /bin/sh</div><div class="command-box" id="cmd-softcam">wget -O - -q http://updates.mynonpublic.com/oea/feed | bash</div><div class="command-box" id="cmd-ajpanel">wget https://raw.githubusercontent.com/biko-73/AjPanel/main/installer.sh -O - | /bin/sh</div><div class="command-box" id="cmd-e2i">wget -q "https://raw.githubusercontent.com/oe-mirrors/e2iplayer/refs/heads/python3/e2iplayer_install.sh" -O - | /bin/sh</div><div class="command-box" id="cmd-epgimport">wget -q "--no-check-certificate" https://raw.githubusercontent.com/Belfagor2005/EPGImport-99/main/installer.sh -O - | /bin/bash</div><div class="command-box" id="cmd-filmxy">wget -q "--no-check-certificate" https://raw.githubusercontent.com/Belfagor2005/filmxy/main/installer.sh -O - | /bin/sh</div><div class="command-box" id="cmd-jedi">wget https://raw.githubusercontent.com/biko-73/JediMakerXtream/main/installer.sh -O - | /bin/sh</div><div class="command-box" id="cmd-s4a">wget http://s4aupdater.one.pl/instalujs4aupdater.sh -O - | /bin/sh</div><div class="command-box" id="cmd-levi">wget -q "--no-check-certificate" https://raw.githubusercontent.com/levi-45/Levi45Emulator/main/installer.sh -O - | /bin/sh</div></div>
+</div>
+<details class="mini-variant">
+  <summary>⚙️ Wariant minimalny (bez flag)</summary>
+  <div class="cmd-title">AIO Panel (minimal):</div>
+  <div class="cmd-wrapper">
+    <div class="command-box" id="cmd-aio-min">wget -q -O - https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh | /bin/sh</div>
+    <button class="copy-btn" onclick="copyToClipboard('cmd-aio-min')">📋 Kopiuj</button>
+  </div>
+  <div class="cmd-title">IPTV Dream (minimal):</div>
+  <div class="cmd-wrapper">
+    <div class="command-box" id="cmd-iptv-min">wget -q -O - https://raw.githubusercontent.com/OliOli2013/IPTV-Dream-Plugin/main/installer.sh | /bin/sh</div>
+    <button class="copy-btn" onclick="copyToClipboard('cmd-iptv-min')">📋 Kopiuj</button>
+  </div>
+</details>
+<div id="one-liner-hidden-commands" style="display:none"><div class="command-box" id="cmd-aio">wget -q -O - --user-agent="Enigma2" -4 https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh | /bin/sh</div><div class="command-box" id="cmd-iptv">wget -q -O - --user-agent="Enigma2" -4 https://raw.githubusercontent.com/OliOli2013/IPTV-Dream-Plugin/main/installer.sh | /bin/sh</div><div class="command-box" id="cmd-updater">wget -q -O - https://raw.githubusercontent.com/OliOli2013/MyUpdater-Plugin/main/installer.sh | sh</div><div class="command-box" id="cmd-picon">wget -qO - https://raw.githubusercontent.com/OliOli2013/PiconUpdater/main/installer.sh | /bin/sh</div><div class="command-box" id="cmd-epg">wget -qO - https://raw.githubusercontent.com/OliOli2013/SimpleIPTV_EPG/main/installer.sh | /bin/sh</div><div class="command-box" id="cmd-softcam">wget -O - -q http://updates.mynonpublic.com/oea/feed | bash</div><div class="command-box" id="cmd-ajpanel">wget https://raw.githubusercontent.com/biko-73/AjPanel/main/installer.sh -O - | /bin/sh</div><div class="command-box" id="cmd-e2i">wget -q "https://raw.githubusercontent.com/oe-mirrors/e2iplayer/refs/heads/python3/e2iplayer_install.sh" -O - | /bin/sh</div><div class="command-box" id="cmd-epgimport">wget -q "--no-check-certificate" https://raw.githubusercontent.com/Belfagor2005/EPGImport-99/main/installer.sh -O - | /bin/bash</div><div class="command-box" id="cmd-filmxy">wget -q "--no-check-certificate" https://raw.githubusercontent.com/Belfagor2005/filmxy/main/installer.sh -O - | /bin/sh</div><div class="command-box" id="cmd-jedi">wget https://raw.githubusercontent.com/biko-73/JediMakerXtream/main/installer.sh -O - | /bin/sh</div><div class="command-box" id="cmd-s4a">wget http://s4aupdater.one.pl/instalujs4aupdater.sh -O - | /bin/sh</div><div class="command-box" id="cmd-levi">wget -q "--no-check-certificate" https://raw.githubusercontent.com/levi-45/Levi45Emulator/main/installer.sh -O - | /bin/sh</div></div>
 <div class="generator-note" style="margin-top: 20px; text-align: left; background: rgba(48, 54, 61, 0.4); padding: 15px; border-radius: 6px; border-left: 4px solid #58a6ff;">
 <strong style="font-size: 1.1em; color: #58a6ff; display: block; margin-bottom: 10px;">💡 Poradnik instalacji wtyczek (Terminal / PuTTy)</strong>
 <strong style="color: #d29922;">A) Przez OpenWebif (Terminal)</strong>

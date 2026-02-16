@@ -1,100 +1,16 @@
 [
   {
-    "date": "2026-02-14",
-    "ts": 1771027202000,
+    "date": "2026-02-16",
+    "ts": 1771200000000,
     "type": "release",
-    "title": "AIO Panel v7.1 — aktualizacja wtyczki",
-    "details": "Dodano nową paczkę do pobrania: enigma2-plugin-extensions-panelaio_7.1_all.ipk (zakładka /pliki). Wersja 7.1 jest teraz ustawiona jako domyślna na stronie zamiast 7.0."
+    "title": "AIO Panel v8.0 — Dual Python (Py2 / Py3)",
+    "details": "Nowa wersja 8.0 kompatybilna ze wszystkimi systemami Enigma2 (Python 2 oraz Python 3). Naprawiono instalację z GitHub (raw), dodano __init__.py dla Py2, wymuszono poprawną ścieżkę Plugins/SystemPlugins/PanelAIO, usunięto stary katalog Extensions/PanelAIO. Dodano User-Agent 'Enigma2' oraz wymuszenie IPv4 (-4). Automatyczny restart GUI po instalacji."
   },
   {
-    "date": "2026-01-12",
-    "ts": 1768176000000,
-    "type": "feature",
-    "title": "Nowy poradnik: OpenATV 7.6 — konfiguracja krok po kroku (PDF)",
-    "details": "Dodano nową zakładkę w Poradnikach: OpenATV 7.6. PDF z rzeczywistymi zrzutami ekranu (1–27) jest dostępny do podglądu i pobrania (guides.html#openatv76)."
-  },
-  {
-    "date": "2026-01-09",
-    "ts": 1767916800000,
+    "date": "2026-02-16",
+    "ts": 1771200001000,
     "type": "release",
-    "title": "Nagrania On Demand v2.0 — nagrywanie systemowe + IPTV/SAT + EPG + stabilność",
-    "details": "Zastąpiono wersję 1.0.4 pakietem 2.0 (enigma2-plugin-extensions-nagraniaondemand_2.0_all.ipk). Zmiany: (1) integracja z nagrywaniem systemowym („Nagraj teraz” przez InfoBar/REC, fallbacki dla OpenATV/OpenPLi i innych image), (2) IPTV + SAT — nagrywanie bieżącego kanału również dla IPTV z bukietów (w zakresie dopuszczonym przez system) oraz timery dla usług z bukietów, (3) systemowe EPG — otwieranie pełnego EPG i EPG bieżącego kanału z fallbackami (GraphMultiEPG/MultiEPG/EPGSelection), (4) naprawa green screen w „Dodaj timer ręcznie” (stabilna ścieżka: InfoBar/TimerEditList → TimerEntry), (5) poprawki stabilności i zgodności (brakujące metody/klasy zależnie od dystrybucji), (6) pełne PL/EN zależne od języka systemu + poprawione wyświetlanie znaków."
-  },
-  {
-    "date": "2026-01-04",
-    "ts": 1767484800000,
-    "type": "release",
-    "title": "AIO Panel v6.0 — aktualizacja wtyczki",
-    "details": "Dodano nową paczkę do pobrania: enigma2-plugin-extensions-panelaio_6.0_all.ipk (zakładka /pliki). Zmiany: Konfiguracja IPTV – zależności (ServiceApp, ExtPlayer3, ffmpeg, youtube-dl, yt-dlp, wrappery, streamlinksrv), Rozbudowana Diagnostyka Sieci (IP tunera/publiczne, ping, speedtest DL/UL), Auto RAM Cleaner (pamiętanie ustawień po restarcie), Super Konfigurator (domyślna lista „Paweł Pawełek 13E”), stabilizacja „oscam.dvbapi – zarządzaj”."
-  },
-  {
-    "date": "2025-12-31",
-    "ts": 1767139200000,
-    "type": "release",
-    "title": "OpenCamView v1.3 — naprawy edycji + eksport wybranych kamer + poprawki GUI",
-    "details": "Dodano nową wersję OpenCamView v1.3 (enigma2-plugin-extensions-opencamview_1.3_all.ipk). Aktualizacja z v1.2.1 → v1.3 działa standardowo przez opkg (bez odinstalowywania). Naprawiono blue screen przy edycji kamery (konflikt tłumaczeń), dodano eksport wybranych/pojedynczych kamer, przyspieszono dodawanie kolejnych kamer (pamiętanie pól formularza) oraz przebudowano sekcję skrótów i stopkę (aktualna data z tunera, większa czcionka, poprawiona legenda kolorów)."
-  },
-  {
-    "date": "2025-12-29",
-    "ts": 1766966400000,
-    "type": "feature",
-    "title": "Nowe Projekty: OpenCamView v1.1 (instrukcja + mini galeria)",
-    "details": "Dodano nową zakładkę „Nowe Projekty” oraz pierwszą publikację: OpenCamView v1.1. Na podstronie jest opis działania, najważniejsze informacje (safe area, MultiView PiP, Domofon) oraz mini galeria zrzutów + plik .ipk do pobrania."
-  },
-  {
-    "date": "2026-02-14",
-    "ts": 1771027201000,
-    "type": "release",
-    "title": "IPTV Dream 6.3 — aktualizacja wtyczki",
-    "details": "Dodano nową paczkę do pobrania: enigma2-plugin-extensions-iptvdream_6.3_all.ipk (zakładka /pliki). Wersja 6.3 jest teraz ustawiona jako domyślna na stronie zamiast 6.2."
-  },
-  {
-    "date": "2025-12-21",
-    "ts": 1766275200000,
-    "type": "fix",
-    "title": "Future Lab: pełne uruchomienie narzędzi + log",
-    "details": "Naprawiono obsługę Config Diff / Auto‑Checklist / ServiceRef Explorer oraz dodano panel logów działań."
-  },
-  {
-    "date": "2025-12-21",
-    "ts": 1766275200000,
-    "type": "change",
-    "title": "UI: dzwoneczek (nieprzeczytane) + menu mobilne + akordeony",
-    "details": "Dodano licznik nieprzeczytanych aktualizacji, poprawiono interakcje menu na mobile i przywrócono rozwijanie sekcji w FAQ/Pomoc."
-  },
-  {
-    "date": "2025-12-21",
-    "ts": 1766275200000,
-    "type": "feature",
-    "title": "UI: przycisk „Do góry” + szybkie odświeżenie cache",
-    "details": "Pojawia się po przewinięciu strony; dodatkowo w panelu aktualizacji dodano przycisk do czyszczenia cache UI."
-  },
-  {
-    "date": "2025-12-16",
-    "ts": 1765843200000,
-    "type": "feature",
-    "title": "AI Chat Enigma2 + Centrum wiedzy",
-    "details": "Dodano czat offline, wyszukiwarkę tematów, tagi i kopiowanie komend."
-  },
-  {
-    "date": "2025-12-16",
-    "ts": 1765843200000,
-    "type": "fix",
-    "title": "Naprawa: przycisk ☕ Wsparcie na mobile",
-    "details": "Poprawione warstwy (z-index) i obsługa dotyku."
-  },
-  {
-    "date": "2025-12-16",
-    "ts": 1765843200000,
-    "type": "change",
-    "title": "Powiadomienia (dzwonek) — changelog",
-    "details": "Dzwonek pokazuje wszystkie zmiany z data/updates.json, licznik nieprzeczytanych i zapis w localStorage."
-  },
-  {
-    "date": "2025-12-16",
-    "ts": 1765843200000,
-    "type": "feature",
-    "title": "PWA / offline",
-    "details": "Dodano manifest, ikony, service worker i stronę offline."
+    "title": "IPTV Dream v6.4 — aktualizacja wtyczki",
+    "details": "Zastąpiono poprzednie wersje nową paczką: enigma2-plugin-extensions-iptvdream_6.4_all.ipk. Wersja 6.4 jest teraz jedyną dostępną i domyślną wersją na stronie."
   }
 ]

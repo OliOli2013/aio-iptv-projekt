@@ -5,10 +5,15 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 
+
+<meta name="description" content="Narzędzia Enigma2 i szybkie instalatory one‑liner. AIO Panel 8.0 i IPTV Dream 6.4."/>
+<meta name="keywords" content="Enigma2 tools, Enigma2 Python 2 3 plugin, AIO Panel 8.0, IPTV Dream 6.4"/>
+<meta property="og:title" content="Narzędzia — AIO‑IPTV.pl"/>
+<meta property="og:description" content="Narzędzia Enigma2 i szybkie instalatory one‑liner. AIO Panel 8.0 i IPTV Dream 6.4."/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<title>Narzędzia — AIO-IPTV.pl</title>
+<title>Narzędzia Enigma2 — AIO Panel 8.0 i IPTV Dream 6.4 | AIO‑IPTV.pl</title>
 <link href="pliki/logo.png" rel="icon"/>
 <link href="assets/css/site.css?v=next1" rel="stylesheet"/>
 </head>
@@ -23,8 +28,8 @@
 <span class="tag">Enigma2 • IPTV • Tools • AI</span>
 </div>
 </a>
-<a class="pill pill-accent" download="" href="pliki/enigma2-plugin-extensions-panelaio_7.1_all.ipk">
-<span data-i18n="cta_update">Aktualizacja: AIO Panel v7.1</span>
+<a class="pill pill-accent" download="" href="pliki/enigma2-plugin-extensions-panelaio_8.0_all.ipk">
+<span data-i18n="cta_update">Aktualizacja: AIO Panel v8.0 (Python 2 & 3 – Universal)</span>
 <strong data-i18n="cta_download">Pobierz teraz</strong>
 </a>
 <div class="spacer"></div>
@@ -237,12 +242,12 @@
 <p style="margin-top: 12px;">Skopiuj komendę i wklej w terminalu (np. Putty), aby zainstalować:</p>
 <div class="cmd-title">Instalacja AIO Panel:</div>
 <div class="cmd-wrapper">
-<div class="command-box" id="cmd-aio">wget -q "--no-check-certificate" https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh -O - | /bin/sh</div>
+<div class="command-box" id="cmd-aio">wget -q -O - --user-agent="Enigma2" -4 https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh | /bin/sh</div>
 <button class="copy-btn" onclick="copyToClipboard('cmd-aio')">📋 Kopiuj</button>
 </div>
 <div class="cmd-title">Instalacja IPTV Dream:</div>
 <div class="cmd-wrapper">
-<div class="command-box" id="cmd-iptv">wget -q "--no-check-certificate" https://raw.githubusercontent.com/OliOli2013/IPTV-Dream-Plugin/main/installer.sh -O - | /bin/sh</div>
+<div class="command-box" id="cmd-iptv">wget -q -O - --user-agent="Enigma2" -4 https://raw.githubusercontent.com/OliOli2013/IPTV-Dream-Plugin/main/installer.sh | /bin/sh</div>
 <button class="copy-btn" onclick="copyToClipboard('cmd-iptv')">📋 Kopiuj</button>
 </div>
 <div class="cmd-title">Instalacja MyUpdater:</div>
