@@ -961,3 +961,126 @@ html.ai-lock{overflow:hidden;}
 /* ===== One-liner: minimal variants ===== */
 .mini-variant{margin-top:12px; padding:12px; border:1px solid var(--stroke); border-radius:14px; background:rgba(2,6,23,.18)}
 .mini-variant summary{cursor:pointer; font-weight:900}
+
+
+
+/* ===== Plugins list / download vs opis (czytelny podział) ===== */
+.file-list{
+  list-style:none;
+  padding:0;
+  margin:14px 0 0;
+  display:grid;
+  gap:12px;
+}
+.file-list > li{
+  background: rgba(15,45,71,.55);
+  border:1px solid var(--stroke);
+  border-radius: 18px;
+  padding:12px;
+}
+.file-list .file-link{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  text-decoration:none;
+  padding:12px 12px;
+  border-radius: 16px;
+  background: rgba(59,167,255,.10);
+  border:1px solid rgba(59,167,255,.35);
+  font-weight: 900;
+}
+.file-list .file-link:hover{
+  border-color: rgba(59,167,255,.70);
+  background: rgba(59,167,255,.16);
+}
+.file-list .file-link .icon{opacity:.95}
+
+.plugin-details{
+  margin-top:10px;
+  background: rgba(12,36,58,.72);
+  border:1px dashed rgba(148,163,184,.30);
+  border-radius: 16px;
+  padding:10px 12px;
+}
+.plugin-details > summary{
+  cursor:pointer;
+  list-style:none;
+  font-weight:900;
+  color: var(--text);
+}
+.plugin-details > summary::-webkit-details-marker{display:none;}
+.plugin-details > summary:after{content:'▾'; float:right; opacity:.85;}
+.plugin-details[open] > summary:after{content:'▴';}
+
+.plugin-desc-content{
+  margin-top:10px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+.file-desc{
+  display:block;
+  margin-top:10px;
+  color: var(--muted);
+  background: rgba(0,0,0,.18);
+  border:1px solid rgba(148,163,184,.16);
+  border-radius: 14px;
+  padding:10px 12px;
+}
+
+/* Badges */
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-left:8px;
+  padding:4px 9px;
+  font-size:.78rem;
+  font-weight:900;
+  border-radius:999px;
+  background: rgba(59,167,255,.22);
+  border:1px solid rgba(59,167,255,.40);
+  color: var(--text);
+}
+.badge-warning{
+  background: rgba(251,191,36,.20);
+  border:1px solid rgba(251,191,36,.45);
+  color: var(--text);
+}
+
+/* AIO / IPTV miniatury i grafiki */
+.plugin-hero{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom: 10px;
+}
+.plugin-thumb{
+  width:56px;
+  height:56px;
+  border-radius: 16px;
+  background: rgba(0,0,0,.18);
+  border:1px solid rgba(148,163,184,.18);
+  padding:6px;
+}
+.plugin-hero-text h2{margin:0}
+.compat-pill{
+  display:inline-flex;
+  align-items:center;
+  margin-top:8px;
+  padding:8px 12px;
+  border-radius: 14px;
+  background: rgba(46,204,113,.12);
+  border:1px solid rgba(46,204,113,.32);
+  font-weight: 900;
+}
+.plugin-figure{
+  width:100%;
+  height:auto;
+  border-radius: 18px;
+  border:1px solid rgba(148,163,184,.18);
+  background: rgba(0,0,0,.18);
+  margin: 10px 0 6px;
+}
+
+/* Helpers */
+.small{font-size:.88rem;}

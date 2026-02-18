@@ -5,14 +5,14 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 
-<meta name="description" content="AIO Panel 8.0 (Dual Python Ready) i IPTV Dream 6.4 — pobieranie wtyczek Enigma2. Enigma2 Python 2 3 plugin w praktyce: jedna wersja dla Py2 i Py3."/>
-<meta name="keywords" content="Enigma2 Python 2 3 plugin, AIO Panel 8.0, PanelAIO, IPTV Dream 6.4, OpenPLi, OpenATV, DreamOS, ipk download"/>
-<meta property="og:title" content="Wtyczki Enigma2 — AIO Panel 8.0 i IPTV Dream 6.4"/>
-<meta property="og:description" content="AIO Panel 8.0 (Dual Python Ready) i IPTV Dream 6.4 — pobieranie wtyczek Enigma2. Enigma2 Python 2 3 plugin w praktyce: jedna wersja dla Py2 i Py3."/>
+<meta name="description" content="AIO Panel 9.0 (Enigma2) — nowy interfejs (Sidebar + Content), nowa zakładka Skins/Skórki i poprawiona stabilność poleceń systemowych. Kompatybilna z wszystkimi systemami Enigma2 (Py2/Py3). IPTV Dream 6.4 — pobieranie wtyczek."/>
+<meta name="keywords" content="Enigma2 plugin, AIO Panel 9.0, PanelAIO, Skins Enigma2, IPTV Dream 6.4, OpenPLi, OpenATV, DreamOS, ipk download"/>
+<meta property="og:title" content="Wtyczki Enigma2 — AIO Panel 9.0 i IPTV Dream 6.4"/>
+<meta property="og:description" content="AIO Panel 9.0 — nowy UI, Skins/Skórki, stabilność komend. Uniwersalna kompatybilność Enigma2 (Py2/Py3). IPTV Dream 6.4 — pobieranie."/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<title>Wtyczki Enigma2 — AIO Panel 8.0 (Dual Python) i IPTV Dream 6.4 | AIO‑IPTV.pl</title>
+<title>Wtyczki Enigma2 — AIO Panel 9.0 i IPTV Dream 6.4 | AIO‑IPTV.pl</title>
 <link href="pliki/logo.png" rel="icon">
 <link href="assets/css/site.css?v=next1" rel="stylesheet">
 </link></link></head>
@@ -27,8 +27,8 @@
 <span class="tag">Enigma2 • IPTV • Tools • AI</span>
 </div>
 </a>
-<a class="pill pill-accent" download="" href="pliki/enigma2-plugin-extensions-panelaio_8.0_all.ipk">
-<span data-i18n="cta_update">Aktualizacja: AIO Panel v8.0 (Python 2 & 3 – Universal)</span>
+<a class="pill pill-accent" download="" href="pliki/enigma2-plugin-extensions-panelaio_9.0_all.ipk">
+<span data-i18n="cta_update">Aktualizacja: AIO Panel v9.0 (Python 2 & 3 – Universal)</span>
 <strong data-i18n="cta_download">Pobierz teraz</strong>
 </a>
 <div class="spacer"></div>
@@ -94,114 +94,54 @@
 </div>
 <div class="tab-panel" hidden="" id="panelAIO">
 <div class="card" data-aos="fade-up" id="aio-panel">
-<h2>Panel AIO v8.0 (Enigma2 • Dual Python Ready)</h2>
-<p><strong>Data wydania:</strong> 16.02.2026</p>
-<p>
-<a class="btn primary" download="" href="pliki/enigma2-plugin-extensions-panelaio_8.0_all.ipk" title="Pobierz AIO Panel v8.0 (Python 2 & 3 – Universal)">
-        📥 Pobierz AIO Panel v8.0 (Python 2 & 3 – Universal)
-      </a>
-</p>
-<h3>Changelog v8.0 (16.02.2026)</h3>
-<ul>
-  <li><strong>Dual Python:</strong> kompatybilność z Python 2 oraz Python 3 (jedna paczka dla wszystkich systemów).</li>
-  <li><strong>GitHub Install Fix (Py2):</strong> dodawany/utrzymywany jest plik <code>__init__.py</code> (wymagany przez Python 2).</li>
-  <li><strong>Poprawna ścieżka:</strong> wymuszone <code>Plugins/SystemPlugins/PanelAIO</code>.</li>
-  <li><strong>Cleanup:</strong> usuwany stary/błędny katalog <code>Plugins/Extensions/PanelAIO</code> (eliminuje ostrzeżenie „No module named PanelAIO.plugin”).</li>
-  <li><strong>OpenPLi/GitHub:</strong> User‑Agent „Enigma2” + wymuszenie IPv4 (-4) dla stabilniejszego pobierania.</li>
-  <li><strong>Po instalacji/aktualizacji:</strong> automatyczny restart GUI.</li>
-</ul>
-<h3>Opis funkcji dla użytkowników</h3>
-<p>
-<strong>Panel AIO</strong> to wtyczka typu <em>All-in-One</em>, która zbiera w jednym miejscu najczęściej używane akcje na tunerze:
-      listy kanałów, instalatory wtyczek, narzędzia systemowe, diagnostykę i czyszczenie.
-      Wszystko obsługujesz z pilota, bez SSH/FTP i bez grzebania w plikach.
-    </p>
-<h3>Sterowanie (pilot)</h3>
-<ul>
-<li>Lewo/Prawo – przełączanie zakładek (są 4 zakładki)</li>
-<li>OK – wykonaj zaznaczoną akcję</li>
-<li>Czerwony – język PL</li>
-<li>Zielony – język EN</li>
-<li>Żółty – Restart GUI</li>
-<li>Niebieski – sprawdź aktualizacje wtyczki</li>
-</ul>
-<h3>1) 📺 Zakładka: Listy kanałów</h3>
-<p>W tej sekcji masz gotowe pozycje do instalacji list kanałów, pobierane online.</p>
-<p><strong>Co w praktyce robi wtyczka:</strong></p>
-<ul>
-<li>Pobiera listy z repozytorium (manifest online) – menu aktualizuje się na bieżąco, bez wydawania nowych wersji wtyczki.</li>
-<li>Dodatkowo pobiera listy z S4aUpdater (dynamicznie) – integracja źródeł w jednym miejscu.</li>
-<li>Obsługuje różne typy pozycji:
-        <ul>
-<li>Archiwa ZIP/TAR (klasyczna instalacja listy kanałów)</li>
-<li>Dodanie bukietu z M3U (wtyczka potrafi wczytać M3U i zrobić z tego bukiet w Enigma2)</li>
-<li>Dodanie bukietu REF (gotowy bukiet jako plik userbouquet)</li>
-</ul>
-</li>
-<li>Podczas instalacji listy czyści stare bukiety (żeby uniknąć „śmieci” i konfliktów), instaluje nową listę i na końcu przeładowuje ustawienia/bukiety.</li>
-</ul>
-<h3>2) 🔑 Zakładka: Softcam i Wtyczki</h3>
-<p>
-      To jest Twoje „centrum instalatorów” i podstawowych akcji dla osób, które korzystają z softcam/emu wyłącznie w legalnych zastosowaniach
-      (np. własne uprawnienia/karta/abonament).
-    </p>
-<p><strong>W tej zakładce masz:</strong></p>
-<ul>
-<li>Szybkie akcje:
-        <ul>
-<li>Restart OSCam</li>
-<li>Kasowanie hasła do OSCam WebIF (gdy ktoś je zapomni)</li>
-<li>Zarządzanie oscam.dvbapi (opcje pod E2 / integracja pod dvbapi)</li>
-</ul>
-</li>
-<li>Instalatory:
-        <ul>
-<li>Softcam Feed (instalacja źródła pakietów dla softcam)</li>
-<li>OSCam (auto instalator) – wykrywa najlepszą dostępną wersję z feeda</li>
-<li>NCam (instalator)</li>
-</ul>
-</li>
-<li>Instalatory popularnych dodatków online (jednym kliknięciem), m.in.:
-        <ul>
-<li>XStreamity, IPTV Dream, ServiceApp, StreamlinkProxy</li>
-<li>AJPanel, E2iPlayer (install/update), EPGImport</li>
-<li>S4aUpdater, JediMakerXtream, YouTube</li>
-<li>Repo/Feed j00zek + E2Kodi v2 (dobierane pod wersję Pythona)</li>
-</ul>
-</li>
-<li><strong>Ważne praktycznie:</strong> wtyczka ma mechanizm wykrywania typu obrazu (np. OpenATV/OpenPLi/VTi/Hyperion) i może ukrywać/ograniczać wybrane akcje, jeśli na danym obrazie bywają niestabilne.</li>
-</ul>
-<h3>3) ⚙️ Zakładka: Narzędzia systemowe (System Tools Suite)</h3>
-<p>To sekcja typowo „serwisowa” — przydatna, gdy tuner ma działać stabilnie i bez kombinowania.</p>
-<ul>
-<li><strong>✨ Super Konfigurator (Pierwsza instalacja)</strong> – automatyczny „wizard” dla świeżego systemu:
-        <ul>
-<li>instalacja samych zależności (wget/tar/unzip),</li>
-<li>konfiguracja podstawowa (zależności + lista kanałów + feed + oscam),</li>
-<li>konfiguracja pełna (to samo + dodatkowo picony).</li>
-</ul>
-        Po zakończeniu wykonuje przeładowanie ustawień/restart GUI (w zależności od kroku).
-      </li>
-<li><strong>🗑️ Menadżer deinstalacji (opkg)</strong> – lista zainstalowanych pakietów i bezpieczne usuwanie z poziomu GUI.</li>
-<li><strong>📡 Aktualizacja satellites.xml</strong> – szybka aktualizacja pliku satellites.xml.</li>
-<li><strong>🖼️ Picony (Transparent)</strong> – pobranie paczki piconów i instalacja do <code>/usr/share/enigma2/picon</code> (z nadpisywaniem i porządkowaniem katalogu).</li>
-<li><strong>📊 Monitor Systemowy</strong> – CPU, RAM, temperatura (jeśli dostępna), zajętość dysku (/ oraz /media/hdd).</li>
-<li><strong>📄 Przeglądarka logów</strong> – podgląd najważniejszych logów (messages/syslog/enigma2.log), przełączanie lewo/prawo, auto-odświeżanie (żółty).</li>
-<li><strong>⏰ Menedżer Cron</strong> – dodawanie/edycja/włączanie/wyłączanie/usuwanie wpisów + reload cron.</li>
-<li><strong>🔌 Menedżer usług</strong> – Start/Stop/Restart + status (SSH/FTP/Samba/NFS/Cron/Telnet), działa na systemd oraz init.d (fallback).</li>
-<li><strong>💾 Backup/Restore</strong> – kopia i przywracanie listy kanałów oraz konfiguracji OSCam.</li>
-</ul>
-<h3>4) ℹ️ Zakładka: Info i Diagnostyka</h3>
-<ul>
-<li><strong>🔄 Aktualizacja wtyczki</strong> – sprawdzanie online nowszej wersji, informacje o zmianach, instalacja; po aktualizacji wymagany restart GUI.</li>
-<li><strong>🌐 Diagnostyka sieci</strong> – IP lokalne, brama, DNS, IP publiczne, ping (średni + utrata pakietów), orientacyjny test download/upload (best-effort).</li>
-<li><strong>💾 Wolne miejsce (flash/dysk)</strong> – szybki podgląd zajętości.</li>
-<li><strong>🧹 Czyszczenie systemu</strong> – czyszczenie <code>/tmp</code> oraz cache RAM (drop_caches).</li>
-<li><strong>⏱️ Auto RAM Cleaner</strong> – interwał (OFF / 10 / 30 / 60 min), ustawienie zapamiętywane i przywracane po restarcie GUI.</li>
-<li><strong>🔑 Hasło FTP</strong> – ustaw/usuń hasło FTP z poziomu GUI (bez terminala).</li>
-</ul>
+
+  <div class="plugin-hero">
+    <img class="plugin-thumb" src="pliki/logo.png" alt="AIO Panel — logo"/>
+    <div class="plugin-hero-text">
+      <h2>AIO Panel v9.0 (Enigma2 • Universal)</h2>
+      <div class="compat-pill">✅ Kompatybilna z wszystkimi systemami Enigma2 (Py2 / Py3)</div>
+    </div>
+  </div>
+
+  <p>
+    Głównym celem tej aktualizacji była <strong>całkowita przebudowa interfejsu użytkownika</strong>,
+    dodanie nowej zakładki: <strong>Skins / Skórki</strong>, oraz poprawa stabilności wykonywania poleceń systemowych.
+  </p>
+
+  <p>
+    <a class="btn primary" download="" href="pliki/enigma2-plugin-extensions-panelaio_9.0_all.ipk" title="Pobierz AIO Panel v9.0 (Uniwersalna paczka Enigma2)">
+      📥 Pobierz AIO Panel v9.0
+    </a>
+  </p>
+
+  <h3>Metody aktualizacji</h3>
+  <p class="muted small">Aktualizację możesz przeprowadzić na trzy sposoby:</p>
+
+  <img class="plugin-figure" src="pliki/aio-panel-v9-update-methods.png" alt="AIO Panel v9.0 — metody aktualizacji"/>
+
+  <ol class="key-list">
+    <li><strong>Niebieski przycisk:</strong> bezpośrednio w menu wtyczki.</li>
+    <li><strong>Polecenie Telnet/SSH:</strong> poprzez konsolę systemową.</li>
+    <li><strong>Plik IPK:</strong> ręczna instalacja z paczki.</li>
+  </ol>
+
+  <h3>Kluczowe nowości i zmiany (v9.0)</h3>
+
+  <img class="plugin-figure" src="pliki/aio-panel-v9-key-changes.png" alt="AIO Panel v9.0 — kluczowe nowości i zmiany"/>
+
+  <ul class="key-list">
+    <li><strong>NOWOŚĆ: Skins / Skórki:</strong> nowa zakładka z instalatorami skinów — zarządzanie wyglądem systemu bezpośrednio z panelu.</li>
+    <li><strong>Nowy interfejs Dashboard:</strong> przebudowa na układ <strong>Sidebar + Content</strong> z kolorystyką <strong>cyber-blue</strong>.</li>
+    <li><strong>Podział na sekcje:</strong> Listy Kanałów, Softcamy, Wtyczki Online, Konfigurator, Narzędzia Systemowe, Backup &amp; Restore, Informacje i Aktualizacja, Diagnostyka, Czyszczenie i Bezpieczeństwo.</li>
+    <li><strong>Zmiana w NCam:</strong> instalacja z feedu systemu (<span class="code-snippet">opkg</span>) — dostęp do najnowszej wersji na danym obrazie.</li>
+    <li><strong>Poprawki UI:</strong> ujednolicony wygląd sekcji oraz usunięcie błędu „podwójnego zaznaczenia” — aktywna jest tylko jedna kolumna.</li>
+    <li><strong>Wsparcie techniczne:</strong> kod QR wsparcia w nagłówku + ekran wsparcia w sekcji INFO z funkcją powiększenia (zoom).</li>
+    <li><strong>Stabilność:</strong> poprawiona kompatybilność między środowiskami Py2 i Py3 oraz zoptymalizowane wykonywanie komend systemowych.</li>
+  </ul>
+
 </div>
-</div><div class="tab-panel" hidden="" id="panelNOD">
+</div>
+<div class="tab-panel" hidden="" id="panelNOD">
 <div class="card" data-aos="fade-up" id="nagrania-on-demand">
 <h2>Nagrania On Demand v2.0 (Enigma2)</h2>
 <p><strong>Autor:</strong> Paweł Pawełek</p>
@@ -312,7 +252,12 @@
 </div>
 </div><div class="tab-panel" hidden="" id="panelDream">
 <div class="card" data-aos="fade-up" id="iptv-dream">
-<h2>IPTV Dream v6.4 (Enigma2)</h2>
+<div class="plugin-hero">
+  <img class="plugin-thumb" src="pliki/icon.png" alt="IPTV Dream — ikona"/>
+  <div class="plugin-hero-text">
+    <h2>IPTV Dream v6.4 (Enigma2)</h2>
+  </div>
+</div>
 <p>
 <a class="btn primary" download="" href="pliki/enigma2-plugin-extensions-iptvdream_6.4_all.ipk" title="Pobierz IPTV Dream v6.4">
         📥 Pobierz IPTV Dream v6.4
@@ -440,12 +385,6 @@
 </details>
 </li>
 <li>
-<a class="file-link" href="https://github.com/OliOli2013/aio-iptv-projekt/raw/main/pliki/enigma2-plugin-extensions-panelaio_4.4_py2py3_init_all.ipk" title="Wersja dla starszych systemów">
-<span class="icon">📥</span> AIO Panel 4.4 <span class="badge badge-warning">Wylacznie Python 2</span>
-</a>
-<span class="file-desc">Wersja dla starszych systemów (np. OpenATV 6.4)</span>
-</li>
-<li>
 <a class="file-link" href="https://github.com/OliOli2013/aio-iptv-projekt/raw/main/pliki/enigma2-plugin-extensions-iptvdream_6.4_all.ipk" title="Zaawansowany player IPTV">
 <span class="icon">📥</span> IPTV Dream 6.4
                     </a>
@@ -457,8 +396,6 @@
                             • <strong>Funkcje:</strong> Własny WebInterfejs do zarządzania linkami, obsługa EPG, eksport kanałów do bukietów Enigmy oraz wybór playera (Gst/Exte).
                         </div>
 </details>
-<div class="plugin-rating" data-plugin="iptv-dream">
-<div class="rating-text">Oceń wtyczkę:</div>
 <div class="rating-stars">
 <span class="star" data-rating="1">⭐</span>
 <span class="star" data-rating="2">⭐</span>
@@ -484,8 +421,6 @@
                             • Obsługa różnych kategorii satelitarnych.
                         </div>
 </details>
-<div class="plugin-rating" data-plugin="picon-updater">
-<div class="rating-text">Oceń wtyczkę:</div>
 <div class="rating-stars">
 <span class="star" data-rating="1">⭐</span>
 <span class="star" data-rating="2">⭐</span>
@@ -511,8 +446,6 @@
                             • Diagnostyka systemu i wykrywanie dystrybucji (OpenATV/OpenPLi).
                         </div>
 </details>
-<div class="plugin-rating" data-plugin="myupdater">
-<div class="rating-text">Oceń wtyczkę:</div>
 <div class="rating-stars">
 <span class="star" data-rating="1">⭐</span>
 <span class="star" data-rating="2">⭐</span>
@@ -536,8 +469,6 @@
                             • Pozwala przypisać program telewizyjny do kanałów IPTV, które standardowo go nie posiadają.
                         </div>
 </details>
-<div class="plugin-rating" data-plugin="simple-epg">
-<div class="rating-text">Oceń wtyczkę:</div>
 <div class="rating-stars">
 <span class="star" data-rating="1">⭐</span>
 <span class="star" data-rating="2">⭐</span>
@@ -558,8 +489,8 @@
 <h2>Pliki (pozostałe)</h2>
 <ul class="file-list">
 <li>
-<a class="file-link" download="" href="pliki/enigma2-plugin-extensions-panelaio_8.0_all.ipk" title="Wielofunkcyjny panel zarządzania (AIO Panel)">
-<span class="icon">📥</span> AIO Panel v8.0 (Python 2 & 3 – Universal)
+<a class="file-link" download="" href="pliki/enigma2-plugin-extensions-panelaio_9.0_all.ipk" title="Wielofunkcyjny panel zarządzania (AIO Panel)">
+<span class="icon">📥</span> AIO Panel v9.0 (Python 2 & 3 – Universal)
   </a>
 <span class="file-desc">(Paczka .ipk) — Panel narzędziowy Enigma2: IPTV zależności, diagnostyka sieci, RAM Cleaner, konfigurator, OSCam</span>
 </li>

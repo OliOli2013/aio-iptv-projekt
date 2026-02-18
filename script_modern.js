@@ -735,8 +735,7 @@ function restartQuiz() { currentQuiz = 0; score = 0; loadQuiz(); }
 
 document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('quiz-question')) loadQuiz();
-    initRatings();
-    initParticles();
+initParticles();
     initChart();
 });
 

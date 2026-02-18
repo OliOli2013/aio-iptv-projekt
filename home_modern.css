@@ -1314,7 +1314,7 @@ html.no-scroll, body.no-scroll { overflow: hidden !important; }
     padding: 6px 10px;
     min-height: 50px;    -webkit-  }
 
-  /* Mobile CTA: "Aktualizacja AIO Panel v8.0 — Pobierz teraz" (above controls) */
+  /* Mobile CTA: "Aktualizacja AIO Panel v9.0 — Pobierz teraz" (above controls) */
   body[data-page="home"] .mobile-update-cta{
     display: flex;
     width: 100%;
@@ -1495,7 +1495,7 @@ body[data-page="home"] .news-banner * {
 #particles-js{
   opacity: 0.35;
 }
-/* === AIO Panel v8.0 update + holiday message (minimal additions) === */
+/* === AIO Panel v9.0 update + holiday message (minimal additions) === */
 body[data-page="home"] .update-ribbon{
   display:inline-flex;
   align-items:center;

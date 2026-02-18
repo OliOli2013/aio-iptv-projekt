@@ -6,16 +6,16 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 
 
-<meta name="description" content="AIO Panel v8.0 to uniwersalna aktualizacja wtyczki Enigma2 (Enigma2 Python 2 3 plugin): działa na systemach z Python 2 oraz Python 3 (Dual Python Ready). Pobierz IPK lub zainstaluj one-linerem. IPTV Dream v6.4 dostępne na stronie."/>
-<meta name="keywords" content="Enigma2 Python 2 3 plugin, AIO Panel 8.0, PanelAIO, OpenPLi 9, OpenATV, DreamOS, IPTV Dream 6.4, installer.sh, one-liner"/>
+<meta name="description" content="AIO Panel v9.0 (Enigma2) — nowy interfejs (Sidebar + Content, cyber-blue), nowa zakładka Skins/Skórki i poprawiona stabilność poleceń systemowych. Kompatybilna z wszystkimi systemami Enigma2 (Py2/Py3)."/>
+<meta name="keywords" content="Enigma2 Python 2 3 plugin, AIO Panel 9.0, PanelAIO, OpenPLi 9, OpenATV, DreamOS, IPTV Dream 6.4, installer.sh, one-liner"/>
 <meta property="og:type" content="website"/>
-<meta property="og:title" content="AIO Panel 8.0 (Dual Python) — Enigma2 Python 2/3 plugin"/>
-<meta property="og:description" content="Jedna wersja AIO Panel 8.0 dla wszystkich systemów Enigma2 (Py2/Py3). Stabilny instalator GitHub (UA Enigma2 + IPv4). IPTV Dream 6.4."/>
+<meta property="og:title" content="AIO Panel v9.0 — nowy interfejs, Skins/Skórki"/>
+<meta property="og:description" content="AIO Panel v9.0 — nowy UI, Skins/Skórki, stabilność komend. Uniwersalna kompatybilność Enigma2 (Py2/Py3)."/>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<title>AIO Panel 8.0 (Dual Python) — Enigma2 Python 2/3 plugin | AIO‑IPTV.pl</title>
+<title>AIO Panel v9.0 — Nowy interfejs, Skins/Skórki | AIO‑IPTV.pl</title>
 <link href="pliki/logo.png" rel="icon"/>
 <link href="assets/css/site.css?v=next2" rel="stylesheet"/>
 </head>
@@ -30,8 +30,8 @@
 <span class="tag">Enigma2 • IPTV • Tools • AI</span>
 </div>
 </a>
-<a class="pill pill-accent" download="" href="pliki/enigma2-plugin-extensions-panelaio_8.0_all.ipk">
-<span data-i18n="cta_update">Aktualizacja: AIO Panel v8.0 (Python 2 & 3 – Universal)</span>
+<a class="pill pill-accent" download="" href="pliki/enigma2-plugin-extensions-panelaio_9.0_all.ipk">
+<span data-i18n="cta_update">Aktualizacja: AIO Panel v9.0 (Python 2 & 3 – Universal)</span>
 <strong data-i18n="cta_download">Pobierz teraz</strong>
 </a>
 <div class="spacer"></div>
@@ -85,24 +85,25 @@
 <div class="hero-grid">
 <div class="hero-card">
 
-<div class="hero-callout" role="note" aria-label="NOWOŚĆ AIO Panel 8.0">
+<div class="hero-callout" role="note" aria-label="NOWOŚĆ AIO Panel v9.0">
   <div class="hero-callout-top">
-    <span class="pill pill-hot">🔥 NOWOŚĆ 8.0</span>
-    <span class="pill pill-accent">🧠 Dual Python Ready</span>
+    <span class="pill pill-hot">🔥 NOWOŚĆ 9.0</span>
+    <span class="pill pill-accent">🎨 Skins/Skórki</span>
+    <span class="pill">⚙️ Stabilność</span>
   </div>
-  <div class="hero-callout-title">AIO Panel v8.0 — jedna aktualizacja dla wszystkich systemów Enigma2</div>
+  <div class="hero-callout-title">AIO Panel v9.0 — nowy interfejs, Skins/Skórki i stabilność</div>
   <ul class="hero-callout-list">
-    <li><strong>Dual Python:</strong> działa na Python 2 i Python 3 (uniwersalnie)</li>
-    <li><strong>GitHub Install Fix (Py2):</strong> __init__.py + poprawna ścieżka Plugins/SystemPlugins/PanelAIO</li>
-    <li><strong>OpenPLi/GitHub:</strong> User‑Agent „Enigma2” + wymuszenie IPv4 (-4)</li>
-    <li><strong>Po instalacji:</strong> automatyczny restart GUI</li>
+    <li><strong>Nowy Dashboard:</strong> układ Sidebar + Content + kolorystyka cyber-blue</li>
+    <li><strong>NOWOŚĆ: Skins / Skórki:</strong> instalatory skinów bezpośrednio z panelu</li>
+    <li><strong>NCam:</strong> instalacja z feedu systemu (<span class="code-snippet">opkg</span>)</li>
+    <li><strong>Kompatybilność:</strong> działa na wszystkich systemach Enigma2 (Py2 / Py3)</li>
   </ul>
   <div class="hero-actions hero-actions-compact">
-    <a class="btn primary" href="one-liner.html#aio">⚡ Instaluj (One‑Liner)</a>
+    <a class="btn primary" href="plugins.html#aio-panel">🧰 Zobacz zmiany v9.0</a>
+    <a class="btn" href="one-liner.html#aio">⚡ Instaluj (One‑Liner)</a>
     <a class="btn" href="plugins.html#aio-panel">📦 Pobierz IPK</a>
-    <a class="btn" href="#changelog-8-0">📝 Changelog 8.0</a>
   </div>
-</div>
+</div></div>
 
 <h1 data-i18n="hero_title">AIO-IPTV.pl — Enigma2 przyszłości</h1>
 <p data-i18n="hero_sub">Porządek zamiast chaosu: podstrony, narzędzia i AI-Chat Enigma2 w jednym miejscu. Strona dostępna po polsku i po angielsku.</p>
@@ -129,33 +130,37 @@
 </div>
 </section>
 
-<section class="section" id="changelog-8-0">
+<section class="section" id="changelog-9-0">
   <div class="section-head">
     <div>
       <h2 class="section-title">Wyróżnione aktualizacje</h2>
-      <p class="section-sub">Enigma2 Python 2 3 plugin: <strong>AIO Panel 8.0</strong> (Dual Python Ready) + <strong>IPTV Dream 6.4</strong>.</p>
+      <p class="section-sub">Enigma2 plugin: <strong>AIO Panel v9.0</strong> — nowy interfejs, Skins/Skórki i stabilność (uniwersalnie Py2/Py3) + <strong>IPTV Dream 6.4</strong>.</p>
     </div>
-    <a class="pill pill-accent" href="pliki/enigma2-plugin-extensions-panelaio_8.0_all.ipk" download>⬇️ Pobierz AIO Panel 8.0</a>
+    <a class="pill pill-accent" href="pliki/enigma2-plugin-extensions-panelaio_9.0_all.ipk" download>⬇️ Pobierz AIO Panel 9.0</a>
   </div>
 
   <div class="grid-2">
     <article class="card">
-      <div class="card-top">
-        <h3 style="margin:0">AIO Panel v8.0</h3>
-        <div class="muted" style="margin-top:4px">Data wydania: <strong>16.02.2026</strong> • Kompatybilność: Python 2 + Python 3</div>
-      </div>
-      <ul class="changelog-list">
-        <li><strong>Dual Python:</strong> działa na systemach Py2 i Py3.</li>
-        <li><strong>GitHub Install Fix (Py2):</strong> utrzymanie pliku <code>__init__.py</code>.</li>
-        <li><strong>Ścieżka instalacji:</strong> wymuszona <code>Plugins/SystemPlugins/PanelAIO</code> + usunięcie błędnego <code>Plugins/Extensions/PanelAIO</code>.</li>
-        <li><strong>OpenPLi 9.x:</strong> User‑Agent „Enigma2” + IPv4 (-4) dla stabilniejszych połączeń.</li>
-        <li><strong>Po instalacji/aktualizacji:</strong> restart GUI.</li>
-      </ul>
-      <div class="hero-actions hero-actions-compact" style="margin-top:10px">
-        <a class="btn primary" href="one-liner.html#aio">⚡ One‑Liner</a>
-        <a class="btn" href="plugins.html#aio-panel">Szczegóły</a>
-      </div>
-    </article>
+  <div class="card-top">
+    <h3 style="margin:0">AIO Panel v9.0</h3>
+    <div class="muted" style="margin-top:4px">
+      Kompatybilna z wszystkimi systemami Enigma2 (Py2 / Py3)
+    </div>
+  </div>
+  <ul class="changelog-list">
+    <li><strong>NOWY interfejs:</strong> Dashboard w układzie <strong>Sidebar + Content</strong> (cyber-blue).</li>
+    <li><strong>NOWOŚĆ Skins / Skórki:</strong> osobna zakładka z instalatorami skinów.</li>
+    <li><strong>Podział menu:</strong> przejrzyste sekcje (kanały, softcamy, narzędzia, backup, diagnostyka, czyszczenie, bezpieczeństwo).</li>
+    <li><strong>NCam:</strong> instalowany z feedu systemu (<span class="code-snippet">opkg</span>).</li>
+    <li><strong>Poprawki UI:</strong> jeden fokus (bez „podwójnego zaznaczenia”) + ujednolicony wygląd panelu.</li>
+    <li><strong>Wsparcie:</strong> QR w nagłówku + ekran wsparcia w INFO (zoom).</li>
+    <li><strong>Stabilność:</strong> usprawnione wykonywanie poleceń systemowych i lepsza kompatybilność Py2/Py3.</li>
+  </ul>
+  <div class="hero-actions hero-actions-compact" style="margin-top:10px">
+    <a class="btn primary" href="plugins.html#aio-panel">🧰 Szczegóły v9.0</a>
+    <a class="btn" href="one-liner.html#aio">⚡ Instaluj</a>
+  </div>
+</article>
 
     <article class="card">
       <h3 style="margin:0">IPTV Dream v6.4</h3>
@@ -181,7 +186,7 @@
   </div>
   <div class="grid">
     <a class="card card-link" href="plugins.html#aio-panel">
-      <h3>🧰 AIO Panel v8.0 (Python 2 & 3 – Universal)</h3>
+      <h3>🧰 AIO Panel v9.0 (Python 2 & 3 – Universal)</h3>
       <p>Centrum instalacji i narzędzi <em>All‑in‑One</em> dla Enigma2: listy, instalatory, diagnostyka i porządek w systemie.</p>
       <div class="link-row"><span class="btn primary">Otwórz</span></div>
     </a>
@@ -222,7 +227,7 @@
 <div class="grid">
 <div class="card">
 <h3>🔔 Aktualizacje</h3>
-<p>W prawym górnym rogu znajdziesz dzwoneczek z listą nowości (AIO Panel v8.0 (Python 2 & 3 – Universal), AI‑Chat Enigma2 i inne).</p>
+<p>W prawym górnym rogu znajdziesz dzwoneczek z listą nowości (AIO Panel v9.0 (Python 2 & 3 – Universal), AI‑Chat Enigma2 i inne).</p>
 <div class="link-row">
 <a class="btn" href="plugins.html#nagrania-on-demand">🎬 Nagrania</a>
 <a class="btn" href="support.html">☕ Wsparcie</a>

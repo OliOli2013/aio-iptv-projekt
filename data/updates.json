@@ -3,8 +3,8 @@
     "date": "2026-02-16",
     "ts": 1771200000000,
     "type": "release",
-    "title": "AIO Panel v8.0 — Dual Python (Py2 / Py3)",
-    "details": "Nowa wersja 8.0 kompatybilna ze wszystkimi systemami Enigma2 (Python 2 oraz Python 3). Naprawiono instalację z GitHub (raw), dodano __init__.py dla Py2, wymuszono poprawną ścieżkę Plugins/SystemPlugins/PanelAIO, usunięto stary katalog Extensions/PanelAIO. Dodano User-Agent 'Enigma2' oraz wymuszenie IPv4 (-4). Automatyczny restart GUI po instalacji."
+    "title": "AIO Panel v9.0 — nowy interfejs, Skins i stabilność",
+    "details": "Głównym celem tej aktualizacji była całkowita przebudowa interfejsu użytkownika, dodanie nowej zakładki Skins/Skórki oraz poprawa stabilności wykonywania poleceń systemowych. Nowy Dashboard (Sidebar + Content, cyber-blue), podział menu na sekcje, poprawki fokusu (koniec „podwójnego zaznaczenia”), NCam instalowany z feedu systemu (opkg), QR wsparcia + ekran wsparcia w INFO (zoom) oraz lepsza kompatybilność Py2/Py3. Wtyczka kompatybilna z wszystkimi systemami Enigma2."
   },
   {
     "date": "2026-02-16",
