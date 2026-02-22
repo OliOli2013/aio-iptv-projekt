@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-
+<!doctype html>
 <html lang="pl">
 <head>
 <meta charset="utf-8"/>
@@ -13,77 +12,148 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<title>One‑Liner instalator — AIO Panel v9.1.1 | AIO‑IPTV.pl</title>
+
 <link href="pliki/logo.png" rel="icon"/>
 <link href="assets/css/site.css?v=next1" rel="stylesheet"/>
+<title>One‑Liner instalator — AIO Panel v9.1.1 | AIO‑IPTV.pl</title>
+<link rel="stylesheet" href="assets/v2/site.css?v=1">
 </head>
-<body data-page="next">
-<div class="topbar">
-<div class="container">
-<div class="topbar-inner">
-<a aria-label="AIO-IPTV.pl" class="brand" href="index.html">
-<img alt="AIO-IPTV.pl" src="pliki/logo.png"/>
-<div>
-<div class="name">AIO‑IPTV.pl</div>
-<span class="tag">Enigma2 • IPTV • Tools • AI</span>
-</div>
-</a>
-<a class="pill pill-accent" download="" href="pliki/enigma2-plugin-extensions-panelaio_9.1.1_all.ipk">
-<span data-i18n="cta_update">Aktualizacja: AIO Panel v9.1.1 (Python 2 & 3 – Universal)</span>
-<strong data-i18n="cta_download">Pobierz teraz</strong>
-</a>
-<div class="spacer"></div>
-<div class="notif">
-<button aria-label="Updates" class="icon-btn" id="bellBtn">🔔</button>
-<div aria-live="polite" class="notif-panel" id="notifPanel"></div>
-</div>
-<button aria-label="Menu" class="icon-btn" id="navToggle">☰</button>
-</div>
-</div>
-<div class="nav">
-<div class="container">
-<div class="nav-inner nav">
-<a data-i18n="nav_home" href="index.html">Start</a>
-<a data-i18n="nav_ai" href="ai-chat.html">AI-Chat Enigma2</a>
-<a data-i18n="nav_plugins" href="plugins.html">Wtyczki</a>
-<a data-i18n="nav_new_projects" href="nowe-projekty.html">Nowe Projekty</a>
-<a data-i18n="nav_lists" href="channel-lists.html">Listy kanałów</a>
-<a data-i18n="nav_guides" href="guides.html">Poradniki</a>
-<a data-i18n="nav_tools" href="tools.html">Narzędzia</a>
-<a data-i18n="nav_error_scan" href="error-scan.html">Diagnoza błędów</a>
-<a data-i18n="nav_systems" href="systems.html">Systemy</a>
-<a data-i18n="nav_image_installation" href="image-installation.html">Instalacja Image</a>
-<a data-i18n="nav_contact" href="contact.html">Kontakt</a>
-<a data-i18n="nav_opinion" href="contact.html#opinia">Podziel się opinią</a>
-<a data-i18n="nav_support" href="support.html">Wsparcie</a>
-<a data-i18n="nav_stats" href="stats.html">Statystyki</a>
-</div>
-</div>
-</div>
-</div>
-<div class="drawer-backdrop" data-drawer-close="" id="drawerBackdrop"></div>
-<aside aria-hidden="true" class="drawer" id="mobileDrawer">
-  <div class="drawer-head">
-    <div class="drawer-title">Menu</div>
-    <button aria-label="Close" class="icon-btn" data-drawer-close="">✕</button>
+<body>
+  <div class="v2-mobilebar">
+    <div class="row">
+      <div class="left">
+        <button class="v2-iconbtn" type="button" data-open-drawer aria-label="Menu">☰</button>
+        <div class="title">AIO‑IPTV</div>
+      </div>
+      <button class="v2-iconbtn" type="button" data-toggle-theme aria-label="Motyw">🌓</button>
+    </div>
   </div>
-  <a href="index.html">🏠 <span data-i18n="nav_home">Start</span></a>
-<a href="ai-chat.html">🤖 <span data-i18n="nav_ai">AI-Chat Enigma2</span></a>
-<a href="plugins.html">🧩 <span data-i18n="nav_plugins">Wtyczki</span></a>
-<a href="nowe-projekty.html">🧪 <span data-i18n="nav_new_projects">Nowe Projekty</span></a>
-<a href="channel-lists.html">📺 <span data-i18n="nav_lists">Listy kanałów</span></a>
-<a href="guides.html">📘 <span data-i18n="nav_guides">Poradniki</span></a>
-<a href="tools.html">🛠 <span data-i18n="nav_tools">Narzędzia</span></a>
-<a href="error-scan.html">🩺 <span data-i18n="nav_error_scan">Diagnoza błędów</span></a>
-<a href="systems.html">💿 <span data-i18n="nav_systems">Systemy</span></a>
-<a href="image-installation.html">🧯 <span data-i18n="nav_image_installation">Instalacja Image</span></a>
-<a href="stats.html">📈 <span data-i18n="nav_stats">Statystyki</span></a>
-<a href="contact.html">✉️ <span data-i18n="nav_contact">Kontakt</span></a>
-<a href="contact.html#opinia">💬 <span data-i18n="nav_opinion">Podziel się opinią</span></a>
-<a href="support.html">☕ <span data-i18n="nav_support">Wsparcie</span></a>
-</aside>
-<main class="container">
-<section class="section"><div class="section-head"><div><h2 class="section-title">Generator One‑Liner</h2><p class="section-sub">Generuj szybkie komendy do terminala.</p></div></div></section>
+
+  <div class="v2-drawer" role="dialog" aria-modal="true">
+    <div class="panel">
+      <div class="close-row"><button class="v2-iconbtn" type="button" data-close-drawer aria-label="Zamknij">✕</button></div>
+      <div class="v2-brand">
+  <img src="logo.png" alt="AIO‑IPTV">
+  <div class="t">
+    <strong>AIO‑IPTV</strong>
+    <span>Enigma2 • Wtyczki • Narzędzia</span>
+  </div>
+</div>
+
+<div class="v2-actions">
+  <a class="v2-btn primary" href="plugins.html#aio-panel">⬇️ AIO Panel 9.1.1</a>
+  <a class="v2-btn" href="support.html">💚 Wsparcie</a>
+</div>
+
+<div class="v2-search">
+  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  <input type="search" placeholder="Szukaj w menu…" data-nav-search aria-label="Szukaj w menu">
+</div>
+
+<nav class="v2-nav drawer-links">
+<div class="group">
+<div class="label">Start</div>
+<a href="index.html"><span>🏠 Start</span></a>
+<a href="plugins.html"><span>🧩 Wtyczki / Pobieranie</span><span class="v2-pill">9.1.1</span></a>
+<a href="guides.html"><span>📘 Poradniki</span></a>
+<a href="tools.html"><span>🛠️ Narzędzia</span></a>
+<a href="support.html"><span>💚 Wsparcie</span></a>
+<a href="contact.html"><span>✉️ Kontakt</span></a>
+</div>
+<div class="group">
+<div class="label">Projekty</div>
+<a href="nowe-projekty.html"><span>✨ Nowe projekty</span></a>
+<a href="systems.html"><span>🧠 Systemy / Obrazy</span></a>
+<a href="channel-lists.html"><span>📺 Listy kanałów</span></a>
+<a href="one-liner.html"><span>⚡ One‑liner</span></a>
+<a href="knowledge.html"><span>🗂️ Baza wiedzy</span></a>
+</div>
+<div class="group">
+<div class="label">Aplikacje</div>
+<a href="kreator.html"><span>🧱 Kreator konfiguracji</span></a>
+<a href="config-builder.html"><span>🧩 Config Builder</span></a>
+<a href="porownywarka.html"><span>📊 Porównywarka</span></a>
+<a href="tuner-compare.html"><span>🛰️ Porównanie tunerów</span></a>
+<a href="error-scan.html"><span>🔎 Error Scan</span></a>
+<a href="future-lab.html"><span>🧪 Future Lab</span></a>
+<a href="ai-chat.html"><span>🤖 AI Chat</span></a>
+<a href="image-installation.html"><span>🖼️ Instalacja obrazów</span></a>
+<a href="stats.html"><span>📈 Statystyki</span></a>
+</div>
+</nav>
+    </div>
+  </div>
+
+  <div class="v2-shell">
+    <aside class="v2-sidebar" aria-label="Nawigacja">
+      <div class="v2-brand">
+  <img src="logo.png" alt="AIO‑IPTV">
+  <div class="t">
+    <strong>AIO‑IPTV</strong>
+    <span>Enigma2 • Wtyczki • Narzędzia</span>
+  </div>
+</div>
+
+<div class="v2-actions">
+  <a class="v2-btn primary" href="plugins.html#aio-panel">⬇️ AIO Panel 9.1.1</a>
+  <a class="v2-btn" href="support.html">💚 Wsparcie</a>
+</div>
+
+<div class="v2-search">
+  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  <input type="search" placeholder="Szukaj w menu…" data-nav-search aria-label="Szukaj w menu">
+</div>
+
+<nav class="v2-nav drawer-links">
+<div class="group">
+<div class="label">Start</div>
+<a href="index.html"><span>🏠 Start</span></a>
+<a href="plugins.html"><span>🧩 Wtyczki / Pobieranie</span><span class="v2-pill">9.1.1</span></a>
+<a href="guides.html"><span>📘 Poradniki</span></a>
+<a href="tools.html"><span>🛠️ Narzędzia</span></a>
+<a href="support.html"><span>💚 Wsparcie</span></a>
+<a href="contact.html"><span>✉️ Kontakt</span></a>
+</div>
+<div class="group">
+<div class="label">Projekty</div>
+<a href="nowe-projekty.html"><span>✨ Nowe projekty</span></a>
+<a href="systems.html"><span>🧠 Systemy / Obrazy</span></a>
+<a href="channel-lists.html"><span>📺 Listy kanałów</span></a>
+<a href="one-liner.html"><span>⚡ One‑liner</span></a>
+<a href="knowledge.html"><span>🗂️ Baza wiedzy</span></a>
+</div>
+<div class="group">
+<div class="label">Aplikacje</div>
+<a href="kreator.html"><span>🧱 Kreator konfiguracji</span></a>
+<a href="config-builder.html"><span>🧩 Config Builder</span></a>
+<a href="porownywarka.html"><span>📊 Porównywarka</span></a>
+<a href="tuner-compare.html"><span>🛰️ Porównanie tunerów</span></a>
+<a href="error-scan.html"><span>🔎 Error Scan</span></a>
+<a href="future-lab.html"><span>🧪 Future Lab</span></a>
+<a href="ai-chat.html"><span>🤖 AI Chat</span></a>
+<a href="image-installation.html"><span>🖼️ Instalacja obrazów</span></a>
+<a href="stats.html"><span>📈 Statystyki</span></a>
+</div>
+</nav>
+    </aside>
+
+    <main class="v2-main">
+      <div class="v2-container">
+        <div class="v2-pagehead">
+  <div>
+    <h1>One‑Liner instalator — AIO Panel v9.1.1</h1>
+    <p>AIO Panel v9.1.1 (Enigma2) — nowy interfejs (Sidebar + Content, cyber-blue), nowa zakładka Skins/Skórki i poprawiona stabilność poleceń systemowych. Kompatybilna z wszystkimi systemami Enigma2 (Py2/Py3).</p>
+  </div>
+  <div class="v2-head-actions">
+    <button class="v2-btn small" type="button" data-toggle-theme>🌓 Motyw</button>
+    <a class="v2-btn small primary" href="plugins.html#aio-panel">⬇️ AIO Panel 9.1.1</a>
+  </div>
+</div>
+
+        <div class="v2-grid">
+          <section class="v2-card">
+            <div class="bd v2-prose">
+              <section class="section"><div class="section-head"><div><h2 class="section-title">Generator One‑Liner</h2><p class="section-sub">Generuj szybkie komendy do terminala.</p></div></div></section>
 <div class="card generator-card" data-aos="fade-up" id="generator">
 <h2>⚡ <span data-i18n="nav_generator">Generator</span> One-Liner</h2>
 <p>Zaznacz, co chcesz zainstalować, a strona wygeneruje jedną, wspólną komendę do terminala (Putty itp.).</p>
@@ -179,74 +249,23 @@
 </ul>
 </div>
 </div>
-</main>
-<footer class="site-footer">
-<div class="footer-inner">
-<div class="footer-grid">
-<div>
-<div class="footer-brand-row">
-<img alt="AIO-IPTV.pl" class="footer-logo" src="pliki/logo.png"/>
-<div>
-<div class="footer-brand-name">AIO-IPTV.pl</div>
-<div class="footer-brand-tag">Enigma2 • IPTV • Tools • AI</div>
-</div>
-</div>
-<div class="footer-note">
-          Nowoczesne centrum Enigma2: wtyczki, listy, poradniki, narzędzia oraz AI‑Chat. Dostępne po polsku i po angielsku.
+            </div>
+          </section>
         </div>
-</div>
-<div>
-<div class="footer-title">Nawigacja</div>
-<a class="footer-link" href="index.html">Start</a>
-<a class="footer-link" href="ai-chat.html">AI‑Chat</a>
-<a class="footer-link" href="plugins.html#pobieranie">Pobieranie</a>
-<a class="footer-link" href="guides.html">Poradniki</a>
-</div>
-<div>
-<div class="footer-title">Sekcje</div>
-<a class="footer-link" href="plugins.html">Wtyczki</a>
-<a class="footer-link" href="channel-lists.html">Listy kanałów</a>
-<a class="footer-link" href="tools.html">Narzędzia</a>
-<a class="footer-link" href="systems.html">Systemy</a>
-</div>
-<div>
-<div class="footer-title">Kontakt i wsparcie</div>
-<div class="footer-kpi"><span>📧</span><span>Email: <a class="footer-link inline" href="mailto:msisystem@t.pl">msisystem@t.pl</a></span></div>
-<div class="footer-kpi"><span>✈️</span><span>Telegram: <a class="footer-link inline" href="https://t.me/PawelPawelek" rel="noopener" target="_blank">t.me/PawelPawelek</a></span></div>
-<div class="footer-kpi"><span>💬</span><span>Messenger: <a class="footer-link inline" href="https://m.me/100064704540847" rel="noopener" target="_blank">Napisz wiadomość</a></span></div>
-<div class="footer-support">
-<div class="footer-title" data-i18n="support" style="margin-bottom:10px">Wesprzyj projekt</div>
-<div class="footer-support-row">
-<a aria-label="Revolut" class="support-btn support-revolut" href="https://revolut.me/pawelz75" rel="noopener" target="_blank">
-<span class="support-logo">
-<svg aria-hidden="true" focusable="false" role="img" viewbox="0 0 64 64"><defs><lineargradient id="revG" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#3b82f6"></stop><stop offset="1" stop-color="#22d3ee"></stop></lineargradient></defs><circle cx="32" cy="32" fill="url(#revG)" r="28"></circle><path d="M22 46V18h13.6c7 0 11.4 3.5 11.4 9.5 0 4.8-3 8-8.2 8.8L46 46h-7.6l-6.2-9.2h-3.8V46H22zm6.4-14.6h6.4c3.4 0 5.3-1.4 5.3-4s-1.9-4-5.3-4h-6.4v8z" fill="#0b1220"></path></svg>
-</span>
-<span class="support-text"><span class="support-name">Revolut</span><span class="support-sub">Dzięki!</span></span>
-</a>
-<a aria-label="PayPal" class="support-btn support-paypal" data-paypal="aHR0cHM6Ly93d3cucGF5cGFsLmNvbS9zZW5kP3JlY2lwaWVudD1wYXdlbHphcnp5Y2tpNjFAZ21haWwuY29tJmN1cnJlbmN5Q29kZT1QTE4=" href="#" id="paypalSupportBtn" rel="noopener" target="_blank">
-<span class="support-logo">
-<svg aria-hidden="true" focusable="false" role="img" viewbox="0 0 64 64"><defs><lineargradient id="ppG" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#60a5fa"></stop><stop offset="1" stop-color="#a78bfa"></stop></lineargradient></defs><circle cx="32" cy="32" fill="url(#ppG)" r="28"></circle><path d="M25 46l4-26h13c6 0 10 3.4 10 8.8 0 7.2-5.4 11.2-13.4 11.2h-6.2l-1 6H25zm9.1-12.2h4.5c4.1 0 6.6-1.8 6.6-5 0-2.2-1.5-3.5-4.3-3.5h-6.1l-0.7 8.5z" fill="#0b1220"></path></svg>
-</span>
-<span class="support-text"><span class="support-name">PayPal</span><span class="support-sub">Dzięki!</span></span>
-</a>
-</div>
-</div>
-<div class="footer-kpi" style="margin-top:12px; font-size:.88rem; opacity:.85"><span>🐛</span><span>Błąd? <a class="footer-link inline" href="https://github.com/OliOli2013/aio-iptv-projekt/issues" rel="noopener" target="_blank">Zgłoś na GitHub</a></span></div>
-</div>
-</div>
-<div class="footer-bottom">
-<div>© <span id="year"></span> AIO‑IPTV.pl • Paweł Pawełek</div>
-<div class="footer-legal">
-<a href="support.html">Wsparcie</a>
-<a href="contact.html">Kontakt</a>
-<a href="contact.html#opinia">Podziel się opinią</a>
-</div>
-</div>
-</div>
-</footer>
-<script>document.getElementById('year').textContent=new Date().getFullYear();</script>
-<script src="assets/js/site.js?v=next1"></script>
 
+        
+
+        <footer class="v2-footer">
+          <div>© 2026 AIO‑IPTV • Strona statyczna (GitHub Pages)</div>
+          <div><a href="support.html">Wsparcie</a> • <a href="contact.html">Kontakt</a> • <a href="plugins.html#aio-panel">AIO Panel 9.1.1</a></div>
+        </footer>
+      </div>
+    </main>
+  </div>
+
+  <script defer src="assets/v2/site.js?v=1"></script>
+  <script>document.getElementById('year').textContent=new Date().getFullYear();</script>
+<script src="assets/js/site.js?v=next1"></script>
 <script src="assets/js/stats-nav.js" defer></script>
 </body>
 </html>

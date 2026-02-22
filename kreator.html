@@ -1,6 +1,5 @@
-<!DOCTYPE html>
-
-<html data-theme="dark" lang="pl">
+<!doctype html>
+<html lang="pl">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -9,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <meta content="#0d1117" name="theme-color"/>
-<title>Kreator Konfiguracji Enigma2 | AIO-IPTV.pl</title>
+
 <meta content="Intuicyjny kreator konfiguracji dla tunerów Enigma2. Wygeneruj gotowe pliki w 5 minut!" name="description"/>
 <meta content="Paweł Pawełek" name="author"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
@@ -785,28 +784,145 @@
         }
     </style> <link href="logo.png" rel="apple-touch-icon"/>
 <link href="logo.png" rel="icon" type="image/png"/>
+<title>Kreator Konfiguracji Enigma2 | AIO-IPTV.pl</title>
+<link rel="stylesheet" href="assets/v2/site.css?v=1">
 </head>
-<body data-theme="dark">
-<!-- Header -->
-<header>
-<div class="header-content">
-<img alt="Logo AIO-IPTV" class="site-logo" src="https://github.com/OliOli2013/aio-iptv-projekt/raw/main/pliki/logo.png"/>
-<div class="header-info">
-<h1>Kreator Konfiguracji</h1>
-<p>Enigma2 • Tunery satelitarne • AIO-IPTV</p>
+<body>
+  <div class="v2-mobilebar">
+    <div class="row">
+      <div class="left">
+        <button class="v2-iconbtn" type="button" data-open-drawer aria-label="Menu">☰</button>
+        <div class="title">AIO‑IPTV</div>
+      </div>
+      <button class="v2-iconbtn" type="button" data-toggle-theme aria-label="Motyw">🌓</button>
+    </div>
+  </div>
+
+  <div class="v2-drawer" role="dialog" aria-modal="true">
+    <div class="panel">
+      <div class="close-row"><button class="v2-iconbtn" type="button" data-close-drawer aria-label="Zamknij">✕</button></div>
+      <div class="v2-brand">
+  <img src="logo.png" alt="AIO‑IPTV">
+  <div class="t">
+    <strong>AIO‑IPTV</strong>
+    <span>Enigma2 • Wtyczki • Narzędzia</span>
+  </div>
 </div>
+
+<div class="v2-actions">
+  <a class="v2-btn primary" href="plugins.html#aio-panel">⬇️ AIO Panel 9.1.1</a>
+  <a class="v2-btn" href="support.html">💚 Wsparcie</a>
 </div>
-<div class="nav-buttons">
-<a class="btn btn-secondary" href="index.html">
-<i class="fas fa-home"></i> Strona główna
-            </a>
-<button class="btn btn-secondary" id="themeToggle">
-<i class="fas fa-moon"></i> Motyw
-            </button>
+
+<div class="v2-search">
+  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  <input type="search" placeholder="Szukaj w menu…" data-nav-search aria-label="Szukaj w menu">
 </div>
-</header>
-<!-- Main Content -->
-<div class="main-container">
+
+<nav class="v2-nav drawer-links">
+<div class="group">
+<div class="label">Start</div>
+<a href="index.html"><span>🏠 Start</span></a>
+<a href="plugins.html"><span>🧩 Wtyczki / Pobieranie</span><span class="v2-pill">9.1.1</span></a>
+<a href="guides.html"><span>📘 Poradniki</span></a>
+<a href="tools.html"><span>🛠️ Narzędzia</span></a>
+<a href="support.html"><span>💚 Wsparcie</span></a>
+<a href="contact.html"><span>✉️ Kontakt</span></a>
+</div>
+<div class="group">
+<div class="label">Projekty</div>
+<a href="nowe-projekty.html"><span>✨ Nowe projekty</span></a>
+<a href="systems.html"><span>🧠 Systemy / Obrazy</span></a>
+<a href="channel-lists.html"><span>📺 Listy kanałów</span></a>
+<a href="one-liner.html"><span>⚡ One‑liner</span></a>
+<a href="knowledge.html"><span>🗂️ Baza wiedzy</span></a>
+</div>
+<div class="group">
+<div class="label">Aplikacje</div>
+<a href="kreator.html"><span>🧱 Kreator konfiguracji</span></a>
+<a href="config-builder.html"><span>🧩 Config Builder</span></a>
+<a href="porownywarka.html"><span>📊 Porównywarka</span></a>
+<a href="tuner-compare.html"><span>🛰️ Porównanie tunerów</span></a>
+<a href="error-scan.html"><span>🔎 Error Scan</span></a>
+<a href="future-lab.html"><span>🧪 Future Lab</span></a>
+<a href="ai-chat.html"><span>🤖 AI Chat</span></a>
+<a href="image-installation.html"><span>🖼️ Instalacja obrazów</span></a>
+<a href="stats.html"><span>📈 Statystyki</span></a>
+</div>
+</nav>
+    </div>
+  </div>
+
+  <div class="v2-shell">
+    <aside class="v2-sidebar" aria-label="Nawigacja">
+      <div class="v2-brand">
+  <img src="logo.png" alt="AIO‑IPTV">
+  <div class="t">
+    <strong>AIO‑IPTV</strong>
+    <span>Enigma2 • Wtyczki • Narzędzia</span>
+  </div>
+</div>
+
+<div class="v2-actions">
+  <a class="v2-btn primary" href="plugins.html#aio-panel">⬇️ AIO Panel 9.1.1</a>
+  <a class="v2-btn" href="support.html">💚 Wsparcie</a>
+</div>
+
+<div class="v2-search">
+  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  <input type="search" placeholder="Szukaj w menu…" data-nav-search aria-label="Szukaj w menu">
+</div>
+
+<nav class="v2-nav drawer-links">
+<div class="group">
+<div class="label">Start</div>
+<a href="index.html"><span>🏠 Start</span></a>
+<a href="plugins.html"><span>🧩 Wtyczki / Pobieranie</span><span class="v2-pill">9.1.1</span></a>
+<a href="guides.html"><span>📘 Poradniki</span></a>
+<a href="tools.html"><span>🛠️ Narzędzia</span></a>
+<a href="support.html"><span>💚 Wsparcie</span></a>
+<a href="contact.html"><span>✉️ Kontakt</span></a>
+</div>
+<div class="group">
+<div class="label">Projekty</div>
+<a href="nowe-projekty.html"><span>✨ Nowe projekty</span></a>
+<a href="systems.html"><span>🧠 Systemy / Obrazy</span></a>
+<a href="channel-lists.html"><span>📺 Listy kanałów</span></a>
+<a href="one-liner.html"><span>⚡ One‑liner</span></a>
+<a href="knowledge.html"><span>🗂️ Baza wiedzy</span></a>
+</div>
+<div class="group">
+<div class="label">Aplikacje</div>
+<a href="kreator.html"><span>🧱 Kreator konfiguracji</span></a>
+<a href="config-builder.html"><span>🧩 Config Builder</span></a>
+<a href="porownywarka.html"><span>📊 Porównywarka</span></a>
+<a href="tuner-compare.html"><span>🛰️ Porównanie tunerów</span></a>
+<a href="error-scan.html"><span>🔎 Error Scan</span></a>
+<a href="future-lab.html"><span>🧪 Future Lab</span></a>
+<a href="ai-chat.html"><span>🤖 AI Chat</span></a>
+<a href="image-installation.html"><span>🖼️ Instalacja obrazów</span></a>
+<a href="stats.html"><span>📈 Statystyki</span></a>
+</div>
+</nav>
+    </aside>
+
+    <main class="v2-main">
+      <div class="v2-container">
+        <div class="v2-pagehead">
+  <div>
+    <h1>Kreator Konfiguracji Enigma2</h1>
+    <p>Intuicyjny kreator konfiguracji dla tunerów Enigma2. Wygeneruj gotowe pliki w 5 minut!</p>
+  </div>
+  <div class="v2-head-actions">
+    <button class="v2-btn small" type="button" data-toggle-theme>🌓 Motyw</button>
+    <a class="v2-btn small primary" href="plugins.html#aio-panel">⬇️ AIO Panel 9.1.1</a>
+  </div>
+</div>
+
+        <div class="v2-grid">
+          <section class="v2-card">
+            <div class="bd v2-prose">
+              <div class="main-container">
 <!-- Wizard Header -->
 <div class="wizard-container">
 <div class="wizard-header" data-aos="fade-up">
@@ -1227,15 +1343,22 @@
 </div>
 </div>
 </div>
-<!-- Footer -->
-<footer>
-<div class="footer-content">
-<p>© 2025 AIO-IPTV.pl | Kreator Konfiguracji Enigma2</p>
-<p>Automatyczne generowanie plików dla tunerów satelitarnych</p>
-</div>
-</footer>
-<!-- Scripts -->
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+            </div>
+          </section>
+        </div>
+
+        
+
+        <footer class="v2-footer">
+          <div>© 2026 AIO‑IPTV • Strona statyczna (GitHub Pages)</div>
+          <div><a href="support.html">Wsparcie</a> • <a href="contact.html">Kontakt</a> • <a href="plugins.html#aio-panel">AIO Panel 9.1.1</a></div>
+        </footer>
+      </div>
+    </main>
+  </div>
+
+  <script defer src="assets/v2/site.js?v=1"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
         // Initialize AOS
         AOS.init({
@@ -1649,7 +1772,6 @@
             if (e.key === 'ArrowLeft' && wizardState.step > 1) prevStep();
         });
     </script>
-
 <script src="assets/js/stats-nav.js" defer></script>
 </body>
 </html>
