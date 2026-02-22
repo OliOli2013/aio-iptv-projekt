@@ -20,7 +20,9 @@ body.v4{
 body.v4 .topbar, body.v4 #mobileDrawer, body.v4 #drawerBackdrop, body.v4 .drawer, body.v4 .drawer-backdrop{display:none!important;}
 
 #page{
-  width:min(980px, calc(100% - 24px));
+  /* 980px looked too narrow on desktop screens. Keep the centered "template" vibe,
+     but use a much wider max width so the site doesn't feel squeezed. */
+  width:min(1520px, calc(100% - 32px));
   margin:18px auto;
   display:flex;
   border:1px solid rgba(255,255,255,.10);
