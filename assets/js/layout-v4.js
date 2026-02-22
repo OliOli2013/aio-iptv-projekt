@@ -25,6 +25,10 @@
 
       <div class="menu-title"><span class="bar"></span><strong>Menu</strong></div>
 
+      <div class="v4-menu-search" aria-label="Szukaj w menu">
+        <input id="v4MenuSearch" type="search" placeholder="Szukaj w menu…" autocomplete="off" />
+      </div>
+
       <nav aria-label="Menu boczne">
         <div class="menu-group">
           <div class="h">Wtyczki</div>
@@ -33,6 +37,9 @@
           <a href="plugins.html#iptv-dream">IPTV Dream</a>
           <a href="plugins.html#nagrania-on-demand">Nagrania On Demand</a>
           <a href="plugins.html#opencamview">OpenCamView</a>
+          <a href="plugins.html#picon-updater">Picon Updater</a>
+          <a href="plugins.html#myupdater">MyUpdater</a>
+          <a href="plugins.html#simple-iptv-epg">Simple IPTV EPG</a>
           <a href="plugins.html#pliki">Niezbędne dodatki</a>
         </div>
 
@@ -55,6 +62,7 @@
           <a href="channel-lists.html">Listy kanałów</a>
           <a href="downloads.html">Pobieranie</a>
           <a href="knowledge.html">Wiedza</a>
+          <a href="updates.html">Aktualizacje</a>
         </div>
 
         <div class="menu-group">
@@ -68,6 +76,12 @@
       <div class="sidebar-cta">
         <a download href="pliki/enigma2-plugin-extensions-panelaio_9.1.1_all.ipk">Pobierz AIO Panel 9.1.1</a>
         <div class="sub">Uniwersalna paczka (Py2/Py3)</div>
+
+        <div class="v4-cta-row">
+          <a class="v4-cta-secondary" download href="pliki/enigma2-plugin-extensions-iptvdream_6.4_all.ipk">Pobierz IPTV Dream 6.4</a>
+        </div>
+
+        <div class="v4-side-news" id="v4SideNews" aria-label="Ostatnie aktualizacje"></div>
       </div>
     `;
 
@@ -83,14 +97,21 @@
     const top=document.createElement('header');
     top.id='topnav';
     top.innerHTML=`
-      <nav class="nav" aria-label="Nawigacja górna">
+      <nav class="v4-topnav" aria-label="Nawigacja górna">
         <a href="index.html">Index</a>
         <span class="sep" aria-hidden="true"></span>
         <a href="plugins.html">Wtyczki</a>
         <span class="sep" aria-hidden="true"></span>
-        <a href="tools.html">Oferta</a>
+        <a href="tools.html">Narzędzia</a>
+        <span class="sep" aria-hidden="true"></span>
+        <a href="systems.html">Systemy</a>
+        <span class="sep" aria-hidden="true"></span>
+        <a href="updates.html">Aktualizacje</a>
         <span class="sep" aria-hidden="true"></span>
         <a href="contact.html">Kontakt</a>
+
+        <span class="sep" aria-hidden="true"></span>
+        <a class="v4-toplink" href="#" id="v4OpenSearch" title="Szukaj (Ctrl+K)">Szukaj</a>
       </nav>
     `;
     return top;
@@ -100,8 +121,23 @@
     const el=document.createElement('div');
     el.id='breadcrumb';
     const p=currentPage();
-    const name=(p==='index.html')?'index':p.replace('.html','');
-    el.textContent=`index | ${name}`;
+    const map={
+      'index.html':'index',
+      'plugins.html':'wtyczki',
+      'tools.html':'narzędzia',
+      'systems.html':'systemy',
+      'guides.html':'poradniki',
+      'image-installation.html':'instalacja image',
+      'channel-lists.html':'listy kanałów',
+      'knowledge.html':'wiedza',
+      'one-liner.html':'one-liner',
+      'updates.html':'aktualizacje',
+      'support.html':'wsparcie',
+      'contact.html':'kontakt',
+      'stats.html':'statystyki'
+    };
+    const name=(map[p] || p.replace('.html',''));
+    el.innerHTML=`<a href="index.html">index</a> | <span>${name}</span>`;
     return el;
   }
 
@@ -116,6 +152,27 @@
     if(body.classList.contains('v4')) return;
     body.classList.add('v4');
     removeOld();
+
+    // Inject v4 enhancements (CSS + JS) globally, without editing every HTML file.
+    (function ensureAssets(){
+      try{
+        const head=document.head;
+        if(head && !document.querySelector('link[data-v4-enh]')){
+          const l=document.createElement('link');
+          l.rel='stylesheet';
+          l.href='assets/css/v4-enhancements.css?v=1';
+          l.setAttribute('data-v4-enh','1');
+          head.appendChild(l);
+        }
+        if(head && !document.querySelector('script[data-v4-enh]')){
+          const s=document.createElement('script');
+          s.src='assets/js/v4-enhancements.js?v=1';
+          s.defer=true;
+          s.setAttribute('data-v4-enh','1');
+          head.appendChild(s);
+        }
+      }catch(_){/* noop */}
+    })();
 
     const main=$('main');
     const content=document.createElement('div');
@@ -144,6 +201,14 @@
 
     body.innerHTML='';
     body.appendChild(page);
+    // Mark active link in top navigation
+    try{
+      const p=currentPage();
+      document.querySelectorAll('#topnav .v4-topnav a[href]').forEach(a=>{
+        const href=(a.getAttribute('href')||'').toLowerCase();
+        if(href===p) a.classList.add('active');
+      });
+    }catch(_){/* noop */}
     scripts.forEach(s=>body.appendChild(s));
   }
 

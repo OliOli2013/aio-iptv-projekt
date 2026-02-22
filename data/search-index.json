@@ -1,0 +1,33 @@
+[
+  {"title":"Start","desc":"Strona główna — szybkie wejście do wtyczek, narzędzi i poradników.","url":"index.html","tags":["start","home"]},
+
+  {"title":"Wtyczki — Moje wtyczki","desc":"Lista wszystkich moich wtyczek Enigma2 + pobieranie.","url":"plugins.html#wtyczki","tags":["wtyczki","ipk","enigma2"]},
+  {"title":"AIO Panel 9.1.1","desc":"Opis zmian v9.1.1 + pobieranie uniwersalnej paczki (Py2/Py3).","url":"plugins.html#aio-panel","tags":["aio","panel","9.1.1","py2","py3"]},
+  {"title":"IPTV Dream 6.4","desc":"Wtyczka IPTV: M3U/Xtream/MAC Portal + eksport do bukietów, EPG, pikony.","url":"plugins.html#iptv-dream","tags":["iptv","m3u","xtream","dream"]},
+  {"title":"Nagrania On Demand","desc":"Porządkowanie nagrań: scalanie, tytuły z .meta, usuwanie plików technicznych.","url":"plugins.html#nagrania-on-demand","tags":["nagrania","vod","enigma2"]},
+  {"title":"OpenCamView","desc":"Podgląd kamer IP RTSP + eksport do bukietów i M3U.","url":"plugins.html#opencamview","tags":["rtsp","kamery","ocv"]},
+  {"title":"Picon Updater","desc":"Automatyczne pobieranie i aktualizacja pikon z GitHub.","url":"plugins.html#picon-updater","tags":["picon","pikony"]},
+  {"title":"MyUpdater","desc":"Updater/instalator: listy, pikony, softcamy + diagnostyka i wykrywanie dystrybucji.","url":"plugins.html#myupdater","tags":["updater","softcam","listy"]},
+  {"title":"Simple IPTV EPG","desc":"Proste EPG dla kanałów internetowych — przypisywanie programu do kanałów IPTV.","url":"plugins.html#simple-iptv-epg","tags":["epg","iptv"]},
+  {"title":"Niezbędne dodatki","desc":"ServiceApp, StreamlinkProxy, feedy i inne dodatki do Enigma2.","url":"plugins.html#pobieranie","tags":["serviceapp","streamlink","download"]},
+
+  {"title":"One‑Liner","desc":"Generator poleceń do szybkiej instalacji (copy/paste).","url":"one-liner.html","tags":["ssh","telnet","install"]},
+  {"title":"Narzędzia","desc":"Zestaw narzędzi pomocniczych AIO‑IPTV.","url":"tools.html","tags":["tools","narzędzia"]},
+  {"title":"Konfigurator","desc":"Budowanie konfiguracji i plików pod Enigma2.","url":"config-builder.html","tags":["konfiguracja","builder"]},
+  {"title":"Kreator","desc":"Kreator parametrów i konfiguracji.","url":"kreator.html","tags":["kreator"]},
+  {"title":"Porównywarka","desc":"Porównanie parametrów/ustawień.","url":"porownywarka.html","tags":["porównywarka"]},
+  {"title":"Tuner Compare","desc":"Porównywarka tunerów Enigma2.","url":"tuner-compare.html","tags":["tuner","compare"]},
+  {"title":"Diagnoza błędów","desc":"Rozpoznawanie błędów (zrzuty ekranu / crashlog).","url":"error-scan.html","tags":["crashlog","diagnoza"]},
+
+  {"title":"Poradniki","desc":"Instrukcje, konfiguracje i tutoriale.","url":"guides.html","tags":["howto","poradnik"]},
+  {"title":"Systemy","desc":"Zestawienie systemów Enigma2 + opisy.","url":"systems.html","tags":["openatv","openpli","openvix"]},
+  {"title":"Instalacja Image","desc":"Przewodnik instalacji i konfiguracji image.","url":"image-installation.html","tags":["flash","image"]},
+  {"title":"Listy kanałów","desc":"Sekcja list kanałów i plików kanałowych.","url":"channel-lists.html","tags":["lamedb","bukiety"]},
+  {"title":"Wiedza","desc":"Baza wiedzy i praktyczne notatki.","url":"knowledge.html","tags":["knowledge"]},
+
+  {"title":"Aktualizacje","desc":"Oś czasu zmian i nowości projektu (AIO Panel, IPTV Dream).","url":"updates.html","tags":["release","nowości"]},
+
+  {"title":"Wsparcie","desc":"Revolut/PayPal — postaw kawę i wspieraj rozwój.","url":"support.html","tags":["kawa","support"]},
+  {"title":"Kontakt","desc":"Formy kontaktu i opinie.","url":"contact.html","tags":["kontakt","telegram"]},
+  {"title":"Statystyki","desc":"Statystyki projektu i ruch.","url":"stats.html","tags":["stats"]}
+]

@@ -54,6 +54,21 @@
       </div>
     </section>
 
+    <section class="v4-welcome" aria-label="Nowości" style="margin-top:14px;">
+      <div class="title">
+        <span class="blk" aria-hidden="true"></span>
+        <h2 style="margin:0;">Nowości i aktualizacje</h2>
+      </div>
+      <p class="muted small" style="margin-top:0;">Najświeższe wpisy są pobierane automatycznie z <code>data/updates.json</code>.</p>
+
+      <div id="homeUpdates" class="v4-timeline" aria-live="polite"></div>
+
+      <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+        <a class="btn primary" href="updates.html">Zobacz wszystkie aktualizacje</a>
+        <a class="btn" href="plugins.html">Przejdź do wtyczek</a>
+      </div>
+    </section>
+
     <section class="v4-welcome" aria-label="Witamy">
       <div class="title">
         <span class="blk" aria-hidden="true"></span>
@@ -96,6 +111,46 @@
     </section>
   </main>
 
+  <script src="assets/js/site.js?v=next1"></script>
+  <script>
+    (function(){
+      var root = document.getElementById('homeUpdates');
+      if(!root) return;
+      function esc(s){
+        return String(s||'')
+          .replaceAll('&','&amp;')
+          .replaceAll('<','&lt;')
+          .replaceAll('>','&gt;')
+          .replaceAll('"','&quot;')
+          .replaceAll("'",'&#039;');
+      }
+      fetch('data/updates.json', {cache:'no-store'})
+        .then(function(r){ return r.ok ? r.json() : []; })
+        .then(function(items){
+          if(!Array.isArray(items) || !items.length){
+            root.innerHTML = '<div class="muted small">Brak wpisów.</div>';
+            return;
+          }
+          items = items.slice().sort(function(a,b){ return (Number(b.ts)||0) - (Number(a.ts)||0); }).slice(0,2);
+          root.innerHTML = items.map(function(it, idx){
+            var ts = Number(it.ts)||idx;
+            var id = 'u' + ts;
+            return (
+              '<div class="v4-tl-item">' +
+                '<div class="v4-tl-top">' +
+                  '<span class="v4-tl-type">'+esc(String(it.type||'release'))+'</span>' +
+                  '<span class="v4-tl-date">'+esc(String(it.date||''))+'</span>' +
+                  '<span class="v4-tl-title">'+esc(String(it.title||''))+'</span>' +
+                '</div>' +
+                '<div class="v4-tl-details">'+esc(String(it.details||'')).slice(0,260)+'…</div>' +
+                '<div style="margin-top:10px;"><a class="btn" href="updates.html#'+esc(id)+'">Czytaj więcej</a></div>' +
+              '</div>'
+            );
+          }).join('');
+        })
+        .catch(function(){ root.innerHTML = '<div class="muted small">Nie udało się wczytać aktualizacji.</div>'; });
+    })();
+  </script>
   <script defer src="assets/js/layout-v4.js?v=4"></script>
   <script src="assets/js/v3.js?v=3"></script>
 </body>
