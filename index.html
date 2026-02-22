@@ -1,372 +1,102 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1" name="viewport"/>
-<meta content="AIO Panel v9.1.1 (Enigma2) — nowy interfejs (Sidebar + Content, cyber-blue), nowa zakładka Skins/Skórki i poprawiona stabilność poleceń systemowych. Kompatybilna z wszystkimi systemami Enigma2 (Py2/Py3)." name="description"/>
-<meta content="Enigma2 Python 2 3 plugin, AIO Panel 9.1.1, PanelAIO, OpenPLi 9, OpenATV, DreamOS, IPTV Dream 6.4, installer.sh, one-liner" name="keywords"/>
-<meta content="website" property="og:type"/>
-<meta content="AIO Panel v9.1.1 — nowy interfejs, Skins/Skórki" property="og:title"/>
-<meta content="AIO Panel v9.1.1 — nowy UI, Skins/Skórki, stabilność komend. Uniwersalna kompatybilność Enigma2 (Py2/Py3)." property="og:description"/>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-
-<link href="pliki/logo.png" rel="icon"/>
-<link href="assets/css/site.css?v=next2" rel="stylesheet"/>
-<title>AIO Panel v9.1.1 — Nowy interfejs, Skins/Skórki | AIO‑IPTV.pl</title>
-<link rel="stylesheet" href="assets/v2/site.css?v=1">
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>AIO‑IPTV.pl — Nowa odsłona (szablon) • AIO Panel 9.1.1</title>
+  <meta name="description" content="AIO‑IPTV.pl — autorskie wtyczki Enigma2 (AIO Panel, IPTV Dream, OpenCamView, Nagrania On Demand), listy kanałów oraz narzędzia. Aktualna wersja AIO Panel: 9.1.1 (Py2/Py3)."/>
+  <link href="pliki/logo.png" rel="icon"/>
+  <!-- Zachowujemy istniejące style/skrypty projektu (nie usuwamy zawartości) -->
+  <link href="assets/css/site.css?v=next2" rel="stylesheet"/>
+  <link href="assets/css/v3.css?v=3" rel="stylesheet"/>
+  <link href="assets/css/v4-template.css?v=4" rel="stylesheet"/>
 </head>
 <body>
-  <div class="v2-mobilebar">
-    <div class="row">
-      <div class="left">
-        <button class="v2-iconbtn" type="button" data-open-drawer aria-label="Menu">☰</button>
-        <div class="title">AIO‑IPTV</div>
-      </div>
-      <button class="v2-iconbtn" type="button" data-toggle-theme aria-label="Motyw">🌓</button>
-    </div>
-  </div>
+  <main>
+    <section class="v4-home-hero" aria-label="Wprowadzenie">
+      <div class="copy">
+        <div class="kicker">AIO Panel 9.1.1 • Enigma2 • IPTV</div>
+        <h1>TWORZYMY Twój Enigma2 prostszy i szybszy</h1>
+        <p class="lead">
+          Zebrane w jednym miejscu: moje wtyczki dla Enigma2, gotowe pliki do pobrania, poradniki i narzędzia.
+          Strona została przebudowana graficznie w nowym układzie (sidebar + content), ale zachowuje całą Twoją dotychczasową zawartość.
+        </p>
 
-  <div class="v2-drawer" role="dialog" aria-modal="true">
-    <div class="panel">
-      <div class="close-row"><button class="v2-iconbtn" type="button" data-close-drawer aria-label="Zamknij">✕</button></div>
-      <div class="v2-brand">
-  <img src="logo.png" alt="AIO‑IPTV">
-  <div class="t">
-    <strong>AIO‑IPTV</strong>
-    <span>Enigma2 • Wtyczki • Narzędzia</span>
-  </div>
-</div>
-
-<div class="v2-actions">
-  <a class="v2-btn primary" href="plugins.html#aio-panel">⬇️ AIO Panel 9.1.1</a>
-  <a class="v2-btn" href="support.html">💚 Wsparcie</a>
-</div>
-
-<div class="v2-search">
-  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-  <input type="search" placeholder="Szukaj w menu…" data-nav-search aria-label="Szukaj w menu">
-</div>
-
-<nav class="v2-nav drawer-links">
-<div class="group">
-<div class="label">Start</div>
-<a href="index.html"><span>🏠 Start</span></a>
-<a href="plugins.html"><span>🧩 Wtyczki / Pobieranie</span><span class="v2-pill">9.1.1</span></a>
-<a href="guides.html"><span>📘 Poradniki</span></a>
-<a href="tools.html"><span>🛠️ Narzędzia</span></a>
-<a href="support.html"><span>💚 Wsparcie</span></a>
-<a href="contact.html"><span>✉️ Kontakt</span></a>
-</div>
-<div class="group">
-<div class="label">Projekty</div>
-<a href="nowe-projekty.html"><span>✨ Nowe projekty</span></a>
-<a href="systems.html"><span>🧠 Systemy / Obrazy</span></a>
-<a href="channel-lists.html"><span>📺 Listy kanałów</span></a>
-<a href="one-liner.html"><span>⚡ One‑liner</span></a>
-<a href="knowledge.html"><span>🗂️ Baza wiedzy</span></a>
-</div>
-<div class="group">
-<div class="label">Aplikacje</div>
-<a href="kreator.html"><span>🧱 Kreator konfiguracji</span></a>
-<a href="config-builder.html"><span>🧩 Config Builder</span></a>
-<a href="porownywarka.html"><span>📊 Porównywarka</span></a>
-<a href="tuner-compare.html"><span>🛰️ Porównanie tunerów</span></a>
-<a href="error-scan.html"><span>🔎 Error Scan</span></a>
-<a href="future-lab.html"><span>🧪 Future Lab</span></a>
-<a href="ai-chat.html"><span>🤖 AI Chat</span></a>
-<a href="image-installation.html"><span>🖼️ Instalacja obrazów</span></a>
-<a href="stats.html"><span>📈 Statystyki</span></a>
-</div>
-</nav>
-    </div>
-  </div>
-
-  <div class="v2-shell">
-    <aside class="v2-sidebar" aria-label="Nawigacja">
-      <div class="v2-brand">
-  <img src="logo.png" alt="AIO‑IPTV">
-  <div class="t">
-    <strong>AIO‑IPTV</strong>
-    <span>Enigma2 • Wtyczki • Narzędzia</span>
-  </div>
-</div>
-
-<div class="v2-actions">
-  <a class="v2-btn primary" href="plugins.html#aio-panel">⬇️ AIO Panel 9.1.1</a>
-  <a class="v2-btn" href="support.html">💚 Wsparcie</a>
-</div>
-
-<div class="v2-search">
-  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-  <input type="search" placeholder="Szukaj w menu…" data-nav-search aria-label="Szukaj w menu">
-</div>
-
-<nav class="v2-nav drawer-links">
-<div class="group">
-<div class="label">Start</div>
-<a href="index.html"><span>🏠 Start</span></a>
-<a href="plugins.html"><span>🧩 Wtyczki / Pobieranie</span><span class="v2-pill">9.1.1</span></a>
-<a href="guides.html"><span>📘 Poradniki</span></a>
-<a href="tools.html"><span>🛠️ Narzędzia</span></a>
-<a href="support.html"><span>💚 Wsparcie</span></a>
-<a href="contact.html"><span>✉️ Kontakt</span></a>
-</div>
-<div class="group">
-<div class="label">Projekty</div>
-<a href="nowe-projekty.html"><span>✨ Nowe projekty</span></a>
-<a href="systems.html"><span>🧠 Systemy / Obrazy</span></a>
-<a href="channel-lists.html"><span>📺 Listy kanałów</span></a>
-<a href="one-liner.html"><span>⚡ One‑liner</span></a>
-<a href="knowledge.html"><span>🗂️ Baza wiedzy</span></a>
-</div>
-<div class="group">
-<div class="label">Aplikacje</div>
-<a href="kreator.html"><span>🧱 Kreator konfiguracji</span></a>
-<a href="config-builder.html"><span>🧩 Config Builder</span></a>
-<a href="porownywarka.html"><span>📊 Porównywarka</span></a>
-<a href="tuner-compare.html"><span>🛰️ Porównanie tunerów</span></a>
-<a href="error-scan.html"><span>🔎 Error Scan</span></a>
-<a href="future-lab.html"><span>🧪 Future Lab</span></a>
-<a href="ai-chat.html"><span>🤖 AI Chat</span></a>
-<a href="image-installation.html"><span>🖼️ Instalacja obrazów</span></a>
-<a href="stats.html"><span>📈 Statystyki</span></a>
-</div>
-</nav>
-    </aside>
-
-    <main class="v2-main">
-      <div class="v2-container">
-        <div class="v2-pagehead">
-  <div>
-    <div class="v2-badge">Strona</div>
-    <p>AIO Panel v9.1.1 (Enigma2) — nowy interfejs (Sidebar + Content, cyber-blue), nowa zakładka Skins/Skórki i poprawiona stabilność poleceń systemowych. Kompatybilna z wszystkimi systemami Enigma2 (Py2/Py3).</p>
-  </div>
-  <div class="v2-head-actions">
-    <button class="v2-btn small" type="button" data-toggle-theme>🌓 Motyw</button>
-    <a class="v2-btn small primary" href="plugins.html#aio-panel">⬇️ AIO Panel 9.1.1</a>
-  </div>
-</div>
-
-        <div class="v2-grid">
-          <section class="v2-card">
-            <div class="bd v2-prose">
-              <div class="v2-callout">
-  <strong>AIO Panel v9.1.1 jest dostępny</strong>
-  <p>Wtyczka dla Enigma2 (Python 2/3). Na stronie znajdziesz instalację, opis zmian i narzędzia towarzyszące (konfiguratory, porównywarki, poradniki).</p>
-</div>
-
-<h2>Najważniejsze zmiany w 9.1.1</h2>
-<ul>
-  <li>Naprawa losowego braku opisów/opcji w menu na Python 2 (OpenATV 6.4 / VTi).</li><li>Wymuszona poprawna konwersja typów tekstu w listach GUI (Py2: str/UTF-8 bytes, Py3: str) — koniec z „&lt;not-a-string&gt;” i znikającymi nazwami.</li><li>Dodane instalatory wtyczek: ChocholousekPicons, CIEFP Oscam Editor, FilmXY, FootOnsat oraz e‑stralker (feed/opkg).</li>
-</ul>
-
-<h2>Pobieranie</h2>
-<p>
-  <a class="v2-btn primary" href="pliki/enigma2-plugin-extensions-panelaio_9.1.1_all.ipk">⬇️ Pobierz AIO Panel 9.1.1 (IPK)</a>
-  <a class="v2-btn" href="plugins.html#aio-panel">Szczegóły i instalatory</a>
-</p>
-
-<figure class="v2-figure" style="margin-top:14px">
-  <img src="pliki/aio-panel-9.1.1-screen.jpg" alt="AIO Panel 9.1.1 — screen">
-  <figcaption>Podgląd: AIO Panel 9.1.1 (zrzut ekranu).</figcaption>
-</figure>
-
-<h2>Instalatory wtyczek (dodane w 9.1.1)</h2>
-<p>Komendy do uruchomienia w terminalu tunera (telnet/SSH):</p>
-<div class="v2-callout" style="margin:12px 0">
-  <strong>ChocholousekPicons</strong>
-  <pre><code>wget -qO- --no-check-certificate &#x27;https://github.com/s3n0/e2plugins/raw/master/ChocholousekPicons/online-setup&#x27; | bash -s install</code></pre>
-</div>
-<div class="v2-callout" style="margin:12px 0">
-  <strong>CIEFP Oscam Editor</strong>
-  <pre><code>wget -q --no-check-certificate &#x27;https://raw.githubusercontent.com/ciefp/CiefpOscamEditor/main/installer.sh&#x27; -O - | /bin/sh</code></pre>
-</div>
-<div class="v2-callout" style="margin:12px 0">
-  <strong>FilmXY</strong>
-  <pre><code>wget -q --no-check-certificate https://raw.githubusercontent.com/Belfagor2005/filmxy/main/installer.sh -O - | /bin/sh</code></pre>
-</div>
-<div class="v2-callout" style="margin:12px 0">
-  <strong>FootOnsat</strong>
-  <pre><code>wget https://raw.githubusercontent.com/fairbird/FootOnsat/main/Download/install.sh -O - | /bin/sh</code></pre>
-</div>
-<div class="v2-callout" style="margin:12px 0">
-  <strong>e‑stralker (feed)</strong>
-  <pre><code>opkg update &amp;&amp; opkg install enigma2-plugin-extensions-estalker</code></pre>
-</div>
-
-<details class="v2-details" style="margin-top:18px">
-  <summary><strong>Archiwum: zawartość poprzedniej strony (bez zmian)</strong><span class="v2-badge">zachowane</span></summary>
-  <div class="bd v2-prose">
-    <section class="hero">
-<div class="hero-grid">
-<div class="hero-card">
-<div aria-label="NOWOŚĆ AIO Panel v9.1.1" class="hero-callout" role="note">
-<div class="hero-callout-top">
-<span class="pill pill-hot">🔥 NOWOŚĆ 9.0</span>
-<span class="pill pill-accent">🎨 Skins/Skórki</span>
-<span class="pill">⚙️ Stabilność</span>
-</div>
-<div class="hero-callout-title">AIO Panel v9.1.1 — poprawki Py2 + instalatory wtyczek</div>
-<ul class="hero-callout-list"><li><strong>Py2 fix:</strong> konwersja tekstu w listach GUI (koniec <code>&lt;not-a-string&gt;</code> i znikających opisów).</li><li><strong>Nowe instalatory:</strong> Picons, Oscam Editor, FilmXY, FootOnsat, e‑stralker (feed).</li><li><strong>W pakiecie v9.0:</strong> nowy interfejs (Sidebar + Content) + Skins/Skórki.</li></ul>
-<div class="hero-actions hero-actions-compact">
-<a class="btn primary" href="plugins.html#aio-panel">🧰 Zobacz zmiany v9.0</a>
-<a class="btn" href="one-liner.html#aio">⚡ Instaluj (One‑Liner)</a>
-<a class="btn" href="plugins.html#aio-panel">📦 Pobierz IPK</a>
-</div>
-</div></div>
-<h1 data-i18n="hero_title">AIO-IPTV.pl — Enigma2 przyszłości</h1>
-<p data-i18n="hero_sub">Porządek zamiast chaosu: podstrony, narzędzia i AI-Chat Enigma2 w jednym miejscu. Strona dostępna po polsku i po angielsku.</p>
-<div class="hero-actions">
-<a class="btn primary" href="ai-chat.html">🤖 <span data-i18n="nav_ai">AI-Chat Enigma2</span></a>
-<a class="btn" href="plugins.html#pobieranie">⬇️ <span data-i18n="nav_downloads">Pobieranie</span></a>
-<a class="btn" href="tools.html">🛠 <span data-i18n="nav_tools">Narzędzia</span></a>
-<a class="btn" href="guides.html">📘 <span data-i18n="nav_guides">Poradniki</span></a>
-</div>
-</div>
-<div class="hero-card">
-<div class="kpi">
-<a aria-label="AI‑Chat – Offline KB" class="k" href="ai-chat.html"><div class="t">AI‑Chat</div><div class="v">Offline KB</div></a>
-<a aria-label="AIO Panel – v9.0" class="k" href="plugins.html#aio-panel"><div class="t">AIO Panel</div><div class="v">v9.0</div></a>
-<a aria-label="Nagrania On Demand – v2.0" class="k" href="plugins.html#nagrania-on-demand"><div class="t">Nagrania</div><div class="v">On Demand</div></a>
-<a aria-label="Generator – One‑Liner" class="k" href="one-liner.html"><div class="t">Generator</div><div class="v">One‑Liner</div></a>
-<a aria-label="Kreator – Konfiguracji" class="k" href="config-builder.html"><div class="t">Kreator</div><div class="v">Konfiguracji</div></a>
-<a aria-label="Porównywarka – Tunery" class="k" href="tuner-compare.html"><div class="t">Porównywarka</div><div class="v">Tunery</div></a>
-</div>
-<div style="margin-top:14px; color:var(--muted); line-height:1.55">
-        Strona jest podzielona na czytelne sekcje. Wybierz temat z nawigacji u góry.
-      </div>
-</div>
-</section>
-<section class="section" id="changelog-9-0">
-<div class="section-head">
-<div>
-<h2 class="section-title">Wyróżnione aktualizacje</h2>
-<p class="section-sub">Enigma2 plugin: AIO Panel v9.1.1 — poprawki Py2 + instalatory (uniwersalnie Py2/Py3) + IPTV Dream 6.4.</p>
-</div>
-<a class="pill pill-accent" download="" href="pliki/enigma2-plugin-extensions-panelaio_9.1.1_all.ipk">⬇️ Pobierz AIO Panel 9.1.1</a>
-</div>
-<div class="grid-2">
-<article class="card">
-<div class="card-top">
-<h3 style="margin:0">AIO Panel v9.1.1</h3>
-<div class="muted" style="margin-top:4px">
-      Kompatybilna z wszystkimi systemami Enigma2 (Py2 / Py3)
-    </div>
-</div>
-<ul class="changelog-list"><li><strong>Poprawka Py2 UI:</strong> koniec losowego braku opisów/opcji oraz problemów typu <code>&lt;not-a-string&gt;</code> (OpenATV 6.4 / VTi).</li><li><strong>Nowe instalatory:</strong> ChocholousekPicons, CIEFP Oscam Editor, FilmXY, FootOnsat, e‑stralker (feed/opkg).</li><li><strong>Zawiera też zmiany v9.0:</strong> nowy interfejs (Sidebar + Content), Skins/Skórki, stabilniejsze polecenia systemowe.</li></ul>
-<div class="hero-actions hero-actions-compact" style="margin-top:10px">
-<a class="btn primary" href="plugins.html#aio-panel">🧰 Szczegóły v9.1.1</a>
-<a class="btn" href="one-liner.html#aio">⚡ Instaluj</a>
-</div>
-</article>
-<article class="card">
-<h3 style="margin:0">IPTV Dream v6.4</h3>
-<div class="muted" style="margin-top:4px">Aktualna wersja na stronie: <strong>6.4</strong></div>
-<p style="margin-top:10px; color:var(--muted); line-height:1.55">
-        Wtyczka do obsługi list IPTV (M3U, Xtream, MAC Portal) z eksportem do bukietów Enigma2.
-        Na stronie dostępna jest wyłącznie wersja <strong>6.4</strong>.
-      </p>
-<div class="hero-actions hero-actions-compact" style="margin-top:10px">
-<a class="btn" download="" href="pliki/enigma2-plugin-extensions-iptvdream_6.4_all.ipk">⬇️ Pobierz 6.4</a>
-<a class="btn" href="plugins.html#iptv-dream">Szczegóły</a>
-</div>
-</article>
-</div>
-</section>
-<section class="section">
-<div class="section-head">
-<div>
-<h2 class="section-title">Szybki dostęp</h2>
-<p class="section-sub">Najczęściej używane narzędzia i projekty w jednym miejscu — bez szukania po menu.</p>
-</div>
-</div>
-<div class="grid">
-<a class="card card-link" href="plugins.html#aio-panel">
-<h3>🧰 AIO Panel v9.1.1 (Python 2 &amp; 3 – Universal)</h3>
-<p>Centrum instalacji i narzędzi <em>All‑in‑One</em> dla Enigma2: listy, instalatory, diagnostyka i porządek w systemie.</p>
-<div class="link-row"><span class="btn primary">Otwórz</span></div>
-</a>
-<a class="card card-link" href="plugins.html#nagrania-on-demand">
-<h3>🎬 Nagrania On Demand</h3>
-<p>Czysta lista nagrań bez plików technicznych + scalanie nagrań podzielonych na części. Dodatkowo: „Nagraj teraz”, timery i systemowe EPG (w tym IPTV — zależnie od image).</p>
-<div class="link-row"><span class="btn primary">Zobacz wtyczkę</span></div>
-</a>
-<a class="card card-link" href="plugins.html#pobieranie">
-<h3>📦 Pobieranie</h3>
-<p>Wtyczki i pliki do Enigma2 w jednym miejscu, z jasnym opisem do czego służą i aktualnymi wersjami.</p>
-<div class="link-row"><span class="btn">Otwórz listę</span></div>
-</a>
-<a class="card card-link" href="one-liner.html">
-<h3>⚡ Generator One‑Liner</h3>
-<p>Wygeneruj bezpieczne polecenia instalacji/naprawy — gotowe do wklejenia w konsoli/SSH.</p>
-<div class="link-row"><span class="btn">Otwórz generator</span></div>
-</a>
-<a class="card card-link" href="tuner-compare.html">
-<h3>🔎 Porównywarka tunerów</h3>
-<p>Porównuj modele po parametrach: CPU, RAM, gniazda, obsługiwane standardy i funkcje.</p>
-<div class="link-row"><span class="btn">Porównaj</span></div>
-</a>
-<a class="card card-link" href="tools.html">
-<h3>🛠 Narzędzia</h3>
-<p>Skróty i narzędzia serwisowe dla Enigma2 — diagnostyka, pliki, backupy i praktyczne rozwiązania.</p>
-<div class="link-row"><span class="btn">Przejdź</span></div>
-</a>
-</div>
-</section>
-<section class="section">
-<div class="section-head">
-<div>
-<h2 class="section-title" data-i18n="latest">Najnowsze</h2>
-<p class="section-sub">Aktualności i szybkie wejścia do najczęściej używanych części serwisu.</p>
-</div>
-</div>
-<div class="grid">
-<div class="card">
-<h3>🔔 Aktualizacje</h3>
-<p>W prawym górnym rogu znajdziesz dzwoneczek z listą nowości (AIO Panel v9.1.1 (Python 2 &amp; 3 – Universal), AI‑Chat Enigma2 i inne).</p>
-<div class="link-row">
-<a class="btn" href="plugins.html#nagrania-on-demand">🎬 Nagrania</a>
-<a class="btn" href="support.html">☕ Wsparcie</a>
-<a class="btn" href="contact.html">✉️ Kontakt</a>
-</div>
-</div>
-<div class="card">
-<h3>📦 Pobieranie</h3>
-<p>Wtyczki i pliki do Enigma2 w jednym miejscu, z jasnym opisem do czego służą.</p>
-<div class="link-row">
-<a class="btn primary" href="plugins.html#pobieranie">Otwórz pobieranie</a>
-</div>
-</div>
-<div class="card">
-<h3>🧠 Centrum wiedzy</h3>
-<p>Poradniki, FAQ i mini‑słownik pojęć. Najważniejsze tematy w czytelnych podstronach.</p>
-<div class="link-row">
-<a class="btn" href="guides.html">Przejdź do poradników</a>
-</div>
-</div>
-</div>
-</section>
-  </div>
-</details>
-            </div>
-          </section>
+        <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+          <a class="btn primary" download href="pliki/enigma2-plugin-extensions-panelaio_9.1.1_all.ipk">Pobierz AIO Panel 9.1.1</a>
+          <a class="btn" href="plugins.html#aio-panel">Opis AIO Panel</a>
+          <a class="btn" href="plugins.html#wtyczki">Moje wtyczki</a>
         </div>
 
-        
-
-        <footer class="v2-footer">
-          <div>© 2026 AIO‑IPTV • Strona statyczna (GitHub Pages)</div>
-          <div><a href="support.html">Wsparcie</a> • <a href="contact.html">Kontakt</a> • <a href="plugins.html#aio-panel">AIO Panel 9.1.1</a></div>
-        </footer>
+        <div class="v4-note">
+          Patch 9.1.1: poprawki dla Python 2 (OpenATV 6.4 / VTi) + stabilna konwersja tekstu w listach GUI (koniec „&lt;not-a-string&gt;”).
+        </div>
       </div>
-    </main>
-  </div>
 
-  <script defer src="assets/v2/site.js?v=1"></script>
-  <script>document.getElementById('year').textContent=new Date().getFullYear();</script>
-<script src="assets/js/site.js?v=next1"></script>
-<script defer="" src="assets/js/stats-nav.js"></script>
+      <div class="media" aria-label="AIO Panel 9.1.1 screen">
+        <img src="pliki/aio-panel-9.1.1-screen.jpg" alt="AIO Panel 9.1.1 — screen"/>
+      </div>
+    </section>
+
+    <section class="v4-feature-row" aria-label="Szybkie ścieżki">
+      <div class="v4-feature">
+        <h3>DO ENIGMA2</h3>
+        <div class="img" aria-hidden="true"><span>🧩</span></div>
+        <p>AIO Panel, IPTV Dream, Nagrania On Demand, OpenCamView i pozostałe — wersje + opisy + pobieranie.</p>
+        <a class="btn primary" href="plugins.html">Przejdź do wtyczek</a>
+      </div>
+
+      <div class="v4-feature">
+        <h3>DO IPTV</h3>
+        <div class="img" aria-hidden="true"><span>📺</span></div>
+        <p>Listy kanałów, konfigurator, porównywarki i narzędzia pomocnicze do szybkiej konfiguracji.</p>
+        <a class="btn primary" href="tools.html">Przejdź do narzędzi</a>
+      </div>
+    </section>
+
+    <section class="v4-welcome" aria-label="Witamy">
+      <div class="title">
+        <span class="blk" aria-hidden="true"></span>
+        <h2 style="margin:0;">Witamy na stronie</h2>
+      </div>
+
+      <div class="v4-cols">
+        <div>
+          <p>
+            Jeśli chcesz zacząć od razu — przejdź do <strong>Wtyczki</strong> i pobierz najnowsze paczki IPK.
+            Dla szybkiej instalacji użyj generatora <strong>One‑Liner</strong>.
+          </p>
+          <ul>
+            <li><strong>Wtyczki:</strong> pełna lista + szczegóły każdej wtyczki.</li>
+            <li><strong>Pobieranie:</strong> paczki „niezbędne” oraz dodatki do Enigma2.</li>
+            <li><strong>Poradniki:</strong> instalacja image i podstawowa konfiguracja.</li>
+            <li><strong>Narzędzia:</strong> konfigurator, kreator, porównywarki.</li>
+          </ul>
+          <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+            <a class="btn" href="one-liner.html">Generator One‑Liner</a>
+            <a class="btn" href="downloads.html">Pobieranie</a>
+            <a class="btn" href="guides.html">Poradniki</a>
+          </div>
+        </div>
+
+        <div>
+          <h3 style="margin-top:0;">AIO Panel 9.1.1 — najważniejsze zmiany</h3>
+          <ul>
+            <li>Naprawa losowego braku opisów/opcji w menu na Python 2 (OpenATV 6.4 / VTi).</li>
+            <li>Wymuszona poprawna konwersja typów tekstu w listach GUI (Py2: str/UTF‑8 bytes, Py3: str).</li>
+            <li>Eliminacja pozycji „&lt;not-a-string&gt;” oraz znikających nazw funkcji.</li>
+            <li>Dodane instalatory wtyczek w panelu (bez dodatkowych poleceń na stronie): ChocholousekPicons, CIEFP Oscam Editor, FilmXY, FootOnsat, e‑stralker.</li>
+          </ul>
+          <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+            <a class="btn primary" href="plugins.html#aio-panel">Zobacz opis v9.1.1</a>
+            <a class="btn" href="archiwum/index-v3.html">Archiwum: poprzednia strona</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script defer src="assets/js/layout-v4.js?v=4"></script>
+  <script src="assets/js/v3.js?v=3"></script>
 </body>
 </html>

@@ -9,9 +9,7 @@
 
   const I18N = {
     pl: {
-            cta_update_download: 'Aktualizacja <strong>AIO Panel v9.1.1</strong> — poprawki Py2 + instalatory wtyczek',
-      cta_update: 'Aktualizacja: AIO Panel v9.1.1 (Python 2 & 3 – Universal)',
-      cta_download: 'Pobierz teraz',
+      cta_update_download: 'Aktualizacja <strong>AIO Panel v9.0</strong> — Nowy interfejs + Skins/Skórki',
       nav_plugins: "Wtyczki / Pobieranie",
       nav_downloads: "Pobieranie",
       tab_my_plugins: "Moje wtyczki",
@@ -49,9 +47,7 @@
       quick_plugins_desc: "Najważniejsze dodatki dla Enigma2 – zawsze aktualne.",
     },
     en: {
-            cta_update_download: 'Update: <strong>AIO Panel v9.1.1 (Dual Python)</strong> — Py2 fixes + installers',
-      cta_update: 'Update: AIO Panel v9.1.1 (Python 2 & 3 – Universal)',
-      cta_download: 'Download now',
+      cta_update_download: 'Update: <strong>AIO Panel v9.0 (Dual Python)</strong> — Download now',
       nav_plugins: "Plugins / Downloads",
       nav_downloads: "Downloads",
       tab_my_plugins: "My plugins",

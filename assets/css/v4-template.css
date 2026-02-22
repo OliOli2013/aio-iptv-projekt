@@ -1,0 +1,166 @@
+/* AIO‑IPTV.pl — Template v4 (inspired by mockup) */
+:root{
+  --v4-bg:#2b2b2b;
+  --v4-beige:#a0937e;
+  --v4-beige-2:#8c806c;
+  --v4-sidebar:#6f634f;
+  --v4-sidebar-2:#5f5442;
+  --v4-white:#f4f4f4;
+  --v4-link:#f0e6d2;
+}
+html,body{height:100%;}
+body.v4{
+  margin:0;
+  background:
+    radial-gradient(1200px 600px at 40% 10%, rgba(255,255,255,.06), rgba(255,255,255,0) 55%),
+    linear-gradient(180deg, #2b2b2b, #1f1f1f);
+  color:var(--v4-white);
+  font-family:"Georgia","Times New Roman",serif;
+}
+body.v4 .topbar, body.v4 #mobileDrawer, body.v4 #drawerBackdrop, body.v4 .drawer, body.v4 .drawer-backdrop{display:none!important;}
+
+#page{
+  width:min(980px, calc(100% - 24px));
+  margin:18px auto;
+  display:flex;
+  border:1px solid rgba(255,255,255,.10);
+  box-shadow:0 18px 60px rgba(0,0,0,.55);
+  background:linear-gradient(180deg,#444,#343434);
+}
+#sidebar{
+  width:240px;
+  background:linear-gradient(180deg,var(--v4-sidebar),var(--v4-sidebar-2));
+  border-right:1px solid rgba(0,0,0,.45);
+  color:#121212;
+}
+#sidebar .logo-block{
+  background:linear-gradient(180deg,#242424,#0f0f0f);
+  color:#fff;
+  padding:18px 14px;
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
+#sidebar .logo-block .brand{display:flex;gap:10px;align-items:center;text-decoration:none;color:#fff;}
+#sidebar .logo-block img{
+  width:44px;height:44px;border-radius:4px;object-fit:contain;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.14);
+}
+#sidebar .logo-block .t1{font-size:22px;line-height:1.05;font-variant:small-caps;}
+#sidebar .logo-block .t2{margin-top:6px;font-size:12px;color:rgba(255,255,255,.78);font-family:Arial,Helvetica,sans-serif;}
+#sidebar .menu-title{
+  margin:12px 14px 8px;display:flex;align-items:center;gap:10px;
+  font-family:Arial,Helvetica,sans-serif;color:#eaeaea;
+}
+#sidebar .menu-title .bar{width:18px;height:18px;background:#0a0a0a;border:1px solid rgba(255,255,255,.18);}
+#sidebar nav{padding:0 12px 16px;}
+#sidebar .menu-group{margin:10px 0 14px;background:rgba(0,0,0,.08);border:1px solid rgba(0,0,0,.22);}
+#sidebar .menu-group .h{
+  padding:8px 10px;font-weight:bold;font-size:12px;letter-spacing:.3px;text-transform:uppercase;
+  color:#1b1b1b;background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(0,0,0,.06));
+  border-bottom:1px solid rgba(0,0,0,.20);font-family:Arial,Helvetica,sans-serif;
+}
+#sidebar .menu-group a{
+  display:block;padding:7px 10px;text-decoration:none;color:#141414;font-size:13px;
+  border-bottom:1px dotted rgba(0,0,0,.25);font-family:Arial,Helvetica,sans-serif;
+}
+#sidebar .menu-group a:last-child{border-bottom:none;}
+#sidebar .menu-group a:hover{background:rgba(255,255,255,.12);}
+#sidebar .menu-group a.active{background:rgba(0,0,0,.18);color:#0b0b0b;font-weight:bold;}
+
+#sidebar .sidebar-cta{padding:12px 14px 16px;border-top:1px solid rgba(0,0,0,.25);}
+#sidebar .sidebar-cta a{
+  display:block;text-align:center;padding:10px 10px;color:#fff;text-decoration:none;
+  background:linear-gradient(180deg,#1b1b1b,#0b0b0b);
+  border:1px solid rgba(255,255,255,.18);
+  font-family:Arial,Helvetica,sans-serif;font-weight:700;
+}
+#sidebar .sidebar-cta .sub{margin-top:8px;font-size:11px;color:rgba(0,0,0,.75);font-family:Arial,Helvetica,sans-serif;}
+
+#main{flex:1;display:flex;flex-direction:column;min-width:0;background:linear-gradient(180deg,#4a4a4a,#363636);}
+#topnav{
+  background:linear-gradient(180deg,var(--v4-beige),var(--v4-beige-2));
+  border-bottom:1px solid rgba(0,0,0,.35);
+  padding:12px 16px;
+}
+#topnav .nav{display:flex;align-items:center;gap:18px;font-variant:small-caps;letter-spacing:.8px;}
+#topnav a{color:#2b2b2b;text-decoration:none;font-size:18px;}
+#topnav .sep{height:18px;width:1px;background:rgba(0,0,0,.35);}
+#topnav a:hover{text-decoration:underline;}
+
+#main-inner{
+  padding:16px 18px 18px;
+  background:
+    radial-gradient(900px 500px at 30% 0%, rgba(255,255,255,.06), rgba(255,255,255,0) 60%),
+    linear-gradient(180deg,#3a3a3a,#2f2f2f);
+  min-height:520px;
+}
+#breadcrumb{
+  font-family:Arial,Helvetica,sans-serif;font-size:11px;color:rgba(255,255,255,.65);
+  padding:10px 16px;border-top:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.20);
+}
+body.v4 .container{width:auto!important;max-width:none!important;padding:0!important;margin:0!important;}
+body.v4 h1,body.v4 h2,body.v4 h3{font-weight:700;color:#fff;text-shadow:0 1px 0 rgba(0,0,0,.45);}
+body.v4 h1{font-size:30px;margin:0 0 10px;}
+body.v4 h2{font-size:22px;margin:18px 0 10px;}
+body.v4 h3{font-size:18px;margin:14px 0 8px;}
+body.v4 p{color:rgba(255,255,255,.82);}
+
+body.v4 .card{
+  background:linear-gradient(180deg,#343434,#2a2a2a)!important;
+  border:1px solid rgba(255,255,255,.14)!important;
+  border-radius:0!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
+}
+body.v4 .btn,body.v4 a.btn{
+  border-radius:0!important;border:1px solid rgba(255,255,255,.18)!important;
+  background:linear-gradient(180deg,#1f1f1f,#0f0f0f)!important;
+  color:#fff!important;font-family:Arial,Helvetica,sans-serif!important;text-decoration:none!important;
+}
+body.v4 .btn.primary,body.v4 a.btn.primary{
+  background:linear-gradient(180deg,#3b3b3b,#141414)!important;
+  border-color:rgba(240,230,210,.42)!important;
+}
+body.v4 .pill{border-radius:0!important;font-family:Arial,Helvetica,sans-serif!important;background:rgba(0,0,0,.25)!important;border:1px solid rgba(255,255,255,.14)!important;}
+body.v4 .file-list .file-link{border-radius:0!important;background:rgba(0,0,0,.18)!important;border:1px solid rgba(255,255,255,.14)!important;color:var(--v4-link)!important;}
+body.v4 .file-desc{color:rgba(255,255,255,.75)!important;}
+
+/* v4 homepage blocks */
+.v4-home-hero{
+  display:grid;grid-template-columns:1.15fr .85fr;gap:16px;align-items:stretch;
+  padding:14px 14px 0;border:1px solid rgba(255,255,255,.12);
+  background:linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.08));
+}
+.v4-home-hero .copy{padding:10px 12px 14px;}
+.v4-home-hero .copy .kicker{font-family:Arial,Helvetica,sans-serif;font-size:12px;text-transform:uppercase;letter-spacing:.8px;color:rgba(255,255,255,.70);}
+.v4-home-hero .copy h1{margin:8px 0 6px;font-size:32px;}
+.v4-home-hero .copy .lead{margin:0;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.55;color:rgba(255,255,255,.80);}
+.v4-home-hero .media{position:relative;overflow:hidden;border-left:1px solid rgba(255,255,255,.10);background:rgba(0,0,0,.25);}
+.v4-home-hero .media img{width:100%;height:100%;object-fit:cover;opacity:.95;filter:contrast(1.05) saturate(.9);}
+
+.v4-feature-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px;}
+.v4-feature{
+  border:1px solid rgba(255,255,255,.12);
+  background:linear-gradient(180deg,rgba(0,0,0,.20),rgba(0,0,0,.08));
+  padding:14px;text-align:center;
+}
+.v4-feature h3{margin:0 0 6px;font-variant:small-caps;letter-spacing:1px;}
+.v4-feature p{margin:0 0 10px;font-family:Arial,Helvetica,sans-serif;font-size:13px;color:rgba(255,255,255,.78);}
+.v4-feature .img{height:86px;margin:10px 0 10px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);}
+.v4-feature .img span{font-size:46px;opacity:.9;}
+.v4-feature .btn{display:inline-block;padding:10px 12px;}
+
+.v4-welcome{margin-top:14px;border:1px solid rgba(255,255,255,.12);background:linear-gradient(180deg,rgba(0,0,0,.20),rgba(0,0,0,.08));padding:14px;}
+.v4-welcome .title{display:flex;align-items:center;gap:10px;margin:0 0 10px;}
+.v4-welcome .title .blk{width:16px;height:16px;background:#0a0a0a;border:1px solid rgba(255,255,255,.18);}
+.v4-cols{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.v4-cols ul{margin:10px 0 0 18px;color:rgba(255,255,255,.80);font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.55;}
+.v4-note{font-family:Arial,Helvetica,sans-serif;font-size:12px;color:rgba(255,255,255,.75);margin-top:10px;}
+
+@media (max-width:860px){
+  #page{flex-direction:column;}
+  #sidebar{width:auto;}
+  #topnav .nav{flex-wrap:wrap;gap:10px;}
+  .v4-home-hero{grid-template-columns:1fr;}
+  .v4-feature-row{grid-template-columns:1fr;}
+  .v4-cols{grid-template-columns:1fr;}
+}

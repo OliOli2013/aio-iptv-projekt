@@ -5,12 +5,19 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 
+
+<meta name="description" content="AIO Panel v9.1.1 (Enigma2) — nowy interfejs (Sidebar + Content, cyber-blue), nowa zakładka Skins/Skórki i poprawiona stabilność poleceń systemowych. Kompatybilna z wszystkimi systemami Enigma2 (Py2/Py3)."/>
+<meta name="keywords" content="Enigma2 Python 2 3 plugin, AIO Panel 9.1.1, PanelAIO, OpenPLi 9, OpenATV, DreamOS, IPTV Dream 6.4, installer.sh, one-liner"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="AIO Panel v9.1.1 — nowy interfejs, Skins/Skórki"/>
+<meta property="og:description" content="AIO Panel v9.1.1 — nowy UI, Skins/Skórki, stabilność komend. Uniwersalna kompatybilność Enigma2 (Py2/Py3)."/>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<title>Listy kanałów — AIO-IPTV.pl</title>
+<title>AIO Panel v9.1.1 — Nowy interfejs, Skins/Skórki | AIO‑IPTV.pl</title>
 <link href="pliki/logo.png" rel="icon"/>
-<link href="assets/css/site.css?v=next1" rel="stylesheet"/>
+<link href="assets/css/site.css?v=next2" rel="stylesheet"/>
 <link href="assets/css/v3.css?v=3" rel="stylesheet">
 <link href="assets/css/v4-template.css?v=4" rel="stylesheet"/>
 </head>
@@ -111,21 +118,175 @@
   <a href="support.html">☕ <span data-i18n="nav_support">Wsparcie</span></a>
 </aside>
 <main class="container">
-<section class="section"><div class="section-head"><div><h2 class="section-title">Listy kanałów</h2><p class="section-sub">Zestawy list i instrukcje instalacji.</p></div></div></section>
-<div class="card" data-aos="fade-up" data-aos-delay="100" id="listy" data-manifest-url="https://raw.githubusercontent.com/OliOli2013/PanelAIO-Lists/main/manifest.json">
-<h2>Listy kanałów</h2>
-<p>Paczki kanałów (Enigma2).</p>
-<p id="listsLoading" style="margin-top:10px; color:var(--muted);">Ładowanie list z manifest.json…</p>
-<div id="listsError" style="display:none; margin-top:10px; color:#fca5a5;"></div>
+<section class="hero">
+<div class="hero-grid">
+<div class="hero-card">
 
-<div id="listsWrap" style="display:none;">
-  <h3 style="margin-top:14px;">Paczki kanałów (Enigma2)</h3>
-  <ul class="file-list" id="channelPacks"></ul>
+<div class="hero-callout" role="note" aria-label="NOWOŚĆ AIO Panel v9.1.1">
+  <div class="hero-callout-top">
+    <span class="pill pill-hot">🔥 NOWOŚĆ 9.0</span>
+    <span class="pill pill-accent">🎨 Skins/Skórki</span>
+    <span class="pill">⚙️ Stabilność</span>
+  </div>
+  <div class="hero-callout-title">AIO Panel v9.1.1 — poprawki Py2 + stabilne GUI (baza: UI v9)</div>
+  <ul class="hero-callout-list">
+    <li><strong>Nowy Dashboard:</strong> układ Sidebar + Content + kolorystyka cyber-blue</li>
+    <li><strong>NOWOŚĆ: Skins / Skórki:</strong> instalatory skinów bezpośrednio z panelu</li>
+    <li><strong>NCam:</strong> instalacja z feedu systemu (<span class="code-snippet">opkg</span>)</li>
+    <li><strong>Kompatybilność:</strong> działa na wszystkich systemach Enigma2 (Py2 / Py3)</li>
+  </ul>
+  <div class="hero-actions hero-actions-compact">
+    <a class="btn primary" href="plugins.html#aio-panel">🧰 Zobacz zmiany v9.1.1</a>
+    <a class="btn" href="one-liner.html#aio">⚡ Instaluj (One‑Liner)</a>
+    <a class="btn" href="plugins.html#aio-panel">📦 Pobierz IPK</a>
+  </div>
+</div></div>
 
-  <h3 id="bouquetsHeading" style="margin-top:18px;">Bukiety IPTV</h3>
-  <ul class="file-list" id="bouquetLists"></ul>
+<h1 data-i18n="hero_title">AIO-IPTV.pl — Enigma2 przyszłości</h1>
+<p data-i18n="hero_sub">Porządek zamiast chaosu: podstrony, narzędzia i AI-Chat Enigma2 w jednym miejscu. Strona dostępna po polsku i po angielsku.</p>
+<div class="hero-actions">
+<a class="btn primary" href="ai-chat.html">🤖 <span data-i18n="nav_ai">AI-Chat Enigma2</span></a>
+<a class="btn" href="plugins.html#pobieranie">⬇️ <span data-i18n="nav_downloads">Pobieranie</span></a>
+<a class="btn" href="tools.html">🛠 <span data-i18n="nav_tools">Narzędzia</span></a>
+<a class="btn" href="guides.html">📘 <span data-i18n="nav_guides">Poradniki</span></a>
 </div>
 </div>
+<div class="hero-card">
+<div class="kpi">
+<a class="k" href="ai-chat.html" aria-label="AI‑Chat – Offline KB"><div class="t">AI‑Chat</div><div class="v">Offline KB</div></a>
+<a class="k" href="plugins.html#aio-panel" aria-label="AIO Panel – v9.1.1"><div class="t">AIO Panel</div><div class="v">v9.1.1</div></a>
+<a class="k" href="plugins.html#nagrania-on-demand" aria-label="Nagrania On Demand – v2.0"><div class="t">Nagrania</div><div class="v">On Demand</div></a>
+<a class="k" href="one-liner.html" aria-label="Generator – One‑Liner"><div class="t">Generator</div><div class="v">One‑Liner</div></a>
+<a class="k" href="config-builder.html" aria-label="Kreator – Konfiguracji"><div class="t">Kreator</div><div class="v">Konfiguracji</div></a>
+<a class="k" href="tuner-compare.html" aria-label="Porównywarka – Tunery"><div class="t">Porównywarka</div><div class="v">Tunery</div></a>
+</div>
+<div style="margin-top:14px; color:var(--muted); line-height:1.55">
+        Strona jest podzielona na czytelne sekcje. Wybierz temat z nawigacji u góry.
+      </div>
+</div>
+</div>
+</section>
+
+<section class="section" id="changelog-9-0">
+  <div class="section-head">
+    <div>
+      <h2 class="section-title">Wyróżnione aktualizacje</h2>
+      <p class="section-sub">Enigma2 plugin: <strong>AIO Panel v9.1.1</strong> — nowy interfejs, Skins/Skórki i stabilność (uniwersalnie Py2/Py3) + <strong>IPTV Dream 6.4</strong>.</p>
+    </div>
+    <a class="pill pill-accent" href="pliki/enigma2-plugin-extensions-panelaio_9.1.1_all.ipk" download>⬇️ Pobierz AIO Panel 9.1.1</a>
+  </div>
+
+  <div class="grid-2">
+    <article class="card">
+  <div class="card-top">
+    <h3 style="margin:0">AIO Panel v9.1.1</h3>
+    <div class="muted" style="margin-top:4px">
+      Kompatybilna z wszystkimi systemami Enigma2 (Py2 / Py3)
+    </div>
+  </div>
+  <ul class="changelog-list">
+    <li><strong>NOWY interfejs:</strong> Dashboard w układzie <strong>Sidebar + Content</strong> (cyber-blue).</li>
+    <li><strong>NOWOŚĆ Skins / Skórki:</strong> osobna zakładka z instalatorami skinów.</li>
+    <li><strong>Podział menu:</strong> przejrzyste sekcje (kanały, softcamy, narzędzia, backup, diagnostyka, czyszczenie, bezpieczeństwo).</li>
+    <li><strong>NCam:</strong> instalowany z feedu systemu (<span class="code-snippet">opkg</span>).</li>
+    <li><strong>Poprawki UI:</strong> jeden fokus (bez „podwójnego zaznaczenia”) + ujednolicony wygląd panelu.</li>
+    <li><strong>Wsparcie:</strong> QR w nagłówku + ekran wsparcia w INFO (zoom).</li>
+    <li><strong>Stabilność:</strong> usprawnione wykonywanie poleceń systemowych i lepsza kompatybilność Py2/Py3.</li>
+  </ul>
+  <div class="hero-actions hero-actions-compact" style="margin-top:10px">
+    <a class="btn primary" href="plugins.html#aio-panel">🧰 Szczegóły v9.1.1</a>
+    <a class="btn" href="one-liner.html#aio">⚡ Instaluj</a>
+  </div>
+</article>
+
+    <article class="card">
+      <h3 style="margin:0">IPTV Dream v6.4</h3>
+      <div class="muted" style="margin-top:4px">Aktualna wersja na stronie: <strong>6.4</strong></div>
+      <p style="margin-top:10px; color:var(--muted); line-height:1.55">
+        Wtyczka do obsługi list IPTV (M3U, Xtream, MAC Portal) z eksportem do bukietów Enigma2.
+        Na stronie dostępna jest wyłącznie wersja <strong>6.4</strong>.
+      </p>
+      <div class="hero-actions hero-actions-compact" style="margin-top:10px">
+        <a class="btn" href="pliki/enigma2-plugin-extensions-iptvdream_6.4_all.ipk" download>⬇️ Pobierz 6.4</a>
+        <a class="btn" href="plugins.html#iptv-dream">Szczegóły</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div>
+      <h2 class="section-title">Szybki dostęp</h2>
+      <p class="section-sub">Najczęściej używane narzędzia i projekty w jednym miejscu — bez szukania po menu.</p>
+    </div>
+  </div>
+  <div class="grid">
+    <a class="card card-link" href="plugins.html#aio-panel">
+      <h3>🧰 AIO Panel v9.1.1 (Python 2 & 3 – Universal)</h3>
+      <p>Centrum instalacji i narzędzi <em>All‑in‑One</em> dla Enigma2: listy, instalatory, diagnostyka i porządek w systemie.</p>
+      <div class="link-row"><span class="btn primary">Otwórz</span></div>
+    </a>
+    <a class="card card-link" href="plugins.html#nagrania-on-demand">
+      <h3>🎬 Nagrania On Demand</h3>
+      <p>Czysta lista nagrań bez plików technicznych + scalanie nagrań podzielonych na części. Dodatkowo: „Nagraj teraz”, timery i systemowe EPG (w tym IPTV — zależnie od image).</p>
+      <div class="link-row"><span class="btn primary">Zobacz wtyczkę</span></div>
+    </a>
+    <a class="card card-link" href="plugins.html#pobieranie">
+      <h3>📦 Pobieranie</h3>
+      <p>Wtyczki i pliki do Enigma2 w jednym miejscu, z jasnym opisem do czego służą i aktualnymi wersjami.</p>
+      <div class="link-row"><span class="btn">Otwórz listę</span></div>
+    </a>
+    <a class="card card-link" href="one-liner.html">
+      <h3>⚡ Generator One‑Liner</h3>
+      <p>Wygeneruj bezpieczne polecenia instalacji/naprawy — gotowe do wklejenia w konsoli/SSH.</p>
+      <div class="link-row"><span class="btn">Otwórz generator</span></div>
+    </a>
+    <a class="card card-link" href="tuner-compare.html">
+      <h3>🔎 Porównywarka tunerów</h3>
+      <p>Porównuj modele po parametrach: CPU, RAM, gniazda, obsługiwane standardy i funkcje.</p>
+      <div class="link-row"><span class="btn">Porównaj</span></div>
+    </a>
+    <a class="card card-link" href="tools.html">
+      <h3>🛠 Narzędzia</h3>
+      <p>Skróty i narzędzia serwisowe dla Enigma2 — diagnostyka, pliki, backupy i praktyczne rozwiązania.</p>
+      <div class="link-row"><span class="btn">Przejdź</span></div>
+    </a>
+  </div>
+</section>
+<section class="section">
+<div class="section-head">
+<div>
+<h2 class="section-title" data-i18n="latest">Najnowsze</h2>
+<p class="section-sub">Aktualności i szybkie wejścia do najczęściej używanych części serwisu.</p>
+</div>
+</div>
+<div class="grid">
+<div class="card">
+<h3>🔔 Aktualizacje</h3>
+<p>W prawym górnym rogu znajdziesz dzwoneczek z listą nowości (AIO Panel v9.1.1 (Python 2 & 3 – Universal), AI‑Chat Enigma2 i inne).</p>
+<div class="link-row">
+<a class="btn" href="plugins.html#nagrania-on-demand">🎬 Nagrania</a>
+<a class="btn" href="support.html">☕ Wsparcie</a>
+<a class="btn" href="contact.html">✉️ Kontakt</a>
+</div>
+</div>
+<div class="card">
+<h3>📦 Pobieranie</h3>
+<p>Wtyczki i pliki do Enigma2 w jednym miejscu, z jasnym opisem do czego służą.</p>
+<div class="link-row">
+<a class="btn primary" href="plugins.html#pobieranie">Otwórz pobieranie</a>
+</div>
+</div>
+<div class="card">
+<h3>🧠 Centrum wiedzy</h3>
+<p>Poradniki, FAQ i mini‑słownik pojęć. Najważniejsze tematy w czytelnych podstronach.</p>
+<div class="link-row">
+<a class="btn" href="guides.html">Przejdź do poradników</a>
+</div>
+</div>
+</div>
+</section>
 </main>
 <footer class="site-footer">
 <div class="footer-inner">
@@ -152,6 +313,7 @@
 <div>
 <div class="footer-title">Sekcje</div>
 <a class="footer-link" href="plugins.html">Wtyczki</a>
+<a class="footer-link" href="nowe-projekty.html" data-i18n="nav_new_projects">Nowe Projekty</a>
 <a class="footer-link" href="channel-lists.html">Listy kanałów</a>
 <a class="footer-link" href="tools.html">Narzędzia</a>
 <a class="footer-link" href="systems.html">Systemy</a>
@@ -195,132 +357,6 @@
 <script src="assets/js/site.js?v=next1"></script>
 
 <script src="assets/js/stats-nav.js" defer></script>
-<script>
-(function(){
-  'use strict';
-
-  function escapeHtml(s){
-    return String(s || '')
-      .replaceAll('&','&amp;')
-      .replaceAll('<','&lt;')
-      .replaceAll('>','&gt;')
-      .replaceAll('"','&quot;')
-      .replaceAll("'","&#039;");
-  }
-
-  function formatDateISO(iso){
-    // expected: YYYY-MM-DD (fallback: return original)
-    var m = String(iso || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
-    if(!m) return String(iso || '');
-    return m[3] + '.' + m[2] + '.' + m[1];
-  }
-
-  function el(tag, attrs, html){
-    var node = document.createElement(tag);
-    if(attrs){
-      Object.keys(attrs).forEach(function(k){
-        if(k === 'class') node.className = attrs[k];
-        else if(k === 'style') node.setAttribute('style', attrs[k]);
-        else node.setAttribute(k, attrs[k]);
-      });
-    }
-    if(html != null) node.innerHTML = html;
-    return node;
-  }
-
-  function buildItem(item, isBouquet){
-    var li = el('li');
-    var icon = isBouquet ? '📄' : '📥';
-    var title = escapeHtml(item.name || item.id || 'Lista');
-    var href = String(item.url || '#');
-
-    var a = el('a', { class: 'file-link', href: href, target: '_blank', rel: 'noopener' },
-      '<span class="icon">' + icon + '</span> ' + title
-    );
-    li.appendChild(a);
-
-    var meta = [];
-    if(item.author) meta.push(escapeHtml(item.author));
-    if(item.version) meta.push('Aktualizacja: ' + escapeHtml(formatDateISO(item.version)));
-    if(isBouquet && item.bouquet_id) meta.push(escapeHtml(item.bouquet_id));
-
-    if(meta.length){
-      li.appendChild(el('span', { class: 'file-desc' }, '(' + meta.join(' • ') + ')'));
-    }
-
-    if(item.description){
-      li.appendChild(el('div', { class: 'file-desc', style: 'opacity:.88; margin:2px 0 10px 0;' }, escapeHtml(item.description)));
-    }
-
-    return li;
-  }
-
-  async function loadManifest(){
-    var card = document.getElementById('listy');
-    var manifestUrl = (card && card.dataset && card.dataset.manifestUrl) ? card.dataset.manifestUrl : '';
-    if(!manifestUrl) throw new Error('Brak adresu manifest.json');
-
-    // cache-bust to reflect changes quickly on GitHub Pages/CDN
-    var url = manifestUrl + (manifestUrl.indexOf('?') === -1 ? '?' : '&') + 't=' + Date.now();
-
-    var res = await fetch(url, { cache: 'no-store' });
-    if(!res.ok) throw new Error('HTTP ' + res.status);
-    return await res.json();
-  }
-
-  function render(items){
-    var loading = document.getElementById('listsLoading');
-    var err = document.getElementById('listsError');
-    var wrap = document.getElementById('listsWrap');
-    var packsUl = document.getElementById('channelPacks');
-    var bouqUl = document.getElementById('bouquetLists');
-    var bouqHead = document.getElementById('bouquetsHeading');
-
-    if(!packsUl || !bouqUl) return;
-
-    packsUl.innerHTML = '';
-    bouqUl.innerHTML = '';
-
-    var packs = [];
-    var bouquets = [];
-
-    (Array.isArray(items) ? items : []).forEach(function(it){
-      var t = String((it && it.type) || '').toUpperCase();
-      if(t === 'BOUQUET') bouquets.push(it);
-      else packs.push(it);
-    });
-
-    packs.forEach(function(it){ packsUl.appendChild(buildItem(it, false)); });
-    bouquets.forEach(function(it){ bouqUl.appendChild(buildItem(it, true)); });
-
-    if(bouquets.length === 0){
-      if(bouqHead) bouqHead.style.display = 'none';
-      bouqUl.style.display = 'none';
-    }
-
-    if(loading) loading.style.display = 'none';
-    if(err) err.style.display = 'none';
-    if(wrap) wrap.style.display = 'block';
-  }
-
-  function showError(message){
-    var loading = document.getElementById('listsLoading');
-    var err = document.getElementById('listsError');
-    var wrap = document.getElementById('listsWrap');
-    if(loading) loading.style.display = 'none';
-    if(wrap) wrap.style.display = 'none';
-    if(err){
-      err.style.display = 'block';
-      err.textContent = message || 'Nie udało się wczytać list.';
-    }
-  }
-
-  loadManifest().then(render).catch(function(e){
-    showError('Błąd wczytywania manifest.json: ' + (e && e.message ? e.message : String(e)));
-  });
-})();
-</script>
-
 <script src="assets/js/v3.js?v=3"></script>
 <script defer src="assets/js/layout-v4.js?v=4"></script>
 </body>
