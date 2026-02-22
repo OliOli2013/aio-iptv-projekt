@@ -4,18 +4,17 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-
-<meta name="description" content="AIO Panel 9.0 (Enigma2) — nowy interfejs (Sidebar + Content), nowa zakładka Skins/Skórki i poprawiona stabilność poleceń systemowych. Kompatybilna z wszystkimi systemami Enigma2 (Py2/Py3). IPTV Dream 6.4 — pobieranie wtyczek."/>
-<meta name="keywords" content="Enigma2 plugin, AIO Panel 9.0, PanelAIO, Skins Enigma2, IPTV Dream 6.4, OpenPLi, OpenATV, DreamOS, ipk download"/>
-<meta property="og:title" content="Wtyczki Enigma2 — AIO Panel 9.0 i IPTV Dream 6.4"/>
-<meta property="og:description" content="AIO Panel 9.0 — nowy UI, Skins/Skórki, stabilność komend. Uniwersalna kompatybilność Enigma2 (Py2/Py3). IPTV Dream 6.4 — pobieranie."/>
+<meta content="AIO Panel 9.1.1 (Enigma2) — nowy interfejs (Sidebar + Content), nowa zakładka Skins/Skórki i poprawiona stabilność poleceń systemowych. Kompatybilna z wszystkimi systemami Enigma2 (Py2/Py3). IPTV Dream 6.4 — pobieranie wtyczek." name="description"/>
+<meta content="Enigma2 plugin, AIO Panel 9.1.1, PanelAIO, Skins Enigma2, IPTV Dream 6.4, OpenPLi, OpenATV, DreamOS, ipk download" name="keywords"/>
+<meta content="Wtyczki Enigma2 — AIO Panel 9.0 i IPTV Dream 6.4" property="og:title"/>
+<meta content="AIO Panel 9.0 — nowy UI, Skins/Skórki, stabilność komend. Uniwersalna kompatybilność Enigma2 (Py2/Py3). IPTV Dream 6.4 — pobieranie." property="og:description"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<title>Wtyczki Enigma2 — AIO Panel 9.0 i IPTV Dream 6.4 | AIO‑IPTV.pl</title>
-<link href="pliki/logo.png" rel="icon">
-<link href="assets/css/site.css?v=next1" rel="stylesheet">
-</link></link></head>
+<title>Wtyczki Enigma2 — AIO Panel 9.1.1 i IPTV Dream 6.4 | AIO‑IPTV.pl</title>
+<link href="pliki/logo.png" rel="icon"/>
+<link href="assets/css/site.css?v=next1" rel="stylesheet"/>
+</head>
 <body data-page="next">
 <div class="topbar">
 <div class="container">
@@ -27,8 +26,8 @@
 <span class="tag">Enigma2 • IPTV • Tools • AI</span>
 </div>
 </a>
-<a class="pill pill-accent" download="" href="pliki/enigma2-plugin-extensions-panelaio_9.0_all.ipk">
-<span data-i18n="cta_update">Aktualizacja: AIO Panel v9.0 (Python 2 & 3 – Universal)</span>
+<a class="pill pill-accent" download="" href="pliki/enigma2-plugin-extensions-panelaio_9.1.1_all.ipk">
+<span data-i18n="cta_update">Aktualizacja: AIO Panel v9.1.1 (Python 2 &amp; 3 – Universal)</span>
 <strong data-i18n="cta_download">Pobierz teraz</strong>
 </a>
 <div class="spacer"></div>
@@ -62,11 +61,11 @@
 </div>
 <div class="drawer-backdrop" data-drawer-close="" id="drawerBackdrop"></div>
 <aside aria-hidden="true" class="drawer" id="mobileDrawer">
-  <div class="drawer-head">
-    <div class="drawer-title">Menu</div>
-    <button aria-label="Close" class="icon-btn" data-drawer-close="">✕</button>
-  </div>
-  <a href="index.html">🏠 <span data-i18n="nav_home">Start</span></a>
+<div class="drawer-head">
+<div class="drawer-title">Menu</div>
+<button aria-label="Close" class="icon-btn" data-drawer-close="">✕</button>
+</div>
+<a href="index.html">🏠 <span data-i18n="nav_home">Start</span></a>
 <a href="ai-chat.html">🤖 <span data-i18n="nav_ai">AI-Chat Enigma2</span></a>
 <a href="plugins.html">🧩 <span data-i18n="nav_plugins">Wtyczki</span></a>
 <a href="nowe-projekty.html">🧪 <span data-i18n="nav_new_projects">Nowe Projekty</span></a>
@@ -94,7 +93,6 @@
 <a aria-controls="panelAIO" aria-selected="false" class="pill" href="#aio-panel" id="tabAIO" role="tab">
       🧰 <span data-i18n="tab_aio_panel">AIO Panel</span>
 </a>
-
 <a aria-controls="panelNOD" aria-selected="false" class="pill" href="#nagrania-on-demand" id="tabNOD" role="tab">🎬 <span>Nagrania On Demand</span></a>
 <a aria-controls="panelOCV" aria-selected="false" class="pill" href="#opencamview" id="tabOCV" role="tab">📷 <span>OpenCamView</span></a>
 <a aria-controls="panelDream" aria-selected="false" class="pill" href="#iptv-dream" id="tabDream" role="tab">📺 <span>IPTV Dream</span></a>
@@ -102,51 +100,128 @@
 </div>
 <div class="tab-panel" hidden="" id="panelAIO">
 <div class="card" data-aos="fade-up" id="aio-panel">
-
-  <div class="plugin-hero">
-    <img class="plugin-thumb" src="pliki/logo.png" alt="AIO Panel — logo"/>
-    <div class="plugin-hero-text">
-      <h2>AIO Panel v9.0 (Enigma2 • Universal)</h2>
-      <div class="compat-pill">✅ Kompatybilna z wszystkimi systemami Enigma2 (Py2 / Py3)</div>
-    </div>
-  </div>
-
-  <p>
+<div class="plugin-hero">
+<img alt="AIO Panel — logo" class="plugin-thumb" src="pliki/logo.png"/>
+<div class="plugin-hero-text">
+<h2>AIO Panel v9.1.1 (Enigma2 • Universal)</h2>
+<div class="compat-pill">✅ Kompatybilna z wszystkimi systemami Enigma2 (Py2 / Py3)</div>
+</div>
+</div>
+<p>
+    Aktualizacja <strong>v9.1.1</strong> skupia się na stabilności i spójności interfejsu na obrazach z <strong>Python 2</strong>
+    (m.in. OpenATV 6.4 / VTi) oraz rozszerza panel o gotowe instalatory popularnych wtyczek.
+  </p>
+<img alt="AIO Panel v9.1.1 — zrzut ekranu" class="plugin-figure" src="pliki/aio-panel-9.1.1-screen.jpg"/>
+<p>
+<a class="btn primary" download="" href="pliki/enigma2-plugin-extensions-panelaio_9.1.1_all.ipk" title="Pobierz AIO Panel v9.1.1 (Uniwersalna paczka Enigma2)">
+      📥 Pobierz AIO Panel v9.1.1
+    </a>
+<span class="muted small" style="margin-left:10px">Plik: <code>enigma2-plugin-extensions-panelaio_9.1.1_all.ipk</code></span>
+</p>
+<h3>Co zmienia v9.1.1</h3>
+<ul class="key-list">
+<li><strong>Naprawa losowego braku opisów/opcji w menu</strong> na Python 2 (OpenATV 6.4 / VTi).</li>
+<li><strong>Wymuszona konwersja typów tekstu</strong> w listach GUI (Py2: <code>str</code>/<code>UTF‑8 bytes</code>, Py3: <code>str</code>) — koniec pozycji typu <code>&lt;not-a-string&gt;</code> i znikających nazw funkcji.</li>
+<li><strong>Dodane instalatory wtyczek:</strong> ChocholousekPicons, CIEFP Oscam Editor, FilmXY, FootOnsat, e‑stralker (feed).</li>
+</ul>
+<h3>Nowe instalatory wtyczek (v9.1.1)</h3>
+<div class="grid-2">
+<div class="card" style="padding:14px">
+<h3>ChocholousekPicons</h3>
+<p class="muted small">Instalacja przez <code>wget | bash</code>.</p>
+<div class="cmd-wrapper">
+<div class="command-box" id="cmd-picons">wget -qO- --no-check-certificate 'https://github.com/s3n0/e2plugins/raw/master/ChocholousekPicons/online-setup' | bash -s install</div>
+<button class="copy-btn" onclick="copyToClipboard('cmd-picons')">📋 Kopiuj</button>
+</div>
+</div>
+<div class="card" style="padding:14px">
+<h3>CIEFP Oscam Editor</h3>
+<p class="muted small">Instalacja przez <code>wget | sh</code>.</p>
+<div class="cmd-wrapper">
+<div class="command-box" id="cmd-oscam">wget -q --no-check-certificate 'https://raw.githubusercontent.com/ciefp/CiefpOscamEditor/main/installer.sh' -O - | /bin/sh</div>
+<button class="copy-btn" onclick="copyToClipboard('cmd-oscam')">📋 Kopiuj</button>
+</div>
+</div>
+<div class="card" style="padding:14px">
+<h3>FilmXY</h3>
+<p class="muted small">Instalacja przez <code>wget | sh</code>.</p>
+<div class="cmd-wrapper">
+<div class="command-box" id="cmd-filmxy">wget -q --no-check-certificate https://raw.githubusercontent.com/Belfagor2005/filmxy/main/installer.sh -O - | /bin/sh</div>
+<button class="copy-btn" onclick="copyToClipboard('cmd-filmxy')">📋 Kopiuj</button>
+</div>
+</div>
+<div class="card" style="padding:14px">
+<h3>FootOnsat</h3>
+<p class="muted small">Instalacja przez <code>wget | sh</code>.</p>
+<div class="cmd-wrapper">
+<div class="command-box" id="cmd-footonsat">wget https://raw.githubusercontent.com/fairbird/FootOnsat/main/Download/install.sh -O - | /bin/sh</div>
+<button class="copy-btn" onclick="copyToClipboard('cmd-footonsat')">📋 Kopiuj</button>
+</div>
+</div>
+<div class="card" style="padding:14px">
+<h3>e‑stralker (feed)</h3>
+<p class="muted small">Instalacja z feedu (opkg). Najkrótsza wersja:</p>
+<div class="cmd-wrapper">
+<div class="command-box" id="cmd-estalker-short">opkg update &amp;&amp; opkg install enigma2-plugin-extensions-estalker</div>
+<button class="copy-btn" onclick="copyToClipboard('cmd-estalker-short')">📋 Kopiuj</button>
+</div>
+<details class="details-note" style="margin-top:10px">
+<summary>Wersja odporna na różne nazwy pakietu (zalecana)</summary>
+<div class="cmd-wrapper" style="margin-top:10px">
+<div class="command-box" id="cmd-estalker-full">opkg update &amp;&amp; (opkg install enigma2-plugin-extensions-estalker || opkg install enigma2-plugin-extensions-e-stralker || opkg install enigma2-plugin-extensions-e-stalker || (PKG=$(opkg list | awk 'BEGIN{IGNORECASE=1} $1 ~ /^enigma2-plugin-extensions-estalker$/ {print $1; exit}'); [ -z "$PKG" ] &amp;&amp; PKG=$(opkg list | awk 'BEGIN{IGNORECASE=1} $1 ~ /estalker/ {print $1; exit}'); [ -z "$PKG" ] &amp;&amp; PKG=$(opkg list | awk 'BEGIN{IGNORECASE=1} $1 ~ /stalker/ {print $1; exit}'); [ -n "$PKG" ] &amp;&amp; opkg install $PKG || (echo 'Nie znaleziono EStalker w feedach (opkg).'; exit 1)))</div>
+<button class="copy-btn" onclick="copyToClipboard('cmd-estalker-full')">📋 Kopiuj</button>
+</div>
+</details>
+</div>
+<div class="card" style="padding:14px">
+<h3>Aktualizacja / instalacja</h3>
+<p class="muted small">Najprościej: pobierz paczkę i zainstaluj (IPK). Możesz też użyć metod z v9.0 (niebieski / telnet / ręcznie).</p>
+<div class="link-row">
+<a class="btn" href="image-installation.html">📷 Instalacja ze zdjęciami</a>
+<a class="btn" href="tools.html#one-liner">⚡ One‑Liner</a>
+</div>
+</div>
+</div>
+<details class="details-note" style="margin-top:18px">
+<summary>📜 Historia: v9.0 — nowy interfejs, Skins/Skórki (nie usuwam, archiwum)</summary>
+<div style="margin-top:12px">
+<div class="plugin-hero">
+<img alt="AIO Panel — logo" class="plugin-thumb" src="pliki/logo.png"/>
+<div class="plugin-hero-text">
+<h2>AIO Panel v9.0 (Enigma2 • Universal)</h2>
+<div class="compat-pill">✅ Kompatybilna z wszystkimi systemami Enigma2 (Py2 / Py3)</div>
+</div>
+</div>
+<p>
     Głównym celem tej aktualizacji była <strong>całkowita przebudowa interfejsu użytkownika</strong>,
     dodanie nowej zakładki: <strong>Skins / Skórki</strong>, oraz poprawa stabilności wykonywania poleceń systemowych.
   </p>
-
-  <p>
-    <a class="btn primary" download="" href="pliki/enigma2-plugin-extensions-panelaio_9.0_all.ipk" title="Pobierz AIO Panel v9.0 (Uniwersalna paczka Enigma2)">
+<p>
+<a class="btn primary" download="" href="pliki/enigma2-plugin-extensions-panelaio_9.0_all.ipk" title="Pobierz AIO Panel v9.0 (Uniwersalna paczka Enigma2)">
       📥 Pobierz AIO Panel v9.0
     </a>
-  </p>
-
-  <h3>Metody aktualizacji</h3>
-  <p class="muted small">Aktualizację możesz przeprowadzić na trzy sposoby:</p>
-
-  <img class="plugin-figure" src="pliki/aio-panel-v9-update-methods.png" alt="AIO Panel v9.0 — metody aktualizacji"/>
-
-  <ol class="key-list">
-    <li><strong>Niebieski przycisk:</strong> bezpośrednio w menu wtyczki.</li>
-    <li><strong>Polecenie Telnet/SSH:</strong> poprzez konsolę systemową.</li>
-    <li><strong>Plik IPK:</strong> ręczna instalacja z paczki.</li>
-  </ol>
-
-  <h3>Kluczowe nowości i zmiany (v9.0)</h3>
-
-  <img class="plugin-figure" src="pliki/aio-panel-v9-key-changes.png" alt="AIO Panel v9.0 — kluczowe nowości i zmiany"/>
-
-  <ul class="key-list">
-    <li><strong>NOWOŚĆ: Skins / Skórki:</strong> nowa zakładka z instalatorami skinów — zarządzanie wyglądem systemu bezpośrednio z panelu.</li>
-    <li><strong>Nowy interfejs Dashboard:</strong> przebudowa na układ <strong>Sidebar + Content</strong> z kolorystyką <strong>cyber-blue</strong>.</li>
-    <li><strong>Podział na sekcje:</strong> Listy Kanałów, Softcamy, Wtyczki Online, Konfigurator, Narzędzia Systemowe, Backup &amp; Restore, Informacje i Aktualizacja, Diagnostyka, Czyszczenie i Bezpieczeństwo.</li>
-    <li><strong>Zmiana w NCam:</strong> instalacja z feedu systemu (<span class="code-snippet">opkg</span>) — dostęp do najnowszej wersji na danym obrazie.</li>
-    <li><strong>Poprawki UI:</strong> ujednolicony wygląd sekcji oraz usunięcie błędu „podwójnego zaznaczenia” — aktywna jest tylko jedna kolumna.</li>
-    <li><strong>Wsparcie techniczne:</strong> kod QR wsparcia w nagłówku + ekran wsparcia w sekcji INFO z funkcją powiększenia (zoom).</li>
-    <li><strong>Stabilność:</strong> poprawiona kompatybilność między środowiskami Py2 i Py3 oraz zoptymalizowane wykonywanie komend systemowych.</li>
-  </ul>
-
+</p>
+<h3>Metody aktualizacji</h3>
+<p class="muted small">Aktualizację możesz przeprowadzić na trzy sposoby:</p>
+<img alt="AIO Panel v9.0 — metody aktualizacji" class="plugin-figure" src="pliki/aio-panel-v9-update-methods.png"/>
+<ol class="key-list">
+<li><strong>Niebieski przycisk:</strong> bezpośrednio w menu wtyczki.</li>
+<li><strong>Polecenie Telnet/SSH:</strong> poprzez konsolę systemową.</li>
+<li><strong>Plik IPK:</strong> ręczna instalacja z paczki.</li>
+</ol>
+<h3>Kluczowe nowości i zmiany (v9.0)</h3>
+<img alt="AIO Panel v9.0 — kluczowe nowości i zmiany" class="plugin-figure" src="pliki/aio-panel-v9-key-changes.png"/>
+<ul class="key-list">
+<li><strong>NOWOŚĆ: Skins / Skórki:</strong> nowa zakładka z instalatorami skinów — zarządzanie wyglądem systemu bezpośrednio z panelu.</li>
+<li><strong>Nowy interfejs Dashboard:</strong> przebudowa na układ <strong>Sidebar + Content</strong> z kolorystyką <strong>cyber-blue</strong>.</li>
+<li><strong>Podział na sekcje:</strong> Listy Kanałów, Softcamy, Wtyczki Online, Konfigurator, Narzędzia Systemowe, Backup &amp; Restore, Informacje i Aktualizacja, Diagnostyka, Czyszczenie i Bezpieczeństwo.</li>
+<li><strong>Zmiana w NCam:</strong> instalacja z feedu systemu (<span class="code-snippet">opkg</span>) — dostęp do najnowszej wersji na danym obrazie.</li>
+<li><strong>Poprawki UI:</strong> ujednolicony wygląd sekcji oraz usunięcie błędu „podwójnego zaznaczenia” — aktywna jest tylko jedna kolumna.</li>
+<li><strong>Wsparcie techniczne:</strong> kod QR wsparcia w nagłówku + ekran wsparcia w sekcji INFO z funkcją powiększenia (zoom).</li>
+<li><strong>Stabilność:</strong> poprawiona kompatybilność między środowiskami Py2 i Py3 oraz zoptymalizowane wykonywanie komend systemowych.</li>
+</ul>
+</div>
+</details>
 </div>
 </div>
 <div class="tab-panel" hidden="" id="panelNOD">
@@ -261,10 +336,10 @@
 </div><div class="tab-panel" hidden="" id="panelDream">
 <div class="card" data-aos="fade-up" id="iptv-dream">
 <div class="plugin-hero">
-  <img class="plugin-thumb" src="pliki/icon.png" alt="IPTV Dream — ikona"/>
-  <div class="plugin-hero-text">
-    <h2>IPTV Dream v6.4 (Enigma2)</h2>
-  </div>
+<img alt="IPTV Dream — ikona" class="plugin-thumb" src="pliki/icon.png"/>
+<div class="plugin-hero-text">
+<h2>IPTV Dream v6.4 (Enigma2)</h2>
+</div>
 </div>
 <p>
 <a class="btn primary" download="" href="pliki/enigma2-plugin-extensions-iptvdream_6.4_all.ipk" title="Pobierz IPTV Dream v6.4">
@@ -364,119 +439,105 @@
 </div>
 </div>
 <div class="tab-panel" id="panelMine">
-  <div class="card" data-aos="fade-up" id="wtyczki">
-    <h2>Wtyczki (Plugins)</h2>
-    <p>Najnowsze wersje moich aplikacji — pobieranie + krótki opis. Szczegóły każdej wtyczki znajdziesz w osobnych zakładkach u góry.</p>
-
-    <ul class="file-list">
-
-      <li>
-        <a class="file-link" download href="pliki/enigma2-plugin-extensions-panelaio_9.0_all.ipk" title="AIO Panel v9.0 — Universal (Py2/Py3)">
-          <span class="icon">📥</span> AIO Panel v9.0 <span class="badge">Py2/Py3</span>
+<div class="card" data-aos="fade-up" id="wtyczki">
+<h2>Wtyczki (Plugins)</h2>
+<p>Najnowsze wersje moich aplikacji — pobieranie + krótki opis. Szczegóły każdej wtyczki znajdziesz w osobnych zakładkach u góry.</p>
+<ul class="file-list">
+<li>
+<a class="file-link" download="" href="pliki/enigma2-plugin-extensions-panelaio_9.0_all.ipk" title="AIO Panel v9.0 — Universal (Py2/Py3)">
+<span class="icon">📥</span> AIO Panel v9.0 <span class="badge">Py2/Py3</span>
+</a>
+<span class="file-desc">Nowy interfejs (Sidebar + Content), zakładka Skins/Skórki, poprawiona stabilność komend. ✅ Kompatybilna z wszystkimi systemami Enigma2.</span>
+<div class="link-row">
+<a class="btn primary" href="#aio-panel">Szczegóły v9.0</a>
+<a class="btn" href="one-liner.html#aio">Instaluj (One‑Liner)</a>
+</div>
+</li>
+<li>
+<a class="file-link" download="" href="pliki/enigma2-plugin-extensions-iptvdream_6.4_all.ipk" title="IPTV Dream v6.4">
+<span class="icon">📥</span> IPTV Dream v6.4
         </a>
-        <span class="file-desc">Nowy interfejs (Sidebar + Content), zakładka Skins/Skórki, poprawiona stabilność komend. ✅ Kompatybilna z wszystkimi systemami Enigma2.</span>
-        <div class="link-row">
-          <a class="btn primary" href="#aio-panel">Szczegóły v9.0</a>
-          <a class="btn" href="one-liner.html#aio">Instaluj (One‑Liner)</a>
-        </div>
-      </li>
-
-      <li>
-        <a class="file-link" download href="pliki/enigma2-plugin-extensions-iptvdream_6.4_all.ipk" title="IPTV Dream v6.4">
-          <span class="icon">📥</span> IPTV Dream v6.4
+<span class="file-desc">IPTV: M3U / Xtream Codes / MAC Portal + eksport do bukietów Enigma2, EPGImport, pikony, WebIF.</span>
+<div class="link-row">
+<a class="btn primary" href="#iptv-dream">Szczegóły</a>
+</div>
+</li>
+<li>
+<a class="file-link" download="" href="pliki/enigma2-plugin-extensions-nagraniaondemand_2.0_all.ipk" title="Nagrania On Demand v2.0">
+<span class="icon">📥</span> Nagrania On Demand v2.0 <span class="badge">Py3</span>
+</a>
+<span class="file-desc">Porządek w nagraniach: bez plików technicznych (.meta/.eit/.sc), scalanie części, tytuły z .meta + integracja z nagrywaniem i timerami.</span>
+<div class="link-row">
+<a class="btn primary" href="#nagrania-on-demand">Szczegóły + screeny</a>
+</div>
+</li>
+<li>
+<a class="file-link" download="" href="pliki/enigma2-plugin-extensions-opencamview_1.3_all.ipk" title="OpenCamView v1.3">
+<span class="icon">📥</span> OpenCamView v1.3 <span class="badge">Py2/Py3</span>
+</a>
+<span class="file-desc">Podgląd kamer IP po RTSP w Enigma2 bez przerabiania list kanałów. Eksport kamer do bukietów + M3U.</span>
+<div class="link-row">
+<a class="btn primary" href="#opencamview">Szczegóły + screeny</a>
+</div>
+</li>
+<li>
+<a class="file-link" download="" href="pliki/enigma2-plugin-extensions-piconupdater_1.2_all.ipk" title="Picon Updater v1.2">
+<span class="icon">📥</span> Picon Updater v1.2
         </a>
-        <span class="file-desc">IPTV: M3U / Xtream Codes / MAC Portal + eksport do bukietów Enigma2, EPGImport, pikony, WebIF.</span>
-        <div class="link-row">
-          <a class="btn primary" href="#iptv-dream">Szczegóły</a>
-        </div>
-      </li>
-
-      <li>
-        <a class="file-link" download href="pliki/enigma2-plugin-extensions-nagraniaondemand_2.0_all.ipk" title="Nagrania On Demand v2.0">
-          <span class="icon">📥</span> Nagrania On Demand v2.0 <span class="badge">Py3</span>
+<span class="file-desc">Automatyczne pobieranie i aktualizacja pikon z GitHub + szybkie wdrożenie w systemie.</span>
+</li>
+<li>
+<a class="file-link" download="" href="pliki/enigma2-plugin-extensions-myupdater_5.1_all.ipk" title="MyUpdater v5.1">
+<span class="icon">📥</span> MyUpdater v5.1 <span class="badge">Py2/Py3</span>
+</a>
+<span class="file-desc">Updater/instalator: listy kanałów, pikony, softcamy + diagnostyka i rozpoznawanie dystrybucji.</span>
+</li>
+<li>
+<a class="file-link" download="" href="pliki/enigma2-plugin-extensions-simpleiptvepg_1.3_all.ipk" title="Simple IPTV EPG v1.3">
+<span class="icon">📥</span> Simple IPTV EPG v1.3
         </a>
-        <span class="file-desc">Porządek w nagraniach: bez plików technicznych (.meta/.eit/.sc), scalanie części, tytuły z .meta + integracja z nagrywaniem i timerami.</span>
-        <div class="link-row">
-          <a class="btn primary" href="#nagrania-on-demand">Szczegóły + screeny</a>
-        </div>
-      </li>
-
-      <li>
-        <a class="file-link" download href="pliki/enigma2-plugin-extensions-opencamview_1.3_all.ipk" title="OpenCamView v1.3">
-          <span class="icon">📥</span> OpenCamView v1.3 <span class="badge">Py2/Py3</span>
-        </a>
-        <span class="file-desc">Podgląd kamer IP po RTSP w Enigma2 bez przerabiania list kanałów. Eksport kamer do bukietów + M3U.</span>
-        <div class="link-row">
-          <a class="btn primary" href="#opencamview">Szczegóły + screeny</a>
-        </div>
-      </li>
-
-      <li>
-        <a class="file-link" download href="pliki/enigma2-plugin-extensions-piconupdater_1.2_all.ipk" title="Picon Updater v1.2">
-          <span class="icon">📥</span> Picon Updater v1.2
-        </a>
-        <span class="file-desc">Automatyczne pobieranie i aktualizacja pikon z GitHub + szybkie wdrożenie w systemie.</span>
-      </li>
-
-      <li>
-        <a class="file-link" download href="pliki/enigma2-plugin-extensions-myupdater_5.1_all.ipk" title="MyUpdater v5.1">
-          <span class="icon">📥</span> MyUpdater v5.1 <span class="badge">Py2/Py3</span>
-        </a>
-        <span class="file-desc">Updater/instalator: listy kanałów, pikony, softcamy + diagnostyka i rozpoznawanie dystrybucji.</span>
-      </li>
-
-      <li>
-        <a class="file-link" download href="pliki/enigma2-plugin-extensions-simpleiptvepg_1.3_all.ipk" title="Simple IPTV EPG v1.3">
-          <span class="icon">📥</span> Simple IPTV EPG v1.3
-        </a>
-        <span class="file-desc">Proste EPG dla kanałów internetowych — przypisywanie programu do kanałów IPTV.</span>
-      </li>
-
-    </ul>
-  </div>
+<span class="file-desc">Proste EPG dla kanałów internetowych — przypisywanie programu do kanałów IPTV.</span>
+</li>
+</ul>
+</div>
 </div>
 <div class="tab-panel" hidden="" id="pobieranie">
-  <div class="card" data-aos="fade-up" id="pliki">
-    <h2>Niezbędne i dodatki (Enigma2)</h2>
-    <p>Przydatne paczki i narzędzia do instalacji/konfiguracji. (Bez ocen — same konkretne pliki).</p>
-
-    <ul class="file-list">
-      <li>
-        <a class="file-link" download href="pliki/enigma2-plugin-systemplugins-serviceapp_0.5%20git106%20e2e47a2-r6_cortexa15hf-neon-vfpv4.ipk" title="ServiceApp 0.5">
-          <span class="icon">📥</span> ServiceApp 0.5 (git106)
+<div class="card" data-aos="fade-up" id="pliki">
+<h2>Niezbędne i dodatki (Enigma2)</h2>
+<p>Przydatne paczki i narzędzia do instalacji/konfiguracji. (Bez ocen — same konkretne pliki).</p>
+<ul class="file-list">
+<li>
+<a class="file-link" download="" href="pliki/enigma2-plugin-systemplugins-serviceapp_0.5%20git106%20e2e47a2-r6_cortexa15hf-neon-vfpv4.ipk" title="ServiceApp 0.5">
+<span class="icon">📥</span> ServiceApp 0.5 (git106)
         </a>
-        <span class="file-desc">Zmiana odtwarzacza systemowego (ServiceApp / exteplayer3) — często wymagane dla IPTV/VOD.</span>
-      </li>
-
-      <li>
-        <a class="file-link" download href="pliki/enigma2-plugin-extensions-streamlinkproxy_8.0.0_all.ipk" title="StreamlinkProxy 8.0.0">
-          <span class="icon">📥</span> StreamlinkProxy 8.0.0
+<span class="file-desc">Zmiana odtwarzacza systemowego (ServiceApp / exteplayer3) — często wymagane dla IPTV/VOD.</span>
+</li>
+<li>
+<a class="file-link" download="" href="pliki/enigma2-plugin-extensions-streamlinkproxy_8.0.0_all.ipk" title="StreamlinkProxy 8.0.0">
+<span class="icon">📥</span> StreamlinkProxy 8.0.0
         </a>
-        <span class="file-desc">Obsługa wybranych streamów przez streamlink (przydatne w części konfiguracji IPTV).</span>
-      </li>
-
-      <li>
-        <a class="file-link" download href="pliki/OpenATV_softcam_feed_v8.0.ipk" title="OpenATV Softcam Feed v8.0">
-          <span class="icon">📥</span> OpenATV Softcam Feed v8.0
+<span class="file-desc">Obsługa wybranych streamów przez streamlink (przydatne w części konfiguracji IPTV).</span>
+</li>
+<li>
+<a class="file-link" download="" href="pliki/OpenATV_softcam_feed_v8.0.ipk" title="OpenATV Softcam Feed v8.0">
+<span class="icon">📥</span> OpenATV Softcam Feed v8.0
         </a>
-        <span class="file-desc">Softcam feed dla OpenATV.</span>
-      </li>
-
-      <li>
-        <a class="file-link" href="https://github.com/OliOli2013/PanelAIO-Plugin/raw/main/Picony.zip" title="Picony Transparent 13°E">
-          <span class="icon">📥</span> Picony Transparent 13°E (ZIP)
+<span class="file-desc">Softcam feed dla OpenATV.</span>
+</li>
+<li>
+<a class="file-link" href="https://github.com/OliOli2013/PanelAIO-Plugin/raw/main/Picony.zip" title="Picony Transparent 13°E">
+<span class="icon">📥</span> Picony Transparent 13°E (ZIP)
         </a>
-        <span class="file-desc">Paczka pikon dla satelity HotBird 13E.</span>
-      </li>
-
-      <li>
-        <a class="file-link" download href="pliki/powiekszenie%20pamieci%20ZGEMMA%20H9.S%20H9.2S.zip" title="Powiększenie pamięci ZGEMMA H9S / H9.2S">
-          <span class="icon">📥</span> Powiększenie pamięci — ZGEMMA H9S / H9.2S (ZIP)
+<span class="file-desc">Paczka pikon dla satelity HotBird 13E.</span>
+</li>
+<li>
+<a class="file-link" download="" href="pliki/powiekszenie%20pamieci%20ZGEMMA%20H9.S%20H9.2S.zip" title="Powiększenie pamięci ZGEMMA H9S / H9.2S">
+<span class="icon">📥</span> Powiększenie pamięci — ZGEMMA H9S / H9.2S (ZIP)
         </a>
-        <span class="file-desc">Skrypt do powiększenia pamięci (rozszerzenie przestrzeni).</span>
-      </li>
-    </ul>
-  </div>
+<span class="file-desc">Skrypt do powiększenia pamięci (rozszerzenie przestrzeni).</span>
+</li>
+</ul>
+</div>
 </div>
 </main>
 <footer class="site-footer">

@@ -1,5 +1,12 @@
 [
   {
+    "date": "2026-02-22",
+    "ts": 1771718400000,
+    "type": "release",
+    "title": "AIO Panel v9.1.1 — poprawki Py2 + nowe instalatory wtyczek",
+    "details": "Naprawiono losowy brak opisów/opcji w menu na Python 2 (OpenATV 6.4 / VTi) poprzez wymuszoną konwersję typów tekstu w listach GUI (Py2: str/UTF-8 bytes, Py3: str). Eliminuje to wyświetlanie pozycji jako „<not-a-string>” oraz znikające nazwy funkcji przy jednoczesnym działaniu akcji. Dodano instalatory wtyczek: ChocholousekPicons, CIEFP Oscam Editor, FilmXY, FootOnsat oraz e-stralker (opkg z feedu; auto-detekcja nazwy pakietu)."
+  },
+  {
     "date": "2026-02-16",
     "ts": 1771200000000,
     "type": "release",
