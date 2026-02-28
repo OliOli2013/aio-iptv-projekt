@@ -1,5 +1,19 @@
 [
   {
+    "date": "2026-02-26",
+    "ts": 1772064001000,
+    "type": "release",
+    "title": "IPTV Dream v6.5 — MAC Portal, eksport w tle i diagnostyka",
+    "details": "Aktualizacja IPTV Dream do wersji v6.5.\n\nNajważniejsze zmiany:\n• Lepsza kompatybilność MAC Portal (Stalker/MAG): auto-detekcja ścieżek + handshake MAG\n• Ulepszony loader M3U (HTML/redirecty, JSON jako string, auto-http/https, parametry po |)\n• Eksport w tle + zapis strumieniowy (mniej RAM), naprawiony eksport wielu bukietów MAC, hurtowe usuwanie bukietów\n• VOD/Seriale: stabilniejsze pobieranie + poprawny pasek postępu\n• Picony: wybór lokalizacji /media/...\n• WebIF/UI: pasek postępu 0–100 + etykieta „Instaluj źródła EPG Import”\n• Diagnostyka: logi w /tmp/ + spójny numer wersji w interfejsie"
+  },
+  {
+    "date": "2026-02-26",
+    "ts": 1772064000000,
+    "type": "release",
+    "title": "AIO Panel v9.2 — VAVOO, widoczność w menu i poprawki Super Konfiguratora",
+    "details": "Aktualizacja AIO Panel do wersji v9.2 (26.02.2026). Zalecana aktualizacja z poziomu wtyczki: niebieski przycisk.\n\nNajważniejsze zmiany:\n• Dodano instalator VAVOO (online)\n• Widoczność AIO Panel w menu tunera (Menu → Ustawienia/System oraz Menu główne) + naprawiono wykonanie akcji\n• Przeniesiono funkcję widoczności do zakładki „Narzędzia Systemowe”\n• Super Konfigurator: opcje DEPS/BASIC/FULL widoczne bezpośrednio w oknie wtyczki\n• Softcam instalowany skryptem (wget | bash) – działa także na obrazach bez Softcam w feed\n• Super Konfigurator FULL: poprawiona kolejność i stabilność (Lista Bzyk83 Hotbird 13E → Softcam (skrypt) → Oscam z feed (auto) → Picony Transparent → przeładowanie list → pełny restart)\n• Uzupełniono/brakujące opisy funkcji (tooltip) + dodano opis zapasowy"
+  },
+  {
     "date": "2026-02-22",
     "ts": 1771718400000,
     "type": "release",
@@ -8,16 +22,16 @@
   },
   {
     "date": "2026-02-16",
+    "ts": 1771200001000,
+    "type": "release",
+    "title": "IPTV Dream v6.4 — aktualizacja wtyczki",
+    "details": "Dodano paczkę: enigma2-plugin-extensions-iptvdream_6.4_all.ipk (wpis historyczny)."
+  },
+  {
+    "date": "2026-02-16",
     "ts": 1771200000000,
     "type": "release",
     "title": "AIO Panel v9.0 — nowy interfejs, Skins i stabilność",
     "details": "Głównym celem tej aktualizacji była całkowita przebudowa interfejsu użytkownika, dodanie nowej zakładki Skins/Skórki oraz poprawa stabilności wykonywania poleceń systemowych. Nowy Dashboard (Sidebar + Content, cyber-blue), podział menu na sekcje, poprawki fokusu (koniec „podwójnego zaznaczenia”), NCam instalowany z feedu systemu (opkg), QR wsparcia + ekran wsparcia w INFO (zoom) oraz lepsza kompatybilność Py2/Py3. Wtyczka kompatybilna z wszystkimi systemami Enigma2."
-  },
-  {
-    "date": "2026-02-16",
-    "ts": 1771200001000,
-    "type": "release",
-    "title": "IPTV Dream v6.4 — aktualizacja wtyczki",
-    "details": "Zastąpiono poprzednie wersje nową paczką: enigma2-plugin-extensions-iptvdream_6.4_all.ipk. Wersja 6.4 jest teraz jedyną dostępną i domyślną wersją na stronie."
   }
 ]

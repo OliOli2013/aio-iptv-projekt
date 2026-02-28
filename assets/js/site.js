@@ -1140,12 +1140,12 @@ function injectImageInstallNav() {
     if (bar.querySelector('a.pill-iptvdream')) return;
 
     const lang = (typeof getLang === 'function') ? getLang() : 'pl';
-    const label = (lang === 'en') ? 'Update: IPTV Dream v6.4' : 'Aktualizacja: IPTV Dream v6.4';
+    const label = (lang === 'en') ? 'Update: IPTV Dream v6.5' : 'Aktualizacja: IPTV Dream v6.5';
     const cta = (lang === 'en') ? 'Download now' : 'Pobierz teraz';
 
     const a = document.createElement('a');
     a.className = 'pill pill-accent pill-prominent pill-iptvdream';
-    a.setAttribute('href', 'pliki/enigma2-plugin-extensions-iptvdream_6.4_all.ipk');
+    a.setAttribute('href', 'pliki/enigma2-plugin-extensions-iptvdream_6.5_all.ipk');
     a.setAttribute('download', '');
     a.innerHTML = `<span>${label}</span> <strong>${cta}</strong>`;
 

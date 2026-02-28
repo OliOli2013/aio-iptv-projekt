@@ -5,14 +5,14 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 
-<meta name="description" content="AIO Panel 9.1.1 (Enigma2) — poprawki Py2 (OpenATV 6.4 / VTi) + stabilna konwersja tekstu w GUI. Baza: UI v9 (Sidebar + Content) + Skins/Skórki. Kompatybilna z wszystkimi systemami Enigma2 (Py2/Py3). IPTV Dream 6.4 — pobieranie wtyczek."/>
-<meta name="keywords" content="Enigma2 plugin, AIO Panel 9.0, PanelAIO, Skins Enigma2, IPTV Dream 6.4, OpenPLi, OpenATV, DreamOS, ipk download"/>
-<meta property="og:title" content="Wtyczki Enigma2 — AIO Panel 9.1.1 i IPTV Dream 6.4"/>
-<meta property="og:description" content="AIO Panel 9.1.1 — poprawki Py2 + stabilna konwersja tekstu w GUI (baza: UI v9 + Skins/Skórki). Uniwersalna kompatybilność Enigma2 (Py2/Py3). IPTV Dream 6.4 — pobieranie."/>
+<meta name="description" content="AIO Panel 9.2 (Enigma2) — poprawki Py2 (OpenATV 6.4 / VTi) + stabilna konwersja tekstu w GUI. Baza: UI v9 (Sidebar + Content) + Skins/Skórki. Kompatybilna z wszystkimi systemami Enigma2 (Py2/Py3). IPTV Dream 6.5 — pobieranie wtyczek."/>
+<meta name="keywords" content="Enigma2 plugin, AIO Panel 9.0, PanelAIO, Skins Enigma2, IPTV Dream 6.5, OpenPLi, OpenATV, DreamOS, ipk download"/>
+<meta property="og:title" content="Wtyczki Enigma2 — AIO Panel 9.2 i IPTV Dream 6.5"/>
+<meta property="og:description" content="AIO Panel 9.2 — poprawki Py2 + stabilna konwersja tekstu w GUI (baza: UI v9 + Skins/Skórki). Uniwersalna kompatybilność Enigma2 (Py2/Py3). IPTV Dream 6.5 — pobieranie."/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<title>Wtyczki Enigma2 — AIO Panel 9.1.1 i IPTV Dream 6.4 | AIO‑IPTV.pl</title>
+<title>Wtyczki Enigma2 — AIO Panel 9.2 i IPTV Dream 6.5 | AIO‑IPTV.pl</title>
 <link href="pliki/logo.png" rel="icon">
 <link href="assets/css/site.css?v=next1" rel="stylesheet">
 <link href="assets/css/v3.css?v=3" rel="stylesheet">
@@ -29,8 +29,8 @@
 <span class="tag">Enigma2 • IPTV • Tools • AI</span>
 </div>
 </a>
-<a class="pill pill-accent" download="" href="pliki/enigma2-plugin-extensions-panelaio_9.1.1_all.ipk">
-<span data-i18n="cta_update">Aktualizacja: AIO Panel v9.1.1 (Python 2 & 3 – Universal)</span>
+<a class="pill pill-accent" download="" href="pliki/enigma2-plugin-extensions-panelaio_9.2_all.ipk">
+<span data-i18n="cta_update">Aktualizacja: AIO Panel v9.2 (Python 2 & 3 – Universal)</span>
 <strong data-i18n="cta_download">Pobierz teraz</strong>
 </a>
 <div class="spacer"></div>
@@ -138,38 +138,62 @@
 <div class="plugin-hero">
   <img class="plugin-thumb" src="pliki/logo.png" alt="AIO Panel — logo"/>
   <div class="plugin-hero-text">
-    <h2>AIO Panel v9.1.1 (Enigma2 • Universal)</h2>
+    <h2>AIO Panel v9.2 (Enigma2 • Universal)</h2>
     <div class="compat-pill">✅ Kompatybilna z wszystkimi systemami Enigma2 (Py2 / Py3)</div>
-    <div class="muted small">Aktualizacja stabilizująca menu na Python 2 + poprawki konwersji tekstu w GUI.</div>
+    <div class="muted small">Data wydania: <strong>26.02.2026</strong> • Aktualizacja przez wtyczkę (niebieski przycisk) • Nowe instalatory + usprawnienia Super Konfiguratora.</div>
   </div>
 </div>
 
 <figure class="plugin-figure-wrap">
-  <img class="plugin-figure" src="pliki/aio-panel-9.1.1-screen.jpg" alt="AIO Panel 9.1.1 — screen"/>
-  <figcaption class="muted small">AIO Panel 9.1.1 — widok menu (screen).</figcaption>
+  <img class="plugin-figure" src="pliki/aio-panel-9.1.1-screen.jpg" alt="AIO Panel — screen"/>
+  <figcaption class="muted small">AIO Panel — widok menu (screen).</figcaption>
 </figure>
 
 <p>
-  W wersji <strong>9.1.1</strong> wprowadzono poprawki dla środowisk <strong>Python 2</strong> (m.in. OpenATV 6.4 / VTi),
-  gdzie występował <strong>losowy brak opisów/opcji</strong> w menu.
+  W wersji <strong>9.2</strong> dodano m.in. <strong>instalator VAVOO (online)</strong>, funkcję <strong>widoczności AIO Panel w menu tunera</strong>,
+  usprawniono <strong>Super Konfigurator</strong> oraz zmieniono sposób instalacji <strong>Softcam</strong> na skrypt (<code>wget | bash</code>) — działa także na obrazach bez Softcam w feed.
 </p>
 
-<h3>Najważniejsze zmiany (v9.1.1)</h3>
+<p class="muted small"><strong>Aktualizacja:</strong> wykonaj ją z poziomu wtyczki — <strong>niebieski przycisk</strong>.</p>
+
+<h3>Najważniejsze zmiany (v9.2)</h3>
 <ul class="key-list">
-  <li><strong>Naprawa Py2:</strong> eliminacja losowego braku opisów/opcji w menu (OpenATV 6.4 / VTi).</li>
-  <li><strong>Konwersja typów tekstu w GUI:</strong> wymuszona poprawna konwersja w listach GUI
-    (Py2: <code>str/UTF‑8 bytes</code>, Py3: <code>str</code>) — koniec pozycji typu <code>&lt;not-a-string&gt;</code> i znikających nazw funkcji.</li>
-  <li><strong>Dodane instalatory wtyczek (w panelu):</strong> ChocholousekPicons, CIEFP Oscam Editor, FilmXY, FootOnsat, e‑stralker (z feedu).</li>
+  <li><strong>Dodano instalator VAVOO</strong> (online).</li>
+  <li><strong>Widoczność AIO Panel w menu tunera:</strong> Menu → Ustawienia/System oraz Menu główne + naprawiono wykonanie akcji.</li>
+  <li><strong>Przeniesiono funkcję widoczności</strong> do zakładki „Narzędzia Systemowe”.</li>
+  <li><strong>Super Konfigurator:</strong> opcje DEPS/BASIC/FULL widoczne bezpośrednio w oknie wtyczki (bez dodatkowego wyboru).</li>
+  <li><strong>Softcam:</strong> instalacja skryptem (<code>wget | bash</code>) — działa także na obrazach bez Softcam w feed.</li>
+  <li><strong>Super Konfigurator FULL:</strong> poprawiona kolejność i stabilność (Lista Bzyk83 Hotbird 13E → Softcam (skrypt) → Oscam z feed (auto) → Picony Transparent → przeładowanie list → pełny restart).</li>
+  <li><strong>UI/Tooltip:</strong> uzupełniono/brakujące opisy funkcji + dodano opis zapasowy (aby opis nie był pusty).</li>
 </ul>
 
 <div class="link-row" style="margin-top:14px">
-  <a class="btn primary" download="" href="pliki/enigma2-plugin-extensions-panelaio_9.1.1_all.ipk" title="Pobierz AIO Panel v9.1.1 (Uniwersalna paczka Enigma2)">
-    📥 Pobierz AIO Panel v9.1.1
+  <a class="btn primary" download="" href="pliki/enigma2-plugin-extensions-panelaio_9.2_all.ipk" title="Pobierz AIO Panel v9.2 (Uniwersalna paczka Enigma2)">
+    📥 Pobierz AIO Panel v9.2
+  </a>
+  <a class="btn" download="" href="pliki/enigma2-plugin-extensions-panelaio_9.1.1_all.ipk" title="Archiwum: AIO Panel v9.1.1">
+    🗂️ Archiwum: v9.1.1
   </a>
   <a class="btn" download="" href="pliki/enigma2-plugin-extensions-panelaio_9.0_all.ipk" title="Archiwum: AIO Panel v9.0">
     🗂️ Archiwum: v9.0
   </a>
 </div>
+
+<details class="details" style="margin-top:18px">
+  <summary><strong>Historia: AIO Panel v9.1.1</strong> — poprawki Py2 + stabilna konwersja tekstu w GUI</summary>
+  <div style="margin-top:14px">
+    <p>
+      W wersji <strong>9.1.1</strong> wprowadzono poprawki dla środowisk <strong>Python 2</strong> (m.in. OpenATV 6.4 / VTi),
+      gdzie występował <strong>losowy brak opisów/opcji</strong> w menu.
+    </p>
+    <ul class="key-list">
+      <li><strong>Naprawa Py2:</strong> eliminacja losowego braku opisów/opcji w menu (OpenATV 6.4 / VTi).</li>
+      <li><strong>Konwersja typów tekstu w GUI:</strong> wymuszona poprawna konwersja w listach GUI
+        (Py2: <code>str/UTF‑8 bytes</code>, Py3: <code>str</code>) — koniec pozycji typu <code>&lt;not-a-string&gt;</code> i znikających nazw funkcji.</li>
+      <li><strong>Dodane instalatory wtyczek (w panelu):</strong> ChocholousekPicons, CIEFP Oscam Editor, FilmXY, FootOnsat, e‑stralker (z feedu).</li>
+    </ul>
+  </div>
+</details>
 
 <details class="details" style="margin-top:18px">
   <summary><strong>Historia: AIO Panel v9.0</strong> — przebudowa UI, Skins/Skórki, stabilność komend</summary>
@@ -318,26 +342,84 @@
 <div class="plugin-hero">
   <img class="plugin-thumb" src="pliki/icon.png" alt="IPTV Dream — ikona"/>
   <div class="plugin-hero-text">
-    <h2>IPTV Dream v6.4 (Enigma2)</h2>
+    <h2>IPTV Dream v6.5 (Enigma2)</h2>
   </div>
 </div>
 <p>
-<a class="btn primary" download="" href="pliki/enigma2-plugin-extensions-iptvdream_6.4_all.ipk" title="Pobierz IPTV Dream v6.4">
-        📥 Pobierz IPTV Dream v6.4
+<a class="btn primary" download="" href="pliki/enigma2-plugin-extensions-iptvdream_6.5_all.ipk" title="Pobierz IPTV Dream v6.5">
+        📥 Pobierz IPTV Dream v6.5
       </a>
 </p>
 <h3>Do czego służy IPTV Dream</h3>
 <p>
-<strong>IPTV Dream v6.4</strong> pozwala wczytać listy IPTV (M3U URL/plik, Xtream Codes, MAC Portal),
+<strong>IPTV Dream v6.5</strong> pozwala wczytać listy IPTV (M3U URL/plik, Xtream Codes, MAC Portal),
       a następnie <strong>wyeksportować kanały do bukietów Enigma2</strong>, zainstalować źródła EPG (EPGImport) i pobrać/generować pikony.
       Ma też wygodny <strong>WebIF</strong>, żeby dane wklejać z telefonu/PC zamiast pilotem.
     </p>
+
+<h3>Najważniejsze zmiany (v6.5)</h3>
+<ul class="key-list">
+  <li><strong>MAC Portal (Stalker/MAG):</strong> automatyczna detekcja ścieżek + lepszy handshake w stylu MAG (nagłówki/UA, cookies, referer).</li>
+  <li><strong>Loader M3U:</strong> obsługa HTML/redirectów, JSON osadzonego jako string, URL bez http/https (auto‑uzupełnianie) + parametry po <code>|</code> (np. User‑Agent, Referer).</li>
+  <li><strong>Eksport i bukiety:</strong> naprawiony eksport wielu bukietów z portali MAC + eksport w tle (zapis strumieniowy, mniejsze zużycie RAM) + hurtowe usuwanie bukietów IPTV Dream.</li>
+  <li><strong>VOD/Seriale:</strong> stabilniejsze pobieranie dużych list + poprawny pasek postępu.</li>
+  <li><strong>Picony:</strong> wybór lokalizacji zapisu (tuner lub dowolny nośnik <code>/media/...</code>).</li>
+  <li><strong>WebIF/UI:</strong> pasek postępu 0–100 (aktualizacje w czasie rzeczywistym) + przycisk „Instaluj źródła EPG Import”.</li>
+  <li><strong>Diagnostyka:</strong> rozszerzone logowanie do <code>/tmp/</code> + spójny numer wersji w całym interfejsie.</li>
+</ul>
+
+<details class="details-note" style="margin-top:14px;">
+  <summary>🧾 Pełna lista zmian v6.5 (kliknij)</summary>
+  <div class="details-body">
+    <h4>Stabilność i kompatybilność źródeł</h4>
+    <ul>
+      <li>Usprawniono obsługę MAC Portal (Stalker/MAG): automatyczna detekcja ścieżek (<code>/c/</code>, <code>stalker_portal</code>, <code>portal</code>, <code>mag</code>).</li>
+      <li>Lepszy handshake w stylu MAG (nagłówki/UA, cookies, referer) — większa zgodność z restrykcyjnymi portalami.</li>
+      <li>Ulepszony loader M3U: obsługa HTML/redirectów, JSON osadzonego jako string, URL bez http/https (auto‑uzupełnianie).</li>
+      <li>Wsparcie dla parametrów po <code>|</code> (np. <code>|User-Agent</code>, <code>|Referer</code>).</li>
+      <li>Odporniejsze pobieranie na wolnych serwerach (zoptymalizowane timeouty/odczyt).</li>
+      <li>Rozszerzone logowanie diagnostyczne (w tym błędy <code>Auth Failed</code>).</li>
+    </ul>
+
+    <h4>Eksport, bukiety i zarządzanie</h4>
+    <ul>
+      <li>Naprawiono eksport wielu bukietów z portali MAC.</li>
+      <li>Eksport w tle, bez blokowania GUI + zapis strumieniowy (mniejsze zużycie RAM).</li>
+      <li>Hurtem usuwanie bukietów wygenerowanych przez IPTV Dream.</li>
+      <li>Bezpieczne, unikalne nazwy plików (brak nadpisywania).</li>
+      <li>Przechwytywanie błędów z powiadomieniami dla użytkownika (mniejsze ryzyko GS/BSOD).</li>
+    </ul>
+
+    <h4>VOD / Seriale</h4>
+    <ul>
+      <li>Lepsze pobieranie list VOD/Seriali (szczególnie MAC): dokładniejsze informacje o stanie, poprawny pasek postępu przy dużych listach.</li>
+    </ul>
+
+    <h4>Picony</h4>
+    <ul>
+      <li>Wybór lokalizacji zapisu: tuner lub dowolny nośnik (<code>/media/...</code>).</li>
+    </ul>
+
+    <h4>Interfejs i WebIF</h4>
+    <ul>
+      <li>Pasek postępu: zakres 0–100 z aktualizacjami w czasie rzeczywistym.</li>
+      <li>Zmieniono etykietę przycisku: „Instaluj źródła EPG" → „Instaluj źródła EPG Import".</li>
+    </ul>
+
+    <h4>Diagnostyka i wersjonowanie</h4>
+    <ul>
+      <li>Spójny numer wersji w całym interfejsie, menu, WebIF i metadanych paczki.</li>
+      <li>Rozszerzone logowanie do plików w <code>/tmp/</code> dla kluczowych etapów ładowania i autoryzacji.</li>
+    </ul>
+  </div>
+</details>
+
 <h3>Skróty (pilot) — najważniejsze</h3>
 <ul class="key-list">
 <li><strong>1–9 / OK</strong> — wybór pozycji menu</li>
 <li><strong class="k-red">Czerwony</strong> — wyjście</li>
 <li><strong class="k-green">Zielony</strong> — sprawdź aktualizacje</li>
-<li><strong class="k-yellow">Żółty</strong> — instaluj źródła EPG</li>
+<li><strong class="k-yellow">Żółty</strong> — instaluj źródła EPG Import</li>
 <li><strong class="k-blue">Niebieski</strong> — eksport do bukietu</li>
 </ul>
 <h3>Galeria</h3>
@@ -349,7 +431,7 @@
 <details class="details-note" style="margin-top:14px;">
 <summary>📖 Pełna instrukcja użytkownika + opis funkcji (kliknij)</summary>
 <div class="details-body">
-<h3>1) Do czego służy IPTV Dream v6.4</h3>
+<h3>1) Do czego służy IPTV Dream v6.5</h3>
 <ul>
 <li>wczytanie listy IPTV z: M3U (URL), M3U (plik), Xtream Codes, MAC Portal (Stalker/MAG)</li>
 <li>szybki eksport kanałów do bukietów Enigma2 (standardowa lista TV)</li>
@@ -367,7 +449,7 @@
 <h3>3) Instalacja</h3>
 <ul>
 <li>Menu → Ustawienia → Zarządzanie oprogramowaniem → Instaluj lokalny pakiet (plik w /tmp)</li>
-<li>SSH: <code>opkg install /tmp/enigma2-plugin-extensions-iptvdream_6.4_all.ipk</code></li>
+<li>SSH: <code>opkg install /tmp/enigma2-plugin-extensions-iptvdream_6.5_all.ipk</code></li>
 <li>Po instalacji zalecany restart GUI</li>
 </ul>
 <h3>4) Menu główne — pozycje 1–9 (skrót)</h3>
@@ -426,8 +508,8 @@
     <ul class="file-list">
 
       <li>
-  <a class="file-link" download href="pliki/enigma2-plugin-extensions-panelaio_9.1.1_all.ipk" title="AIO Panel v9.1.1 — Universal (Py2/Py3)">
-    <span class="icon">📥</span> AIO Panel v9.1.1 <span class="badge">Py2/Py3</span>
+  <a class="file-link" download href="pliki/enigma2-plugin-extensions-panelaio_9.2_all.ipk" title="AIO Panel v9.2 — Universal (Py2/Py3)">
+    <span class="icon">📥</span> AIO Panel v9.2 <span class="badge">Py2/Py3</span>
   </a>
   <span class="file-desc">Patch v9.1.1: naprawa losowego braku opisów/opcji w menu na Python 2 (OpenATV 6.4 / VTi) + poprawna konwersja tekstu w GUI (koniec „&lt;not-a-string&gt;”).</span>
   <div class="link-row">
@@ -437,8 +519,8 @@
 </li>
 
       <li>
-        <a class="file-link" download href="pliki/enigma2-plugin-extensions-iptvdream_6.4_all.ipk" title="IPTV Dream v6.4">
-          <span class="icon">📥</span> IPTV Dream v6.4
+        <a class="file-link" download href="pliki/enigma2-plugin-extensions-iptvdream_6.5_all.ipk" title="IPTV Dream v6.5">
+          <span class="icon">📥</span> IPTV Dream v6.5
         </a>
         <span class="file-desc">IPTV: M3U / Xtream Codes / MAC Portal + eksport do bukietów Enigma2, EPGImport, pikony, WebIF.</span>
         <div class="link-row">
