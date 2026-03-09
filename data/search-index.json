@@ -19,15 +19,15 @@
     ]
   },
   {
-    "title": "AIO Panel 9.2",
-    "desc": "Opis zmian v9.2 + pobieranie uniwersalnej paczki (Py2/Py3).",
+    "title": "AIO Panel 9.3",
+    "desc": "Opis zmian v9.3 + pobieranie uniwersalnej paczki (Py2/Py3).",
     "url": "plugins.html#aio-panel",
     "tags": [
       "aio",
       "panel",
       "py2",
       "py3",
-      "9.2"
+      "9.3"
     ]
   },
   {

@@ -1,5 +1,12 @@
 [
   {
+    "date": "2026-03-09",
+    "ts": 1773014400000,
+    "type": "release",
+    "title": "AIO Panel v9.3 — MyUpdater 5.1, picony transparent i okna HD",
+    "details": "Aktualizacja AIO Panel do wersji v9.3 (09.03.2026). Zalecana aktualizacja z poziomu wtyczki: niebieski przycisk.\n\nNajważniejsze zmiany:\n• Zaktualizowano wersję wtyczki z 9.2 do 9.3\n• Dodano MyUpdater v5.1\n• „Pobierz picony (transparent)” pyta teraz o lokalizację docelową: domyślną, wykryte urządzenie zewnętrzne lub ręczne wskazanie katalogu\n• W Super Konfiguratorze funkcja piconów została bez zmian i działa po staremu, na domyślnych ustawieniach\n• Bukiety Azman przeniesiono na sam dół listy kanałów\n• Zmniejszono i dopasowano główne okna wtyczki tak, aby lepiej wyświetlały się na skinach HD\n• Zaktualizowano pliki wersji i opisy, uporządkowano kod i wpisy konfiguracyjne oraz przebudowano paczkę jako nową wersję 9.3"
+  },
+  {
     "date": "2026-02-26",
     "ts": 1772064001000,
     "type": "release",
