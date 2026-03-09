@@ -1,2 +1,1 @@
-index.html
-plugins.html
+assets/css/v4-template.css

@@ -156,8 +156,8 @@ body.v4 .file-desc{color:rgba(255,255,255,.75)!important;}
 .v4-home-hero .copy .kicker{font-family:Arial,Helvetica,sans-serif;font-size:12px;text-transform:uppercase;letter-spacing:.8px;color:rgba(255,255,255,.70);}
 .v4-home-hero .copy h1{margin:8px 0 6px;font-size:32px;}
 .v4-home-hero .copy .lead{margin:0;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.55;color:rgba(255,255,255,.80);}
-.v4-home-hero .media{position:relative;overflow:hidden;border-left:1px solid rgba(255,255,255,.10);background:rgba(0,0,0,.25);}
-.v4-home-hero .media img{width:100%;height:100%;object-fit:cover;opacity:.95;filter:contrast(1.05) saturate(.9);}
+.v4-home-hero .media{position:relative;overflow:hidden;border-left:1px solid rgba(255,255,255,.10);background:rgba(0,0,0,.32);display:flex;align-items:center;justify-content:center;padding:14px;}
+.v4-home-hero .media img{display:block;width:100%;height:auto;max-width:100%;object-fit:contain;opacity:.95;filter:contrast(1.05) saturate(.9);}
 
 .v4-feature-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px;}
 .v4-feature{
