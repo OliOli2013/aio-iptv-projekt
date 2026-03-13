@@ -1269,112 +1269,60 @@ html.ai-lock{overflow:hidden;}
 }
 
 
-/* === Dodatkowe usprawnienia 2026: filtrowanie, wyrównanie kart, dostępność === */
-.sr-only{
-  position:absolute;
-  width:1px;
-  height:1px;
-  padding:0;
-  margin:-1px;
-  overflow:hidden;
-  clip:rect(0,0,0,0);
-  white-space:nowrap;
-  border:0;
+/* ===== One-Liner: poradnik Terminal OpenWebif ===== */
+.generator-note-box{
+  margin-top:20px;
+  text-align:left;
+  background:rgba(48,54,61,.34);
+  padding:16px;
+  border-radius:18px;
+  border:1px solid rgba(88,166,255,.24);
+  border-left:4px solid #58a6ff;
 }
-.toolbar-card{
-  border:1px solid rgba(148,163,184,.18);
-  background:linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.10));
-  border-radius:20px;
-  padding:18px;
-}
-.filter-form{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-top:14px;
-}
-.filter-input{
-  flex:1 1 320px;
-  min-width:220px;
-  border-radius:14px;
-  border:1px solid var(--stroke);
-  background:rgba(8,20,34,.82);
-  color:var(--text);
-  padding:12px 14px;
-  font:inherit;
-}
-.filter-input::placeholder{color:rgba(168,187,206,.82)}
-.filter-input:focus{
-  outline:none;
-  border-color:rgba(59,167,255,.78);
-  box-shadow:0 0 0 3px rgba(59,167,255,.18);
-}
-.filter-chip-row{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-top:12px;
-}
-.chip-button{
-  appearance:none;
-  cursor:pointer;
-  color:var(--text);
-  background:rgba(59,167,255,.10);
-}
-.chip-button:hover,
-.chip-button:focus-visible{
-  border-color:rgba(59,167,255,.70);
-  background:rgba(59,167,255,.18);
-  outline:none;
-}
-.result-note{
-  margin-top:12px;
-  color:var(--muted);
-  font-size:.92rem;
-  font-weight:700;
-}
-.empty-state{
-  margin-top:12px;
-  border:1px dashed rgba(148,163,184,.25);
-  border-radius:16px;
-  padding:14px 16px;
-  color:var(--muted);
-  background:rgba(0,0,0,.15);
-}
-.quick-card,
-.info-card,
-.plugin-summary-card,
-.download-card,
-.timeline-card{
-  display:flex;
-  flex-direction:column;
-}
-.quick-card .link-row,
-.info-card .link-row,
-.plugin-summary-card .link-row,
-.download-card .link-row,
-.timeline-card .link-row{
-  margin-top:auto;
-  padding-top:12px;
-}
-.file-list > li{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-.file-list .link-row{
-  margin-top:0;
-}
-.jump-links .chip,
-.filter-chip-row .chip{
+.generator-note-box h3{margin:0 0 8px;}
+.generator-note-box p{margin:0; color:var(--muted); line-height:1.65;}
+.terminal-guide-grid{margin-top:16px;}
+.terminal-guide-notes{margin-top:18px;}
+.terminal-step{display:flex; flex-direction:column;}
+.step-badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:84px;
+  padding:6px 12px;
   border-radius:999px;
-  border:1px solid rgba(59,167,255,.30);
-  padding:8px 12px;
-  text-decoration:none;
-  font-weight:800;
+  border:1px solid rgba(88,166,255,.28);
+  background:rgba(59,130,246,.14);
+  color:#dbeafe;
+  font-size:.82rem;
+  font-weight:900;
 }
+.terminal-shot-link{display:block; margin-top:14px;}
+.terminal-shot{
+  display:block;
+  width:100%;
+  height:auto;
+  object-fit:contain;
+  background:#020617;
+  transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+.terminal-shot-link:hover .terminal-shot{
+  transform:translateY(-2px);
+  border-color:rgba(88,166,255,.28);
+  box-shadow:0 24px 50px rgba(0,0,0,.34);
+}
+.guide-alert{
+  margin-top:18px;
+  padding:14px 16px;
+  border-radius:18px;
+  border:1px solid rgba(245,158,11,.24);
+  background:linear-gradient(180deg,rgba(120,53,15,.18),rgba(0,0,0,.08));
+  color:#fde68a;
+  line-height:1.6;
+}
+.guide-lead{font-size:1rem;}
+.guide-note{color:var(--muted); line-height:1.65;}
 @media(max-width:640px){
-  .toolbar-card{padding:16px;}
-  .filter-form{flex-direction:column;}
-  .filter-form .btn{width:100%;}
+  .generator-note-box,.guide-alert{padding:14px;}
+  .step-badge{min-width:auto;}
 }

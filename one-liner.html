@@ -193,23 +193,86 @@
   </div>
 </details>
 <div id="one-liner-hidden-commands" style="display:none"><div class="command-box" id="cmd-aio">wget -q -O - --user-agent="Enigma2" -4 https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh | /bin/sh</div><div class="command-box" id="cmd-iptv">wget -q -O - --user-agent="Enigma2" -4 https://raw.githubusercontent.com/OliOli2013/IPTV-Dream-Plugin/main/installer.sh | /bin/sh</div><div class="command-box" id="cmd-updater">wget -q -O - https://raw.githubusercontent.com/OliOli2013/MyUpdater-Plugin/main/installer.sh | sh</div><div class="command-box" id="cmd-picon">wget -qO - https://raw.githubusercontent.com/OliOli2013/PiconUpdater/main/installer.sh | /bin/sh</div><div class="command-box" id="cmd-epg">wget -qO - https://raw.githubusercontent.com/OliOli2013/SimpleIPTV_EPG/main/installer.sh | /bin/sh</div><div class="command-box" id="cmd-softcam">wget -O - -q http://updates.mynonpublic.com/oea/feed | bash</div><div class="command-box" id="cmd-ajpanel">wget https://raw.githubusercontent.com/biko-73/AjPanel/main/installer.sh -O - | /bin/sh</div><div class="command-box" id="cmd-e2i">wget -q "https://raw.githubusercontent.com/oe-mirrors/e2iplayer/refs/heads/python3/e2iplayer_install.sh" -O - | /bin/sh</div><div class="command-box" id="cmd-epgimport">wget -q "--no-check-certificate" https://raw.githubusercontent.com/Belfagor2005/EPGImport-99/main/installer.sh -O - | /bin/bash</div><div class="command-box" id="cmd-filmxy">wget -q "--no-check-certificate" https://raw.githubusercontent.com/Belfagor2005/filmxy/main/installer.sh -O - | /bin/sh</div><div class="command-box" id="cmd-jedi">wget https://raw.githubusercontent.com/biko-73/JediMakerXtream/main/installer.sh -O - | /bin/sh</div><div class="command-box" id="cmd-s4a">wget http://s4aupdater.one.pl/instalujs4aupdater.sh -O - | /bin/sh</div><div class="command-box" id="cmd-levi">wget -q "--no-check-certificate" https://raw.githubusercontent.com/levi-45/Levi45Emulator/main/installer.sh -O - | /bin/sh</div></div>
-<div class="generator-note" style="margin-top: 20px; text-align: left; background: rgba(48, 54, 61, 0.4); padding: 15px; border-radius: 6px; border-left: 4px solid #58a6ff;">
-<strong style="font-size: 1.1em; color: #58a6ff; display: block; margin-bottom: 10px;">💡 Poradnik instalacji wtyczek (Terminal / PuTTy)</strong>
-<strong style="color: #d29922;">A) Przez OpenWebif (Terminal)</strong>
-<ol style="margin: 5px 0 15px 20px; padding: 0;">
-<li>Wpisz IP tunera w przeglądarce i wybierz zakładkę <strong>Terminal</strong>.</li>
-<li>Wprowadź Login: <strong>root</strong> (dla wszystkich tunerów). Hasło wpisujesz "w ciemno" (nie widać znaków).<br/>
-<em style="font-size: 0.85em; opacity: 0.7;">(Jeśli nie znasz hasła: Menu → Ustawienia → Sieć → Hasło → Zapisz. Na czystym systemie logowanie bez hasła).</em></li>
-<li>Po zalogowaniu kliknij <strong>Prawym Przyciskiem Myszy</strong> i wybierz <strong>"Paste from browser"</strong>.</li>
-<li>Wklej skopiowane wcześniej polecenie, naciśnij <strong>OK</strong>, a następnie zatwierdź <strong>Enter</strong>.</li>
-<li>Rozpocznie się instalacja. Po zakończeniu możesz przejść w inne miejsce OpenWebif.</li>
-</ol>
-<strong style="color: #d29922;">B) Przez program PuTTy (np. dla OpenPLi)</strong>
-<ul style="margin: 5px 0 0 20px; padding: 0;">
-<li>W programie PuTTy podaj IP tunera i połącz się.</li>
-<li>Tutaj <strong>Prawy Przycisk Myszy</strong> od razu wkleja skopiowane polecenie.</li>
-<li>Zatwierdź klawiszem <strong>Enter</strong>.</li>
-</ul>
+<div class="generator-note-box">
+<div class="section-kicker">Szybka pomoc</div>
+<h3>Jak wkleić polecenie do Terminala?</h3>
+<p>Najprościej przez OpenWebif: wpisz IP tunera w przeglądarce, zaloguj się jako <strong>root</strong>, użyj <strong>Paste from browser</strong> i zatwierdź polecenie klawiszem <strong>Enter</strong>. Poniżej znajdziesz pełny poradnik ze zdjęciami.</p>
+<div class="link-row">
+<a class="btn primary" href="#terminal-guide">Instrukcja ze zdjęciami</a>
+<a class="btn" href="guides.html">Więcej poradników</a>
+</div>
+</div>
+</div>
+<div class="card" data-aos="fade-up" id="terminal-guide">
+<div class="section-kicker">OpenWebif • Terminal</div>
+<h2>Poradnik instalacji wtyczek, oscamów i ncamów poleceniami</h2>
+<p class="guide-lead">Do przeglądarki wpisujemy IP tunera, przechodzimy do <strong>Terminala</strong> i wklejamy gotowe polecenie. Tą metodą zainstalujesz wtyczki, oscamy, ncamy i inne skrypty publikowane na tej stronie, forach lub w grupach.</p>
+<div class="checklist-grid terminal-guide-notes">
+<div class="check-card">
+<div class="check-title">Login</div>
+<div class="check-status">Zawsze wpisujemy <span class="code-snippet">root</span>. To standardowy login dla tunerów Enigma2.</div>
+</div>
+<div class="check-card">
+<div class="check-title">Hasło</div>
+<div class="check-status">Podczas wpisywania hasła nic nie widać — tak ma być. Jeśli nie znasz hasła: <strong>Menu → Ustawienia → Sieć → Hasło</strong>, wpisz własne i zapisz zielonym przyciskiem. Na czystym systemie logowanie bywa od razu bez hasła.</div>
+</div>
+<div class="check-card">
+<div class="check-title">Skąd brać polecenia</div>
+<div class="check-status">Polecenia znajdziesz w <a href="#generator">Generatorze One‑Liner</a> na tej stronie, ale też na forach i w grupach tematycznych.</div>
+</div>
+<div class="check-card">
+<div class="check-title">Gdy nie ma Terminala</div>
+<div class="check-status">Na systemach bez Terminala w OpenWebif, np. części wersji OpenPLi, zrób to samo przez <strong>PuTTy</strong>. Tam prawy przycisk myszy od razu wkleja skopiowane polecenie.</div>
+</div>
+</div>
+<div class="guide-alert">
+<strong>Ważne:</strong> to poradnik instalacji <strong>poleceniami w Terminalu</strong>, a nie klasycznym FTP. Po zalogowaniu wklejasz gotowy skrypt, zatwierdzasz i czekasz na zakończenie instalacji.
+</div>
+<div class="timeline-grid terminal-guide-grid">
+<article class="timeline-card terminal-step">
+<div class="timeline-top"><span class="step-badge">Krok 1</span><span class="badge-inline">Start</span></div>
+<h3>Wejdź do Terminala w OpenWebif</h3>
+<p>W przeglądarce wpisz IP tunera. Po otwarciu OpenWebif wybierz w menu po lewej stronie pozycję <strong>Terminal</strong>.</p>
+<a class="terminal-shot-link" href="pliki/openwebif-terminal-01.jpg" rel="noopener" target="_blank"><img alt="OpenWebif z zaznaczoną pozycją Terminal w menu" class="plugin-figure terminal-shot" loading="lazy" src="pliki/openwebif-terminal-01.jpg"/></a>
+</article>
+<article class="timeline-card terminal-step">
+<div class="timeline-top"><span class="step-badge">Krok 2</span><span class="badge-inline">Logowanie</span></div>
+<h3>Wpisz login <span class="code-snippet">root</span></h3>
+<p>Po otwarciu terminala wpisz login <strong>root</strong> i zatwierdź go klawiszem <strong>Enter</strong>.</p>
+<a class="terminal-shot-link" href="pliki/openwebif-terminal-02.jpg" rel="noopener" target="_blank"><img alt="Terminal OpenWebif z polem logowania i loginem root" class="plugin-figure terminal-shot" loading="lazy" src="pliki/openwebif-terminal-02.jpg"/></a>
+</article>
+<article class="timeline-card terminal-step">
+<div class="timeline-top"><span class="step-badge">Krok 3</span><span class="badge-inline">Hasło</span></div>
+<h3>Wprowadź hasło i zaloguj się</h3>
+<p>Po Enterze podaj swoje hasło. Podczas wpisywania nie widać żadnych znaków — to normalne. Jeśli wszystko jest poprawne, zobaczysz w terminalu wiersz <span class="code-snippet">root@nazwa_tunera</span>.</p>
+<a class="terminal-shot-link" href="pliki/openwebif-terminal-03.jpg" rel="noopener" target="_blank"><img alt="Terminal OpenWebif po poprawnym zalogowaniu jako root" class="plugin-figure terminal-shot" loading="lazy" src="pliki/openwebif-terminal-03.jpg"/></a>
+</article>
+<article class="timeline-card terminal-step">
+<div class="timeline-top"><span class="step-badge">Krok 4</span><span class="badge-inline">Wklejanie</span></div>
+<h3>Użyj opcji Paste from browser</h3>
+<p>Kliknij prawym przyciskiem myszy w terminalu i wybierz <strong>Paste from browser</strong>.</p>
+<a class="terminal-shot-link" href="pliki/openwebif-terminal-04.jpg" rel="noopener" target="_blank"><img alt="Menu kontekstowe terminala OpenWebif z opcją Paste from browser" class="plugin-figure terminal-shot" loading="lazy" src="pliki/openwebif-terminal-04.jpg"/></a>
+</article>
+<article class="timeline-card terminal-step">
+<div class="timeline-top"><span class="step-badge">Krok 5</span><span class="badge-inline">Polecenie</span></div>
+<h3>Wklej skopiowane polecenie i kliknij OK</h3>
+<p>Do okna dialogowego wklej wcześniej skopiowane polecenie, kliknij <strong>OK</strong>, a następnie wróć do terminala.</p>
+<a class="terminal-shot-link" href="pliki/openwebif-terminal-05.jpg" rel="noopener" target="_blank"><img alt="OpenWebif z oknem wklejania komendy do terminala" class="plugin-figure terminal-shot" loading="lazy" src="pliki/openwebif-terminal-05.jpg"/></a>
+</article>
+<article class="timeline-card terminal-step">
+<div class="timeline-top"><span class="step-badge">Krok 6</span><span class="badge-inline">Instalacja</span></div>
+<h3>Zatwierdź Enterem i poczekaj na zakończenie</h3>
+<p>Po wklejeniu polecenia naciśnij <strong>Enter</strong>. Rozpocznie się instalacja skryptu. Gdy dobiegnie końca, możesz przejść do dowolnego miejsca w OpenWebif albo zrestartować GUI, jeśli instalator tego wymaga.</p>
+<a class="terminal-shot-link" href="pliki/openwebif-terminal-06.jpg" rel="noopener" target="_blank"><img alt="Terminal OpenWebif z poprawnie wklejonym poleceniem instalacyjnym" class="plugin-figure terminal-shot" loading="lazy" src="pliki/openwebif-terminal-06.jpg"/></a>
+</article>
+</div>
+<div class="next-steps" style="margin-top:18px;">
+<div class="timeline-top"><strong>Po instalacji</strong><span class="badge-inline">Co dalej?</span></div>
+<p class="guide-note">Polecenia instalacyjne znajdziesz przede wszystkim w Generatorze One‑Liner na tej stronie. Na systemach bez terminala w OpenWebif wykonasz ten sam proces przez PuTTy — tam prawy przycisk myszy od razu wkleja komendę, a Ty zatwierdzasz ją Enterem.</p>
+<div class="link-row">
+<a class="btn primary" href="#generator">Przejdź do generatora</a>
+<a class="btn" href="guides.html">Zobacz poradniki</a>
+</div>
 </div>
 </div>
 </main>
