@@ -105,15 +105,15 @@
 </aside>
 
 <main class="container">
-  <section class="section">
+  <section class="section" id="pobieranie">
     <div class="page-hero compact">
       <div class="page-hero-grid">
         <div class="hero-copy">
           <div class="section-kicker">Wtyczki i dodatki</div>
           <h1>Wtyczki Enigma2 uporządkowane według zastosowania</h1>
           <p class="hero-lead">
-            Strona została uporządkowana tak, aby szybciej przejść do konkretnej wtyczki, pobrań oraz dodatków systemowych.
-            Zachowuję obecny styl, ale dodaję indeks, skróty i krótkie opisy każdej pozycji.
+            Tutaj znajdziesz komplet autorskich wtyczek Enigma2, skrócone opisy funkcji, kompatybilność i bezpośrednie pliki IPK.
+            Na górze masz szybki indeks i filtrowanie, żeby od razu przejść do właściwej pozycji.
           </p>
           <div class="hero-actions">
             <a class="btn primary" download href="pliki/enigma2-plugin-extensions-panelaio_9.3_all.ipk">Pobierz AIO Panel 9.3</a>
@@ -145,7 +145,31 @@
     </div>
   </section>
 
-  <section class="section" id="przeglad-wtyczek">
+  <section class="section">
+    <div class="toolbar-card">
+      <div>
+        <div class="section-kicker">Szybkie wyszukiwanie</div>
+        <h2 class="section-title">Znajdź wtyczkę albo dodatek w kilka sekund</h2>
+        <p class="section-sub">Wpisz nazwę, funkcję albo słowo kluczowe, np. „EPG”, „kamera”, „picon” lub „MyUpdater”.</p>
+      </div>
+      <div class="filter-form" role="search">
+        <label class="sr-only" for="pluginFilter">Filtruj wtyczki i dodatki</label>
+        <input class="filter-input" id="pluginFilter" type="search" placeholder="Szukaj: AIO Panel, EPG, kamera, picon..." autocomplete="off"/>
+        <button class="btn" id="pluginFilterReset" type="button">Wyczyść</button>
+      </div>
+      <div class="filter-chip-row" aria-label="Popularne skróty filtrowania">
+        <button class="chip chip-button" data-filter-shortcut="AIO Panel" type="button">AIO Panel</button>
+        <button class="chip chip-button" data-filter-shortcut="IPTV" type="button">IPTV</button>
+        <button class="chip chip-button" data-filter-shortcut="EPG" type="button">EPG</button>
+        <button class="chip chip-button" data-filter-shortcut="kamera" type="button">Kamera</button>
+        <button class="chip chip-button" data-filter-shortcut="picon" type="button">Picon</button>
+      </div>
+      <div class="result-note" id="pluginFilterNote">Widoczne wszystkie pozycje.</div>
+      <div class="empty-state" id="pluginEmptyState" hidden>Brak wyników. Spróbuj krótszej nazwy albo innego słowa kluczowego.</div>
+    </div>
+  </section>
+
+  <section class="section" id="przeglad-wtyczek" data-filter-group>
     <div class="section-head">
       <div>
         <div class="section-kicker">Szybki przegląd</div>
@@ -154,7 +178,7 @@
       </div>
     </div>
     <div class="plugin-index-grid">
-      <article class="plugin-summary-card anchor-card">
+      <article class="plugin-summary-card anchor-card" data-filter-item>
         <h3>AIO Panel 9.3</h3>
         <p>Główna autorska wtyczka do Enigma2. Aktualizacje, konfiguracja, narzędzia i dodatki w jednym miejscu.</p>
         <div class="meta-row"><span class="badge">Py2/Py3</span><span class="badge">Polecana</span></div>
@@ -169,7 +193,7 @@
         </div>
       </article>
 
-      <article class="plugin-summary-card anchor-card">
+      <article class="plugin-summary-card anchor-card" data-filter-item>
         <h3>IPTV Dream 6.5</h3>
         <p>Rozbudowana obsługa M3U, Xtream Codes i MAC Portal z eksportem do bukietów Enigma2.</p>
         <div class="meta-row"><span class="badge">IPTV</span></div>
@@ -184,7 +208,7 @@
         </div>
       </article>
 
-      <article class="plugin-summary-card anchor-card">
+      <article class="plugin-summary-card anchor-card" data-filter-item>
         <h3>Nagrania On Demand 2.0</h3>
         <p>Porządek w nagraniach, ukrywanie plików technicznych i wygodniejsza obsługa materiałów multimedialnych.</p>
         <div class="meta-row"><span class="badge">Py3</span></div>
@@ -199,7 +223,7 @@
         </div>
       </article>
 
-      <article class="plugin-summary-card anchor-card">
+      <article class="plugin-summary-card anchor-card" data-filter-item>
         <h3>OpenCamView 1.3</h3>
         <p>Podgląd kamer IP po RTSP, MultiView, eksport do bukietów oraz plików M3U.</p>
         <div class="meta-row"><span class="badge">Py2/Py3</span></div>
@@ -214,7 +238,7 @@
         </div>
       </article>
 
-      <article class="plugin-summary-card anchor-card" id="picon-updater">
+      <article class="plugin-summary-card anchor-card" id="picon-updater" data-filter-item>
         <h3>Picon Updater 1.2</h3>
         <p>Automatyczne pobieranie i aktualizacja pikon z GitHub oraz szybkie wdrożenie w systemie.</p>
         <div class="meta-row"><span class="badge">Narzędzie</span></div>
@@ -227,7 +251,7 @@
         </div>
       </article>
 
-      <article class="plugin-summary-card anchor-card" id="myupdater">
+      <article class="plugin-summary-card anchor-card" id="myupdater" data-filter-item>
         <h3>MyUpdater 5.1</h3>
         <p>Updater i instalator dla list kanałów, pikonów, softcamów oraz diagnostyki systemu.</p>
         <div class="meta-row"><span class="badge">Py2/Py3</span></div>
@@ -240,7 +264,7 @@
         </div>
       </article>
 
-      <article class="plugin-summary-card anchor-card" id="simple-iptv-epg">
+      <article class="plugin-summary-card anchor-card" id="simple-iptv-epg" data-filter-item>
         <h3>Simple IPTV EPG 2.2.1</h3>
         <p>Proste EPG dla kanałów internetowych — aktualna wersja podmieniona na 2.2.1.</p>
         <div class="meta-row"><span class="badge">EPG</span><span class="badge">Nowa wersja</span></div>
@@ -255,10 +279,10 @@
     </div>
   </section>
 
-  <section class="section content-stack">
-    <div class="card" data-aos="fade-up" id="aio-panel">
+  <section class="section content-stack" data-filter-group>
+    <div class="card" data-aos="fade-up" id="aio-panel" data-filter-item>
 <div class="plugin-hero">
-<img alt="AIO Panel — logo" class="plugin-thumb" src="pliki/logo.png"/>
+<img alt="AIO Panel — logo" class="plugin-thumb" src="pliki/logo.png" decoding="async"/>
 <div class="plugin-hero-text">
 <h2>AIO Panel v9.3 (Enigma2 • Universal)</h2>
 <div class="compat-pill">✅ Kompatybilna z wszystkimi systemami Enigma2 (Py2 / Py3)</div>
@@ -266,7 +290,7 @@
 </div>
 </div>
 <figure class="plugin-figure-wrap">
-<img alt="AIO Panel 9.3 — screen" class="plugin-figure" src="pliki/aio-panel-9.3-screen.jpg"/>
+<img alt="AIO Panel 9.3 — screen" class="plugin-figure" src="pliki/aio-panel-9.3-screen.jpg" loading="lazy" decoding="async"/>
 <figcaption class="muted small">AIO Panel 9.3 — aktualny widok menu.</figcaption>
 </figure>
 <p><strong>AIO Panel 9.3 – Aktualizacja</strong></p>
@@ -355,14 +379,14 @@
 <div style="margin-top:14px">
 <h3>Metody aktualizacji</h3>
 <p class="muted small">Aktualizację możesz przeprowadzić na trzy sposoby:</p>
-<img alt="AIO Panel v9.0 — metody aktualizacji" class="plugin-figure" src="pliki/aio-panel-v9-update-methods.png"/>
+<img alt="AIO Panel v9.0 — metody aktualizacji" class="plugin-figure" src="pliki/aio-panel-v9-update-methods.png" loading="lazy" decoding="async"/>
 <ol class="key-list">
 <li><strong>Niebieski przycisk:</strong> bezpośrednio w menu wtyczki.</li>
 <li><strong>Polecenie Telnet/SSH:</strong> poprzez konsolę systemową.</li>
 <li><strong>Plik IPK:</strong> ręczna instalacja z paczki.</li>
 </ol>
 <h3>Kluczowe nowości i zmiany (v9.0)</h3>
-<img alt="AIO Panel v9.0 — kluczowe nowości i zmiany" class="plugin-figure" src="pliki/aio-panel-v9-key-changes.png"/>
+<img alt="AIO Panel v9.0 — kluczowe nowości i zmiany" class="plugin-figure" src="pliki/aio-panel-v9-key-changes.png" loading="lazy" decoding="async"/>
 <ul class="key-list">
 <li><strong>NOWOŚĆ: Skins / Skórki:</strong> nowa zakładka z instalatorami skinów — zarządzanie wyglądem systemu bezpośrednio z panelu.</li>
 <li><strong>Nowy interfejs Dashboard:</strong> przebudowa na układ <strong>Sidebar + Content</strong> z kolorystyką <strong>cyber-blue</strong>.</li>
@@ -375,9 +399,9 @@
 </div>
 </details>
 </div>
-    <div class="card" data-aos="fade-up" id="iptv-dream">
+    <div class="card" data-aos="fade-up" id="iptv-dream" data-filter-item>
 <div class="plugin-hero">
-<img alt="IPTV Dream — ikona" class="plugin-thumb" src="pliki/icon.png"/>
+<img alt="IPTV Dream — ikona" class="plugin-thumb" src="pliki/icon.png" decoding="async"/>
 <div class="plugin-hero-text">
 <h2>IPTV Dream v6.5 (Enigma2)</h2>
 </div>
@@ -528,7 +552,7 @@
 </div>
 </details>
 </div>
-    <div class="card" data-aos="fade-up" id="nagrania-on-demand">
+    <div class="card" data-aos="fade-up" id="nagrania-on-demand" data-filter-item>
 <h2>Nagrania On Demand v2.0 (Enigma2)</h2>
 <p><strong>Autor:</strong> Paweł Pawełek</p>
 <p><strong>Wersja:</strong> 2.0 • <strong>Data:</strong> 09.01.2026</p>
@@ -586,7 +610,7 @@
 </div>
 <p class="muted small"><strong>Wymagania:</strong> Enigma2 z Python 3 (OpenATV, OpenPLi itd.) + standardowy MoviePlayer w systemie.</p>
 </div>
-    <div class="card" data-aos="fade-up" id="opencamview">
+    <div class="card" data-aos="fade-up" id="opencamview" data-filter-item>
 <h2>OpenCamView v1.3 (Enigma2)</h2>
 <p><strong>Version:</strong> 1.3</p>
 <p>
@@ -637,7 +661,7 @@
 </div>
   </section>
 
-  <section class="section" id="pozostale-wtyczki">
+  <section class="section" id="pozostale-wtyczki" data-filter-group>
     <div class="section-head">
       <div>
         <div class="section-kicker">Pozostałe wtyczki</div>
@@ -646,23 +670,23 @@
       </div>
     </div>
     <div class="info-grid">
-      <article class="info-card">
+      <article class="info-card" data-filter-item>
         <h3>Picon Updater 1.2</h3>
         <p>Pobiera i aktualizuje pikony z GitHub. Przydatne, gdy chcesz szybko ujednolicić oprawę kanałów.</p>
         <div class="link-row">
           <a class="btn primary" download href="pliki/enigma2-plugin-extensions-piconupdater_1.2_all.ipk">Pobierz</a>
         </div>
       </article>
-      <article class="info-card">
+      <article class="info-card" data-filter-item>
         <h3>MyUpdater 5.1</h3>
         <p>Ułatwia aktualizacje list, pikonów i dodatków. Dobra opcja do szybkiego utrzymania tunera.</p>
         <div class="link-row">
           <a class="btn primary" download href="pliki/enigma2-plugin-extensions-myupdater_5.1_all.ipk">Pobierz</a>
         </div>
       </article>
-      <article class="info-card">
+      <article class="info-card" data-filter-item>
         <h3>Simple IPTV EPG 2.2.1</h3>
-        <p>Aktualna wersja do prostego przypisywania EPG dla kanałów IPTV. Na stronie podmieniona z 1.3 na 2.2.1.</p>
+        <p>Aktualna wersja do prostego przypisywania EPG dla kanałów IPTV, gotowa do pobrania jako 2.2.1.</p>
         <div class="link-row">
           <a class="btn primary" download href="pliki/enigma2-plugin-extensions-simpleiptvepg_2.2.1_all.ipk">Pobierz</a>
         </div>
@@ -670,7 +694,7 @@
     </div>
   </section>
 
-  <section class="section" id="dodatki-enigma2">
+  <section class="section" id="dodatki-enigma2" data-filter-group>
     <div class="section-head">
       <div>
         <div class="section-kicker">Dodatki systemowe</div>
@@ -680,25 +704,25 @@
       <a class="btn" href="downloads.html#dodatki-systemowe">Cała sekcja pobierania</a>
     </div>
     <ul class="file-list">
-      <li>
+      <li data-filter-item>
         <a class="file-link" download href="pliki/enigma2-plugin-systemplugins-serviceapp_0.5%20git106%20e2e47a2-r6_cortexa15hf-neon-vfpv4.ipk">
           <span class="icon">📥</span> ServiceApp 0.5 (git106)
         </a>
         <span class="file-desc">Zmiana odtwarzacza systemowego i częsty wymóg dla części konfiguracji IPTV/VOD.</span>
       </li>
-      <li>
+      <li data-filter-item>
         <a class="file-link" download href="pliki/enigma2-plugin-extensions-streamlinkproxy_8.0.0_all.ipk">
           <span class="icon">📥</span> StreamlinkProxy 8.0.0
         </a>
         <span class="file-desc">Obsługa wybranych streamów przez streamlink — przydatna dla części źródeł IPTV.</span>
       </li>
-      <li>
+      <li data-filter-item>
         <a class="file-link" download href="pliki/OpenATV_softcam_feed_v8.0.ipk">
           <span class="icon">📥</span> OpenATV Softcam Feed v8.0
         </a>
         <span class="file-desc">Softcam feed dla OpenATV.</span>
       </li>
-      <li>
+      <li data-filter-item>
         <a class="file-link" href="https://github.com/OliOli2013/PanelAIO-Plugin/raw/main/Picony.zip" target="_blank" rel="noopener">
           <span class="icon">📥</span> Picony Transparent 13°E (ZIP)
         </a>
@@ -743,7 +767,7 @@
 <div class="footer-title">Nawigacja</div>
 <a class="footer-link" href="index.html">Start</a>
 <a class="footer-link" href="ai-chat.html">AI‑Chat</a>
-<a class="footer-link" href="plugins.html#pobieranie">Pobieranie</a>
+<a class="footer-link" href="downloads.html">Pobieranie</a>
 <a class="footer-link" href="guides.html">Poradniki</a>
 </div>
 <div>
@@ -795,5 +819,48 @@
 
 <script src="assets/js/v3.js?v=3"></script>
 <script defer src="assets/js/layout-v4.js?v=4"></script>
+<script>
+(function(){
+  var input = document.getElementById('pluginFilter');
+  var reset = document.getElementById('pluginFilterReset');
+  var note = document.getElementById('pluginFilterNote');
+  var empty = document.getElementById('pluginEmptyState');
+  if(!input || !note || !empty) return;
+  var items = Array.prototype.slice.call(document.querySelectorAll('[data-filter-item]'));
+  var groups = Array.prototype.slice.call(document.querySelectorAll('[data-filter-group]'));
+  var shortcuts = Array.prototype.slice.call(document.querySelectorAll('[data-filter-shortcut]'));
+  function normalize(value){
+    return String(value || '').toLowerCase()
+      .normalize('NFD')
+      .replace(/[̀-ͯ]/g, '')
+      .replace(/ł/g, 'l');
+  }
+  function applyFilter(raw){
+    var query = normalize(raw).trim();
+    var visible = 0;
+    items.forEach(function(item){
+      var text = normalize(item.textContent);
+      var match = !query || text.indexOf(query) !== -1;
+      item.hidden = !match;
+      if(match) visible += 1;
+    });
+    groups.forEach(function(group){
+      var hasVisible = !!group.querySelector('[data-filter-item]:not([hidden])');
+      group.hidden = !hasVisible;
+    });
+    empty.hidden = visible !== 0;
+    note.textContent = query ? ('Wyniki: ' + visible + (visible === 1 ? ' pozycja.' : visible < 5 ? ' pozycje.' : ' pozycji.')) : 'Widoczne wszystkie pozycje.';
+  }
+  input.addEventListener('input', function(){ applyFilter(input.value); });
+  reset.addEventListener('click', function(){ input.value = ''; applyFilter(''); input.focus(); });
+  shortcuts.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      input.value = btn.getAttribute('data-filter-shortcut') || '';
+      applyFilter(input.value);
+      input.focus();
+    });
+  });
+})();
+</script>
 </body>
 </html>
