@@ -1412,3 +1412,20 @@ html.ai-lock{overflow:hidden;}
   .guide-gallery{grid-template-columns:1fr;}
   .tutorial-card h3{font-size:1.12rem;}
 }
+
+
+/* ===== One-liner terminal gallery ===== */
+.terminal-shot-link{display:block; margin-top:14px;}
+.terminal-shot{
+  display:block;
+  width:100%;
+  height:auto;
+  object-fit:contain;
+  background:#020617;
+  transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+.terminal-shot-link:hover .terminal-shot{
+  transform:translateY(-2px);
+  border-color:rgba(88,166,255,.28);
+  box-shadow:0 24px 50px rgba(0,0,0,.34);
+}
