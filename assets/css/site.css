@@ -1269,6 +1269,110 @@ html.ai-lock{overflow:hidden;}
 }
 
 
+
+
+/* ===== Home page guide links ===== */
+.home-inline-guides{
+  margin-top:14px;
+  padding:16px 18px;
+  border-radius:18px;
+  border:1px solid rgba(59,167,255,.24);
+  background:linear-gradient(180deg, rgba(19,53,83,.55), rgba(8,24,42,.40));
+}
+.home-inline-guides-title{
+  margin:0 0 8px;
+  font-size:.9rem;
+  font-weight:900;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:#9cd2ff;
+}
+.home-inline-guides p{
+  margin:0;
+  color:#d9e7f5;
+  line-height:1.6;
+}
+.home-guide-grid,
+.home-route-grid{
+  display:grid;
+  gap:14px;
+}
+.home-guide-grid{
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+}
+.home-route-grid{
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  margin-top:14px;
+}
+.home-guide-card,
+.home-route-card{
+  border:1px solid rgba(148,163,184,.18);
+  background:linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.10));
+  border-radius:20px;
+  overflow:hidden;
+}
+.home-guide-card{
+  display:grid;
+  grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);
+}
+.home-guide-media{
+  display:block;
+  min-height:100%;
+  background:rgba(2,6,23,.35);
+}
+.home-guide-media img{
+  width:100%;
+  height:100%;
+  min-height:240px;
+  display:block;
+  object-fit:cover;
+  object-position:center;
+}
+.home-guide-content{
+  padding:18px;
+}
+.home-guide-content h3,
+.home-route-card h3{
+  margin:10px 0 10px;
+}
+.home-guide-content p,
+.home-route-card p{
+  margin:0;
+  color:var(--muted);
+  line-height:1.6;
+}
+.guide-points{
+  margin:14px 0;
+  padding-left:18px;
+  color:#e6eef8;
+}
+.guide-points li{
+  margin:8px 0;
+  line-height:1.55;
+}
+.home-route-card{
+  padding:18px;
+}
+.home-route-step{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:54px;
+  height:32px;
+  padding:0 12px;
+  border-radius:999px;
+  border:1px solid rgba(96,165,250,.30);
+  background:rgba(96,165,250,.10);
+  color:#dbeafe;
+  font-size:.86rem;
+  font-weight:900;
+  letter-spacing:.06em;
+}
+@media (max-width: 900px){
+  .home-guide-card{grid-template-columns:1fr;}
+  .home-guide-media img{min-height:210px; max-height:300px;}
+}
+
 /* ===== One-liner tutorials ===== */
 .generator-note.tutorial-note-box{
   margin-top:20px;
