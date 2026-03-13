@@ -1,161 +1,425 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>AIO‑IPTV.pl — Nowa odsłona (szablon) • AIO Panel 9.3</title>
-  <meta name="description" content="AIO‑IPTV.pl — autorskie wtyczki Enigma2 (AIO Panel, IPTV Dream, OpenCamView, Nagrania On Demand), listy kanałów oraz narzędzia. Aktualna wersja AIO Panel: 9.3 (Py2/Py3)."/>
-  <link href="pliki/logo.png" rel="icon"/>
-  <!-- Zachowujemy istniejące style/skrypty projektu (nie usuwamy zawartości) -->
-  <link href="assets/css/site.css?v=next2" rel="stylesheet"/>
-  <link href="assets/css/v3.css?v=3" rel="stylesheet"/>
-  <link href="assets/css/v4-template.css?v=4" rel="stylesheet"/>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="description" content="AIO‑IPTV.pl — autorskie wtyczki Enigma2, poradniki, pobieranie, konfiguracja IPTV i narzędzia w jednym miejscu."/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title>AIO‑IPTV.pl — wtyczki Enigma2, poradniki i narzędzia</title>
+<link rel="icon" href="pliki/logo.png"/>
+<link rel="stylesheet" href="assets/css/site.css?v=next2026"/>
+<link rel="stylesheet" href="assets/css/v3.css?v=3"/>
+<link rel="stylesheet" href="assets/css/v4-template.css?v=4"/>
+
 </head>
-<body>
-  <main>
-    <section class="v4-home-hero" aria-label="Wprowadzenie">
-      <div class="copy">
-  <div class="kicker">AIO Panel 9.3 • Enigma2 • IPTV</div>
-  <h1>Tworzę, by Twoja Enigma2 była prostsza i szybsza</h1>
-  <p class="lead">
-    Jestem twórcą AIO Panel i pozostałych autorskich wtyczek. To nowa odsłona strony — więcej porządku, ta sama zawartość.
-    W jednym miejscu zbieram pobieranie, opisy, poradniki i narzędzia do Enigma2/IPTV.
-    Dziękuję wszystkim, którzy wspierają moją twórczość stawiając kawę — to dzięki Wam mogę rozwijać stronę i wtyczki. Jeśli korzystasz, zachęcam do dalszego wsparcia.
-  </p>
-
-  <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
-    <a class="btn primary" download href="pliki/enigma2-plugin-extensions-panelaio_9.3_all.ipk">Pobierz AIO Panel 9.3</a>
-    <a class="btn" href="plugins.html#aio-panel">Opis AIO Panel</a>
-    <a class="btn" href="plugins.html#wtyczki">Moje wtyczki</a>
-  </div>
-
-  <div class="v4-note">
-    Patch 9.3: MyUpdater v5.1, nowy wybór lokalizacji piconów transparent, bukiety Azman na końcu listy oraz lepiej dopasowane okna dla skinów HD.
-  </div>
-
+<body class="v3" data-page="next">
+<div class="topbar">
+<div class="container">
+<div class="topbar-inner">
+<a aria-label="AIO-IPTV.pl" class="brand active" href="index.html">
+<img alt="AIO-IPTV.pl" src="pliki/logo.png"/>
+<div>
+<div class="name">AIO‑IPTV.pl</div>
+<span class="tag">Enigma2 • IPTV • Tools • AI</span>
 </div>
+</a>
+<a class="pill pill-accent" download="" href="pliki/enigma2-plugin-extensions-panelaio_9.3_all.ipk">
+<span data-i18n="cta_update">Aktualizacja: AIO Panel v9.3 (Python 2 &amp; 3 – Universal)</span>
+<strong data-i18n="cta_download">Pobierz teraz</strong>
+</a>
+<div class="spacer"></div>
+<div class="notif">
+<button aria-label="Updates" class="icon-btn" id="bellBtn">🔔</button>
+<div aria-live="polite" class="notif-panel" id="notifPanel"></div>
+</div>
+<button aria-label="Menu" class="icon-btn" id="navToggle">☰</button>
+</div>
+</div>
+<div class="nav">
+<div class="container">
+<div class="nav-inner nav">
+<div class="nav-group-title">Główne</div>
+<a href="index.html" class="active">🏠 <span data-i18n="nav_home">Start</span></a>
+<a href="nowe-projekty.html">🧪 <span data-i18n="nav_new_projects">Nowe Projekty</span></a>
+<a href="ai-chat.html">🤖 <span data-i18n="nav_ai">AI-Chat Enigma2</span></a>
+<a href="plugins.html">🧩 <span data-i18n="nav_plugins">Wtyczki</span></a>
+<a href="channel-lists.html">📺 <span data-i18n="nav_lists">Listy kanałów</span></a>
+<div class="nav-group-title">Konfiguracja</div>
+<a href="guides.html">📘 <span data-i18n="nav_guides">Poradniki</span></a>
+<a href="systems.html">💿 <span data-i18n="nav_systems">Systemy</span></a>
+<a href="image-installation.html">🧯 <span data-i18n="nav_image_installation">Instalacja Image</span></a>
+<a href="downloads.html">⬇️ Pobieranie</a>
+<a href="knowledge.html">🧠 Wiedza</a>
+<div class="nav-group-title">Narzędzia</div>
+<a href="tools.html">🛠 <span data-i18n="nav_tools">Narzędzia</span></a>
+<a href="config-builder.html">🧩 Konfigurator</a>
+<a href="kreator.html">✨ Kreator</a>
+<a href="porownywarka.html">🧮 Porównywarka</a>
+<a href="porownywarka_legacy.html">🧰 Porównywarka (Legacy)</a>
+<a href="tuner-compare.html">📡 Tuner Compare</a>
+<a href="error-scan.html">🩺 <span data-i18n="nav_error_scan">Diagnoza błędów</span></a>
+<a href="future-lab.html">🧪 Future Lab</a>
+<div class="nav-group-title">Kontakt</div>
+<a href="contact.html">✉️ <span data-i18n="nav_contact">Kontakt</span></a>
+<a href="contact.html#opinia">💬 <span data-i18n="nav_opinion">Podziel się opinią</span></a>
+<a href="support.html">☕ <span data-i18n="nav_support">Wsparcie</span></a>
+<a href="stats.html">📈 <span data-i18n="nav_stats">Statystyki</span></a>
+</div>
+</div>
+</div>
+</div>
+<div class="drawer-backdrop" data-drawer-close="" id="drawerBackdrop"></div>
+<aside aria-hidden="true" class="drawer" id="mobileDrawer">
+<div class="drawer-head">
+<div class="drawer-title">Menu</div>
+<button aria-label="Close" class="icon-btn" data-drawer-close="">✕</button>
+</div>
+<div class="drawer-section">Główne</div>
+<a href="index.html" class="active">🏠 <span data-i18n="nav_home">Start</span></a>
+<a href="nowe-projekty.html">🧪 <span data-i18n="nav_new_projects">Nowe Projekty</span></a>
+<a href="ai-chat.html">🤖 <span data-i18n="nav_ai">AI-Chat Enigma2</span></a>
+<a href="plugins.html">🧩 <span data-i18n="nav_plugins">Wtyczki</span></a>
+<a href="channel-lists.html">📺 <span data-i18n="nav_lists">Listy kanałów</span></a>
+<div class="drawer-section">Konfiguracja</div>
+<a href="guides.html">📘 <span data-i18n="nav_guides">Poradniki</span></a>
+<a href="systems.html">💿 <span data-i18n="nav_systems">Systemy</span></a>
+<a href="image-installation.html">🧯 <span data-i18n="nav_image_installation">Instalacja Image</span></a>
+<a href="downloads.html">⬇️ Pobieranie</a>
+<a href="knowledge.html">🧠 Wiedza</a>
+<div class="drawer-section">Narzędzia</div>
+<a href="tools.html">🛠 <span data-i18n="nav_tools">Narzędzia</span></a>
+<a href="config-builder.html">🧩 Konfigurator</a>
+<a href="kreator.html">✨ Kreator</a>
+<a href="porownywarka.html">🧮 Porównywarka</a>
+<a href="porownywarka_legacy.html">🧰 Porównywarka (Legacy)</a>
+<a href="tuner-compare.html">📡 Tuner Compare</a>
+<a href="error-scan.html">🩺 <span data-i18n="nav_error_scan">Diagnoza błędów</span></a>
+<a href="future-lab.html">🧪 Future Lab</a>
+<div class="drawer-section">Kontakt</div>
+<a href="stats.html">📈 <span data-i18n="nav_stats">Statystyki</span></a>
+<a href="contact.html">✉️ <span data-i18n="nav_contact">Kontakt</span></a>
+<a href="contact.html#opinia">💬 <span data-i18n="nav_opinion">Podziel się opinią</span></a>
+<a href="support.html">☕ <span data-i18n="nav_support">Wsparcie</span></a>
+</aside>
 
-<div class="media" aria-label="AIO Panel 9.3 screen">
-        <img src="pliki/aio-panel-9.3-screen.jpg" alt="AIO Panel 9.3 — screen"/>
-      </div>
-    </section>
-
-    <section class="v4-feature-row" aria-label="Szybkie ścieżki">
-      <div class="v4-feature">
-        <h3>DO ENIGMA2</h3>
-        <div class="img" aria-hidden="true"><span>🧩</span></div>
-        <p>AIO Panel, IPTV Dream, Nagrania On Demand, OpenCamView i pozostałe — wersje + opisy + pobieranie.</p>
-        <a class="btn primary" href="plugins.html">Przejdź do wtyczek</a>
-      </div>
-
-      <div class="v4-feature">
-        <h3>DO IPTV</h3>
-        <div class="img" aria-hidden="true"><span>📺</span></div>
-        <p>Listy kanałów, konfigurator, porównywarki i narzędzia pomocnicze do szybkiej konfiguracji.</p>
-        <a class="btn primary" href="tools.html">Przejdź do narzędzi</a>
-      </div>
-    </section>
-
-    <section class="v4-welcome" aria-label="Nowości" style="margin-top:14px;">
-      <div class="title">
-        <span class="blk" aria-hidden="true"></span>
-        <h2 style="margin:0;">Nowości i aktualizacje</h2>
-      </div>
-      <p class="muted small" style="margin-top:0;">Najświeższe wpisy są pobierane automatycznie z <code>data/updates.json</code>.</p>
-
-      <div id="homeUpdates" class="v4-timeline" aria-live="polite"></div>
-
-      <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
-        <a class="btn primary" href="updates.html">Zobacz wszystkie aktualizacje</a>
-        <a class="btn" href="plugins.html">Przejdź do wtyczek</a>
-      </div>
-    </section>
-
-    <section class="v4-welcome" aria-label="Witamy">
-      <div class="title">
-        <span class="blk" aria-hidden="true"></span>
-        <h2 style="margin:0;">Witamy na stronie</h2>
-      </div>
-
-      <div class="v4-cols">
-        <div>
-          <p>
-            Jeśli chcesz zacząć od razu — przejdź do <strong>Wtyczki</strong> i pobierz najnowsze paczki IPK.
-            Dla szybkiej instalacji użyj generatora <strong>One‑Liner</strong>.
+<main class="container">
+  <section class="section">
+    <div class="page-hero">
+      <div class="page-hero-grid">
+        <div class="hero-copy">
+          <div class="section-kicker">AIO Panel 9.3 • Enigma2 • IPTV</div>
+          <h1>Jedno miejsce dla wtyczek, konfiguracji i pomocy do Enigma2</h1>
+          <p class="hero-lead">
+            AIO‑IPTV.pl to centrum moich autorskich wtyczek, plików i poradników dla Enigma2.
+            Zachowuję obecny styl strony, ale porządkuję wejście: szybciej trafisz do pobrań, poradników,
+            narzędzi oraz sekcji pomocy.
           </p>
-          <ul>
-            <li><strong>Wtyczki:</strong> pełna lista + szczegóły każdej wtyczki.</li>
-            <li><strong>Pobieranie:</strong> paczki „niezbędne” oraz dodatki do Enigma2.</li>
-            <li><strong>Poradniki:</strong> instalacja image i podstawowa konfiguracja.</li>
-            <li><strong>Narzędzia:</strong> konfigurator, kreator, porównywarki.</li>
-          </ul>
-          <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
-            <a class="btn" href="one-liner.html">Generator One‑Liner</a>
+          <div class="hero-actions">
+            <a class="btn primary" download href="pliki/enigma2-plugin-extensions-panelaio_9.3_all.ipk">Pobierz AIO Panel 9.3</a>
+            <a class="btn" href="plugins.html">Przejdź do wtyczek</a>
             <a class="btn" href="downloads.html">Pobieranie</a>
-            <a class="btn" href="guides.html">Poradniki</a>
+          </div>
+          <div class="kpi-row" aria-label="Najważniejsze wersje">
+            <span class="kpi-pill">AIO Panel 9.3</span>
+            <span class="kpi-pill">IPTV Dream 6.5</span>
+            <span class="kpi-pill">Nagrania On Demand 2.0</span>
+            <span class="kpi-pill">OpenCamView 1.3</span>
+            <span class="kpi-pill">Simple IPTV EPG 2.2.1</span>
+          </div>
+          <div class="v4-note" style="margin-top:14px;">
+            Najnowsza aktualizacja AIO Panel 9.3 wprowadza MyUpdater 5.1, lepszy wybór lokalizacji piconów
+            transparent, porządki w paczce oraz dopasowanie okien pod skiny HD.
           </div>
         </div>
-
-        <div>
-          <h3 style="margin-top:0;">AIO Panel 9.3 — najważniejsze zmiany</h3>
-          <ul>
-  <li>Dodano MyUpdater v5.1.</li>
-  <li>„Pobierz picony (transparent)” pyta teraz o lokalizację docelową i pozwala wybrać domyślną ścieżkę, urządzenie zewnętrzne albo własny katalog.</li>
-  <li>W Super Konfiguratorze funkcja piconów działa nadal po staremu, na domyślnych ustawieniach.</li>
-  <li>Bukiety Azman zostały przeniesione na sam dół listy kanałów.</li>
-  <li>Zmniejszono i dopasowano główne okna wtyczki, aby lepiej wyświetlały się na skinach HD.</li>
-  <li>Przebudowano paczkę, zaktualizowano pliki wersji i uporządkowano starsze wpisy konfiguracyjne.</li>
-</ul>
-          <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
-            <a class="btn primary" href="plugins.html#aio-panel">Zobacz opis v9.3</a>
-            <a class="btn" href="archiwum/index-v3.html">Archiwum: poprzednia strona</a>
-          </div>
+        <div class="page-hero-media">
+          <img src="pliki/aio-panel-9.3-screen.jpg" alt="AIO Panel 9.3 — widok wtyczki"/>
         </div>
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
 
-  <script src="assets/js/site.js?v=next1"></script>
-  <script>
-    (function(){
-      var root = document.getElementById('homeUpdates');
-      if(!root) return;
-      function esc(s){
-        return String(s||'')
-          .replaceAll('&','&amp;')
-          .replaceAll('<','&lt;')
-          .replaceAll('>','&gt;')
-          .replaceAll('"','&quot;')
-          .replaceAll("'",'&#039;');
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">Szybki start</div>
+        <h2 class="section-title">Od czego zacząć?</h2>
+        <p class="section-sub">Najkrótsza droga do właściwej sekcji — bez szukania po całej stronie.</p>
+      </div>
+    </div>
+    <div class="quick-grid">
+      <article class="quick-card">
+        <div class="quick-icon">🆕</div>
+        <h3>Jestem nowy</h3>
+        <p>Zacznij od poradników, instalacji image i podstawowej konfiguracji tunera.</p>
+        <div class="link-row">
+          <a class="btn primary" href="guides.html">Poradniki</a>
+          <a class="btn" href="image-installation.html">Instalacja image</a>
+        </div>
+      </article>
+      <article class="quick-card">
+        <div class="quick-icon">🧩</div>
+        <h3>Chcę pobrać wtyczki</h3>
+        <p>Wszystkie autorskie paczki IPK, opisy wersji i bezpośrednie pobieranie.</p>
+        <div class="link-row">
+          <a class="btn primary" href="plugins.html">Wtyczki</a>
+          <a class="btn" href="downloads.html">Wszystkie pliki</a>
+        </div>
+      </article>
+      <article class="quick-card">
+        <div class="quick-icon">⚙️</div>
+        <h3>Chcę skonfigurować IPTV</h3>
+        <p>Narzędzia, One‑Liner, kreator i konfigurator do szybkiego wdrożenia.</p>
+        <div class="link-row">
+          <a class="btn primary" href="tools.html">Narzędzia</a>
+          <a class="btn" href="one-liner.html">One‑Liner</a>
+        </div>
+      </article>
+      <article class="quick-card">
+        <div class="quick-icon">🩺</div>
+        <h3>Mam problem</h3>
+        <p>Diagnoza błędów, baza wiedzy i AI‑Chat do szybkiego znalezienia rozwiązania.</p>
+        <div class="link-row">
+          <a class="btn primary" href="error-scan.html">Diagnoza błędów</a>
+          <a class="btn" href="knowledge.html">Wiedza</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">Główne obszary</div>
+        <h2 class="section-title">Najważniejsze sekcje strony</h2>
+        <p class="section-sub">Wyeksponowane filary serwisu — to od nich zaczyna większość użytkowników.</p>
+      </div>
+    </div>
+    <div class="info-grid">
+      <article class="info-card">
+        <h3>Wtyczki</h3>
+        <p>Autorskie projekty z opisami, kompatybilnością i historią wersji.</p>
+        <ul class="clean-list">
+          <li>AIO Panel 9.3</li>
+          <li>IPTV Dream 6.5</li>
+          <li>Nagrania On Demand 2.0</li>
+          <li>OpenCamView 1.3</li>
+        </ul>
+        <a class="btn primary" href="plugins.html">Zobacz wtyczki</a>
+      </article>
+      <article class="info-card">
+        <h3>Poradniki</h3>
+        <p>Instalacja image, konfiguracja systemu, sieci, pamięci i środowiska IPTV.</p>
+        <ul class="clean-list">
+          <li>PDF OpenATV 7.6</li>
+          <li>Start i konfiguracja</li>
+          <li>FAQ i słownik</li>
+        </ul>
+        <a class="btn primary" href="guides.html">Przejdź do poradników</a>
+      </article>
+      <article class="info-card">
+        <h3>Narzędzia</h3>
+        <p>Konfigurator, kreator, porównywarki i pomocnicze rozwiązania dla Enigma2.</p>
+        <ul class="clean-list">
+          <li>One‑Liner</li>
+          <li>Konfigurator</li>
+          <li>Diagnoza błędów</li>
+        </ul>
+        <a class="btn primary" href="tools.html">Przejdź do narzędzi</a>
+      </article>
+      <article class="info-card">
+        <h3>Pomoc i wiedza</h3>
+        <p>Baza wiedzy, AI‑Chat, kontakt i wsparcie techniczne w jednym miejscu.</p>
+        <ul class="clean-list">
+          <li>Wiedza</li>
+          <li>AI‑Chat Enigma2</li>
+          <li>Kontakt i wsparcie</li>
+        </ul>
+        <a class="btn primary" href="knowledge.html">Otwórz pomoc</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">Polecane pliki</div>
+        <h2 class="section-title">Najczęściej pobierane</h2>
+        <p class="section-sub">Najważniejsze paczki i dodatki uporządkowane w jednym miejscu.</p>
+      </div>
+      <a class="btn" href="downloads.html">Cała strona Pobieranie</a>
+    </div>
+    <div class="download-grid">
+      <article class="download-card">
+        <h3>AIO Panel 9.3</h3>
+        <p>Główna wtyczka dla Enigma2, uniwersalna paczka Py2/Py3.</p>
+        <div class="meta-row"><span class="badge">Py2/Py3</span><span class="badge">Polecana</span></div>
+        <div class="link-row">
+          <a class="btn primary" download href="pliki/enigma2-plugin-extensions-panelaio_9.3_all.ipk">Pobierz</a>
+          <a class="btn" href="plugins.html#aio-panel">Szczegóły</a>
+        </div>
+      </article>
+      <article class="download-card">
+        <h3>Simple IPTV EPG 2.2.1</h3>
+        <p>Proste przypisywanie EPG dla kanałów IPTV i nowsza wersja niż wcześniejsze wydania.</p>
+        <div class="meta-row"><span class="badge">Nowa wersja</span></div>
+        <div class="link-row">
+          <a class="btn primary" download href="pliki/enigma2-plugin-extensions-simpleiptvepg_2.2.1_all.ipk">Pobierz</a>
+          <a class="btn" href="plugins.html#simple-iptv-epg">Opis</a>
+        </div>
+      </article>
+      <article class="download-card">
+        <h3>ServiceApp + StreamlinkProxy</h3>
+        <p>Dodatki systemowe najczęściej potrzebne przy konfiguracji IPTV i VOD.</p>
+        <div class="meta-row"><span class="badge">Dodatki systemowe</span></div>
+        <div class="link-row">
+          <a class="btn primary" href="downloads.html#dodatki-systemowe">Przejdź</a>
+          <a class="btn" href="guides.html#poradniki-wtyczki">Instrukcje</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">Aktualności</div>
+        <h2 class="section-title">Nowości i aktualizacje</h2>
+        <p class="section-sub">Najświeższe wpisy pobierane automatycznie z aktualizacji strony.</p>
+      </div>
+      <a class="btn" href="updates.html">Wszystkie aktualizacje</a>
+    </div>
+    <div id="homeUpdates" class="timeline-grid" aria-live="polite"></div>
+  </section>
+
+  <section class="section">
+    <div class="next-steps">
+      <div>
+        <div class="section-kicker">Co dalej?</div>
+        <h2 class="section-title" style="margin-bottom:8px;">Wybierz kolejną ścieżkę</h2>
+        <p class="section-sub">Możesz przejść od razu do plików, konfiguracji albo pomocy technicznej.</p>
+      </div>
+      <div class="link-row">
+        <a class="btn primary" href="plugins.html">Moje wtyczki</a>
+        <a class="btn" href="downloads.html">Pobieranie</a>
+        <a class="btn" href="one-liner.html">Generator One‑Liner</a>
+        <a class="btn" href="ai-chat.html">AI‑Chat Enigma2</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+<div class="footer-inner">
+<div class="footer-grid">
+<div>
+<div class="footer-brand-row">
+<img alt="AIO-IPTV.pl" class="footer-logo" src="pliki/logo.png"/>
+<div>
+<div class="footer-brand-name">AIO-IPTV.pl</div>
+<div class="footer-brand-tag">Enigma2 • IPTV • Tools • AI</div>
+</div>
+</div>
+<div class="footer-note">
+          Nowoczesne centrum Enigma2: wtyczki, listy, poradniki, narzędzia oraz AI‑Chat. Dostępne po polsku i po angielsku.
+        </div>
+</div>
+<div>
+<div class="footer-title">Nawigacja</div>
+<a class="footer-link" href="index.html">Start</a>
+<a class="footer-link" href="ai-chat.html">AI‑Chat</a>
+<a class="footer-link" href="plugins.html#pobieranie">Pobieranie</a>
+<a class="footer-link" href="guides.html">Poradniki</a>
+</div>
+<div>
+<div class="footer-title">Sekcje</div>
+<a class="footer-link" href="plugins.html">Wtyczki</a>
+<a class="footer-link" href="channel-lists.html">Listy kanałów</a>
+<a class="footer-link" href="tools.html">Narzędzia</a>
+<a class="footer-link" href="systems.html">Systemy</a>
+</div>
+<div>
+<div class="footer-title">Kontakt i wsparcie</div>
+<div class="footer-kpi"><span>📧</span><span>Email: <a class="footer-link inline" href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></span></div>
+<div class="footer-kpi"><span>✈️</span><span>Telegram: <a class="footer-link inline" href="https://t.me/PawelPawelek" rel="noopener" target="_blank">t.me/PawelPawelek</a></span></div>
+<div class="footer-kpi"><span>💬</span><span>Messenger: <a class="footer-link inline" href="https://m.me/100064704540847" rel="noopener" target="_blank">Napisz wiadomość</a></span></div>
+<div class="footer-support">
+<div class="footer-title" data-i18n="support" style="margin-bottom:10px">Wesprzyj projekt</div>
+<div class="footer-support-row">
+<a aria-label="Revolut" class="support-btn support-revolut" href="https://revolut.me/pawelz75" rel="noopener" target="_blank">
+<span class="support-logo">
+<svg aria-hidden="true" focusable="false" role="img" viewbox="0 0 64 64"><defs><lineargradient id="revG" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#3b82f6"></stop><stop offset="1" stop-color="#22d3ee"></stop></lineargradient></defs><circle cx="32" cy="32" fill="url(#revG)" r="28"></circle><path d="M22 46V18h13.6c7 0 11.4 3.5 11.4 9.5 0 4.8-3 8-8.2 8.8L46 46h-7.6l-6.2-9.2h-3.8V46H22zm6.4-14.6h6.4c3.4 0 5.3-1.4 5.3-4s-1.9-4-5.3-4h-6.4v8z" fill="#0b1220"></path></svg>
+</span>
+<span class="support-text"><span class="support-name">Revolut</span><span class="support-sub">Dzięki!</span></span>
+</a>
+<a aria-label="PayPal" class="support-btn support-paypal" data-paypal="aHR0cHM6Ly93d3cucGF5cGFsLmNvbS9zZW5kP3JlY2lwaWVudD1wYXdlbHphcnp5Y2tpNjFAZ21haWwuY29tJmN1cnJlbmN5Q29kZT1QTE4=" href="#" id="paypalSupportBtn" rel="noopener" target="_blank">
+<span class="support-logo">
+<svg aria-hidden="true" focusable="false" role="img" viewbox="0 0 64 64"><defs><lineargradient id="ppG" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#60a5fa"></stop><stop offset="1" stop-color="#a78bfa"></stop></lineargradient></defs><circle cx="32" cy="32" fill="url(#ppG)" r="28"></circle><path d="M25 46l4-26h13c6 0 10 3.4 10 8.8 0 7.2-5.4 11.2-13.4 11.2h-6.2l-1 6H25zm9.1-12.2h4.5c4.1 0 6.6-1.8 6.6-5 0-2.2-1.5-3.5-4.3-3.5h-6.1l-0.7 8.5z" fill="#0b1220"></path></svg>
+</span>
+<span class="support-text"><span class="support-name">PayPal</span><span class="support-sub">Dzięki!</span></span>
+</a>
+</div>
+</div>
+<div class="footer-kpi" style="margin-top:12px; font-size:.88rem; opacity:.85"><span>🐛</span><span>Błąd? <a class="footer-link inline" href="https://github.com/OliOli2013/aio-iptv-projekt/issues" rel="noopener" target="_blank">Zgłoś na GitHub</a></span></div>
+</div>
+</div>
+<div class="footer-bottom">
+<div>© <span id="year"></span> AIO‑IPTV.pl • Paweł Pawełek</div>
+<div class="footer-legal">
+<a href="support.html">Wsparcie</a>
+<a href="contact.html">Kontakt</a>
+<a href="contact.html#opinia">Podziel się opinią</a>
+</div>
+</div>
+</div>
+</footer>
+<script>document.getElementById('year').textContent=new Date().getFullYear();</script>
+<script src="assets/js/site.js?v=next1"></script>
+<script src="assets/js/stats-nav.js" defer></script>
+
+<script>
+(function(){
+  var root = document.getElementById('homeUpdates');
+  if(!root) return;
+  function esc(s){
+    return String(s||'')
+      .replaceAll('&','&amp;')
+      .replaceAll('<','&lt;')
+      .replaceAll('>','&gt;')
+      .replaceAll('"','&quot;')
+      .replaceAll("'",'&#039;');
+  }
+  fetch('data/updates.json', {cache:'no-store'})
+    .then(function(r){ return r.ok ? r.json() : []; })
+    .then(function(items){
+      if(!Array.isArray(items) || !items.length){
+        root.innerHTML = '<div class="muted small">Brak wpisów.</div>';
+        return;
       }
-      fetch('data/updates.json', {cache:'no-store'})
-        .then(function(r){ return r.ok ? r.json() : []; })
-        .then(function(items){
-          if(!Array.isArray(items) || !items.length){
-            root.innerHTML = '<div class="muted small">Brak wpisów.</div>';
-            return;
-          }
-          items = items.slice().sort(function(a,b){ return (Number(b.ts)||0) - (Number(a.ts)||0); }).slice(0,2);
-          root.innerHTML = items.map(function(it, idx){
-            var ts = Number(it.ts)||idx;
-            var id = 'u' + ts;
-            return (
-              '<div class="v4-tl-item">' +
-                '<div class="v4-tl-top">' +
-                  '<span class="v4-tl-type">'+esc(String(it.type||'release'))+'</span>' +
-                  '<span class="v4-tl-date">'+esc(String(it.date||''))+'</span>' +
-                  '<span class="v4-tl-title">'+esc(String(it.title||''))+'</span>' +
-                '</div>' +
-                '<div class="v4-tl-details">'+esc(String(it.details||'')).slice(0,260)+'…</div>' +
-                '<div style="margin-top:10px;"><a class="btn" href="updates.html#'+esc(id)+'">Czytaj więcej</a></div>' +
-              '</div>'
-            );
-          }).join('');
-        })
-        .catch(function(){ root.innerHTML = '<div class="muted small">Nie udało się wczytać aktualizacji.</div>'; });
-    })();
-  </script>
-  <script defer src="assets/js/layout-v4.js?v=4"></script>
-  <script src="assets/js/v3.js?v=3"></script>
+      items = items.slice().sort(function(a,b){ return (Number(b.ts)||0) - (Number(a.ts)||0); }).slice(0,3);
+      root.innerHTML = items.map(function(it, idx){
+        var ts = Number(it.ts)||idx;
+        var id = 'u' + ts;
+        return (
+          '<article class="timeline-card">' +
+            '<div class="timeline-top">' +
+              '<span class="badge">'+esc(String(it.type||'release'))+'</span>' +
+              '<span class="muted small">'+esc(String(it.date||''))+'</span>' +
+            '</div>' +
+            '<h3>'+esc(String(it.title||''))+'</h3>' +
+            '<p>'+esc(String(it.details||'')).slice(0,240)+'…</p>' +
+            '<div class="link-row"><a class="btn" href="updates.html#'+esc(id)+'">Czytaj więcej</a></div>' +
+          '</article>'
+        );
+      }).join('');
+    })
+    .catch(function(){ root.innerHTML = '<div class="muted small">Nie udało się wczytać aktualizacji.</div>'; });
+})();
+</script>
+
+
+<script src="assets/js/v3.js?v=3"></script>
+<script defer src="assets/js/layout-v4.js?v=4"></script>
 </body>
 </html>
