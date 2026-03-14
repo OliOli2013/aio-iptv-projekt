@@ -1269,118 +1269,6 @@ html.ai-lock{overflow:hidden;}
 }
 
 
-
-
-/* ===== Home page guide links ===== */
-.home-inline-guides{
-  margin-top:14px;
-  padding:16px 18px;
-  border-radius:18px;
-  border:1px solid rgba(59,167,255,.24);
-  background:linear-gradient(180deg, rgba(19,53,83,.55), rgba(8,24,42,.40));
-}
-.home-inline-guides-title{
-  margin:0 0 8px;
-  font-size:.9rem;
-  font-weight:900;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  color:#9cd2ff;
-}
-.home-inline-guides p{
-  margin:0;
-  color:#d9e7f5;
-  line-height:1.6;
-}
-.home-guide-grid,
-.home-route-grid{
-  display:grid;
-  gap:14px;
-}
-.home-guide-grid{
-  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-}
-.home-route-grid{
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  margin-top:14px;
-}
-.home-guide-card,
-.home-route-card{
-  border:1px solid rgba(148,163,184,.18);
-  background:linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.10));
-  border-radius:20px;
-  overflow:hidden;
-}
-.home-guide-card{
-  display:grid;
-  grid-template-columns:minmax(280px,.92fr) minmax(0,1.08fr);
-  align-items:stretch;
-}
-.home-guide-media{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:16px;
-  min-height:100%;
-  background:rgba(2,6,23,.35);
-}
-.home-guide-media img{
-  width:100%;
-  height:auto;
-  max-height:260px;
-  display:block;
-  object-fit:contain;
-  object-position:center;
-  border-radius:16px;
-  border:1px solid rgba(148,163,184,.16);
-  box-shadow:0 16px 38px rgba(0,0,0,.24);
-}
-.home-guide-content{
-  padding:18px;
-}
-.home-guide-content h3,
-.home-route-card h3{
-  margin:10px 0 10px;
-}
-.home-guide-content p,
-.home-route-card p{
-  margin:0;
-  color:var(--muted);
-  line-height:1.6;
-}
-.guide-points{
-  margin:14px 0;
-  padding-left:18px;
-  color:#e6eef8;
-}
-.guide-points li{
-  margin:8px 0;
-  line-height:1.55;
-}
-.home-route-card{
-  padding:18px;
-}
-.home-route-step{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  min-width:54px;
-  height:32px;
-  padding:0 12px;
-  border-radius:999px;
-  border:1px solid rgba(96,165,250,.30);
-  background:rgba(96,165,250,.10);
-  color:#dbeafe;
-  font-size:.86rem;
-  font-weight:900;
-  letter-spacing:.06em;
-}
-@media (max-width: 900px){
-  .home-guide-card{grid-template-columns:1fr;}
-  .home-guide-media{padding:14px 14px 0;}
-  .home-guide-media img{max-height:220px;}
-}
-
 /* ===== One-liner tutorials ===== */
 .generator-note.tutorial-note-box{
   margin-top:20px;
@@ -1541,3 +1429,22 @@ html.ai-lock{overflow:hidden;}
   border-color:rgba(88,166,255,.28);
   box-shadow:0 24px 50px rgba(0,0,0,.34);
 }
+
+
+/* ===== Główna: kompaktowy podgląd Poradników Praktycznych ===== */
+.practical-guides-hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(260px,.65fr);gap:16px;margin:16px 0 20px;}
+.practical-guides-note,.practical-guides-side{border:1px solid rgba(148,163,184,.18);background:linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.10));border-radius:18px;padding:18px;}
+.practical-guides-note p,.practical-guides-side p{margin:0;color:#d9e7f5;line-height:1.65;}
+.practical-guides-side{display:flex;flex-direction:column;gap:12px;justify-content:center;}
+.practical-guides-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;}
+.practical-guide-teaser{border:1px solid rgba(148,163,184,.18);background:linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.10));border-radius:20px;overflow:hidden;display:flex;flex-direction:column;min-height:100%;}
+.practical-guide-thumb{display:block;padding:14px 14px 0;}
+.practical-guide-thumb img{width:100%;height:180px;object-fit:contain;object-position:center;display:block;background:rgba(2,6,23,.35);border:1px solid rgba(148,163,184,.16);border-radius:16px;box-shadow:0 14px 30px rgba(0,0,0,.22);}
+.practical-guide-body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:12px;flex:1;}
+.practical-guide-body h3{margin:0;font-size:1.12rem;line-height:1.35;}
+.practical-guide-body p{margin:0;color:var(--muted);line-height:1.62;}
+.practical-guide-points{margin:0;padding-left:18px;color:#e6eef8;}
+.practical-guide-points li{margin:6px 0;line-height:1.5;}
+.practical-guide-actions{margin-top:auto;display:flex;flex-wrap:wrap;gap:10px;}
+@media (max-width: 980px){.practical-guides-hero{grid-template-columns:1fr;}}
+@media (max-width: 640px){.practical-guides-grid{grid-template-columns:1fr;}.practical-guide-thumb img{height:165px;}}
