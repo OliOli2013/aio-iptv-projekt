@@ -224,6 +224,7 @@
 <a class="guide-pill" href="#generator">Generator One‑Liner</a>
 <a class="guide-pill" href="#terminal-guide">Instalacja przez Terminal</a>
 <a class="guide-pill" href="#oscam-guide">Jak dodać dane do OSCam</a>
+<a class="guide-pill" href="#xstremity-guide">Jak dodać IPTV do Xstremity</a>
 </div>
 <div class="tutorial-stack">
 <article class="card tutorial-card" id="terminal-guide">
@@ -344,6 +345,59 @@
 </figure>
 </div>
 </article>
+
+<article class="card tutorial-card" id="xstremity-guide">
+<div class="tutorial-badge">Xstremity / IPTV</div>
+<h3>Poradnik — jak dodać dane IPTV do Xstremity bez wpisywania z pilota</h3>
+<p>Jeśli nie chcesz ręcznie przepisywać danych z pilota, przygotuj plik <strong>playlists.txt</strong> na komputerze i wgraj go bezpośrednio do katalogu Xstremity w tunerze. To szybkie i wygodne rozwiązanie.</p>
+<div class="tutorial-callout">
+<strong>Co będzie potrzebne:</strong> dane IPTV od dostawcy, komputer oraz program <strong>FileZilla</strong> albo <strong>DCC</strong> do połączenia z tunerem.
+</div>
+<ol class="tutorial-steps">
+<li>Na pulpicie komputera utwórz plik o nazwie <strong>playlists.txt</strong>.</li>
+<li>Otwórz plik i wklej do niego dane otrzymane od dostawcy IPTV, a następnie zapisz zmiany.</li>
+<li>Uruchom program <strong>FileZilla</strong> albo <strong>DCC</strong> i połącz się z tunerem.</li>
+<li>W tunerze przejdź do katalogu <strong>/etc/enigma2/xstremity</strong>.</li>
+<li>Przenieś do tego katalogu zapisany wcześniej plik <strong>playlists.txt</strong> i potwierdź <strong>podmianę</strong>, ponieważ taki plik zwykle już tam istnieje.</li>
+<li>Uruchom wtyczkę <strong>Xstremity</strong>. Playlista będzie już dodana i gotowa do użycia.</li>
+</ol>
+<div class="tutorial-callout tutorial-callout-warn">
+<strong>Uwaga:</strong> jeśli lista po dodaniu jest nieaktywna, zwykle oznacza to problem po stronie danych testowych albo konta u dostawcy. W samym poradniku wszystko może być wykonane poprawnie, a mimo to status testu może pozostać nieaktywny.
+</div>
+<div class="guide-gallery">
+<figure>
+<a href="pliki/xstremity-playlists-01.jpg" target="_blank" rel="noopener">
+<img alt="Utworzenie pliku playlists.txt na komputerze" loading="lazy" src="pliki/xstremity-playlists-01.jpg"/>
+</a>
+<figcaption><strong>Krok 1.</strong> Utwórz na komputerze plik <strong>playlists.txt</strong>.</figcaption>
+</figure>
+<figure>
+<a href="pliki/xstremity-playlists-02.jpg" target="_blank" rel="noopener">
+<img alt="Plik playlists.txt z wklejonymi danymi IPTV od dostawcy" loading="lazy" src="pliki/xstremity-playlists-02.jpg"/>
+</a>
+<figcaption><strong>Krok 2.</strong> Wklej do pliku dane IPTV otrzymane od dostawcy i zapisz plik.</figcaption>
+</figure>
+<figure>
+<a href="pliki/xstremity-playlists-03.jpg" target="_blank" rel="noopener">
+<img alt="FileZilla połączona z tunerem i katalogiem xstremity" loading="lazy" src="pliki/xstremity-playlists-03.jpg"/>
+</a>
+<figcaption><strong>Krok 3–5.</strong> Połącz się z tunerem w programie FileZilla lub DCC, przejdź do katalogu <strong>/etc/enigma2/xstremity</strong> i podmień plik <strong>playlists.txt</strong>.</figcaption>
+</figure>
+<figure>
+<a href="pliki/xstremity-playlists-04.jpg" target="_blank" rel="noopener">
+<img alt="Menu główne wtyczki Xstremity po dodaniu pliku playlists.txt" loading="lazy" src="pliki/xstremity-playlists-04.jpg"/>
+</a>
+<figcaption><strong>Krok 6.</strong> Po uruchomieniu Xstremity zobaczysz dodaną obsługę list odtwarzania.</figcaption>
+</figure>
+<figure>
+<a href="pliki/xstremity-playlists-05.jpg" target="_blank" rel="noopener">
+<img alt="Dodana playlista IPTV we wtyczce Xstremity" loading="lazy" src="pliki/xstremity-playlists-05.jpg"/>
+</a>
+<figcaption><strong>Efekt końcowy.</strong> Playlista pojawi się we wtyczce Xstremity i będzie gotowa do użycia.</figcaption>
+</figure>
+</div>
+</article>
+
 </div>
 </section>
 
