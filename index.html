@@ -13,24 +13,20 @@
 <link rel="stylesheet" href="assets/css/v3.css?v=3"/>
 <link rel="stylesheet" href="assets/css/v4-template.css?v=4"/>
 
+
 <style>
-/* Fix głównej strony: kompaktowy podgląd Poradników Praktycznych */
-.practical-guides-hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(260px,.65fr);gap:16px;margin:16px 0 20px;}
-.practical-guides-note,.practical-guides-side{border:1px solid rgba(148,163,184,.18);background:linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.10));border-radius:18px;padding:18px;}
-.practical-guides-note p,.practical-guides-side p{margin:0;color:#d9e7f5;line-height:1.65;}
-.practical-guides-side{display:flex;flex-direction:column;gap:12px;justify-content:center;}
-.practical-guides-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;}
-.practical-guide-teaser{border:1px solid rgba(148,163,184,.18);background:linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.10));border-radius:20px;overflow:hidden;display:flex;flex-direction:column;min-height:100%;}
-.practical-guide-thumb{display:block;padding:14px 14px 0;}
-.practical-guide-thumb img{width:100%;height:180px;object-fit:contain;object-position:center;display:block;background:rgba(2,6,23,.35);border:1px solid rgba(148,163,184,.16);border-radius:16px;box-shadow:0 14px 30px rgba(0,0,0,.22);}
-.practical-guide-body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:12px;flex:1;}
-.practical-guide-body h3{margin:0;font-size:1.12rem;line-height:1.35;}
-.practical-guide-body p{margin:0;color:var(--muted);line-height:1.62;}
-.practical-guide-points{margin:0;padding-left:18px;color:#e6eef8;}
-.practical-guide-points li{margin:6px 0;line-height:1.5;}
-.practical-guide-actions{margin-top:auto;display:flex;flex-wrap:wrap;gap:10px;}
-@media (max-width: 980px){.practical-guides-hero{grid-template-columns:1fr;}}
-@media (max-width: 640px){.practical-guides-grid{grid-template-columns:1fr;}.practical-guide-thumb img{height:165px;}}
+/* Fix desktop layout: Poradniki Praktyczne on home page */
+.home-practical-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:stretch;margin-top:4px;}
+.home-practical-card{display:flex;flex-direction:column;border:1px solid rgba(148,163,184,.18);background:linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.10));border-radius:20px;overflow:hidden;min-width:0;}
+.home-practical-media{display:block;padding:14px 14px 0;text-decoration:none;}
+.home-practical-media img{display:block;width:100%;height:170px;object-fit:contain;object-position:center;background:rgba(2,6,23,.35);border:1px solid rgba(148,163,184,.16);border-radius:16px;box-shadow:0 14px 30px rgba(0,0,0,.22);}
+.home-practical-body{display:flex;flex-direction:column;gap:12px;padding:16px 18px 18px;min-width:0;flex:1;}
+.home-practical-body h3{margin:0;font-size:1.12rem;line-height:1.35;}
+.home-practical-body p{margin:0;color:var(--muted);line-height:1.62;}
+.home-practical-points{margin:0;padding-left:18px;color:#e6eef8;}
+.home-practical-points li{margin:6px 0;line-height:1.5;}
+.home-practical-body .link-row{margin-top:auto;display:flex;flex-wrap:wrap;gap:10px;}
+@media (max-width:1100px){.home-practical-grid{grid-template-columns:1fr;}}
 </style>
 </head>
 <body class="v3" data-page="next">
@@ -226,83 +222,96 @@
       <div>
         <div class="section-kicker">Nowa zakładka na stronie</div>
         <h2 class="section-title">Poradniki Praktyczne — osobny dział z instrukcjami krok po kroku</h2>
-        <p class="section-sub">Praktyczne instrukcje przeniosłem do osobnej zakładki, żeby strona główna została czytelna, a same poradniki były gotowe do dalszej rozbudowy.</p>
+        <p class="section-sub">Przeniosłem praktyczne poradniki do nowej zakładki, żeby były łatwiejsze do rozbudowy i szybsze w użyciu. Obecnie są tam już trzy instrukcje z pełnymi zdjęciami.</p>
       </div>
       <a class="btn" href="poradniki-praktyczne.html">Cały dział poradników</a>
     </div>
 
-    <div class="practical-guides-hero">
-      <div class="practical-guides-note">
-        <div class="tutorial-badge">Poradniki Praktyczne</div>
-        <p>W nowej zakładce są już trzy gotowe instrukcje: instalacja poleceniami przez <strong>Terminal / PuTTy</strong>, dodanie danych do <strong>OSCam</strong> oraz dodanie listy IPTV do <strong>Xstremity</strong> bez ręcznego wpisywania z pilota. Na stronie głównej zostawiam tylko krótki podgląd i szybkie przejścia.</p>
-      </div>
-      <div class="practical-guides-side">
-        <p><strong>Najwygodniej:</strong> kliknij wybrany poradnik poniżej albo otwórz cały dział i przejdź od razu do konkretnej instrukcji.</p>
-        <div class="link-row">
-          <a class="btn primary" href="poradniki-praktyczne.html">Otwórz Poradniki Praktyczne</a>
-          <a class="btn" href="one-liner.html#generator">Generator One‑Liner</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="practical-guides-grid">
-      <article class="practical-guide-teaser">
-        <a class="practical-guide-thumb" href="poradniki-praktyczne.html#terminal-guide">
+    <div class="home-practical-grid">
+      <article class="home-practical-card">
+        <a class="home-practical-media" href="poradniki-praktyczne.html#terminal-guide">
           <img src="pliki/openwebif-terminal-01.jpg" alt="OpenWebif — wejście do Terminala" loading="lazy"/>
         </a>
-        <div class="practical-guide-body">
+        <div class="home-practical-body">
           <div class="tutorial-badge">OpenWebif / Terminal</div>
           <h3>Instalacja poleceniami przez Terminal lub PuTTy</h3>
-          <p>Krótka ścieżka do instalacji wtyczek, oscamów, ncamów i innych skryptów publikowanych na stronie.</p>
-          <ul class="practical-guide-points">
-            <li>logowanie przez <strong>IP tunera</strong></li>
-            <li>wklejenie komendy przez <strong>Paste from browser</strong></li>
+          <p>Najkrótsza ścieżka do instalacji wtyczek, oscamów, ncamów i innych skryptów publikowanych na stronie.</p>
+          <ul class="home-practical-points">
+            <li>logowanie do OpenWebif przez IP tunera</li>
+            <li>użycie Terminala i funkcji Paste from browser</li>
+            <li>alternatywa przez PuTTy dla systemów bez terminala</li>
           </ul>
-          <div class="practical-guide-actions">
+          <div class="link-row">
             <a class="btn primary" href="poradniki-praktyczne.html#terminal-guide">Otwórz poradnik</a>
+            <a class="btn" href="one-liner.html#generator">Generator One‑Liner</a>
           </div>
         </div>
       </article>
 
-      <article class="practical-guide-teaser">
-        <a class="practical-guide-thumb" href="poradniki-praktyczne.html#oscam-guide">
+      <article class="home-practical-card">
+        <a class="home-practical-media" href="poradniki-praktyczne.html#oscam-guide">
           <img src="pliki/openwebif-oscam-03.jpg" alt="OSCam WebIf — edycja pliku oscam.server" loading="lazy"/>
         </a>
-        <div class="practical-guide-body">
+        <div class="home-practical-body">
           <div class="tutorial-badge">OSCam / OpenWebif</div>
           <h3>Jak dodać własne dane do OSCam</h3>
-          <p>Poradnik prowadzi przez wejście do WebIf OSCam, edycję pliku <strong>oscam.server</strong> i poprawny restart.</p>
-          <ul class="practical-guide-points">
-            <li>wejście do <strong>Interfejsu sieciowego OSCam</strong></li>
-            <li>zapis <strong>Save</strong> i restart <strong>Restart</strong></li>
+          <p>Poradnik prowadzi od wejścia do interfejsu sieciowego OSCam, przez edycję pliku oscam.server, aż po zapis i restart.</p>
+          <ul class="home-practical-points">
+            <li>wejście przez Interfejs sieciowy OSCam</li>
+            <li>edycja oscam.server i zapis Save</li>
+            <li>restart OSCam oraz potwierdzenie komunikatu OK</li>
           </ul>
-          <div class="practical-guide-actions">
+          <div class="link-row">
             <a class="btn primary" href="poradniki-praktyczne.html#oscam-guide">Otwórz poradnik</a>
+            <a class="btn" href="poradniki-praktyczne.html">Cała zakładka</a>
           </div>
         </div>
       </article>
 
-      <article class="practical-guide-teaser">
-        <a class="practical-guide-thumb" href="poradniki-praktyczne.html#xstremity-guide">
+      <article class="home-practical-card">
+        <a class="home-practical-media" href="poradniki-praktyczne.html#xstremity-guide">
           <img src="pliki/xstremity-playlists-03.jpg" alt="FileZilla i katalog xstremity z plikiem playlists.txt" loading="lazy"/>
         </a>
-        <div class="practical-guide-body">
+        <div class="home-practical-body">
           <div class="tutorial-badge">Xstremity / IPTV</div>
           <h3>Jak dodać dane IPTV do Xstremity bez pilota</h3>
-          <p>Instrukcja pokazuje przygotowanie pliku <strong>playlists.txt</strong> i podmianę go w katalogu Xstremity.</p>
-          <ul class="practical-guide-points">
-            <li>utworzenie pliku <strong>playlists.txt</strong></li>
-            <li>podmiana pliku w <strong>/etc/enigma2/xstremity</strong></li>
+          <p>Instrukcja pokazuje przygotowanie pliku playlists.txt na komputerze, połączenie z tunerem i podmianę pliku w katalogu Xstremity.</p>
+          <ul class="home-practical-points">
+            <li>utworzenie pliku playlists.txt z danymi od dostawcy</li>
+            <li>połączenie przez FileZilla albo DCC</li>
+            <li>podmiana pliku w /etc/enigma2/xstremity</li>
           </ul>
-          <div class="practical-guide-actions">
+          <div class="link-row">
             <a class="btn primary" href="poradniki-praktyczne.html#xstremity-guide">Otwórz poradnik</a>
+            <a class="btn" href="poradniki-praktyczne.html">Cała zakładka</a>
           </div>
         </div>
+      </article>
+    </div>
+
+    <div class="home-route-grid">
+      <article class="home-route-card">
+        <span class="home-route-step">01</span>
+        <h3>Masz gotowe polecenie?</h3>
+        <p>Wejdź do Generatora One‑Liner, skopiuj komendę i potem przejdź do poradnika instalacji przez Terminal.</p>
+        <a class="btn" href="one-liner.html#generator">Przejdź do generatora</a>
+      </article>
+      <article class="home-route-card">
+        <span class="home-route-step">02</span>
+        <h3>Chcesz edytować OSCam lub Xstremity?</h3>
+        <p>W nowej zakładce znajdziesz osobne poradniki obrazkowe do OSCam i Xstremity, gotowe do dalszej rozbudowy.</p>
+        <a class="btn" href="poradniki-praktyczne.html">Otwórz zakładkę</a>
+      </article>
+      <article class="home-route-card">
+        <span class="home-route-step">03</span>
+        <h3>Wolisz gotowe paczki IPK?</h3>
+        <p>Jeśli nie instalujesz poleceniami, przejdź bezpośrednio do działu pobierania i wybierz odpowiednią wtyczkę.</p>
+        <a class="btn" href="downloads.html">Otwórz pobieranie</a>
       </article>
     </div>
   </section>
 
-  <section class="section" id="filary">
+<section class="section" id="filary">
     <div class="section-head">
       <div>
         <div class="section-kicker">Główne obszary</div>
