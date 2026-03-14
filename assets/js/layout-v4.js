@@ -69,7 +69,7 @@
         <div class="menu-group">
           <div class="h">Kontakt</div>
           <a href="contact.html">Kontakt</a>
-          <a href="support.html">Wsparcie</a>
+          <a href="support.html">Wsparcie projektów</a>
           <a href="stats.html">Statystyki</a>
         </div>
       </nav>
@@ -80,6 +80,15 @@
 
         <div class="v4-cta-row">
           <a class="v4-cta-secondary" download href="pliki/enigma2-plugin-extensions-iptvdream_6.5_all.ipk">Pobierz IPTV Dream 6.5</a>
+        </div>
+
+        <div class="sidebar-support-box">
+          <div class="title">Wesprzyj moje projekty</div>
+          <p>Jeśli korzystasz z AIO Panel, IPTV Dream albo poradników — dziękuję za każdą formę wsparcia.</p>
+          <div class="sidebar-support-links">
+            <a class="sidebar-support-link" href="support.html">Wsparcie</a>
+            <a class="sidebar-support-link" href="https://buycoffee.to/pawelpawelek" rel="noopener" target="_blank">BuyCoffee</a>
+          </div>
         </div>
 
         <div class="v4-side-news" id="v4SideNews" aria-label="Ostatnie aktualizacje"></div>
@@ -110,6 +119,8 @@
         <a href="systems.html">Systemy</a>
         <span class="sep" aria-hidden="true"></span>
         <a href="updates.html">Aktualizacje</a>
+        <span class="sep" aria-hidden="true"></span>
+        <a class="support-link" href="support.html">Wsparcie</a>
         <span class="sep" aria-hidden="true"></span>
         <a href="contact.html">Kontakt</a>
 
