@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+
+
+<meta name="description" content="Poradniki Praktyczne AIO‑IPTV.pl — instrukcje krok po kroku dla OpenWebif, Terminala, OSCam i Xstremity z pełnymi zdjęciami."/>
+<meta name="keywords" content="poradniki praktyczne Enigma2, OpenWebif terminal, OSCam server, Xstremity playlists.txt, AIO IPTV"/>
+<meta property="og:title" content="Poradniki Praktyczne — OpenWebif, OSCam i Xstremity | AIO‑IPTV.pl"/>
+<meta property="og:description" content="Osobna zakładka z praktycznymi poradnikami Enigma2: Terminal w OpenWebif, dodawanie danych do OSCam oraz IPTV do Xstremity."/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title>Poradniki Praktyczne — OpenWebif, OSCam, Xstremity | AIO‑IPTV.pl</title>
+<link href="pliki/logo.png" rel="icon"/>
+<link href="assets/css/site.css?v=next3" rel="stylesheet"/>
+<link href="assets/css/v3.css?v=3" rel="stylesheet">
+<link href="assets/css/v4-template.css?v=4" rel="stylesheet"/>
+</head>
+<body class="v3" data-page="next">
+<div class="topbar">
+<div class="container">
+<div class="topbar-inner">
+<a aria-label="AIO-IPTV.pl" class="brand" href="index.html">
+<img alt="AIO-IPTV.pl" src="pliki/logo.png"/>
+<div>
+<div class="name">AIO‑IPTV.pl</div>
+<span class="tag">Enigma2 • IPTV • Tools • AI</span>
+</div>
+</a>
+<a class="pill pill-accent" download="" href="pliki/enigma2-plugin-extensions-panelaio_9.3_all.ipk">
+<span data-i18n="cta_update">Aktualizacja: AIO Panel v9.3 (Python 2 & 3 – Universal)</span>
+<strong data-i18n="cta_download">Pobierz teraz</strong>
+</a>
+<div class="spacer"></div>
+<div class="notif">
+<button aria-label="Updates" class="icon-btn" id="bellBtn">🔔</button>
+<div aria-live="polite" class="notif-panel" id="notifPanel"></div>
+</div>
+<button aria-label="Menu" class="icon-btn" id="navToggle">☰</button>
+</div>
+</div>
+<div class="nav">
+<div class="container">
+<div class="nav-inner nav">
+  <div class="nav-group-title">Główne</div>
+  <a href="index.html">🏠 <span data-i18n="nav_home">Start</span></a>
+  <a href="nowe-projekty.html">🧪 <span data-i18n="nav_new_projects">Nowe Projekty</span></a>
+  <a href="ai-chat.html">🤖 <span data-i18n="nav_ai">AI-Chat Enigma2</span></a>
+  <a href="plugins.html">🧩 <span data-i18n="nav_plugins">Wtyczki</span></a>
+  <a href="channel-lists.html">📺 <span data-i18n="nav_lists">Listy kanałów</span></a>
+
+  <div class="nav-group-title">Konfiguracja</div>
+  <a href="guides.html">📘 <span data-i18n="nav_guides">Poradniki</span></a>
+  <a href="systems.html">💿 <span data-i18n="nav_systems">Systemy</span></a>
+  <a href="image-installation.html">🧯 <span data-i18n="nav_image_installation">Instalacja Image</span></a>
+  <a href="downloads.html">⬇️ Pobieranie</a>
+  <a href="knowledge.html">🧠 Wiedza</a>
+
+  <div class="nav-group-title">Narzędzia</div>
+  <a href="tools.html">🛠 <span data-i18n="nav_tools">Narzędzia</span></a>
+  <a href="config-builder.html">🧩 Konfigurator</a>
+  <a href="kreator.html">✨ Kreator</a>
+  <a href="porownywarka.html">🧮 Porównywarka</a>
+  <a href="porownywarka_legacy.html">🧰 Porównywarka (Legacy)</a>
+  <a href="tuner-compare.html">📡 Tuner Compare</a>
+  <a href="error-scan.html">🩺 <span data-i18n="nav_error_scan">Diagnoza błędów</span></a>
+  <a href="future-lab.html">🧪 Future Lab</a>
+
+  <div class="nav-group-title">Kontakt</div>
+  <a href="contact.html">✉️ <span data-i18n="nav_contact">Kontakt</span></a>
+  <a href="contact.html#opinia">💬 <span data-i18n="nav_opinion">Podziel się opinią</span></a>
+  <a href="support.html">☕ <span data-i18n="nav_support">Wsparcie</span></a>
+  <a href="stats.html">📈 <span data-i18n="nav_stats">Statystyki</span></a>
+</div>
+</div>
+</div>
+</div>
+<div class="drawer-backdrop" data-drawer-close="" id="drawerBackdrop"></div>
+<aside aria-hidden="true" class="drawer" id="mobileDrawer">
+  <div class="drawer-head">
+    <div class="drawer-title">Menu</div>
+    <button aria-label="Close" class="icon-btn" data-drawer-close="">✕</button>
+  </div>
+
+  <div class="drawer-section">Główne</div>
+  <a href="index.html">🏠 <span data-i18n="nav_home">Start</span></a>
+  <a href="nowe-projekty.html">🧪 <span data-i18n="nav_new_projects">Nowe Projekty</span></a>
+  <a href="ai-chat.html">🤖 <span data-i18n="nav_ai">AI-Chat Enigma2</span></a>
+  <a href="plugins.html">🧩 <span data-i18n="nav_plugins">Wtyczki</span></a>
+  <a href="channel-lists.html">📺 <span data-i18n="nav_lists">Listy kanałów</span></a>
+
+  <div class="drawer-section">Konfiguracja</div>
+  <a href="guides.html">📘 <span data-i18n="nav_guides">Poradniki</span></a>
+  <a href="systems.html">💿 <span data-i18n="nav_systems">Systemy</span></a>
+  <a href="image-installation.html">🧯 <span data-i18n="nav_image_installation">Instalacja Image</span></a>
+  <a href="downloads.html">⬇️ Pobieranie</a>
+  <a href="knowledge.html">🧠 Wiedza</a>
+
+  <div class="drawer-section">Narzędzia</div>
+  <a href="tools.html">🛠 <span data-i18n="nav_tools">Narzędzia</span></a>
+  <a href="config-builder.html">🧩 Konfigurator</a>
+  <a href="kreator.html">✨ Kreator</a>
+  <a href="porownywarka.html">🧮 Porównywarka</a>
+  <a href="porownywarka_legacy.html">🧰 Porównywarka (Legacy)</a>
+  <a href="tuner-compare.html">📡 Tuner Compare</a>
+  <a href="error-scan.html">🩺 <span data-i18n="nav_error_scan">Diagnoza błędów</span></a>
+  <a href="future-lab.html">🧪 Future Lab</a>
+
+  <div class="drawer-section">Kontakt</div>
+  <a href="stats.html">📈 <span data-i18n="nav_stats">Statystyki</span></a>
+  <a href="contact.html">✉️ <span data-i18n="nav_contact">Kontakt</span></a>
+  <a href="contact.html#opinia">💬 <span data-i18n="nav_opinion">Podziel się opinią</span></a>
+  <a href="support.html">☕ <span data-i18n="nav_support">Wsparcie</span></a>
+</aside>
+<main class="container">
+<section class="section">
+  <div class="page-hero">
+    <div class="page-hero-grid">
+      <div class="hero-copy">
+        <div class="section-kicker">OpenWebif • OSCam • Xstremity</div>
+        <h1>Poradniki Praktyczne</h1>
+        <p class="hero-lead">
+          Osobny dział na szybkie instrukcje krok po kroku. Tutaj trafiają praktyczne poradniki z obrazkami,
+          które pokazują konkretną ścieżkę działania bez zbędnego szukania po stronie.
+        </p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#terminal-guide">Terminal / PuTTy</a>
+          <a class="btn" href="#oscam-guide">OSCam</a>
+          <a class="btn" href="#xstremity-guide">Xstremity</a>
+        </div>
+        <div class="jump-links" aria-label="Szybkie przejścia">
+          <a class="chip" href="#przeglad-poradnikow">Przegląd poradników</a>
+          <a class="chip" href="one-liner.html#generator">Generator One‑Liner</a>
+          <a class="chip" href="guides.html">Poradniki ogólne</a>
+          <a class="chip" href="downloads.html">Pobieranie</a>
+        </div>
+        <div class="kpi-row" aria-label="Zakres poradników praktycznych">
+          <span class="kpi-pill">3 poradniki startowe</span>
+          <span class="kpi-pill">OpenWebif / Terminal</span>
+          <span class="kpi-pill">OSCam</span>
+          <span class="kpi-pill">Xstremity</span>
+        </div>
+        <div class="v4-note" style="margin-top:14px;">
+          Ta zakładka jest przygotowana specjalnie pod kolejne poradniki praktyczne. Obecnie są tu już trzy instrukcje:
+          instalacja poleceniami przez Terminal lub PuTTy, dodawanie danych do OSCam oraz dodawanie playlisty IPTV do Xstremity.
+        </div>
+      </div>
+      <div class="page-hero-media">
+        <img src="pliki/openwebif-terminal-01.jpg" alt="OpenWebif — wejście do terminala jako początek poradników praktycznych" fetchpriority="high" decoding="async"/>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="przeglad-poradnikow">
+  <div class="section-head">
+    <div>
+      <div class="section-kicker">Szybki wybór</div>
+      <h2 class="section-title">Który poradnik chcesz otworzyć?</h2>
+      <p class="section-sub">Każdy poradnik prowadzi krok po kroku i ma pełne zdjęcia w samej instrukcji.</p>
+    </div>
+  </div>
+  <div class="quick-grid">
+    <article class="quick-card">
+      <div class="quick-icon">⌨️</div>
+      <h3>Instalacja przez Terminal</h3>
+      <p>Logowanie do OpenWebif, wklejanie komendy, uruchomienie skryptu i alternatywa przez PuTTy.</p>
+      <div class="link-row">
+        <a class="btn primary" href="#terminal-guide">Otwórz poradnik</a>
+        <a class="btn" href="one-liner.html#generator">Generator</a>
+      </div>
+    </article>
+    <article class="quick-card">
+      <div class="quick-icon">🔐</div>
+      <h3>Dodawanie danych do OSCam</h3>
+      <p>Edycja pliku <strong>oscam.server</strong>, zapis przez <strong>Save</strong> i poprawny restart usługi.</p>
+      <div class="link-row">
+        <a class="btn primary" href="#oscam-guide">Otwórz poradnik</a>
+        <a class="btn" href="guides.html">Poradniki ogólne</a>
+      </div>
+    </article>
+    <article class="quick-card">
+      <div class="quick-icon">📺</div>
+      <h3>Dodawanie IPTV do Xstremity</h3>
+      <p>Przygotowanie pliku <strong>playlists.txt</strong> i wgranie go do katalogu <strong>/etc/enigma2/xstremity</strong>.</p>
+      <div class="link-row">
+        <a class="btn primary" href="#xstremity-guide">Otwórz poradnik</a>
+        <a class="btn" href="downloads.html">Pobieranie</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="section tutorials-section" id="poradniki-praktyczne">
+  <div class="section-head">
+    <div>
+      <div class="section-kicker">Instrukcje krok po kroku</div>
+      <h2 class="section-title">Pełne poradniki z obrazkami</h2>
+      <p class="section-sub">To osobna zakładka na praktyczne instrukcje. W kolejnych aktualizacjach możesz tu dopisywać następne poradniki w tym samym układzie.</p>
+    </div>
+  </div>
+  <div class="guide-quick-nav">
+    <a class="guide-pill" href="#terminal-guide">Instalacja przez Terminal</a>
+    <a class="guide-pill" href="#oscam-guide">Jak dodać dane do OSCam</a>
+    <a class="guide-pill" href="#xstremity-guide">Jak dodać IPTV do Xstremity</a>
+    <a class="guide-pill" href="one-liner.html#generator">Generator One‑Liner</a>
+  </div>
+  <div class="tutorial-stack">
+<article class="card tutorial-card" id="terminal-guide">
+<div class="tutorial-badge">OpenWebif / Terminal</div>
+<h3>Poradnik — instalacja poleceniami przez Terminal w OpenWebif</h3>
+<p>To najszybszy sposób instalacji wtyczek, oscamów, ncamów i innych skryptów publikowanych na stronie. Wystarczy wejść do OpenWebif, zalogować się i wkleić gotowe polecenie.</p>
+<div class="tutorial-callout">
+<strong>Ważne:</strong> podczas wpisywania hasła w terminalu <strong>nie widać znaków</strong> — to normalne. Jeśli nie znasz hasła, możesz je ustawić w tunerze: <strong>Menu → Ustawienia → Sieć → Hasło</strong>, a potem zapisać zielonym przyciskiem.
+</div>
+<ol class="tutorial-steps">
+<li>W przeglądarce wpisz <strong>IP tunera</strong>. Po otwarciu OpenWebif wybierz pozycję <strong>Terminal</strong>.</li>
+<li>Wprowadź login: <strong>root</strong> — to standardowy login dla tunerów Enigma2.</li>
+<li>Wprowadź swoje hasło. Podczas wpisywania nic nie będzie widać — tak ma być. Na czystym systemie logowanie może odbyć się od razu bez hasła.</li>
+<li>Po zalogowaniu kliknij <strong>prawym przyciskiem myszy</strong> i wybierz <strong>Paste from browser</strong>.</li>
+<li>Wklej wcześniej skopiowane polecenie, kliknij <strong>OK</strong>, a następnie zatwierdź je klawiszem <strong>Enter</strong>.</li>
+<li>Rozpocznie się instalacja polecenia lub skryptu. Po zakończeniu możesz wrócić do dowolnego miejsca w OpenWebif.</li>
+</ol>
+<div class="tutorial-callout tutorial-callout-warn">
+<strong>Bez Terminala?</strong> Na systemach takich jak część wersji <strong>OpenPLi</strong>, gdzie w OpenWebif nie ma terminala, ten sam proces wykonasz przez <strong>PuTTy</strong>. Tam prawy przycisk myszy od razu wkleja skopiowane polecenie, a całość zatwierdzasz Enterem.
+</div>
+<div class="guide-gallery">
+<figure>
+<a href="pliki/openwebif-terminal-01.jpg" target="_blank" rel="noopener">
+<img alt="OpenWebif z zaznaczoną pozycją Terminal w menu" loading="lazy" src="pliki/openwebif-terminal-01.jpg"/>
+</a>
+<figcaption><strong>Krok 1.</strong> Wpisz IP tunera w przeglądarce i w menu po lewej stronie otwórz <strong>Terminal</strong>.</figcaption>
+</figure>
+<figure>
+<a href="pliki/openwebif-terminal-02.jpg" target="_blank" rel="noopener">
+<img alt="Terminal OpenWebif z polem logowania i loginem root" loading="lazy" src="pliki/openwebif-terminal-02.jpg"/>
+</a>
+<figcaption><strong>Krok 2.</strong> Wpisz login <strong>root</strong> i zatwierdź Enterem.</figcaption>
+</figure>
+<figure>
+<a href="pliki/openwebif-terminal-03.jpg" target="_blank" rel="noopener">
+<img alt="Terminal OpenWebif po poprawnym zalogowaniu jako root" loading="lazy" src="pliki/openwebif-terminal-03.jpg"/>
+</a>
+<figcaption><strong>Krok 3.</strong> Podaj hasło. Jeśli logowanie przebiegnie poprawnie, zobaczysz wiersz poleceń tunera.</figcaption>
+</figure>
+<figure>
+<a href="pliki/openwebif-terminal-04.jpg" target="_blank" rel="noopener">
+<img alt="Menu kontekstowe terminala OpenWebif z opcją Paste from browser" loading="lazy" src="pliki/openwebif-terminal-04.jpg"/>
+</a>
+<figcaption><strong>Krok 4.</strong> Kliknij prawym przyciskiem myszy i wybierz <strong>Paste from browser</strong>.</figcaption>
+</figure>
+<figure>
+<a href="pliki/openwebif-terminal-05.jpg" target="_blank" rel="noopener">
+<img alt="OpenWebif z oknem wklejania komendy do terminala" loading="lazy" src="pliki/openwebif-terminal-05.jpg"/>
+</a>
+<figcaption><strong>Krok 5.</strong> Wklej wcześniej skopiowane polecenie i potwierdź przyciskiem <strong>OK</strong>.</figcaption>
+</figure>
+<figure>
+<a href="pliki/openwebif-terminal-06.jpg" target="_blank" rel="noopener">
+<img alt="Terminal OpenWebif z poprawnie wklejonym poleceniem instalacyjnym" loading="lazy" src="pliki/openwebif-terminal-06.jpg"/>
+</a>
+<figcaption><strong>Krok 6.</strong> Zatwierdź polecenie klawiszem <strong>Enter</strong>. Rozpocznie się instalacja wybranego skryptu lub wtyczki.</figcaption>
+</figure>
+</div>
+</article>
+<article class="card tutorial-card" id="oscam-guide">
+<div class="tutorial-badge">OSCam / OpenWebif</div>
+<h3>Poradnik — jak dodać dane do OSCam</h3>
+<p>Dodawanie linii do OSCam możesz wykonać bezpośrednio z przeglądarki przez OpenWebif. Poniżej masz pełną, prostą ścieżkę od wejścia na tuner do restartu OSCam.</p>
+<div class="tutorial-callout tutorial-callout-warn">
+<strong>Ważne:</strong> strona OSCam <strong>nie może być tłumaczona na polski</strong>. Jeśli przeglądarka włączy tłumaczenie, trzeba je wyłączyć — w przeciwnym razie OSCam może nie zapisać zmian.
+</div>
+<ol class="tutorial-steps">
+<li>Wpisz <strong>IP tunera</strong> w przeglądarce internetowej na komputerze. Otworzy się strona <strong>OpenWebif</strong> tunera.</li>
+<li>W zakładce <strong>Dodatki</strong> wybierz <strong>Interfejs sieciowy OSCam</strong>.</li>
+<li>Na stronie OSCam wybierz <strong>FILES</strong>.</li>
+<li>Otwórz plik <strong>oscam.server</strong>.</li>
+<li>Wklej lub wpisz swoje <strong>dane OSCam</strong>.</li>
+<li>Kliknij <strong>SAVE</strong>.</li>
+<li>Wybierz <strong>Restart</strong>.</li>
+<li>Na kolejnym ekranie ponownie kliknij <strong>Restart</strong>.</li>
+<li>Potwierdź operację przyciskiem <strong>OK</strong>.</li>
+<li>Poczekaj, aż system odliczy od <strong>9 do 0</strong>. Po zakończeniu dane będą już dodane.</li>
+</ol>
+<div class="tutorial-callout">
+<strong>Efekt końcowy:</strong> po zakończeniu odliczania OSCam uruchomi się ponownie już z dodanymi danymi. Jeśli chcesz wrócić do instalacji pluginów skryptem, wyżej masz generator One‑Liner.
+</div>
+<div class="guide-gallery">
+<figure>
+<a href="pliki/openwebif-oscam-01.jpg" target="_blank" rel="noopener">
+<img alt="OpenWebif — wpisanie IP tunera i przejście do interfejsu sieciowego OSCam" loading="lazy" src="pliki/openwebif-oscam-01.jpg"/>
+</a>
+<figcaption><strong>Krok 1–2.</strong> Wpisz IP tunera w przeglądarce, a potem w sekcji <strong>Dodatki</strong> kliknij <strong>Interfejs sieciowy OSCam</strong>.</figcaption>
+</figure>
+<figure>
+<a href="pliki/openwebif-oscam-02.jpg" target="_blank" rel="noopener">
+<img alt="OSCam WebIf — wybór zakładki Files" loading="lazy" src="pliki/openwebif-oscam-02.jpg"/>
+</a>
+<figcaption><strong>Krok 3.</strong> Na stronie OSCam wybierz zakładkę <strong>Files</strong>. Upewnij się, że tłumaczenie strony jest wyłączone.</figcaption>
+</figure>
+<figure>
+<a href="pliki/openwebif-oscam-03.jpg" target="_blank" rel="noopener">
+<img alt="OSCam WebIf — edycja pliku oscam.server, zapis i restart" loading="lazy" src="pliki/openwebif-oscam-03.jpg"/>
+</a>
+<figcaption><strong>Krok 4–7.</strong> Otwórz <strong>oscam.server</strong>, wprowadź swoje dane, kliknij <strong>Save</strong>, a następnie przejdź do <strong>Restart</strong>.</figcaption>
+</figure>
+<figure>
+<a href="pliki/openwebif-oscam-04.jpg" target="_blank" rel="noopener">
+<img alt="OSCam WebIf — ponowne wybranie Restart" loading="lazy" src="pliki/openwebif-oscam-04.jpg"/>
+</a>
+<figcaption><strong>Krok 8.</strong> Na ekranie restartu wybierz ponownie <strong>Restart</strong>.</figcaption>
+</figure>
+<figure>
+<a href="pliki/openwebif-oscam-05.jpg" target="_blank" rel="noopener">
+<img alt="Potwierdzenie restartu OSCam przyciskiem OK" loading="lazy" src="pliki/openwebif-oscam-05.jpg"/>
+</a>
+<figcaption><strong>Krok 9.</strong> Potwierdź operację przyciskiem <strong>OK</strong>.</figcaption>
+</figure>
+<figure>
+<a href="pliki/openwebif-oscam-06.jpg" target="_blank" rel="noopener">
+<img alt="OSCam restart odliczanie od 9 do 0" loading="lazy" src="pliki/openwebif-oscam-06.jpg"/>
+</a>
+<figcaption><strong>Krok 10.</strong> Poczekaj na odliczanie od <strong>9 do 0</strong>. Po zakończeniu OSCam uruchomi się ponownie z zapisanymi danymi.</figcaption>
+</figure>
+</div>
+</article>
+
+<article class="card tutorial-card" id="xstremity-guide">
+<div class="tutorial-badge">Xstremity / IPTV</div>
+<h3>Poradnik — jak dodać dane IPTV do Xstremity bez wpisywania z pilota</h3>
+<p>Jeśli nie chcesz ręcznie przepisywać danych z pilota, przygotuj plik <strong>playlists.txt</strong> na komputerze i wgraj go bezpośrednio do katalogu Xstremity w tunerze. To szybkie i wygodne rozwiązanie.</p>
+<div class="tutorial-callout">
+<strong>Co będzie potrzebne:</strong> dane IPTV od dostawcy, komputer oraz program <strong>FileZilla</strong> albo <strong>DCC</strong> do połączenia z tunerem.
+</div>
+<ol class="tutorial-steps">
+<li>Na pulpicie komputera utwórz plik o nazwie <strong>playlists.txt</strong>.</li>
+<li>Otwórz plik i wklej do niego dane otrzymane od dostawcy IPTV, a następnie zapisz zmiany.</li>
+<li>Uruchom program <strong>FileZilla</strong> albo <strong>DCC</strong> i połącz się z tunerem.</li>
+<li>W tunerze przejdź do katalogu <strong>/etc/enigma2/xstremity</strong>.</li>
+<li>Przenieś do tego katalogu zapisany wcześniej plik <strong>playlists.txt</strong> i potwierdź <strong>podmianę</strong>, ponieważ taki plik zwykle już tam istnieje.</li>
+<li>Uruchom wtyczkę <strong>Xstremity</strong>. Playlista będzie już dodana i gotowa do użycia.</li>
+</ol>
+<div class="tutorial-callout tutorial-callout-warn">
+<strong>Uwaga:</strong> jeśli lista po dodaniu jest nieaktywna, zwykle oznacza to problem po stronie danych testowych albo konta u dostawcy. W samym poradniku wszystko może być wykonane poprawnie, a mimo to status testu może pozostać nieaktywny.
+</div>
+<div class="guide-gallery">
+<figure>
+<a href="pliki/xstremity-playlists-01.jpg" target="_blank" rel="noopener">
+<img alt="Utworzenie pliku playlists.txt na komputerze" loading="lazy" src="pliki/xstremity-playlists-01.jpg"/>
+</a>
+<figcaption><strong>Krok 1.</strong> Utwórz na komputerze plik <strong>playlists.txt</strong>.</figcaption>
+</figure>
+<figure>
+<a href="pliki/xstremity-playlists-02.jpg" target="_blank" rel="noopener">
+<img alt="Plik playlists.txt z wklejonymi danymi IPTV od dostawcy" loading="lazy" src="pliki/xstremity-playlists-02.jpg"/>
+</a>
+<figcaption><strong>Krok 2.</strong> Wklej do pliku dane IPTV otrzymane od dostawcy i zapisz plik.</figcaption>
+</figure>
+<figure>
+<a href="pliki/xstremity-playlists-03.jpg" target="_blank" rel="noopener">
+<img alt="FileZilla połączona z tunerem i katalogiem xstremity" loading="lazy" src="pliki/xstremity-playlists-03.jpg"/>
+</a>
+<figcaption><strong>Krok 3–5.</strong> Połącz się z tunerem w programie FileZilla lub DCC, przejdź do katalogu <strong>/etc/enigma2/xstremity</strong> i podmień plik <strong>playlists.txt</strong>.</figcaption>
+</figure>
+<figure>
+<a href="pliki/xstremity-playlists-04.jpg" target="_blank" rel="noopener">
+<img alt="Menu główne wtyczki Xstremity po dodaniu pliku playlists.txt" loading="lazy" src="pliki/xstremity-playlists-04.jpg"/>
+</a>
+<figcaption><strong>Krok 6.</strong> Po uruchomieniu Xstremity zobaczysz dodaną obsługę list odtwarzania.</figcaption>
+</figure>
+<figure>
+<a href="pliki/xstremity-playlists-05.jpg" target="_blank" rel="noopener">
+<img alt="Dodana playlista IPTV we wtyczce Xstremity" loading="lazy" src="pliki/xstremity-playlists-05.jpg"/>
+</a>
+<figcaption><strong>Efekt końcowy.</strong> Playlista pojawi się we wtyczce Xstremity i będzie gotowa do użycia.</figcaption>
+</figure>
+</div>
+</article>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+<div class="footer-inner">
+<div class="footer-grid">
+<div>
+<div class="footer-brand-row">
+<img alt="AIO-IPTV.pl" class="footer-logo" src="pliki/logo.png"/>
+<div>
+<div class="footer-brand-name">AIO-IPTV.pl</div>
+<div class="footer-brand-tag">Enigma2 • IPTV • Tools • AI</div>
+</div>
+</div>
+<div class="footer-note">
+          Nowoczesne centrum Enigma2: wtyczki, listy, poradniki, narzędzia oraz AI‑Chat. Dostępne po polsku i po angielsku.
+        </div>
+</div>
+<div>
+<div class="footer-title">Nawigacja</div>
+<a class="footer-link" href="index.html">Start</a>
+<a class="footer-link" href="ai-chat.html">AI‑Chat</a>
+<a class="footer-link" href="plugins.html#pobieranie">Pobieranie</a>
+<a class="footer-link" href="guides.html">Poradniki</a>
+</div>
+<div>
+<div class="footer-title">Sekcje</div>
+<a class="footer-link" href="plugins.html">Wtyczki</a>
+<a class="footer-link" href="channel-lists.html">Listy kanałów</a>
+<a class="footer-link" href="tools.html">Narzędzia</a>
+<a class="footer-link" href="systems.html">Systemy</a>
+</div>
+<div>
+<div class="footer-title">Kontakt i wsparcie</div>
+<div class="footer-kpi"><span>📧</span><span>Email: <a class="footer-link inline" href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></span></div>
+<div class="footer-kpi"><span>✈️</span><span>Telegram: <a class="footer-link inline" href="https://t.me/PawelPawelek" rel="noopener" target="_blank">t.me/PawelPawelek</a></span></div>
+<div class="footer-kpi"><span>💬</span><span>Messenger: <a class="footer-link inline" href="https://m.me/100064704540847" rel="noopener" target="_blank">Napisz wiadomość</a></span></div>
+<div class="footer-support">
+<div class="footer-title" data-i18n="support" style="margin-bottom:10px">Wesprzyj projekt</div>
+<div class="footer-support-row">
+<a aria-label="Revolut" class="support-btn support-revolut" href="https://revolut.me/pawelz75" rel="noopener" target="_blank">
+<span class="support-logo">
+<svg aria-hidden="true" focusable="false" role="img" viewbox="0 0 64 64"><defs><lineargradient id="revG" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#3b82f6"></stop><stop offset="1" stop-color="#22d3ee"></stop></lineargradient></defs><circle cx="32" cy="32" fill="url(#revG)" r="28"></circle><path d="M22 46V18h13.6c7 0 11.4 3.5 11.4 9.5 0 4.8-3 8-8.2 8.8L46 46h-7.6l-6.2-9.2h-3.8V46H22zm6.4-14.6h6.4c3.4 0 5.3-1.4 5.3-4s-1.9-4-5.3-4h-6.4v8z" fill="#0b1220"></path></svg>
+</span>
+<span class="support-text"><span class="support-name">Revolut</span><span class="support-sub">Dzięki!</span></span>
+</a>
+<a aria-label="PayPal" class="support-btn support-paypal" data-paypal="aHR0cHM6Ly93d3cucGF5cGFsLmNvbS9zZW5kP3JlY2lwaWVudD1wYXdlbHphcnp5Y2tpNjFAZ21haWwuY29tJmN1cnJlbmN5Q29kZT1QTE4=" href="#" id="paypalSupportBtn" rel="noopener" target="_blank">
+<span class="support-logo">
+<svg aria-hidden="true" focusable="false" role="img" viewbox="0 0 64 64"><defs><lineargradient id="ppG" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#60a5fa"></stop><stop offset="1" stop-color="#a78bfa"></stop></lineargradient></defs><circle cx="32" cy="32" fill="url(#ppG)" r="28"></circle><path d="M25 46l4-26h13c6 0 10 3.4 10 8.8 0 7.2-5.4 11.2-13.4 11.2h-6.2l-1 6H25zm9.1-12.2h4.5c4.1 0 6.6-1.8 6.6-5 0-2.2-1.5-3.5-4.3-3.5h-6.1l-0.7 8.5z" fill="#0b1220"></path></svg>
+</span>
+<span class="support-text"><span class="support-name">PayPal</span><span class="support-sub">Dzięki!</span></span>
+</a>
+</div>
+</div>
+<div class="footer-kpi" style="margin-top:12px; font-size:.88rem; opacity:.85"><span>🐛</span><span>Błąd? <a class="footer-link inline" href="https://github.com/OliOli2013/aio-iptv-projekt/issues" rel="noopener" target="_blank">Zgłoś na GitHub</a></span></div>
+</div>
+</div>
+<div class="footer-bottom">
+<div>© <span id="year"></span> AIO‑IPTV.pl • Paweł Pawełek</div>
+<div class="footer-legal">
+<a href="support.html">Wsparcie</a>
+<a href="contact.html">Kontakt</a>
+<a href="contact.html#opinia">Podziel się opinią</a>
+</div>
+</div>
+</div>
+</footer>
+<script>document.getElementById('year').textContent=new Date().getFullYear();</script>
+<script src="assets/js/site.js?v=next1"></script>
+
+<script src="assets/js/stats-nav.js" defer></script>
+<script src="assets/js/v3.js?v=3"></script>
+<script defer src="assets/js/layout-v4.js?v=4"></script>
+</body>
+</html>

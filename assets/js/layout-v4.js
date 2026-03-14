@@ -57,6 +57,7 @@
         <div class="menu-group">
           <div class="h">Konfiguracja</div>
           <a href="guides.html">Poradniki</a>
+          <a href="poradniki-praktyczne.html">Poradniki Praktyczne</a>
           <a href="systems.html">Systemy</a>
           <a href="image-installation.html">Instalacja Image</a>
           <a href="channel-lists.html">Listy kanałów</a>
@@ -104,6 +105,8 @@
         <span class="sep" aria-hidden="true"></span>
         <a href="tools.html">Narzędzia</a>
         <span class="sep" aria-hidden="true"></span>
+        <a href="poradniki-praktyczne.html">Poradniki Praktyczne</a>
+        <span class="sep" aria-hidden="true"></span>
         <a href="systems.html">Systemy</a>
         <span class="sep" aria-hidden="true"></span>
         <a href="updates.html">Aktualizacje</a>
@@ -127,6 +130,7 @@
       'tools.html':'narzędzia',
       'systems.html':'systemy',
       'guides.html':'poradniki',
+      'poradniki-praktyczne.html':'poradniki praktyczne',
       'image-installation.html':'instalacja image',
       'channel-lists.html':'listy kanałów',
       'knowledge.html':'wiedza',

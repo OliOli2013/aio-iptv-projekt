@@ -6,14 +6,14 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 
 
-<meta name="description" content="AIO Panel v9.3 (Enigma2) — MyUpdater v5.1, wybór lokalizacji piconów transparent i dopasowane okna do skinów HD. Kompatybilna z wszystkimi systemami Enigma2 (Py2/Py3)."/>
-<meta name="keywords" content="one-liner Enigma2, Enigma2 Python 2 3 plugin, AIO Panel 9.3 installer, IPTV Dream installer, wget -4 user-agent Enigma2"/>
-<meta property="og:title" content="AIO Panel v9.3 — MyUpdater, picony transparent i okna HD"/>
-<meta property="og:description" content="AIO Panel v9.3 — MyUpdater v5.1, poprawione picony transparent i dopasowane okna HD. Uniwersalna kompatybilność Enigma2 (Py2/Py3)."/>
+<meta name="description" content="Generator One‑Liner AIO‑IPTV.pl — szybkie komendy do instalacji wtyczek i skryptów Enigma2 przez Terminal lub PuTTy."/>
+<meta name="keywords" content="generator one-liner Enigma2, terminal installer, putty Enigma2, AIO IPTV generator"/>
+<meta property="og:title" content="Generator One‑Liner — AIO‑IPTV.pl"/>
+<meta property="og:description" content="Generator komend One‑Liner do instalacji wtyczek i skryptów Enigma2. Praktyczne poradniki są dostępne w osobnej zakładce."/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<title>One‑Liner instalator — AIO Panel v9.3 | AIO‑IPTV.pl</title>
+<title>Generator One‑Liner — AIO‑IPTV.pl</title>
 <link href="pliki/logo.png" rel="icon"/>
 <link href="assets/css/site.css?v=next3" rel="stylesheet"/>
 <link href="assets/css/v3.css?v=3" rel="stylesheet">
@@ -214,191 +214,39 @@
 </div>
 
 <section class="section tutorials-section" id="poradniki-praktyczne">
-<div class="section-head">
-<div>
-<h2 class="section-title">Poradniki praktyczne</h2>
-<p class="section-sub">Szybkie instrukcje krok po kroku dla pracy z OpenWebif, Terminalem i OSCam.</p>
-</div>
-</div>
-<div class="guide-quick-nav">
-<a class="guide-pill" href="#generator">Generator One‑Liner</a>
-<a class="guide-pill" href="#terminal-guide">Instalacja przez Terminal</a>
-<a class="guide-pill" href="#oscam-guide">Jak dodać dane do OSCam</a>
-<a class="guide-pill" href="#xstremity-guide">Jak dodać IPTV do Xstremity</a>
-</div>
-<div class="tutorial-stack">
-<article class="card tutorial-card" id="terminal-guide">
-<div class="tutorial-badge">OpenWebif / Terminal</div>
-<h3>Poradnik — instalacja poleceniami przez Terminal w OpenWebif</h3>
-<p>To najszybszy sposób instalacji wtyczek, oscamów, ncamów i innych skryptów publikowanych na stronie. Wystarczy wejść do OpenWebif, zalogować się i wkleić gotowe polecenie.</p>
-<div class="tutorial-callout">
-<strong>Ważne:</strong> podczas wpisywania hasła w terminalu <strong>nie widać znaków</strong> — to normalne. Jeśli nie znasz hasła, możesz je ustawić w tunerze: <strong>Menu → Ustawienia → Sieć → Hasło</strong>, a potem zapisać zielonym przyciskiem.
-</div>
-<ol class="tutorial-steps">
-<li>W przeglądarce wpisz <strong>IP tunera</strong>. Po otwarciu OpenWebif wybierz pozycję <strong>Terminal</strong>.</li>
-<li>Wprowadź login: <strong>root</strong> — to standardowy login dla tunerów Enigma2.</li>
-<li>Wprowadź swoje hasło. Podczas wpisywania nic nie będzie widać — tak ma być. Na czystym systemie logowanie może odbyć się od razu bez hasła.</li>
-<li>Po zalogowaniu kliknij <strong>prawym przyciskiem myszy</strong> i wybierz <strong>Paste from browser</strong>.</li>
-<li>Wklej wcześniej skopiowane polecenie, kliknij <strong>OK</strong>, a następnie zatwierdź je klawiszem <strong>Enter</strong>.</li>
-<li>Rozpocznie się instalacja polecenia lub skryptu. Po zakończeniu możesz wrócić do dowolnego miejsca w OpenWebif.</li>
-</ol>
-<div class="tutorial-callout tutorial-callout-warn">
-<strong>Bez Terminala?</strong> Na systemach takich jak część wersji <strong>OpenPLi</strong>, gdzie w OpenWebif nie ma terminala, ten sam proces wykonasz przez <strong>PuTTy</strong>. Tam prawy przycisk myszy od razu wkleja skopiowane polecenie, a całość zatwierdzasz Enterem.
-</div>
-<div class="guide-gallery">
-<figure>
-<a href="pliki/openwebif-terminal-01.jpg" target="_blank" rel="noopener">
-<img alt="OpenWebif z zaznaczoną pozycją Terminal w menu" loading="lazy" src="pliki/openwebif-terminal-01.jpg"/>
-</a>
-<figcaption><strong>Krok 1.</strong> Wpisz IP tunera w przeglądarce i w menu po lewej stronie otwórz <strong>Terminal</strong>.</figcaption>
-</figure>
-<figure>
-<a href="pliki/openwebif-terminal-02.jpg" target="_blank" rel="noopener">
-<img alt="Terminal OpenWebif z polem logowania i loginem root" loading="lazy" src="pliki/openwebif-terminal-02.jpg"/>
-</a>
-<figcaption><strong>Krok 2.</strong> Wpisz login <strong>root</strong> i zatwierdź Enterem.</figcaption>
-</figure>
-<figure>
-<a href="pliki/openwebif-terminal-03.jpg" target="_blank" rel="noopener">
-<img alt="Terminal OpenWebif po poprawnym zalogowaniu jako root" loading="lazy" src="pliki/openwebif-terminal-03.jpg"/>
-</a>
-<figcaption><strong>Krok 3.</strong> Podaj hasło. Jeśli logowanie przebiegnie poprawnie, zobaczysz wiersz poleceń tunera.</figcaption>
-</figure>
-<figure>
-<a href="pliki/openwebif-terminal-04.jpg" target="_blank" rel="noopener">
-<img alt="Menu kontekstowe terminala OpenWebif z opcją Paste from browser" loading="lazy" src="pliki/openwebif-terminal-04.jpg"/>
-</a>
-<figcaption><strong>Krok 4.</strong> Kliknij prawym przyciskiem myszy i wybierz <strong>Paste from browser</strong>.</figcaption>
-</figure>
-<figure>
-<a href="pliki/openwebif-terminal-05.jpg" target="_blank" rel="noopener">
-<img alt="OpenWebif z oknem wklejania komendy do terminala" loading="lazy" src="pliki/openwebif-terminal-05.jpg"/>
-</a>
-<figcaption><strong>Krok 5.</strong> Wklej wcześniej skopiowane polecenie i potwierdź przyciskiem <strong>OK</strong>.</figcaption>
-</figure>
-<figure>
-<a href="pliki/openwebif-terminal-06.jpg" target="_blank" rel="noopener">
-<img alt="Terminal OpenWebif z poprawnie wklejonym poleceniem instalacyjnym" loading="lazy" src="pliki/openwebif-terminal-06.jpg"/>
-</a>
-<figcaption><strong>Krok 6.</strong> Zatwierdź polecenie klawiszem <strong>Enter</strong>. Rozpocznie się instalacja wybranego skryptu lub wtyczki.</figcaption>
-</figure>
-</div>
-</article>
-<article class="card tutorial-card" id="oscam-guide">
-<div class="tutorial-badge">OSCam / OpenWebif</div>
-<h3>Poradnik — jak dodać dane do OSCam</h3>
-<p>Dodawanie linii do OSCam możesz wykonać bezpośrednio z przeglądarki przez OpenWebif. Poniżej masz pełną, prostą ścieżkę od wejścia na tuner do restartu OSCam.</p>
-<div class="tutorial-callout tutorial-callout-warn">
-<strong>Ważne:</strong> strona OSCam <strong>nie może być tłumaczona na polski</strong>. Jeśli przeglądarka włączy tłumaczenie, trzeba je wyłączyć — w przeciwnym razie OSCam może nie zapisać zmian.
-</div>
-<ol class="tutorial-steps">
-<li>Wpisz <strong>IP tunera</strong> w przeglądarce internetowej na komputerze. Otworzy się strona <strong>OpenWebif</strong> tunera.</li>
-<li>W zakładce <strong>Dodatki</strong> wybierz <strong>Interfejs sieciowy OSCam</strong>.</li>
-<li>Na stronie OSCam wybierz <strong>FILES</strong>.</li>
-<li>Otwórz plik <strong>oscam.server</strong>.</li>
-<li>Wklej lub wpisz swoje <strong>dane OSCam</strong>.</li>
-<li>Kliknij <strong>SAVE</strong>.</li>
-<li>Wybierz <strong>Restart</strong>.</li>
-<li>Na kolejnym ekranie ponownie kliknij <strong>Restart</strong>.</li>
-<li>Potwierdź operację przyciskiem <strong>OK</strong>.</li>
-<li>Poczekaj, aż system odliczy od <strong>9 do 0</strong>. Po zakończeniu dane będą już dodane.</li>
-</ol>
-<div class="tutorial-callout">
-<strong>Efekt końcowy:</strong> po zakończeniu odliczania OSCam uruchomi się ponownie już z dodanymi danymi. Jeśli chcesz wrócić do instalacji pluginów skryptem, wyżej masz generator One‑Liner.
-</div>
-<div class="guide-gallery">
-<figure>
-<a href="pliki/openwebif-oscam-01.jpg" target="_blank" rel="noopener">
-<img alt="OpenWebif — wpisanie IP tunera i przejście do interfejsu sieciowego OSCam" loading="lazy" src="pliki/openwebif-oscam-01.jpg"/>
-</a>
-<figcaption><strong>Krok 1–2.</strong> Wpisz IP tunera w przeglądarce, a potem w sekcji <strong>Dodatki</strong> kliknij <strong>Interfejs sieciowy OSCam</strong>.</figcaption>
-</figure>
-<figure>
-<a href="pliki/openwebif-oscam-02.jpg" target="_blank" rel="noopener">
-<img alt="OSCam WebIf — wybór zakładki Files" loading="lazy" src="pliki/openwebif-oscam-02.jpg"/>
-</a>
-<figcaption><strong>Krok 3.</strong> Na stronie OSCam wybierz zakładkę <strong>Files</strong>. Upewnij się, że tłumaczenie strony jest wyłączone.</figcaption>
-</figure>
-<figure>
-<a href="pliki/openwebif-oscam-03.jpg" target="_blank" rel="noopener">
-<img alt="OSCam WebIf — edycja pliku oscam.server, zapis i restart" loading="lazy" src="pliki/openwebif-oscam-03.jpg"/>
-</a>
-<figcaption><strong>Krok 4–7.</strong> Otwórz <strong>oscam.server</strong>, wprowadź swoje dane, kliknij <strong>Save</strong>, a następnie przejdź do <strong>Restart</strong>.</figcaption>
-</figure>
-<figure>
-<a href="pliki/openwebif-oscam-04.jpg" target="_blank" rel="noopener">
-<img alt="OSCam WebIf — ponowne wybranie Restart" loading="lazy" src="pliki/openwebif-oscam-04.jpg"/>
-</a>
-<figcaption><strong>Krok 8.</strong> Na ekranie restartu wybierz ponownie <strong>Restart</strong>.</figcaption>
-</figure>
-<figure>
-<a href="pliki/openwebif-oscam-05.jpg" target="_blank" rel="noopener">
-<img alt="Potwierdzenie restartu OSCam przyciskiem OK" loading="lazy" src="pliki/openwebif-oscam-05.jpg"/>
-</a>
-<figcaption><strong>Krok 9.</strong> Potwierdź operację przyciskiem <strong>OK</strong>.</figcaption>
-</figure>
-<figure>
-<a href="pliki/openwebif-oscam-06.jpg" target="_blank" rel="noopener">
-<img alt="OSCam restart odliczanie od 9 do 0" loading="lazy" src="pliki/openwebif-oscam-06.jpg"/>
-</a>
-<figcaption><strong>Krok 10.</strong> Poczekaj na odliczanie od <strong>9 do 0</strong>. Po zakończeniu OSCam uruchomi się ponownie z zapisanymi danymi.</figcaption>
-</figure>
-</div>
-</article>
-
-<article class="card tutorial-card" id="xstremity-guide">
-<div class="tutorial-badge">Xstremity / IPTV</div>
-<h3>Poradnik — jak dodać dane IPTV do Xstremity bez wpisywania z pilota</h3>
-<p>Jeśli nie chcesz ręcznie przepisywać danych z pilota, przygotuj plik <strong>playlists.txt</strong> na komputerze i wgraj go bezpośrednio do katalogu Xstremity w tunerze. To szybkie i wygodne rozwiązanie.</p>
-<div class="tutorial-callout">
-<strong>Co będzie potrzebne:</strong> dane IPTV od dostawcy, komputer oraz program <strong>FileZilla</strong> albo <strong>DCC</strong> do połączenia z tunerem.
-</div>
-<ol class="tutorial-steps">
-<li>Na pulpicie komputera utwórz plik o nazwie <strong>playlists.txt</strong>.</li>
-<li>Otwórz plik i wklej do niego dane otrzymane od dostawcy IPTV, a następnie zapisz zmiany.</li>
-<li>Uruchom program <strong>FileZilla</strong> albo <strong>DCC</strong> i połącz się z tunerem.</li>
-<li>W tunerze przejdź do katalogu <strong>/etc/enigma2/xstremity</strong>.</li>
-<li>Przenieś do tego katalogu zapisany wcześniej plik <strong>playlists.txt</strong> i potwierdź <strong>podmianę</strong>, ponieważ taki plik zwykle już tam istnieje.</li>
-<li>Uruchom wtyczkę <strong>Xstremity</strong>. Playlista będzie już dodana i gotowa do użycia.</li>
-</ol>
-<div class="tutorial-callout tutorial-callout-warn">
-<strong>Uwaga:</strong> jeśli lista po dodaniu jest nieaktywna, zwykle oznacza to problem po stronie danych testowych albo konta u dostawcy. W samym poradniku wszystko może być wykonane poprawnie, a mimo to status testu może pozostać nieaktywny.
-</div>
-<div class="guide-gallery">
-<figure>
-<a href="pliki/xstremity-playlists-01.jpg" target="_blank" rel="noopener">
-<img alt="Utworzenie pliku playlists.txt na komputerze" loading="lazy" src="pliki/xstremity-playlists-01.jpg"/>
-</a>
-<figcaption><strong>Krok 1.</strong> Utwórz na komputerze plik <strong>playlists.txt</strong>.</figcaption>
-</figure>
-<figure>
-<a href="pliki/xstremity-playlists-02.jpg" target="_blank" rel="noopener">
-<img alt="Plik playlists.txt z wklejonymi danymi IPTV od dostawcy" loading="lazy" src="pliki/xstremity-playlists-02.jpg"/>
-</a>
-<figcaption><strong>Krok 2.</strong> Wklej do pliku dane IPTV otrzymane od dostawcy i zapisz plik.</figcaption>
-</figure>
-<figure>
-<a href="pliki/xstremity-playlists-03.jpg" target="_blank" rel="noopener">
-<img alt="FileZilla połączona z tunerem i katalogiem xstremity" loading="lazy" src="pliki/xstremity-playlists-03.jpg"/>
-</a>
-<figcaption><strong>Krok 3–5.</strong> Połącz się z tunerem w programie FileZilla lub DCC, przejdź do katalogu <strong>/etc/enigma2/xstremity</strong> i podmień plik <strong>playlists.txt</strong>.</figcaption>
-</figure>
-<figure>
-<a href="pliki/xstremity-playlists-04.jpg" target="_blank" rel="noopener">
-<img alt="Menu główne wtyczki Xstremity po dodaniu pliku playlists.txt" loading="lazy" src="pliki/xstremity-playlists-04.jpg"/>
-</a>
-<figcaption><strong>Krok 6.</strong> Po uruchomieniu Xstremity zobaczysz dodaną obsługę list odtwarzania.</figcaption>
-</figure>
-<figure>
-<a href="pliki/xstremity-playlists-05.jpg" target="_blank" rel="noopener">
-<img alt="Dodana playlista IPTV we wtyczce Xstremity" loading="lazy" src="pliki/xstremity-playlists-05.jpg"/>
-</a>
-<figcaption><strong>Efekt końcowy.</strong> Playlista pojawi się we wtyczce Xstremity i będzie gotowa do użycia.</figcaption>
-</figure>
-</div>
-</article>
-
-</div>
+  <div class="section-head">
+    <div>
+      <div class="section-kicker">Nowa zakładka</div>
+      <h2 class="section-title">Poradniki praktyczne zostały przeniesione</h2>
+      <p class="section-sub">Generator One‑Liner pozostał tutaj, a praktyczne instrukcje z obrazkami mają już własną, osobną zakładkę.</p>
+    </div>
+    <a class="btn" href="poradniki-praktyczne.html">Otwórz Poradniki Praktyczne</a>
+  </div>
+  <div class="guide-quick-nav">
+    <a class="guide-pill" href="poradniki-praktyczne.html#terminal-guide">Instalacja przez Terminal</a>
+    <a class="guide-pill" href="poradniki-praktyczne.html#oscam-guide">Jak dodać dane do OSCam</a>
+    <a class="guide-pill" href="poradniki-praktyczne.html#xstremity-guide">Jak dodać IPTV do Xstremity</a>
+  </div>
+  <div class="home-route-grid">
+    <article class="home-route-card" id="terminal-guide">
+      <span class="home-route-step">01</span>
+      <h3>Terminal / PuTTy</h3>
+      <p>Pełny poradnik pokazuje logowanie do OpenWebif, użycie <strong>Paste from browser</strong> i uruchomienie komendy lub skryptu.</p>
+      <a class="btn primary" href="poradniki-praktyczne.html#terminal-guide">Przejdź do poradnika</a>
+    </article>
+    <article class="home-route-card" id="oscam-guide">
+      <span class="home-route-step">02</span>
+      <h3>Dodawanie danych do OSCam</h3>
+      <p>Instrukcja prowadzi od wejścia do <strong>Interfejsu sieciowego OSCam</strong> aż po zapis danych i poprawny restart.</p>
+      <a class="btn primary" href="poradniki-praktyczne.html#oscam-guide">Przejdź do poradnika</a>
+    </article>
+    <article class="home-route-card" id="xstremity-guide">
+      <span class="home-route-step">03</span>
+      <h3>Dodawanie IPTV do Xstremity</h3>
+      <p>W nowej zakładce znajdziesz też poradnik z plikiem <strong>playlists.txt</strong> i katalogiem <strong>/etc/enigma2/xstremity</strong>.</p>
+      <a class="btn primary" href="poradniki-praktyczne.html#xstremity-guide">Przejdź do poradnika</a>
+    </article>
+  </div>
 </section>
 
 </main>
