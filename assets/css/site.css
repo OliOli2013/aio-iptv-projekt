@@ -1479,3 +1479,138 @@ html.ai-lock{overflow:hidden;}
 .pdf-download-card p{margin:0;color:#d9e7f5;line-height:1.58;}
 .pdf-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px;}
 @media (max-width: 720px){.pdf-link-grid{grid-template-columns:1fr;}}
+
+
+/* =========================
+   SUPPORT HIGHLIGHT / 2026 refresh
+   ========================= */
+.nav a[href="support.html"],
+.drawer a[href="support.html"]{
+  color:#fff;
+  border-color: rgba(45,212,191,.55);
+  background:
+    radial-gradient(circle at top right, rgba(45,212,191,.22), transparent 42%),
+    linear-gradient(180deg, rgba(14,116,144,.28), rgba(8,47,73,.22));
+  box-shadow: 0 10px 24px rgba(2,132,199,.16);
+}
+.nav a[href="support.html"]:hover,
+.drawer a[href="support.html"]:hover,
+.nav a[href="support.html"].active{
+  color:#fff;
+  border-color: rgba(45,212,191,.82);
+  background:
+    radial-gradient(circle at top right, rgba(45,212,191,.30), transparent 44%),
+    linear-gradient(180deg, rgba(14,116,144,.36), rgba(8,47,73,.28));
+  box-shadow: 0 14px 28px rgba(2,132,199,.24);
+}
+
+body .support-strip,
+body .support-spotlight{
+  position:relative;
+  display:grid;
+  grid-template-columns:minmax(0,1.22fr) minmax(280px,.78fr);
+  gap:18px;
+  padding:22px;
+  border-radius:22px;
+  border:1px solid rgba(45,212,191,.34);
+  background:
+    radial-gradient(circle at top right, rgba(45,212,191,.14), transparent 34%),
+    radial-gradient(circle at bottom left, rgba(59,167,255,.14), transparent 30%),
+    linear-gradient(180deg, rgba(10,27,43,.96), rgba(7,20,33,.96));
+  box-shadow: 0 24px 70px rgba(0,0,0,.30);
+  overflow:hidden;
+}
+body .support-strip::before,
+body .support-spotlight::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: linear-gradient(90deg, rgba(45,212,191,.06), transparent 26%, transparent 74%, rgba(59,167,255,.08));
+  pointer-events:none;
+}
+body .support-spotlight--compact{padding:18px 20px;}
+body .support-strip > *,
+body .support-spotlight > *{position:relative; z-index:1;}
+body .support-spotlight__main,
+body .support-strip > div:first-child{display:flex; flex-direction:column; gap:12px;}
+body .support-spotlight__main p,
+body .support-strip .section-sub,
+body .support-strip p{margin:0; color:#d8e6f4; line-height:1.7;}
+body .support-spotlight__title{
+  margin:0;
+  font-size: clamp(1.2rem, 2.2vw, 1.65rem);
+  line-height:1.22;
+  font-weight:950;
+}
+body .support-spotlight__lead{max-width:780px;}
+body .support-spotlight__chips,
+body .support-bullet-row,
+body .support-inline-links{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+body .support-spotlight__chips span,
+body .support-bullet-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 11px;
+  border-radius:999px;
+  font-size:.82rem;
+  font-weight:850;
+  color:#e6fff9;
+  background: rgba(15,118,110,.20);
+  border:1px solid rgba(45,212,191,.28);
+}
+body .support-spotlight__side,
+body .support-strip-side,
+body .support-hero-panel{
+  border-radius:18px;
+  padding:16px 18px;
+  background: rgba(6,19,30,.62);
+  border:1px solid rgba(148,163,184,.14);
+}
+body .support-spotlight__side .title,
+body .support-strip-side .title,
+body .support-actions-title{
+  margin:0 0 8px;
+  font-size:.92rem;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  color:#99f6e4;
+  font-weight:900;
+}
+body .support-spotlight__side ul,
+body .support-strip-side ul{
+  margin:0;
+  padding-left:18px;
+  color:#deecf8;
+  line-height:1.65;
+}
+body .support-spotlight__side li,
+body .support-strip-side li{margin:6px 0;}
+body .support-strip .section-title{margin:0 0 4px;}
+body .support-inline-links .btn.primary,
+body .support-spotlight .btn.primary{
+  background: linear-gradient(180deg, rgba(45,212,191,.22), rgba(59,167,255,.18));
+  border-color: rgba(45,212,191,.56);
+}
+body .support-inline-links .btn:hover,
+body .support-spotlight .btn:hover{border-color: rgba(45,212,191,.75);}
+body .support-accent-note{
+  margin:0;
+  font-size:.92rem;
+  color:#99f6e4;
+  font-weight:800;
+}
+body .footer-support-row{grid-template-columns:repeat(2,minmax(0,1fr));}
+body .footer-support-row .support-btn{
+  border-color: rgba(45,212,191,.22);
+  background: linear-gradient(180deg, rgba(15,23,42,.92), rgba(12,36,58,.92));
+}
+body .footer-support-row .support-btn:hover{border-color: rgba(45,212,191,.55);}
+@media (max-width: 980px){
+  body .support-strip,
+  body .support-spotlight{grid-template-columns:1fr;}
+}
