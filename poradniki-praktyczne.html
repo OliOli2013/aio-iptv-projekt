@@ -155,28 +155,6 @@
   </div>
 </section>
 
-<section class="section">
-  <div class="support-strip">
-    <div>
-      <div class="section-kicker">Wsparcie praktycznych poradników</div>
-      <h2 class="section-title">Te instrukcje powstają po to, żeby użytkownik nie błądził po menu i ustawieniach.</h2>
-      <p class="section-sub">Jeśli poradniki OpenWebif, OSCam i Xstremity oszczędzają Ci czas, możesz wesprzeć rozwój kolejnych instrukcji krok po kroku. Dzięki temu łatwiej rozbudować ten dział o następne realne przypadki.</p>
-      <div class="support-inline-links">
-        <a class="btn primary" href="support.html">Wesprzyj poradniki</a>
-        <a class="btn" href="https://buycoffee.to/pawelpawelek" rel="noopener" target="_blank">Postaw kawę</a>
-      </div>
-    </div>
-    <div class="support-strip-side">
-      <div class="title">Ten dział ma rosnąć</div>
-      <ul>
-        <li>więcej poradników z realnymi zdjęciami,</li>
-        <li>krótsza droga do rozwiązania problemu,</li>
-        <li>osobne instrukcje do najczęściej używanych wtyczek.</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
 <section class="section" id="przeglad-poradnikow">
   <div class="section-head">
     <div>
@@ -192,6 +170,7 @@
       <p>Logowanie do OpenWebif, wklejanie komendy, uruchomienie skryptu i alternatywa przez PuTTy.</p>
       <div class="link-row">
         <a class="btn primary" href="#terminal-guide">Otwórz poradnik</a>
+        <a class="btn" href="pliki/poradnik-terminal-openwebif.pdf" target="_blank" rel="noopener">PDF</a>
         <a class="btn" href="one-liner.html#generator">Generator</a>
       </div>
     </article>
@@ -201,6 +180,7 @@
       <p>Edycja pliku <strong>oscam.server</strong>, zapis przez <strong>Save</strong> i poprawny restart usługi.</p>
       <div class="link-row">
         <a class="btn primary" href="#oscam-guide">Otwórz poradnik</a>
+        <a class="btn" href="pliki/poradnik-dane-oscam.pdf" target="_blank" rel="noopener">PDF</a>
         <a class="btn" href="guides.html">Poradniki ogólne</a>
       </div>
     </article>
@@ -210,6 +190,7 @@
       <p>Przygotowanie pliku <strong>playlists.txt</strong> i wgranie go do katalogu <strong>/etc/enigma2/xstremity</strong>.</p>
       <div class="link-row">
         <a class="btn primary" href="#xstremity-guide">Otwórz poradnik</a>
+        <a class="btn" href="pliki/poradnik-iptv-xstremity.pdf" target="_blank" rel="noopener">PDF</a>
         <a class="btn" href="downloads.html">Pobieranie</a>
       </div>
     </article>
@@ -230,11 +211,48 @@
     <a class="guide-pill" href="#xstremity-guide">Jak dodać IPTV do Xstremity</a>
     <a class="guide-pill" href="one-liner.html#generator">Generator One‑Liner</a>
   </div>
+  <div class="pdf-download-panel">
+    <div class="pdf-download-title">Pobierz poradniki również jako PDF</div>
+    <p class="pdf-download-text">Każdy z poniższych poradników możesz otworzyć jako dokument PDF, zachować offline albo wydrukować. To wygodna wersja do pracy przy tunerze lub na telefonie.</p>
+    <div class="pdf-link-grid">
+      <article class="pdf-download-card">
+        <div class="tutorial-badge">PDF / Terminal</div>
+        <h4>Instalacja przez Terminal w OpenWebif</h4>
+        <p>PDF z logowaniem do Terminala, użyciem funkcji <strong>Paste from browser</strong> i uruchomieniem polecenia.</p>
+        <div class="pdf-actions">
+          <a class="btn primary" href="pliki/poradnik-terminal-openwebif.pdf" target="_blank" rel="noopener">Otwórz PDF</a>
+          <a class="btn" href="pliki/poradnik-terminal-openwebif.pdf" download>Pobierz PDF</a>
+        </div>
+      </article>
+      <article class="pdf-download-card">
+        <div class="tutorial-badge">PDF / OSCam</div>
+        <h4>Jak dodać dane do OSCam</h4>
+        <p>PDF z wejściem do <strong>Interfejsu sieciowego OSCam</strong>, zapisem zmian i restartem usługi.</p>
+        <div class="pdf-actions">
+          <a class="btn primary" href="pliki/poradnik-dane-oscam.pdf" target="_blank" rel="noopener">Otwórz PDF</a>
+          <a class="btn" href="pliki/poradnik-dane-oscam.pdf" download>Pobierz PDF</a>
+        </div>
+      </article>
+      <article class="pdf-download-card">
+        <div class="tutorial-badge">PDF / Xstremity</div>
+        <h4>Jak dodać IPTV do Xstremity</h4>
+        <p>PDF z przygotowaniem <strong>playlists.txt</strong>, połączeniem przez FileZilla/DCC i podmianą pliku.</p>
+        <div class="pdf-actions">
+          <a class="btn primary" href="pliki/poradnik-iptv-xstremity.pdf" target="_blank" rel="noopener">Otwórz PDF</a>
+          <a class="btn" href="pliki/poradnik-iptv-xstremity.pdf" download>Pobierz PDF</a>
+        </div>
+      </article>
+    </div>
+  </div>
   <div class="tutorial-stack">
 <article class="card tutorial-card" id="terminal-guide">
 <div class="tutorial-badge">OpenWebif / Terminal</div>
 <h3>Poradnik — instalacja poleceniami przez Terminal w OpenWebif</h3>
 <p>To najszybszy sposób instalacji wtyczek, oscamów, ncamów i innych skryptów publikowanych na stronie. Wystarczy wejść do OpenWebif, zalogować się i wkleić gotowe polecenie.</p>
+<div class="pdf-download-strip">
+  <a class="btn primary" href="pliki/poradnik-terminal-openwebif.pdf" target="_blank" rel="noopener">Otwórz PDF</a>
+  <a class="btn" href="pliki/poradnik-terminal-openwebif.pdf" download>Pobierz PDF</a>
+</div>
 <div class="tutorial-callout">
 <strong>Ważne:</strong> podczas wpisywania hasła w terminalu <strong>nie widać znaków</strong> — to normalne. Jeśli nie znasz hasła, możesz je ustawić w tunerze: <strong>Menu → Ustawienia → Sieć → Hasło</strong>, a potem zapisać zielonym przyciskiem.
 </div>
@@ -292,6 +310,10 @@
 <div class="tutorial-badge">OSCam / OpenWebif</div>
 <h3>Poradnik — jak dodać dane do OSCam</h3>
 <p>Dodawanie linii do OSCam możesz wykonać bezpośrednio z przeglądarki przez OpenWebif. Poniżej masz pełną, prostą ścieżkę od wejścia na tuner do restartu OSCam.</p>
+<div class="pdf-download-strip">
+  <a class="btn primary" href="pliki/poradnik-dane-oscam.pdf" target="_blank" rel="noopener">Otwórz PDF</a>
+  <a class="btn" href="pliki/poradnik-dane-oscam.pdf" download>Pobierz PDF</a>
+</div>
 <div class="tutorial-callout tutorial-callout-warn">
 <strong>Ważne:</strong> strona OSCam <strong>nie może być tłumaczona na polski</strong>. Jeśli przeglądarka włączy tłumaczenie, trzeba je wyłączyć — w przeciwnym razie OSCam może nie zapisać zmian.
 </div>
@@ -354,6 +376,10 @@
 <div class="tutorial-badge">Xstremity / IPTV</div>
 <h3>Poradnik — jak dodać dane IPTV do Xstremity bez wpisywania z pilota</h3>
 <p>Jeśli nie chcesz ręcznie przepisywać danych z pilota, przygotuj plik <strong>playlists.txt</strong> na komputerze i wgraj go bezpośrednio do katalogu Xstremity w tunerze. To szybkie i wygodne rozwiązanie.</p>
+<div class="pdf-download-strip">
+  <a class="btn primary" href="pliki/poradnik-iptv-xstremity.pdf" target="_blank" rel="noopener">Otwórz PDF</a>
+  <a class="btn" href="pliki/poradnik-iptv-xstremity.pdf" download>Pobierz PDF</a>
+</div>
 <div class="tutorial-callout">
 <strong>Co będzie potrzebne:</strong> dane IPTV od dostawcy, komputer oraz program <strong>FileZilla</strong> albo <strong>DCC</strong> do połączenia z tunerem.
 </div>
