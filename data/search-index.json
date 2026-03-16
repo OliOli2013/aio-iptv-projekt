@@ -19,15 +19,19 @@
     ]
   },
   {
-    "title": "AIO Panel 9.3",
-    "desc": "Opis zmian v9.3 + pobieranie uniwersalnej paczki (Py2/Py3).",
+    "title": "AIO Panel 9.6",
+    "desc": "Opis zmian v9.6 + pobieranie uniwersalnej paczki (Py2/Py3). Menedżer Feedów, Rescue Mode i nowe narzędzia naprawcze.",
     "url": "plugins.html#aio-panel",
     "tags": [
       "aio",
       "panel",
       "py2",
       "py3",
-      "9.3"
+      "9.6",
+      "9.6",
+      "feedy",
+      "repozytoria",
+      "rescue mode"
     ]
   },
   {

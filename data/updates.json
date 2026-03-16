@@ -1,5 +1,12 @@
 [
   {
+    "date": "2026-03-16",
+    "ts": 1773619200000,
+    "type": "release",
+    "title": "AIO Panel v9.6 — Menedżer Feedów, Rescue Mode i nowe narzędzia naprawcze",
+    "details": "Aktualizacja AIO Panel do wersji v9.6 (16.03.2026). Wtyczka przetestowana również na OpenATV 8.0 Alpha.\n\nNajważniejsze zmiany:\n• Menedżer Feedów i Repozytoriów: test działania feedów, podgląd aktywnych repo, czyszczenie cache opkg i odświeżanie list\n• Backup plików repo i szybka reinstalacja feedu j00zek\n• Tryb Naprawy po Instalacji (Rescue Mode)\n• Naprawa uprawnień i Softcam\n• Naprawa EPG i piconów\n• ServiceApp i Streamlink: konfiguracja odtwarzaczy dla płynniejszego streamingu\n• Instalator Simple IPTV EPG\n• Uporządkowane wersjonowanie paczek i zaktualizowane metadane plików .ipk dla lepszej kompatybilności"
+  },
+  {
     "date": "2026-03-09",
     "ts": 1773014400000,
     "type": "release",
