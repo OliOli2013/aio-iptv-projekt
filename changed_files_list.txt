@@ -1,4 +1,6 @@
 index.html
 channel-lists.html
+downloads.html
+guides.html
+support.html
 assets/css/site.css
-assets/js/site.js
