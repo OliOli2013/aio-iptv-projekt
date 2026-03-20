@@ -25,8 +25,8 @@
 <span class="tag">Enigma2 • IPTV • Tools • AI</span>
 </div>
 </a>
-<a class="pill pill-accent" download="" href="pliki/enigma2-plugin-extensions-panelaio_9.3_all.ipk">
-<span data-i18n="cta_update">Aktualizacja: AIO Panel v9.3 (Python 2 & 3 – Universal)</span>
+<a class="pill pill-accent" download="" href="pliki/enigma2-plugin-extensions-panelaio_9.6_all.ipk">
+<span data-i18n="cta_update">Aktualizacja: AIO Panel v9.6 (Python 2 & 3 – Universal)</span>
 <strong data-i18n="cta_download">Pobierz teraz</strong>
 </a>
 <div class="spacer"></div>
@@ -111,21 +111,163 @@
   <a href="support.html">☕ <span data-i18n="nav_support">Wsparcie</span></a>
 </aside>
 <main class="container">
-<section class="section"><div class="section-head"><div><h2 class="section-title">Listy kanałów</h2><p class="section-sub">Zestawy list i instrukcje instalacji.</p></div></div></section>
-<div class="card" data-aos="fade-up" data-aos-delay="100" id="listy" data-manifest-url="https://raw.githubusercontent.com/OliOli2013/PanelAIO-Lists/main/manifest.json">
-<h2>Listy kanałów</h2>
-<p>Paczki kanałów (Enigma2).</p>
-<p id="listsLoading" style="margin-top:10px; color:var(--muted);">Ładowanie list z manifest.json…</p>
-<div id="listsError" style="display:none; margin-top:10px; color:#fca5a5;"></div>
+  <section class="section">
+    <div class="page-hero compact">
+      <div class="page-hero-grid">
+        <div class="hero-copy">
+          <div class="section-kicker">Listy kanałów • Enigma2 • IPTV</div>
+          <h1>Listy kanałów uporządkowane w osobnym dziale</h1>
+          <p class="hero-lead">Tutaj są tylko listy kanałów i bukiety IPTV — bez mieszania ich z wtyczkami, poradnikami i narzędziami. Dzięki temu od razu wiadomo, czy szukasz gotowej paczki kanałów Enigma2, czy bukietów IPTV do dalszej konfiguracji.</p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#listy">Przejdź do list</a>
+            <a class="btn" href="downloads.html">Wszystkie pliki</a>
+            <a class="btn" href="guides.html#poradniki-siec">Instrukcje IPTV</a>
+          </div>
+          <div class="jump-links" aria-label="Szybki indeks list kanałów">
+            <a class="chip" href="#rozroznienie-list">Co tu znajdziesz</a>
+            <a class="chip" href="#listy">Paczki kanałów</a>
+            <a class="chip" href="#powiazane-listy">Powiązane sekcje</a>
+            <a class="chip" href="#wsparcie-list">Wsparcie projektu</a>
+          </div>
+        </div>
+        <div class="page-hero-side">
+          <div class="side-card">
+            <h3>Na tej stronie znajdziesz</h3>
+            <ul class="clean-list">
+              <li>paczki kanałów dla Enigma2,</li>
+              <li>bukiety IPTV z manifestu,</li>
+              <li>krótkie rozróżnienie: listy vs bukiety,</li>
+              <li>skrót do instrukcji i wsparcia projektu.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<div id="listsWrap" style="display:none;">
-  <h3 style="margin-top:14px;">Paczki kanałów (Enigma2)</h3>
-  <ul class="file-list" id="channelPacks"></ul>
+  <section class="section" id="rozroznienie-list">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">Czytelny podział</div>
+        <h2 class="section-title">Co jest czym na tej stronie?</h2>
+        <p class="section-sub">Zanim pobierzesz plik, od razu widzisz, do którego obszaru należy.</p>
+      </div>
+    </div>
+    <div class="site-atlas-grid site-atlas-grid--compact">
+      <article class="atlas-card atlas-card--lists">
+        <div class="atlas-card__icon">📡</div>
+        <div class="atlas-card__eyebrow">Paczki kanałów</div>
+        <h3>Listy kanałów Enigma2</h3>
+        <p>Gotowe zestawy kanałów dla Enigma2. To dział dla osób, które szukają uporządkowanej listy kanałów do odbioru i codziennego używania.</p>
+        <div class="atlas-card__tags"><span>Enigma2</span><span>gotowe listy</span></div>
+      </article>
+      <article class="atlas-card atlas-card--downloads">
+        <div class="atlas-card__icon">🧷</div>
+        <div class="atlas-card__eyebrow">Bukiety IPTV</div>
+        <h3>Listy do IPTV i dalszej konfiguracji</h3>
+        <p>Osobna grupa dla bukietów IPTV. Przydaje się wtedy, gdy chcesz dopiąć własne źródła IPTV albo szukasz materiału do dalszej konfiguracji.</p>
+        <div class="atlas-card__tags"><span>IPTV</span><span>bukiety</span></div>
+      </article>
+      <article class="atlas-card atlas-card--guides">
+        <div class="atlas-card__icon">📘</div>
+        <div class="atlas-card__eyebrow">Instrukcje</div>
+        <h3>Jak wykorzystać listy po pobraniu</h3>
+        <p>Jeśli szukasz poradnika instalacji albo konfiguracji, przejdź do działu poradników. Tam są instrukcje, a tutaj tylko same listy.</p>
+        <div class="atlas-card__tags"><span>poradniki</span><span>instalacja</span></div>
+        <div class="link-row">
+          <a class="btn primary" href="guides.html">Poradniki</a>
+          <a class="btn" href="knowledge.html">Wiedza</a>
+        </div>
+      </article>
+    </div>
+  </section>
 
-  <h3 id="bouquetsHeading" style="margin-top:18px;">Bukiety IPTV</h3>
-  <ul class="file-list" id="bouquetLists"></ul>
-</div>
-</div>
+  <section class="section" id="wsparcie-list">
+    <div class="support-spotlight support-spotlight--compact">
+      <div class="support-spotlight__main">
+        <div class="section-kicker">Wsparcie list i porządku na stronie</div>
+        <h2 class="support-spotlight__title">Korzystasz z list kanałów? Wsparcie pomaga mi utrzymywać porządek, aktualizacje i czytelne podziały między działami.</h2>
+        <p class="support-spotlight__lead">Ta sekcja ma być lekka i konkretna: listy w jednym miejscu, bez chaosu i bez mieszania z innymi materiałami. Wsparcie projektu pomaga mi trzymać ten porządek oraz rozwijać resztę serwisu.</p>
+        <div class="support-spotlight__chips">
+          <span>📺 aktualne listy i manifest</span>
+          <span>🧭 czytelny podział działów</span>
+          <span>📘 powiązane instrukcje i opisy</span>
+        </div>
+        <div class="support-inline-links">
+          <a class="btn primary" href="support.html">Wesprzyj projekt</a>
+          <a class="btn" href="https://buycoffee.to/pawelpawelek" rel="noopener" target="_blank">Postaw kawę</a>
+        </div>
+      </div>
+      <div class="support-spotlight__side">
+        <div class="title">Wsparcie pomaga mi utrzymać</div>
+        <ul>
+          <li>przejrzysty podział między listami, wtyczkami i poradnikami,</li>
+          <li>szybkie poprawki i aktualizacje treści na stronie,</li>
+          <li>spójny wygląd całego serwisu GitHub Pages.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="listy" data-manifest-url="https://raw.githubusercontent.com/OliOli2013/PanelAIO-Lists/main/manifest.json">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">Pobieranie list</div>
+        <h2 class="section-title">Paczki kanałów i bukiety IPTV</h2>
+        <p class="section-sub">Poniżej ładowane są listy z manifestu. Zachowałem istniejącą zawartość, ale umieściłem ją w bardziej czytelnym układzie.</p>
+      </div>
+    </div>
+    <div class="card" data-aos="fade-up" data-aos-delay="100">
+      <h2>Listy kanałów</h2>
+      <p>Paczki kanałów (Enigma2).</p>
+      <p id="listsLoading" style="margin-top:10px; color:var(--muted);">Ładowanie list z manifest.json…</p>
+      <div id="listsError" style="display:none; margin-top:10px; color:#fca5a5;"></div>
+
+      <div id="listsWrap" style="display:none;">
+        <h3 style="margin-top:14px;">Paczki kanałów (Enigma2)</h3>
+        <ul class="file-list" id="channelPacks"></ul>
+
+        <h3 id="bouquetsHeading" style="margin-top:18px;">Bukiety IPTV</h3>
+        <ul class="file-list" id="bouquetLists"></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="powiazane-listy">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">Powiązane sekcje</div>
+        <h2 class="section-title">Po pobraniu list przejdź dalej tutaj</h2>
+        <p class="section-sub">Listy są tylko jednym elementem większej całości, dlatego dodałem szybkie przejścia do pozostałych działów.</p>
+      </div>
+    </div>
+    <div class="download-grid">
+      <article class="download-card download-card--plugins">
+        <h3>Wtyczki i dodatki</h3>
+        <p>Jeśli po liście potrzebujesz narzędzi lub gotowych paczek, przejdź do działu wtyczek albo do pełnego pobierania.</p>
+        <div class="link-row">
+          <a class="btn primary" href="plugins.html">Wtyczki</a>
+          <a class="btn" href="downloads.html">Pobieranie</a>
+        </div>
+      </article>
+      <article class="download-card download-card--guides">
+        <h3>Poradniki i konfiguracja</h3>
+        <p>Instrukcje instalacji i konfiguracji znajdziesz w poradnikach. Ta strona zostaje tylko działem z listami.</p>
+        <div class="link-row">
+          <a class="btn primary" href="guides.html">Poradniki</a>
+          <a class="btn" href="knowledge.html">Baza wiedzy</a>
+        </div>
+      </article>
+      <article class="download-card download-card--support">
+        <h3>Wsparcie projektu</h3>
+        <p>Gdy strona pomaga Ci szybciej ogarnąć Enigma2 i IPTV, możesz wesprzeć dalszy rozwój całego projektu.</p>
+        <div class="link-row">
+          <a class="btn primary" href="support.html">Wsparcie</a>
+          <a class="btn" href="contact.html">Kontakt</a>
+        </div>
+      </article>
+    </div>
+  </section>
 </main>
 <footer class="site-footer">
 <div class="footer-inner">

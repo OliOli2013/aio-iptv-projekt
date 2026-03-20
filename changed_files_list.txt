@@ -1,1 +1,4 @@
-assets/css/v4-template.css
+index.html
+channel-lists.html
+assets/css/site.css
+assets/js/site.js

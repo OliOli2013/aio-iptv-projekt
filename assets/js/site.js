@@ -361,6 +361,43 @@
   // -------------------------
   // Active nav
   // -------------------------
+  function initPageSectionMeta() {
+    const body = document.body;
+    if (!body) return;
+
+    const path = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    const sectionMap = {
+      'index.html': 'home',
+      '404.html': 'home',
+      'plugins.html': 'plugins',
+      'downloads.html': 'downloads',
+      'channel-lists.html': 'lists',
+      'guides.html': 'guides',
+      'poradniki-praktyczne.html': 'guides',
+      'knowledge.html': 'knowledge',
+      'systems.html': 'systems',
+      'image-installation.html': 'systems',
+      'tools.html': 'tools',
+      'config-builder.html': 'tools',
+      'kreator.html': 'tools',
+      'porownywarka.html': 'tools',
+      'porownywarka_legacy.html': 'tools',
+      'tuner-compare.html': 'tools',
+      'one-liner.html': 'tools',
+      'error-scan.html': 'tools',
+      'future-lab.html': 'tools',
+      'support.html': 'support',
+      'contact.html': 'support',
+      'stats.html': 'support',
+      'ai-chat.html': 'knowledge',
+      'nowe-projekty.html': 'knowledge'
+    };
+
+    const section = sectionMap[path] || body.dataset.section || 'home';
+    body.dataset.section = section;
+    body.classList.add('section-' + section);
+  }
+
   function setActiveNav() {
     const path = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
     qsa('.nav a').forEach((a) => {
@@ -1167,6 +1204,7 @@ function injectImageInstallNav() {
     initDrawer();
     setupMobileTopIcons();
     injectImageInstallNav();
+    initPageSectionMeta();
     setActiveNav();
     initTopPromos();
     initUpdates();
