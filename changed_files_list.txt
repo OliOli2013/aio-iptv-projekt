@@ -1,6 +1,5 @@
 index.html
-channel-lists.html
+plugins.html
 downloads.html
-guides.html
-support.html
-assets/css/site.css
+pliki/dreamosatx-signal-2.0-pl.jpg
+pliki/enigma2-plugin-extensions-dreamosatxsignal_2.0+pl2_all.ipk

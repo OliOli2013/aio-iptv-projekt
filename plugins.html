@@ -12,7 +12,11 @@
 <link rel="stylesheet" href="assets/css/site.css?v=next2026"/>
 <link rel="stylesheet" href="assets/css/v3.css?v=3"/>
 <link rel="stylesheet" href="assets/css/v4-template.css?v=4"/>
-
+<style>
+.plugin-summary-card--dreamosatx{border-color:rgba(45,212,191,.28);background:linear-gradient(180deg,rgba(10,27,43,.96),rgba(7,20,33,.88));}
+.plugin-thumb--dreamosatx{width:72px;height:72px;padding:0;object-fit:cover;}
+.dreamosatx-note{margin-top:12px;padding:12px 14px;border-radius:16px;border:1px solid rgba(59,167,255,.18);background:rgba(2,6,23,.28);color:#d8e6f4;line-height:1.65;}
+</style>
 </head>
 <body class="v3" data-page="next">
 <div class="topbar">
@@ -124,6 +128,7 @@
             <a class="chip" href="#przeglad-wtyczek">Przegląd</a>
             <a class="chip" href="#aio-panel">AIO Panel</a>
             <a class="chip" href="#iptv-dream">IPTV Dream</a>
+            <a class="chip" href="#dreamosatx-signal">DreamosatX Signal</a>
             <a class="chip" href="#nagrania-on-demand">Nagrania On Demand</a>
             <a class="chip" href="#opencamview">OpenCamView</a>
             <a class="chip" href="#pozostale-wtyczki">Pozostałe wtyczki</a>
@@ -227,6 +232,21 @@
         <div class="link-row">
           <a class="btn primary" download href="pliki/enigma2-plugin-extensions-iptvdream_6.5_all.ipk">Pobierz</a>
           <a class="btn" href="#iptv-dream">Opis</a>
+        </div>
+      </article>
+
+      <article class="plugin-summary-card anchor-card plugin-summary-card--dreamosatx" data-filter-item>
+        <h3>DreamosatX Signal 2.0 – Wydanie PL</h3>
+        <p>Spolszczona wersja zaawansowanej wtyczki do monitoringu sygnału, analizy transponderów i sterowania obrotnicą.</p>
+        <div class="meta-row"><span class="badge">Spolszczenie PL</span><span class="badge">DreamOS / Enigma2</span></div>
+        <ul class="meta-list">
+          <li><strong>Autor spolszczenia:</strong> Paweł Pawełek</li>
+          <li><strong>Zastosowanie:</strong> SNR, AGC, BER, DiSEqC 1.2 i USALS</li>
+          <li><strong>Kompatybilność:</strong> Dreambox, Vu+, Octagon, Zgemma, Gigablue</li>
+        </ul>
+        <div class="link-row">
+          <a class="btn primary" download href="pliki/enigma2-plugin-extensions-dreamosatxsignal_2.0+pl2_all.ipk">Pobierz</a>
+          <a class="btn" href="#dreamosatx-signal">Opis</a>
         </div>
       </article>
 
@@ -574,6 +594,49 @@
 <p class="muted small"><strong>Bezpieczeństwo:</strong> WebIF działa po HTTP bez logowania — używaj wyłącznie w sieci domowej i wyłącz, gdy nie jest potrzebny.</p>
 </div>
 </details>
+</div>
+    <div class="card" data-aos="fade-up" id="dreamosatx-signal" data-filter-item>
+<div class="plugin-hero">
+<img alt="DreamosatX Signal 2.0 — miniatura" class="plugin-thumb plugin-thumb--dreamosatx" src="pliki/dreamosatx-signal-2.0-pl.jpg" decoding="async" loading="lazy"/>
+<div class="plugin-hero-text">
+<h2>DreamosatX Signal 2.0 – Wydanie PL</h2>
+<div class="compat-pill">✅ DreamOS oraz większość obrazów Enigma2</div>
+<div class="muted small">Autorskie spolszczenie • Autor spolszczenia: <strong>Paweł Pawełek</strong> • gotowa paczka instalacyjna <code>.ipk</code></div>
+</div>
+</div>
+<figure class="plugin-figure-wrap">
+<img alt="DreamosatX Signal 2.0 – ekran wtyczki" class="plugin-figure" src="pliki/dreamosatx-signal-2.0-pl.jpg" loading="lazy" decoding="async"/>
+<figcaption class="muted small">DreamosatX Signal 2.0 – Wydanie PL — spolszczony interfejs monitoringu sygnału.</figcaption>
+</figure>
+<p><strong>DreamosatX Signal 2.0 – Wydanie PL</strong> to autorskie spolszczenie zaawansowanej wtyczki dla użytkowników DreamOS i Enigma2. To nie był zwykły przekład plików językowych — wtyczka nie miała standardowego systemu locale, dlatego prace wymagały wejścia bezpośrednio w jej strukturę oraz edycji osadzonych elementów interfejsu.</p>
+<h3>Co dokładnie zostało wykonane</h3>
+<ul class="key-list">
+<li><strong>Rozpakowanie i dekompilacja:</strong> rozbicie paczki <code>.ipk</code> i dekompilacja zaszytych plików Pythona.</li>
+<li><strong>Edycja kodu źródłowego:</strong> podmiana większości komunikatów i etykiet interfejsu na język polski bezpośrednio w skryptach.</li>
+<li><strong>Zakres spolszczenia:</strong> główny interfejs, ekrany AI, lista transponderów, sterowanie silnikiem oraz komunikaty eksportu.</li>
+<li><strong>Nowa paczka:</strong> ponowne złożenie całości do gotowego, czystego pliku instalacyjnego <code>.ipk</code>.</li>
+</ul>
+<div class="dreamosatx-note"><strong>Uwagi techniczne:</strong> ze względu na metodę edycji niektóre głębokie logi techniczne lub komunikaty debugowania mogą nadal pojawiać się po angielsku albo turecku. Nie wpływa to jednak na komfort codziennej obsługi wtyczki.</div>
+<h3>Dlaczego warto zainstalować DreamosatX Signal 2.0</h3>
+<ul class="key-list">
+<li><strong>Precyzyjne pomiary:</strong> monitoring SNR, AGC oraz krytycznego dla stabilności obrazu BER w czasie rzeczywistym.</li>
+<li><strong>Pełna kontrola obrotnicy:</strong> zaawansowane wsparcie dla DiSEqC 1.2 oraz USALS z możliwością przesuwania anteny i zapisu pozycji.</li>
+<li><strong>Analiza transponderów:</strong> szybka diagnoza aktywnych częstotliwości i łatwiejsze wykrywanie „dziur” w zasięgu.</li>
+<li><strong>Szybka diagnoza:</strong> moduł analizy interpretuje dane za użytkownika i skraca czas ustawiania anteny.</li>
+<li><strong>Zastosowanie dla DX:</strong> przydatne narzędzie dla zaawansowanych użytkowników i posiadaczy obrotnic.</li>
+</ul>
+<h3>Kompatybilność</h3>
+<p>Wtyczka działa na systemie <strong>DreamOS</strong> oraz większości obrazów <strong>Enigma2</strong>, w tym na tunerach Dreambox, Vu+, Octagon, Zgemma i Gigablue.</p>
+<h3>Instrukcja instalacji</h3>
+<ul class="key-list">
+<li>Wgraj przygotowany plik <code>.ipk</code> do folderu <code>/tmp</code> na swoim tunerze.</li>
+<li>Zainstaluj go jak zwykłą wtyczkę: z poziomu menu tunera lub komendą <code>opkg install /tmp/*.ipk</code>.</li>
+<li>Po instalacji koniecznie wykonaj restart GUI / Enigmy2, aby zmiany zostały wczytane.</li>
+</ul>
+<div class="link-row" style="margin-top:14px">
+  <a class="btn primary" download href="pliki/enigma2-plugin-extensions-dreamosatxsignal_2.0+pl2_all.ipk" title="Pobierz DreamosatX Signal 2.0 – Wydanie PL">📥 Pobierz DreamosatX Signal 2.0 – Wydanie PL</a>
+  <a class="btn" href="downloads.html#wtyczki-autorskie">Zobacz w Pobieraniu</a>
+</div>
 </div>
     <div class="card" data-aos="fade-up" id="nagrania-on-demand" data-filter-item>
 <h2>Nagrania On Demand v2.0 (Enigma2)</h2>
