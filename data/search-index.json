@@ -19,31 +19,34 @@
     ]
   },
   {
-    "title": "AIO Panel 9.6",
-    "desc": "Opis zmian v9.6 + pobieranie uniwersalnej paczki (Py2/Py3). Menedżer Feedów, Rescue Mode i nowe narzędzia naprawcze.",
+    "title": "AIO Panel 9.7",
+    "desc": "Opis zmian v9.7 + pobieranie uniwersalnej paczki (Py2/Py3). Stabilność, AIO Extra, Szybki Start, test zgodności i Tip dnia.",
     "url": "plugins.html#aio-panel",
     "tags": [
       "aio",
       "panel",
       "py2",
       "py3",
-      "9.6",
-      "9.6",
-      "feedy",
-      "repozytoria",
-      "rescue mode"
+      "9.7",
+      "stabilność",
+      "aio extra",
+      "szybki start",
+      "tip dnia"
     ]
   },
   {
-    "title": "IPTV Dream 6.5",
-    "desc": "Wtyczka IPTV: M3U/Xtream/MAC Portal + eksport do bukietów, EPGImport i pikony (v6.5).",
+    "title": "IPTV Dream 6.5.1",
+    "desc": "Wtyczka IPTV: M3U/Xtream/MAC Portal + eksport do bukietów, z normalizacją MAC, lepszym updaterem i czystą paczką (v6.5.1).",
     "url": "plugins.html#iptv-dream",
     "tags": [
       "iptv",
       "m3u",
       "xtream",
       "dream",
-      "6.5"
+      "6.5.1",
+      "mac portal",
+      "semver",
+      "webif"
     ]
   },
   {

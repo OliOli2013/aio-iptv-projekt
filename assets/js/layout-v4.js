@@ -75,11 +75,11 @@
       </nav>
 
       <div class="sidebar-cta">
-        <a download href="pliki/enigma2-plugin-extensions-panelaio_9.6_all.ipk">Pobierz AIO Panel 9.6</a>
+        <a download href="pliki/enigma2-plugin-extensions-panelaio_9.7_all.ipk">Pobierz AIO Panel 9.7</a>
         <div class="sub">Uniwersalna paczka (Py2/Py3)</div>
 
         <div class="v4-cta-row">
-          <a class="v4-cta-secondary" download href="pliki/enigma2-plugin-extensions-iptvdream_6.5_all.ipk">Pobierz IPTV Dream 6.5</a>
+          <a class="v4-cta-secondary" download href="pliki/enigma2-plugin-extensions-iptvdream_6.5.1_all.ipk">Pobierz IPTV Dream 6.5.1</a>
         </div>
 
         <div class="sidebar-support-box">

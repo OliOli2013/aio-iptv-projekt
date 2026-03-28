@@ -1,5 +1,19 @@
 [
   {
+    "date": "28.03.2026",
+    "ts": 202603281200,
+    "type": "release",
+    "title": "AIO Panel v9.7 — stabilność, AIO Extra i test zgodności systemu",
+    "details": "Aktualizacja AIO Panel do wersji v9.7 (28.03.2026).\n\nNajważniejsze zmiany:\n• Maksymalna stabilność: poprawione pliki systemowe na podstawie zgłoszeń użytkowników\n• AIO Extra w menu: szybszy dostęp do dodatkowych funkcji\n• AIO Szybki Start / Polecane: błyskawiczna konfiguracja najważniejszych elementów\n• Test zgodności systemu: sprawdzenie gotowości softu pod funkcje panelu\n• Tip dnia AIO: codzienna porcja wskazówek i trików\n\nAktualizacja jest dostępna bezpośrednio z poziomu wtyczki. Po zakończeniu tuner restartuje się automatycznie."
+  },
+  {
+    "date": "28.03.2026",
+    "ts": 202603281150,
+    "type": "release",
+    "title": "IPTV Dream v6.5.1 — normalizacja MAC, SemVer updater i czysta paczka",
+    "details": "Aktualizacja IPTV Dream do wersji v6.5.1.\n\nNajważniejsze zmiany:\n• Inteligentna normalizacja adresów MAC + walidacja hosta i MAC przed handshake\n• Automatyczne czyszczenie pliku iptvdream_mac.json oraz pełna synchronizacja GUI i WebIF\n• Updater GitHub z logiką SemVer i pewniejszym wypakowywaniem ZIP\n• Czysta paczka instalacyjna: bez __pycache__, .pyc i skryptów testowych\n• Zaktualizowane metadane 6.5.1 oraz nowy kontakt wsparcia: aio-iptv@wp.pl\n\nAktualizacja: menu wtyczki → ZIELONY przycisk. Po instalacji wykonaj Restart GUI (Restart Enigmy)."
+  },
+  {
     "date": "2026-03-16",
     "ts": 1773619200000,
     "type": "release",
