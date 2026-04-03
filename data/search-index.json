@@ -19,19 +19,20 @@
     ]
   },
   {
-    "title": "AIO Panel 9.7",
-    "desc": "Opis zmian v9.7 + pobieranie uniwersalnej paczki (Py2/Py3). Stabilność, AIO Extra, Szybki Start, test zgodności i Tip dnia.",
+    "title": "AIO Panel 10.0",
+    "desc": "Opis zmian v10.0 + pobieranie uniwersalnej paczki (Py2/Py3). TV Garden, Simple ZOOM Panel, instalatory wtyczek, lepsze skalowanie UI i większa stabilność.",
     "url": "plugins.html#aio-panel",
     "tags": [
       "aio",
       "panel",
       "py2",
       "py3",
-      "9.7",
+      "10.0",
+      "tv garden",
+      "simple zoom panel",
       "stabilność",
-      "aio extra",
-      "szybki start",
-      "tip dnia"
+      "instalatory",
+      "picon"
     ]
   },
   {

@@ -1,5 +1,12 @@
 [
   {
+    "date": "03.04.2026",
+    "ts": 202604031200,
+    "type": "release",
+    "title": "AIO Panel v10.0 — nowa, okrągła wersja panelu i większa stabilność",
+    "details": "Aktualizacja AIO Panel do wersji v10.0 (03.04.2026).\n\nNajważniejsze zmiany:\n• TV Garden, Simple ZOOM Panel i nowe instalatory wtyczek\n• FilmXY usunięty z paczki\n• Super Konfigurator: poprawione zależności, weryfikacja instalacji Oscam i wymuszony pełny restart\n• Watchdog ekranu startowego — mniej zwiech na splashu\n• Lepsze skalowanie okien pod mniejsze skiny i UI\n• Pełna zgodność Python 2 / Python 3 oraz nowe opisy picon 13E / 19.2E / IPTV\n\nWskazówka: po aktualizacji lub dużych paczkach wykonaj pełny restart tunera. W razie problemów użyj Trybu Naprawy po Instalacji."
+  },
+  {
     "date": "28.03.2026",
     "ts": 202603281200,
     "type": "release",
