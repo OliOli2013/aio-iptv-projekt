@@ -1,10 +1,10 @@
 [
   {
-    "date": "03.04.2026",
-    "ts": 202604031200,
-    "type": "release",
-    "title": "AIO Panel v10.0 — nowa, okrągła wersja panelu i większa stabilność",
-    "details": "Aktualizacja AIO Panel do wersji v10.0 (03.04.2026).\n\nNajważniejsze zmiany:\n• TV Garden, Simple ZOOM Panel i nowe instalatory wtyczek\n• FilmXY usunięty z paczki\n• Super Konfigurator: poprawione zależności, weryfikacja instalacji Oscam i wymuszony pełny restart\n• Watchdog ekranu startowego — mniej zwiech na splashu\n• Lepsze skalowanie okien pod mniejsze skiny i UI\n• Pełna zgodność Python 2 / Python 3 oraz nowe opisy picon 13E / 19.2E / IPTV\n\nWskazówka: po aktualizacji lub dużych paczkach wykonaj pełny restart tunera. W razie problemów użyj Trybu Naprawy po Instalacji."
+    "date": "07.04.2026",
+    "ts": 1775563200000,
+    "type": "fix",
+    "title": "AIO Panel v10.0.3 — poprawki GUI, Tip dnia AIO i stabilniejsze instalatory",
+    "details": "Aktualizacja AIO Panel do wersji v10.0.3 (07.04.2026).\n\nNajważniejsze zmiany:\n• Usunięty błąd modalny po zamknięciu Console: „Modal open are allowed only from a screen which is modal!”\n• Tip dnia AIO działa teraz w dedykowanym oknie AIO zamiast w systemowym MessageBox\n• OK/EXIT zamyka tip, LEFT/RIGHT przełącza wskazówki, UP/DOWN przewija dłuższy tekst\n• Usunięty licznik timeout z tytułu i poprawione skalowanie UI pod mniejsze skiny\n• Dodany zewnętrzny plik aio_tips.txt z parserem sekcji [PL]/[EN] i bezpiecznym fallbackiem\n• Installer pobiera nowy plik z repozytorium, a okno restartu po instalacji otwierane jest w bezpieczniejszy sposób\n• Zachowana pełna zgodność z Python 2 / Python 3\n\nWydanie zbiera także poprawki 10.0.2 i 10.0.1 oraz utrzymuje nowości bazowe serii 10.x: TV Garden, Simple ZOOM Panel, instalatory wtyczek, poprawiony Super Konfigurator i nowe opisy Picon."
   },
   {
     "date": "28.03.2026",
