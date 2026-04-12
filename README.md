@@ -7,6 +7,8 @@
 
 ---
 
+> **Najnowsze wydanie:** AIO Panel **11.0** — nowa architektura, pełniejsze aktualizacje z GitHub, retry/cache dla list kanałów i większa stabilność działania.
+
 ## 🚀 Oficjalna Strona i Pobieranie
 Dla wygody użytkowników przygotowałem dedykowaną stronę z łatwym dostępem do plików, poradników i instalatorów:
 

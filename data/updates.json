@@ -1,5 +1,12 @@
 [
   {
+    "date": "12.04.2026",
+    "ts": 1775952000000,
+    "type": "release",
+    "title": "AIO Panel v11.0 — nowa architektura, pełniejszy instalator i większa stabilność",
+    "details": "Aktualizacja AIO Panel do wersji v11.0 (12.04.2026).\n\nNajważniejsze zmiany:\n• installer.sh pobiera teraz kompletne drzewo plików z repozytorium, razem z katalogami core/ i ui/\n• Wzmocniony system pobierania list kanałów: retry, fallback do cache oraz lepsze parsowanie plików JSON\n• Usunięte pozostałości po starszych wersjach i dodane automatyczne czyszczenie katalogów __pycache__\n• Nowa struktura projektu: menu w data/menus.py, dedykowane wrappery ekranów oraz legacy_plugin.py dla zgodności z serią 10.0.x\n• UI bezpieczniej izoluje błędy w zakładkach, więc pojedynczy problem nie powinien już wywalać całej wtyczki\n• Zaktualizowane README, dokumentacja i aio_tips.txt; w logach zostawione tylko najważniejsze odniesienia do wersji 10.0.3\n\nTo wydanie przygotowuje fundamenty pod dalszy rozwój, porządkuje kod i poprawia stabilność działania na różnych image Enigma2."
+  },
+  {
     "date": "07.04.2026",
     "ts": 1775563200000,
     "type": "fix",

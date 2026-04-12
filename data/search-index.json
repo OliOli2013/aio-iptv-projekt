@@ -19,21 +19,22 @@
     ]
   },
   {
-    "title": "AIO Panel 10.0.3",
-    "desc": "Opis zmian v10.0.3 + pobieranie uniwersalnej paczki (Py2/Py3). Naprawa błędu modalnego, nowe okno Tip dnia AIO, aio_tips.txt i stabilniejszy interfejs.",
+    "title": "AIO Panel 11.0",
+    "desc": "Opis zmian v11.0 + pobieranie uniwersalnej paczki (Py2/Py3). Nowa architektura, pełniejszy installer.sh, retry/cache dla list kanałów, legacy_plugin.py i stabilniejsze UI.",
     "url": "plugins.html#aio-panel",
     "tags": [
       "aio",
       "panel",
       "py2",
       "py3",
-      "10.0.3",
-      "bugfix",
-      "tip dnia",
-      "aio_tips.txt",
-      "console",
-      "tv garden",
-      "simple zoom panel"
+      "11.0",
+      "architektura",
+      "installer.sh",
+      "legacy_plugin.py",
+      "retry",
+      "cache",
+      "json",
+      "stabilność"
     ]
   },
   {

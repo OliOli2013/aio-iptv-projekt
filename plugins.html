@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<meta name="description" content="Autorskie wtyczki Enigma2: AIO Panel 10.0.3, IPTV Dream 6.5.1, Nagrania On Demand 2.0, OpenCamView 1.3, Picon Updater, MyUpdater oraz Simple IPTV EPG 2.2.1."/>
+<meta name="description" content="Autorskie wtyczki Enigma2: AIO Panel 11.0, IPTV Dream 6.5.1, Nagrania On Demand 2.0, OpenCamView 1.3, Picon Updater, MyUpdater oraz Simple IPTV EPG 2.2.1."/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -29,8 +29,8 @@
 <span class="tag">Enigma2 • IPTV • Tools • AI</span>
 </div>
 </a>
-<a class="pill pill-accent" download="" href="pliki/enigma2-plugin-extensions-panelaio_10.0.3_all.ipk">
-<span data-i18n="cta_update">Aktualizacja: AIO Panel v10.0.3 (Python 2 &amp; 3 – Universal)</span>
+<a class="pill pill-accent" download="" href="pliki/enigma2-plugin-extensions-panelaio_11.0_all.ipk">
+<span data-i18n="cta_update">Aktualizacja: AIO Panel v11.0 (Python 2 &amp; 3 – Universal)</span>
 <strong data-i18n="cta_download">Pobierz teraz</strong>
 </a>
 <div class="spacer"></div>
@@ -120,7 +120,7 @@
             Na górze masz szybki indeks i filtrowanie, żeby od razu przejść do właściwej pozycji.
           </p>
           <div class="hero-actions">
-            <a class="btn primary" download href="pliki/enigma2-plugin-extensions-panelaio_10.0.3_all.ipk">Pobierz AIO Panel 10.0.3</a>
+            <a class="btn primary" download href="pliki/enigma2-plugin-extensions-panelaio_11.0_all.ipk">Pobierz AIO Panel 11.0</a>
             <a class="btn" href="downloads.html">Pobieranie</a>
             <a class="btn" href="one-liner.html">One‑Liner</a>
           </div>
@@ -206,16 +206,16 @@
     </div>
     <div class="plugin-index-grid">
       <article class="plugin-summary-card anchor-card" data-filter-item>
-        <h3>AIO Panel 10.0.3</h3>
-        <p>Główna autorska wtyczka do Enigma2. Aktualizacje, konfiguracja, narzędzia, tipy i poprawki GUI w jednym miejscu.</p>
+        <h3>AIO Panel 11.0</h3>
+        <p>Główna autorska wtyczka do Enigma2. Nowa architektura, pełniejsze aktualizacje z GitHub, stabilniejsze UI i większa odporność na błędy.</p>
         <div class="meta-row"><span class="badge">Py2/Py3</span><span class="badge">Polecana</span></div>
         <ul class="meta-list">
           <li><strong>System:</strong> wszystkie systemy Enigma2</li>
-          <li><strong>Data:</strong> 07.04.2026</li>
-          <li><strong>Nowości:</strong> naprawa błędu modalnego, nowe okno Tip dnia AIO, aio_tips.txt i bazowe funkcje serii 10.x</li>
+          <li><strong>Data:</strong> 12.04.2026</li>
+          <li><strong>Nowości:</strong> nowa architektura, pełny installer.sh, retry/cache dla list kanałów, legacy_plugin.py i izolacja błędów UI</li>
         </ul>
         <div class="link-row">
-          <a class="btn primary" download href="pliki/enigma2-plugin-extensions-panelaio_10.0.3_all.ipk">Pobierz</a>
+          <a class="btn primary" download href="pliki/enigma2-plugin-extensions-panelaio_11.0_all.ipk">Pobierz</a>
           <a class="btn" href="#aio-panel">Opis</a>
         </div>
       </article>
@@ -299,7 +299,7 @@
         <div class="meta-row"><span class="badge">Py2/Py3</span></div>
         <ul class="meta-list">
           <li><strong>Zastosowanie:</strong> szybkie aktualizacje i rozpoznawanie dystrybucji</li>
-          <li><strong>Integracja:</strong> część zmian została dodana także do AIO Panel 10.0.3</li>
+          <li><strong>Integracja:</strong> część mechanizmów aktualizacji i porządków została rozwinięta w AIO Panel 11.0</li>
         </ul>
         <div class="link-row">
           <a class="btn primary" download href="pliki/enigma2-plugin-extensions-myupdater_5.1_all.ipk">Pobierz</a>
@@ -326,55 +326,71 @@
 <div class="plugin-hero">
 <img alt="AIO Panel — logo" class="plugin-thumb" src="pliki/logo.png" decoding="async"/>
 <div class="plugin-hero-text">
-<h2>AIO Panel v10.0.3 (Enigma2 • Universal)</h2>
+<h2>AIO Panel v11.0 (Enigma2 • Universal)</h2>
 <div class="compat-pill">✅ Kompatybilna z wszystkimi systemami Enigma2 (Py2 / Py3)</div>
-<div class="muted small">Data wydania: <strong>07.04.2026</strong> • poprawki po wydaniu 10.x • pełna zgodność Python 2 / Python 3 • stabilniejszy interfejs i lepsze wskazówki dla użytkownika.</div>
+<div class="muted small">Data wydania: <strong>12.04.2026</strong> • nowa architektura • pełniejsze aktualizacje z GitHub • legacy compatibility dla serii 10.0.x • stabilniejsze UI i lepsza odporność na błędy.</div>
 </div>
 </div>
 <figure class="plugin-figure-wrap">
-<img alt="AIO Panel 10.0.3 — screen" class="plugin-figure" src="pliki/aio-panel-10.0.3-screen.png" loading="lazy" decoding="async"/>
-<figcaption class="muted small">AIO Panel 10.0.3 — okrągła odsłona panelu z dopracowanym UI i poprawionym oknem Tip dnia AIO.</figcaption>
+<img alt="AIO Panel 11.0 — screen" class="plugin-figure" src="pliki/aio-panel-11.0-screen.png" loading="lazy" decoding="async"/>
+<figcaption class="muted small">AIO Panel 11.0 — przebudowana odsłona panelu z nową architekturą, bezpieczniejszym UI i odświeżonym procesem aktualizacji.</figcaption>
 </figure>
-<p><strong>AIO Panel 10.0.3 – poprawki błędów, stabilniejsze GUI i wygodniejsze tipy</strong></p>
+<p><strong>AIO Panel 11.0 – nowa architektura, pełniejszy instalator i większa stabilność</strong></p>
 <p>
-  Seria <strong>10.x</strong> zachowuje logikę wcześniejszych wydań, ale została mocno uporządkowana pod kątem stabilności, czytelności oraz działania na różnych image Enigma2.
-  Wersja <strong>10.0.3</strong> domyka najważniejsze poprawki po wcześniejszym wydaniu: usuwa błąd modalny po zamknięciu Console,
-  porządkuje obsługę <strong>Tip dnia AIO</strong> i utrzymuje pełną kompatybilność z <strong>Python 2 / Python 3</strong>.
+  Wersja <strong>11.0</strong> to duży krok porządkowy pod maską. Kod został przygotowany pod nową architekturę,
+  dzięki czemu wtyczka ma działać szybciej, czyściej i znacznie stabilniej na różnych image Enigma2.
+  To wydanie skupia się przede wszystkim na poprawnym pobieraniu całego drzewa plików z GitHub,
+  bezpieczniejszej obsłudze błędów oraz zachowaniu zgodności z wcześniejszą serią <strong>10.0.x</strong>.
 </p>
-<h3>Co nowego w AIO Panel 10.0.3 / serii 10.x</h3>
+<h3>Co nowego w AIO Panel 11.0</h3>
 <ul class="key-list">
-<li><strong>Naprawa błędu modalnego po Console</strong> — usunięty problem „Modal open are allowed only from a screen which is modal!”, widoczny po części instalatorów uruchamianych w oknie Console.</li>
-<li><strong>Tip dnia AIO w nowym oknie</strong> — zamiast systemowego MessageBox otwiera się dedykowane okno AIO; <strong>OK/EXIT</strong> zamyka, <strong>LEFT/RIGHT</strong> przełącza tipy, a <strong>UP/DOWN</strong> przewija dłuższy tekst.</li>
-<li><strong>aio_tips.txt + parser [PL]/[EN]</strong> — tipy można rozwijać z zewnętrznego pliku bez ingerencji w plugin.py; dodany jest też bezpieczny fallback do tipów wbudowanych.</li>
-<li><strong>Lepsza stabilność GUI</strong> — poprawione zależności, bezpieczne pytanie o pełny restart po instalacji, watchdog ekranu startowego i mniej problemów na splashu.</li>
-<li><strong>Lepsze skalowanie i czytelność</strong> — usunięty licznik timeout z tytułu, poprawione skalowanie pod mniejsze skiny i bardziej przewidywalne zachowanie okien.</li>
-<li><strong>Nowości bazowe serii 10.x</strong> — TV Garden, Simple ZOOM Panel, instalatory wtyczek, poprawiony Super Konfigurator i nowe opisy Picon dla 13E / 19.2E / IPTV.</li>
+<li><strong>Poprawiony installer.sh</strong> — instalator i aktualizacja z GitHub pobierają teraz kompletne drzewo plików, razem z katalogami <code>core/</code> i <code>ui/</code>, więc nie powinno już brakować kluczowych elementów po wdrożeniu.</li>
+<li><strong>Większa odporność przy pobieraniu list kanałów</strong> — dodane retry, fallback do cache oraz lepsze parsowanie plików JSON. Nawet przy chwilowych problemach po stronie serwera wtyczka ma większą szansę dokończyć operację poprawnie.</li>
+<li><strong>Generalne porządki w paczce</strong> — usunięte zostały pozostałości po starszych wydaniach, a także dodane automatyczne czyszczenie katalogów <code>__pycache__</code>, dzięki czemu paczka jest lżejsza i czystsza.</li>
+<li><strong>Nowa struktura projektu</strong> — menu zostało przeniesione do <code>data/menus.py</code>, ekrany otrzymały dedykowane wrappery, a plik <code>legacy_plugin.py</code> utrzymuje pełną kompatybilność funkcji z serii <strong>10.0.x</strong>.</li>
+<li><strong>Stabilniejsze UI</strong> — błędy w zakładkach są teraz izolowane i bezpiecznie obsługiwane, więc pojedyncza awaria nie powinna już wywalać całej wtyczki.</li>
+<li><strong>Odświeżona dokumentacja</strong> — zaktualizowane zostały README, dokumentacja oraz <code>aio_tips.txt</code>, a logi zostawiają tylko najważniejsze odniesienia do wersji <strong>10.0.3</strong>, żeby zachować czytelność.</li>
 </ul>
 <h3>Protipy dla użytkowników</h3>
 <ul class="key-list">
-<li>Po aktualizacji lub większych paczkach wybierz <strong>pełny restart tunera</strong>.</li>
-<li>Jeśli coś nie poszło zgodnie z planem, uruchom <strong>Tryb Naprawy po Instalacji</strong>.</li>
-<li>Przed zmianą listy kanałów wykonaj <strong>szybki backup</strong>.</li>
-<li>Gdy zaczyna brakować miejsca, użyj <strong>Smart Cleanup</strong> zamiast ręcznego kasowania plików.</li>
+<li>Po aktualizacji do <strong>11.0</strong> wykonaj <strong>pełny restart tunera</strong>, żeby domknąć zmiany architektury i odświeżyć komponenty GUI.</li>
+<li>Jeśli aktualizujesz z dużo starszej wersji, najlepiej użyj najnowszej paczki IPK albo aktualizacji z poziomu wtyczki, aby pobrać komplet nowych plików.</li>
+<li>Gdy serwer list kanałów chwilowo zwolni, spróbuj ponownie — nowe retry i cache pomagają, ale przy większych zmianach warto dać wtyczce chwilę na dokończenie pracy.</li>
+<li>Po większej aktualizacji możesz profilaktycznie usunąć stare cache systemowe i ponownie uruchomić GUI.</li>
 </ul>
 <h3>Jak zaktualizować</h3>
 <ol class="key-list">
 <li>Włącz <strong>AIO Panel</strong>.</li>
-<li>Wtyczka sama poinformuje o dostępności wersji <strong>10.0.3</strong>.</li>
-<li>Zatwierdź aktualizację lub pobierz paczkę IPK ręcznie z tej strony.</li>
-<li>Po zakończeniu przy większych zmianach wykonaj <strong>pełny restart tunera</strong>, aby bezpiecznie domknąć instalację.</li>
+<li>Wtyczka sama poinformuje o dostępności wersji <strong>11.0</strong>.</li>
+<li>Zatwierdź aktualizację albo pobierz paczkę IPK ręcznie z tej strony.</li>
+<li>Po zakończeniu wykonaj <strong>pełny restart tunera</strong>, aby bezpiecznie wczytać nową strukturę plików i UI.</li>
 </ol>
 <div class="link-row" style="margin-top:14px">
-<a class="btn primary" download="" href="pliki/enigma2-plugin-extensions-panelaio_10.0.3_all.ipk" title="Pobierz AIO Panel v10.0.3 (Uniwersalna paczka Enigma2)">
-    📥 Pobierz AIO Panel v10.0.3
+<a class="btn primary" download="" href="pliki/enigma2-plugin-extensions-panelaio_11.0_all.ipk" title="Pobierz AIO Panel v11.0 (Uniwersalna paczka Enigma2)">
+    📥 Pobierz AIO Panel v11.0
+  </a>
+<a class="btn" download="" href="pliki/enigma2-plugin-extensions-panelaio_10.0.3_all.ipk" title="Archiwum: AIO Panel v10.0.3">
+    🗂️ Archiwum: v10.0.3
   </a>
 <a class="btn" download="" href="pliki/enigma2-plugin-extensions-panelaio_9.7_all.ipk" title="Archiwum: AIO Panel v9.7">
-    🗂️ Archiwum: v9.7
-  </a>
-<a class="btn" download="" href="pliki/enigma2-plugin-extensions-panelaio_9.6_all.ipk" title="Archiwum: AIO Panel v9.6">
-    🗂️ Starsze: v9.6
+    🗂️ Starsze: v9.7
   </a>
 </div>
+<details class="details" style="margin-top:18px">
+<summary><strong>Historia: AIO Panel v10.0.3</strong> — poprawki GUI, Tip dnia AIO i stabilniejsze instalatory</summary>
+<div style="margin-top:14px">
+<p>
+      W wersji <strong>10.0.3</strong> uporządkowano serię <strong>10.x</strong>, usunięto błąd modalny po zamknięciu Console,
+      dodano nowe okno <strong>Tip dnia AIO</strong> i zewnętrzny plik <code>aio_tips.txt</code> z parserem sekcji <code>[PL]/[EN]</code>.
+    </p>
+<ul class="key-list">
+<li><strong>Naprawa błędu modalnego po Console.</strong></li>
+<li><strong>Tip dnia AIO w nowym oknie</strong> z obsługą OK/EXIT, LEFT/RIGHT i UP/DOWN.</li>
+<li><strong>Lepsze skalowanie GUI</strong> i bezpieczniejsze pytanie o restart po instalacji.</li>
+<li><strong>Pełna zgodność Py2/Py3</strong> i zachowanie bazowych nowości serii 10.x.</li>
+</ul>
+</div>
+</details>
 <details class="details" style="margin-top:18px">
 <summary><strong>Historia: AIO Panel v9.3</strong> — MyUpdater 5.1, picony transparent i okna HD</summary>
 <div style="margin-top:14px">
