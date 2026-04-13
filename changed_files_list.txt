@@ -24,3 +24,5 @@ support.html
 nowe-projekty.html
 pliki/aio-panel-10.0.3-screen.png
 pliki/enigma2-plugin-extensions-panelaio_10.0.3_all.ipk
+pliki/enigma2-plugin-extensions-neoradio_1.2.8_all.ipk
+pliki/neoradio-screen.png

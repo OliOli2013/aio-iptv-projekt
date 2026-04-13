@@ -3,19 +3,23 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<meta name="description" content="Autorskie wtyczki Enigma2: AIO Panel 11.0, IPTV Dream 6.5.1, Nagrania On Demand 2.0, OpenCamView 1.3, Picon Updater, MyUpdater oraz Simple IPTV EPG 2.2.1."/>
+<meta name="description" content="Autorskie wtyczki Enigma2: NeoRadio 1.2.8, AIO Panel 11.0, IPTV Dream 6.5.1, Nagrania On Demand 2.0, OpenCamView 1.3, Picon Updater, MyUpdater oraz Simple IPTV EPG 2.2.1."/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<title>Wtyczki Enigma2 — AIO Panel, IPTV Dream, OpenCamView i więcej | AIO‑IPTV.pl</title>
+<title>Wtyczki Enigma2 — NeoRadio, AIO Panel, IPTV Dream i więcej | AIO‑IPTV.pl</title>
 <link rel="icon" href="pliki/logo.png"/>
 <link rel="stylesheet" href="assets/css/site.css?v=next2026"/>
 <link rel="stylesheet" href="assets/css/v3.css?v=3"/>
 <link rel="stylesheet" href="assets/css/v4-template.css?v=4"/>
 <style>
+.plugin-summary-card--neoradio{border-color:rgba(236,72,153,.28);background:linear-gradient(180deg,rgba(26,11,36,.96),rgba(10,20,42,.90));}
 .plugin-summary-card--dreamosatx{border-color:rgba(45,212,191,.28);background:linear-gradient(180deg,rgba(10,27,43,.96),rgba(7,20,33,.88));}
+.plugin-thumb--neoradio{width:92px;height:72px;padding:4px;object-fit:contain;border-radius:14px;background:rgba(3,7,18,.48);}
 .plugin-thumb--dreamosatx{width:72px;height:72px;padding:0;object-fit:cover;}
-.dreamosatx-note{margin-top:12px;padding:12px 14px;border-radius:16px;border:1px solid rgba(59,167,255,.18);background:rgba(2,6,23,.28);color:#d8e6f4;line-height:1.65;}
+.plugin-figure--contain{object-fit:contain;}
+.neoradio-highlight,.dreamosatx-note{margin-top:12px;padding:12px 14px;border-radius:16px;border:1px solid rgba(59,167,255,.18);background:rgba(2,6,23,.28);color:#d8e6f4;line-height:1.65;}
+.neoradio-highlight{border-color:rgba(236,72,153,.24);background:linear-gradient(180deg,rgba(49,17,44,.46),rgba(8,18,37,.46));}
 </style>
 </head>
 <body class="v3" data-page="next">
@@ -128,6 +132,7 @@
             <a class="chip" href="#przeglad-wtyczek">Przegląd</a>
             <a class="chip" href="#aio-panel">AIO Panel</a>
             <a class="chip" href="#iptv-dream">IPTV Dream</a>
+            <a class="chip" href="#neoradio">NeoRadio</a>
             <a class="chip" href="#dreamosatx-signal">DreamosatX Signal</a>
             <a class="chip" href="#nagrania-on-demand">Nagrania On Demand</a>
             <a class="chip" href="#opencamview">OpenCamView</a>
@@ -232,6 +237,21 @@
         <div class="link-row">
           <a class="btn primary" download href="pliki/enigma2-plugin-extensions-iptvdream_6.5.1_all.ipk">Pobierz</a>
           <a class="btn" href="#iptv-dream">Opis</a>
+        </div>
+      </article>
+
+      <article class="plugin-summary-card anchor-card plugin-summary-card--neoradio" data-filter-item>
+        <h3>NeoRadio 1.2.8</h3>
+        <p>Nowy autorski projekt: nowoczesne centrum radiowe dla Enigma2 z 5265 stacjami, RDS / ICY, piconami i wygaszaczem z zegarem.</p>
+        <div class="meta-row"><span class="badge">Nowy projekt</span><span class="badge">5265 stacji</span><span class="badge">PL / EN</span></div>
+        <ul class="meta-list">
+          <li><strong>System:</strong> Enigma2</li>
+          <li><strong>Format:</strong> pakiet <code>.ipk</code> + komenda FTP</li>
+          <li><strong>Rozwój:</strong> projekt aktywnie rozbudowywany</li>
+        </ul>
+        <div class="link-row">
+          <a class="btn primary" download href="pliki/enigma2-plugin-extensions-neoradio_1.2.8_all.ipk">Pobierz</a>
+          <a class="btn" href="#neoradio">Opis</a>
         </div>
       </article>
 
@@ -608,6 +628,51 @@
 <p class="muted small"><strong>Bezpieczeństwo:</strong> WebIF działa po HTTP bez logowania — używaj wyłącznie w sieci domowej i wyłącz, gdy nie jest potrzebny.</p>
 </div>
 </details>
+</div>
+    <div class="card" data-aos="fade-up" id="neoradio" data-filter-item>
+<div class="plugin-hero">
+<img alt="NeoRadio — miniatura" class="plugin-thumb plugin-thumb--neoradio" src="pliki/neoradio-screen.png" decoding="async" loading="lazy"/>
+<div class="plugin-hero-text">
+<h2>NeoRadio 1.2.8 (Enigma2)</h2>
+<div class="compat-pill">✅ Nowy autorski projekt • Enigma2 • stale rozwijany</div>
+<div class="muted small">Lekka wtyczka radiowa • 5265 stacji • PL / EN • gotowa paczka instalacyjna <code>.ipk</code></div>
+</div>
+</div>
+<figure class="plugin-figure-wrap">
+<img alt="NeoRadio – ekran wtyczki" class="plugin-figure plugin-figure--contain" src="pliki/neoradio-screen.png" loading="lazy" decoding="async"/>
+<figcaption class="muted small">NeoRadio – nowoczesne centrum radiowe dla Enigma2 z ciemnym interfejsem, widmem audio i wygodnym ekranem odtwarzania.</figcaption>
+</figure>
+<p><strong>NeoRadio</strong> to mój nowy autorski projekt — lekka i niezwykle praktyczna wtyczka dla tunerów z systemem <strong>Enigma2</strong>, która zmienia sposób słuchania radia. Zamiast ciężkich i topornych odtwarzaczy dostajesz nowoczesny interfejs, dużą bazę stacji oraz funkcje, które realnie poprawiają codzienne korzystanie z tunera.</p>
+<div class="neoradio-highlight"><strong>Nowy projekt:</strong> NeoRadio jest rozwijane na bieżąco na bazie opinii użytkowników i crashlogów z realnego sprzętu. To świeży projekt, który będzie stale rozbudowywany o kolejne funkcje, poprawki i usprawnienia.</div>
+<h3>Co wyróżnia NeoRadio</h3>
+<ul class="key-list">
+<li><strong>Design:</strong> ciemny, czytelny interfejs z animowanym widmem audio, który ożywia ekran i poprawia komfort obsługi.</li>
+<li><strong>Baza stacji:</strong> w najnowszej aktualizacji znajdziesz aż <strong>5265 stacji radiowych</strong> — od lokalnych rozgłośni po niszowe radia z całego świata.</li>
+<li><strong>RDS / ICY:</strong> pełna informacja o stacji, bitrate, gatunku oraz funkcja <em>Teraz gra</em> dla aktualnego utworu.</li>
+<li><strong>Picony:</strong> obsługa picon z własnych zasobów SAT / IPTV, wyświetlanych w dużym i estetycznym panelu.</li>
+<li><strong>Wygaszacz:</strong> stylowa ochrona ekranu z ruchomym zegarem, możliwa do konfiguracji z poziomu menu.</li>
+<li><strong>Języki:</strong> automatyczne wykrywanie języka systemu — polski lub angielski.</li>
+</ul>
+<h3>Dane techniczne i personalizacja</h3>
+<ul class="key-list">
+<li><strong>Format:</strong> paczka <code>.ipk</code> do klasycznej instalacji lokalnej albo przez komendę FTP / terminal.</li>
+<li><strong>Własne listy:</strong> obsługa plików <code>.m3u</code>, <code>.pls</code>, <code>.asx</code> oraz własnych stacji w pliku <code>/etc/enigma2/neoradio_user_stations.json</code>.</li>
+<li><strong>Aktualizacje:</strong> możliwość aktualizacji wtyczki bezpośrednio z menu NeoRadio — szybko i bezproblemowo.</li>
+<li><strong>Zastosowanie:</strong> lekkie centrum radiowe dla Enigma2, gotowe zarówno do codziennego słuchania, jak i dalszych testów rozwojowych.</li>
+</ul>
+<h3>Instalacja</h3>
+<ul class="key-list">
+<li><strong>Klasycznie:</strong> pobierz paczkę <code>.ipk</code>, wgraj ją do <code>/tmp</code> i zainstaluj z poziomu tunera lub przez <code>opkg</code>.</li>
+<li><strong>FTP / terminal:</strong> poniższe polecenie pobiera najnowsze wydanie z GitHub i instaluje je automatycznie.</li>
+</ul>
+<pre><code>wget -O /tmp/neoradio.ipk https://github.com/OliOli2013/NeoRadio/releases/latest/download/enigma2-plugin-extensions-neoradio_all.ipk && opkg install /tmp/neoradio.ipk && killall -9 enigma2</code></pre>
+<h3>Feedback i rozwój projektu</h3>
+<p>Projekt jest stale rozwijany na bazie Waszych opinii. Masz pomysł na nową funkcję, znalazłeś błąd albo chcesz podzielić się opinią? Napisz komentarz lub wyślij e-mail na: <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a>.</p>
+<div class="link-row" style="margin-top:14px">
+  <a class="btn primary" download href="pliki/enigma2-plugin-extensions-neoradio_1.2.8_all.ipk" title="Pobierz NeoRadio 1.2.8">📥 Pobierz NeoRadio 1.2.8</a>
+  <a class="btn" href="downloads.html#wtyczki-autorskie">Zobacz w Pobieraniu</a>
+  <a class="btn" href="https://github.com/OliOli2013/NeoRadio/releases/latest" rel="noopener" target="_blank">GitHub Release</a>
+</div>
 </div>
     <div class="card" data-aos="fade-up" id="dreamosatx-signal" data-filter-item>
 <div class="plugin-hero">

@@ -1,5 +1,12 @@
 [
   {
+    "date": "13.04.2026",
+    "ts": 1776038400000,
+    "type": "release",
+    "title": "NeoRadio 1.2.8 — nowy autorski projekt radiowy dla Enigma2",
+    "details": "Premiera NeoRadio 1.2.8 na stronie.\n\nNajważniejsze elementy:\n• nowoczesny, ciemny interfejs z animowanym widmem audio\n• baza 5265 stacji radiowych\n• RDS / ICY, informacje o stacji i funkcja „Teraz gra”\n• obsługa picon z zasobów SAT / IPTV oraz wygaszacz z ruchomym zegarem\n• automatyczne wykrywanie języka systemu (PL / EN)\n• obsługa własnych list .m3u, .pls, .asx i własnych stacji z /etc/enigma2/neoradio_user_stations.json\n• aktualizacja wtyczki bezpośrednio z menu NeoRadio\n\nTo nowy projekt, który będzie stale rozwijany na bazie opinii użytkowników i crashlogów z realnego sprzętu."
+  },
+  {
     "date": "12.04.2026",
     "ts": 1775952000000,
     "type": "release",

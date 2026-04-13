@@ -53,6 +53,21 @@
     ]
   },
   {
+    "title": "NeoRadio 1.2.8",
+    "desc": "Nowe centrum radiowe dla Enigma2: 5265 stacji, RDS / ICY, picony, wygaszacz z zegarem i aktualizacja z poziomu menu.",
+    "url": "plugins.html#neoradio",
+    "tags": [
+      "neoradio",
+      "radio",
+      "enigma2",
+      "rds",
+      "icy",
+      "5265",
+      "picon",
+      "nowy projekt"
+    ]
+  },
+  {
     "title": "Nagrania On Demand",
     "desc": "Porządkowanie nagrań: scalanie, tytuły z .meta, usuwanie plików technicznych.",
     "url": "plugins.html#nagrania-on-demand",
