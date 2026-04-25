@@ -1,17 +1,17 @@
 [
   {
-    "date": "13.04.2026",
-    "ts": 1776038400000,
+    "date": "25.04.2026",
+    "ts": 1777118400000,
     "type": "release",
-    "title": "NeoRadio 1.2.8 — nowy autorski projekt radiowy dla Enigma2",
-    "details": "Premiera NeoRadio 1.2.8 na stronie.\n\nNajważniejsze elementy:\n• nowoczesny, ciemny interfejs z animowanym widmem audio\n• baza 5265 stacji radiowych\n• RDS / ICY, informacje o stacji i funkcja „Teraz gra”\n• obsługa picon z zasobów SAT / IPTV oraz wygaszacz z ruchomym zegarem\n• automatyczne wykrywanie języka systemu (PL / EN)\n• obsługa własnych list .m3u, .pls, .asx i własnych stacji z /etc/enigma2/neoradio_user_stations.json\n• aktualizacja wtyczki bezpośrednio z menu NeoRadio\n\nTo nowy projekt, który będzie stale rozwijany na bazie opinii użytkowników i crashlogów z realnego sprzętu."
+    "title": "NeoRadio 1.3.3 — RDS / ICY / Teraz gra i nowy wygląd",
+    "details": "NeoRadio 1.3.3 już gotowe.\n\nZmiany względem 1.2.9:\n• przebudowane pobieranie metadanych stacji\n• obsługa informacji RDS / ICY / Teraz gra\n• lepsze wykrywanie tytułu, wykonawcy, audycji i opisu streamu\n• nowy, bardziej atrakcyjny wygląd\n• poprawiony układ ekranu i czytelność danych\n• uporządkowany dolny panel informacji\n• poprawki błędów i stabilności\n\nCzyli: więcej informacji ze stacji, lepszy wygląd i wygodniejsze korzystanie z wtyczki."
   },
   {
-    "date": "12.04.2026",
-    "ts": 1775952000000,
+    "date": "11.04.2026",
+    "ts": 1775908800000,
     "type": "release",
-    "title": "AIO Panel v11.0 — nowa architektura, pełniejszy instalator i większa stabilność",
-    "details": "Aktualizacja AIO Panel do wersji v11.0 (12.04.2026).\n\nNajważniejsze zmiany:\n• installer.sh pobiera teraz kompletne drzewo plików z repozytorium, razem z katalogami core/ i ui/\n• Wzmocniony system pobierania list kanałów: retry, fallback do cache oraz lepsze parsowanie plików JSON\n• Usunięte pozostałości po starszych wersjach i dodane automatyczne czyszczenie katalogów __pycache__\n• Nowa struktura projektu: menu w data/menus.py, dedykowane wrappery ekranów oraz legacy_plugin.py dla zgodności z serią 10.0.x\n• UI bezpieczniej izoluje błędy w zakładkach, więc pojedynczy problem nie powinien już wywalać całej wtyczki\n• Zaktualizowane README, dokumentacja i aio_tips.txt; w logach zostawione tylko najważniejsze odniesienia do wersji 10.0.3\n\nTo wydanie przygotowuje fundamenty pod dalszy rozwój, porządkuje kod i poprawia stabilność działania na różnych image Enigma2."
+    "title": "AIO Panel 11.1.2 — NeoRadio Online i ręczne sprawdzanie aktualizacji",
+    "details": "Aktualizacja AIO Panel 11.1.2 (Wydanie: 11.04.2026).\n\nCo nowego w 11.1.2:\n• Instalator NeoRadio Online – łatwiejszy dostęp do radia internetowego.\n• Nowy moduł aktualizacji – dodano opcję ręcznego sprawdzania dostępności nowszego oprogramowania.\n\nZmiany od wersji 10.0.3 (Milestone 11.0):\n• Ujednolicenie projektu: uporządkowane repozytorium i zsynchronizowane wersjonowanie całego projektu do standardu 11.0.\n• Czyszczenie legacy: usunięte stare wpisy z metadanych, README, skinów oraz helperów sieciowych.\n• Ulepszony mechanizm GitHub: instalator pobiera pełne drzewo repozytorium i inteligentnie podmienia pliki zgodnie z nową architekturą.\n• Stabilniejsze pobieranie: poprawiona obsługa version.txt oraz fallback wget/curl.\n• Koniec z błędem „Błąd danych repo”: retry i cache ostatniego poprawnego manifestu.\n• Lepsza filtracja uszkodzonych wpisów w manifest.json.\n• Odświeżone Tips & Tricks: pełny, dwujęzyczny zestaw porad PL/EN w aio_tips.txt.\n• Gotowość IPK: zaktualizowane pliki pakietu IPK pod pełną dystrybucję.\n\nCo zostaje: lokalny changelog, konfigurator, tipy dnia i intuicyjne sekcje menu pozostają wspierane i funkcjonalne."
   },
   {
     "date": "07.04.2026",

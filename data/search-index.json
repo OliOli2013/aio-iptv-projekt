@@ -19,22 +19,25 @@
     ]
   },
   {
-    "title": "AIO Panel 11.0",
-    "desc": "Opis zmian v11.0 + pobieranie uniwersalnej paczki (Py2/Py3). Nowa architektura, pełniejszy installer.sh, retry/cache dla list kanałów, legacy_plugin.py i stabilniejsze UI.",
+    "title": "AIO Panel 11.1.2",
+    "desc": "Opis zmian v11.1.2 + pobieranie uniwersalnej paczki (Py2/Py3). Instalator NeoRadio Online, ręczne sprawdzanie aktualizacji, stabilniejsze pobieranie z GitHub, retry/cache manifestu i porządki linii 11.x.",
     "url": "plugins.html#aio-panel",
     "tags": [
       "aio",
       "panel",
       "py2",
       "py3",
-      "11.0",
       "architektura",
       "installer.sh",
       "legacy_plugin.py",
       "retry",
       "cache",
       "json",
-      "stabilność"
+      "stabilność",
+      "11.1.2",
+      "neoradio online",
+      "aktualizacja ręczna",
+      "manifest"
     ]
   },
   {
@@ -53,8 +56,8 @@
     ]
   },
   {
-    "title": "NeoRadio 1.2.8",
-    "desc": "Nowe centrum radiowe dla Enigma2: 5265 stacji, RDS / ICY, picony, wygaszacz z zegarem i aktualizacja z poziomu menu.",
+    "title": "NeoRadio 1.3.3",
+    "desc": "Radio internetowe dla Enigma2: przebudowane metadane stacji, RDS / ICY / Teraz gra, lepsze wykrywanie tytułu, wykonawcy, audycji i opisu streamu, nowy wygląd i poprawki stabilności.",
     "url": "plugins.html#neoradio",
     "tags": [
       "neoradio",
@@ -62,9 +65,11 @@
       "enigma2",
       "rds",
       "icy",
-      "5265",
       "picon",
-      "nowy projekt"
+      "1.3.3",
+      "teraz gra",
+      "metadane",
+      "stream"
     ]
   },
   {

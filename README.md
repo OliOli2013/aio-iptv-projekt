@@ -7,7 +7,8 @@
 
 ---
 
-> **Najnowsze wydanie:** AIO Panel **11.0** — nowa architektura, pełniejsze aktualizacje z GitHub, retry/cache dla list kanałów i większa stabilność działania.
+> **Najnowsze wydanie:** AIO Panel **11.1.2** — instalator NeoRadio Online, ręczne sprawdzanie aktualizacji, stabilniejsze pobieranie z GitHub i gotowość IPK.
+> **NeoRadio:** wersja **1.3.3** — RDS / ICY / Teraz gra, przebudowane metadane stacji, nowy wygląd i poprawki stabilności.
 
 ## 🚀 Oficjalna Strona i Pobieranie
 Dla wygody użytkowników przygotowałem dedykowaną stronę z łatwym dostępem do plików, poradników i instalatorów:
