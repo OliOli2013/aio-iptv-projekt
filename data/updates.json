@@ -1,5 +1,12 @@
 [
   {
+    "date": "06.05.2026",
+    "ts": 1778068800000,
+    "type": "release",
+    "title": "AIO Panel 12.0.0 — sortowanie list kanałów i naprawa widoczności w menu",
+    "details": "Wydanie 12.0.0 to przede wszystkim lepsza organizacja list kanałów oraz wyeliminowanie uciążliwego błędu w menu.\n\nLista zmian w wersji 12.0.0:\n• Automatyczne sortowanie: premiowane listy kanałów są układane automatycznie od najnowszej do najstarszej, dzięki czemu najświeższe treści są od razu dostępne na górze.\n• Listy układają się same od najnowszej — bez ręcznego przestawiania kolejności.\n• Naprawa Widoczności: poprawiono działanie funkcji Widoczność w menu tunera (ON/OFF), która teraz prawidłowo przełącza status.\n• Nowe metadane: pakiet został w pełni zaktualizowany do wersji 12.0.0 wraz ze wszystkimi niezbędnymi danymi technicznymi.\n\nPremiowani twórcy w tej wersji:\nBzyk83 • Anom • Paweł Pawełek • JakiTaki • Fullkiller • Koncior • Twarek • Conrado • Dominico."
+  },
+  {
     "date": "25.04.2026",
     "ts": 1777118400000,
     "type": "release",

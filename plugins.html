@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<meta name="description" content="Autorskie wtyczki Enigma2: NeoRadio 1.3.3, AIO Panel 11.1.2, IPTV Dream 6.5.1, Nagrania On Demand 2.0, OpenCamView 1.3, Picon Updater, MyUpdater oraz Simple IPTV EPG 2.2.1."/>
+<meta name="description" content="Autorskie wtyczki Enigma2: AIO Panel 12.0.0 z automatycznym sortowaniem list kanałów i naprawą widoczności ON/OFF, NeoRadio 1.3.3, IPTV Dream 6.5.1, Nagrania On Demand 2.0, OpenCamView 1.3 oraz Simple IPTV EPG 2.2.1."/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -33,8 +33,8 @@
 <span class="tag">Enigma2 • IPTV • Tools • AI</span>
 </div>
 </a>
-<a class="pill pill-accent" download="" href="pliki/enigma2-plugin-extensions-panelaio_11.1.2_all.ipk">
-<span data-i18n="cta_update">Aktualizacja: AIO Panel v11.1.2 (Python 2 &amp; 3 – Universal)</span>
+<a class="pill pill-accent" download="" href="pliki/enigma2-plugin-extensions-panelaio_12.0.0_all.ipk">
+<span data-i18n="cta_update">Aktualizacja: AIO Panel v12.0.0 (Python 2 &amp; 3 – Universal)</span>
 <strong data-i18n="cta_download">Pobierz teraz</strong>
 </a>
 <div class="spacer"></div>
@@ -124,7 +124,7 @@
             Na górze masz szybki indeks i filtrowanie, żeby od razu przejść do właściwej pozycji.
           </p>
           <div class="hero-actions">
-            <a class="btn primary" download href="pliki/enigma2-plugin-extensions-panelaio_11.1.2_all.ipk">Pobierz AIO Panel 11.1.2</a>
+            <a class="btn primary" download href="pliki/enigma2-plugin-extensions-panelaio_12.0.0_all.ipk">Pobierz AIO Panel 12.0.0</a>
             <a class="btn" href="downloads.html">Pobieranie</a>
             <a class="btn" href="one-liner.html">One‑Liner</a>
           </div>
@@ -211,16 +211,16 @@
     </div>
     <div class="plugin-index-grid">
       <article class="plugin-summary-card anchor-card" data-filter-item>
-        <h3>AIO Panel 11.1.2</h3>
-        <p>Główna autorska wtyczka do Enigma2. Nowa architektura, pełniejsze aktualizacje z GitHub, stabilniejsze UI i większa odporność na błędy.</p>
+        <h3>AIO Panel 12.0.0</h3>
+        <p>Główna autorska wtyczka do Enigma2. Wersja 12.0.0 porządkuje premiowane listy kanałów, sortuje je od najnowszej do najstarszej i naprawia widoczność ON/OFF w menu tunera.</p>
         <div class="meta-row"><span class="badge">Py2/Py3</span><span class="badge">Polecana</span></div>
         <ul class="meta-list">
           <li><strong>System:</strong> wszystkie systemy Enigma2</li>
-          <li><strong>Data:</strong> 12.04.2026</li>
-          <li><strong>Nowości:</strong> nowa architektura, pełny installer.sh, retry/cache dla list kanałów, legacy_plugin.py i izolacja błędów UI</li>
+          <li><strong>Data:</strong> 06.05.2026</li>
+          <li><strong>Nowości:</strong> automatyczne sortowanie premiowanych list kanałów, naprawa funkcji Widoczność ON/OFF i zaktualizowane metadane pakietu</li>
         </ul>
         <div class="link-row">
-          <a class="btn primary" download href="pliki/enigma2-plugin-extensions-panelaio_11.1.2_all.ipk">Pobierz</a>
+          <a class="btn primary" download href="pliki/enigma2-plugin-extensions-panelaio_12.0.0_all.ipk">Pobierz</a>
           <a class="btn" href="#aio-panel">Opis</a>
         </div>
       </article>
@@ -319,7 +319,7 @@
         <div class="meta-row"><span class="badge">Py2/Py3</span></div>
         <ul class="meta-list">
           <li><strong>Zastosowanie:</strong> szybkie aktualizacje i rozpoznawanie dystrybucji</li>
-          <li><strong>Integracja:</strong> część mechanizmów aktualizacji i porządków została rozwinięta w AIO Panel 11.1.2</li>
+          <li><strong>Integracja:</strong> część mechanizmów aktualizacji i porządków została rozwinięta w AIO Panel 12.0.0</li>
         </ul>
         <div class="link-row">
           <a class="btn primary" download href="pliki/enigma2-plugin-extensions-myupdater_5.1_all.ipk">Pobierz</a>
@@ -346,50 +346,46 @@
 <div class="plugin-hero">
 <img alt="AIO Panel — logo" class="plugin-thumb" src="pliki/logo.png" decoding="async"/>
 <div class="plugin-hero-text">
-<h2>AIO Panel v11.1.2 (Enigma2 • Universal)</h2>
+<h2>AIO Panel v12.0.0 (Enigma2 • Universal)</h2>
 <div class="compat-pill">✅ Kompatybilna z wszystkimi systemami Enigma2 (Py2 / Py3)</div>
-<div class="muted small">Data wydania: <strong>11.04.2026</strong> • instalator NeoRadio Online • ręczne sprawdzanie aktualizacji • stabilniejsze pobieranie z GitHub • retry/cache dla manifestu.</div>
+<div class="muted small">Data wydania: <strong>06.05.2026</strong> • automatyczne sortowanie list kanałów • naprawa widoczności ON/OFF w menu tunera • zaktualizowane metadane.</div>
 </div>
 </div>
 <figure class="plugin-figure-wrap">
-<img alt="AIO Panel 11.1.2 — screen" class="plugin-figure" src="pliki/aio-panel-11.1.2-screen.png" loading="lazy" decoding="async"/>
-<figcaption class="muted small">AIO Panel 11.1.2 — odświeżony panel z instalatorem NeoRadio Online, nowym modułem aktualizacji i poprawioną stabilnością działania.</figcaption>
+<img alt="AIO Panel 12.0.0 — screen" class="plugin-figure" src="pliki/aio-panel-12.0.0-screen.png" loading="lazy" decoding="async"/>
+<figcaption class="muted small">AIO Panel 12.0.0 — uporządkowane premiowane listy kanałów, poprawiona funkcja Widoczność w menu tunera i pełna aktualizacja metadanych pakietu.</figcaption>
 </figure>
-<p><strong>AIO Panel 11.1.2 – instalator NeoRadio Online, ręczne aktualizacje i stabilniejsze pobieranie</strong></p>
+<p><strong>AIO Panel 12.0.0 – automatyczne sortowanie list kanałów i poprawiona widoczność w menu</strong></p>
 <p>
-  Wersja <strong>11.1.2</strong> rozwija linię 11.x i porządkuje funkcje dodane od milestone 11.0.
-  Najważniejsze zmiany to łatwiejszy dostęp do <strong>NeoRadio Online</strong>, nowy moduł ręcznego sprawdzania aktualizacji
-  oraz dopracowany mechanizm pobierania plików z GitHub z retry, cache i fallbackiem dla trudniejszych warunków sieciowych.
+  Wydanie <strong>12.0.0</strong> skupia się na lepszej organizacji list kanałów oraz usunięciu uciążliwego błędu w menu.
+  Premiowane listy kanałów układają się teraz automatycznie od najnowszej do najstarszej, dzięki czemu najświeższe pozycje są od razu na górze.
+  Poprawiona została także funkcja <strong>Widoczność</strong> w menu tunera — przełącznik <strong>ON/OFF</strong> działa prawidłowo i bezbłędnie zmienia status.
 </p>
-<h3>Co nowego w AIO Panel 11.1.2</h3>
+<h3>Co nowego w AIO Panel 12.0.0</h3>
 <ul class="key-list">
-<li><strong>Instalator NeoRadio Online</strong> — łatwiejszy dostęp do radia internetowego bez ręcznego szukania paczki.</li>
-<li><strong>Nowy moduł aktualizacji</strong> — dodana opcja ręcznego sprawdzania dostępności nowszego oprogramowania.</li>
-<li><strong>Ujednolicenie projektu</strong> — repozytorium i wersjonowanie zostały zsynchronizowane do standardu linii <strong>11.x</strong>.</li>
-<li><strong>Czyszczenie legacy</strong> — usunięto stare wpisy z metadanych, README, skinów oraz helperów sieciowych.</li>
-<li><strong>Ulepszony mechanizm GitHub</strong> — instalator pobiera pełne drzewo repozytorium i inteligentnie podmienia pliki zgodnie z nową architekturą.</li>
-<li><strong>Stabilniejsze pobieranie</strong> — poprawiona obsługa <code>version.txt</code>, fallback <code>wget/curl</code>, retry oraz cache ostatniego poprawnego manifestu.</li>
-<li><strong>Koniec z błędem „Błąd danych repo”</strong> — lepsza filtracja uszkodzonych wpisów w <code>manifest.json</code>.</li>
-<li><strong>Odświeżone Tips &amp; Tricks</strong> — <code>aio_tips.txt</code> otrzymał pełny, dwujęzyczny zestaw porad PL/EN.</li>
-<li><strong>Gotowość IPK</strong> — zaktualizowane pliki pakietu IPK przygotowują projekt do pełnej dystrybucji.</li>
+<li><strong>Automatyczne sortowanie</strong> — premiowane listy kanałów są układane automatycznie od najnowszej do najstarszej.</li>
+<li><strong>Najnowsze listy zawsze na górze</strong> — lista sama porządkuje wpisy, żeby użytkownik miał szybki dostęp do najświeższych treści.</li>
+<li><strong>Naprawa funkcji Widoczność</strong> — przełącznik w menu tunera <strong>ON/OFF</strong> poprawnie zmienia status i nie powoduje błędów w menu.</li>
+<li><strong>Nowe metadane</strong> — pakiet został w pełni zaktualizowany do wersji <strong>12.0.0</strong> wraz z wymaganymi danymi technicznymi.</li>
+<li><strong>Premiowani twórcy</strong> — w tej wersji wyróżnieni są: Bzyk83, Anom, Paweł Pawełek, JakiTaki, Fullkiller, Koncior, Twarek, Conrado i Dominico.</li>
 </ul>
 <h3>Protipy dla użytkowników</h3>
 <ul class="key-list">
-<li>Po aktualizacji do <strong>11.1.2</strong> wykonaj <strong>pełny restart tunera</strong>, żeby domknąć zmiany architektury i odświeżyć komponenty GUI.</li>
+<li>Po aktualizacji do <strong>12.0.0</strong> wykonaj <strong>pełny restart tunera</strong>, żeby odświeżyć menu i komponenty GUI.</li>
+<li>Po wejściu w sekcję list kanałów sprawdź, czy najnowsze premiowane listy pojawiają się na początku listy.</li>
+<li>Przetestuj przełącznik <strong>Widoczność ON/OFF</strong> w menu tunera — funkcja powinna teraz zmieniać status bez błędów.</li>
 <li>Jeśli aktualizujesz z dużo starszej wersji, najlepiej użyj najnowszej paczki IPK albo aktualizacji z poziomu wtyczki, aby pobrać komplet nowych plików.</li>
-<li>Gdy serwer list kanałów chwilowo zwolni, spróbuj ponownie — nowe retry i cache pomagają, ale przy większych zmianach warto dać wtyczce chwilę na dokończenie pracy.</li>
-<li>Po większej aktualizacji możesz profilaktycznie usunąć stare cache systemowe i ponownie uruchomić GUI.</li>
 </ul>
 <h3>Jak zaktualizować</h3>
 <ol class="key-list">
 <li>Włącz <strong>AIO Panel</strong>.</li>
-<li>Wtyczka może poinformować o dostępności wersji <strong>11.1.2</strong>, a nowy moduł pozwala też sprawdzić aktualizację ręcznie.</li>
-<li>Zatwierdź aktualizację albo pobierz paczkę IPK ręcznie z tej strony.</li>
-<li>Po zakończeniu wykonaj <strong>pełny restart tunera</strong>, aby bezpiecznie wczytać nową strukturę plików i UI.</li>
+<li>Wtyczka może poinformować o dostępności wersji <strong>12.0.0</strong>, możesz też pobrać paczkę IPK ręcznie z tej strony.</li>
+<li>Zatwierdź aktualizację albo zainstaluj najnowszą paczkę IPK.</li>
+<li>Po zakończeniu wykonaj <strong>pełny restart tunera</strong>, aby bezpiecznie wczytać nowe menu, metadane i listy kanałów.</li>
 </ol>
 <div class="link-row" style="margin-top:14px">
-<a class="btn primary" download="" href="pliki/enigma2-plugin-extensions-panelaio_11.1.2_all.ipk" title="Pobierz AIO Panel v11.1.2 (Uniwersalna paczka Enigma2)">
-    📥 Pobierz AIO Panel v11.1.2
+<a class="btn primary" download="" href="pliki/enigma2-plugin-extensions-panelaio_12.0.0_all.ipk" title="Pobierz AIO Panel v12.0.0 (Uniwersalna paczka Enigma2)">
+    📥 Pobierz AIO Panel v12.0.0
   </a>
 <a class="btn" download="" href="pliki/enigma2-plugin-extensions-panelaio_10.0.3_all.ipk" title="Archiwum: AIO Panel v10.0.3">
     🗂️ Archiwum: v10.0.3
