@@ -34,6 +34,44 @@
 .home-plugin-teaser h3{margin:0 0 10px;font-size:1.12rem;line-height:1.3;}
 .home-plugin-teaser p{margin:0;color:var(--muted);line-height:1.6;}
 @media (max-width:900px){.home-plugin-teaser{padding:14px;}}
+
+.home-support-callout{
+  margin-top:18px;
+  padding:18px 20px;
+  border:1px solid rgba(88,166,255,.28);
+  border-radius:20px;
+  background:
+    radial-gradient(circle at 18% 0%, rgba(56,139,253,.18), transparent 36%),
+    linear-gradient(180deg, rgba(15,45,71,.86), rgba(8,24,40,.88));
+  box-shadow:0 18px 42px rgba(0,0,0,.22);
+}
+.home-support-callout h3{
+  margin:0 0 10px;
+  color:#fff;
+  font-size:1.16rem;
+  line-height:1.35;
+}
+.home-support-callout p{
+  margin:0;
+  color:var(--muted);
+  line-height:1.65;
+}
+.home-support-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:14px;
+}
+.home-support-note{
+  margin-top:12px;
+  color:#8cc2ff;
+  font-size:.92rem;
+  font-weight:700;
+}
+@media (max-width:900px){
+  .home-support-callout{padding:16px;}
+}
+
 </style>
 </head>
 <body class="v3" data-page="next">
@@ -47,8 +85,8 @@
 <span class="tag">Enigma2 • IPTV • Tools • AI</span>
 </div>
 </a>
-<a class="pill pill-accent" download="" href="pliki/enigma2-plugin-extensions-panelaio_12.0.0_all.ipk">
-<span data-i18n="cta_update">Aktualizacja: AIO Panel v12.0.0 (Python 2 &amp; 3 – Universal)</span>
+<a class="pill pill-accent" download="" href="pliki/enigma2-plugin-extensions-panelaio_11.1.2_all.ipk">
+<span data-i18n="cta_update">Aktualizacja: AIO Panel v11.1.2 (Python 2 &amp; 3 – Universal)</span>
 <strong data-i18n="cta_download">Pobierz teraz</strong>
 </a>
 <div class="spacer"></div>
@@ -131,14 +169,14 @@
     <div class="page-hero">
       <div class="page-hero-grid">
         <div class="hero-copy">
-          <div class="section-kicker">AIO Panel 12.0.0 • listy kanałów • Enigma2</div>
+          <div class="section-kicker">AIO Panel 11.1.2 • NeoRadio 1.3.3 • Enigma2</div>
           <h1>Jedno miejsce dla wtyczek, konfiguracji i pomocy do Enigma2</h1>
           <p class="hero-lead">
             Autorskie wtyczki, bezpośrednie pobieranie, poradniki i narzędzia dla Enigma2 w jednym miejscu.
             Z tej strony najszybciej przejdziesz do AIO Panel, konfiguracji IPTV, instalacji image i sekcji pomocy.
           </p>
           <div class="hero-actions">
-            <a class="btn primary" download href="pliki/enigma2-plugin-extensions-panelaio_12.0.0_all.ipk">Pobierz AIO Panel 12.0.0</a>
+            <a class="btn primary" download href="pliki/enigma2-plugin-extensions-panelaio_11.1.2_all.ipk">Pobierz AIO Panel 11.1.2</a>
             <a class="btn" href="plugins.html">Przejdź do wtyczek</a>
             <a class="btn" href="downloads.html">Pobieranie</a>
           </div>
@@ -152,7 +190,7 @@
             <a class="chip" href="#wesprzyj-projekty">Wsparcie projektów</a>
           </div>
           <div class="kpi-row" aria-label="Najważniejsze wersje">
-            <span class="kpi-pill">AIO Panel 12.0.0</span>
+            <span class="kpi-pill">AIO Panel 11.1.2</span>
             <span class="kpi-pill">IPTV Dream 6.5.1</span>
             <span class="kpi-pill">NeoRadio 1.3.3</span>
             <span class="kpi-pill">Nagrania On Demand 2.0</span>
@@ -160,7 +198,7 @@
             <span class="kpi-pill">Simple IPTV EPG 2.2.1</span>
           </div>
           <div class="v4-note" style="margin-top:14px;">
-            Aktualizacja 06.05.2026: AIO Panel 12.0.0 automatycznie sortuje premiowane listy kanałów od najnowszej do najstarszej, naprawia przełącznik Widoczność w menu tunera (ON/OFF) i zawiera odświeżone metadane pakietu.
+            Aktualizacja 25.04.2026: AIO Panel 11.1.2 dodaje instalator NeoRadio Online i ręczne sprawdzanie aktualizacji, a NeoRadio 1.3.3 wprowadza przebudowane metadane stacji, obsługę RDS / ICY / Teraz gra, nowy wygląd oraz poprawki stabilności.
           </p>
             <div class="link-row">
               <a class="btn primary" href="poradniki-praktyczne.html">Otwórz Poradniki Praktyczne</a>
@@ -171,10 +209,29 @@
               <a class="btn" href="pliki/poradnik-dane-oscam.pdf" target="_blank" rel="noopener">PDF: OSCam</a>
               <a class="btn" href="pliki/poradnik-iptv-xstremity.pdf" target="_blank" rel="noopener">PDF: Xstremity</a>
             </div>
+            <div class="home-support-callout" id="wesprzyj-projekty-home">
+              <div class="section-kicker">Wsparcie projektów</div>
+              <h3>Pomóż dalej rozwijać AIO‑IPTV.pl i moje wtyczki</h3>
+              <p>
+                Każde wsparcie ma znaczenie: pomaga utrzymać stronę, testować kolejne wersje,
+                przygotowywać poradniki oraz rozwijać projekty dla społeczności Enigma2.
+                Dzięki temu mogę szybciej poprawiać błędy, dodawać nowe funkcje i publikować
+                aktualizacje dostępne dla wszystkich użytkowników.
+              </p>
+              <div class="home-support-actions">
+                <a class="btn primary" href="support.html">☕ Otwórz stronę wsparcia</a>
+                <a class="btn" href="https://buycoffee.to/pawelpawelek" target="_blank" rel="noopener">BuyCoffee</a>
+                <a class="btn" href="contact.html#opinia">Napisz opinię lub pomysł</a>
+              </div>
+              <div class="home-support-note">
+                Dziękuję za każdą kawę, dobre słowo, zgłoszenie błędu i udostępnienie projektu dalej.
+              </div>
+            </div>
+
           </div>
         </div>
         <div class="page-hero-media home-hero-media">
-          <img src="pliki/aio-panel-12.0.0-screen.png" alt="AIO Panel 12.0.0 — widok wtyczki" fetchpriority="high" decoding="async"/>
+          <img src="pliki/aio-panel-11.1.2-screen.png" alt="AIO Panel 11.1.2 — widok wtyczki" fetchpriority="high" decoding="async"/>
           <article class="download-card home-plugin-teaser" aria-label="NeoRadio 1.3.3 – radio internetowe Enigma2">
             <img class="home-plugin-teaser__image" src="pliki/neoradio-screen.png" alt="NeoRadio 1.3.3 – ekran wtyczki" loading="lazy" decoding="async"/>
             <div class="section-kicker">Nowy projekt na stronie</div>
@@ -497,7 +554,7 @@
         <h3>Wtyczki</h3>
         <p>Autorskie projekty z opisami, kompatybilnością i historią wersji.</p>
         <ul class="clean-list">
-          <li>AIO Panel 12.0.0</li>
+          <li>AIO Panel 11.1.2</li>
           <li>IPTV Dream 6.5.1</li>
           <li>Nagrania On Demand 2.0</li>
           <li>OpenCamView 1.3</li>
@@ -552,11 +609,11 @@
     </div>
     <div class="download-grid">
       <article class="download-card">
-        <h3>AIO Panel 12.0.0</h3>
-        <p>Główna wtyczka dla Enigma2: automatyczne sortowanie premiowanych list kanałów od najnowszej do najstarszej, naprawiona widoczność ON/OFF w menu tunera i zaktualizowane metadane.</p>
+        <h3>AIO Panel 11.1.2</h3>
+        <p>Główna wtyczka dla Enigma2 z nową architekturą, pełniejszym instalatorem GitHub, większą odpornością na błędy i pełną zgodnością Py2/Py3.</p>
         <div class="meta-row"><span class="badge">Py2/Py3</span><span class="badge">Polecana</span></div>
         <div class="link-row">
-          <a class="btn primary" download href="pliki/enigma2-plugin-extensions-panelaio_12.0.0_all.ipk">Pobierz</a>
+          <a class="btn primary" download href="pliki/enigma2-plugin-extensions-panelaio_11.1.2_all.ipk">Pobierz</a>
           <a class="btn" href="plugins.html#aio-panel">Szczegóły</a>
         </div>
       </article>

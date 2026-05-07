@@ -1,7 +1,3 @@
-multi-click.html
-systems.html
-assets/js/layout-v4.js
-data/search-index.json
-pliki/multi-click-banner.webp
+index.html
 changed_files_list.txt
-README_PODMIANA_MULTI_CLICK.txt
+README_PODMIANA_WSPARCIE.txt
