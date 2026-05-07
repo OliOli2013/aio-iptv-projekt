@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="description" content="Systemy Multi-Click dla tunerów Enigma2 — gotowe systemy, linki do pobrania i instrukcje instalacji."/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title>Systemy Multi-Click — AIO-IPTV.pl</title>
+<link rel="icon" href="pliki/logo.png"/>
+<link rel="stylesheet" href="assets/css/site.css?v=next2026b"/>
+<link rel="stylesheet" href="assets/css/v3.css?v=3"/>
+<link rel="stylesheet" href="assets/css/v4-template.css?v=4"/>
+<style>
+.mc-hero{display:grid;grid-template-columns:1.2fr .9fr;gap:22px;align-items:stretch}
+.mc-banner{display:block;background:rgba(12,36,58,.72);border:1px solid rgba(88,166,255,.28);border-radius:24px;padding:16px;box-shadow:0 20px 48px rgba(0,0,0,.22);text-decoration:none}
+.mc-banner img{display:block;width:100%;height:auto;border-radius:18px;border:1px solid rgba(148,163,184,.18);background:#fff}
+.mc-banner span{display:block;margin-top:12px;color:var(--muted);font-size:.95rem}
+.mc-note{padding:16px 18px;border-radius:18px;border:1px solid rgba(88,166,255,.22);background:linear-gradient(180deg,rgba(12,36,58,.84),rgba(8,24,40,.84));}
+.mc-note strong{color:#fff}
+.mc-feature-grid,.mc-card-grid,.mc-why-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.mc-feature,.mc-why, .mc-card{background:linear-gradient(180deg,rgba(15,45,71,.84),rgba(9,26,42,.88));border:1px solid rgba(148,163,184,.16);border-radius:20px;padding:18px;box-shadow:0 16px 40px rgba(0,0,0,.16)}
+.mc-feature h3,.mc-why h3,.mc-card h3{margin:0 0 10px;color:#fff}
+.mc-feature p,.mc-why p,.mc-card p{margin:0;color:var(--muted);line-height:1.65}
+.mc-card-head{display:flex;gap:16px;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
+.mc-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:rgba(56,139,253,.14);border:1px solid rgba(56,139,253,.28);color:#8cc2ff;font-size:.83rem;font-weight:700}
+.mc-card details{margin-top:10px;border-top:1px solid rgba(148,163,184,.14);padding-top:12px}
+.mc-card summary{cursor:pointer;color:#8cc2ff;font-weight:700}
+.mc-card summary::-webkit-details-marker{display:none}
+.mc-card summary::after{content:' ▾';font-weight:400}
+.mc-card details[open] summary::after{content:' ▴'}
+.mc-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.mc-step{padding:16px;border-radius:18px;background:rgba(12,36,58,.72);border:1px solid rgba(148,163,184,.16)}
+.mc-step .num{display:inline-flex;width:34px;height:34px;border-radius:50%;align-items:center;justify-content:center;background:rgba(56,139,253,.18);border:1px solid rgba(56,139,253,.35);color:#8cc2ff;font-weight:800;margin-bottom:10px}
+.mc-step h3{margin:0 0 6px;font-size:1rem;color:#fff}
+.mc-step p{margin:0;color:var(--muted)}
+.mc-highlight{color:#8cc2ff;font-weight:800}
+@media (max-width:1100px){.mc-hero,.mc-feature-grid,.mc-card-grid,.mc-why-grid{grid-template-columns:1fr}.mc-steps{grid-template-columns:1fr 1fr}}
+@media (max-width:700px){.mc-steps{grid-template-columns:1fr}.mc-card-head{flex-direction:column}}
+</style>
+</head>
+<body class="v3" data-page="next">
+<main class="container">
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">Nowa zakładka • gotowe systemy • Multi-Click</div>
+        <h1 class="section-title" style="font-size:2rem;">Systemy Multi-Click</h1>
+        <p class="section-sub">Gotowe paczki dla popularnych tunerów Enigma2, przygotowane z myślą o polskich użytkownikach.</p>
+      </div>
+    </div>
+
+    <div class="mc-hero">
+      <div class="card">
+        <p class="hero-lead"><strong>Wszystko ustawione pod polskiego użytkownika — włączasz i korzystasz! 📺✨</strong></p>
+        <p>Systemy są skonfigurowane i gotowe do instalacji. Wystarczy przygotować pendrive do 8 GB w formacie FAT32 i wybrać odpowiednią paczkę dla swojego modelu.</p>
+        <p>To świetna propozycja dla osób, które chcą ominąć długą konfigurację po instalacji i od razu ruszyć z dobrze przygotowanym środowiskiem. Dominują tu dopracowane paczki <span class="mc-highlight">OpenATV 7.6</span>, a wybrane modele mają dodatkowo gotowe wsparcie IPTV.</p>
+        <div class="hero-actions" style="margin-top:18px;">
+          <a class="btn primary" href="#lista-systemow">Zobacz listę systemów</a>
+          <a class="btn" href="https://multi-click.pl/" target="_blank" rel="noopener">Odwiedź Multi-Click</a>
+        </div>
+      </div>
+      <a class="mc-banner" href="https://multi-click.pl/" target="_blank" rel="noopener" aria-label="Przejdź do multi-click.pl">
+        <img src="pliki/multi-click-banner.webp" alt="Baner Multi-Click"/>
+        <span>Po kliknięciu baneru użytkownik zostanie przeniesiony na stronę <strong>multi-click.pl</strong>.</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="mc-note"><strong>Wymagania:</strong> pendrive nie większy niż 8 GB, format FAT32. Każdy system ma przygotowany własny sposób instalacji, dlatego przy każdym modelu znajdziesz osobną instrukcję krok po kroku.</div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2 class="section-title">Dlaczego te systemy są warte uwagi?</h2>
+        <p class="section-sub">Praktyczne, dopracowane i nastawione na wygodny start bez zbędnego kombinowania.</p>
+      </div>
+    </div>
+    <div class="mc-feature-grid">
+      <article class="mc-feature">
+        <h3>🛠 Gotowe do działania</h3>
+        <p>To nie są „surowe” obrazy, które dopiero trzeba dopieszczać. To systemy przygotowane tak, aby użytkownik po instalacji miał szybki start i wygodną bazę do codziennego oglądania.</p>
+      </article>
+      <article class="mc-feature">
+        <h3>📺 Wygoda dla polskiego użytkownika</h3>
+        <p>Konfiguracje są pomyślane praktycznie: nacisk położono na prostą obsługę, szybki dostęp do najważniejszych funkcji i środowisko przyjazne na co dzień.</p>
+      </article>
+      <article class="mc-feature">
+        <h3>💿 OpenATV 7.6 i sprawdzone modele</h3>
+        <p>Wykaz obejmuje popularne tunery Zgemma, Octagon i Ustym, dzięki czemu w jednym miejscu masz zebrane gotowe paczki dla wielu lubianych urządzeń.</p>
+      </article>
+      <article class="mc-feature">
+        <h3>📥 Pliki + instrukcje w jednym miejscu</h3>
+        <p>Każdy model ma przypisany bezpośredni link do pobrania oraz opis sposobu instalacji. Nie trzeba szukać poradnika osobno — wszystko jest pod ręką.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2 class="section-title">Jak zacząć?</h2>
+        <p class="section-sub">Cztery proste kroki do gotowego systemu.</p>
+      </div>
+    </div>
+    <div class="mc-steps">
+      <div class="mc-step"><div class="num">1</div><h3>Wybierz model</h3><p>Odszukaj swój tuner na liście poniżej.</p></div>
+      <div class="mc-step"><div class="num">2</div><h3>Pobierz paczkę</h3><p>Kliknij przycisk pobierania przypisany do konkretnego modelu.</p></div>
+      <div class="mc-step"><div class="num">3</div><h3>Przygotuj pendrive</h3><p>Skorzystaj z nośnika FAT32 zgodnie z wymaganiami.</p></div>
+      <div class="mc-step"><div class="num">4</div><h3>Wgraj system</h3><p>Rozwiń instrukcję pod wybranym modelem i wykonaj kolejne kroki instalacji.</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="lista-systemow">
+    <div class="section-head">
+      <div>
+        <h2 class="section-title">Wykaz tunerów i systemów</h2>
+        <p class="section-sub">Lista przygotowana na podstawie przesłanego wykazu Multi-Click.</p>
+      </div>
+    </div>
+    <div class="mc-card-grid">
+      
+      <article class="mc-card">
+        <div class="mc-card-head">
+          <div>
+            <h3>Zgemma H11s - OpenATV 7.6</h3>
+            <div class="mc-badge">OpenATV 7.6</div>
+          </div>
+          <a class="btn primary" href="https://multi-click.pl/index.php?controller=attachment&id_attachment=136" target="_blank" rel="noopener">Pobierz plik</a>
+        </div>
+        <details>
+          <summary>Instrukcja instalacji</summary>
+          <p>Pobrać i skopiować na pendrive ( nie wypakowywać) - włożyć pendrive do dekodera i włączyć do prądu z jednocześnie wciśniętym dowolnym przyciskiem na pilocie skierowanym w kierunku dekodera. Wybieramy boot menu - flash local image i wybieramy pobrany plik a następnie wybieramy Linux1. Czekamy aż zniknie Flashing Complete i wybieramy druga pozycję od góry - czyli " OpenAtv ... " i klikamy OK</p>
+        </details>
+      </article>
+    
+      <article class="mc-card">
+        <div class="mc-card-head">
+          <div>
+            <h3>Zgemma H8.2H - OpenATV 7.6</h3>
+            <div class="mc-badge">OpenATV 7.6</div>
+          </div>
+          <a class="btn primary" href="https://multi-click.pl/index.php?controller=attachment&id_attachment=143" target="_blank" rel="noopener">Pobierz plik</a>
+        </div>
+        <details>
+          <summary>Instrukcja instalacji</summary>
+          <p>Oprogramowanie z zainstalowaną obsługą IPTV. Pobrać i wypakować na pendrive plik tak aby był tam katalog h8 oraz dodatkowy plik - włożyć pendrive do dekodera i włączyć do prądu z jednocześnie wciśniętym dowolnym przyciskiem na pilocie skierowanym w kierunku dekodera. Przycisk na pilocie trzymać do momentu aż dioda na dekoderze zacznie mrugać. Dekoder po wgraniu oprogramowania uruchomi się ponownie.</p>
+        </details>
+      </article>
+    
+      <article class="mc-card">
+        <div class="mc-card-head">
+          <div>
+            <h3>Zgemma H9 Twin SE OpenATV 7.6</h3>
+            <div class="mc-badge">OpenATV 7.6</div>
+          </div>
+          <a class="btn primary" href="https://multi-click.pl/index.php?controller=attachment&id_attachment=141" target="_blank" rel="noopener">Pobierz plik</a>
+        </div>
+        <details>
+          <summary>Instrukcja instalacji</summary>
+          <p>Pobrać i skopiować na pendrive ( nie wypakowywać) - włożyć pendrive do dekodera i włączyć do prądu z jednocześnie wciśniętym dowolnym przyciskiem na pilocie skierowanym w kierunku dekodera. Później wybrać boot menu - flash local image i wybrać plik - kliknąć ok Wybieramy domyślnie Linux_1 i klikamy ok Czekamy aż wyświetli się "flashing complete" i czekamy dalej, aż dekoder powróci do bootmenu. Wybieramy 2 pozycję od góry czyli OpenATV i klikamy ok.</p>
+        </details>
+      </article>
+    
+      <article class="mc-card">
+        <div class="mc-card-head">
+          <div>
+            <h3>Zgemma H7s OpenATV 7.6</h3>
+            <div class="mc-badge">OpenATV 7.6</div>
+          </div>
+          <a class="btn primary" href="https://multi-click.pl/index.php?controller=attachment&id_attachment=128" target="_blank" rel="noopener">Pobierz plik</a>
+        </div>
+        <details>
+          <summary>Instrukcja instalacji</summary>
+          <p>Plik wypakować na pendrive aby znajdował się tam katalog zgemma a w nim h7s podłączyć pendrive do dekodera, wcisnąć przycisk odpowiedzialny za wgrywanie oprogramowania ( z przodu pod klapką karty ) I podłączyć dekoder do prądu. Kiedy pojawi się USB - FLSH czekać kilka minut aż dekoder uruchomi się ponownie.</p>
+        </details>
+      </article>
+    
+      <article class="mc-card">
+        <div class="mc-card-head">
+          <div>
+            <h3>Zgemma H17 Combo</h3>
+            <div class="mc-badge">Gotowy system</div>
+          </div>
+          <a class="btn primary" href="https://multi-click.pl/index.php?controller=attachment&id_attachment=138" target="_blank" rel="noopener">Pobierz plik</a>
+        </div>
+        <details>
+          <summary>Instrukcja instalacji</summary>
+          <p>Pobrać plik i skopiować w całości na pendrive. Włożyć pendrive do dekodera i uruchomić obecny system. Wcisnąć niebieski na pilocie - wgrywanie oprogramowania - wybrać folder backup i wybrać pobrany plik - zatwierdzić. Nie robić kopii zapasowej ustawień.</p>
+        </details>
+      </article>
+    
+      <article class="mc-card">
+        <div class="mc-card-head">
+          <div>
+            <h3>Zgemma H9s SE OpenATV 7.6</h3>
+            <div class="mc-badge">OpenATV 7.6</div>
+          </div>
+          <a class="btn primary" href="https://multi-click.pl/index.php?controller=attachment&id_attachment=142" target="_blank" rel="noopener">Pobierz plik</a>
+        </div>
+        <details>
+          <summary>Instrukcja instalacji</summary>
+          <p>Pobrać i skopiować na pendrive ( nie wypakowywać) - włożyć pendrive do dekodera i włączyć do prądu z jednocześnie wciśniętym dowolnym przyciskiem na pilocie skierowanym w kierunku dekodera. Później wybrać boot menu - flash local image i wybrać plik. Domyślnie instalujemy na partycji Linux_1. Po zakończeniu wybieramy OpenAtv i OK</p>
+        </details>
+      </article>
+    
+      <article class="mc-card">
+        <div class="mc-card-head">
+          <div>
+            <h3>Zgemma H9s oraz H9.2s OpenATV 7.6</h3>
+            <div class="mc-badge">OpenATV 7.6</div>
+          </div>
+          <a class="btn primary" href="https://multi-click.pl/index.php?controller=attachment&id_attachment=144" target="_blank" rel="noopener">Pobierz plik</a>
+        </div>
+        <details>
+          <summary>Instrukcja instalacji</summary>
+          <p>Rozpakować soft , przekopiować cały katalog h9, oraz bootargs,fasstboot,kopiujemy na pen te zawartość ,wyłączamy z prądu dekoder,podpinamy pen,z tyłu jest czarny przycisk reset ,przyciskamy włączamy do prądu i trzymamy do momentu mrugania loga A na czerwono wtedy puszczamy przycisk, czekamy do momentu włączenia się dekodera. Mamy nowy soft.</p>
+        </details>
+      </article>
+    
+      <article class="mc-card">
+        <div class="mc-card-head">
+          <div>
+            <h3>Zgemma H9 Twin OpenATV 7.6</h3>
+            <div class="mc-badge">OpenATV 7.6</div>
+          </div>
+          <a class="btn primary" href="https://multi-click.pl/index.php?controller=attachment&id_attachment=123" target="_blank" rel="noopener">Pobierz plik</a>
+        </div>
+        <details>
+          <summary>Instrukcja instalacji</summary>
+          <p>Pobrać i skopiować na pendrive ( nie wypakowywać) - włożyć pendrive do dekodera i włączyć do prądu z jednocześnie wciśniętym dowolnym przyciskiem na pilocie skierowanym w kierunku dekodera. Później wybrać boot menu - flash local image i wybrać plik - kliknąć ok Wybieramy domyślnie Linux_1 i klikamy ok Czekamy aż wyświetli się "flashing complete" i czekamy dalej, aż dekoder powróci do bootmenu. Wybieramy 2 pozycję od góry czyli OpenATV i klikamy ok.</p>
+        </details>
+      </article>
+    
+      <article class="mc-card">
+        <div class="mc-card-head">
+          <div>
+            <h3>Octagon SF8008 4K Combo/Twin/Supreme OpenATV 7.6</h3>
+            <div class="mc-badge">OpenATV 7.6</div>
+          </div>
+          <a class="btn primary" href="https://multi-click.pl/index.php?controller=attachment&id_attachment=133" target="_blank" rel="noopener">Pobierz plik</a>
+        </div>
+        <details>
+          <summary>Instrukcja instalacji</summary>
+          <p>Wypakować na bezpośrednio pendrive bez katalogu. Włożyć pendrive z tyłu dekodera do USB Podłączyć do prądu jednocześnie trzymając przycisk power z przodu. Poczekać na wyświetlenie się boot - NECO i obrazu na ekranie tv wybrać 2 opcję od góry i kliknąć 2x ok</p>
+        </details>
+      </article>
+    
+      <article class="mc-card">
+        <div class="mc-card-head">
+          <div>
+            <h3>Octagon SX V2 WL 4K OpenATV 7.6</h3>
+            <div class="mc-badge">OpenATV 7.6</div>
+          </div>
+          <a class="btn primary" href="https://multi-click.pl/index.php?controller=attachment&id_attachment=132" target="_blank" rel="noopener">Pobierz plik</a>
+        </div>
+        <details>
+          <summary>Instrukcja instalacji</summary>
+          <p>Wypakować na bezpośrednio pendrive bez katalogu. Włożyć pendrive z tyłu dekodera do USB Podłączyć do prądu jednocześnie trzymając dowolny przycisk na pilocie. Poczekać na wyświetlenie się boot - NECO i obrazu na ekranie tv wybrać 2 opcję od góry i kliknąć 2x ok</p>
+        </details>
+      </article>
+    
+      <article class="mc-card">
+        <div class="mc-card-head">
+          <div>
+            <h3>Ustym 4K Pro/Twin</h3>
+            <div class="mc-badge">Gotowy system</div>
+          </div>
+          <a class="btn primary" href="https://multi-click.pl/index.php?controller=attachment&id_attachment=140" target="_blank" rel="noopener">Pobierz plik</a>
+        </div>
+        <details>
+          <summary>Instrukcja instalacji</summary>
+          <p>Wypakować na bezpośrednio pendrive bez katalogu. Włożyć pendrive z tyłu dekodera do USB Podłączyć do prądu jednocześnie trzymając przycisk power z przodu. Poczekać na wyświetlenie się boot - NECO i obrazu na ekranie tv wybrać 2 opcję od góry i kliknąć 2x ok</p>
+        </details>
+      </article>
+    
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2 class="section-title">Podsumowanie</h2>
+        <p class="section-sub">Dobra baza dla tych, którzy chcą szybko przejść od pendrive’a do działającego tunera.</p>
+      </div>
+    </div>
+    <div class="mc-why-grid">
+      <article class="mc-why">
+        <h3>🚀 Oszczędzasz czas</h3>
+        <p>Zamiast konfigurować wszystko od zera, zaczynasz od gotowego, praktycznie przygotowanego systemu. To wygodne rozwiązanie dla początkujących i dla tych, którzy po prostu cenią swój czas.</p>
+      </article>
+      <article class="mc-why">
+        <h3>🤝 Szacunek dla dobrej roboty</h3>
+        <p>Podziękowania dla <strong>Multi-Click</strong> za przygotowanie i udostępnienie tych systemów. To wartościowa baza dla społeczności tunerów Enigma2 i realna pomoc dla użytkowników.</p>
+      </article>
+    </div>
+  </section>
+</main>
+<script defer src="script_modern.js"></script>
+<script defer src="app_final.js"></script>
+<script defer src="i18n.js"></script>
+<script defer src="assets/js/layout-v4.js?v=4"></script>
+</body>
+</html>

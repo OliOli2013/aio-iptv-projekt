@@ -277,5 +277,20 @@
     "tags": [
       "stats"
     ]
+  },
+  {
+    "title": "Systemy Multi-Click",
+    "desc": "Gotowe systemy dla tunerów od Multi-Click: lista modeli, linki do paczek i instrukcje instalacji krok po kroku.",
+    "url": "multi-click.html",
+    "tags": [
+      "multi-click",
+      "systemy",
+      "openatv",
+      "tunery",
+      "zgemma",
+      "octagon",
+      "ustym",
+      "instalacja"
+    ]
   }
 ]
