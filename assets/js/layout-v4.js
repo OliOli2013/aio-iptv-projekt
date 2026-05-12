@@ -59,7 +59,6 @@
           <a href="guides.html">Poradniki</a>
           <a href="poradniki-praktyczne.html">Poradniki Praktyczne</a>
           <a href="systems.html">Systemy</a>
-          <a href="multi-click.html">Systemy Multi-Click</a>
           <a href="image-installation.html">Instalacja Image</a>
           <a href="channel-lists.html">Listy kanałów</a>
           <a href="downloads.html">Pobieranie</a>
@@ -76,7 +75,7 @@
       </nav>
 
       <div class="sidebar-cta">
-        <a download href="pliki/enigma2-plugin-extensions-panelaio_12.0.0_all.ipk">Pobierz AIO Panel 12.0.0</a>
+        <a download href="pliki/enigma2-plugin-extensions-panelaio_12.0.1_all.ipk">Pobierz AIO Panel 12.0.1</a>
         <div class="sub">Uniwersalna paczka (Py2/Py3)</div>
 
         <div class="v4-cta-row">
@@ -119,8 +118,6 @@
         <span class="sep" aria-hidden="true"></span>
         <a href="systems.html">Systemy</a>
         <span class="sep" aria-hidden="true"></span>
-        <a href="multi-click.html">Multi-Click</a>
-        <span class="sep" aria-hidden="true"></span>
         <a href="updates.html">Aktualizacje</a>
         <span class="sep" aria-hidden="true"></span>
         <a class="support-link" href="support.html">Wsparcie</a>
@@ -143,7 +140,6 @@
       'plugins.html':'wtyczki',
       'tools.html':'narzędzia',
       'systems.html':'systemy',
-      'multi-click.html':'systemy multi-click',
       'guides.html':'poradniki',
       'poradniki-praktyczne.html':'poradniki praktyczne',
       'image-installation.html':'instalacja image',

@@ -19,31 +19,30 @@
     ]
   },
   {
-    "title": "AIO Panel 12.0.0",
-    "desc": "Opis zmian v12.0.0 + pobieranie uniwersalnej paczki (Py2/Py3). Automatyczne sortowanie premiowanych list kanałów od najnowszej do najstarszej, naprawa funkcji Widoczność w menu tunera (ON/OFF), nowe metadane i wyróżnienie twórców list.",
+    "title": "AIO Panel 12.0.1",
+    "desc": "Opis zmian v12.0.1 + pobieranie uniwersalnej paczki (Py2/Py3). Usunięte dublowanie list Bzyk83 i JakiTaki, ukrywanie list starszych niż 2026, instalator Bouquet Maker Xtream, pełny Backup/Restore list kanałów, podgląd zmian aktualizacji, wybór TAK/NIE i poprawki widoczności na skinach.",
     "url": "plugins.html#aio-panel",
     "tags": [
       "aio",
       "panel",
       "py2",
       "py3",
-      "12.0.0",
+      "12.0.1",
       "listy kanałów",
-      "sortowanie",
-      "premiowane listy",
-      "widoczność",
-      "ON/OFF",
-      "menu tunera",
-      "metadane",
       "Bzyk83",
-      "Anom",
-      "Paweł Pawełek",
       "JakiTaki",
-      "Fullkiller",
-      "Koncior",
-      "Twarek",
-      "Conrado",
-      "Dominico"
+      "Bouquet Maker Xtream",
+      "backup",
+      "restore",
+      "lamedb",
+      "bouquets.tv",
+      "userbouquet",
+      "aktualizacja",
+      "changelog",
+      "TAK/NIE",
+      "czyszczenie wtyczek",
+      "Infinity Neo",
+      "MyMetrix-neo"
     ]
   },
   {
@@ -276,21 +275,6 @@
     "url": "stats.html",
     "tags": [
       "stats"
-    ]
-  },
-  {
-    "title": "Systemy Multi-Click",
-    "desc": "Gotowe systemy dla tunerów od Multi-Click: lista modeli, linki do paczek i instrukcje instalacji krok po kroku.",
-    "url": "multi-click.html",
-    "tags": [
-      "multi-click",
-      "systemy",
-      "openatv",
-      "tunery",
-      "zgemma",
-      "octagon",
-      "ustym",
-      "instalacja"
     ]
   }
 ]
