@@ -276,5 +276,21 @@
     "tags": [
       "stats"
     ]
+  },
+  {
+    "title": "Systemy Multi-Click",
+    "desc": "Gotowe systemy od Multi-Click dla tunerów Enigma2: lista modeli, linki do pobrania i instrukcje instalacji krok po kroku.",
+    "url": "multi-click.html",
+    "tags": [
+      "multi-click",
+      "multi-klick",
+      "systemy",
+      "openatv",
+      "tunery",
+      "zgemma",
+      "octagon",
+      "ustym",
+      "instalacja"
+    ]
   }
 ]
