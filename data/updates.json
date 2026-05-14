@@ -1,10 +1,17 @@
 [
   {
-    "date": "12.05.2026",
-    "ts": 1778587200000,
-    "type": "release",
-    "title": "AIO Panel 12.0.1 — porządek w listach, Backup/Restore i bezpieczniejsza aktualizacja",
-    "details": "AIO Panel 12.0.1 to aktualizacja porządkująca listy kanałów, poprawiająca Backup/Restore oraz wygodę aktualizacji z poziomu wtyczki.\n\nLista zmian w wersji 12.0.1:\n• usunięto dublowanie list Bzyk83 i JakiTaki,\n• listy tych autorów są pobierane tylko z jednego repozytorium,\n• ukryto listy kanałów starsze niż 2026,\n• zachowano sortowanie list od najnowszej do najstarszej,\n• dodano instalator Bouquet Maker Xtream,\n• poprawiono działanie Backup List Kanałów i Restore Listy Kanałów,\n• backup obejmuje pełne pliki list: lamedb, lamedb5, bouquets.tv, bouquets.radio, userbouquet.*,\n• Restore czyści stare listy i przywraca pełną kopię,\n• dodano informację o dostępnej aktualizacji AIO Panel na dole ekranu,\n• dodano podgląd listy zmian przed aktualizacją,\n• dodano wybór TAK/NIE przy aktualizacji, bez wymuszania instalacji,\n• dodano funkcję Czyszczenie niedziałających wtyczek,\n• czyszczenie usuwa uszkodzone wtyczki z systemu,\n• poprawiono widoczność wtyczki na skinach Infinity Neo i MyMetrix-neo,\n• poprawiono czytelność zaznaczonej funkcji w menu,\n• poprawiono kolory, tła i warstwy ekranu wtyczki,\n• uzupełniono opisy funkcji po polsku i angielsku,\n• uzupełniono dolne informacje, co robi dana funkcja,\n• dodano automatyczne przeładowanie list kanałów po instalacji bez wymuszania restartu GUI,\n• zaktualizowano version.txt, changelog.txt, README.md, installer.sh, menu i kontrolę IPK."
+    "title": "AIO Panel 12.0.2 — aktualizacja",
+    "date": "2026-05-14",
+    "desc": "Aktualizacja stabilności: naprawiono ryzyko bootloopa po restarcie GUI na części systemów, zwłaszcza OpenATV 8 / beta. Wersja zachowuje wszystkie poprawki z 12.0.1.",
+    "url": "plugins.html#aio-panel",
+    "tags": [
+      "AIO Panel",
+      "12.0.2",
+      "OpenATV 8",
+      "bootloop",
+      "restart GUI",
+      "Enigma2"
+    ]
   },
   {
     "date": "25.04.2026",

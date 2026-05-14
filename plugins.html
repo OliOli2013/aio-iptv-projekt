@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<meta name="description" content="Autorskie wtyczki Enigma2: AIO Panel 12.0.1 z porządkowaniem list kanałów, Backup/Restore list, Bouquet Maker Xtream, podglądem zmian aktualizacji i poprawkami widoczności na skinach, NeoRadio 1.3.3, IPTV Dream 6.5.1, Nagrania On Demand 2.0, OpenCamView 1.3 oraz Simple IPTV EPG 2.2.1."/>
+<meta name="description" content="Autorskie wtyczki Enigma2: AIO Panel 12.0.2 z porządkowaniem list kanałów, Backup/Restore list, Bouquet Maker Xtream, podglądem zmian aktualizacji i poprawkami widoczności na skinach, NeoRadio 1.3.3, IPTV Dream 6.5.1, Nagrania On Demand 2.0, OpenCamView 1.3 oraz Simple IPTV EPG 2.2.1."/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -33,8 +33,8 @@
 <span class="tag">Enigma2 • IPTV • Tools • AI</span>
 </div>
 </a>
-<a class="pill pill-accent" download="" href="pliki/enigma2-plugin-extensions-panelaio_12.0.1_all.ipk">
-<span data-i18n="cta_update">Aktualizacja: AIO Panel v12.0.1 (Python 2 &amp; 3 – Universal)</span>
+<a class="pill pill-accent" download="" href="pliki/enigma2-plugin-extensions-panelaio_12.0.2_all.ipk">
+<span data-i18n="cta_update">Aktualizacja: AIO Panel v12.0.2 (Python 2 &amp; 3 – Universal)</span>
 <strong data-i18n="cta_download">Pobierz teraz</strong>
 </a>
 <div class="spacer"></div>
@@ -124,7 +124,7 @@
             Na górze masz szybki indeks i filtrowanie, żeby od razu przejść do właściwej pozycji.
           </p>
           <div class="hero-actions">
-            <a class="btn primary" download href="pliki/enigma2-plugin-extensions-panelaio_12.0.1_all.ipk">Pobierz AIO Panel 12.0.1</a>
+            <a class="btn primary" download href="pliki/enigma2-plugin-extensions-panelaio_12.0.2_all.ipk">Pobierz AIO Panel 12.0.2</a>
             <a class="btn" href="downloads.html">Pobieranie</a>
             <a class="btn" href="one-liner.html">One‑Liner</a>
           </div>
@@ -211,7 +211,7 @@
     </div>
     <div class="plugin-index-grid">
       <article class="plugin-summary-card anchor-card" data-filter-item>
-        <h3>AIO Panel 12.0.1</h3>
+        <h3>AIO Panel 12.0.2</h3>
         <p>Porządki w listach kanałów, pełny Backup/Restore list, Bouquet Maker Xtream, lepszy ekran aktualizacji i poprawki widoczności na skinach.</p>
         <div class="meta-row"><span class="badge">Py2/Py3</span><span class="badge">Backup/Restore</span><span class="badge">Bouquet Maker Xtream</span></div>
         <ul class="meta-list">
@@ -289,7 +289,7 @@
         <div class="meta-row"><span class="badge">Py2/Py3</span></div>
         <ul class="meta-list">
           <li><strong>Zastosowanie:</strong> szybkie aktualizacje i rozpoznawanie dystrybucji</li>
-          <li><strong>Integracja:</strong> część mechanizmów aktualizacji i porządków została rozwinięta w AIO Panel 12.0.1</li>
+          <li><strong>Integracja:</strong> część mechanizmów aktualizacji i porządków została rozwinięta w AIO Panel 12.0.2</li>
         </ul>
         <div class="link-row">
           <a class="btn primary" download href="pliki/enigma2-plugin-extensions-myupdater_5.1_all.ipk">Pobierz</a>
@@ -316,21 +316,35 @@
 <div class="plugin-hero">
 <img alt="AIO Panel — logo" class="plugin-thumb" src="pliki/logo.png" decoding="async"/>
 <div class="plugin-hero-text">
-<h2>AIO Panel v12.0.1 (Enigma2 • Universal)</h2>
+<h2>AIO Panel v12.0.2 (Enigma2 • Universal)</h2>
+<div class="v4-note">
+<strong>AIO Panel 12.0.2 — aktualizacja stabilności</strong>
+<p>Aktualizacja stabilności: naprawiono ryzyko bootloopa po restarcie GUI na części systemów, zwłaszcza OpenATV 8 / beta. Wersja zachowuje wszystkie poprawki z 12.0.1, w tym sortowanie list od najnowszej do najstarszej, brak duplikatów Bzyk83 i JakiTaki, poprawiony Backup/Restore list kanałów, podgląd zmian przed aktualizacją, wybór TAK/NIE, czyszczenie niedziałających wtyczek, poprawioną widoczność na Infinity Neo i MyMetrix-neo oraz automatyczne przeładowanie list po instalacji.</p>
+
+<ul>
+<li><strong>Naprawiono ryzyko bootloopa po restarcie GUI</strong> na części systemów, szczególnie OpenATV 8 / beta.</li>
+<li>Zachowano poprawki z wersji 12.0.1: sortowanie list od najnowszej do najstarszej, brak duplikatów Bzyk83 i JakiTaki oraz ukrywanie list starszych niż 2026.</li>
+<li>Pozostawiono Bouquet Maker Xtream, poprawiony Backup/Restore list kanałów i pełne kopie: lamedb, lamedb5, bouquets.tv, bouquets.radio oraz userbouquet.*.</li>
+<li>Pozostawiono podgląd zmian przed aktualizacją, wybór TAK/NIE oraz informację o dostępnej aktualizacji na dole ekranu.</li>
+<li>Pozostawiono poprawki widoczności na skinach Infinity Neo i MyMetrix-neo oraz automatyczne przeładowanie list kanałów po instalacji.</li>
+</ul>
+
+</div>
+
 <div class="compat-pill">✅ Kompatybilna z wszystkimi systemami Enigma2 (Py2 / Py3)</div>
 <div class="muted small">Data wydania: <strong>12.05.2026</strong> • porządkowanie list kanałów • Bouquet Maker Xtream • pełny Backup/Restore list • bezpieczniejsza aktualizacja.</div>
 </div>
 </div>
 <figure class="plugin-figure-wrap">
-<img alt="AIO Panel 12.0.1 — screen" class="plugin-figure" src="pliki/aio-panel-12.0.1-screen.png" loading="lazy" decoding="async"/>
-<figcaption class="muted small">AIO Panel 12.0.1 — poprawiona czytelność menu, nowe informacje o aktualizacji na dole ekranu i uporządkowane listy kanałów.</figcaption>
+<img alt="AIO Panel 12.0.2 — screen" class="plugin-figure" src="pliki/aio-panel-12.0.2-screen.png" loading="lazy" decoding="async"/>
+<figcaption class="muted small">AIO Panel 12.0.2 — poprawiona czytelność menu, nowe informacje o aktualizacji na dole ekranu i uporządkowane listy kanałów.</figcaption>
 </figure>
-<p><strong>AIO Panel 12.0.1 – porządki w listach kanałów, lepszy Backup/Restore i wygodniejsza aktualizacja</strong></p>
+<p><strong>AIO Panel 12.0.2 – porządki w listach kanałów, lepszy Backup/Restore i wygodniejsza aktualizacja</strong></p>
 <p>
-  Wydanie <strong>12.0.1</strong> rozwija serię 12.x i skupia się na praktycznych poprawkach zgłoszonych po wersji 12.0.0.
+  Wydanie <strong>12.0.2</strong> rozwija serię 12.x i skupia się na praktycznych poprawkach zgłoszonych po wersji 12.0.0.
   Najważniejsze zmiany to usunięcie dublowania list Bzyk83 i JakiTaki, ukrycie list starszych niż 2026, rozbudowany backup pełnych plików list kanałów oraz bezpieczniejszy ekran aktualizacji z podglądem zmian i wyborem <strong>TAK/NIE</strong>.
 </p>
-<h3>Co nowego w AIO Panel 12.0.1</h3>
+<h3>Co nowego w AIO Panel 12.0.2</h3>
 <ul class="key-list">
 <li><strong>Porządek w listach:</strong> usunięto dublowanie list Bzyk83 i JakiTaki, a listy tych autorów są pobierane tylko z jednego repozytorium.</li>
 <li><strong>Aktualne listy:</strong> ukryto listy kanałów starsze niż 2026 i zachowano sortowanie od najnowszej do najstarszej.</li>
@@ -359,8 +373,8 @@
 <li>Po aktualizacji wykonaj restart GUI tylko wtedy, gdy system albo użytkownik tego potrzebuje — instalacja list kanałów potrafi przeładować listy automatycznie.</li>
 </ol>
 <div class="link-row" style="margin-top:14px">
-<a class="btn primary" download="" href="pliki/enigma2-plugin-extensions-panelaio_12.0.1_all.ipk" title="Pobierz AIO Panel v12.0.1 (Uniwersalna paczka Enigma2)">
-    📥 Pobierz AIO Panel v12.0.1
+<a class="btn primary" download="" href="pliki/enigma2-plugin-extensions-panelaio_12.0.2_all.ipk" title="Pobierz AIO Panel v12.0.2 (Uniwersalna paczka Enigma2)">
+    📥 Pobierz AIO Panel v12.0.2
   </a>
 <a class="btn" download="" href="pliki/enigma2-plugin-extensions-panelaio_12.0.0_all.ipk" title="Archiwum: AIO Panel v12.0.0">
     🗂️ Archiwum: v12.0.0

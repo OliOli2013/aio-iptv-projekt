@@ -7,7 +7,7 @@
 
 ---
 
-> **Najnowsze wydanie:** AIO Panel **12.0.1** — porządek w listach kanałów, usunięte duplikaty Bzyk83/JakiTaki, pełny Backup/Restore list, instalator Bouquet Maker Xtream, podgląd zmian aktualizacji i poprawki widoczności na skinach.
+> **Najnowsze wydanie:** AIO Panel **12.0.2** — porządek w listach kanałów, usunięte duplikaty Bzyk83/JakiTaki, pełny Backup/Restore list, instalator Bouquet Maker Xtream, podgląd zmian aktualizacji i poprawki widoczności na skinach.
 > **NeoRadio:** wersja **1.3.3** — RDS / ICY / Teraz gra, przebudowane metadane stacji, nowy wygląd i poprawki stabilności.
 
 ## 🚀 Oficjalna Strona i Pobieranie
