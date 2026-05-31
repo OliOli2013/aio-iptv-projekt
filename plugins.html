@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<meta name="description" content="Autorskie wtyczki Enigma2: AIO Panel 12.0.2 z porządkowaniem list kanałów, Backup/Restore list, Bouquet Maker Xtream, podglądem zmian aktualizacji i poprawkami widoczności na skinach, NeoRadio 1.3.3, IPTV Dream 6.5.1, Nagrania On Demand 2.0, OpenCamView 1.3 oraz Simple IPTV EPG 2.2.1."/>
+<meta name="description" content="Autorskie wtyczki Enigma2: AIO Panel 12.0.3 z aktualizacją oscam.dvbapi Poland, bezpieczniejszym Backup/Restore list kanałów, NeoRadio 1.3.3, IPTV Dream 6.5.1, Nagrania On Demand 2.0, OpenCamView 1.3 oraz Simple IPTV EPG 2.2.1."/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -33,8 +33,8 @@
 <span class="tag">Enigma2 • IPTV • Tools • AI</span>
 </div>
 </a>
-<a class="pill pill-accent" download="" href="pliki/enigma2-plugin-extensions-panelaio_12.0.2_all.ipk">
-<span data-i18n="cta_update">Aktualizacja: AIO Panel v12.0.2 (Python 2 &amp; 3 – Universal)</span>
+<a class="pill pill-accent" download="" href="pliki/enigma2-plugin-extensions-panelaio_12.0.3_all.ipk">
+<span data-i18n="cta_update">Aktualizacja: AIO Panel v12.0.3 (Python 2 &amp; 3 – Universal)</span>
 <strong data-i18n="cta_download">Pobierz teraz</strong>
 </a>
 <div class="spacer"></div>
@@ -124,7 +124,7 @@
             Na górze masz szybki indeks i filtrowanie, żeby od razu przejść do właściwej pozycji.
           </p>
           <div class="hero-actions">
-            <a class="btn primary" download href="pliki/enigma2-plugin-extensions-panelaio_12.0.2_all.ipk">Pobierz AIO Panel 12.0.2</a>
+            <a class="btn primary" download href="pliki/enigma2-plugin-extensions-panelaio_12.0.3_all.ipk">Pobierz AIO Panel 12.0.3</a>
             <a class="btn" href="downloads.html">Pobieranie</a>
             <a class="btn" href="one-liner.html">One‑Liner</a>
           </div>
@@ -211,17 +211,17 @@
     </div>
     <div class="plugin-index-grid">
       <article class="plugin-summary-card anchor-card" data-filter-item>
-        <h3>AIO Panel 12.0.2</h3>
-        <p>Porządki w listach kanałów, pełny Backup/Restore list, Bouquet Maker Xtream, lepszy ekran aktualizacji i poprawki widoczności na skinach.</p>
-        <div class="meta-row"><span class="badge">Py2/Py3</span><span class="badge">Backup/Restore</span><span class="badge">Bouquet Maker Xtream</span></div>
+        <h3>AIO Panel 12.0.3</h3>
+        <p>Softcam: oscam.dvbapi - aktualizacja Poland, lokalny plik oscam.dvbapi.poland oraz bezpieczniejszy Backup/Restore list kanałów.</p>
+        <div class="meta-row"><span class="badge">Py2/Py3</span><span class="badge">Softcam</span><span class="badge">Backup/Restore</span></div>
         <ul class="meta-list">
           <li><strong>System:</strong> Enigma2</li>
           <li><strong>Format:</strong> pakiet <code>.ipk</code> + komenda FTP</li>
           <li><strong>Rozwój:</strong> projekt aktywnie rozbudowywany</li>
         </ul>
         <div class="link-row">
-          <a class="btn primary" download href="pliki/enigma2-plugin-extensions-neoradio_1.3.3_all.ipk">Pobierz</a>
-          <a class="btn" href="#neoradio">Opis</a>
+          <a class="btn primary" download href="pliki/enigma2-plugin-extensions-panelaio_12.0.3_all.ipk">Pobierz</a>
+          <a class="btn" href="#aio-panel">Opis</a>
         </div>
       </article>
 
@@ -289,7 +289,7 @@
         <div class="meta-row"><span class="badge">Py2/Py3</span></div>
         <ul class="meta-list">
           <li><strong>Zastosowanie:</strong> szybkie aktualizacje i rozpoznawanie dystrybucji</li>
-          <li><strong>Integracja:</strong> część mechanizmów aktualizacji i porządków została rozwinięta w AIO Panel 12.0.2</li>
+          <li><strong>Integracja:</strong> część mechanizmów aktualizacji i porządków została rozwinięta w AIO Panel 12.0.3</li>
         </ul>
         <div class="link-row">
           <a class="btn primary" download href="pliki/enigma2-plugin-extensions-myupdater_5.1_all.ipk">Pobierz</a>
@@ -316,65 +316,66 @@
 <div class="plugin-hero">
 <img alt="AIO Panel — logo" class="plugin-thumb" src="pliki/logo.png" decoding="async"/>
 <div class="plugin-hero-text">
-<h2>AIO Panel v12.0.2 (Enigma2 • Universal)</h2>
+<h2>AIO Panel v12.0.3 (Enigma2 • Universal)</h2>
 <div class="v4-note">
-<strong>AIO Panel 12.0.2 — aktualizacja stabilności</strong>
-<p>Aktualizacja stabilności: naprawiono ryzyko bootloopa po restarcie GUI na części systemów, zwłaszcza OpenATV 8 / beta. Wersja zachowuje wszystkie poprawki z 12.0.1, w tym sortowanie list od najnowszej do najstarszej, brak duplikatów Bzyk83 i JakiTaki, poprawiony Backup/Restore list kanałów, podgląd zmian przed aktualizacją, wybór TAK/NIE, czyszczenie niedziałających wtyczek, poprawioną widoczność na Infinity Neo i MyMetrix-neo oraz automatyczne przeładowanie list po instalacji.</p>
-
+<strong>AIO Panel 12.0.3 — Softcam oscam.dvbapi Poland i bezpieczniejszy Backup/Restore</strong>
+<p>Wydanie <strong>12.0.3</strong> dodaje w zakładce <strong>Softcamy</strong> funkcję <strong>oscam.dvbapi - aktualizacja Poland</strong>. Do paczki dodano lokalny plik <code>oscam.dvbapi.poland</code>, a podczas aktualizacji tworzona jest kopia starego pliku i wykonywane odświeżenie Softcam/Oscam. Poprawiono także Backup i Restore list kanałów, bez naruszania pozostałych działających funkcji wtyczki.</p>
 <ul>
-<li><strong>Naprawiono ryzyko bootloopa po restarcie GUI</strong> na części systemów, szczególnie OpenATV 8 / beta.</li>
-<li>Zachowano poprawki z wersji 12.0.1: sortowanie list od najnowszej do najstarszej, brak duplikatów Bzyk83 i JakiTaki oraz ukrywanie list starszych niż 2026.</li>
-<li>Pozostawiono Bouquet Maker Xtream, poprawiony Backup/Restore list kanałów i pełne kopie: lamedb, lamedb5, bouquets.tv, bouquets.radio oraz userbouquet.*.</li>
-<li>Pozostawiono podgląd zmian przed aktualizacją, wybór TAK/NIE oraz informację o dostępnej aktualizacji na dole ekranu.</li>
-<li>Pozostawiono poprawki widoczności na skinach Infinity Neo i MyMetrix-neo oraz automatyczne przeładowanie list kanałów po instalacji.</li>
+<li><strong>Softcamy:</strong> dodano funkcję <strong>oscam.dvbapi - aktualizacja Poland</strong>.</li>
+<li><strong>Lokalne dane Poland:</strong> paczka zawiera plik <code>oscam.dvbapi.poland</code>.</li>
+<li><strong>Bezpieczna aktualizacja oscam.dvbapi:</strong> przed podmianą tworzona jest kopia starego pliku.</li>
+<li><strong>Odświeżenie Softcam/Oscam:</strong> po aktualizacji wykonywane jest odświeżenie konfiguracji.</li>
+<li><strong>Backup Listy Kanałów:</strong> lepszy wybór miejsca zapisu, kopia z datą i stały plik ostatniej kopii <code>aio_channels_backup.tar.gz</code>.</li>
+<li><strong>Restore Listy Kanałów:</strong> walidacja archiwum, awaryjna kopia obecnych list i bezpieczne przywracanie przez osobny skrypt po zatrzymaniu GUI.</li>
+<li><strong>Stabilność:</strong> pozostałe działające funkcje wtyczki nie zostały zmienione.</li>
 </ul>
-
 </div>
-
 <div class="compat-pill">✅ Kompatybilna z wszystkimi systemami Enigma2 (Py2 / Py3)</div>
-<div class="muted small">Data wydania: <strong>12.05.2026</strong> • porządkowanie list kanałów • Bouquet Maker Xtream • pełny Backup/Restore list • bezpieczniejsza aktualizacja.</div>
+<div class="muted small">Data wydania: <strong>31.05.2026</strong> • Softcam oscam.dvbapi Poland • kopia starego pliku • Backup/Restore list • bezpieczne przywracanie.</div>
 </div>
 </div>
 <figure class="plugin-figure-wrap">
-<img alt="AIO Panel 12.0.2 — screen" class="plugin-figure" src="pliki/aio-panel-12.0.2-screen.png" loading="lazy" decoding="async"/>
-<figcaption class="muted small">AIO Panel 12.0.2 — poprawiona czytelność menu, nowe informacje o aktualizacji na dole ekranu i uporządkowane listy kanałów.</figcaption>
+<img alt="AIO Panel 12.0.3 — screen" class="plugin-figure" src="pliki/aio-panel-12.0.3-screen.png" loading="lazy" decoding="async"/>
+<figcaption class="muted small">AIO Panel 12.0.3 — zakładka list kanałów i aktualny ekran wtyczki po najnowszych poprawkach.</figcaption>
 </figure>
-<p><strong>AIO Panel 12.0.2 – porządki w listach kanałów, lepszy Backup/Restore i wygodniejsza aktualizacja</strong></p>
+<p><strong>AIO Panel 12.0.3 – oscam.dvbapi Poland, lokalny plik danych i poprawiony Backup/Restore list kanałów</strong></p>
 <p>
-  Wydanie <strong>12.0.2</strong> rozwija serię 12.x i skupia się na praktycznych poprawkach zgłoszonych po wersji 12.0.0.
-  Najważniejsze zmiany to usunięcie dublowania list Bzyk83 i JakiTaki, ukrycie list starszych niż 2026, rozbudowany backup pełnych plików list kanałów oraz bezpieczniejszy ekran aktualizacji z podglądem zmian i wyborem <strong>TAK/NIE</strong>.
+  Wydanie <strong>12.0.3</strong> jest aktualizacją praktyczną dla użytkowników Enigma2, którzy korzystają z OSCam oraz kopii list kanałów.
+  Najważniejsze zmiany to nowa funkcja <strong>oscam.dvbapi - aktualizacja Poland</strong> w zakładce Softcamy, lokalny plik <code>oscam.dvbapi.poland</code>, automatyczna kopia starego pliku, odświeżenie Softcam/Oscam oraz bezpieczniejsze mechanizmy Backup i Restore.
 </p>
-<h3>Co nowego w AIO Panel 12.0.2</h3>
+<h3>Co nowego w AIO Panel 12.0.3</h3>
 <ul class="key-list">
-<li><strong>Porządek w listach:</strong> usunięto dublowanie list Bzyk83 i JakiTaki, a listy tych autorów są pobierane tylko z jednego repozytorium.</li>
-<li><strong>Aktualne listy:</strong> ukryto listy kanałów starsze niż 2026 i zachowano sortowanie od najnowszej do najstarszej.</li>
-<li><strong>Bouquet Maker Xtream:</strong> dodano instalator dla użytkowników korzystających z IPTV i bukietów Xtream.</li>
-<li><strong>Backup List Kanałów:</strong> backup obejmuje pełne pliki list: <code>lamedb</code>, <code>lamedb5</code>, <code>bouquets.tv</code>, <code>bouquets.radio</code> oraz <code>userbouquet.*</code>.</li>
-<li><strong>Restore Listy Kanałów:</strong> przywracanie czyści stare listy i odtwarza pełną kopię, bez mieszania starych i nowych bukietów.</li>
-<li><strong>Aktualizacja bez wymuszania:</strong> na dole ekranu pojawia się informacja o dostępnej aktualizacji, użytkownik widzi podgląd zmian i wybiera <strong>TAK/NIE</strong>.</li>
-<li><strong>Czyszczenie niedziałających wtyczek:</strong> dodano funkcję usuwania uszkodzonych wtyczek z systemu.</li>
-<li><strong>Poprawki wyglądu:</strong> poprawiono widoczność na skinach Infinity Neo i MyMetrix-neo, czytelność zaznaczonej pozycji, kolory, tła i warstwy ekranu.</li>
-<li><strong>Lepsze opisy:</strong> uzupełniono opisy funkcji po polsku i angielsku oraz dolne informacje wyjaśniające, co robi dana funkcja.</li>
-<li><strong>Bez restartu GUI po liście:</strong> po instalacji list kanałów dodano automatyczne przeładowanie list bez wymuszania restartu GUI.</li>
-<li><strong>Metadane i instalator:</strong> zaktualizowano <code>version.txt</code>, <code>changelog.txt</code>, <code>README.md</code>, <code>installer.sh</code>, menu oraz kontrolę IPK.</li>
+<li><strong>oscam.dvbapi - aktualizacja Poland:</strong> nowa funkcja w zakładce <strong>Softcamy</strong>.</li>
+<li><strong>Lokalny plik Poland:</strong> do paczki dodano <code>oscam.dvbapi.poland</code> z danymi Poland.</li>
+<li><strong>Kopia starego oscam.dvbapi:</strong> przed aktualizacją tworzona jest kopia dotychczasowego pliku.</li>
+<li><strong>Odświeżenie Softcam/Oscam:</strong> po aktualizacji wykonywane jest odświeżenie, aby zmiany zostały użyte przez OSCam.</li>
+<li><strong>Backup Listy Kanałów:</strong> poprawiono wybór miejsca zapisu kopii.</li>
+<li><strong>Kopia z datą:</strong> backup zapisuje kopię z datą oraz stały plik ostatniej kopii <code>aio_channels_backup.tar.gz</code>.</li>
+<li><strong>Restore Listy Kanałów:</strong> dodano walidację archiwum przed przywracaniem.</li>
+<li><strong>Awaryjna kopia obecnych list:</strong> przed restore tworzona jest kopia aktualnych list kanałów.</li>
+<li><strong>Bezpieczne przywracanie:</strong> restore wykonywany jest przez osobny skrypt po zatrzymaniu GUI.</li>
+<li><strong>Bez regresji:</strong> pozostałe działające funkcje wtyczki pozostawiono bez zmian.</li>
 </ul>
 <h3>Protipy dla użytkowników</h3>
 <ul class="key-list">
-<li>Po aktualizacji sprawdź sekcję list kanałów — duplikaty Bzyk83 i JakiTaki nie powinny już pojawiać się z kilku źródeł.</li>
-<li>Przed większymi zmianami wykonaj <strong>Backup List Kanałów</strong>, ponieważ nowa wersja zapisuje pełny zestaw plików list Enigma2.</li>
-<li>Przy aktualizacji z poziomu wtyczki przeczytaj podgląd zmian i dopiero wtedy wybierz <strong>TAK</strong>, jeśli chcesz instalować nową wersję.</li>
-<li>Jeśli po testach pozostały uszkodzone dodatki, użyj funkcji <strong>Czyszczenie niedziałających wtyczek</strong>.</li>
+<li>Przed użyciem <strong>Restore Listy Kanałów</strong> upewnij się, że wybierasz prawidłowe archiwum backupu.</li>
+<li>Po aktualizacji <strong>oscam.dvbapi Poland</strong> sprawdź działanie OSCam i w razie potrzeby wykonaj pełny restart GUI.</li>
+<li>Stały plik <code>aio_channels_backup.tar.gz</code> ułatwia szybkie znalezienie ostatniej kopii, a kopia z datą pozwala wrócić do starszej wersji listy.</li>
+<li>Aktualizacja 12.0.3 zachowuje dotychczasowe funkcje AIO Panel, w tym listy kanałów, instalatory, narzędzia systemowe, skórki i sekcję aktualizacji.</li>
 </ul>
 <h3>Jak zaktualizować</h3>
 <ol class="key-list">
-<li>Włącz <strong>AIO Panel</strong>.</li>
-<li>Sprawdź informację o dostępnej aktualizacji na dole ekranu albo pobierz paczkę IPK ręcznie z tej strony.</li>
-<li>Otwórz podgląd zmian, wybierz <strong>TAK</strong> i poczekaj na zakończenie instalacji.</li>
-<li>Po aktualizacji wykonaj restart GUI tylko wtedy, gdy system albo użytkownik tego potrzebuje — instalacja list kanałów potrafi przeładować listy automatycznie.</li>
+<li>Pobierz paczkę IPK z tej strony albo zaktualizuj AIO Panel z poziomu wtyczki.</li>
+<li>Po instalacji wykonaj restart GUI, jeśli system o to poprosi albo jeśli aktualizujesz elementy OSCam.</li>
+<li>Nową funkcję znajdziesz w zakładce <strong>Softcamy</strong> jako <strong>oscam.dvbapi - aktualizacja Poland</strong>.</li>
+<li>Backup i Restore list kanałów uruchamiaj z sekcji <strong>Naprawa i Backup</strong>.</li>
 </ol>
 <div class="link-row" style="margin-top:14px">
-<a class="btn primary" download="" href="pliki/enigma2-plugin-extensions-panelaio_12.0.2_all.ipk" title="Pobierz AIO Panel v12.0.2 (Uniwersalna paczka Enigma2)">
-    📥 Pobierz AIO Panel v12.0.2
+<a class="btn primary" download="" href="pliki/enigma2-plugin-extensions-panelaio_12.0.3_all.ipk" title="Pobierz AIO Panel v12.0.3 (Uniwersalna paczka Enigma2)">
+    📥 Pobierz AIO Panel v12.0.3
+  </a>
+<a class="btn" download="" href="pliki/enigma2-plugin-extensions-panelaio_12.0.2_all.ipk" title="Archiwum: AIO Panel v12.0.2">
+    🗂️ Archiwum: v12.0.2
   </a>
 <a class="btn" download="" href="pliki/enigma2-plugin-extensions-panelaio_12.0.0_all.ipk" title="Archiwum: AIO Panel v12.0.0">
     🗂️ Archiwum: v12.0.0

@@ -1,16 +1,23 @@
 [
   {
-    "title": "AIO Panel 12.0.2 — aktualizacja",
-    "date": "2026-05-14",
-    "desc": "Aktualizacja stabilności: naprawiono ryzyko bootloopa po restarcie GUI na części systemów, zwłaszcza OpenATV 8 / beta. Wersja zachowuje wszystkie poprawki z 12.0.1.",
+    "date": "2026-05-31",
+    "ts": 1780200000000,
+    "type": "release",
+    "title": "AIO Panel 12.0.3 — oscam.dvbapi Poland i Backup/Restore list",
+    "desc": "Dodano funkcję oscam.dvbapi - aktualizacja Poland w zakładce Softcamy, lokalny plik oscam.dvbapi.poland, kopię starego pliku i odświeżenie Softcam/Oscam. Poprawiono Backup Listy Kanałów oraz Restore Listy Kanałów: lepszy wybór miejsca zapisu, kopia z datą, stały plik aio_channels_backup.tar.gz, walidacja archiwum, awaryjna kopia obecnych list i bezpieczne przywracanie przez osobny skrypt po zatrzymaniu GUI.",
+    "details": "Aktualizacja - AIO Panel 12.0.3\n\n• dodano w zakładce Softcamy funkcję oscam.dvbapi - aktualizacja Poland\n• dodano do paczki lokalny plik oscam.dvbapi.poland z danymi Poland\n• przy aktualizacji oscam.dvbapi tworzona jest kopia starego pliku i wykonywane jest odświeżenie Softcam/Oscam\n• poprawiono Backup Listy Kanałów: lepszy wybór miejsca zapisu, kopia z datą i stały plik ostatniej kopii aio_channels_backup.tar.gz\n• poprawiono Restore Listy Kanałów: walidacja archiwum, awaryjna kopia obecnych list i bezpieczne przywracanie przez osobny skrypt po zatrzymaniu GUI\n• nie zmieniano pozostałych działających funkcji wtyczki",
     "url": "plugins.html#aio-panel",
     "tags": [
       "AIO Panel",
-      "12.0.2",
-      "OpenATV 8",
-      "bootloop",
-      "restart GUI",
-      "Enigma2"
+      "12.0.3",
+      "oscam.dvbapi",
+      "Poland",
+      "Softcam",
+      "Backup",
+      "Restore",
+      "Enigma2",
+      "Py2",
+      "Py3"
     ]
   },
   {

@@ -1,30 +1,36 @@
+Pliki do podmiany / dodania na GitHub Pages dla AIO Panel 12.0.3:
+
+README.md
+ai-chat.html
 assets/js/layout-v4.js
+changed_files_list.txt
+channel-lists.html
+config-builder.html
+contact.html
 data/search-index.json
 data/updates.json
 downloads.html
-index.html
-plugins.html
-tools.html
-updates.html
-channel-lists.html
-future-lab.html
 error-scan.html
-image-installation.html
-contact.html
-poradniki-praktyczne.html
-config-builder.html
-ai-chat.html
-tuner-compare.html
+future-lab.html
 guides.html
-one-liner.html
+image-installation.html
+index.html
 knowledge.html
-systems.html
-support.html
 nowe-projekty.html
-multi-click.html
-pliki/enigma2-plugin-extensions-panelaio_12.0.2_all.ipk
-pliki/aio-panel-12.0.2-screen.png
-pliki/multi-click-banner.webp
-README.md
-changed_files_list.txt
-README_PODMIANA_AIO_12.0.2.txt
+one-liner.html
+pliki/aio-panel-12.0.3-screen.png
+pliki/enigma2-plugin-extensions-panelaio_12.0.3_all.ipk
+plugins.html
+poradniki-praktyczne.html
+support.html
+systems.html
+tools.html
+tuner-compare.html
+updates.html
+
+Najważniejsze zmiany na stronie:
+- zaktualizowano linki pobierania AIO Panel do wersji 12.0.3,
+- dodano opis zmian: oscam.dvbapi - aktualizacja Poland, oscam.dvbapi.poland, kopia starego pliku i odświeżenie Softcam/Oscam,
+- poprawiono opis Backup/Restore list kanałów,
+- podmieniono screen na pliki/aio-panel-12.0.3-screen.png,
+- dodano paczkę pliki/enigma2-plugin-extensions-panelaio_12.0.3_all.ipk.
