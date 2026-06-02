@@ -1,11 +1,10 @@
 {
-  "name": "AIO-IPTV • Enigma2",
+  "name": "AIO-IPTV.pl",
   "short_name": "AIO-IPTV",
-  "description": "Narzędzia, wtyczki, listy i baza wiedzy dla Enigma2 (OpenATV/OpenPLi/Egami/OSCam).",
-  "start_url": "./index.html",
+  "start_url": "index.html",
   "display": "standalone",
-  "background_color": "#0d1117",
-  "theme_color": "#0d1117",
+  "background_color": "#07111f",
+  "theme_color": "#39a8ff",
   "icons": [
     {
       "src": "logo-192.png",
