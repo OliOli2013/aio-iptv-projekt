@@ -25,7 +25,8 @@
     ],
     "notes": [
       "Po instalacji feedu: Menu → Wtyczki → Pobierz wtyczki → Pakiety softcam (nazwy mogą się różnić w zależności od image)."
-    ]
+    ],
+    "link": "help-softcam-feed.html"
   },
   {
     "id": "oscam-check",
@@ -53,7 +54,8 @@
         "label": "Logi systemowe (ostatnie)",
         "cmd": "logread | tail -n 60"
       }
-    ]
+    ],
+    "link": "help-oscam-check.html"
   },
   {
     "id": "picons-serviceref",
@@ -81,7 +83,8 @@
     ],
     "notes": [
       "Jeśli image ma ustawiony inny katalog piconów, sprawdź w ustawieniach skina lub w Menedżerze picon."
-    ]
+    ],
+    "link": "help-picons-serviceref.html"
   },
   {
     "id": "restart-gui",
@@ -101,7 +104,8 @@
         "label": "Restart GUI",
         "cmd": "init 4 && sleep 2 && init 3"
       }
-    ]
+    ],
+    "link": "help-restart-gui.html"
   },
   {
     "id": "satellites-xml",
@@ -122,7 +126,8 @@
         "label": "Restart GUI",
         "cmd": "init 4 && sleep 2 && init 3"
       }
-    ]
+    ],
+    "link": "help-satellites-xml.html"
   },
   {
     "id": "root-pass",
@@ -149,6 +154,7 @@
     ],
     "notes": [
       "Po zakończeniu konfiguracji zalecane jest ustawienie hasła."
-    ]
+    ],
+    "link": "help-root-password.html"
   }
 ]

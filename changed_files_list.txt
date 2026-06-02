@@ -2,6 +2,8 @@
 DO_USUNIECIA_STARE_STRONY.txt
 LICENSE
 README_NOWA_STRONA.md
+VALIDATION_CZYTELNOSC.txt
+VALIDATION_LOCAL_LINKS.txt
 ai-chat.html
 assets/brands/egami.svg
 assets/brands/enigma2.svg
@@ -37,6 +39,7 @@ assets/v2/site.css
 assets/v2/site.js
 baner_320x100_anim.webp
 baner_970x250_anim.webp
+changed_files_list.txt
 channel-lists.html
 config-builder.html
 contact.html
@@ -61,6 +64,12 @@ guide-pamiec-zgemma.html
 guide-terminal-openwebif.html
 guide-xstremity.html
 guides.html
+help-oscam-check.html
+help-picons-serviceref.html
+help-restart-gui.html
+help-root-password.html
+help-satellites-xml.html
+help-softcam-feed.html
 image-installation.html
 index.html
 knowledge.html
@@ -165,6 +174,7 @@ pliki/poradnik-dane-oscam.pdf
 pliki/poradnik-iptv-xstremity.pdf
 pliki/poradnik-terminal-openwebif.pdf
 pliki/powiekszenie pamieci ZGEMMA H9.S H9.2S.zip
+pliki/pp-logo.jpg
 pliki/xstremity-playlists-01.jpg
 pliki/xstremity-playlists-02.jpg
 pliki/xstremity-playlists-03.jpg

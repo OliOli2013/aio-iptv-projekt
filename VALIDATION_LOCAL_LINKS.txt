@@ -1,1 +1,1 @@
-OK — brak brakujących lokalnych linków w nowych stronach.
+Brak brakujących linków lokalnych.
