@@ -1,8 +1,6 @@
 404.html
-DO_USUNIECIA_STARE_STRONY.txt
 LICENSE
-README_NOWA_STRONA.md
-VALIDATION_CZYTELNOSC.txt
+README_DO_GITHUB.md
 VALIDATION_LOCAL_LINKS.txt
 ai-chat.html
 assets/brands/egami.svg
@@ -15,6 +13,7 @@ assets/css/new-site.css
 assets/css/site.css
 assets/css/stats.css
 assets/css/tuner-compare.css
+assets/css/user-premium.css
 assets/css/v3.css
 assets/css/v4-enhancements.css
 assets/css/v4-template.css
@@ -30,6 +29,7 @@ assets/js/site.js
 assets/js/stats-nav.js
 assets/js/stats.js
 assets/js/tuners.js
+assets/js/user-premium.js
 assets/js/v3.js
 assets/js/v4-enhancements.js
 assets/logo-modern.svg

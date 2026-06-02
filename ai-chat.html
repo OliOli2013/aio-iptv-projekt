@@ -1,228 +1,38 @@
-<!DOCTYPE html>
-
+<!doctype html>
 <html lang="pl">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1" name="viewport"/>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<title>AI‑Chat Enigma2 — AIO-IPTV.pl</title>
-<link href="pliki/logo.png" rel="icon"/>
-<link href="assets/css/site.css?v=next1" rel="stylesheet"/>
-<link href="assets/css/v3.css?v=3" rel="stylesheet">
-<link href="assets/css/v4-template.css?v=4" rel="stylesheet"/>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Chat | AIO-IPTV.pl</title>
+  <meta name="description" content="AI Chat dla pytań o Enigma2.">
+  <link rel="icon" href="pliki/logo.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/user-premium.css?v=20260602-v4">
+  
 </head>
-<body class="v3" data-page="next">
-<div class="topbar">
-<div class="container">
-<div class="topbar-inner">
-<a aria-label="AIO-IPTV.pl" class="brand" href="index.html">
-<img alt="AIO-IPTV.pl" src="pliki/logo.png"/>
-<div>
-<div class="name">AIO‑IPTV.pl</div>
-<span class="tag">Enigma2 • IPTV • Tools • AI</span>
-</div>
-</a>
-<a class="pill pill-accent" download="" href="pliki/enigma2-plugin-extensions-panelaio_12.0.3_all.ipk">
-<span data-i18n="cta_update">Aktualizacja: AIO Panel v12.0.3 (Python 2 & 3 – Universal)</span>
-<strong data-i18n="cta_download">Pobierz teraz</strong>
-</a>
-<div class="spacer"></div>
-<div class="notif">
-<button aria-label="Updates" class="icon-btn" id="bellBtn">🔔</button>
-<div aria-live="polite" class="notif-panel" id="notifPanel"></div>
-</div>
-<button aria-label="Menu" class="icon-btn" id="navToggle">☰</button>
-</div>
-</div>
-<div class="nav">
-<div class="container">
-<div class="nav-inner nav">
-  <div class="nav-group-title">Główne</div>
-  <a href="index.html">🏠 <span data-i18n="nav_home">Start</span></a>
-  <a href="nowe-projekty.html">🧪 <span data-i18n="nav_new_projects">Nowe Projekty</span></a>
-  <a href="ai-chat.html">🤖 <span data-i18n="nav_ai">AI-Chat Enigma2</span></a>
-  <a href="plugins.html">🧩 <span data-i18n="nav_plugins">Wtyczki</span></a>
-  <a href="channel-lists.html">📺 <span data-i18n="nav_lists">Listy kanałów</span></a>
-
-  <div class="nav-group-title">Konfiguracja</div>
-  <a href="guides.html">📘 <span data-i18n="nav_guides">Poradniki</span></a>
-  <a href="systems.html">💿 <span data-i18n="nav_systems">Systemy</span></a>
-  <a href="image-installation.html">🧯 <span data-i18n="nav_image_installation">Instalacja Image</span></a>
-  <a href="downloads.html">⬇️ Pobieranie</a>
-  <a href="knowledge.html">🧠 Wiedza</a>
-
-  <div class="nav-group-title">Narzędzia</div>
-  <a href="tools.html">🛠 <span data-i18n="nav_tools">Narzędzia</span></a>
-  <a href="config-builder.html">🧩 Konfigurator</a>
-  <a href="kreator.html">✨ Kreator</a>
-  <a href="porownywarka.html">🧮 Porównywarka</a>
-  <a href="porownywarka_legacy.html">🧰 Porównywarka (Legacy)</a>
-  <a href="tuner-compare.html">📡 Tuner Compare</a>
-  <a href="error-scan.html">🩺 <span data-i18n="nav_error_scan">Diagnoza błędów</span></a>
-  <a href="future-lab.html">🧪 Future Lab</a>
-
-  <div class="nav-group-title">Kontakt</div>
-  <a href="contact.html">✉️ <span data-i18n="nav_contact">Kontakt</span></a>
-  <a href="contact.html#opinia">💬 <span data-i18n="nav_opinion">Podziel się opinią</span></a>
-  <a href="support.html">☕ <span data-i18n="nav_support">Wsparcie</span></a>
-  <a href="stats.html">📈 <span data-i18n="nav_stats">Statystyki</span></a>
-</div>
-</div>
-</div>
-</div>
-<div class="drawer-backdrop" data-drawer-close="" id="drawerBackdrop"></div>
-<aside aria-hidden="true" class="drawer" id="mobileDrawer">
-  <div class="drawer-head">
-    <div class="drawer-title">Menu</div>
-    <button aria-label="Close" class="icon-btn" data-drawer-close="">✕</button>
+<body class="chat-page">
+  <div class="page-shell">
+    <header class="site-header">
+      <div class="brand-row">
+        <a class="brand" href="index.html"><img src="pliki/logo.png" alt="AIO-IPTV.pl"><span><strong>AIO‑IPTV.pl</strong><small>Enigma2 • IPTV • pomoc</small></span></a>
+        <a class="header-download" href="pliki/enigma2-plugin-extensions-panelaio_12.0.3_all.ipk">Pobierz AIO Panel</a>
+      </div>
+      <nav class="main-nav" data-menu><a class="" href="index.html">Start</a><a class="" href="plugins.html">Wtyczki</a><a class="" href="guides.html">Poradniki</a><a class="" href="systems.html">Multi-Click i systemy</a><a class="" href="channel-lists.html">Listy kanałów</a><a class="" href="one-liner.html">One-Liner / FTP</a><a class="active" href="ai-chat.html">AI Chat</a><a class="" href="contact.html">Kontakt i wsparcie</a></nav>
+      <button class="mobile-menu" type="button" data-menu-toggle>Menu</button>
+    </header>
+    <div class="content-layout">
+      <aside class="side-panel"><h2>Szybki wybór</h2><nav><a class="" href="plugins.html">Wtyczki</a><a class="" href="guides.html">Poradniki</a><a class="" href="systems.html">Multi‑Click</a><a class="" href="channel-lists.html">Listy kanałów</a><a class="" href="one-liner.html">One‑Liner / FTP</a><a class="" href="help-oscam-check.html">OSCam — sprawdzenie</a><a class="" href="help-picons-serviceref.html">Picony — ServiceRef</a><a class="" href="contact.html">Kontakt i wsparcie</a></nav><div class="side-help"><strong>Nie wiesz od czego zacząć?</strong><p>Wejdź w poradniki albo użyj AI Chat.</p><a href="ai-chat.html">Otwórz AI Chat</a></div></aside>
+      <main class="content-main"><section class="hero-compact"><div><p class="script-line">Witam na mojej stronie <span>Paweł Pawełek</span></p><p class="eyebrow">AI Chat</p><h1>Szybka pomoc do Enigma2</h1><p class="lead">Wpisz pytanie o tuner, wtyczkę, picony, OSCam, listy kanałów albo instalację IPK.</p><div class="action-row"><a class="button primary" href="guides.html">Poradniki</a><a class="button " href="one-liner.html">One‑Liner / FTP</a></div></div><figure><img src="pliki/pp-logo.jpg" alt="Logo Paweł Pawełek"><figcaption>Pomoc techniczna dla Enigma2</figcaption></figure></section><section class="module"><h2>Zadaj pytanie</h2><div class="chat-box"><div id="chatMessages" class="chat-messages"><p class="bot">Napisz krótko, co nie działa. Przykład: „Nie działa OSCam na OpenATV 7.6” albo „Gdzie wgrać picony?”</p></div><form id="inlineAiForm" class="chat-form"><input id="inlineAiInput" type="text" placeholder="Wpisz pytanie…"><button class="button primary" type="submit">Wyślij</button></form><p id="aiChatStatus" class="mini-text"></p></div></section><section class="module"><h2>Szybkie tematy</h2><div class="choice-grid three"><a class="choice-card" href="help-softcam-feed.html"><span class="card-icon">🛠️</span><strong>SoftCam feed — instalacja</strong><p>Instalacja feeda i podstawowe kroki po dodaniu softcama.</p></a><a class="choice-card" href="help-oscam-check.html"><span class="card-icon">🛠️</span><strong>OSCam — sprawdzenie działania</strong><p>Proces, logi i port WebIF OSCam.</p></a><a class="choice-card" href="help-picons-serviceref.html"><span class="card-icon">🛠️</span><strong>Picony — ServiceRef i katalogi</strong><p>Nazwy plików piconów i najczęstsze katalogi.</p></a><a class="choice-card" href="help-restart-gui.html"><span class="card-icon">🛠️</span><strong>Restart GUI bez restartu tunera</strong><p>Odświeżenie Enigma2 po instalacji wtyczek, list i piconów.</p></a><a class="choice-card" href="help-satellites-xml.html"><span class="card-icon">🛠️</span><strong>satellites.xml — aktualizacja</strong><p>Gdzie jest plik i co zrobić po podmianie.</p></a><a class="choice-card" href="help-root-password.html"><span class="card-icon">🛠️</span><strong>Hasło roota — ustawienie / usunięcie</strong><p>Podstawowe komendy dla SSH/Telnet.</p></a></div></section></main>
+    </div>
+    <footer class="site-footer">
+      <div><strong>AIO‑IPTV.pl</strong><span>Wtyczki, poradniki, listy kanałów, Multi‑Click, One‑Liner i AI Chat.</span></div>
+      <nav><a href="plugins.html">Wtyczki</a><a href="guides.html">Poradniki</a><a href="one-liner.html">One‑Liner</a><a href="contact.html">Kontakt</a></nav>
+      <p>© <span id="year"></span> Paweł Pawełek • <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></p>
+    </footer>
   </div>
-
-  <div class="drawer-section">Główne</div>
-  <a href="index.html">🏠 <span data-i18n="nav_home">Start</span></a>
-  <a href="nowe-projekty.html">🧪 <span data-i18n="nav_new_projects">Nowe Projekty</span></a>
-  <a href="ai-chat.html">🤖 <span data-i18n="nav_ai">AI-Chat Enigma2</span></a>
-  <a href="plugins.html">🧩 <span data-i18n="nav_plugins">Wtyczki</span></a>
-  <a href="channel-lists.html">📺 <span data-i18n="nav_lists">Listy kanałów</span></a>
-
-  <div class="drawer-section">Konfiguracja</div>
-  <a href="guides.html">📘 <span data-i18n="nav_guides">Poradniki</span></a>
-  <a href="systems.html">💿 <span data-i18n="nav_systems">Systemy</span></a>
-  <a href="image-installation.html">🧯 <span data-i18n="nav_image_installation">Instalacja Image</span></a>
-  <a href="downloads.html">⬇️ Pobieranie</a>
-  <a href="knowledge.html">🧠 Wiedza</a>
-
-  <div class="drawer-section">Narzędzia</div>
-  <a href="tools.html">🛠 <span data-i18n="nav_tools">Narzędzia</span></a>
-  <a href="config-builder.html">🧩 Konfigurator</a>
-  <a href="kreator.html">✨ Kreator</a>
-  <a href="porownywarka.html">🧮 Porównywarka</a>
-  <a href="porownywarka_legacy.html">🧰 Porównywarka (Legacy)</a>
-  <a href="tuner-compare.html">📡 Tuner Compare</a>
-  <a href="error-scan.html">🩺 <span data-i18n="nav_error_scan">Diagnoza błędów</span></a>
-  <a href="future-lab.html">🧪 Future Lab</a>
-
-  <div class="drawer-section">Kontakt</div>
-  <a href="stats.html">📈 <span data-i18n="nav_stats">Statystyki</span></a>
-  <a href="contact.html">✉️ <span data-i18n="nav_contact">Kontakt</span></a>
-  <a href="contact.html#opinia">💬 <span data-i18n="nav_opinion">Podziel się opinią</span></a>
-  <a href="support.html">☕ <span data-i18n="nav_support">Wsparcie</span></a>
-</aside>
-
-<main class="page">
-  <div class="container">
-    <h1>AI‑Chat Enigma2</h1>
-    <p>
-      AI‑Chat jest dostępny bezpośrednio na stronie jako okno czatu (prawy dolny róg). Dzięki temu nie musisz opuszczać AIO‑IPTV.pl,
-      aby zadawać pytania o Enigma2.
-    </p>
-
-    <div class="card">
-      <h2>Tryb OFFLINE (domyślny)</h2>
-      <p>
-        Odpowiedzi bazują na lokalnej bazie wiedzy (<code>data/knowledge.json</code>). To szybki tryb pomocy do typowych problemów
-        (picony, listy, softcam feed, podstawowe ustawienia, najczęstsze błędy).
-      </p>
-    </div>
-
-    <div class="card">
-      <h2>Tryb ONLINE (ChatGPT / OpenAI) — bez opuszczania strony</h2>
-      <p>
-        Ze względów bezpieczeństwa klucza API nie da się trzymać w czystym HTML/JS na GitHub Pages. Jeżeli masz już wykupioną usługę i skonfigurowany
-        prywatny endpoint (np. Cloudflare Worker / Vercel / Supabase Edge Function), możesz włączyć tryb ONLINE:
-      </p>
-      <ol>
-        <li>Otwórz plik <code>data/aichat_config.json</code></li>
-        <li>Ustaw <code>"mode": "online"</code></li>
-        <li>Wklej adres do <code>"endpoint"</code> (musi przyjmować POST i zwracać JSON z polem <code>reply</code> lub <code>text</code>)</li>
-      </ol>
-      <p class="muted">
-        Jeśli endpoint jest niedostępny, AI‑Chat automatycznie wróci do trybu OFFLINE.
-      </p>
-    </div>
-
-    <div class="card">
-      <h2>Opcjonalnie: otwarcie ChatGPT w nowej karcie</h2>
-      <p>
-        Jeżeli wolisz pracę w osobnym oknie, możesz otworzyć ChatGPT w nowej karcie:
-        <a href="https://chat.openai.com/" target="_blank" rel="noopener">ChatGPT</a>.
-      </p>
-    </div>
-  </div>
-</main>
-
-<footer class="site-footer">
-<div class="footer-inner">
-<div class="footer-grid">
-<div>
-<div class="footer-brand-row">
-<img alt="AIO-IPTV.pl" class="footer-logo" src="pliki/logo.png"/>
-<div>
-<div class="footer-brand-name">AIO-IPTV.pl</div>
-<div class="footer-brand-tag">Enigma2 • IPTV • Tools • AI</div>
-</div>
-</div>
-<div class="footer-note">
-          Nowoczesne centrum Enigma2: wtyczki, listy, poradniki, narzędzia oraz AI‑Chat. Dostępne po polsku i po angielsku.
-        </div>
-</div>
-<div>
-<div class="footer-title">Nawigacja</div>
-<a class="footer-link" href="index.html">Start</a>
-<a class="footer-link" href="ai-chat.html">AI‑Chat</a>
-<a class="footer-link" href="plugins.html#pobieranie">Pobieranie</a>
-<a class="footer-link" href="guides.html">Poradniki</a>
-</div>
-<div>
-<div class="footer-title">Sekcje</div>
-<a class="footer-link" href="plugins.html">Wtyczki</a>
-<a class="footer-link" href="channel-lists.html">Listy kanałów</a>
-<a class="footer-link" href="tools.html">Narzędzia</a>
-<a class="footer-link" href="systems.html">Systemy</a>
-</div>
-<div>
-<div class="footer-title">Kontakt i wsparcie</div>
-<div class="footer-kpi"><span>📧</span><span>Email: <a class="footer-link inline" href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></span></div>
-<div class="footer-kpi"><span>✈️</span><span>Telegram: <a class="footer-link inline" href="https://t.me/PawelPawelek" rel="noopener" target="_blank">t.me/PawelPawelek</a></span></div>
-<div class="footer-kpi"><span>💬</span><span>Messenger: <a class="footer-link inline" href="https://m.me/100064704540847" rel="noopener" target="_blank">Napisz wiadomość</a></span></div>
-<div class="footer-support">
-<div class="footer-title" data-i18n="support" style="margin-bottom:10px">Wesprzyj projekt</div>
-<div class="footer-support-row">
-<a aria-label="Revolut" class="support-btn support-revolut" href="https://revolut.me/pawelz75" rel="noopener" target="_blank">
-<span class="support-logo">
-<svg aria-hidden="true" focusable="false" role="img" viewbox="0 0 64 64"><defs><lineargradient id="revG" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#3b82f6"></stop><stop offset="1" stop-color="#22d3ee"></stop></lineargradient></defs><circle cx="32" cy="32" fill="url(#revG)" r="28"></circle><path d="M22 46V18h13.6c7 0 11.4 3.5 11.4 9.5 0 4.8-3 8-8.2 8.8L46 46h-7.6l-6.2-9.2h-3.8V46H22zm6.4-14.6h6.4c3.4 0 5.3-1.4 5.3-4s-1.9-4-5.3-4h-6.4v8z" fill="#0b1220"></path></svg>
-</span>
-<span class="support-text"><span class="support-name">Revolut</span><span class="support-sub">Dzięki!</span></span>
-</a>
-<a aria-label="PayPal" class="support-btn support-paypal" data-paypal="aHR0cHM6Ly93d3cucGF5cGFsLmNvbS9zZW5kP3JlY2lwaWVudD1wYXdlbHphcnp5Y2tpNjFAZ21haWwuY29tJmN1cnJlbmN5Q29kZT1QTE4=" href="#" id="paypalSupportBtn" rel="noopener" target="_blank">
-<span class="support-logo">
-<svg aria-hidden="true" focusable="false" role="img" viewbox="0 0 64 64"><defs><lineargradient id="ppG" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#60a5fa"></stop><stop offset="1" stop-color="#a78bfa"></stop></lineargradient></defs><circle cx="32" cy="32" fill="url(#ppG)" r="28"></circle><path d="M25 46l4-26h13c6 0 10 3.4 10 8.8 0 7.2-5.4 11.2-13.4 11.2h-6.2l-1 6H25zm9.1-12.2h4.5c4.1 0 6.6-1.8 6.6-5 0-2.2-1.5-3.5-4.3-3.5h-6.1l-0.7 8.5z" fill="#0b1220"></path></svg>
-</span>
-<span class="support-text"><span class="support-name">PayPal</span><span class="support-sub">Dzięki!</span></span>
-</a>
-</div>
-</div>
-<div class="footer-kpi" style="margin-top:12px; font-size:.88rem; opacity:.85"><span>🐛</span><span>Błąd? <a class="footer-link inline" href="https://github.com/OliOli2013/aio-iptv-projekt/issues" rel="noopener" target="_blank">Zgłoś na GitHub</a></span></div>
-</div>
-</div>
-<div class="footer-bottom">
-<div>© <span id="year"></span> AIO‑IPTV.pl • Paweł Pawełek</div>
-<div class="footer-legal">
-<a href="support.html">Wsparcie</a>
-<a href="contact.html">Kontakt</a>
-<a href="contact.html#opinia">Podziel się opinią</a>
-</div>
-</div>
-</div>
-</footer>
-<script>document.getElementById('year').textContent=new Date().getFullYear();</script>
-<script src="assets/js/site.js?v=next1"></script>
-<script src="assets/js/ai-chat.js?v=next1"></script>
-
-<script src="assets/js/stats-nav.js" defer></script>
-<script src="assets/js/v3.js?v=3"></script>
-<script defer src="assets/js/layout-v4.js?v=4"></script>
+  <script src="assets/js/user-premium.js?v=20260602-v4" defer></script>
 </body>
 </html>

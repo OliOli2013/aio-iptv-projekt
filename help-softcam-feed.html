@@ -3,34 +3,36 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SoftCam feed OpenATV/OpenPLi | AIO-IPTV.pl</title>
-  <meta name="description" content="Poradniki Enigma2, OpenATV, OpenWebif, OSCam, Xstremity, instalacja image i diagnostyka.">
+  <title>SoftCam feed — instalacja | AIO-IPTV.pl</title>
+  <meta name="description" content="Instalacja feeda i podstawowe kroki po dodaniu softcama.">
   <link rel="icon" href="pliki/logo.png">
   <link rel="manifest" href="manifest.json">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/new-site.css?v=20260602-premium">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/user-premium.css?v=20260602-v4">
   
 </head>
 <body class="">
-<header class="topbar">
-  <a class="brand" href="index.html" aria-label="Strona główna AIO-IPTV.pl"><img src="pliki/logo.png" alt="AIO-IPTV.pl"><span><strong>AIO‑IPTV.pl</strong><small>Enigma2 • IPTV • Tools • AI</small></span></a>
-  <button class="menu-toggle" type="button" aria-label="Otwórz menu" data-menu-toggle>☰</button>
-  <nav class="site-nav" data-site-nav><a class="nav-link " href="index.html">Start</a><a class="nav-link " href="plugins.html">Moje wtyczki</a><a class="nav-link active" href="guides.html">Poradniki</a><a class="nav-link " href="systems.html">Multi-Click i systemy</a><a class="nav-link " href="channel-lists.html">Listy kanałów</a><a class="nav-link " href="one-liner.html">One-Liner / FTP</a><a class="nav-link " href="contact.html">Kontakt / wsparcie / statystyki</a><a class="nav-link " href="ai-chat.html">AI Chat</a></nav>
-</header>
-<main>
-<section class="section"><div class="plugin-detail"><div class="detail-main"><span class="kicker">SoftCam</span><h1>SoftCam feed — instalacja i pierwsze uruchomienie</h1><p>Po dodaniu feeda softcamów instalujesz OSCam lub NCam z menu pakietów albo przez terminal. Na OpenATV najczęściej wystarczy paczka feeda, aktualizacja listy pakietów i restart GUI.</p><ul class="check-list"><li>Zainstaluj feed SoftCam.</li><li>Wykonaj <strong>opkg update</strong>.</li><li>Zainstaluj OSCam/NCam z menu pakietów softcam.</li><li>Wybierz softcam w menedżerze softcamów i uruchom go.</li></ul><div class="cmd"><div class="cmd-head"><span>OpenATV — instalacja feeda SoftCam</span><button type="button" data-copy="wget -O /tmp/OpenATV_softcam_feed_v8.0.ipk https://aio-iptv.pl/pliki/OpenATV_softcam_feed_v8.0.ipk &amp;&amp; opkg install /tmp/OpenATV_softcam_feed_v8.0.ipk &amp;&amp; init 4 &amp;&amp; sleep 2 &amp;&amp; init 3">Kopiuj</button></div><pre><code>wget -O /tmp/OpenATV_softcam_feed_v8.0.ipk https://aio-iptv.pl/pliki/OpenATV_softcam_feed_v8.0.ipk &amp;&amp; opkg install /tmp/OpenATV_softcam_feed_v8.0.ipk &amp;&amp; init 4 &amp;&amp; sleep 2 &amp;&amp; init 3</code></pre></div><div class="cmd"><div class="cmd-head"><span>Odświeżenie pakietów</span><button type="button" data-copy="opkg update">Kopiuj</button></div><pre><code>opkg update</code></pre></div><div class="notice mini-note"><strong>Uwaga:</strong> w OpenPLi i pochodnych dostępność pakietów zależy od obrazu oraz aktywnych repozytoriów.</div></div><aside class="detail-side"><div class="card"><h3>Powiązane</h3><p>Po instalacji feeda najczęściej potrzebna jest diagnoza OSCam.</p><a class="btn primary" href="help-oscam-check.html">Sprawdź OSCam</a><a class="btn" href="guides.html#szybka-pomoc">Wróć do poradników</a></div></aside></div></section>
-</main>
-<footer class="footer">
-  <div class="footer-grid">
-    <div><img src="pliki/logo.png" alt="AIO-IPTV.pl" class="footer-logo"><p>Wtyczki, poradniki, Multi‑Click, listy kanałów, One‑Liner, kontakt i AI Chat w jednym miejscu.</p></div>
-    <div><h3>Nawigacja</h3><a href="plugins.html">Moje wtyczki</a><a href="guides.html">Poradniki</a><a href="systems.html">Systemy</a><a href="channel-lists.html">Listy kanałów</a></div>
-    <div><h3>Kontakt</h3><a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a><a href="https://t.me/PawelPawelek" target="_blank" rel="noopener">Telegram</a><a href="https://m.me/100064704540847" target="_blank" rel="noopener">Messenger</a></div>
-    <div><h3>Wsparcie</h3><a href="https://ko-fi.com/pawelpawlek" target="_blank" rel="noopener">Ko‑fi</a><a href="https://buycoffee.to/pawelpawelek" target="_blank" rel="noopener">BuyCoffee</a><a href="https://revolut.me/pawelz75" target="_blank" rel="noopener">Revolut</a></div>
+  <div class="page-shell">
+    <header class="site-header">
+      <div class="brand-row">
+        <a class="brand" href="index.html"><img src="pliki/logo.png" alt="AIO-IPTV.pl"><span><strong>AIO‑IPTV.pl</strong><small>Enigma2 • IPTV • pomoc</small></span></a>
+        <a class="header-download" href="pliki/enigma2-plugin-extensions-panelaio_12.0.3_all.ipk">Pobierz AIO Panel</a>
+      </div>
+      <nav class="main-nav" data-menu><a class="" href="index.html">Start</a><a class="" href="plugins.html">Wtyczki</a><a class="" href="guides.html">Poradniki</a><a class="" href="systems.html">Multi-Click i systemy</a><a class="" href="channel-lists.html">Listy kanałów</a><a class="" href="one-liner.html">One-Liner / FTP</a><a class="" href="ai-chat.html">AI Chat</a><a class="" href="contact.html">Kontakt i wsparcie</a></nav>
+      <button class="mobile-menu" type="button" data-menu-toggle>Menu</button>
+    </header>
+    <div class="content-layout">
+      <aside class="side-panel"><h2>Szybki wybór</h2><nav><a class="" href="plugins.html">Wtyczki</a><a class="" href="guides.html">Poradniki</a><a class="" href="systems.html">Multi‑Click</a><a class="" href="channel-lists.html">Listy kanałów</a><a class="" href="one-liner.html">One‑Liner / FTP</a><a class="" href="help-oscam-check.html">OSCam — sprawdzenie</a><a class="" href="help-picons-serviceref.html">Picony — ServiceRef</a><a class="" href="contact.html">Kontakt i wsparcie</a></nav><div class="side-help"><strong>Nie wiesz od czego zacząć?</strong><p>Wejdź w poradniki albo użyj AI Chat.</p><a href="ai-chat.html">Otwórz AI Chat</a></div></aside>
+      <main class="content-main"><section class="hero-compact"><div><p class="script-line">Witam na mojej stronie <span>Paweł Pawełek</span></p><p class="eyebrow">Szybka pomoc</p><h1>SoftCam feed — instalacja</h1><p class="lead">Instalacja feeda i podstawowe kroki po dodaniu softcama.</p><div class="action-row"><a class="button primary" href="guides.html">Wróć do poradników</a><a class="button " href="one-liner.html">One‑Liner / FTP</a></div></div><figure><img src="pliki/pp-logo.jpg" alt="Logo Paweł Pawełek"><figcaption>Pomoc techniczna dla Enigma2</figcaption></figure></section><section class="module"><h2>Najważniejsze informacje</h2><ul class="clean-list"><li>Po instalacji feeda wejdź w pobieranie pakietów i wybierz softcam.</li><li>Po zmianie softcama wykonaj restart GUI albo restart softcama.</li></ul></section><section class="module"><h2>Komendy do skopiowania</h2><div class="command"><div><strong>OpenATV SoftCam feed</strong><button type="button" data-copy="wget -O /tmp/OpenATV_softcam_feed_v8.0.ipk https://aio-iptv.pl/pliki/OpenATV_softcam_feed_v8.0.ipk &amp;&amp; opkg install /tmp/OpenATV_softcam_feed_v8.0.ipk">Kopiuj</button></div><pre><code>wget -O /tmp/OpenATV_softcam_feed_v8.0.ipk https://aio-iptv.pl/pliki/OpenATV_softcam_feed_v8.0.ipk &amp;&amp; opkg install /tmp/OpenATV_softcam_feed_v8.0.ipk</code></pre></div><div class="command"><div><strong>Odświeżenie pakietów</strong><button type="button" data-copy="opkg update">Kopiuj</button></div><pre><code>opkg update</code></pre></div></section><section class="module"><h2>Następne kroki</h2><div class="choice-grid three"><a class="choice-card" href="guide-diagnostyka-enigma2.html"><span class="card-icon">🩺</span><strong>Diagnostyka Enigma2</strong><p>Logi, sieć, miejsce i procesy.</p></a><a class="choice-card" href="ai-chat.html"><span class="card-icon">🤖</span><strong>AI Chat</strong><p>Zadaj pytanie o konkretny objaw.</p></a><a class="choice-card" href="contact.html"><span class="card-icon">✉️</span><strong>Kontakt</strong><p>Wyślij opis problemu.</p></a></div></section></main>
+    </div>
+    <footer class="site-footer">
+      <div><strong>AIO‑IPTV.pl</strong><span>Wtyczki, poradniki, listy kanałów, Multi‑Click, One‑Liner i AI Chat.</span></div>
+      <nav><a href="plugins.html">Wtyczki</a><a href="guides.html">Poradniki</a><a href="one-liner.html">One‑Liner</a><a href="contact.html">Kontakt</a></nav>
+      <p>© <span id="year"></span> Paweł Pawełek • <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></p>
+    </footer>
   </div>
-  <div class="footer-bottom">© <span id="year"></span> AIO‑IPTV.pl • Paweł Pawełek • Kontakt: <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></div>
-</footer>
-<script src="assets/js/new-site.js?v=20260602-premium" defer></script>
+  <script src="assets/js/user-premium.js?v=20260602-v4" defer></script>
 </body>
 </html>
