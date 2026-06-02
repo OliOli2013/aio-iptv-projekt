@@ -1,1 +1,1 @@
-OK - brak brakujących lokalnych linków. Wszystkie kafelki w głównych działach prowadzą do aktywnych stron, plików, kontaktów lub komend.
+OK - brak brakujących linków lokalnych.

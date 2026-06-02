@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/user-premium.css?v=20260602-v4">
+  <link rel="stylesheet" href="assets/css/user-premium.css?v=20260602-v5">
   
 </head>
 <body class="">
@@ -18,14 +18,14 @@
     <header class="site-header">
       <div class="brand-row">
         <a class="brand" href="index.html"><img src="pliki/logo.png" alt="AIO-IPTV.pl"><span><strong>AIO‑IPTV.pl</strong><small>Enigma2 • IPTV • pomoc</small></span></a>
-        <a class="header-download" href="pliki/enigma2-plugin-extensions-panelaio_12.0.3_all.ipk">Pobierz AIO Panel</a>
+        <a class="header-download" href="plugin-aio-panel.html">Instalacja AIO Panel</a>
       </div>
       <nav class="main-nav" data-menu><a class="" href="index.html">Start</a><a class="" href="plugins.html">Wtyczki</a><a class="" href="guides.html">Poradniki</a><a class="" href="systems.html">Multi-Click i systemy</a><a class="" href="channel-lists.html">Listy kanałów</a><a class="" href="one-liner.html">One-Liner / FTP</a><a class="" href="ai-chat.html">AI Chat</a><a class="" href="contact.html">Kontakt i wsparcie</a></nav>
       <button class="mobile-menu" type="button" data-menu-toggle>Menu</button>
     </header>
     <div class="content-layout">
-      <aside class="side-panel"><h2>Szybki wybór</h2><nav><a class="" href="plugins.html">Wtyczki</a><a class="" href="guides.html">Poradniki</a><a class="" href="systems.html">Multi‑Click</a><a class="" href="channel-lists.html">Listy kanałów</a><a class="" href="one-liner.html">One‑Liner / FTP</a><a class="" href="help-oscam-check.html">OSCam — sprawdzenie</a><a class="" href="help-picons-serviceref.html">Picony — ServiceRef</a><a class="" href="contact.html">Kontakt i wsparcie</a></nav><div class="side-help"><strong>Nie wiesz od czego zacząć?</strong><p>Wejdź w poradniki albo użyj AI Chat.</p><a href="ai-chat.html">Otwórz AI Chat</a></div></aside>
-      <main class="content-main"><section class="hero-compact"><div><p class="script-line">Witam na mojej stronie <span>Paweł Pawełek</span></p><p class="eyebrow">Szybka pomoc</p><h1>satellites.xml — aktualizacja</h1><p class="lead">Gdzie jest plik i co zrobić po podmianie.</p><div class="action-row"><a class="button primary" href="guides.html">Wróć do poradników</a><a class="button " href="one-liner.html">One‑Liner / FTP</a></div></div><figure><img src="pliki/pp-logo.jpg" alt="Logo Paweł Pawełek"><figcaption>Pomoc techniczna dla Enigma2</figcaption></figure></section><section class="module"><h2>Najważniejsze informacje</h2><ul class="clean-list"><li>Najczęstsza lokalizacja to /etc/tuxbox/satellites.xml.</li><li>Po podmianie zrestartuj GUI, aby Enigma2 odczytała zmiany.</li></ul></section><section class="module"><h2>Komendy do skopiowania</h2><div class="command"><div><strong>Kopia pliku</strong><button type="button" data-copy="cp /etc/tuxbox/satellites.xml /etc/tuxbox/satellites.xml.bak">Kopiuj</button></div><pre><code>cp /etc/tuxbox/satellites.xml /etc/tuxbox/satellites.xml.bak</code></pre></div><div class="command"><div><strong>Sprawdzenie pliku</strong><button type="button" data-copy="ls -l /etc/tuxbox/satellites.xml">Kopiuj</button></div><pre><code>ls -l /etc/tuxbox/satellites.xml</code></pre></div></section><section class="module"><h2>Następne kroki</h2><div class="choice-grid three"><a class="choice-card" href="guide-diagnostyka-enigma2.html"><span class="card-icon">🩺</span><strong>Diagnostyka Enigma2</strong><p>Logi, sieć, miejsce i procesy.</p></a><a class="choice-card" href="ai-chat.html"><span class="card-icon">🤖</span><strong>AI Chat</strong><p>Zadaj pytanie o konkretny objaw.</p></a><a class="choice-card" href="contact.html"><span class="card-icon">✉️</span><strong>Kontakt</strong><p>Wyślij opis problemu.</p></a></div></section></main>
+      <aside class="side-panel"><h2>Pomoc użytkownika</h2><nav><a href="plugins.html">Wtyczki</a><a href="guides.html">Poradniki</a><a href="one-liner.html">One‑Liner / FTP</a><a href="channel-lists.html">Listy kanałów</a><a href="systems.html">Multi‑Click i systemy</a><a href="ai-chat.html">AI Chat</a><a href="contact.html">Kontakt i wsparcie</a></nav><div class="side-help"><strong>Szybka pomoc</strong><a href="guide-terminal-openwebif.html">Terminal / OpenWebif</a><a href="guide-oscam.html">Dane do OSCam</a><a href="guide-xstremity.html">IPTV do Xstremity</a><a href="help-softcam-feed.html">SoftCam feed</a><a href="help-picons-serviceref.html">Picony / ServiceRef</a><a href="help-restart-gui.html">Restart GUI</a></div></aside>
+      <main class="content-main"><section class="hero-compact"><div><p class="script-line">Witam na mojej stronie <span>Paweł Pawełek</span></p><p class="eyebrow">DVB-S</p><h1>satellites.xml — aktualizacja</h1><p class="lead">Plik z definicjami satelitów i transponderów do skanowania.</p><div class="action-row"><a class="button primary" href="guides.html">Wróć do poradników</a><a class="button" href="one-liner.html">One‑Liner / FTP</a></div></div><figure><img src="pliki/logo.png" alt="Pomoc techniczna"><figcaption>Pomoc techniczna</figcaption></figure></section><section class="module"><h2>Instrukcja</h2><p>Plik z definicjami satelitów i transponderów do skanowania.</p><div class="command-grid"><div class="command"><div><strong>Kopia zapasowa satellites.xml</strong><button type="button" data-copy="cp /etc/tuxbox/satellites.xml /etc/tuxbox/satellites.xml.bak">Kopiuj</button></div><pre><code>cp /etc/tuxbox/satellites.xml /etc/tuxbox/satellites.xml.bak</code></pre></div><div class="command"><div><strong>Sprawdzenie pliku</strong><button type="button" data-copy="ls -l /etc/tuxbox/satellites.xml">Kopiuj</button></div><pre><code>ls -l /etc/tuxbox/satellites.xml</code></pre></div></div></section></main>
     </div>
     <footer class="site-footer">
       <div><strong>AIO‑IPTV.pl</strong><span>Wtyczki, poradniki, listy kanałów, Multi‑Click, One‑Liner i AI Chat.</span></div>
@@ -33,6 +33,6 @@
       <p>© <span id="year"></span> Paweł Pawełek • <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></p>
     </footer>
   </div>
-  <script src="assets/js/user-premium.js?v=20260602-v4" defer></script>
+  <script src="assets/js/user-premium.js?v=20260602-v5" defer></script>
 </body>
 </html>

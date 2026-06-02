@@ -65,3 +65,21 @@
     }
   }
 })();
+
+
+(function(){
+  document.addEventListener('DOMContentLoaded', function(){
+    const checks = Array.from(document.querySelectorAll('.gen-check'));
+    const out = document.getElementById('generator-output');
+    if(!checks.length || !out) return;
+    function update(){
+      const cmds = checks.filter(c=>c.checked).map(c=>{
+        const el=document.getElementById(c.getAttribute('data-target'));
+        return el ? el.textContent.trim() : '';
+      }).filter(Boolean);
+      out.textContent = cmds.length ? cmds.join(' && ') : '# Zaznacz przynajmniej jedną opcję powyżej...';
+    }
+    checks.forEach(c=>c.addEventListener('change', update));
+    update();
+  });
+})();
