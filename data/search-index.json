@@ -19,14 +19,14 @@
     ]
   },
   {
-    "title": "AIO Panel 12.0.3",
-    "desc": "Dodano funkcję oscam.dvbapi - aktualizacja Poland w zakładce Softcamy, lokalny plik oscam.dvbapi.poland, kopię starego pliku i odświeżenie Softcam/Oscam. Poprawiono Backup Listy Kanałów oraz Restore Listy Kanałów: lepszy wybór miejsca zapisu, kopia z datą, stały plik aio_channels_backup.tar.gz, walidacja archiwum, awaryjna kopia obecnych list i bezpieczne przywracanie przez osobny skrypt po zatrzymaniu GUI.",
-    "url": "plugins.html#aio-panel",
+    "title": "AIO Panel 12.0.6",
+    "desc": "Skumulowana aktualizacja 12.0.4–12.0.6: krytyczne poprawki stabilności i bezpieczeństwa, bezpieczny mechanizm instalacji ZIP, mniej wymuszonych restartów, bezpieczniejsze timeouty Py2/Py3, zachowana funkcja oscam.dvbapi Poland oraz poprawki Backup/Restore list kanałów.",
+    "url": "plugin-aio-panel.html",
     "tags": [
       "aio",
       "panel",
       "AIO Panel",
-      "12.0.3",
+      "12.0.6",
       "enigma2",
       "py2",
       "py3",
@@ -39,7 +39,15 @@
       "listy kanałów",
       "aio_channels_backup.tar.gz",
       "lamedb",
-      "userbouquet"
+      "userbouquet",
+      "12.0.4",
+      "12.0.5",
+      "stabilność",
+      "bezpieczeństwo",
+      "bootloop",
+      "zip",
+      "timeout",
+      "installer.sh"
     ]
   },
   {

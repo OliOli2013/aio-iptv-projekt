@@ -1,23 +1,28 @@
 [
   {
-    "date": "2026-05-31",
-    "ts": 1780200000000,
+    "date": "2026-06-11",
+    "ts": 1781136000000,
     "type": "release",
-    "title": "AIO Panel 12.0.3 — oscam.dvbapi Poland i Backup/Restore list",
-    "desc": "Dodano funkcję oscam.dvbapi - aktualizacja Poland w zakładce Softcamy, lokalny plik oscam.dvbapi.poland, kopię starego pliku i odświeżenie Softcam/Oscam. Poprawiono Backup Listy Kanałów oraz Restore Listy Kanałów: lepszy wybór miejsca zapisu, kopia z datą, stały plik aio_channels_backup.tar.gz, walidacja archiwum, awaryjna kopia obecnych list i bezpieczne przywracanie przez osobny skrypt po zatrzymaniu GUI.",
-    "details": "Aktualizacja - AIO Panel 12.0.3\n\n• dodano w zakładce Softcamy funkcję oscam.dvbapi - aktualizacja Poland\n• dodano do paczki lokalny plik oscam.dvbapi.poland z danymi Poland\n• przy aktualizacji oscam.dvbapi tworzona jest kopia starego pliku i wykonywane jest odświeżenie Softcam/Oscam\n• poprawiono Backup Listy Kanałów: lepszy wybór miejsca zapisu, kopia z datą i stały plik ostatniej kopii aio_channels_backup.tar.gz\n• poprawiono Restore Listy Kanałów: walidacja archiwum, awaryjna kopia obecnych list i bezpieczne przywracanie przez osobny skrypt po zatrzymaniu GUI\n• nie zmieniano pozostałych działających funkcji wtyczki",
-    "url": "plugins.html#aio-panel",
+    "title": "AIO Panel 12.0.6 — skumulowane poprawki stabilności, bezpieczeństwa i instalacji ZIP",
+    "desc": "Skumulowana aktualizacja obejmująca wersje 12.0.4, 12.0.5 i 12.0.6. Usunięto ryzyko bootloopów związanych ze startem GUI, dodano bezpieczniejszą obsługę instalatorów, nowy mechanizm weryfikacji archiwów ZIP, mniej wymuszonych restartów oraz poprawki timeoutów i obsługi SSL.",
+    "details": "Aktualizacja AIO Panel do wersji 12.0.6\n\nWydanie zbiera zmiany z wersji 12.0.4, 12.0.5 oraz 12.0.6.\n\n1. Krytyczne poprawki stabilności i bezpieczeństwa\n• wyłączono zadania startowe wtyczki podczas uruchamiania GUI Enigma2, co mocno ogranicza ryzyko bootloopa\n• dodano blokadę instalatorów Python 3 na starszych obrazach Python 2\n• uruchamianie zewnętrznych instalatorów wymaga teraz potwierdzenia użytkownika (domyślnie NIE)\n• funkcja set_system_password korzysta z _safe_shell_arg(), co poprawia obsługę znaków specjalnych\n• usunięto zbędny wpis WHERE_SESSIONSTART z lekkiego plugin.py\n\n2. Nowy mechanizm instalacji ZIP\n• wprowadzono katalog extract i weryfikację spójności ZIP przed instalacją\n• pusty lub uszkodzony ZIP przerywa instalację, chroniąc pliki systemowe\n• jeśli brakuje unzip, skrypt próbuje doinstalować go przez opkg\n\n3. Zmiany techniczne i timeouty\n• Python 3: communicate(timeout=...)\n• Python 2: bezpieczny timeout oparty na Timer\n• poprawiono _read_first, _desktop_size oraz fallback SSL / wget / curl\n\n4. Mniej wymuszonych restartów\n• brak automatycznego restartu po instalatorach uruchamianych z menu\n• Super Konfigurator nie wymaga pełnego restartu systemu\n• installer.sh pobierany z GitHub nie wykonuje już automatycznego rebootu\n\n5. Dodatkowo\n• główna klasa została przemianowana z Panel na PanelAIO\n• AIOLoadingScreen wywołuje poprawnie klasę PanelAIO\n• zachowano oscam.dvbapi Poland oraz poprawki Backup/Restore list kanałów\n• czyszczone są pozostałości po starej lokalizacji wtyczki oraz pliki .pyc / .pyo",
+    "url": "plugin-aio-panel.html",
     "tags": [
       "AIO Panel",
-      "12.0.3",
-      "oscam.dvbapi",
-      "Poland",
-      "Softcam",
-      "Backup",
-      "Restore",
+      "12.0.6",
+      "12.0.5",
+      "12.0.4",
       "Enigma2",
       "Py2",
-      "Py3"
+      "Py3",
+      "stabilność",
+      "bezpieczeństwo",
+      "bootloop",
+      "ZIP",
+      "installer",
+      "oscam.dvbapi",
+      "Backup",
+      "Restore"
     ]
   },
   {
