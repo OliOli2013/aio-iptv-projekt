@@ -1,6 +1,29 @@
 [
   {
     "date": "2026-06-22",
+    "ts": 1782158385000,
+    "type": "release",
+    "title": "NeoRadio v2.0 — aktualizacja bazy stacji i porządki w danych",
+    "desc": "NeoRadio v2.0: zaktualizowana baza stacji, 565 nowych unikalnych stacji, 5759 poprawnych unikalnych wpisów w stations.json, czyszczenie /tmp po instalacji oraz poprawiony mechanizm aktualizacji GitHub.",
+    "details": "📻 NeoRadio v2.0 — nowa aktualizacja\n\nUdostępniam nową wersję wtyczki NeoRadio v2.0 dla Enigma2.\nW tej wersji główny nacisk został położony na aktualizację bazy stacji radiowych, porządki w danych oraz poprawę działania mechanizmu aktualizacji i instalacji.\n\n✅ Zmiany w NeoRadio v2.0:\n• zaktualizowano bazę stacji radiowych\n• dodano 565 nowych unikalnych stacji\n• usunięto 75 technicznych wpisów placeholder z pliku bukietu typu 127.0.0.1/hdfradio\n• usunięto 70 starych, nieprawidłowych lokalnych/testowych URL-i z bazy\n• finalnie plik stations.json zawiera 5759 poprawnych unikalnych stacji\n• dodano postinst, który po instalacji wtyczki czyści pliki instalacyjne NeoRadio z katalogu /tmp\n• poprawiono wewnętrzną aktualizację GitHub, aby czyściła /tmp przed i po instalacji paczki IPK\n• poprawiono angielski napis Favorites\n• usunięto błędne ścieżki piconów typu /usr/share/engma2 oraz /user/share/...\n• podniesiono wersję wtyczki do v2.0\n\nInstalacja wtyczki dostępna z poziomu AIO Panel.\nAutor: Paweł Pawełek",
+    "url": "plugin-neoradio.html",
+    "tags": [
+      "NeoRadio",
+      "v2.0",
+      "2.0",
+      "Enigma2",
+      "radio",
+      "stations.json",
+      "5759",
+      "565",
+      "postinst",
+      "GitHub",
+      "picony",
+      "Favorites"
+    ]
+  },
+  {
+    "date": "2026-06-22",
     "ts": 1782092940000,
     "type": "release",
     "title": "AIO Panel 13.0.0 Final — FHD skiny, OSCam jej@n / S4Updater i Oscam Levi45",

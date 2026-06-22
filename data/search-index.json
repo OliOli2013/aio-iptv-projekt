@@ -66,20 +66,28 @@
     ]
   },
   {
-    "title": "NeoRadio 1.3.3",
-    "desc": "Radio internetowe dla Enigma2: przebudowane metadane stacji, RDS / ICY / Teraz gra, lepsze wykrywanie tytułu, wykonawcy, audycji i opisu streamu, nowy wygląd i poprawki stabilności.",
-    "url": "plugins.html#neoradio",
+    "title": "NeoRadio v2.0",
+    "desc": "Radio internetowe dla Enigma2: aktualizacja bazy, 565 nowych unikalnych stacji, 5759 poprawnych unikalnych stacji w stations.json, czyszczenie /tmp po instalacji i poprawiona aktualizacja GitHub.",
+    "url": "plugin-neoradio.html",
     "tags": [
       "neoradio",
+      "NeoRadio",
       "radio",
       "enigma2",
-      "rds",
-      "icy",
+      "v2.0",
+      "2.0",
+      "stations.json",
+      "5759",
+      "565",
+      "RDS",
+      "ICY",
+      "Teraz gra",
       "picon",
-      "1.3.3",
-      "teraz gra",
-      "metadane",
-      "stream"
+      "picony",
+      "Favorites",
+      "GitHub",
+      "postinst",
+      "tmp"
     ]
   },
   {
