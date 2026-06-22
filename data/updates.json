@@ -1,28 +1,25 @@
 [
   {
-    "date": "2026-06-11",
-    "ts": 1781136000000,
+    "date": "2026-06-22",
+    "ts": 1782092940000,
     "type": "release",
-    "title": "AIO Panel 12.0.6 — skumulowane poprawki stabilności, bezpieczeństwa i instalacji ZIP",
-    "desc": "Skumulowana aktualizacja obejmująca wersje 12.0.4, 12.0.5 i 12.0.6. Usunięto ryzyko bootloopów związanych ze startem GUI, dodano bezpieczniejszą obsługę instalatorów, nowy mechanizm weryfikacji archiwów ZIP, mniej wymuszonych restartów oraz poprawki timeoutów i obsługi SSL.",
-    "details": "Aktualizacja AIO Panel do wersji 12.0.6\n\nWydanie zbiera zmiany z wersji 12.0.4, 12.0.5 oraz 12.0.6.\n\n1. Krytyczne poprawki stabilności i bezpieczeństwa\n• wyłączono zadania startowe wtyczki podczas uruchamiania GUI Enigma2, co mocno ogranicza ryzyko bootloopa\n• dodano blokadę instalatorów Python 3 na starszych obrazach Python 2\n• uruchamianie zewnętrznych instalatorów wymaga teraz potwierdzenia użytkownika (domyślnie NIE)\n• funkcja set_system_password korzysta z _safe_shell_arg(), co poprawia obsługę znaków specjalnych\n• usunięto zbędny wpis WHERE_SESSIONSTART z lekkiego plugin.py\n\n2. Nowy mechanizm instalacji ZIP\n• wprowadzono katalog extract i weryfikację spójności ZIP przed instalacją\n• pusty lub uszkodzony ZIP przerywa instalację, chroniąc pliki systemowe\n• jeśli brakuje unzip, skrypt próbuje doinstalować go przez opkg\n\n3. Zmiany techniczne i timeouty\n• Python 3: communicate(timeout=...)\n• Python 2: bezpieczny timeout oparty na Timer\n• poprawiono _read_first, _desktop_size oraz fallback SSL / wget / curl\n\n4. Mniej wymuszonych restartów\n• brak automatycznego restartu po instalatorach uruchamianych z menu\n• Super Konfigurator nie wymaga pełnego restartu systemu\n• installer.sh pobierany z GitHub nie wykonuje już automatycznego rebootu\n\n5. Dodatkowo\n• główna klasa została przemianowana z Panel na PanelAIO\n• AIOLoadingScreen wywołuje poprawnie klasę PanelAIO\n• zachowano oscam.dvbapi Poland oraz poprawki Backup/Restore list kanałów\n• czyszczone są pozostałości po starej lokalizacji wtyczki oraz pliki .pyc / .pyo",
+    "title": "AIO Panel 13.0.0 Final — FHD skiny, OSCam jej@n / S4Updater i Oscam Levi45",
+    "desc": "Naprawiono crash na skinach FHD, usunięto MessageBox(enable_input=False), dodano fallback MessageBox, poprawiono obsługę plików OSCam dla niestandardowych instalacji oraz dodano instalator Oscam Levi45.",
+    "details": "[13.0.0]\nAIO Panel 13.0.0 Final\n- Naprawiono crash na skinach FHD, zgłoszony m.in. dla Algare FHD, podczas otwierania okna oczekiwania w run_command_in_background.\n- Usunięto użycie MessageBox(enable_input=False) w zadaniach tła.\n- Dodano bezpieczny fallback dla MessageBox.\n- Poprawiono obsługę plików OSCam dla niestandardowych instalacji, szczególnie OSCam jej@n / S4Updater.\n- Funkcje oscam.dvbapi, oscam.srvid, oscam.srvid2, SoftCam.Key oraz kasowanie hasła używają wykrywania katalogu z aktywnego procesu OSCam.\n- Przed zmianą plików OSCam tworzone są kopie bezpieczeństwa z datą.\n- Jeżeli katalog konfiguracji OSCam nie zostanie wykryty jednoznacznie, operacja zostaje przerwana.\n- Dodano instalator Oscam Levi45 z oficjalnego polecenia Levi45Emulator.\n- Menu pokazuje uproszczoną nazwę Oscam Levi45 i wykryty numer OSCam.",
     "url": "plugin-aio-panel.html",
     "tags": [
       "AIO Panel",
-      "12.0.6",
-      "12.0.5",
-      "12.0.4",
-      "Enigma2",
-      "Py2",
-      "Py3",
-      "stabilność",
-      "bezpieczeństwo",
-      "bootloop",
-      "ZIP",
-      "installer",
+      "13.0.0",
+      "Final",
+      "Algare FHD",
+      "MessageBox",
+      "OSCam",
+      "jejn",
+      "S4Updater",
       "oscam.dvbapi",
-      "Backup",
-      "Restore"
+      "oscam.srvid",
+      "SoftCam.Key",
+      "Levi45"
     ]
   },
   {

@@ -7,7 +7,7 @@
 
 ---
 
-> **Najnowsze wydanie:** AIO Panel **12.0.3** — oscam.dvbapi Poland w zakładce Softcamy, lokalny plik danych, kopia starego pliku, odświeżenie Softcam/Oscam oraz poprawiony Backup/Restore list kanałów.
+> **Najnowsze wydanie:** AIO Panel **13.0.0 Final** — poprawki FHD skinów, bezpieczniejszy MessageBox, obsługa OSCam jej@n / S4Updater przez wykrywanie katalogu aktywnego OSCam oraz instalator OSCam Levi45.
 > **NeoRadio:** wersja **1.3.3** — RDS / ICY / Teraz gra, przebudowane metadane stacji, nowy wygląd i poprawki stabilności.
 
 ## 🚀 Oficjalna Strona i Pobieranie
