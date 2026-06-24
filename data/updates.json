@@ -1,5 +1,27 @@
 [
   {
+    "date": "2026-06-24",
+    "ts": 1782333056000,
+    "type": "release",
+    "title": "NeoRadio v2.1 — Radio-Browser Online i wybór kraju",
+    "desc": "NeoRadio v2.1 działa teraz w trybie Radio-Browser Online. Po uruchomieniu pobiera aktualną listę stacji z serwera, dobiera ją zgodnie z krajem/językiem tunera i pozwala wybrać inny region.",
+    "details": "📻 NeoRadio v2.1 — nowa aktualizacja\n\nUdostępniam poprawioną wersję wtyczki NeoRadio v2.1 dla Enigma2.\n\nW tej wersji zmieniłem sposób działania wtyczki. NeoRadio nie opiera się już na starej, zapisanej na stałe bazie stacji, tylko korzysta z aktualnej bazy online Radio-Browser.\n\nPrzez dłuższy czas bardzo często pojawiały się zgłoszenia o brakujących konkretnych stacjach radiowych. Niestety nie jestem w stanie sprostać każdemu zgłoszeniu i ręcznie dodawać każdej pojedynczej stacji, szczególnie że linki streamów często się zmieniają, wygasają albo działają inaczej na komputerze i inaczej na tunerze Enigma2.\n\nDlatego uznałem, że najlepszym rozwiązaniem będzie pobieranie stacji z dość popularnego źródła online, tak aby każdy użytkownik miał większy wybór i zawsze mógł znaleźć coś dla siebie.\n\n✅ Najważniejsze zmiany w NeoRadio v2.1:\n• wtyczka działa teraz w trybie Radio-Browser Online\n• po uruchomieniu pobiera aktualną listę stacji z serwera\n• domyślnie lista dobierana jest zgodnie z językiem/krajem ustawionym w tunerze\n• użytkownik może wybrać inny kraj i pobrać stacje dla wybranego regionu\n• poprawiono czyszczenie danych tymczasowych po instalacji\n\n⚠️ Ważna informacja po uruchomieniu wtyczki\nPo wejściu do NeoRadio należy odczekać kilkanaście sekund, aż lista stacji zostanie pobrana z serwera.\nCzas wczytywania zależy od połączenia internetowego oraz dostępności serwera Radio-Browser.\nBaza stacji jest zmienna — stacje mogą pojawiać się, znikać albo zmieniać swoje linki stream.\nJeżeli lista nie działa prawidłowo, brakuje części stacji albo chcesz ją odświeżyć, wybierz z menu opcję przeładowania stacji.\nJeżeli lista nie pojawi się od razu, nie klikaj nerwowo pilota — daj wtyczce chwilę na pobranie danych.\n\nNeoRadio v2.1 to radio internetowe dla Enigma2 z aktualną bazą stacji online, wyborem kraju i wygodnym odtwarzaniem bez ręcznego dopisywania streamów.",
+    "url": "plugin-neoradio.html",
+    "tags": [
+      "NeoRadio",
+      "v2.1",
+      "2.1",
+      "Enigma2",
+      "radio",
+      "Radio-Browser",
+      "online",
+      "wybór kraju",
+      "stacje radiowe",
+      "stream",
+      "AIO Panel"
+    ]
+  },
+  {
     "date": "2026-06-22",
     "ts": 1782158385000,
     "type": "release",

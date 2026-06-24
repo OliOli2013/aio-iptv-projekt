@@ -66,28 +66,33 @@
     ]
   },
   {
-    "title": "NeoRadio v2.0",
-    "desc": "Radio internetowe dla Enigma2: aktualizacja bazy, 565 nowych unikalnych stacji, 5759 poprawnych unikalnych stacji w stations.json, czyszczenie /tmp po instalacji i poprawiona aktualizacja GitHub.",
+    "title": "NeoRadio v2.1",
+    "desc": "Radio internetowe dla Enigma2 w trybie Radio-Browser Online: aktualna baza stacji pobierana z serwera, domyślny wybór kraju zgodnie z tunerem, możliwość wyboru innego regionu i przeładowania stacji.",
     "url": "plugin-neoradio.html",
     "tags": [
       "neoradio",
       "NeoRadio",
       "radio",
       "enigma2",
-      "v2.0",
-      "2.0",
-      "stations.json",
-      "5759",
-      "565",
+      "v2.1",
+      "2.1",
+      "Radio-Browser",
+      "Radio Browser",
+      "online",
+      "stacje online",
+      "wybór kraju",
+      "kraj",
+      "region",
+      "stream",
+      "odświeżanie",
+      "przeładowanie stacji",
       "RDS",
       "ICY",
       "Teraz gra",
       "picon",
       "picony",
-      "Favorites",
       "GitHub",
-      "postinst",
-      "tmp"
+      "AIO Panel"
     ]
   },
   {
