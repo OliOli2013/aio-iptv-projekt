@@ -3,9 +3,9 @@
     "date": "2026-06-28",
     "ts": 1782624000000,
     "type": "release",
-    "title": "PP Channel Sync v1.0.13 — korekta list kanałów i raport zmian",
+    "title": "PP Channel Sync v1.0.17 — korekta list kanałów i raport zmian",
     "desc": "Nowa wtyczka do kontroli posiadanej listy kanałów: kopia bezpieczeństwa, raport zmian, dopisywanie nowych kanałów do pasujących bukietów i wybór pakietu kontrolnego dla wielu satelitów.",
-    "details": "PP Channel Sync v1.0.13 dla Enigma2 Python 3. Wtyczka pomaga kontrolować i bezpiecznie korygować posiadaną listę kanałów, bez typowego wgrywania całej gotowej listy. Dodano kopię bezpieczeństwa, raport zmian, obsługę wielu satelitów i czytelny ekran z kodem QR wsparcia.",
+    "details": "PP Channel Sync v1.0.17 dla Enigma2 Python 2/3. Wtyczka pomaga kontrolować i bezpiecznie korygować posiadaną listę kanałów, bez typowego wgrywania całej gotowej listy. Dodano kopię bezpieczeństwa, raport zmian, obsługę wielu satelitów i czytelny ekran z kodem QR wsparcia.",
     "url": "plugin-pp-channel-sync.html",
     "tags": [
       "PP Channel Sync",
@@ -104,7 +104,7 @@
     "ts": 1775563200000,
     "type": "fix",
     "title": "AIO Panel v10.0.3 — poprawki GUI, Tip dnia AIO i stabilniejsze instalatory",
-    "details": "Aktualizacja AIO Panel do wersji v10.0.3 (07.04.2026).\n\nNajważniejsze zmiany:\n• Usunięty błąd modalny po zamknięciu Console: „Modal open are allowed only from a screen which is modal!”\n• Tip dnia AIO działa teraz w dedykowanym oknie AIO zamiast w systemowym MessageBox\n• OK/EXIT zamyka tip, LEFT/RIGHT przełącza wskazówki, UP/DOWN przewija dłuższy tekst\n• Usunięty licznik timeout z tytułu i poprawione skalowanie UI pod mniejsze skiny\n• Dodany zewnętrzny plik aio_tips.txt z parserem sekcji [PL]/[EN] i bezpiecznym fallbackiem\n• Installer pobiera nowy plik z repozytorium, a okno restartu po instalacji otwierane jest w bezpieczniejszy sposób\n• Zachowana pełna zgodność z Python 2 / Python 3\n\nWydanie zbiera także poprawki 10.0.2 i 10.0.1 oraz utrzymuje nowości bazowe serii 10.x: TV Garden, Simple ZOOM Panel, instalatory wtyczek, poprawiony Super Konfigurator i nowe opisy Picon."
+    "details": "Aktualizacja AIO Panel do wersji v10.0.3 (07.04.2026).\n\nNajważniejsze zmiany:\n• Usunięty błąd modalny po zamknięciu Console: „Modal open are allowed only from a screen which is modal!”\n• Tip dnia AIO działa teraz w dedykowanym oknie AIO zamiast w systemowym MessageBox\n• OK/EXIT zamyka tip, LEFT/RIGHT przełącza wskazówki, UP/DOWN przewija dłuższy tekst\n• Usunięty licznik timeout z tytułu i poprawione skalowanie UI pod mniejsze skiny\n• Dodany zewnętrzny plik aio_tips.txt z parserem sekcji [PL]/[EN] i bezpiecznym fallbackiem\n• Installer pobiera nowy plik z repozytorium, a okno restartu po instalacji otwierane jest w bezpieczniejszy sposób\n• Zachowana pełna zgodność z Python 2 / Python 2/3\n\nWydanie zbiera także poprawki 10.0.2 i 10.0.1 oraz utrzymuje nowości bazowe serii 10.x: TV Garden, Simple ZOOM Panel, instalatory wtyczek, poprawiony Super Konfigurator i nowe opisy Picon."
   },
   {
     "date": "28.03.2026",

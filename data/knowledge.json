@@ -65,7 +65,7 @@
       "enigma2"
     ],
     "commands": [
-      "opkg install --force-reinstall /tmp/enigma2-plugin-extensions-ppchannelsync_1.0.13_all.ipk"
+      "opkg install --force-reinstall /tmp/enigma2-plugin-extensions-ppchannelsync_1.0.17_all.ipk"
     ],
     "link": "plugin-pp-channel-sync.html"
   }

@@ -66,8 +66,8 @@
     ]
   },
   {
-    "title": "PP Channel Sync v1.0.13",
-    "desc": "Wtyczka Enigma2 Python 3 do kontroli i korekty posiadanej listy kanałów, z kopią bezpieczeństwa, raportem zmian, dopisywaniem nowych kanałów do pasujących bukietów i obsługą wielu satelitów.",
+    "title": "PP Channel Sync v1.0.17",
+    "desc": "Wtyczka Enigma2 Python 2/3 do kontroli i korekty posiadanej listy kanałów, z kopią bezpieczeństwa, raportem zmian, dopisywaniem nowych kanałów do pasujących bukietów i obsługą wielu satelitów.",
     "url": "plugin-pp-channel-sync.html",
     "tags": [
       "PP Channel Sync",
@@ -77,7 +77,7 @@
       "lamedb",
       "bukiety",
       "Enigma2",
-      "Python 3",
+      "Python 2/3",
       "satelity",
       "Hot Bird",
       "Dual Feed",
