@@ -1,5 +1,23 @@
 [
   {
+    "date": "2026-06-28",
+    "ts": 1782624000000,
+    "type": "release",
+    "title": "PP Channel Sync v1.0.13 — korekta list kanałów i raport zmian",
+    "desc": "Nowa wtyczka do kontroli posiadanej listy kanałów: kopia bezpieczeństwa, raport zmian, dopisywanie nowych kanałów do pasujących bukietów i wybór pakietu kontrolnego dla wielu satelitów.",
+    "details": "PP Channel Sync v1.0.13 dla Enigma2 Python 3. Wtyczka pomaga kontrolować i bezpiecznie korygować posiadaną listę kanałów, bez typowego wgrywania całej gotowej listy. Dodano kopię bezpieczeństwa, raport zmian, obsługę wielu satelitów i czytelny ekran z kodem QR wsparcia.",
+    "url": "plugin-pp-channel-sync.html",
+    "tags": [
+      "PP Channel Sync",
+      "Enigma2",
+      "listy kanałów",
+      "bukiety",
+      "raport",
+      "kopia",
+      "satelity"
+    ]
+  },
+  {
     "date": "2026-06-24",
     "ts": 1782333056000,
     "type": "release",

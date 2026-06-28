@@ -66,6 +66,26 @@
     ]
   },
   {
+    "title": "PP Channel Sync v1.0.13",
+    "desc": "Wtyczka Enigma2 Python 3 do kontroli i korekty posiadanej listy kanałów, z kopią bezpieczeństwa, raportem zmian, dopisywaniem nowych kanałów do pasujących bukietów i obsługą wielu satelitów.",
+    "url": "plugin-pp-channel-sync.html",
+    "tags": [
+      "PP Channel Sync",
+      "ppchannelsync",
+      "channel sync",
+      "listy kanałów",
+      "lamedb",
+      "bukiety",
+      "Enigma2",
+      "Python 3",
+      "satelity",
+      "Hot Bird",
+      "Dual Feed",
+      "raport",
+      "kopia bezpieczeństwa"
+    ]
+  },
+  {
     "title": "NeoRadio v2.1",
     "desc": "Radio internetowe dla Enigma2 w trybie Radio-Browser Online: aktualna baza stacji pobierana z serwera, domyślny wybór kraju zgodnie z tunerem, możliwość wyboru innego regionu i przeładowania stacji.",
     "url": "plugin-neoradio.html",

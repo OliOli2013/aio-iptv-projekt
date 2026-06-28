@@ -53,5 +53,20 @@
       "wget -O - -q http://updates.mynonpublic.com/oea/feed | bash"
     ],
     "link": "help-softcam-feed.html"
+  },
+  {
+    "title": "PP Channel Sync — kontrola listy kanałów",
+    "summary": "Wtyczka do kontroli i korekty posiadanej listy kanałów z kopią bezpieczeństwa, raportem zmian i obsługą wielu satelitów.",
+    "tags": [
+      "pp channel sync",
+      "listy kanałów",
+      "bukiety",
+      "lamedb",
+      "enigma2"
+    ],
+    "commands": [
+      "opkg install --force-reinstall /tmp/enigma2-plugin-extensions-ppchannelsync_1.0.13_all.ipk"
+    ],
+    "link": "plugin-pp-channel-sync.html"
   }
 ]
