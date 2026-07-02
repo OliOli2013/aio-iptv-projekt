@@ -7,7 +7,7 @@
 
 ---
 
-> **Najnowsze wydanie:** AIO Panel **13.0.1** — dodany instalator PP Channel Sync, zaktualizowane dane oscam.dvbapi Poland, poprawiony instalator Fury FHD oraz usunięta niepotrzebna pozycja menu „Czyszczenie niedziałających wtyczek”.
+> **Najnowsze wydanie:** AIO Panel **13.0.2** — poprawki działania na OpenPLi, instalacji list kanałów, odświeżania list i bukietów, pobierania dodatków online oraz bezpieczniejszej instalacji list.
 > **NeoRadio:** wersja **1.3.3** — RDS / ICY / Teraz gra, przebudowane metadane stacji, nowy wygląd i poprawki stabilności.
 
 ## 🚀 Oficjalna Strona i Pobieranie
