@@ -7,7 +7,7 @@
 
 ---
 
-> **Najnowsze wydanie:** AIO Panel **13.0.0 Final** — poprawki FHD skinów, bezpieczniejszy MessageBox, obsługa OSCam jej@n / S4Updater przez wykrywanie katalogu aktywnego OSCam oraz instalator OSCam Levi45.
+> **Najnowsze wydanie:** AIO Panel **13.0.1** — dodany instalator PP Channel Sync, zaktualizowane dane oscam.dvbapi Poland, poprawiony instalator Fury FHD oraz usunięta niepotrzebna pozycja menu „Czyszczenie niedziałających wtyczek”.
 > **NeoRadio:** wersja **1.3.3** — RDS / ICY / Teraz gra, przebudowane metadane stacji, nowy wygląd i poprawki stabilności.
 
 ## 🚀 Oficjalna Strona i Pobieranie

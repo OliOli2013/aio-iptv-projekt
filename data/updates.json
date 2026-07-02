@@ -1,5 +1,30 @@
 [
   {
+    "date": "2026-07-02",
+    "ts": 1782950400000,
+    "type": "release",
+    "title": "AIO Panel 13.0.1 — PP Channel Sync, oscam.dvbapi Poland i Fury FHD",
+    "desc": "Nowa aktualizacja AIO Panel 13.0.1: dodano instalator PP Channel Sync, zaktualizowano oscam.dvbapi Poland, poprawiono instalator Fury FHD oraz usunięto niepotrzebną pozycję Czyszczenie niedziałających wtyczek.",
+    "details": "[13.0.1]\nAIO Panel 13.0.1\n- Dodano instalator PP Channel Sync dostępny bezpośrednio z poziomu AIO Panel.\n- PP Channel Sync pomaga przy pracy z listami kanałów i ich synchronizacją.\n- Zaktualizowano bazę oscam.dvbapi Poland w zakładce Softcamy.\n- Funkcja oscam.dvbapi Poland jest przeznaczona dla użytkowników OSCam, którzy chcą szybko uzupełnić lub zaktualizować wpisy dla polskich platform.\n- Poprawiono polecenie instalatora skina Fury FHD.\n- Usunięto z menu pozycję Czyszczenie niedziałających wtyczek.\n- Pozostałe funkcje AIO Panel pozostają bez zmian.\n- Aktualizacja dostępna jest z poziomu wtyczki AIO Panel. Po aktualizacji zalecany jest ręczny Restart GUI.",
+    "url": "plugin-aio-panel.html",
+    "tags": [
+      "AIO Panel",
+      "13.0.1",
+      "Enigma2",
+      "PP Channel Sync",
+      "ppchannelsync",
+      "listy kanałów",
+      "oscam.dvbapi",
+      "oscam.dvbapi Poland",
+      "OSCam",
+      "Softcamy",
+      "Fury FHD",
+      "skin",
+      "Restart GUI",
+      "aktualizacja"
+    ]
+  },
+  {
     "date": "2026-06-28",
     "ts": 1782624000000,
     "type": "release",

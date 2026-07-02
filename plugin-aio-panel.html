@@ -3,15 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AIO Panel 13.0.0 | AIO-IPTV.pl</title>
-  <meta name="description" content="Listy kanałów, softcamy, instalatory, backup, restore i diagnostyka Enigma2.">
+  <title>AIO Panel 13.0.1 | AIO-IPTV.pl</title>
+  <meta name="description" content="AIO Panel 13.0.1 dla Enigma2: PP Channel Sync, odświeżone oscam.dvbapi Poland, poprawiony instalator Fury FHD i porządki w menu.">
   <link rel="icon" href="pliki/logo.png">
   <link rel="manifest" href="manifest.json">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/user-premium.css?v=20260602-v5">
-  
 </head>
 <body class="">
   <div class="page-shell">
@@ -24,8 +23,104 @@
       <button class="mobile-menu" type="button" data-menu-toggle>Menu</button>
     </header>
     <div class="content-layout">
-      <aside class="side-panel"><h2>Pomoc użytkownika</h2><nav><a href="plugins.html">Wtyczki</a><a href="guides.html">Poradniki</a><a href="one-liner.html">One‑Liner / FTP</a><a href="channel-lists.html">Listy kanałów</a><a href="systems.html">Multi‑Click i systemy</a><a href="ai-chat.html">AI Chat</a><a href="contact.html">Kontakt i wsparcie</a></nav><div class="side-help"><strong>Szybka pomoc</strong><a href="guide-terminal-openwebif.html">Terminal / OpenWebif</a><a href="guide-oscam.html">Dane do OSCam</a><a href="guide-xstremity.html">IPTV do Xstremity</a><a href="help-softcam-feed.html">SoftCam feed</a><a href="help-picons-serviceref.html">Picony / ServiceRef</a><a href="help-restart-gui.html">Restart GUI</a></div></aside>
-      <main class="content-main"><section class="hero-compact"><div><p class="script-line">Witam na mojej stronie <span>Paweł Pawełek</span></p><p class="eyebrow">Panel główny</p><h1>AIO Panel 13.0.0 Final</h1><p class="lead">Finalna wersja AIO Panel 13.0.0: poprawki crasha na skinach FHD, bezpieczniejsza obsługa zadań tła, lepsze wykrywanie katalogu aktywnego OSCam oraz nowy instalator OSCam Levi45.</p><div class="action-row"><a class="button primary" href="pliki/enigma2-plugin-extensions-panelaio_13.0.0_all.ipk">Pobierz IPK</a><a class="button" href="plugins.html">Wróć do wtyczek</a></div></div><figure><img src="pliki/aio-panel-13.0.0-screen.png" alt="AIO Panel 13.0.0"><figcaption>AIO Panel 13.0.0</figcaption></figure></section><div class="detail-grid"><section class="module"><h2>Do czego służy</h2><p>Finalna wersja AIO Panel 13.0.0: poprawki crasha na skinach FHD, bezpieczniejsza obsługa zadań tła, lepsze wykrywanie katalogu aktywnego OSCam oraz nowy instalator OSCam Levi45.</p><p><strong>Plik:</strong> <a href="pliki/enigma2-plugin-extensions-panelaio_13.0.0_all.ipk">enigma2-plugin-extensions-panelaio_13.0.0_all.ipk</a> 204.4 KB</p></section><section class="module"><h2>Najważniejsze zmiany w 13.0.0 Final</h2><ul class="clean-list"><li>naprawiono crash na skinach FHD, zgłoszony między innymi dla Algare FHD</li><li>usunięto problematyczne <code>MessageBox(enable_input=False)</code> z zadań tła</li><li>dodano bezpieczny fallback dla okien MessageBox</li><li>poprawiono obsługę plików OSCam dla niestandardowych instalacji, szczególnie OSCam jej@n / S4Updater</li><li>funkcje <code>oscam.dvbapi</code>, <code>oscam.srvid</code>, <code>oscam.srvid2</code>, <code>SoftCam.Key</code> oraz kasowanie hasła wykrywają katalog z aktywnego procesu OSCam</li><li>przed zmianą plików OSCam tworzone są kopie bezpieczeństwa z datą</li><li>jeżeli katalog konfiguracji OSCam nie zostanie wykryty jednoznacznie, operacja zostaje przerwana</li><li>dodano instalator OSCam Levi45 z oficjalnego polecenia Levi45Emulator</li><li>menu pokazuje uproszczoną nazwę <strong>Oscam Levi45</strong> oraz wykryty numer OSCam</li></ul></section></div><section class="module"><h2>Changelog 13.0.0 Final</h2><div class="detail-grid"><div><h3>Skiny FHD i zadania tła</h3><ul class="clean-list"><li>naprawiono restart Enigmy przy otwieraniu okna oczekiwania w <code>run_command_in_background</code></li><li>zrezygnowano z <code>MessageBox(enable_input=False)</code>, który potrafił wywoływać crash na wybranych skinach FHD</li><li>dodano fallback, dzięki któremu problem skina nie powinien zatrzymywać pracy wtyczki</li></ul></div><div><h3>OSCam i bezpieczeństwo plików</h3><ul class="clean-list"><li>poprawiono pracę z niestandardowymi instalacjami OSCam, szczególnie jej@n / S4Updater</li><li>AIO Panel wykrywa katalog konfiguracji z aktywnego procesu OSCam, zamiast zgadywać ścieżkę</li><li>przed zmianą plików tworzony jest backup z datą</li><li>brak jednoznacznej ścieżki oznacza przerwanie operacji ze względów bezpieczeństwa</li></ul></div></div><div class="detail-grid"><div><h3>Nowy instalator</h3><ul class="clean-list"><li>dodano <strong>Oscam Levi45</strong> w zakładce Softcamy</li><li>instalator korzysta z oficjalnego polecenia projektu Levi45Emulator</li><li>w menu widoczna jest uproszczona nazwa oraz wykryty numer OSCam</li></ul></div><div><h3>Zalecenie</h3><ul class="clean-list"><li>po aktualizacji wykonaj ręczny Restart GUI</li><li>przy niestandardowym OSCam sprawdź jego działanie przed użyciem funkcji aktualizacji plików OSCam</li></ul></div></div></section><section class="module"><h2>Zdjęcia / podgląd</h2><div class="guide-gallery"><figure><a href="pliki/aio-panel-13.0.0-screen.png" target="_blank" rel="noopener"><img src="pliki/aio-panel-13.0.0-screen.png" alt="AIO Panel 13.0.0" loading="lazy"></a><figcaption>Aktualny ekran AIO Panel 13.0.0 Final.</figcaption></figure><figure><a href="pliki/aio-panel-v9-update-methods.png" target="_blank" rel="noopener"><img src="pliki/aio-panel-v9-update-methods.png" alt="AIO Panel — metody aktualizacji" loading="lazy"></a><figcaption>Przykład wcześniejszych metod aktualizacji.</figcaption></figure><figure><a href="pliki/aio-panel-v9-key-changes.png" target="_blank" rel="noopener"><img src="pliki/aio-panel-v9-key-changes.png" alt="AIO Panel — zmiany" loading="lazy"></a><figcaption>Przykład opisu zmian w AIO Panel.</figcaption></figure></div></section><section class="module"><h2>Instalacja przez terminal</h2><div class="command"><div><strong>Instalator AIO Panel — polecenie podstawowe</strong><button type="button" data-copy="wget -q -O - https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh | /bin/sh">Kopiuj</button></div><pre><code>wget -q -O - https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh | /bin/sh</code></pre><p class="command-note">Domyślna komenda dla użytkownika.</p></div><div class="command"><div><strong>Instalator AIO Panel — wariant OpenPLi / problemy z GitHub</strong><button type="button" data-copy="wget -q -O - --user-agent=&quot;Enigma2&quot; -4 https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh | /bin/sh">Kopiuj</button></div><pre><code>wget -q -O - --user-agent=&quot;Enigma2&quot; -4 https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh | /bin/sh</code></pre><p class="command-note">Użyj tylko gdy zwykłe pobieranie z GitHuba nie działa.</p></div></section><section class="module" id="ftp"><h2>Instalacja pobranego IPK przez FTP</h2><p>Jeśli pobierasz paczkę ręcznie: wgraj plik IPK do katalogu <code>/tmp</code>, a potem wykonaj instalację w terminalu.</p><div class="command"><div><strong>Instalacja IPK z /tmp</strong><button type="button" data-copy="opkg install /tmp/nazwa_paczki.ipk">Kopiuj</button></div><pre><code>opkg install /tmp/nazwa_paczki.ipk</code></pre></div></section></main>
+      <aside class="side-panel">
+        <h2>Pomoc użytkownika</h2>
+        <nav><a href="plugins.html">Wtyczki</a><a href="guides.html">Poradniki</a><a href="one-liner.html">One‑Liner / FTP</a><a href="channel-lists.html">Listy kanałów</a><a href="systems.html">Multi‑Click i systemy</a><a href="ai-chat.html">AI Chat</a><a href="contact.html">Kontakt i wsparcie</a></nav>
+        <div class="side-help"><strong>Szybka pomoc</strong><a href="guide-terminal-openwebif.html">Terminal / OpenWebif</a><a href="guide-oscam.html">Dane do OSCam</a><a href="guide-xstremity.html">IPTV do Xstremity</a><a href="help-softcam-feed.html">SoftCam feed</a><a href="help-picons-serviceref.html">Picony / ServiceRef</a><a href="help-restart-gui.html">Restart GUI</a></div>
+      </aside>
+      <main class="content-main">
+        <section class="hero-compact">
+          <div>
+            <p class="script-line">Witam na mojej stronie <span>Paweł Pawełek</span></p>
+            <p class="eyebrow">Panel główny • aktualizacja 13.0.1</p>
+            <h1>AIO Panel 13.0.1</h1>
+            <p class="lead">Aktualizacja AIO Panel 13.0.1 dla Enigma2. W tej wersji główny nacisk został położony na dodanie instalatora PP Channel Sync oraz odświeżenie danych <strong>oscam.dvbapi Poland</strong>.</p>
+            <div class="action-row"><a class="button primary" href="pliki/enigma2-plugin-extensions-panelaio_13.0.1_all.ipk">Pobierz IPK</a><a class="button" href="plugins.html">Wróć do wtyczek</a></div>
+          </div>
+          <figure><img src="pliki/aio-panel-13.0.1-screen.jpg" alt="AIO Panel 13.0.1"><figcaption>AIO Panel 13.0.1</figcaption></figure>
+        </section>
+
+        <div class="detail-grid">
+          <section class="module">
+            <h2>Do czego służy</h2>
+            <p>AIO Panel to panel narzędziowy dla Enigma2. Pozwala z jednego miejsca uruchamiać instalatory wtyczek, list kanałów, softcamów, piconów, skór, narzędzi systemowych oraz funkcji naprawy i aktualizacji.</p>
+            <p>Wydanie <strong>13.0.1</strong> jest aktualizacją funkcjonalną: dodaje PP Channel Sync, aktualizuje bazę oscam.dvbapi Poland, poprawia instalator Fury FHD oraz usuwa z menu niepotrzebną pozycję.</p>
+            <p><strong>Plik:</strong> <a href="pliki/enigma2-plugin-extensions-panelaio_13.0.1_all.ipk">enigma2-plugin-extensions-panelaio_13.0.1_all.ipk</a> 206.4 KB</p>
+          </section>
+          <section class="module">
+            <h2>Najważniejsze zmiany w 13.0.1</h2>
+            <ul class="clean-list">
+              <li>dodano instalator <strong>PP Channel Sync</strong> bezpośrednio z poziomu AIO Panel</li>
+              <li>zaktualizowano dane <strong>oscam.dvbapi Poland</strong> w zakładce Softcamy</li>
+              <li>poprawiono polecenie instalatora skina <strong>Fury FHD</strong></li>
+              <li>usunięto z menu pozycję <strong>Czyszczenie niedziałających wtyczek</strong></li>
+              <li>pozostałe funkcje AIO Panel pozostają bez zmian</li>
+            </ul>
+          </section>
+        </div>
+
+        <section class="module">
+          <h2>Changelog 13.0.1</h2>
+          <div class="detail-grid">
+            <div>
+              <h3>PP Channel Sync</h3>
+              <ul class="clean-list">
+                <li>dodano nową pozycję instalatora PP Channel Sync</li>
+                <li>instalacja odbywa się z poziomu AIO Panel, bez ręcznego wpisywania komend w terminalu</li>
+                <li>wtyczka pomaga przy pracy z listami kanałów oraz ich synchronizacją</li>
+                <li>instalator korzysta z polecenia: <code>wget -q -O - https://raw.githubusercontent.com/OliOli2013/PPChannelSync-Plugin/main/installer.sh | /bin/sh</code></li>
+              </ul>
+            </div>
+            <div>
+              <h3>oscam.dvbapi Poland</h3>
+              <ul class="clean-list">
+                <li>podmieniono i odświeżono bazę <code>oscam.dvbapi</code> dla polskich platform</li>
+                <li>funkcja dostępna jest w zakładce <strong>Softcamy</strong></li>
+                <li>przeznaczona jest dla użytkowników OSCam, którzy chcą szybko uzupełnić lub zaktualizować wpisy dla Polski</li>
+              </ul>
+            </div>
+          </div>
+          <div class="detail-grid">
+            <div>
+              <h3>Skin Fury FHD</h3>
+              <ul class="clean-list">
+                <li>zaktualizowano źródło instalatora Fury FHD</li>
+                <li>nowe polecenie: <code>wget -q &quot;--no-check-certificate&quot; https://raw.githubusercontent.com/islam-2412/IPKS/refs/heads/main/fury/installer.sh -O - | /bin/sh</code></li>
+              </ul>
+            </div>
+            <div>
+              <h3>Porządki w menu</h3>
+              <ul class="clean-list">
+                <li>usunięto funkcję <strong>Czyszczenie niedziałających wtyczek</strong></li>
+                <li>reszta funkcji, układ panelu i dotychczasowe narzędzia zostają bez zmian</li>
+                <li>po aktualizacji zalecany jest ręczny <strong>Restart GUI</strong></li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="module">
+          <h2>Zdjęcia / podgląd</h2>
+          <div class="guide-gallery">
+            <figure><a href="pliki/aio-panel-13.0.1-screen.jpg" target="_blank" rel="noopener"><img src="pliki/aio-panel-13.0.1-screen.jpg" alt="AIO Panel 13.0.1" loading="lazy"></a><figcaption>Aktualny ekran AIO Panel 13.0.1.</figcaption></figure>
+            <figure><a href="pliki/aio-panel-13.0.0-screen.png" target="_blank" rel="noopener"><img src="pliki/aio-panel-13.0.0-screen.png" alt="AIO Panel 13.0.0" loading="lazy"></a><figcaption>Poprzednie wydanie 13.0.0.</figcaption></figure>
+            <figure><a href="pliki/aio-panel-v9-update-methods.png" target="_blank" rel="noopener"><img src="pliki/aio-panel-v9-update-methods.png" alt="AIO Panel — metody aktualizacji" loading="lazy"></a><figcaption>Przykład metod aktualizacji AIO Panel.</figcaption></figure>
+          </div>
+        </section>
+
+        <section class="module">
+          <h2>Aktualizacja i instalacja</h2>
+          <p>Aktualizacja dostępna jest bezpośrednio z poziomu wtyczki AIO Panel. Wejdź w AIO Panel, użyj opcji aktualizacji, a po zakończeniu wykonaj ręczny Restart GUI.</p>
+          <div class="command"><div><strong>Instalator AIO Panel — polecenie podstawowe</strong><button type="button" data-copy="wget -q -O - https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh | /bin/sh">Kopiuj</button></div><pre><code>wget -q -O - https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh | /bin/sh</code></pre><p class="command-note">Domyślna komenda dla użytkownika.</p></div>
+          <div class="command"><div><strong>Instalator AIO Panel — wariant OpenPLi / problemy z GitHub</strong><button type="button" data-copy="wget -q -O - --user-agent=&quot;Enigma2&quot; -4 https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh | /bin/sh">Kopiuj</button></div><pre><code>wget -q -O - --user-agent=&quot;Enigma2&quot; -4 https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh | /bin/sh</code></pre><p class="command-note">Użyj tylko wtedy, gdy zwykłe pobieranie z GitHuba nie działa.</p></div>
+        </section>
+
+        <section class="module" id="ftp">
+          <h2>Instalacja pobranego IPK przez FTP</h2>
+          <p>Jeśli pobierasz paczkę ręcznie: wgraj plik IPK do katalogu <code>/tmp</code>, a potem wykonaj instalację w terminalu.</p>
+          <div class="command"><div><strong>Instalacja IPK z /tmp</strong><button type="button" data-copy="opkg install /tmp/enigma2-plugin-extensions-panelaio_13.0.1_all.ipk">Kopiuj</button></div><pre><code>opkg install /tmp/enigma2-plugin-extensions-panelaio_13.0.1_all.ipk</code></pre></div>
+        </section>
+      </main>
     </div>
     <footer class="site-footer">
       <div><strong>AIO‑IPTV.pl</strong><span>Wtyczki, poradniki, listy kanałów, Multi‑Click, One‑Liner i AI Chat.</span></div>
