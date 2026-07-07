@@ -1,3 +1,0 @@
-Stare pliki HTML do usunięcia z repozytorium, jeżeli chcesz mieć całkowicie czystą strukturę:
-
-
