@@ -1,1 +1,0 @@
-Wersja v5 została skorygowana względem pierwotnej strony: poprawiono polecenia One-Liner, przywrócono zdjęcia do wtyczek i poradników oraz usunięto wymyślone komendy instalacji AIO Panel. Domyślna komenda AIO Panel: wget -q -O - https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh | /bin/sh
