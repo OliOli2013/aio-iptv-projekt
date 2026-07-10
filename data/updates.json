@@ -1,5 +1,32 @@
 [
   {
+    "date": "2026-07-10",
+    "ts": 1783641600000,
+    "type": "release",
+    "title": "AIO Panel 13.0.3 — Super Konfigurator, sortowanie list i bezpieczny Restore",
+    "desc": "AIO Panel 13.0.3: Super Konfigurator instaluje listę AIO Team 13E + 19.2E, poprawiono układanie i sortowanie list kanałów oraz naprawiono Restore list bez naruszania ustawień tunera.",
+    "details": "[13.0.3]\nAIO Panel 13.0.3\n- Super Konfigurator instaluje teraz listę AIO Team 13E + 19.2E.\n- Poprawiono układanie i sortowanie list kanałów.\n- Naprawiono funkcję Restore list kanałów — przywracanie list nie powinno już naruszać ustawień tunera, sieci, głowic ani konfiguracji systemu.\n- Pozostałe funkcje pozostają bez zmian.\n- Aktualizacja dostępna jest z poziomu wtyczki AIO Panel. Po aktualizacji zalecany jest ręczny Restart GUI.",
+    "url": "plugin-aio-panel.html",
+    "tags": [
+      "AIO Panel",
+      "13.0.3",
+      "Enigma2",
+      "Super Konfigurator",
+      "AIO Team",
+      "13E",
+      "19.2E",
+      "listy kanałów",
+      "sortowanie",
+      "Restore",
+      "backup",
+      "ustawienia tunera",
+      "sieć",
+      "głowice",
+      "Restart GUI",
+      "aktualizacja"
+    ]
+  },
+  {
     "date": "2026-07-02",
     "ts": 1782950400000,
     "type": "release",

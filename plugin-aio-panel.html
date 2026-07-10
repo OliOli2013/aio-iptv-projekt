@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AIO Panel 13.0.2 | AIO-IPTV.pl</title>
-  <meta name="description" content="AIO Panel 13.0.2 dla Enigma2: poprawki OpenPLi, instalacji list kanałów, odświeżania bukietów, pobierania dodatków online i bezpieczniejszej instalacji list.">
+  <title>AIO Panel 13.0.3 | AIO-IPTV.pl</title>
+  <meta name="description" content="AIO Panel 13.0.3 dla Enigma2: Super Konfigurator z listą AIO Team 13E + 19.2E, poprawione układanie i sortowanie list kanałów oraz bezpieczne przywracanie list bez naruszania ustawień tunera.">
   <link rel="icon" href="pliki/logo.png">
   <link rel="manifest" href="manifest.json">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,67 +32,65 @@
         <section class="hero-compact">
           <div>
             <p class="script-line">Witam na mojej stronie <span>Paweł Pawełek</span></p>
-            <p class="eyebrow">Panel główny • aktualizacja 13.0.2</p>
-            <h1>AIO Panel 13.0.2</h1>
-            <p class="lead">Poprawiona wersja AIO Panel 13.0.2 dla Enigma2. Aktualizacja została przygotowana głównie z myślą o użytkownikach <strong>OpenPLi</strong>, u których pojawiały się problemy z pobieraniem i instalacją list kanałów oraz niektórych dodatków z GitHub.</p>
-            <div class="action-row"><a class="button primary" href="pliki/enigma2-plugin-extensions-panelaio_13.0.2_all.ipk">Pobierz IPK</a><a class="button" href="plugins.html">Wróć do wtyczek</a></div>
+            <p class="eyebrow">Panel główny • aktualizacja 13.0.3</p>
+            <h1>AIO Panel 13.0.3</h1>
+            <p class="lead">Nowa wersja AIO Panel 13.0.3 dla Enigma2. Aktualizacja usprawnia Super Konfigurator, układanie i sortowanie list kanałów oraz naprawia funkcję Restore list kanałów.</p>
+            <div class="action-row"><a class="button primary" href="pliki/enigma2-plugin-extensions-panelaio_13.0.3_all.ipk">Pobierz IPK</a><a class="button" href="plugins.html">Wróć do wtyczek</a></div>
           </div>
-          <figure><img src="pliki/aio-panel-13.0.2-screen.png" alt="AIO Panel 13.0.2"><figcaption>AIO Panel 13.0.2</figcaption></figure>
+          <figure><img src="pliki/aio-panel-13.0.3-screen.png" alt="AIO Panel 13.0.3"><figcaption>AIO Panel 13.0.3</figcaption></figure>
         </section>
 
         <div class="detail-grid">
           <section class="module">
             <h2>Do czego służy</h2>
             <p>AIO Panel to panel narzędziowy dla Enigma2. Pozwala z jednego miejsca uruchamiać instalatory wtyczek, list kanałów, softcamów, piconów, skór, narzędzi systemowych oraz funkcji naprawy i aktualizacji.</p>
-            <p>Wydanie <strong>13.0.2</strong> jest aktualizacją naprawczą. Poprawia działanie na OpenPLi, instalację list kanałów, pobieranie dodatków online oraz bezpieczeństwo instalacji list.</p>
-            <p><strong>Plik:</strong> <a href="pliki/enigma2-plugin-extensions-panelaio_13.0.2_all.ipk">enigma2-plugin-extensions-panelaio_13.0.2_all.ipk</a> 212.1 KB</p>
+            <p>Wydanie <strong>13.0.3</strong> usprawnia obsługę list kanałów i naprawia funkcję Restore, aby przywracanie list nie naruszało ustawień tunera, sieci, głowic ani pozostałej konfiguracji systemu.</p>
+            <p><strong>Plik:</strong> <a href="pliki/enigma2-plugin-extensions-panelaio_13.0.3_all.ipk">enigma2-plugin-extensions-panelaio_13.0.3_all.ipk</a> 211.9 KB</p>
           </section>
           <section class="module">
-            <h2>Najważniejsze zmiany w 13.0.2</h2>
+            <h2>Najważniejsze zmiany w 13.0.3</h2>
             <ul class="clean-list">
-              <li>poprawiono działanie AIO Panel na <strong>OpenPLi</strong></li>
-              <li>poprawiono instalację list kanałów</li>
-              <li>po instalacji listy AIO wykonuje teraz odświeżenie list i bukietów</li>
-              <li>poprawiono pobieranie dodatków online</li>
-              <li>zwiększono bezpieczeństwo instalacji list kanałów</li>
+              <li>Super Konfigurator instaluje teraz listę <strong>AIO Team 13E + 19.2E</strong></li>
+              <li>poprawiono układanie i sortowanie list kanałów</li>
+              <li>naprawiono funkcję <strong>Restore list kanałów</strong></li>
+              <li>przywracanie list nie powinno już naruszać ustawień tunera, sieci, głowic ani konfiguracji systemu</li>
               <li>pozostałe funkcje AIO Panel pozostają bez zmian</li>
             </ul>
           </section>
         </div>
 
         <section class="module">
-          <h2>Changelog 13.0.2</h2>
+          <h2>Changelog 13.0.3</h2>
           <div class="detail-grid">
             <div>
-              <h3>OpenPLi</h3>
+              <h3>Super Konfigurator</h3>
               <ul class="clean-list">
-                <li>poprawiono kompatybilność działania AIO Panel na obrazach OpenPLi</li>
-                <li>poprawiono obsługę pobierania plików z GitHub w przypadkach, gdy standardowe pobieranie sprawiało problemy</li>
-                <li>poprawki dotyczą przede wszystkim list kanałów oraz wybranych dodatków online</li>
+                <li>domyślnie instaluje teraz listę AIO Team dla pozycji <strong>Hot Bird 13°E + Astra 19.2°E</strong></li>
+                <li>zmiana dotyczy listy wybieranej podczas automatycznej konfiguracji tunera</li>
               </ul>
             </div>
             <div>
               <h3>Listy kanałów</h3>
               <ul class="clean-list">
-                <li>poprawiono mechanizm instalacji list kanałów</li>
-                <li>po prawidłowej instalacji listy wykonywane jest odświeżenie list i bukietów</li>
-                <li>obecna lista kanałów nie powinna zostać usunięta, jeśli nowa lista nie zainstaluje się prawidłowo</li>
+                <li>poprawiono sposób układania dostępnych list kanałów</li>
+                <li>poprawiono ich sortowanie, aby aktualne pozycje były prezentowane w prawidłowej kolejności</li>
               </ul>
             </div>
           </div>
           <div class="detail-grid">
             <div>
-              <h3>Dodatki online</h3>
+              <h3>Restore list kanałów</h3>
               <ul class="clean-list">
-                <li>poprawiono pobieranie dodatków online z poziomu AIO Panel</li>
-                <li>instalacja dodatków powinna działać stabilniej na obrazach, które mają problem z bezpośrednim pobieraniem z GitHub</li>
+                <li>naprawiono mechanizm przywracania kopii list kanałów</li>
+                <li>Restore przywraca dane związane z listami kanałów, bez resetowania pozostałej konfiguracji Enigma2</li>
+                <li>ustawienia sieci, głowic, tunera i systemu nie powinny być naruszane</li>
               </ul>
             </div>
             <div>
-              <h3>Bezpieczeństwo instalacji</h3>
+              <h3>Aktualizacja</h3>
               <ul class="clean-list">
-                <li>zwiększono zabezpieczenia podczas instalacji list kanałów</li>
-                <li>instalacja powinna ograniczyć ryzyko utraty aktualnej listy w razie nieudanego pobrania lub błędu instalacji</li>
+                <li>aktualizacja jest dostępna bezpośrednio z poziomu AIO Panel</li>
+                <li>pozostałe funkcje wtyczki pozostają bez zmian</li>
                 <li>po aktualizacji zalecany jest ręczny <strong>Restart GUI</strong></li>
               </ul>
             </div>
@@ -102,8 +100,8 @@
         <section class="module">
           <h2>Zdjęcia / podgląd</h2>
           <div class="guide-gallery">
-            <figure><a href="pliki/aio-panel-13.0.2-screen.png" target="_blank" rel="noopener"><img src="pliki/aio-panel-13.0.2-screen.png" alt="AIO Panel 13.0.2" loading="lazy"></a><figcaption>Aktualny ekran AIO Panel 13.0.2.</figcaption></figure>
-            <figure><a href="pliki/aio-panel-13.0.1-screen.jpg" target="_blank" rel="noopener"><img src="pliki/aio-panel-13.0.1-screen.jpg" alt="AIO Panel 13.0.1" loading="lazy"></a><figcaption>Poprzednie wydanie 13.0.1.</figcaption></figure>
+            <figure><a href="pliki/aio-panel-13.0.3-screen.png" target="_blank" rel="noopener"><img src="pliki/aio-panel-13.0.3-screen.png" alt="AIO Panel 13.0.3" loading="lazy"></a><figcaption>Aktualny ekran AIO Panel 13.0.3.</figcaption></figure>
+            <figure><a href="pliki/aio-panel-13.0.2-screen.png" target="_blank" rel="noopener"><img src="pliki/aio-panel-13.0.2-screen.png" alt="AIO Panel 13.0.2" loading="lazy"></a><figcaption>Poprzednie wydanie 13.0.2.</figcaption></figure>
             <figure><a href="pliki/aio-panel-13.0.0-screen.png" target="_blank" rel="noopener"><img src="pliki/aio-panel-13.0.0-screen.png" alt="AIO Panel 13.0.0" loading="lazy"></a><figcaption>Wydanie 13.0.0.</figcaption></figure>
           </div>
         </section>
@@ -118,7 +116,7 @@
         <section class="module" id="ftp">
           <h2>Instalacja pobranego IPK przez FTP</h2>
           <p>Jeśli pobierasz paczkę ręcznie: wgraj plik IPK do katalogu <code>/tmp</code>, a potem wykonaj instalację w terminalu.</p>
-          <div class="command"><div><strong>Instalacja IPK z /tmp</strong><button type="button" data-copy="opkg install /tmp/enigma2-plugin-extensions-panelaio_13.0.2_all.ipk">Kopiuj</button></div><pre><code>opkg install /tmp/enigma2-plugin-extensions-panelaio_13.0.2_all.ipk</code></pre></div>
+          <div class="command"><div><strong>Instalacja IPK z /tmp</strong><button type="button" data-copy="opkg install /tmp/enigma2-plugin-extensions-panelaio_13.0.3_all.ipk">Kopiuj</button></div><pre><code>opkg install /tmp/enigma2-plugin-extensions-panelaio_13.0.3_all.ipk</code></pre></div>
         </section>
       </main>
     </div>

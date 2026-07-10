@@ -7,7 +7,7 @@
 
 ---
 
-> **Najnowsze wydanie:** AIO Panel **13.0.2** — poprawki działania na OpenPLi, instalacji list kanałów, odświeżania list i bukietów, pobierania dodatków online oraz bezpieczniejszej instalacji list.
+> **Najnowsze wydanie:** AIO Panel **13.0.3** — Super Konfigurator z listą AIO Team 13E + 19.2E, poprawione układanie i sortowanie list kanałów oraz bezpieczny Restore list.
 > **NeoRadio:** wersja **1.3.3** — RDS / ICY / Teraz gra, przebudowane metadane stacji, nowy wygląd i poprawki stabilności.
 
 ## 🚀 Oficjalna Strona i Pobieranie
