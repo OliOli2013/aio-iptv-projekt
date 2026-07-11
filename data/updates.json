@@ -1,6 +1,31 @@
 [
   {
     "date": "2026-07-11",
+    "ts": 1783794938000,
+    "type": "release",
+    "title": "E2 Doctor 2.3 — centrum diagnostyki i bezpiecznej naprawy Enigma2",
+    "desc": "Rozbudowana wersja E2 Doctor dla Enigma2 Python 3: ocena kondycji tunera 0–100, nowe moduły diagnostyczne, analiza crashlogów, bezpieczne działania naprawcze, język PL/EN oraz aktualizacja z GitHub z weryfikacją SHA-256.",
+    "details": "🩺 E2 Doctor 2.3 — centrum diagnostyki i bezpiecznej naprawy Enigma2\n\nUdostępniam wtyczkę E2 Doctor 2.3, przygotowaną dla dekoderów Enigma2 z Pythonem 3.\n\nE2 Doctor został stworzony jako codzienne narzędzie do kontroli kondycji tunera, wykrywania problemów oraz podpowiadania użytkownikowi, co należy zrobić. W wielu przypadkach wtyczka pozwala również wykonać bezpieczną naprawę bezpośrednio z poziomu wykrytego problemu.\n\n🔍 Co sprawdza E2 Doctor?\n• system, wersję obrazu i Pythona\n• pamięć flash, RAM, CPU i temperaturę\n• połączenie sieciowe, adres IP, DNS i HTTPS\n• listy kanałów, lamedb i odwołania do bukietów\n• głowice, konfigurację tunerów i bieżący sygnał\n• dyski, pendrive’y i punkty montowania\n• menedżer pakietów OPKG\n• działanie OSCam\n• EPG i picony\n• zgodność zainstalowanych wtyczek z Pythonem 3\n• crashlogi Enigma2 wraz z próbą wskazania źródła błędu\n\n🛠️ Bezpieczne działania obejmują między innymi czyszczenie crashlogów i plików tymczasowych, sprawdzanie dużych plików, odświeżanie RAM, naprawę odwołań do bukietów, przeładowanie list kanałów, usunięcie nieaktywnej blokady OPKG, restart OSCam, rozszerzony test sieci, raport diagnostyczny i tymczasowe wyłączenie podejrzanej wtyczki.\n\n📊 Wtyczka pokazuje kondycję tunera w skali 0–100.\n🌍 Interfejs polski lub angielski zależnie od języka systemu, z możliwością ręcznego wyboru.\n🔄 Aktualizacja z GitHub z weryfikacją SHA-256.\n\nWersja: 2.3\nWymagania: Enigma2 Python 3\nAutor: by Paweł Pawełek",
+    "url": "plugin-e2-doctor.html",
+    "tags": [
+      "E2 Doctor",
+      "2.3",
+      "Enigma2",
+      "Python 3",
+      "diagnostyka",
+      "bezpieczna naprawa",
+      "kondycja tunera",
+      "crashlogi",
+      "OSCam",
+      "OPKG",
+      "GitHub",
+      "SHA-256",
+      "PL",
+      "EN"
+    ]
+  },
+  {
+    "date": "2026-07-11",
     "ts": 1783728001000,
     "type": "release",
     "title": "E2 Doctor 1.0.2 — nowa wtyczka diagnostyczna dla Enigma2",
