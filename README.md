@@ -7,7 +7,7 @@
 
 ---
 
-> **Najnowsze wydanie:** AIO Panel **13.0.3** — Super Konfigurator z listą AIO Team 13E + 19.2E, poprawione układanie i sortowanie list kanałów oraz bezpieczny Restore list.
+> **Najnowsze wydanie:** AIO Panel **14.0.0** — całkowicie przebudowany interfejs, informacje CPU/RAM/flash, automatyczny język PL/EN, integracja E2 Doctor oraz poprawione sortowanie list kanałów.
 > **NeoRadio:** wersja **1.3.3** — RDS / ICY / Teraz gra, przebudowane metadane stacji, nowy wygląd i poprawki stabilności.
 
 ## 🚀 Oficjalna Strona i Pobieranie

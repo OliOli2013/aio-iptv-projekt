@@ -1,6 +1,31 @@
 [
   {
     "date": "2026-07-11",
+    "ts": 1783804085000,
+    "type": "release",
+    "title": "AIO Panel 14.0.0 — nowy interfejs i kompletne centrum narzędzi Enigma2",
+    "desc": "Duża aktualizacja AIO Panel: całkowicie przebudowany interfejs, nowy układ kategorii, informacje CPU/RAM/flash, automatyczny język PL/EN, integracja E2 Doctor oraz poprawiona kolejność list kanałów.",
+    "details": "🚀 AIO Panel 14.0.0 — chyba ostatnia aktualizacja\n\nTo chyba ostatnia duża aktualizacja AIO Panel. Wtyczka jest już tym, co zamierzałem osiągnąć, kiedy rozpoczynałem jej budowę — kompletnym, wygodnym i nowoczesnym centrum narzędzi dla tunerów Enigma2.\n\n✨ Co zmieniło się w AIO Panel 14.0.0?\n• całkowicie przebudowany, nowoczesny interfejs\n• nowy układ kategorii, funkcji i informacji o wybranej pozycji\n• czytelniejsze menu oraz nowe piktogramy funkcji\n• informacje o obciążeniu CPU, pamięci RAM i pamięci flash\n• wyświetlanie wersji systemu Enigma2 i Pythona\n• automatyczny język polski lub angielski zgodnie z językiem systemu\n• zachowana zgodność z systemami Python 2 i Python 3\n• dostosowanie do różnych rozdzielczości i popularnych obrazów Enigma2\n• przywrócone klasyczne logo AIO Panel\n• uporządkowana i odświeżona struktura wtyczki\n\n🩺 E2 Doctor w AIO Panel\nDo działu z wtyczkami dodano E2 Doctor — centrum diagnostyki i bezpiecznej naprawy Enigma2. Instalacja jest dostępna tylko na zgodnych systemach Python 3.\n\n📡 Poprawiona kolejność list kanałów\n• najnowsze listy są zawsze na samej górze\n• pozostałe listy są sortowane według daty aktualizacji\n• listy Azman zostały całkowicie usunięte\n• Vhannibal pozostaje na samym dole listy\n\nAIO Panel 14.0.0 — kompletne centrum narzędzi Enigma2.\nby Paweł Pawełek",
+    "url": "plugin-aio-panel.html",
+    "tags": [
+      "AIO Panel",
+      "14.0.0",
+      "Enigma2",
+      "Python 2",
+      "Python 3",
+      "nowy interfejs",
+      "CPU",
+      "RAM",
+      "flash",
+      "E2 Doctor",
+      "listy kanałów",
+      "Vhannibal",
+      "Azman",
+      "aktualizacja"
+    ]
+  },
+  {
+    "date": "2026-07-11",
     "ts": 1783794938000,
     "type": "release",
     "title": "E2 Doctor 2.3 — centrum diagnostyki i bezpiecznej naprawy Enigma2",
