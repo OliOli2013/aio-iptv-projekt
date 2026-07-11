@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d2633">
   <title>Xstremity — dane IPTV bez wpisywania pilotem | AIO-IPTV.pl</title>
   <meta name="description" content="Dodawanie danych IPTV do Xstremity wygodniej niż z pilota.">
   <link rel="icon" href="pliki/logo.png">
@@ -10,22 +11,23 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/user-premium.css?v=20260602-v5">
+  <link rel="stylesheet" href="assets/css/user-premium.css?v=20260711-v6">
   
 </head>
 <body class="">
+  <a class="skip-link" href="#main-content">Przejdź do treści</a>
   <div class="page-shell">
     <header class="site-header">
       <div class="brand-row">
         <a class="brand" href="index.html"><img src="pliki/logo.png" alt="AIO-IPTV.pl"><span><strong>AIO‑IPTV.pl</strong><small>Enigma2 • IPTV • pomoc</small></span></a>
-        <a class="header-download" href="plugin-aio-panel.html">Instalacja AIO Panel</a>
+        <a class="header-download" href="plugin-aio-panel.html">AIO Panel 13.0.3</a>
       </div>
       <nav class="main-nav" data-menu><a class="" href="index.html">Start</a><a class="" href="plugins.html">Wtyczki</a><a class="" href="guides.html">Poradniki</a><a class="" href="systems.html">Multi-Click i systemy</a><a class="" href="channel-lists.html">Listy kanałów</a><a class="" href="one-liner.html">One-Liner / FTP</a><a class="" href="ai-chat.html">AI Chat</a><a class="" href="contact.html">Kontakt i wsparcie</a></nav>
       <button class="mobile-menu" type="button" data-menu-toggle>Menu</button>
     </header>
     <div class="content-layout">
       <aside class="side-panel"><h2>Pomoc użytkownika</h2><nav><a href="plugins.html">Wtyczki</a><a href="guides.html">Poradniki</a><a href="one-liner.html">One‑Liner / FTP</a><a href="channel-lists.html">Listy kanałów</a><a href="systems.html">Multi‑Click i systemy</a><a href="ai-chat.html">AI Chat</a><a href="contact.html">Kontakt i wsparcie</a></nav><div class="side-help"><strong>Szybka pomoc</strong><a href="guide-terminal-openwebif.html">Terminal / OpenWebif</a><a href="guide-oscam.html">Dane do OSCam</a><a href="guide-xstremity.html">IPTV do Xstremity</a><a href="help-softcam-feed.html">SoftCam feed</a><a href="help-picons-serviceref.html">Picony / ServiceRef</a><a href="help-restart-gui.html">Restart GUI</a></div></aside>
-      <main class="content-main"><section class="hero-compact"><div><p class="script-line">Witam na mojej stronie <span>Paweł Pawełek</span></p><p class="eyebrow">Xstremity / IPTV</p><h1>Dane IPTV do Xstremity bez wpisywania pilotem</h1><p class="lead">Poradnik pokazuje, jak przygotować plik playlists.txt na komputerze i wgrać go przez FTP do katalogu Xstremity.</p><div class="action-row"><a class="button primary" href="pliki/poradnik-iptv-xstremity.pdf">Pobierz PDF</a><a class="button" href="one-liner.html#ftp">FTP / IPK</a></div></div><figure><img src="pliki/xstremity-playlists-01.jpg" alt="Xstremity playlists.txt"><figcaption>Xstremity playlists.txt</figcaption></figure></section><section class="module"><h2>Kroki</h2><ol class="steps-list"><li>Na komputerze utwórz plik playlists.txt.</li><li>Wklej do niego dane IPTV otrzymane od dostawcy i zapisz plik.</li><li>Połącz się z tunerem przez FileZilla albo DCC.</li><li>Przejdź do katalogu /etc/enigma2/xstremity.</li><li>Wgraj playlists.txt i potwierdź podmianę, jeśli plik już istnieje.</li><li>Uruchom Xstremity — playlista powinna być widoczna we wtyczce.</li></ol></section><section class="module"><h2>Zdjęcia krok po kroku</h2><div class="guide-gallery"><figure><a href="pliki/xstremity-playlists-01.jpg" target="_blank" rel="noopener"><img src="pliki/xstremity-playlists-01.jpg" alt="Xstremity playlists krok 1" loading="lazy"></a><figcaption><strong>Krok 1.</strong> Na komputerze utwórz plik playlists.txt.</figcaption></figure><figure><a href="pliki/xstremity-playlists-02.jpg" target="_blank" rel="noopener"><img src="pliki/xstremity-playlists-02.jpg" alt="Xstremity playlists krok 2" loading="lazy"></a><figcaption><strong>Krok 2.</strong> Wklej do niego dane IPTV otrzymane od dostawcy i zapisz plik.</figcaption></figure><figure><a href="pliki/xstremity-playlists-03.jpg" target="_blank" rel="noopener"><img src="pliki/xstremity-playlists-03.jpg" alt="Xstremity playlists krok 3" loading="lazy"></a><figcaption><strong>Krok 3.</strong> Połącz się z tunerem przez FileZilla albo DCC.</figcaption></figure><figure><a href="pliki/xstremity-playlists-04.jpg" target="_blank" rel="noopener"><img src="pliki/xstremity-playlists-04.jpg" alt="Xstremity playlists krok 4" loading="lazy"></a><figcaption><strong>Krok 4.</strong> Przejdź do katalogu /etc/enigma2/xstremity.</figcaption></figure><figure><a href="pliki/xstremity-playlists-05.jpg" target="_blank" rel="noopener"><img src="pliki/xstremity-playlists-05.jpg" alt="Xstremity playlists krok 5" loading="lazy"></a><figcaption><strong>Krok 5.</strong> Wgraj playlists.txt i potwierdź podmianę, jeśli plik już istnieje.</figcaption></figure></div></section></main>
+      <main id="main-content" class="content-main"><section class="hero-compact"><div><p class="script-line">Witam na mojej stronie <span>Paweł Pawełek</span></p><p class="eyebrow">Xstremity / IPTV</p><h1>Dane IPTV do Xstremity bez wpisywania pilotem</h1><p class="lead">Poradnik pokazuje, jak przygotować plik playlists.txt na komputerze i wgrać go przez FTP do katalogu Xstremity.</p><div class="action-row"><a class="button primary" href="pliki/poradnik-iptv-xstremity.pdf">Pobierz PDF</a><a class="button" href="one-liner.html#ftp">FTP / IPK</a></div></div><figure><img src="pliki/xstremity-playlists-01.jpg" alt="Xstremity playlists.txt"><figcaption>Xstremity playlists.txt</figcaption></figure></section><section class="module"><h2>Kroki</h2><ol class="steps-list"><li>Na komputerze utwórz plik playlists.txt.</li><li>Wklej do niego dane IPTV otrzymane od dostawcy i zapisz plik.</li><li>Połącz się z tunerem przez FileZilla albo DCC.</li><li>Przejdź do katalogu /etc/enigma2/xstremity.</li><li>Wgraj playlists.txt i potwierdź podmianę, jeśli plik już istnieje.</li><li>Uruchom Xstremity — playlista powinna być widoczna we wtyczce.</li></ol></section><section class="module"><h2>Zdjęcia krok po kroku</h2><div class="guide-gallery"><figure><a href="pliki/xstremity-playlists-01.jpg" target="_blank" rel="noopener"><img src="pliki/xstremity-playlists-01.jpg" alt="Xstremity playlists krok 1" loading="lazy"></a><figcaption><strong>Krok 1.</strong> Na komputerze utwórz plik playlists.txt.</figcaption></figure><figure><a href="pliki/xstremity-playlists-02.jpg" target="_blank" rel="noopener"><img src="pliki/xstremity-playlists-02.jpg" alt="Xstremity playlists krok 2" loading="lazy"></a><figcaption><strong>Krok 2.</strong> Wklej do niego dane IPTV otrzymane od dostawcy i zapisz plik.</figcaption></figure><figure><a href="pliki/xstremity-playlists-03.jpg" target="_blank" rel="noopener"><img src="pliki/xstremity-playlists-03.jpg" alt="Xstremity playlists krok 3" loading="lazy"></a><figcaption><strong>Krok 3.</strong> Połącz się z tunerem przez FileZilla albo DCC.</figcaption></figure><figure><a href="pliki/xstremity-playlists-04.jpg" target="_blank" rel="noopener"><img src="pliki/xstremity-playlists-04.jpg" alt="Xstremity playlists krok 4" loading="lazy"></a><figcaption><strong>Krok 4.</strong> Przejdź do katalogu /etc/enigma2/xstremity.</figcaption></figure><figure><a href="pliki/xstremity-playlists-05.jpg" target="_blank" rel="noopener"><img src="pliki/xstremity-playlists-05.jpg" alt="Xstremity playlists krok 5" loading="lazy"></a><figcaption><strong>Krok 5.</strong> Wgraj playlists.txt i potwierdź podmianę, jeśli plik już istnieje.</figcaption></figure></div></section></main>
     </div>
     <footer class="site-footer">
       <div><strong>AIO‑IPTV.pl</strong><span>Wtyczki, poradniki, listy kanałów, Multi‑Click, One‑Liner i AI Chat.</span></div>
@@ -33,6 +35,6 @@
       <p>© <span id="year"></span> Paweł Pawełek • <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></p>
     </footer>
   </div>
-  <script src="assets/js/user-premium.js?v=20260602-v5" defer></script>
+  <script src="assets/js/user-premium.js?v=20260711-v6" defer></script>
 </body>
 </html>

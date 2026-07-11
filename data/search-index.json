@@ -272,13 +272,21 @@
     ]
   },
   {
-    "title": "Systemy",
-    "desc": "Zestawienie systemów Enigma2 + opisy.",
+    "title": "Multi-Click i systemy Enigma2",
+    "desc": "Gotowe systemy Multi-Click z instrukcjami instalacji pod każdym modelem oraz linki do czystych image Enigma2.",
     "url": "systems.html",
     "tags": [
+      "Multi-Click",
+      "Octagon",
+      "OpenATV 7.6",
+      "Ustym",
+      "Zgemma",
+      "image",
+      "instrukcja instalacji",
       "openatv",
       "openpli",
-      "openvix"
+      "openvix",
+      "systemy"
     ]
   },
   {
@@ -344,18 +352,28 @@
   },
   {
     "title": "Systemy Multi-Click",
-    "desc": "Gotowe systemy od Multi-Click dla tunerów Enigma2: lista modeli, linki do pobrania i instrukcje instalacji krok po kroku.",
-    "url": "multi-click.html",
+    "desc": "Gotowe systemy Multi-Click dla Zgemma, Octagon i Ustym: pliki do pobrania oraz przywrócone instrukcje instalacji pod każdym modelem.",
+    "url": "systems.html#multi-click",
     "tags": [
+      "H11s",
+      "H17 Combo",
+      "H7s",
+      "H8.2H",
+      "H9 Twin SE",
+      "H9.2s",
+      "H9s SE",
+      "SF8008",
+      "SX V2",
+      "Ustym 4K",
+      "instalacja",
       "multi-click",
       "multi-klick",
-      "systemy",
-      "openatv",
-      "tunery",
-      "zgemma",
       "octagon",
+      "openatv",
+      "systemy",
+      "tunery",
       "ustym",
-      "instalacja"
+      "zgemma"
     ]
   }
 ]

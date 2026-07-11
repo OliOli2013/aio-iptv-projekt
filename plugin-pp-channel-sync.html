@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d2633">
   <title>PP Channel Sync v1.0.17 | AIO-IPTV.pl</title>
   <meta name="description" content="PP Channel Sync v1.0.17 dla Enigma2 Python 2/3 — kontrola i korekta posiadanej listy kanałów, kopia bezpieczeństwa, raport zmian i obsługa wielu satelitów.">
   <link rel="icon" href="pliki/logo.png">
@@ -10,21 +11,22 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/user-premium.css?v=20260602-v5">
+  <link rel="stylesheet" href="assets/css/user-premium.css?v=20260711-v6">
 </head>
 <body class="">
+  <a class="skip-link" href="#main-content">Przejdź do treści</a>
   <div class="page-shell">
     <header class="site-header">
       <div class="brand-row">
         <a class="brand" href="index.html"><img src="pliki/logo.png" alt="AIO-IPTV.pl"><span><strong>AIO‑IPTV.pl</strong><small>Enigma2 • IPTV • pomoc</small></span></a>
-        <a class="header-download" href="plugin-aio-panel.html">Instalacja AIO Panel</a>
+        <a class="header-download" href="plugin-aio-panel.html">AIO Panel 13.0.3</a>
       </div>
       <nav class="main-nav" data-menu><a class="" href="index.html">Start</a><a class="active" href="plugins.html">Wtyczki</a><a class="" href="guides.html">Poradniki</a><a class="" href="systems.html">Multi-Click i systemy</a><a class="" href="channel-lists.html">Listy kanałów</a><a class="" href="one-liner.html">One-Liner / FTP</a><a class="" href="ai-chat.html">AI Chat</a><a class="" href="contact.html">Kontakt i wsparcie</a></nav>
       <button class="mobile-menu" type="button" data-menu-toggle>Menu</button>
     </header>
     <div class="content-layout">
       <aside class="side-panel"><h2>Pomoc użytkownika</h2><nav><a href="plugins.html">Wtyczki</a><a href="guides.html">Poradniki</a><a href="one-liner.html">One‑Liner / FTP</a><a href="channel-lists.html">Listy kanałów</a><a href="systems.html">Multi‑Click i systemy</a><a href="ai-chat.html">AI Chat</a><a href="contact.html">Kontakt i wsparcie</a></nav><div class="side-help"><strong>Szybka pomoc</strong><a href="guide-terminal-openwebif.html">Terminal / OpenWebif</a><a href="guide-oscam.html">Dane do OSCam</a><a href="guide-xstremity.html">IPTV do Xstremity</a><a href="help-softcam-feed.html">SoftCam feed</a><a href="help-picons-serviceref.html">Picony / ServiceRef</a><a href="help-restart-gui.html">Restart GUI</a></div></aside>
-      <main class="content-main"><section class="hero-compact"><div><p class="script-line">Witam na mojej stronie <span>Paweł Pawełek</span></p><p class="eyebrow">Listy kanałów • korekta • raport</p><h1>PP Channel Sync v1.0.17</h1><p class="lead">Wtyczka dla Enigma2 Python 2/3 do kontroli i bezpiecznej korekty posiadanej już listy kanałów. Pomaga utrzymać aktualne kanały bez ręcznego poprawiania list po zmianach na satelicie.</p><div class="action-row"><a class="button primary" href="pliki/enigma2-plugin-extensions-ppchannelsync_1.0.17_all.ipk">Pobierz IPK</a><a class="button" href="plugins.html">Wróć do wtyczek</a></div></div><figure><img src="pliki/pp-channel-sync-1.0.17-screen.png" alt="PP Channel Sync v1.0.17"><figcaption>PP Channel Sync v1.0.17</figcaption></figure></section>
+      <main id="main-content" class="content-main"><section class="hero-compact"><div><p class="script-line">Witam na mojej stronie <span>Paweł Pawełek</span></p><p class="eyebrow">Listy kanałów • korekta • raport</p><h1>PP Channel Sync v1.0.17</h1><p class="lead">Wtyczka dla Enigma2 Python 2/3 do kontroli i bezpiecznej korekty posiadanej już listy kanałów. Pomaga utrzymać aktualne kanały bez ręcznego poprawiania list po zmianach na satelicie.</p><div class="action-row"><a class="button primary" href="pliki/enigma2-plugin-extensions-ppchannelsync_1.0.17_all.ipk">Pobierz IPK</a><a class="button" href="plugins.html">Wróć do wtyczek</a></div></div><figure><img src="pliki/pp-channel-sync-1.0.17-screen.png" alt="PP Channel Sync v1.0.17"><figcaption>PP Channel Sync v1.0.17</figcaption></figure></section>
 <div class="detail-grid"><section class="module"><h2>Do czego służy</h2><p><strong>PP Channel Sync</strong> sprawdza listę, którą masz już w tunerze, wykonuje kopię bezpieczeństwa, koryguje wpisy kanałów i zapisuje raport zmian.</p><p>Wtyczka nie jest zwykłym instalatorem gotowej listy. Jej głównym zadaniem jest pomoc w uporządkowaniu i odświeżeniu obecnej listy użytkownika.</p><p><strong>Plik:</strong> <a href="pliki/enigma2-plugin-extensions-ppchannelsync_1.0.17_all.ipk">enigma2-plugin-extensions-ppchannelsync_1.0.17_all.ipk</a> 32.0 KB</p></section><section class="module"><h2>Najważniejsze możliwości</h2><ul class="clean-list"><li>kontrola posiadanej listy kanałów</li><li>kopia bezpieczeństwa przed korektą</li><li>raport skrócony i szczegółowy po wykonaniu operacji</li><li>dopisywanie nowych kanałów do pasujących, już istniejących bukietów</li><li>zachowanie obecnego układu listy i kolejności kanałów</li><li>wybór pakietu kontrolnego dla różnych satelitów</li><li>możliwość przywrócenia wcześniejszej kopii z poziomu wtyczki</li></ul></section></div>
 <section class="module"><h2>Jak korzystać</h2><ol class="steps-list"><li>Uruchom <strong>PP Channel Sync</strong> z menu wtyczek Enigma2.</li><li>Wybierz z listy odpowiedni <strong>pakiet kontrolny</strong> zgodny z Twoją konfiguracją satelit.</li><li>Ustaw tryb pracy, dopisywanie nowych kanałów i sposób obsługi nieaktualnych pozycji.</li><li>Naciśnij <strong>zielony przycisk</strong>, aby wykonać wybrany tryb pracy.</li><li>Po zakończeniu sprawdź komunikat oraz raport zmian.</li></ol><div class="info-box"><strong>Przyciski:</strong> zielony — wykonaj wybrany tryb, żółty — utwórz kopię, niebieski — przywróć kopię, MENU — raport, czerwony / EXIT — wyjście.</div></section>
 <section class="module"><h2>Gdzie trafiają nowe kanały</h2><p>Jeśli wtyczka znajdzie nowe kanały, dopisuje je na końcu pasujących, już istniejących bukietów. Dla czytelności dodawana jest osobna sekcja:</p><div class="command"><pre><code>........ nowe kanały - PP Channel Sync ........</code></pre></div><p>Dzięki temu łatwo sprawdzić, co zostało dodane, i samodzielnie zdecydować, czy kanały zostawić, przenieść wyżej albo usunąć.</p></section>
@@ -40,6 +42,6 @@
       <p>© <span id="year"></span> Paweł Pawełek • <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></p>
     </footer>
   </div>
-  <script src="assets/js/user-premium.js?v=20260602-v5" defer></script>
+  <script src="assets/js/user-premium.js?v=20260711-v6" defer></script>
 </body>
 </html>

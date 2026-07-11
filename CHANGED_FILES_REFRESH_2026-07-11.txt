@@ -1,0 +1,8 @@
+Główne pliki przebudowane lub zaktualizowane:
+- assets/css/user-premium.css
+- assets/js/user-premium.js
+- systems.html
+- multi-click.html
+- data/search-index.json
+- wszystkie strony HTML korzystające z user-premium.css: zaktualizowany numer wersji CSS/JS, meta theme-color, dostępność i wspólny skrypt UX
+- README_ODSWIEZONA_STRONA.md
