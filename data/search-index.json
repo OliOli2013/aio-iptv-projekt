@@ -19,6 +19,33 @@
     ]
   },
   {
+    "title": "AIO Panel Remote 1.2.0 — aplikacja Android",
+    "desc": "Sterowanie tunerem Enigma2 z telefonu przez OpenWebif w sieci lokalnej i poza domem przez ZeroTier. Pilot, bukiety, kanały, parametry sygnału, zasilanie i oglądanie TV na Androidzie.",
+    "url": "android-apps.html",
+    "tags": [
+      "Aplikacje Android",
+      "Android",
+      "APK",
+      "AIO Panel Remote",
+      "1.2.0",
+      "Enigma2",
+      "OpenWebif",
+      "ZeroTier",
+      "pilot",
+      "kanały",
+      "bukiety",
+      "SNR",
+      "AGC",
+      "BER",
+      "VLC",
+      "ARC Player",
+      "MX Player",
+      "Play Protect",
+      "telefon",
+      "streaming"
+    ]
+  },
+  {
     "title": "AIO Panel 14.0.0",
     "desc": "AIO Panel 14.0.0 dla Enigma2: całkowicie przebudowany interfejs, informacje CPU/RAM/flash, automatyczny język polski lub angielski, zgodność Python 2/3, integracja E2 Doctor i poprawione sortowanie list kanałów.",
     "url": "plugin-aio-panel.html",

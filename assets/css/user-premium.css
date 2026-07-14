@@ -445,3 +445,58 @@ tbody tr:hover { background: rgba(67, 154, 194, .09); }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+
+/* Android applications */
+.app-home-feature { overflow: hidden; border-color: rgba(55, 203, 222, .46); background: radial-gradient(circle at 100% 0%, rgba(29, 205, 218, .16), transparent 38%), linear-gradient(180deg, rgba(12, 43, 56, .97), rgba(6, 25, 34, .98)); }
+.app-home-feature-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(230px, .75fr); gap: 22px; align-items: center; }
+.app-home-feature h2 { margin-top: 8px; font-size: clamp(1.65rem, 3vw, 2.45rem); }
+.app-home-lead { max-width: 720px; color: #d9edf4; font-size: 1.03rem; }
+.app-home-feature figure { margin: 0; display: grid; place-items: center; }
+.app-home-feature figure img { width: min(100%, 285px); max-height: 510px; border: 1px solid rgba(91, 221, 239, .35); border-radius: 18px; background: #02080d; object-fit: contain; box-shadow: 0 20px 46px rgba(0,0,0,.36); }
+.app-home-feature figcaption { margin-top: 9px; color: var(--muted); font-size: .88rem; text-align: center; }
+.app-kicker { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; color: #a9e8f7; font-size: .82rem; font-weight: 800; }
+.app-version-line { margin-top: 16px; }
+.app-check-list li::marker { color: #64e0b0; }
+.app-android-hero figure img { max-height: 500px; }
+.app-download-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.app-download-card { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 13px; align-items: center; min-height: 112px; border: 1px solid rgba(73, 184, 232, .42); border-radius: 14px; background: linear-gradient(180deg, rgba(30, 81, 104, .72), rgba(11, 38, 51, .82)); padding: 16px; transition: transform .16s ease, border-color .16s ease, background .16s ease; }
+.app-download-card:hover { transform: translateY(-2px); border-color: #75e4ff; background: linear-gradient(180deg, rgba(38, 104, 133, .82), rgba(13, 49, 65, .9)); }
+.app-download-card.primary-download { border-color: rgba(75, 226, 176, .5); background: linear-gradient(180deg, rgba(22, 109, 86, .56), rgba(9, 50, 46, .76)); }
+.app-download-icon { display: grid; width: 48px; height: 48px; place-items: center; border-radius: 12px; background: rgba(4, 18, 25, .52); font-size: 1.6rem; }
+.app-download-card strong, .app-download-card small { display: block; }
+.app-download-card small { margin-top: 5px; color: var(--muted); }
+.app-download-card em { border-radius: 999px; background: rgba(73,184,232,.2); padding: 6px 10px; color: #b1efff; font-style: normal; font-size: .8rem; font-weight: 900; }
+.android-warning, .android-danger { border-radius: 12px; padding: 14px 16px; }
+.android-warning { border: 1px solid rgba(255, 200, 85, .42); background: rgba(93, 67, 13, .28); color: #ffedbd; }
+.android-warning strong { display: block; margin-bottom: 4px; color: #fff1b0; font-size: 1.05rem; }
+.android-warning p { margin: 0; }
+.android-danger { display: grid; gap: 4px; margin-top: 14px; border: 1px solid rgba(255, 96, 112, .44); background: rgba(100, 24, 36, .3); color: #ffd1d6; }
+.android-danger strong { color: #fff; }
+.app-install-strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 13px; margin-top: 16px; }
+.app-install-strip figure { overflow: hidden; margin: 0; border: 1px solid var(--line); border-radius: 13px; background: #06131a; }
+.app-install-strip img { display: block; width: 100%; height: 410px; background: #02070b; object-fit: contain; }
+.app-install-strip figcaption { padding: 9px 10px; color: #d9ebf2; font-weight: 750; text-align: center; }
+.app-gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.app-gallery figure { overflow: hidden; margin: 0; border: 1px solid rgba(69, 158, 197, .38); border-radius: 14px; background: #051018; }
+.app-gallery a { display: block; }
+.app-gallery img { display: block; width: 100%; height: 500px; background: #02070b; object-fit: contain; transition: transform .18s ease; }
+.app-gallery a:hover img { transform: scale(1.012); }
+.app-gallery figcaption { min-height: 63px; padding: 10px 12px; color: #d6e8ef; font-size: .89rem; }
+.app-gallery .wide { grid-column: span 3; }
+.app-gallery .wide img { height: min(440px, 45vw); }
+@media (max-width: 1120px) {
+  .app-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .app-gallery .wide { grid-column: span 2; }
+}
+@media (max-width: 900px) {
+  .app-home-feature-grid, .app-download-grid, .app-install-strip, .app-gallery { grid-template-columns: 1fr; }
+  .app-home-feature figure img { max-height: 470px; }
+  .app-install-strip img, .app-gallery img { height: auto; max-height: 620px; }
+  .app-gallery .wide { grid-column: auto; }
+  .app-gallery .wide img { height: auto; max-height: 420px; }
+}
+@media (max-width: 560px) {
+  .app-download-card { grid-template-columns: auto minmax(0, 1fr); }
+  .app-download-card em { grid-column: 1 / -1; justify-self: start; }
+}
