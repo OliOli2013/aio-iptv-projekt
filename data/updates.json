@@ -1,24 +1,29 @@
 [
   {
-    "date": "2026-07-14",
-    "ts": 1783987200000,
+    "date": "2026-07-16",
+    "ts": 1784160000000,
     "type": "release",
-    "title": "AIO Panel Remote 1.2.0 — aplikacja Android do obsługi Enigma2",
-    "desc": "Nowa aplikacja Android do sterowania tunerem Enigma2 przez OpenWebif. Działa w sieci lokalnej i poza domem przez ZeroTier. Dostępne są APK oraz pełna instrukcja PDF.",
-    "details": "📱 AIO Panel Remote 1.2.0 — sterowanie tunerem Enigma2 z telefonu.\n\nAplikacja działa w sieci lokalnej i poza domem przez ZeroTier.\n\nNajważniejsze funkcje:\n• pełny pilot ekranowy\n• bukiety, wyszukiwanie i przełączanie kanałów\n• oglądanie kanałów w ARC Player, VLC, MX Player lub innym odtwarzaczu\n• podgląd aktualnego kanału, SNR, AGC, BER i głośności\n• czuwanie, wybudzanie, restart GUI oraz restart tunera\n• wiadomości na ekran telewizora\n• profile LAN i ZeroTier\n\nDo pobrania udostępniono plik APK oraz pełną instrukcję PDF obejmującą konfigurację OpenWebif, instalację, Google Play Protect, kanały, odtwarzacze, rozwiązywanie problemów i ZeroTier.",
+    "title": "AIO Panel Remote 1.4.6 Free / Pro - EPG, picony, streaming SAT/IPTV i ZeroTier/VPN",
+    "desc": "Nowa wersja aplikacji Android do obsługi tunerów Enigma2. Free oferuje pilot, listy, EPG i picony w LAN. Pro odblokowuje streaming SAT/IPTV, wybór odtwarzacza, ZeroTier/VPN, port 8002 i stabilizację.",
+    "details": "📱 AIO Panel Remote 1.4.6 Free / Pro\n\nNowa wersja aplikacji do sterowania tunerem Enigma2 przez OpenWebif.\n\nFREE:\n• pełny pilot i sterowanie tunerem\n• listy kanałów, wyszukiwanie i przełączanie TV\n• EPG, picony oraz pamięć podręczna\n• podgląd kanału, SNR, AGC, BER i głośności\n• działanie w lokalnej sieci Wi-Fi/LAN\n\nPRO:\n• streaming kanałów SAT i IPTV\n• wybór odtwarzacza Android\n• połączenie poza domem przez ZeroTier lub VPN\n• transkodowanie przez port 8002 i stabilizacja strumienia\n\nRoczna licencja Pro kosztuje 30 zł, jest przypisana do jednego urządzenia i pozostaje ważna przez 365 dni.\n\nPrzed instalacją zalecane jest usunięcie starszej wersji aplikacji. Do pobrania dostępny jest plik APK oraz 15-stronicowy poradnik PDF.",
     "url": "android-apps.html",
     "tags": [
       "AIO Panel Remote",
-      "1.2.0",
+      "1.4.6",
       "Android",
       "APK",
+      "Free",
+      "Pro",
       "Enigma2",
       "OpenWebif",
+      "EPG",
+      "picony",
+      "streaming SAT",
+      "IPTV",
       "ZeroTier",
-      "pilot",
-      "kanały",
-      "streaming",
-      "Play Protect"
+      "VPN",
+      "8002",
+      "licencja"
     ]
   },
   {

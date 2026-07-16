@@ -3,17 +3,37 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0d2633">
-  <title>Aplikacje Android — AIO Panel Remote 1.2.0 | AIO-IPTV.pl</title>
-  <meta name="description" content="AIO Panel Remote 1.2.0 dla Androida — sterowanie tunerem Enigma2 przez OpenWebif w sieci lokalnej i poza domem przez ZeroTier. APK i pełna instrukcja PDF.">
+  <meta name="theme-color" content="#08202d">
+  <title>AIO Panel Remote 1.4.6 Free / Pro | Aplikacje Android | AIO-IPTV.pl</title>
+  <meta name="description" content="AIO Panel Remote 1.4.6 Free / Pro dla Androida: pilot Enigma2, listy kanałów, EPG, picony, streaming SAT i IPTV oraz dostęp przez ZeroTier lub VPN.">
+  <meta property="og:title" content="AIO Panel Remote 1.4.6 Free / Pro">
+  <meta property="og:description" content="Sterowanie tunerem Enigma2, EPG, picony i streaming SAT/IPTV na Androidzie. Pobierz APK i 15-stronicowy poradnik PDF.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://olioli2013.github.io/aio-iptv-projekt/pliki/aio-panel-remote-1.4.6-start.png">
   <link rel="icon" href="pliki/logo.png">
   <link rel="manifest" href="manifest.json">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/user-premium.css?v=20260714-v7">
+  <link rel="stylesheet" href="assets/css/user-premium.css?v=20260716-v8">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "AIO Panel Remote",
+    "softwareVersion": "1.4.6",
+    "operatingSystem": "Android 5.0 or newer",
+    "applicationCategory": "UtilitiesApplication",
+    "author": {"@type": "Person", "name": "Paweł Pawełek"},
+    "description": "Sterowanie tunerem Enigma2 przez OpenWebif, listy kanałów, EPG, picony oraz streaming SAT i IPTV.",
+    "offers": [
+      {"@type": "Offer", "name": "Free", "price": "0", "priceCurrency": "PLN"},
+      {"@type": "Offer", "name": "Pro - licencja roczna", "price": "30", "priceCurrency": "PLN"}
+    ]
+  }
+  </script>
 </head>
-<body class="">
+<body>
   <a class="skip-link" href="#main-content">Przejdź do treści</a>
   <div class="page-shell">
     <header class="site-header">
@@ -21,157 +41,149 @@
         <a class="brand" href="index.html"><img src="pliki/logo.png" alt="AIO-IPTV.pl"><span><strong>AIO‑IPTV.pl</strong><small>Enigma2 • IPTV • pomoc</small></span></a>
         <a class="header-download" href="plugin-aio-panel.html">AIO Panel 14.0.0</a>
       </div>
-      <nav class="main-nav" data-menu><a class="" href="index.html">Start</a><a class="" href="plugins.html">Wtyczki</a><a class="active" href="android-apps.html">Aplikacje Android</a><a class="" href="guides.html">Poradniki</a><a class="" href="systems.html">Multi-Click i systemy</a><a class="" href="channel-lists.html">Listy kanałów</a><a class="" href="one-liner.html">One-Liner / FTP</a><a class="" href="ai-chat.html">AI Chat</a><a class="" href="contact.html">Kontakt i wsparcie</a></nav>
+      <nav class="main-nav" data-menu><a href="index.html">Start</a><a href="plugins.html">Wtyczki</a><a class="active" href="android-apps.html">Aplikacje Android</a><a href="guides.html">Poradniki</a><a href="systems.html">Multi-Click i systemy</a><a href="channel-lists.html">Listy kanałów</a><a href="one-liner.html">One-Liner / FTP</a><a href="ai-chat.html">AI Chat</a><a href="contact.html">Kontakt i wsparcie</a></nav>
       <button class="mobile-menu" type="button" data-menu-toggle>Menu</button>
     </header>
+
     <div class="content-layout">
-      <aside class="side-panel"><h2>Pomoc użytkownika</h2><nav><a href="plugins.html">Wtyczki</a><a class="active" href="android-apps.html">Aplikacje Android</a><a href="guides.html">Poradniki</a><a href="one-liner.html">One‑Liner / FTP</a><a href="channel-lists.html">Listy kanałów</a><a href="systems.html">Multi‑Click i systemy</a><a href="ai-chat.html">AI Chat</a><a href="contact.html">Kontakt i wsparcie</a></nav><div class="side-help"><strong>Szybka pomoc</strong><a href="#pobieranie">Pobieranie APK i PDF</a><a href="#play-protect">Google Play Protect</a><a href="#openwebif">Ustawienia OpenWebif</a><a href="#zerotier">Połączenie przez ZeroTier</a><a href="#galeria">Galeria aplikacji</a></div></aside>
+      <aside class="side-panel">
+        <h2>AIO Panel Remote</h2>
+        <nav><a class="active" href="android-apps.html">Aplikacje Android</a><a href="#pobieranie">Pobierz APK i PDF</a><a href="#free-pro">Free i Pro</a><a href="#kanaly">Kanały, EPG i picony</a><a href="#streaming">Streaming</a><a href="#licencja">Licencja Pro</a><a href="#galeria">Galeria</a></nav>
+        <div class="side-help"><strong>Bezpieczeństwo</strong><a href="#instalacja">Instalacja i Play Protect</a><a href="#sieć">OpenWebif i ZeroTier/VPN</a><a href="#problemy">Rozwiązywanie problemów</a></div>
+      </aside>
+
       <main id="main-content" class="content-main">
-        <section class="hero-compact app-android-hero">
+        <section class="hero-compact app-android-hero remote146-hero">
           <div>
-            <p class="script-line">Nowa aplikacja <span>Paweł Pawełek</span></p>
-            <p class="eyebrow">Android • Enigma2 • OpenWebif • ZeroTier</p>
-            <h1>📱 AIO Panel Remote 1.2.0</h1>
-            <p class="lead">Sterowanie tunerem Enigma2 z telefonu w sieci lokalnej i poza domem przez ZeroTier. Pełny pilot, bukiety, kanały, podgląd parametrów tunera i odtwarzanie telewizji na Androidzie.</p>
-            <div class="app-kicker app-version-line"><span class="badge green">WERSJA 1.2.0</span><span>Android</span><span>Enigma2 Python 2/3 przez OpenWebif</span></div>
-            <div class="action-row"><a class="button primary" href="pliki/AIO_Panel_Remote_1.2.0.apk" download>Pobierz AIO Panel Remote — APK</a><a class="button" href="pliki/AIO_Panel_Remote_1.2.0_Instrukcja_PL.pdf" download>Pobierz instrukcję — PDF</a></div>
+            <p class="script-line">Nowe wydanie <span>by Paweł Pawełek</span></p>
+            <p class="eyebrow">Android • Enigma2 • OpenWebif • Free / Pro</p>
+            <h1>📱 AIO Panel Remote 1.4.6</h1>
+            <p class="lead">Sterowanie tunerem Enigma2, listy kanałów, EPG, picony oraz streaming kanałów SAT i IPTV na telefonach i tabletach z Androidem.</p>
+            <div class="remote146-badges"><span class="badge">FREE</span><span class="badge gold">PRO</span><span class="badge green">ANDROID 5.0+</span><span class="badge">ZEROTIER / VPN</span></div>
+            <div class="action-row"><a class="button primary app-main-cta" href="pliki/AIO_Panel_Remote_1.4.6_FREE_PRO.apk" download>⬇ Pobierz APK 1.4.6</a><a class="button" href="pliki/AIO_Panel_Remote_1.4.6_Poradnik_PL.pdf" download>📘 Pobierz poradnik PDF</a></div>
           </div>
-          <figure><a href="pliki/aio-panel-remote-1.2.0-start.jpg" target="_blank" rel="noopener"><img src="pliki/aio-panel-remote-1.2.0-start.jpg" alt="AIO Panel Remote — ekran startowy z parametrami tunera"></a><figcaption>Połączenie z tunerem i bieżące parametry</figcaption></figure>
+          <figure><a href="pliki/aio-panel-remote-1.4.6-start.png" target="_blank" rel="noopener"><img src="pliki/aio-panel-remote-1.4.6-start.png" alt="AIO Panel Remote 1.4.6 - ekran Start z parametrami tunera"></a><figcaption>Wersja 1.4.6 Free / Pro</figcaption></figure>
         </section>
 
-        <section class="module" id="pobieranie">
-          <h2>Pliki do pobrania</h2>
+        <section class="module remote146-highlight" id="pobieranie">
+          <div class="section-heading-row"><div><p class="eyebrow">Najnowsze wydanie</p><h2>Pobierz AIO Panel Remote 1.4.6</h2></div><span class="release-pill">FREE + opcjonalne PRO</span></div>
           <div class="app-download-grid">
-            <a class="app-download-card primary-download" href="pliki/AIO_Panel_Remote_1.2.0.apk" download>
-              <span class="app-download-icon">📱</span><span><strong>AIO Panel Remote 1.2.0 — APK</strong><small>Plik instalacyjny aplikacji Android • 79,15 KB</small></span><em>Pobierz</em>
+            <a class="app-download-card primary-download" href="pliki/AIO_Panel_Remote_1.4.6_FREE_PRO.apk" download>
+              <span class="app-download-icon">📱</span><span><strong>AIO Panel Remote 1.4.6 Free / Pro - APK</strong><small>Plik instalacyjny Android • 108.7 KB</small></span><em>Pobierz APK</em>
             </a>
-            <a class="app-download-card" href="pliki/AIO_Panel_Remote_1.2.0_Instrukcja_PL.pdf" download>
-              <span class="app-download-icon">📘</span><span><strong>Pełna instrukcja instalacji i obsługi — PDF</strong><small>13 stron: instalacja, OpenWebif, Play Protect, kanały, odtwarzacze i ZeroTier • 2,0 MB</small></span><em>Pobierz</em>
+            <a class="app-download-card" href="pliki/AIO_Panel_Remote_1.4.6_Poradnik_PL.pdf" download>
+              <span class="app-download-icon">📘</span><span><strong>Poradnik instalacji i obsługi - PDF</strong><small>15 stron: Free/Pro, EPG, picony, streaming, ZeroTier/VPN i aktywacja • 3.2 MB</small></span><em>Pobierz PDF</em>
             </a>
           </div>
-          <p class="info-box"><strong>Oficjalne pliki autora:</strong> pobieraj APK wyłącznie z tej strony lub innej oficjalnej publikacji wskazanej przez autora. Kolejne wersje aplikacji instaluj na dotychczasowej wersji, o ile przy danym wydaniu nie zostanie podana inna instrukcja.</p>
-        </section>
-
-        <div class="detail-grid">
-          <section class="module">
-            <h2>Co umożliwia aplikacja?</h2>
-            <ul class="clean-list app-check-list">
-              <li>pełny pilot ekranowy z kierunkami, OK, cyframi, kolorami i multimediami</li>
-              <li>przełączanie kanałów i przeglądanie bukietów pobranych z tunera</li>
-              <li>wyszukiwanie kanałów oraz przyciski <strong>TV</strong> i <strong>Oglądaj</strong></li>
-              <li>oglądanie kanałów przez ARC Player, VLC, MX Player lub inny odtwarzacz</li>
-              <li>podgląd bieżącego kanału, audycji, głośności, modelu i systemu tunera</li>
-              <li>odczyt parametrów SNR, AGC, BER i aktywnej głowicy</li>
-            </ul>
-          </section>
-          <section class="module">
-            <h2>Sterowanie i narzędzia</h2>
-            <ul class="clean-list app-check-list">
-              <li>regulacja głośności i wyciszenie</li>
-              <li>czuwanie, wybudzanie, restart GUI i restart całego tunera</li>
-              <li>wysyłanie wiadomości na ekran telewizora</li>
-              <li>profile połączenia dla sieci lokalnej i ZeroTier</li>
-              <li>test połączenia i automatyczne łączenie po uruchomieniu</li>
-              <li>instrukcja aplikacji i ZeroTier dostępna także wewnątrz programu</li>
-            </ul>
-          </section>
-        </div>
-
-        <section class="module" id="play-protect">
-          <h2>⚠️ Instalacja APK i komunikat Google Play Protect</h2>
-          <div class="android-warning">
-            <strong>Dlaczego pojawia się ostrzeżenie?</strong>
-            <p>Aplikacja jest instalowana bezpośrednio z pliku APK i nie została opublikowana w sklepie Google Play. Na części urządzeń Play Protect informuje również, że pakiet został przygotowany dla starszej wersji Androida i nie uwzględnia wszystkich najnowszych ustawień ochrony prywatności. Taki komunikat jest ostrzeżeniem o pochodzeniu i zgodności pakietu — sam w sobie nie przesądza o wykryciu złośliwego oprogramowania.</p>
-          </div>
-          <ol class="steps-list">
-            <li>Pobierz plik <code>AIO_Panel_Remote_1.2.0.apk</code> z oficjalnej strony.</li>
-            <li>Otwórz plik w przeglądarce lub aplikacji Pliki i wybierz <strong>Zainstaluj</strong>.</li>
-            <li>Gdy pojawi się ekran Play Protect, wybierz <strong>Więcej szczegółów</strong>.</li>
-            <li>Następnie wybierz <strong>Zainstaluj mimo to</strong>.</li>
-            <li>Nie ma potrzeby całkowitego wyłączania Google Play Protect.</li>
-          </ol>
-          <div class="app-install-strip">
-            <figure><a href="pliki/aio-panel-remote-1.2.0-install-1.jpg" target="_blank"><img src="pliki/aio-panel-remote-1.2.0-install-1.jpg" alt="Instalacja AIO Panel Remote — przycisk Zainstaluj"></a><figcaption>1. Zainstaluj</figcaption></figure>
-            <figure><a href="pliki/aio-panel-remote-1.2.0-play-protect-1.jpg" target="_blank"><img src="pliki/aio-panel-remote-1.2.0-play-protect-1.jpg" alt="Google Play Protect — Więcej szczegółów"></a><figcaption>2. Więcej szczegółów</figcaption></figure>
-            <figure><a href="pliki/aio-panel-remote-1.2.0-play-protect-2.jpg" target="_blank"><img src="pliki/aio-panel-remote-1.2.0-play-protect-2.jpg" alt="Google Play Protect — Zainstaluj mimo to"></a><figcaption>3. Zainstaluj mimo to</figcaption></figure>
+          <div class="hash-grid">
+            <div><strong>SHA-256 APK</strong><code>72fa2de85a53140706a58088e1cb981d422d28bbc460460b5f5553393c1892a3</code></div>
+            <div><strong>SHA-256 PDF</strong><code>c32098045e33ce2b3b2462b55fddeefeab398df74d098ea5937c6dd48701540f</code></div>
           </div>
         </section>
 
-        <section class="module" id="openwebif">
-          <h2>📡 Wymagane ustawienia OpenWebif</h2>
-          <p>AIO Panel Remote komunikuje się z tunerem przez standardowy interfejs OpenWebif. Na tunerze sprawdź następujące ustawienia:</p>
-          <div class="table-wrap"><table><thead><tr><th>Ustawienie</th><th>Zalecana wartość</th></tr></thead><tbody>
-            <tr><td>OpenWebif</td><td>Włączony</td></tr>
-            <tr><td>Port HTTP</td><td><code>80</code></td></tr>
-            <tr><td>Port strumieniowania TV</td><td><code>8001</code></td></tr>
-            <tr><td>Uwierzytelnianie</td><td>Zgodnie z własną konfiguracją; poza domem użyj hasła</td></tr>
-            <tr><td>Adres tunera</td><td>Adres lokalny, np. <code>192.168.1.184</code>, lub adres dostępny przez ZeroTier</td></tr>
+        <section class="module" id="free-pro">
+          <h2>Free do sterowania. Pro do streamingu i dostępu zdalnego.</h2>
+          <p class="lead-small">Jedna aplikacja zawiera oba warianty. Po instalacji działa jako wersja Free, a funkcje Pro można odblokować rocznym kluczem przypisanym do urządzenia.</p>
+          <div class="tier-grid">
+            <article class="tier-card free"><span class="tier-label">FREE</span><h3>Codzienna obsługa w domu</h3><ul class="clean-list app-check-list"><li>pełny pilot i sterowanie tunerem</li><li>listy kanałów, wyszukiwanie i przełączanie TV</li><li>EPG, picony i pamięć podręczna</li><li>podgląd kanału, SNR, AGC, BER i głośności</li><li>działanie w lokalnej sieci Wi-Fi/LAN</li></ul><strong class="tier-price">0 zł</strong></article>
+            <article class="tier-card pro"><span class="tier-label">PRO</span><h3>Streaming i dostęp poza domem</h3><ul class="clean-list app-check-list"><li>wszystkie funkcje wersji Free</li><li>streaming kanałów SAT i IPTV</li><li>wybór zewnętrznego odtwarzacza Android</li><li>ZeroTier lub VPN</li><li>port 8002, transkodowanie i stabilizacja strumienia</li></ul><strong class="tier-price">30 zł / 365 dni</strong><small>Jedno urządzenie</small></article>
+          </div>
+          <div class="table-wrap feature-compare"><table><thead><tr><th>Funkcja</th><th>Free</th><th>Pro</th></tr></thead><tbody>
+            <tr><td>Pilot i sterowanie tunerem</td><td>✓</td><td>✓</td></tr>
+            <tr><td>Listy kanałów, EPG i picony</td><td>✓</td><td>✓</td></tr>
+            <tr><td>Streaming SAT i IPTV</td><td>—</td><td>✓</td></tr>
+            <tr><td>ZeroTier / VPN</td><td>—</td><td>✓</td></tr>
+            <tr><td>Transkodowanie 8002 i stabilizacja</td><td>—</td><td>✓</td></tr>
           </tbody></table></div>
-          <p class="info-box">W aplikacji otwórz <strong>Ustawienia</strong>, wpisz adres IP tunera, porty, użytkownika <code>root</code> i hasło, jeżeli jest wymagane. Następnie wykonaj <strong>Test połączenia</strong> i wybierz <strong>Zapisz i połącz</strong>.</p>
         </section>
 
-        <section class="module">
-          <h2>📺 Oglądanie kanałów na telefonie</h2>
+        <section class="module" id="instalacja">
+          <h2>Instalacja i szybkie uruchomienie</h2>
+          <div class="steps-visual">
+            <article><span>1</span><div><strong>Usuń starszą wersję</strong><p>Przed instalacją 1.4.6 zalecane jest odinstalowanie poprzedniego wydania. Zapobiega to konfliktom podpisu, ustawień i pamięci podręcznej.</p></div></article>
+            <article><span>2</span><div><strong>Zainstaluj APK</strong><p>Otwórz pobrany plik. W razie komunikatu Play Protect rozwiń szczegóły i wybierz instalację mimo ostrzeżenia.</p></div></article>
+            <article><span>3</span><div><strong>Skonfiguruj OpenWebif</strong><p>Podaj adres tunera, port, protokół oraz - gdy jest wymagane - login i hasło.</p></div></article>
+            <article><span>4</span><div><strong>Pobierz kanały</strong><p>Po połączeniu przejdź do zakładki Kanały i wybierz <em>Pobierz od nowa</em>.</p></div></article>
+          </div>
+          <div class="android-warning"><strong>Google Play Protect</strong><p>APK jest instalowany spoza Google Play, dlatego Android może wyświetlić ostrzeżenie. Pobieraj aplikację wyłącznie z oficjalnej publikacji autora. Nie trzeba wyłączać całej ochrony Play Protect.</p></div>
+        </section>
+
+        <section class="module" id="kanaly">
+          <h2>Listy kanałów, EPG, picony i szybki start</h2>
           <div class="detail-grid">
-            <div>
-              <p>Przy każdym kanale dostępne są dwa działania:</p>
-              <ul class="clean-list"><li><strong>TV</strong> — przełącza kanał na tunerze.</li><li><strong>Oglądaj</strong> — uruchamia transmisję w wybranym odtwarzaczu na telefonie.</li></ul>
-              <p>Najpewniejsza kolejność to najpierw nacisnąć <strong>TV</strong>, poczekać na przełączenie tunera, a następnie wybrać <strong>Oglądaj</strong>. Jest to szczególnie ważne przy jednej głowicy lub kanale z innego transpondera.</p>
-            </div>
-            <div>
-              <h3>Tryby odtwarzania</h3>
-              <ul class="clean-list"><li><strong>Automatyczny</strong> — VLC z playlistą, a następnie inny odtwarzacz.</li><li><strong>VLC</strong> — playlista OpenWebif.</li><li><strong>ARC / MX / inny</strong> — bezpośredni strumień z portu 8001.</li><li><strong>Wybór odtwarzacza</strong> — Android pokazuje zgodne aplikacje.</li></ul>
-              <p class="install-note">Jeżeli VLC nie pokazuje obrazu, wybierz tryb <strong>ARC / MX / inny — strumień bezpośredni</strong>. W testach ARC Player poprawnie odtwarzał kanały, z którymi VLC miał problem.</p>
-            </div>
+            <div><ul class="clean-list app-check-list"><li><strong>Pobierz od nowa</strong> pobiera bukiety i kanały z OpenWebif</li><li><strong>Szukaj kanału</strong> filtruje lokalnie zapisaną listę</li><li><strong>Odśwież EPG</strong> aktualizuje program bez ponownego pobierania listy</li><li>picony można pokazać lub ukryć</li><li>kanały IPTV zapisane w bukietach Enigma2 są pobierane razem z kanałami satelitarnymi</li></ul></div>
+            <div><div class="info-box"><strong>Lista zostaje w telefonie.</strong><br>Aplikacja nie pobiera tysięcy kanałów przy każdym uruchomieniu. Dzięki pamięci podręcznej otwiera się szybciej i mniej obciąża tuner.</div><p>W wersji Free przycisk <strong>TV</strong> przełącza kanał na tunerze. Przycisk streamingu pozostaje zablokowany do aktywacji Pro.</p></div>
           </div>
         </section>
 
-        <section class="module" id="zerotier">
-          <h2>🌐 Działanie poza domem przez ZeroTier</h2>
-          <p>Aplikacja obsługuje osobny profil połączenia przez ZeroTier. Prywatna sieć umożliwia połączenie z tunerem poza domem bez publicznego wystawiania OpenWebif.</p>
-          <ol class="steps-list">
-            <li>Zainstaluj ZeroTier na telefonie i dołącz urządzenie do własnej sieci ZeroTier.</li>
-            <li>Uruchom ZeroTier na tunerze albo na routerze, Raspberry Pi lub komputerze pełniącym funkcję bramy do sieci domowej.</li>
-            <li>Zatwierdź urządzenia w panelu ZeroTier.</li>
-            <li>W AIO Panel Remote wybierz profil ZeroTier i wpisz adres ZeroTier tunera albo adres lokalny osiągalny przez skonfigurowaną trasę.</li>
-            <li>Dla dostępu spoza domu włącz hasło OpenWebif.</li>
-          </ol>
-          <div class="android-danger"><strong>Nie przekierowuj publicznie portów 80 i 8001.</strong><span>Publiczne udostępnienie OpenWebif i portu transmisji zwiększa ryzyko nieautoryzowanego dostępu. ZeroTier lub inny prywatny VPN jest bezpieczniejszym rozwiązaniem.</span></div>
+        <section class="module" id="sieć">
+          <h2>OpenWebif, porty i bezpieczne połączenie</h2>
+          <div class="table-wrap"><table><thead><tr><th>Ustawienie</th><th>Typowa wartość</th><th>Zastosowanie</th></tr></thead><tbody>
+            <tr><td>OpenWebif HTTP</td><td><code>80</code></td><td>Sterowanie i dane tunera</td></tr>
+            <tr><td>Strumień TV</td><td><code>8001</code></td><td>Pełna jakość w sieci LAN</td></tr>
+            <tr><td>Transkodowanie</td><td><code>8002</code></td><td>Opcjonalnie w Pro, gdy tuner i obraz obsługują tę funkcję</td></tr>
+            <tr><td>Profil lokalny</td><td>Wi-Fi / LAN</td><td>Dostępny w Free i Pro</td></tr>
+            <tr><td>Profil zdalny</td><td>ZeroTier / VPN</td><td>Dostępny w Pro</td></tr>
+          </tbody></table></div>
+          <div class="android-danger"><strong>Nie wystawiaj publicznie portów OpenWebif.</strong><span>Do połączenia spoza domu używaj ZeroTier albo innego prywatnego VPN. Nie przekierowuj bezpośrednio do Internetu portów 80, 8001 ani 8002.</span></div>
+        </section>
+
+        <section class="module" id="streaming">
+          <h2>Streaming SAT i IPTV w wersji Pro</h2>
+          <div class="detail-grid">
+            <div><h3>Jak uruchomić kanał</h3><ol class="steps-list"><li>Rozwiń bukiet i wybierz kanał.</li><li>Przycisk <strong>TV</strong> przełącza kanał na tunerze.</li><li>Przycisk <strong>Oglądaj</strong> otwiera systemową listę zgodnych odtwarzaczy.</li><li>Wybierz Arc Player, VLC, Mi Wideo, MX Player lub inny program obsługujący transmisję HTTP/TS.</li></ol></div>
+            <div><h3>Jakość i stabilizacja</h3><ul class="clean-list"><li>w LAN aplikacja standardowo korzysta z portu 8001 w pełnej jakości</li><li>w profilu zdalnym tryb automatyczny może najpierw sprawdzić port 8002</li><li>gdy transkodowanie nie działa, aplikacja może wrócić do portu 8001</li><li>płynność zależy od wysyłania Internetu przy tunerze, opóźnień VPN i bitrate kanału</li></ul><p class="install-note">Samo zwiększenie bufora nie zastąpi odpowiedniej przepustowości łącza.</p></div>
+          </div>
+        </section>
+
+        <section class="module" id="licencja">
+          <h2>AIO Panel Remote Pro - roczna licencja</h2>
+          <div class="license-callout"><div><span>PRO</span><strong>30 zł</strong><small>jedno urządzenie • 365 dni</small></div><p>Pro odblokowuje streaming SAT/IPTV, wybór odtwarzacza, ZeroTier/VPN, port 8002 i stabilizację. Wpłata może zostać wykonana przez Revolut lub BuyCoffee. Przy innej walucie można wpłacić równowartość 30 PLN przez Revolut.</p></div>
+          <ol class="steps-list"><li>Otwórz ekran Pro i skopiuj wygenerowany kod urządzenia.</li><li>W formularzu podaj e-mail, dane wpłaty, metodę, datę, kwotę i walutę.</li><li>Wyślij przygotowane zgłoszenie na <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a>. Opcjonalnie dołącz potwierdzenie.</li><li>Po otrzymaniu klucza skopiuj cały kod AP3, wklej go do aplikacji i wybierz aktywację Pro.</li></ol>
+          <div class="android-warning"><strong>Chroń kod urządzenia i klucz Pro.</strong><p>Nie publikuj ich razem. Licencja jest przypisana do jednego urządzenia. Nowy telefon generuje inny kod i wymaga osobnej licencji.</p></div>
+          <p class="info-box">Klucz jest przygotowywany po weryfikacji wpłaty - w ciągu 24 godzin, zwykle szybciej. Gdy program pocztowy nie jest skonfigurowany, aplikacja pozwala skopiować komplet zgłoszenia i wysłać je ręcznie.</p>
         </section>
 
         <section class="module" id="galeria">
-          <h2>Galeria AIO Panel Remote 1.2.0</h2>
+          <h2>Galeria AIO Panel Remote 1.4.6</h2>
           <div class="app-gallery">
-            <figure><a href="pliki/aio-panel-remote-1.2.0-start.jpg" target="_blank"><img src="pliki/aio-panel-remote-1.2.0-start.jpg" alt="Ekran Start AIO Panel Remote"></a><figcaption>Ekran Start — kanał, sygnał i informacje o tunerze.</figcaption></figure>
-            <figure><a href="pliki/aio-panel-remote-1.2.0-settings.jpg" target="_blank"><img src="pliki/aio-panel-remote-1.2.0-settings.jpg" alt="Ustawienia AIO Panel Remote i ZeroTier"></a><figcaption>Ustawienia połączenia lokalnego i ZeroTier.</figcaption></figure>
-            <figure><a href="pliki/aio-panel-remote-1.2.0-remote-basic.jpg" target="_blank"><img src="pliki/aio-panel-remote-1.2.0-remote-basic.jpg" alt="Podstawowy pilot Enigma2"></a><figcaption>Podstawowy pilot ekranowy.</figcaption></figure>
-            <figure><a href="pliki/aio-panel-remote-1.2.0-remote-full.jpg" target="_blank"><img src="pliki/aio-panel-remote-1.2.0-remote-full.jpg" alt="Pełny pilot Enigma2"></a><figcaption>Cyfry, kolory i sterowanie multimediami.</figcaption></figure>
-            <figure><a href="pliki/aio-panel-remote-1.2.0-bouquets.jpg" target="_blank"><img src="pliki/aio-panel-remote-1.2.0-bouquets.jpg" alt="Bukiety kanałów w AIO Panel Remote"></a><figcaption>Bukiety pobrane z tunera.</figcaption></figure>
-            <figure><a href="pliki/aio-panel-remote-1.2.0-channels.jpg" target="_blank"><img src="pliki/aio-panel-remote-1.2.0-channels.jpg" alt="Lista kanałów z przyciskami TV i Oglądaj"></a><figcaption>Kanały z przyciskami TV i Oglądaj.</figcaption></figure>
-            <figure><a href="pliki/aio-panel-remote-1.2.0-player-mode.jpg" target="_blank"><img src="pliki/aio-panel-remote-1.2.0-player-mode.jpg" alt="Wybór trybu odtwarzania kanału"></a><figcaption>Wybór sposobu odtwarzania strumienia.</figcaption></figure>
-            <figure><a href="pliki/aio-panel-remote-1.2.0-player-picker.jpg" target="_blank"><img src="pliki/aio-panel-remote-1.2.0-player-picker.jpg" alt="Wybór odtwarzacza Android"></a><figcaption>Wybór aplikacji odtwarzającej w Androidzie.</figcaption></figure>
-            <figure><a href="pliki/aio-panel-remote-1.2.0-support.jpg" target="_blank"><img src="pliki/aio-panel-remote-1.2.0-support.jpg" alt="Sekcja wsparcia AIO Panel Remote"></a><figcaption>Informacje o projekcie i dobrowolnym wsparciu.</figcaption></figure>
-            <figure class="wide"><a href="pliki/aio-panel-remote-1.2.0-streaming.jpg" target="_blank"><img src="pliki/aio-panel-remote-1.2.0-streaming.jpg" alt="Kanał HBO HD odtwarzany na telefonie"></a><figcaption>Przykład transmisji kanału z tunera na telefon.</figcaption></figure>
+            <figure><a href="pliki/aio-panel-remote-1.4.6-start.png" target="_blank"><img src="pliki/aio-panel-remote-1.4.6-start.png" loading="lazy" alt="Ekran startowy AIO Panel Remote 1.4.6"></a><figcaption>Status połączenia, kanał, sygnał i system tunera.</figcaption></figure>
+            <figure><a href="pliki/aio-panel-remote-1.4.6-remote-basic.jpg" target="_blank"><img src="pliki/aio-panel-remote-1.4.6-remote-basic.jpg" loading="lazy" alt="Podstawowy pilot AIO Panel Remote"></a><figcaption>Nawigacja, OK, głośność, MENU, INFO, EPG i EXIT.</figcaption></figure>
+            <figure><a href="pliki/aio-panel-remote-1.4.6-remote-full.jpg" target="_blank"><img src="pliki/aio-panel-remote-1.4.6-remote-full.jpg" loading="lazy" alt="Pełny pilot AIO Panel Remote"></a><figcaption>Cyfry, przyciski kolorowe i multimedia.</figcaption></figure>
+            <figure><a href="pliki/aio-panel-remote-1.4.6-channel-cache.jpg" target="_blank"><img src="pliki/aio-panel-remote-1.4.6-channel-cache.jpg" loading="lazy" alt="Lista bukietów, EPG i pamięć podręczna"></a><figcaption>Pobieranie listy, EPG, piconów i cache.</figcaption></figure>
+            <figure><a href="pliki/aio-panel-remote-1.4.6-channels-free.jpg" target="_blank"><img src="pliki/aio-panel-remote-1.4.6-channels-free.jpg" loading="lazy" alt="Kanały w wersji Free"></a><figcaption>EPG, picony i przełączanie TV w wersji Free.</figcaption></figure>
+            <figure><a href="pliki/aio-panel-remote-1.4.6-settings.png" target="_blank"><img src="pliki/aio-panel-remote-1.4.6-settings.png" loading="lazy" alt="Ustawienia połączenia Free i Pro"></a><figcaption>Profil LAN w Free oraz ZeroTier/VPN w Pro.</figcaption></figure>
+            <figure><a href="pliki/aio-panel-remote-1.4.6-stream-settings.jpg" target="_blank"><img src="pliki/aio-panel-remote-1.4.6-stream-settings.jpg" loading="lazy" alt="Porty transmisji i stabilizacja"></a><figcaption>Porty 8001/8002 i ustawienia stabilizacji.</figcaption></figure>
+            <figure><a href="pliki/aio-panel-remote-1.4.6-pro-dialog.png" target="_blank"><img src="pliki/aio-panel-remote-1.4.6-pro-dialog.png" loading="lazy" alt="Ekran AIO Panel Remote Pro"></a><figcaption>Zakres funkcji Pro i kod urządzenia.</figcaption></figure>
+            <figure><a href="pliki/aio-panel-remote-1.4.6-payment-form.png" target="_blank"><img src="pliki/aio-panel-remote-1.4.6-payment-form.png" loading="lazy" alt="Formularz zgłoszenia wpłaty Pro"></a><figcaption>Formularz przygotowania zgłoszenia aktywacyjnego.</figcaption></figure>
+            <figure><a href="pliki/aio-panel-remote-1.4.6-email-request.png" target="_blank"><img src="pliki/aio-panel-remote-1.4.6-email-request.png" loading="lazy" alt="Wiadomość e-mail z wnioskiem o licencję Pro"></a><figcaption>Gotowa wiadomość pocztowa z danymi wpłaty.</figcaption></figure>
+            <figure><a href="pliki/aio-panel-remote-1.4.6-license-key.jpg" target="_blank"><img src="pliki/aio-panel-remote-1.4.6-license-key.jpg" loading="lazy" alt="Aktywacja otrzymanego klucza Pro"></a><figcaption>Wklejenie i aktywacja otrzymanego klucza AP3.</figcaption></figure>
+            <figure><a href="pliki/aio-panel-remote-1.4.6-streaming-list.jpg" target="_blank"><img src="pliki/aio-panel-remote-1.4.6-streaming-list.jpg" loading="lazy" alt="Lista kanałów z przyciskiem Oglądaj"></a><figcaption>Streaming SAT i IPTV po aktywacji Pro.</figcaption></figure>
+            <figure><a href="pliki/aio-panel-remote-1.4.6-player-picker.jpg" target="_blank"><img src="pliki/aio-panel-remote-1.4.6-player-picker.jpg" loading="lazy" alt="Wybór odtwarzacza Android"></a><figcaption>Systemowy wybór zainstalowanego odtwarzacza.</figcaption></figure>
+            <figure class="wide"><a href="pliki/aio-panel-remote-1.4.6-playback.jpg" target="_blank"><img src="pliki/aio-panel-remote-1.4.6-playback.jpg" loading="lazy" alt="Kanał z tunera odtwarzany na telefonie"></a><figcaption>Obraz z tunera w wybranym odtwarzaczu Android.</figcaption></figure>
+            <figure><a href="pliki/aio-panel-remote-1.4.6-tools.jpg" target="_blank"><img src="pliki/aio-panel-remote-1.4.6-tools.jpg" loading="lazy" alt="Narzędzia tunera w AIO Panel Remote"></a><figcaption>Wiadomość na ekran, wybudzenie i restart tunera.</figcaption></figure>
           </div>
         </section>
 
-        <section class="module">
-          <h2>Wymagania i ważne informacje</h2>
-          <div class="detail-grid">
-            <div><ul class="clean-list"><li>smartfon lub tablet z Androidem</li><li>tuner Enigma2 z uruchomionym OpenWebif</li><li>ta sama sieć LAN/Wi-Fi albo skonfigurowana sieć ZeroTier</li><li>odtwarzacz obsługujący MPEG-TS lub playlistę M3U</li></ul></div>
-            <div><ul class="clean-list"><li>kanał musi poprawnie dekodować się na tunerze</li><li>przy oglądaniu potrzebna jest dostępna głowica</li><li>4K/HEVC i wysoki bitrate mogą nie działać na każdym telefonie</li><li>jakość poza domem zależy od wysyłania Internetu i połączenia ZeroTier</li></ul></div>
+        <section class="module" id="problemy">
+          <h2>Najczęstsze problemy</h2>
+          <div class="faq-grid">
+            <article><h3>Aplikacja nie łączy się</h3><p>Sprawdź IP, port, protokół OpenWebif oraz login i hasło. W profilu LAN telefon i tuner muszą być w tej samej sieci.</p></article>
+            <article><h3>Brakuje EPG lub piconów</h3><p>Wybierz <strong>Pobierz od nowa</strong>, następnie <strong>Odśwież EPG</strong>. Sprawdź również, czy picony istnieją na tunerze.</p></article>
+            <article><h3>Nie ma odtwarzacza</h3><p>Zainstaluj program obsługujący transmisje HTTP/TS i wybierz go z listy Androida po naciśnięciu Oglądaj.</p></article>
+            <article><h3>ZeroTier/VPN nie działa</h3><p>Sprawdź członkostwo urządzeń w tej samej sieci, ich zatwierdzenie oraz osiągalność adresu tunera lub bramy.</p></article>
           </div>
-          <p><strong>Wersja:</strong> 1.2.0<br><strong>Platforma:</strong> Android + Enigma2 + OpenWebif<br><strong>Autor:</strong> by Paweł Pawełek<br><strong>Kontakt:</strong> <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></p>
-          <p class="info-box">Wszystkie problemy, uwagi i propozycje kolejnych funkcji proszę zgłaszać autorowi.</p>
+          <p><strong>Wersja:</strong> 1.4.6 Free / Pro<br><strong>Wymagania:</strong> Android 5.0+, tuner Enigma2 i OpenWebif<br><strong>Autor:</strong> by Paweł Pawełek<br><strong>Kontakt:</strong> <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></p>
         </section>
       </main>
     </div>
+
     <footer class="site-footer">
       <div><strong>AIO‑IPTV.pl</strong><span>Wtyczki, aplikacje Android, poradniki, listy kanałów, Multi‑Click, One‑Liner i AI Chat.</span></div>
       <nav><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Aplikacje Android</a><a href="guides.html">Poradniki</a><a href="one-liner.html">One‑Liner</a><a href="contact.html">Kontakt</a></nav>
       <p>© <span id="year"></span> Paweł Pawełek • <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></p>
     </footer>
   </div>
-  <script src="assets/js/user-premium.js?v=20260714-v7" defer></script>
+  <script src="assets/js/user-premium.js?v=20260716-v8" defer></script>
 </body>
 </html>

@@ -125,7 +125,7 @@
 
     const fallback = [
       { title: 'Wtyczki', desc: 'Pobieranie i opisy wtyczek Enigma2.', url: 'plugins.html', tags: ['wtyczki', 'ipk'] },
-      { title: 'Aplikacje Android', desc: 'AIO Panel Remote i aplikacje mobilne współpracujące z Enigma2.', url: 'android-apps.html', tags: ['android', 'apk', 'telefon', 'remote', 'openwebif', 'zerotier'] },
+      { title: 'AIO Panel Remote 1.4.6 Free / Pro', desc: 'Pilot Enigma2, listy kanałów, EPG, picony, streaming SAT/IPTV oraz ZeroTier/VPN.', url: 'android-apps.html', tags: ['android', 'apk', 'AIO Panel Remote', '1.4.6', 'free', 'pro', 'openwebif', 'zerotier', 'vpn', 'streaming', 'epg', 'picony'] },
       { title: 'Multi-Click i systemy', desc: 'Gotowe systemy i instrukcje instalacji.', url: 'systems.html', tags: ['systemy', 'multiclick', 'image'] },
       { title: 'Poradniki', desc: 'Instrukcje i pomoc dla Enigma2.', url: 'guides.html', tags: ['poradniki', 'pomoc'] },
       { title: 'Listy kanałów', desc: 'Listy kanałów i bukiety.', url: 'channel-lists.html', tags: ['listy', 'bukiety'] }
