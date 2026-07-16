@@ -139,23 +139,30 @@
     ]
   },
   {
-    "title": "PP Channel Sync v1.0.17",
-    "desc": "Wtyczka Enigma2 Python 2/3 do kontroli i korekty posiadanej listy kanałów, z kopią bezpieczeństwa, raportem zmian, dopisywaniem nowych kanałów do pasujących bukietów i obsługą wielu satelitów.",
+    "title": "PP Channel Sync 1.3.0",
+    "desc": "Ważna aktualizacja naprawcza dla Enigma2 Python 2/3: obsługa lamedb i lamedb5, zagnieżdżone archiwa, zweryfikowane kopie, automatyczne przywracanie, SHA-256 i rozszerzona diagnostyka.",
     "url": "plugin-pp-channel-sync.html",
     "tags": [
       "PP Channel Sync",
       "ppchannelsync",
+      "1.3.0",
       "channel sync",
       "listy kanałów",
       "lamedb",
-      "bukiety",
+      "lamedb5",
       "Enigma2",
       "Python 2/3",
-      "satelity",
-      "Hot Bird",
-      "Dual Feed",
-      "raport",
-      "kopia bezpieczeństwa"
+      "bukiety",
+      "bukiety radiowe",
+      "kopia bezpieczeństwa",
+      "rollback",
+      "przywracanie",
+      "SHA256",
+      "SHA-256",
+      "zagnieżdżone archiwa",
+      "raport błędów",
+      "/tmp/ppchannelsync_error.txt",
+      "AIO Panel"
     ]
   },
   {

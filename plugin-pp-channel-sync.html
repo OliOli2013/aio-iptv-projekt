@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0d2633">
-  <title>PP Channel Sync v1.0.17 | AIO-IPTV.pl</title>
-  <meta name="description" content="PP Channel Sync v1.0.17 dla Enigma2 Python 2/3 — kontrola i korekta posiadanej listy kanałów, kopia bezpieczeństwa, raport zmian i obsługa wielu satelitów.">
+  <title>PP Channel Sync 1.3.0 | AIO-IPTV.pl</title>
+  <meta name="description" content="PP Channel Sync 1.3.0 dla Enigma2 Python 2/3 — obsługa lamedb i lamedb5, bezpieczna korekta list kanałów, zweryfikowane kopie, automatyczne przywracanie i diagnostyka błędów.">
   <link rel="icon" href="pliki/logo.png">
   <link rel="manifest" href="manifest.json">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/user-premium.css?v=20260714-v7">
+  <link rel="stylesheet" href="assets/css/user-premium.css?v=20260716-v8">
 </head>
 <body class="">
   <a class="skip-link" href="#main-content">Przejdź do treści</a>
@@ -21,20 +21,111 @@
         <a class="brand" href="index.html"><img src="pliki/logo.png" alt="AIO-IPTV.pl"><span><strong>AIO‑IPTV.pl</strong><small>Enigma2 • IPTV • pomoc</small></span></a>
         <a class="header-download" href="plugin-aio-panel.html">AIO Panel 14.0.0</a>
       </div>
-      <nav class="main-nav" data-menu><a class="" href="index.html">Start</a><a class="active" href="plugins.html">Wtyczki</a><a class="" href="android-apps.html">Aplikacje Android</a><a class="" href="guides.html">Poradniki</a><a class="" href="systems.html">Multi-Click i systemy</a><a class="" href="channel-lists.html">Listy kanałów</a><a class="" href="one-liner.html">One-Liner / FTP</a><a class="" href="ai-chat.html">AI Chat</a><a class="" href="contact.html">Kontakt i wsparcie</a></nav>
+      <nav class="main-nav" data-menu><a href="index.html">Start</a><a class="active" href="plugins.html">Wtyczki</a><a href="android-apps.html">Aplikacje Android</a><a href="guides.html">Poradniki</a><a href="systems.html">Multi-Click i systemy</a><a href="channel-lists.html">Listy kanałów</a><a href="one-liner.html">One-Liner / FTP</a><a href="ai-chat.html">AI Chat</a><a href="contact.html">Kontakt i wsparcie</a></nav>
       <button class="mobile-menu" type="button" data-menu-toggle>Menu</button>
     </header>
     <div class="content-layout">
       <aside class="side-panel"><h2>Pomoc użytkownika</h2><nav><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Aplikacje Android</a><a href="guides.html">Poradniki</a><a href="one-liner.html">One‑Liner / FTP</a><a href="channel-lists.html">Listy kanałów</a><a href="systems.html">Multi‑Click i systemy</a><a href="ai-chat.html">AI Chat</a><a href="contact.html">Kontakt i wsparcie</a></nav><div class="side-help"><strong>Szybka pomoc</strong><a href="guide-terminal-openwebif.html">Terminal / OpenWebif</a><a href="guide-oscam.html">Dane do OSCam</a><a href="guide-xstremity.html">IPTV do Xstremity</a><a href="help-softcam-feed.html">SoftCam feed</a><a href="help-picons-serviceref.html">Picony / ServiceRef</a><a href="help-restart-gui.html">Restart GUI</a></div></aside>
-      <main id="main-content" class="content-main"><section class="hero-compact"><div><p class="script-line">Witam na mojej stronie <span>Paweł Pawełek</span></p><p class="eyebrow">Listy kanałów • korekta • raport</p><h1>PP Channel Sync v1.0.17</h1><p class="lead">Wtyczka dla Enigma2 Python 2/3 do kontroli i bezpiecznej korekty posiadanej już listy kanałów. Pomaga utrzymać aktualne kanały bez ręcznego poprawiania list po zmianach na satelicie.</p><div class="action-row"><a class="button primary" href="pliki/enigma2-plugin-extensions-ppchannelsync_1.0.17_all.ipk">Pobierz IPK</a><a class="button" href="plugins.html">Wróć do wtyczek</a></div></div><figure><img src="pliki/pp-channel-sync-1.0.17-screen.png" alt="PP Channel Sync v1.0.17"><figcaption>PP Channel Sync v1.0.17</figcaption></figure></section>
-<div class="detail-grid"><section class="module"><h2>Do czego służy</h2><p><strong>PP Channel Sync</strong> sprawdza listę, którą masz już w tunerze, wykonuje kopię bezpieczeństwa, koryguje wpisy kanałów i zapisuje raport zmian.</p><p>Wtyczka nie jest zwykłym instalatorem gotowej listy. Jej głównym zadaniem jest pomoc w uporządkowaniu i odświeżeniu obecnej listy użytkownika.</p><p><strong>Plik:</strong> <a href="pliki/enigma2-plugin-extensions-ppchannelsync_1.0.17_all.ipk">enigma2-plugin-extensions-ppchannelsync_1.0.17_all.ipk</a> 32.0 KB</p></section><section class="module"><h2>Najważniejsze możliwości</h2><ul class="clean-list"><li>kontrola posiadanej listy kanałów</li><li>kopia bezpieczeństwa przed korektą</li><li>raport skrócony i szczegółowy po wykonaniu operacji</li><li>dopisywanie nowych kanałów do pasujących, już istniejących bukietów</li><li>zachowanie obecnego układu listy i kolejności kanałów</li><li>wybór pakietu kontrolnego dla różnych satelitów</li><li>możliwość przywrócenia wcześniejszej kopii z poziomu wtyczki</li></ul></section></div>
-<section class="module"><h2>Jak korzystać</h2><ol class="steps-list"><li>Uruchom <strong>PP Channel Sync</strong> z menu wtyczek Enigma2.</li><li>Wybierz z listy odpowiedni <strong>pakiet kontrolny</strong> zgodny z Twoją konfiguracją satelit.</li><li>Ustaw tryb pracy, dopisywanie nowych kanałów i sposób obsługi nieaktualnych pozycji.</li><li>Naciśnij <strong>zielony przycisk</strong>, aby wykonać wybrany tryb pracy.</li><li>Po zakończeniu sprawdź komunikat oraz raport zmian.</li></ol><div class="info-box"><strong>Przyciski:</strong> zielony — wykonaj wybrany tryb, żółty — utwórz kopię, niebieski — przywróć kopię, MENU — raport, czerwony / EXIT — wyjście.</div></section>
-<section class="module"><h2>Gdzie trafiają nowe kanały</h2><p>Jeśli wtyczka znajdzie nowe kanały, dopisuje je na końcu pasujących, już istniejących bukietów. Dla czytelności dodawana jest osobna sekcja:</p><div class="command"><pre><code>........ nowe kanały - PP Channel Sync ........</code></pre></div><p>Dzięki temu łatwo sprawdzić, co zostało dodane, i samodzielnie zdecydować, czy kanały zostawić, przenieść wyżej albo usunąć.</p></section>
-<section class="module"><h2>Dlaczego kanał może się powtórzyć</h2><p>Niektóre kanały mogą zostać dopisane mimo tego, że podobna pozycja istnieje już na liście. Różne listy kanałów używają czasem innych nazw, oznaczeń, wersji HD/SD, regionalnych wariantów albo innych wpisów tego samego kanału.</p><p>Wtyczka działa ostrożnie: lepiej dopisać kanał do sprawdzenia na końcu listy niż przypadkowo usunąć albo podmienić coś, co użytkownik miał ustawione po swojemu.</p></section>
-<div class="detail-grid"><section class="module"><h2>Obsługa wielu satelitów</h2><p>Wtyczka może pracować z różnymi konfiguracjami satelitarnymi. Wystarczy wybrać odpowiedni pakiet kontrolny w opcjach wtyczki, np. dla jednej satelity, zestawu Dual Feed albo większej konfiguracji.</p></section><section class="module"><h2>Bezpieczeństwo</h2><p>Przed wykonaniem korekty tworzona jest kopia bezpieczeństwa. W razie potrzeby można ją przywrócić bezpośrednio z poziomu wtyczki.</p><p>Po korekcie wtyczka zapisuje raport, dzięki czemu można sprawdzić, co zostało wykonane.</p></section></div>
-<section class="module"><h2>Zdjęcia / podgląd</h2><div class="guide-gallery"><figure><a href="pliki/pp-channel-sync-1.0.17-screen.png" target="_blank" rel="noopener"><img src="pliki/pp-channel-sync-1.0.17-screen.png" alt="PP Channel Sync ekran główny" loading="lazy"></a><figcaption>Ekran główny PP Channel Sync v1.0.17.</figcaption></figure></div></section>
-<section class="module"><h2>Instalacja pobranego IPK przez FTP</h2><p>Wgraj plik IPK do katalogu <code>/tmp</code>, a następnie wykonaj polecenie w terminalu OpenWebif albo PuTTY.</p><div class="command"><div><strong>Instalacja IPK z /tmp</strong><button type="button" data-copy="opkg install --force-reinstall /tmp/enigma2-plugin-extensions-ppchannelsync_1.0.17_all.ipk">Kopiuj</button></div><pre><code>opkg install --force-reinstall /tmp/enigma2-plugin-extensions-ppchannelsync_1.0.17_all.ipk</code></pre><p class="command-note">Po instalacji wykonaj restart GUI.</p></div></section>
-</main>
+      <main id="main-content" class="content-main">
+        <section class="hero-compact">
+          <div>
+            <p class="script-line">Witam na mojej stronie <span>Paweł Pawełek</span></p>
+            <p class="eyebrow">Ważna aktualizacja naprawcza • listy kanałów</p>
+            <h1>PP Channel Sync 1.3.0</h1>
+            <p class="lead">Nowa wersja wtyczki do bezpiecznej korekty list kanałów Enigma2. Aktualizacja naprawia problem z komunikatem „W paczce kontrolnej nie znaleziono pliku lamedb” i dodaje pełną obsługę baz <strong>lamedb</strong> oraz <strong>lamedb5</strong>.</p>
+            <div class="action-row"><a class="button primary" href="pliki/enigma2-plugin-extensions-ppchannelsync_1.3.0_all.ipk">Pobierz IPK 1.3.0</a><a class="button" href="#instalacja">Instalacja z GitHub</a><a class="button" href="plugins.html">Wróć do wtyczek</a></div>
+          </div>
+          <figure><img src="pliki/pp-channel-sync-1.3.0-screen.png" alt="PP Channel Sync 1.3.0"><figcaption>PP Channel Sync 1.3.0</figcaption></figure>
+        </section>
+
+        <section class="module">
+          <h2>Najważniejsza poprawka</h2>
+          <div class="info-box"><strong>Naprawiono błąd:</strong> „W paczce kontrolnej nie znaleziono pliku lamedb”. Wtyczka rozpoznaje teraz zarówno klasyczny plik <code>lamedb</code>, jak i nowszy format <code>lamedb5</code>, również w paczkach z nietypową strukturą katalogów lub z archiwami umieszczonymi wewnątrz innych archiwów.</div>
+        </section>
+
+        <div class="detail-grid">
+          <section class="module">
+            <h2>Co poprawiono w 1.3.0?</h2>
+            <ul class="clean-list">
+              <li>pełna obsługa plików <strong>lamedb</strong> oraz <strong>lamedb5</strong></li>
+              <li>lepsze wykrywanie bazy kanałów w pobranych paczkach</li>
+              <li>obsługa archiwów znajdujących się wewnątrz innych archiwów</li>
+              <li>ochrona przed użyciem pustej lub uszkodzonej bazy</li>
+              <li>usprawnione pobieranie list ze źródeł internetowych</li>
+              <li>poprawiony wybór najnowszej dostępnej listy</li>
+              <li>bezpieczniejsze rozpakowywanie pobranych plików</li>
+            </ul>
+          </section>
+          <section class="module">
+            <h2>Kopie i bezpieczeństwo</h2>
+            <ul class="clean-list">
+              <li>kopia bezpieczeństwa obejmuje także bukiety radiowe</li>
+              <li>dodano kontrolę poprawności wykonanej kopii</li>
+              <li>przy błędzie wtyczka automatycznie przywraca wcześniejszą konfigurację</li>
+              <li>ograniczono liczbę przechowywanych kopii zapasowych</li>
+              <li>dodano kontrolę sumy SHA-256 podczas aktualizacji wtyczki</li>
+              <li>niekompletna lub uszkodzona paczka nie zmieni listy kanałów</li>
+            </ul>
+          </section>
+        </div>
+
+        <section class="module">
+          <h2>Bezpieczna korekta listy</h2>
+          <p>PP Channel Sync nie instaluje całkowicie nowej listy kanałów. Analizuje listę, która znajduje się już na tunerze, i wykonuje wyłącznie ostrożne korekty.</p>
+          <div class="detail-grid">
+            <div>
+              <ul class="clean-list">
+                <li>poprawia parametry zmienionych kanałów satelitarnych</li>
+                <li>zachowuje kolejność kanałów i układ bukietów użytkownika</li>
+                <li>przed każdą zmianą wykonuje kopię bezpieczeństwa</li>
+              </ul>
+            </div>
+            <div>
+              <ul class="clean-list">
+                <li>nie ingeruje w kanały DVB-T, DVB-C ani IPTV</li>
+                <li>nie używa pustej lub uszkodzonej bazy kontrolnej</li>
+                <li>w razie błędu wycofuje zmiany i przywraca wcześniejsze pliki</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="module">
+          <h2>Raportowanie i diagnostyka</h2>
+          <p>Rozszerzono komunikaty błędów i diagnostykę. Gdy wystąpi problem, szczegółowy raport zostanie zapisany w pliku:</p>
+          <div class="command"><pre><code>/tmp/ppchannelsync_error.txt</code></pre></div>
+          <p>Przy zgłaszaniu błędu należy podać model tunera, nazwę i wersję systemu, wersję Pythona oraz zawartość pliku raportu.</p>
+        </section>
+
+        <section class="module">
+          <h2>Obsługa wtyczki</h2>
+          <ol class="steps-list">
+            <li>Uruchom <strong>PP Channel Sync</strong> z menu wtyczek Enigma2.</li>
+            <li>Wybierz pakiet kontrolny zgodny z używaną konfiguracją satelitarną.</li>
+            <li>Sprawdź ustawienia trybu pracy i automatycznej aktualizacji.</li>
+            <li>Naciśnij <strong>zielony przycisk</strong>, aby rozpocząć korektę listy.</li>
+            <li>Po zakończeniu przeczytaj komunikat i sprawdź raport.</li>
+          </ol>
+          <div class="info-box"><strong>Przyciski:</strong> zielony — korekta listy, żółty — kopia, niebieski — przywróć, MENU — raport, czerwony / EXIT — wyjście.</div>
+        </section>
+
+        <section class="module">
+          <h2>Zdjęcie wtyczki</h2>
+          <div class="guide-gallery"><figure><a href="pliki/pp-channel-sync-1.3.0-screen.png" target="_blank" rel="noopener"><img src="pliki/pp-channel-sync-1.3.0-screen.png" alt="Ekran główny PP Channel Sync 1.3.0" loading="lazy"></a><figcaption>Nowy ekran PP Channel Sync 1.3.0 z wyborem profilu pracy, źródła kontroli, kopii i przywracania.</figcaption></figure></div>
+        </section>
+
+        <section class="module" id="instalacja">
+          <h2>Aktualizacja i instalacja</h2>
+          <p>Aktualizację można wykonać bezpośrednio z poziomu wtyczki. PP Channel Sync jest również dostępny do instalacji z poziomu <strong>AIO Panel</strong>.</p>
+          <div class="command"><div><strong>Instalacja bezpośrednio z GitHub</strong><button type="button" data-copy="wget -q -O - https://raw.githubusercontent.com/OliOli2013/PPChannelSync-Plugin/main/installer.sh | /bin/sh">Kopiuj</button></div><pre><code>wget -q -O - https://raw.githubusercontent.com/OliOli2013/PPChannelSync-Plugin/main/installer.sh | /bin/sh</code></pre><p class="command-note">Po instalacji zalecany jest restart interfejsu Enigma2.</p></div>
+          <div class="command"><div><strong>Instalacja pobranego IPK z katalogu /tmp</strong><button type="button" data-copy="opkg install --force-reinstall /tmp/enigma2-plugin-extensions-ppchannelsync_1.3.0_all.ipk">Kopiuj</button></div><pre><code>opkg install --force-reinstall /tmp/enigma2-plugin-extensions-ppchannelsync_1.3.0_all.ipk</code></pre></div>
+        </section>
+
+        <section class="module">
+          <h2>Informacje</h2>
+          <p><strong>Wersja:</strong> 1.3.0<br><strong>System:</strong> Enigma2 Python 2/3<br><strong>Autor:</strong> by Paweł Pawełek<br><strong>Kontakt:</strong> <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></p>
+        </section>
+      </main>
     </div>
     <footer class="site-footer">
       <div><strong>AIO‑IPTV.pl</strong><span>Wtyczki, poradniki, listy kanałów, Multi‑Click, One‑Liner i AI Chat.</span></div>
@@ -42,6 +133,6 @@
       <p>© <span id="year"></span> Paweł Pawełek • <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></p>
     </footer>
   </div>
-  <script src="assets/js/user-premium.js?v=20260714-v7" defer></script>
+  <script src="assets/js/user-premium.js?v=20260716-v8" defer></script>
 </body>
 </html>
