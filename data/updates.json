@@ -1,5 +1,31 @@
 [
   {
+    "date": "2026-07-17",
+    "ts": 1784246400000,
+    "type": "release",
+    "title": "PP Channel Sync 2.1.0 — zbiorcza aktualizacja naprawcza",
+    "desc": "Pełny zestaw napraw: synchronizacja wielu satelitów, obsługa lamedb i lamedb5, poprawne nowe kanały w bukietach, brak duplikatów, kopia bezpieczeństwa, rollback i przebudowany interfejs.",
+    "details": "✅ PP Channel Sync 2.1.0 – zbiorcza aktualizacja naprawcza\n\nWersja 2.1.0 obejmuje wszystkie poprawki wprowadzone po zgłoszeniach użytkowników, a nie tylko ostatni wykryty problem.\n\nNajważniejsze zmiany:\n• pełna obsługa baz lamedb oraz lamedb5\n• poprawione pobieranie właściwych list kanałów zamiast błędnych paczek\n• odrzucanie pustych, uszkodzonych i niezgodnych paczek\n• obsługa list w dodatkowych i zagnieżdżonych archiwach\n• poprawiona synchronizacja kilku zaznaczonych satelitów podczas jednej operacji\n• każda pozycja orbitalna jest analizowana osobno\n• naprawione wykrywanie satelitów z list kanałów, bazy Enigma2 i konfiguracji głowic\n• usunięto techniczne wpisy typu 2140:820000...\n• nowe kanały są dopisywane na końcu właściwego bukietu\n• przywrócono separator „nowe kanały – PP Channel Sync”\n• przywrócono datę korekty i podpis @ PP Channel Sync na dole listy bukietów\n• kolejne uruchomienie nie dubluje kanałów, separatorów ani wpisów informacyjnych\n• poprawione kanały zachowują kolejność w bukietach\n• brak ingerencji w DVB-T, DVB-C i IPTV\n• naprawiono restart GUI po wyjściu z wyboru satelitów\n• przebudowano interfejs i wybór wielu satelitów\n• rozszerzono raporty i diagnostykę błędów\n• przed zmianami wykonywana jest kopia bezpieczeństwa\n• przy przerwaniu zapisu lista jest automatycznie przywracana z kopii\n\nWtyczka sprawdza listę na tunerze, poprawia zmienione parametry kanałów, dodaje nowości do odpowiednich bukietów i zachowuje dotychczasowy układ użytkownika.\n\nInstalacja z GitHub:\nwget -q -O - https://raw.githubusercontent.com/OliOli2013/PPChannelSync-Plugin/main/installer.sh | /bin/sh",
+    "url": "plugin-pp-channel-sync.html",
+    "tags": [
+      "PP Channel Sync",
+      "2.1.0",
+      "Enigma2",
+      "Python 2/3",
+      "lamedb",
+      "lamedb5",
+      "wiele satelitów",
+      "pozycje orbitalne",
+      "nowe kanały",
+      "bukiety",
+      "separator",
+      "kopia bezpieczeństwa",
+      "rollback",
+      "diagnostyka",
+      "AIO Panel"
+    ]
+  },
+  {
     "date": "2026-07-16",
     "ts": 1784160000000,
     "type": "release",
