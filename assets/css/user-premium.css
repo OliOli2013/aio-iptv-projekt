@@ -551,3 +551,26 @@ tbody tr:hover { background: rgba(67, 154, 194, .09); }
 .home-price-note strong { color:#8ff0ce; }
 .home-price-note b { color:#ffd76e; }
 @media(max-width:760px){.section-heading-row{display:block}.release-pill{margin-top:10px}.hash-grid,.tier-grid,.steps-visual,.faq-grid{grid-template-columns:1fr}.license-callout{grid-template-columns:1fr;text-align:center}.license-callout p{text-align:left}.feature-compare th,.feature-compare td{padding:10px 7px}.remote146-home-promo .app-home-feature-grid{grid-template-columns:1fr}.remote146-home-promo figure{order:-1}.remote146-home-promo figure img{max-height:480px}}
+
+
+/* CamBridge PL + application catalog — 2026-07-18 */
+.app-subnav{margin:0 0 12px}.app-subnav a{display:block;padding:8px 10px;border:1px solid rgba(126,227,255,.25);border-radius:8px;color:#8ee8ff;font-weight:800}
+.apps-hub-hero figure img,.cambridge-hero figure img{max-height:520px;object-fit:contain}
+.app-catalog-grid{display:grid;gap:18px}
+.platform-app-card{display:grid;grid-template-columns:minmax(220px,34%) 1fr;gap:22px;padding:18px;border:1px solid #31586d;border-radius:16px;background:linear-gradient(145deg,rgba(17,49,65,.96),rgba(6,21,30,.98));box-shadow:0 14px 34px rgba(0,0,0,.28)}
+.platform-app-card.featured{border-color:#43d5c0;box-shadow:0 0 0 1px rgba(67,213,192,.18),0 18px 38px rgba(0,0,0,.34)}
+.app-card-media{display:grid;place-items:center;min-height:300px;border-radius:13px;background:radial-gradient(circle at 50% 12%,rgba(63,213,199,.16),transparent 50%),#06131d;overflow:hidden}
+.app-card-media img{width:100%;height:420px;object-fit:contain;display:block}
+.app-card-body h2{margin:8px 0 10px;font-size:1.75rem}.clean-list.compact li{margin:5px 0}
+.cambridge-home-promo{border-color:#2aaea2;background:linear-gradient(135deg,rgba(8,46,58,.98),rgba(8,22,34,.98))}
+.cambridge-home-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(300px,.75fr);gap:22px;align-items:center}
+.cambridge-home-media{display:grid;grid-template-columns:1.4fr .7fr;gap:12px;align-items:stretch}.cambridge-home-media figure{margin:0;padding:10px;border:1px solid #31586d;border-radius:13px;background:#05111a;display:grid;align-content:center}.cambridge-home-media img{width:100%;max-height:320px;object-fit:contain;border-radius:9px}.cambridge-home-media figcaption{text-align:center;font-weight:800;color:#9eeaff;margin-top:8px}
+.cambridge-platform-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}.cambridge-platform-actions>div{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:12px;border:1px solid #31586d;border-radius:12px;background:rgba(5,18,28,.62)}.cambridge-platform-actions strong{width:100%;color:#8ee8ff}
+.download-panel{display:grid;grid-template-columns:1fr minmax(300px,.8fr);gap:20px;align-items:center}.download-matrix{display:grid;grid-template-columns:1fr 1fr;gap:12px}.download-tile{display:flex;flex-direction:column;gap:5px;padding:16px;border:1px solid #31586d;border-radius:13px;background:#0c2735;transition:.18s transform,.18s border-color}.download-tile:hover{transform:translateY(-2px);border-color:#74dcff}.download-tile.primary{background:linear-gradient(135deg,#126d77,#1977c9);border-color:#58d9e8}.download-tile span{font-size:.75rem;letter-spacing:.12em;font-weight:900;color:#a8f5ff}.download-tile strong{font-size:1.05rem}.download-tile small{color:#d0e0e8}
+.feature-check-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.feature-check-grid span{display:block;padding:11px 13px;border:1px solid #31586d;border-radius:10px;background:#0a2130}.feature-check-grid span:before{content:'✓';margin-right:9px;color:#55e0b5;font-weight:900}
+.code-examples{display:grid;gap:9px}.code-examples pre{margin:0;padding:12px;border:1px solid #31586d;border-radius:9px;background:#05111a;overflow:auto}.code-examples code{color:#9eeaff}
+.safe-use-panel{border-color:#a97631;background:linear-gradient(135deg,rgba(61,42,14,.45),rgba(9,25,33,.96))}.safe-use-panel strong{color:#ffd389}
+.cambridge-windows-hero{grid-template-columns:minmax(0,.8fr) minmax(420px,1.2fr)}.cambridge-windows-hero .wide-app-shot img{width:100%;max-height:460px;object-fit:contain}.desktop-screenshot{display:grid;gap:12px}.desktop-screenshot img{width:100%;border:1px solid #31586d;border-radius:12px;background:#02080d}.desktop-screenshot p{margin:0;color:#c9dce4}
+.cambridge-gallery{grid-template-columns:repeat(3,minmax(0,1fr))}.cambridge-gallery img{height:380px;object-fit:contain}
+@media(max-width:980px){.cambridge-home-grid,.download-panel,.cambridge-windows-hero{grid-template-columns:1fr}.cambridge-home-media{grid-template-columns:1fr 1fr}.platform-app-card{grid-template-columns:1fr}.app-card-media img{height:360px}}
+@media(max-width:700px){.cambridge-home-media,.cambridge-platform-actions,.download-matrix,.feature-check-grid,.cambridge-gallery{grid-template-columns:1fr}.cambridge-home-media figure:first-child img{max-height:240px}.platform-app-card{padding:14px}.app-card-media img{height:300px}.cambridge-gallery img{height:auto;max-height:520px}}

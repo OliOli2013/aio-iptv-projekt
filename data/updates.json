@@ -1,5 +1,45 @@
 [
   {
+    "date": "2026-07-18",
+    "ts": 1784332801000,
+    "type": "release",
+    "title": "CamBridge PL 1.0.0 Android — konwerter CCcam do OSCam / NCam",
+    "desc": "Nowa aplikacja Android działająca offline: obsługa wielu linii CCcam, konfiguracja readera, wykrywanie błędów i duplikatów, zapis, schowek oraz eksport plików.",
+    "details": "CamBridge PL 1.0.0 dla Androida. Aplikacja przetwarza dane lokalnie i tworzy gotowe sekcje [reader] dla OSCam lub NCam. Obsługuje formaty C:, cccam:// oraz serwer:port:użytkownik:hasło, wiele linii jednocześnie, ustawienia grupy, wersji CCcam, hopów, limitu bezczynności i parametrów zaawansowanych. Wynik można skopiować, zapisać w prywatnej pamięci albo wyeksportować do oscam.server, ncam.server, .conf lub .txt. Do pobrania dostępny jest APK i 9-stronicowy poradnik PDF.",
+    "url": "app-cambridge-android.html",
+    "tags": [
+      "CamBridge PL",
+      "Android",
+      "APK",
+      "CCcam",
+      "OSCam",
+      "NCam",
+      "offline",
+      "reader",
+      "eksport"
+    ]
+  },
+  {
+    "date": "2026-07-18",
+    "ts": 1784332800000,
+    "type": "release",
+    "title": "CamBridge PL 1.0.0 Windows — przenośny konwerter CCcam do OSCam / NCam",
+    "desc": "Nowy program Windows w wersjach x64 i x86. Działa offline, obsługuje wiele linii, zapis i eksport oraz nie wymaga instalowania.",
+    "details": "CamBridge PL 1.0.0 dla Windows to przenośny, polski konwerter danych CCcam do gotowych sekcji [reader] dla OSCam lub NCam. Program obsługuje wiele linii, wczytywanie z pliku i schowka, ustawienia readera, kopiowanie wyniku, eksport do oscam.server lub ncam.server oraz ręczną pamięć konfiguracji. Nie łączy się z Internetem, nie ma reklam i nie wymaga konta. Dostępne są osobne pliki EXE dla systemów x64 i x86.",
+    "url": "windows-apps.html",
+    "tags": [
+      "CamBridge PL",
+      "Windows",
+      "x64",
+      "x86",
+      "CCcam",
+      "OSCam",
+      "NCam",
+      "offline",
+      "portable"
+    ]
+  },
+  {
     "date": "2026-07-17",
     "ts": 1784246400000,
     "type": "release",

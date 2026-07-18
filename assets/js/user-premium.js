@@ -23,6 +23,18 @@
   }
 
   function initNavigation() {
+    // Keep the Windows applications section visible in the shared navigation,
+    // including older pages that were authored before the section existed.
+    $$('.main-nav, .side-panel nav, .site-footer nav').forEach(container => {
+      if (container.querySelector('a[href="windows-apps.html"]')) return;
+      const androidLink = container.querySelector('a[href="android-apps.html"]');
+      if (!androidLink) return;
+      const windowsLink = document.createElement('a');
+      windowsLink.href = 'windows-apps.html';
+      windowsLink.textContent = container.classList.contains('main-nav') ? 'Aplikacje Windows' : 'Windows';
+      androidLink.insertAdjacentElement('afterend', windowsLink);
+    });
+
     const button = $('[data-menu-toggle]');
     const menu = $('[data-menu]');
     if (button && menu) {
@@ -125,7 +137,9 @@
 
     const fallback = [
       { title: 'Wtyczki', desc: 'Pobieranie i opisy wtyczek Enigma2.', url: 'plugins.html', tags: ['wtyczki', 'ipk'] },
-      { title: 'AIO Panel Remote 1.4.6 Free / Pro', desc: 'Pilot Enigma2, listy kanałów, EPG, picony, streaming SAT/IPTV oraz ZeroTier/VPN.', url: 'android-apps.html', tags: ['android', 'apk', 'AIO Panel Remote', '1.4.6', 'free', 'pro', 'openwebif', 'zerotier', 'vpn', 'streaming', 'epg', 'picony'] },
+      { title: 'CamBridge PL 1.0.0 Android', desc: 'Offline konwerter CCcam do OSCam/NCam z zapisem i eksportem.', url: 'app-cambridge-android.html', tags: ['cambridge', 'android', 'apk', 'cccam', 'oscam', 'ncam', 'offline'] },
+      { title: 'CamBridge PL 1.0.0 Windows', desc: 'Przenośny konwerter CCcam do OSCam/NCam dla Windows x64 i x86.', url: 'windows-apps.html', tags: ['cambridge', 'windows', 'exe', 'x64', 'x86', 'cccam', 'oscam', 'ncam'] },
+      { title: 'AIO Panel Remote 1.4.6 Free / Pro', desc: 'Pilot Enigma2, listy kanałów, EPG, picony, streaming SAT/IPTV oraz ZeroTier/VPN.', url: 'app-aio-panel-remote.html', tags: ['android', 'apk', 'AIO Panel Remote', '1.4.6', 'free', 'pro', 'openwebif', 'zerotier', 'vpn', 'streaming', 'epg', 'picony'] },
       { title: 'Multi-Click i systemy', desc: 'Gotowe systemy i instrukcje instalacji.', url: 'systems.html', tags: ['systemy', 'multiclick', 'image'] },
       { title: 'Poradniki', desc: 'Instrukcje i pomoc dla Enigma2.', url: 'guides.html', tags: ['poradniki', 'pomoc'] },
       { title: 'Listy kanałów', desc: 'Listy kanałów i bukiety.', url: 'channel-lists.html', tags: ['listy', 'bukiety'] }

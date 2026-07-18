@@ -21,7 +21,7 @@
   {
     "title": "AIO Panel Remote 1.4.6 Free / Pro - aplikacja Android",
     "desc": "Sterowanie tunerem Enigma2 przez OpenWebif, listy kanałów, EPG, picony oraz streaming SAT/IPTV. Free działa w LAN, Pro odblokowuje streaming i ZeroTier/VPN.",
-    "url": "android-apps.html",
+    "url": "app-aio-panel-remote.html",
     "tags": [
       "Aplikacje Android",
       "Android",
@@ -49,6 +49,65 @@
       "VLC",
       "Play Protect",
       "licencja roczna"
+    ]
+  },
+  {
+    "title": "Aplikacje Android",
+    "desc": "Aplikacje mobilne by Paweł Pawełek: CamBridge PL oraz AIO Panel Remote, pliki APK i poradniki PDF.",
+    "url": "android-apps.html",
+    "tags": [
+      "aplikacje Android",
+      "APK",
+      "CamBridge PL",
+      "AIO Panel Remote"
+    ]
+  },
+  {
+    "title": "CamBridge PL 1.0.0 Android",
+    "desc": "Polski konwerter linii CCcam do sekcji reader dla OSCam lub NCam. Działa offline, obsługuje wiele linii, zapis i eksport.",
+    "url": "app-cambridge-android.html",
+    "tags": [
+      "CamBridge PL",
+      "1.0.0",
+      "Android",
+      "APK",
+      "CCcam",
+      "OSCam",
+      "NCam",
+      "reader",
+      "offline",
+      "eksport",
+      "Play Protect"
+    ]
+  },
+  {
+    "title": "Aplikacje Windows",
+    "desc": "Przenośne programy Windows by Paweł Pawełek, pliki x64 i x86 do bezpośredniego pobrania.",
+    "url": "windows-apps.html",
+    "tags": [
+      "aplikacje Windows",
+      "Windows",
+      "x64",
+      "x86",
+      "EXE"
+    ]
+  },
+  {
+    "title": "CamBridge PL 1.0.0 Windows",
+    "desc": "Przenośny polski konwerter CCcam do OSCam lub NCam dla Windows x64 i x86, działający całkowicie offline.",
+    "url": "windows-apps.html",
+    "tags": [
+      "CamBridge PL",
+      "1.0.0",
+      "Windows",
+      "x64",
+      "x86",
+      "CCcam",
+      "OSCam",
+      "NCam",
+      "reader",
+      "offline",
+      "portable"
     ]
   },
   {
