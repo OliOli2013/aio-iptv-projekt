@@ -396,6 +396,32 @@
     ]
   },
   {
+    "title": "Pilot Enigma2 — funkcje przycisków",
+    "desc": "Kompletny poradnik obsługi pilota Enigma2 na przykładzie Zgemma H7s i OpenATV 7.6: przyciski, lista kanałów, EPG, nagrywanie, timeshift, multimedia i ustawienia tunera.",
+    "url": "guide-enigma2-pilot-funkcje.html",
+    "tags": [
+      "Enigma2",
+      "pilot",
+      "przyciski pilota",
+      "Zgemma H7s",
+      "OpenATV 7.6",
+      "EPG",
+      "nagrywanie",
+      "timeshift",
+      "lista kanałów",
+      "POWER",
+      "MENU",
+      "INFO",
+      "FAV",
+      "AUDIO",
+      "SUBTITLE",
+      "PVR",
+      "REC",
+      "OpenWebif",
+      "poradnik"
+    ]
+  },
+  {
     "title": "Multi-Click i systemy Enigma2",
     "desc": "Gotowe systemy Multi-Click z instrukcjami instalacji pod każdym modelem oraz linki do czystych image Enigma2.",
     "url": "systems.html",
