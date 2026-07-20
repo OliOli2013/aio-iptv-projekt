@@ -1,5 +1,34 @@
 [
   {
+    "date": "2026-07-20",
+    "ts": 1784505600000,
+    "type": "release",
+    "title": "PP Channel Sync 2.1.1 — poprawki #SERVICE, Egami i OpenATV",
+    "desc": "Aktualizacja przygotowana z raportów użytkowników: niestandardowe wpisy #SERVICE nie blokują już synchronizacji, zachowano ochronę przed uszkodzonymi odwołaniami, a instalator usuwa stare pliki Python z cache.",
+    "details": "🚀 PP Channel Sync 2.1.1 – aktualizacja przygotowana na podstawie zgłoszeń użytkowników\n\nAktualizacja powstała po analizie raportów z Egami, OpenATV 8.0 beta i innych obrazów Enigma2.\n\nNajważniejsze zmiany:\n• poprawiona obsługa niestandardowych wpisów #SERVICE\n• zastane wpisy techniczne nie blokują całej synchronizacji\n• walidowane są przede wszystkim wpisy utworzone lub zmienione przez PP Channel Sync\n• zachowano ochronę przed zapisaniem rzeczywiście uszkodzonego service reference\n• poprawiono działanie na Egami i najnowszych OpenATV\n• instalator usuwa stare pliki pyc, pyo i __pycache__\n• poprawiono aktualizację między wersjami 1.x i gałęzią 2.x\n\nWszystkie wcześniejsze funkcje pozostają aktywne: lamedb/lamedb5, właściwe paczki kontrolne, archiwa zagnieżdżone, wiele satelitów, osobna analiza pozycji orbitalnych, nowe kanały na końcu bukietów, brak duplikatów, podpis i data synchronizacji, brak ingerencji w DVB-T/DVB-C/IPTV, kopia oraz automatyczny rollback.\n\nInstalacja:\nwget -q -O - \"https://raw.githubusercontent.com/OliOli2013/PPChannelSync-Plugin/main/installer.sh?$(date +%s)\" | /bin/sh\n\nPo instalacji wykonaj restart GUI. Raport błędów: /tmp/ppchannelsync_error.txt",
+    "url": "plugin-pp-channel-sync.html",
+    "tags": [
+      "PP Channel Sync",
+      "2.1.1",
+      "Enigma2",
+      "Python 2/3",
+      "#SERVICE",
+      "service reference",
+      "Egami",
+      "OpenATV 8.0",
+      "pyc",
+      "pyo",
+      "__pycache__",
+      "lamedb",
+      "lamedb5",
+      "wiele satelitów",
+      "kopia bezpieczeństwa",
+      "rollback",
+      "diagnostyka",
+      "AIO Panel"
+    ]
+  },
+  {
     "date": "2026-07-18",
     "ts": 1784332801000,
     "type": "release",
