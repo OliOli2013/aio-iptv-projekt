@@ -1,5 +1,30 @@
 [
   {
+    "date": "2026-07-22",
+    "ts": 1784678400000,
+    "type": "release",
+    "title": "IPTV Dream v7.0.0 — duża przebudowa wtyczki",
+    "desc": "Przebudowano obsługę M3U, Xtream Codes, portali MAC/Stalker/MAG, eksport bukietów, EPG, picony oraz mechanizmy obsługi błędów połączenia.",
+    "details": "📺 IPTV Dream v7.0.0 — duża przebudowa wtyczki\n\nTo większa przebudowa najważniejszych elementów IPTV Dream, przygotowana w celu poprawienia stabilności i zgodności z różnymi serwerami IPTV.\n\nNajważniejsze zmiany:\n• przebudowany mechanizm pobierania list M3U\n• poprawiona obsługa HTTP 884, RemoteDisconnected i zerwanych połączeń\n• obsługa serwerów zwracających błędny typ text/html\n• sprawdzanie faktycznej zawartości listy, a nie wyłącznie nagłówka serwera\n• lepsza zgodność z serwerami działającymi w XStreamity\n• przebudowany parser M3U i obsługa group-title, tvg-id, tvg-logo oraz EXTGRP\n• poprawione nazwy kanałów zawierające przecinki i nietypowe znaki\n• przebudowana obsługa Xtream Codes oraz portali MAC / Stalker / MAG / eStalker\n• krótsze timeouty i szybsze ładowanie portali MAC\n• poprawione usuwanie zapisanych portali\n• szybki eksport bukietów bez zatrzymywania się na 0%\n• bezpieczniejsze tworzenie i zapisywanie bukietów\n• poprawione referencje kanałów dla EPG i piconów\n• lepsza ochrona przed niebieskim ekranem i restartem GUI\n• zachowane wszystkie dotychczasowe funkcje\n\nWtyczka nie może naprawić wygasłego konta, martwego linku, błędnych danych logowania, blokady IP ani awarii serwera dostawcy. Po aktualizacji zalecany jest Restart GUI.",
+    "url": "plugin-iptv-dream.html",
+    "tags": [
+      "IPTV Dream",
+      "7.0.0",
+      "Enigma2",
+      "M3U",
+      "Xtream Codes",
+      "MAC Portal",
+      "Stalker",
+      "MAG",
+      "eStalker",
+      "bukiety",
+      "EPG",
+      "picony",
+      "WebIF",
+      "Restart GUI"
+    ]
+  },
+  {
     "date": "2026-07-20",
     "ts": 1784505600000,
     "type": "release",
