@@ -1,5 +1,29 @@
 [
   {
+    "date": "2026-07-23",
+    "ts": 1784764800000,
+    "type": "release",
+    "title": "AIO Panel 14.0.1 — autorskie picony i poprawiona instalacja",
+    "desc": "Dodano autorskie picony dla AIO Panel, poprawiono instalowanie grafik z archiwów, nadpisywanie istniejących plików, komunikaty o wolnym miejscu oraz zgodność z systemami Enigma2.",
+    "details": "AIO Panel 14.0.1\n\nW najnowszej aktualizacji dodano autorskie picony przygotowane specjalnie dla AIO Panel.\n\nPoprawiono mechanizm instalacji piconów:\n• usunięto błędne komunikaty o braku miejsca\n• poprawiono obsługę powtarzających się nazw plików\n• usprawniono instalację piconów z archiwów\n• poprawiono nadpisywanie istniejących grafik\n• zwiększono zgodność z różnymi systemami Enigma2\n\nDodatkowo usprawniono Super Konfigurator, instalację Softcam i OSCam-Emu oraz mechanizm aktualizacji wtyczki.\n\nAIO Panel 14.0.1 — by Paweł Pawełek.",
+    "url": "plugin-aio-panel.html",
+    "tags": [
+      "AIO Panel",
+      "14.0.1",
+      "Enigma2",
+      "picony",
+      "autorskie picony",
+      "TVN",
+      "Polsat Viasat",
+      "archiwa",
+      "nadpisywanie",
+      "Super Konfigurator",
+      "Softcam",
+      "OSCam-Emu",
+      "aktualizacja"
+    ]
+  },
+  {
     "date": "2026-07-22",
     "ts": 1784678400000,
     "type": "release",

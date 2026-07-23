@@ -1,59 +1,57 @@
-AIO Panel Remote 1.2.0 — pliki do podmiany/dodania na GitHubie
+AIO Panel 14.0.1 — pliki do podmiany / dodania na GitHubie
 
-404.html
-ai-chat.html
-android-apps.html
-assets/css/user-premium.css
-assets/js/user-premium.js
-channel-lists.html
-contact.html
-data/search-index.json
-data/updates.json
-guide-diagnostyka-enigma2.html
-guide-instalacja-image.html
-guide-openatv-76.html
-guide-oscam.html
-guide-pamiec-zgemma.html
-guide-terminal-openwebif.html
-guide-xstremity.html
-guides.html
-help-oscam-check.html
-help-picons-serviceref.html
-help-restart-gui.html
-help-root-password.html
-help-satellites-xml.html
-help-softcam-feed.html
-index.html
-one-liner.html
-pliki/AIO_Panel_Remote_1.2.0.apk
-pliki/AIO_Panel_Remote_1.2.0_Instrukcja_PL.pdf
-pliki/aio-panel-remote-1.2.0-bouquets.jpg
-pliki/aio-panel-remote-1.2.0-channels.jpg
-pliki/aio-panel-remote-1.2.0-install-1.jpg
-pliki/aio-panel-remote-1.2.0-play-protect-1.jpg
-pliki/aio-panel-remote-1.2.0-play-protect-2.jpg
-pliki/aio-panel-remote-1.2.0-player-mode.jpg
-pliki/aio-panel-remote-1.2.0-player-picker.jpg
-pliki/aio-panel-remote-1.2.0-remote-basic.jpg
-pliki/aio-panel-remote-1.2.0-remote-full.jpg
-pliki/aio-panel-remote-1.2.0-settings.jpg
-pliki/aio-panel-remote-1.2.0-start.jpg
-pliki/aio-panel-remote-1.2.0-streaming.jpg
-pliki/aio-panel-remote-1.2.0-support.jpg
-plugin-aio-panel.html
-plugin-dodatki-systemowe.html
-plugin-dreamosatx-signal.html
-plugin-e2-doctor.html
-plugin-iptv-dream.html
-plugin-myupdater.html
-plugin-nagrania-on-demand.html
-plugin-neoradio.html
-plugin-opencamview.html
-plugin-picon-updater.html
-plugin-pp-channel-sync.html
-plugin-simple-iptv-epg.html
-plugins.html
-systems.html
-PLIKI_DO_PODMIANY.txt
+Podmień pliki HTML i JSON z zachowaniem ich obecnych katalogów.
+Dodaj nowe pliki z katalogu pliki/.
 
-Wgraj pliki z zachowaniem struktury katalogów. Nowe pliki w katalogu pliki/ należy dodać, a istniejące pliki HTML, CSS, JS i JSON zastąpić.
+Zawartość paczki:
+- 404.html
+- ai-chat.html
+- android-apps.html
+- app-aio-panel-remote.html
+- app-cambridge-android.html
+- channel-lists.html
+- contact.html
+- data/search-index.json
+- data/updates.json
+- guide-diagnostyka-enigma2.html
+- guide-enigma2-pilot-funkcje.html
+- guide-instalacja-image.html
+- guide-openatv-76.html
+- guide-oscam.html
+- guide-pamiec-zgemma.html
+- guide-terminal-openwebif.html
+- guide-xstremity.html
+- guides.html
+- help-oscam-check.html
+- help-picons-serviceref.html
+- help-restart-gui.html
+- help-root-password.html
+- help-satellites-xml.html
+- help-softcam-feed.html
+- index.html
+- one-liner.html
+- pliki/aio-panel-14.0.1-picons-tvn.jpg
+- pliki/aio-panel-14.0.1-picons-viasat.jpg
+- pliki/aio-panel-14.0.1-screen.png
+- pliki/enigma2-plugin-extensions-panelaio_14.0.1_all.ipk
+- plugin-aio-panel.html
+- plugin-dodatki-systemowe.html
+- plugin-dreamosatx-signal.html
+- plugin-e2-doctor.html
+- plugin-iptv-dream.html
+- plugin-myupdater.html
+- plugin-nagrania-on-demand.html
+- plugin-neoradio.html
+- plugin-opencamview.html
+- plugin-picon-updater.html
+- plugin-pp-channel-sync.html
+- plugin-simple-iptv-epg.html
+- plugins.html
+- systems.html
+- windows-apps.html
+
+Najważniejsze nowe pliki:
+- pliki/enigma2-plugin-extensions-panelaio_14.0.1_all.ipk
+- pliki/aio-panel-14.0.1-screen.png
+- pliki/aio-panel-14.0.1-picons-viasat.jpg
+- pliki/aio-panel-14.0.1-picons-tvn.jpg

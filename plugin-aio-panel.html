@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AIO Panel 14.0.0 | AIO-IPTV.pl</title>
-  <meta name="description" content="AIO Panel 14.0.0 dla Enigma2 — całkowicie przebudowany interfejs, nowe informacje systemowe, automatyczny język PL/EN, integracja E2 Doctor i poprawione sortowanie list kanałów.">
+  <title>AIO Panel 14.0.1 | AIO-IPTV.pl</title>
+  <meta name="description" content="AIO Panel 14.0.1 dla Enigma2 — autorskie picony, poprawiona instalacja grafik, usprawniony Super Konfigurator, Softcam, OSCam-Emu i mechanizm aktualizacji.">
   <link rel="icon" href="pliki/logo.png">
   <link rel="manifest" href="manifest.json">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,7 +17,7 @@
     <header class="site-header">
       <div class="brand-row">
         <a class="brand" href="index.html"><img src="pliki/logo.png" alt="AIO-IPTV.pl"><span><strong>AIO‑IPTV.pl</strong><small>Enigma2 • IPTV • pomoc</small></span></a>
-        <a class="header-download" href="plugin-aio-panel.html">AIO Panel 14.0.0</a>
+        <a class="header-download" href="plugin-aio-panel.html">AIO Panel 14.0.1</a>
       </div>
       <nav class="main-nav" data-menu><a href="index.html">Start</a><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Aplikacje Android</a><a href="guides.html">Poradniki</a><a href="systems.html">Multi-Click i systemy</a><a href="channel-lists.html">Listy kanałów</a><a href="one-liner.html">One-Liner / FTP</a><a href="ai-chat.html">AI Chat</a><a href="contact.html">Kontakt i wsparcie</a></nav>
       <button class="mobile-menu" type="button" data-menu-toggle>Menu</button>
@@ -29,144 +29,116 @@
         <nav><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Aplikacje Android</a><a href="guides.html">Poradniki</a><a href="one-liner.html">One‑Liner / FTP</a><a href="channel-lists.html">Listy kanałów</a><a href="systems.html">Multi‑Click i systemy</a><a href="ai-chat.html">AI Chat</a><a href="contact.html">Kontakt i wsparcie</a></nav>
         <div class="side-help"><strong>Szybka pomoc</strong><a href="guide-terminal-openwebif.html">Terminal / OpenWebif</a><a href="guide-oscam.html">Dane do OSCam</a><a href="guide-xstremity.html">IPTV do Xstremity</a><a href="help-softcam-feed.html">SoftCam feed</a><a href="help-picons-serviceref.html">Picony / ServiceRef</a><a href="help-restart-gui.html">Restart GUI</a></div>
       </aside>
-
-      <main class="content-main">
+      <main id="main-content" class="content-main">
         <section class="hero-compact">
           <div>
             <p class="script-line">Witam na mojej stronie <span>Paweł Pawełek</span></p>
-            <p class="eyebrow">Kompletne centrum narzędzi Enigma2</p>
-            <h1>AIO Panel 14.0.0</h1>
-            <p class="lead">To chyba ostatnia duża aktualizacja AIO Panel. Wtyczka jest już tym, co zamierzałem osiągnąć na początku projektu — kompletnym, wygodnym i nowoczesnym centrum narzędzi dla tunerów Enigma2.</p>
-            <div class="action-row"><a class="button primary" href="pliki/enigma2-plugin-extensions-panelaio_14.0.0_all.ipk">Pobierz IPK</a><a class="button" href="plugins.html">Wróć do wtyczek</a></div>
+            <p class="eyebrow">Autorskie picony • poprawiona instalacja • Enigma2</p>
+            <h1>AIO Panel 14.0.1</h1>
+            <p class="lead">Najnowsza aktualizacja dodaje autorskie picony przygotowane specjalnie dla AIO Panel oraz poprawia mechanizm ich instalacji na różnych systemach Enigma2.</p>
+            <div class="action-row"><a class="button primary" href="pliki/enigma2-plugin-extensions-panelaio_14.0.1_all.ipk">Pobierz IPK 14.0.1</a><a class="button" href="plugins.html">Wróć do wtyczek</a></div>
           </div>
-          <figure><img src="pliki/aio-panel-14.0.0-screen.png" alt="AIO Panel 14.0.0"><figcaption>AIO Panel 14.0.0</figcaption></figure>
+          <figure><img src="pliki/aio-panel-14.0.1-screen.png" alt="AIO Panel 14.0.1"><figcaption>AIO Panel 14.0.1</figcaption></figure>
         </section>
 
         <section class="module">
-          <h2>🚀 AIO Panel 14.0.0 — chyba ostatnia aktualizacja</h2>
-          <p>Przez kolejne wersje AIO Panel był rozwijany, poprawiany i dostosowywany do różnych systemów oraz zgłoszeń użytkowników. Wersja <strong>14.0.0</strong> zamyka ten etap dużą przebudową wyglądu i uporządkowaniem całego panelu.</p>
-          <p>Dzisiaj mogę powiedzieć, że AIO Panel wygląda i działa tak, jak wyobrażałem go sobie na początku projektu.</p>
+          <h2>🚀 AIO Panel 14.0.1 — aktualizacja piconów i instalatorów</h2>
+          <p>W wersji <strong>14.0.1</strong> do AIO Panel dodano autorskie picony przygotowane specjalnie dla użytkowników polskich list kanałów. Aktualizacja poprawia także instalowanie grafik z archiwów i usuwa problemy zgłaszane na części obrazów Enigma2.</p>
+          <p class="info-box"><strong>Najważniejsza zmiana:</strong> picony są teraz instalowane pewniej, mogą poprawnie zastępować starsze grafiki i nie powinny już wyświetlać błędnego komunikatu o braku wolnego miejsca.</p>
         </section>
 
         <div class="detail-grid">
           <section class="module">
-            <h2>✨ Nowy wygląd i układ</h2>
+            <h2>🖼️ Autorskie picony AIO Panel</h2>
             <ul class="clean-list">
-              <li>całkowicie przebudowany, nowoczesny interfejs</li>
-              <li>nowy układ kategorii, funkcji i informacji o wybranej pozycji</li>
-              <li>czytelniejsze menu oraz nowe piktogramy funkcji</li>
-              <li>przywrócone klasyczne logo AIO Panel</li>
-              <li>uporządkowana i odświeżona struktura wtyczki</li>
-              <li>dostosowanie do różnych rozdzielczości i popularnych obrazów Enigma2</li>
+              <li>dodano autorskie zestawy piconów przygotowane dla AIO Panel</li>
+              <li>grafiki są przeznaczone do czytelnego wyświetlania na liście kanałów i w infobarze</li>
+              <li>w aktualizacji pokazano między innymi zestawy kanałów TVN oraz Polsat Viasat</li>
+              <li>istniejące picony mogą zostać prawidłowo nadpisane nowszymi wersjami</li>
             </ul>
           </section>
           <section class="module">
-            <h2>📊 Informacje systemowe</h2>
+            <h2>🔧 Poprawiona instalacja piconów</h2>
             <ul class="clean-list">
-              <li>obciążenie procesora CPU</li>
-              <li>wykorzystanie pamięci RAM</li>
-              <li>zajętość pamięci flash</li>
-              <li>wersja systemu Enigma2</li>
-              <li>wersja używanego Pythona</li>
-              <li>informacje sieciowe widoczne bez opuszczania panelu</li>
+              <li>usunięto błędne komunikaty o braku miejsca</li>
+              <li>poprawiono obsługę powtarzających się nazw plików</li>
+              <li>usprawniono instalację piconów z archiwów</li>
+              <li>poprawiono nadpisywanie istniejących grafik</li>
+              <li>zwiększono zgodność z różnymi systemami Enigma2</li>
             </ul>
           </section>
         </div>
 
         <section class="module">
-          <h2>🌍 Język i zgodność</h2>
+          <h2>⚙️ Dodatkowe usprawnienia w 14.0.1</h2>
           <div class="detail-grid">
             <div>
-              <h3>Automatyczny język</h3>
+              <h3>Super Konfigurator</h3>
               <ul class="clean-list">
-                <li>polski interfejs, gdy system Enigma2 działa w języku polskim</li>
-                <li>angielski interfejs dla każdego innego języka systemu</li>
-                <li>zachowane ręczne przyciski wyboru języka</li>
+                <li>usprawniono wykonywanie kolejnych etapów konfiguracji</li>
+                <li>poprawiono współpracę instalatorów uruchamianych z konfiguratora</li>
+                <li>zwiększono stabilność całego procesu na różnych obrazach Enigma2</li>
               </ul>
             </div>
             <div>
-              <h3>Python 2 i Python 3</h3>
+              <h3>Softcam i aktualizacja</h3>
               <ul class="clean-list">
-                <li>zachowana zgodność z systemami Python 2 i Python 3</li>
-                <li>funkcje mogą być filtrowane zgodnie z możliwościami systemu</li>
-                <li>panel pozostaje dostępny na wielu starszych i nowych obrazach Enigma2</li>
+                <li>usprawniono instalację Softcam</li>
+                <li>poprawiono instalację OSCam-Emu</li>
+                <li>ulepszono mechanizm aktualizacji AIO Panel</li>
+                <li>zachowano zgodność z Pythonem 2 i Pythonem 3</li>
               </ul>
             </div>
           </div>
         </section>
 
         <section class="module">
-          <h2>🩺 E2 Doctor w AIO Panel</h2>
-          <p>Do działu z wtyczkami została dodana moja nowa wtyczka <strong>E2 Doctor — centrum diagnostyki i bezpiecznej naprawy Enigma2</strong>.</p>
-          <ul class="clean-list">
-            <li>E2 Doctor jest dostępny na systemach z Pythonem 3</li>
-            <li>AIO Panel automatycznie rozpoznaje wersję Pythona</li>
-            <li>instalacja E2 Doctor nie jest pokazywana na niezgodnych systemach Python 2</li>
-          </ul>
-          <div class="action-row"><a class="button" href="plugin-e2-doctor.html">Zobacz E2 Doctor 2.3</a></div>
-        </section>
-
-        <section class="module">
-          <h2>📡 Poprawiona kolejność list kanałów</h2>
-          <p>Listy kanałów są teraz wyświetlane w bardziej logiczny i czytelny sposób:</p>
-          <ul class="clean-list">
-            <li>najnowsze listy znajdują się zawsze na samej górze</li>
-            <li>pozostałe listy są sortowane według daty aktualizacji</li>
-            <li>listy Azman zostały całkowicie usunięte</li>
-            <li>Vhannibal pozostaje dostępny na samym dole listy</li>
-          </ul>
-          <p>Dzięki temu użytkownik od razu widzi najnowsze i najczęściej aktualizowane zestawy.</p>
-        </section>
-
-        <section class="module">
-          <h2>🧰 Jedna wtyczka — wiele możliwości</h2>
+          <h2>🧰 AIO Panel nadal oferuje</h2>
           <div class="detail-grid">
             <div>
               <ul class="clean-list">
-                <li>instalacja i aktualizacja list kanałów</li>
-                <li>instalacja popularnych wtyczek Enigma2</li>
-                <li>obsługa softcamów i OSCam</li>
-                <li>instalacja piconów i dodatkowych narzędzi</li>
-                <li>instalacja skinów i dodatków systemowych</li>
+                <li>instalację i aktualizację list kanałów</li>
+                <li>instalację wtyczek Enigma2</li>
+                <li>obsługę Softcam, OSCam i OSCam-Emu</li>
+                <li>instalację piconów, skinów i narzędzi</li>
               </ul>
             </div>
             <div>
               <ul class="clean-list">
-                <li>wykonywanie kopii zapasowych</li>
-                <li>bezpieczne przywracanie list kanałów</li>
-                <li>konfiguracja tunera przez Super Konfigurator</li>
-                <li>diagnostyka sieci i systemu</li>
-                <li>najczęstsze czynności bez wpisywania komend w terminalu</li>
+                <li>Super Konfigurator</li>
+                <li>kopie bezpieczeństwa i przywracanie list</li>
+                <li>diagnostykę sieci i systemu</li>
+                <li>informacje CPU, RAM, flash, systemu i Pythona</li>
               </ul>
             </div>
           </div>
-          <p class="info-box">AIO Panel powstał po to, aby użytkownik Enigma2 miał najważniejsze narzędzia w jednym miejscu — dostępne bezpośrednio z pilota.</p>
+          <p class="info-box">Wersja 14.0.1 rozwija nowoczesny interfejs wprowadzony w serii 14.x, pozostawiając dotychczasowy układ i wszystkie najważniejsze funkcje panelu.</p>
         </section>
 
         <section class="module">
           <h2>Zdjęcia / podgląd</h2>
           <div class="guide-gallery">
-            <figure><a href="pliki/aio-panel-14.0.0-screen.png" target="_blank" rel="noopener"><img src="pliki/aio-panel-14.0.0-screen.png" alt="AIO Panel 14.0.0" loading="lazy"></a><figcaption>Nowy interfejs AIO Panel 14.0.0.</figcaption></figure>
-            <figure><a href="pliki/aio-panel-13.0.3-screen.png" target="_blank" rel="noopener"><img src="pliki/aio-panel-13.0.3-screen.png" alt="AIO Panel 13.0.3" loading="lazy"></a><figcaption>Poprzedni interfejs wersji 13.0.3.</figcaption></figure>
+            <figure><a href="pliki/aio-panel-14.0.1-screen.png" target="_blank" rel="noopener"><img src="pliki/aio-panel-14.0.1-screen.png" alt="AIO Panel 14.0.1 — ekran główny" loading="lazy"></a><figcaption>Aktualny ekran AIO Panel 14.0.1.</figcaption></figure>
+            <figure><a href="pliki/aio-panel-14.0.1-picons-tvn.jpg" target="_blank" rel="noopener"><img src="pliki/aio-panel-14.0.1-picons-tvn.jpg" alt="Autorskie picony kanałów TVN w AIO Panel" loading="lazy"></a><figcaption>Przykładowe autorskie picony kanałów grupy TVN.</figcaption></figure>
+            <figure><a href="pliki/aio-panel-14.0.1-picons-viasat.jpg" target="_blank" rel="noopener"><img src="pliki/aio-panel-14.0.1-picons-viasat.jpg" alt="Autorskie picony Polsat Viasat w AIO Panel" loading="lazy"></a><figcaption>Przykładowe picony Polsat Viasat i Epic Drama.</figcaption></figure>
+            <figure><a href="pliki/aio-panel-14.0.0-screen.png" target="_blank" rel="noopener"><img src="pliki/aio-panel-14.0.0-screen.png" alt="AIO Panel 14.0.0" loading="lazy"></a><figcaption>Interfejs serii 14.x wprowadzony w wersji 14.0.0.</figcaption></figure>
           </div>
         </section>
 
         <section class="module">
           <h2>Aktualizacja i instalacja</h2>
-          <p>Aktualizacja jest dostępna bezpośrednio z poziomu AIO Panel. Po zakończeniu aktualizacji zalecany jest ręczny restart GUI Enigma2.</p>
+          <p>Aktualizację można wykonać bezpośrednio z poziomu AIO Panel. Po zakończeniu instalacji zalecany jest ręczny restart GUI Enigma2.</p>
           <div class="command"><div><strong>AIO Panel — instalacja bezpośrednio z GitHub</strong><button type="button" data-copy="wget -q -O - https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh | /bin/sh">Kopiuj</button></div><pre><code>wget -q -O - https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh | /bin/sh</code></pre><p class="command-note">Polecenie wklej w terminalu SSH, Telnet lub w konsoli dekodera.</p></div>
         </section>
 
         <section class="module" id="ftp">
           <h2>Instalacja pobranego IPK przez FTP</h2>
           <p>Wgraj plik IPK do katalogu <code>/tmp</code>, a następnie wykonaj instalację w terminalu.</p>
-          <div class="command"><div><strong>Instalacja IPK z /tmp</strong><button type="button" data-copy="opkg install /tmp/enigma2-plugin-extensions-panelaio_14.0.0_all.ipk">Kopiuj</button></div><pre><code>opkg install /tmp/enigma2-plugin-extensions-panelaio_14.0.0_all.ipk</code></pre></div>
+          <div class="command"><div><strong>Instalacja IPK z /tmp</strong><button type="button" data-copy="opkg install /tmp/enigma2-plugin-extensions-panelaio_14.0.1_all.ipk">Kopiuj</button></div><pre><code>opkg install /tmp/enigma2-plugin-extensions-panelaio_14.0.1_all.ipk</code></pre></div>
         </section>
 
         <section class="module">
-          <h2>Podziękowanie</h2>
-          <p>Dziękuję wszystkim, którzy testowali kolejne wersje, przesyłali zdjęcia, zgłaszali błędy i proponowali nowe rozwiązania. To właśnie dzięki Waszym uwagom AIO Panel mógł rozwijać się przez tak długi czas.</p>
-          <p><strong>📺 AIO Panel 14.0.0<br>Kompletne centrum narzędzi Enigma2<br>by Paweł Pawełek</strong></p>
+          <p><strong>AIO Panel 14.0.1 — by Paweł Pawełek</strong></p>
         </section>
       </main>
     </div>

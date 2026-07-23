@@ -111,8 +111,8 @@
     ]
   },
   {
-    "title": "AIO Panel 14.0.0",
-    "desc": "AIO Panel 14.0.0 dla Enigma2: całkowicie przebudowany interfejs, informacje CPU/RAM/flash, automatyczny język polski lub angielski, zgodność Python 2/3, integracja E2 Doctor i poprawione sortowanie list kanałów.",
+    "title": "AIO Panel 14.0.1",
+    "desc": "AIO Panel 14.0.1 dla Enigma2: autorskie picony, poprawiona instalacja grafik z archiwów, prawidłowe nadpisywanie plików, usprawniony Super Konfigurator, Softcam, OSCam-Emu i mechanizm aktualizacji.",
     "url": "plugin-aio-panel.html",
     "tags": [
       "AIO Panel",
@@ -139,7 +139,16 @@
       "backup",
       "restore",
       "picony",
-      "aktualizacja"
+      "aktualizacja",
+      "14.0.1",
+      "autorskie picony",
+      "picony TVN",
+      "Polsat Viasat",
+      "instalacja piconów",
+      "archiwa piconów",
+      "nadpisywanie piconów",
+      "brak miejsca",
+      "OSCam-Emu"
     ]
   },
   {
