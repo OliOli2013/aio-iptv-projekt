@@ -1,4 +1,4 @@
-/* AIO-IPTV.pl — AI Chat ONLINE v3
+/* AIO-IPTV.pl — AI Chat ONLINE v4
  * Używa oficjalnego klienta supabase-js i pokazuje rzeczywistą klasę błędu.
  * Konfiguracja publiczna: data/aichat_config.json
  * Prywatny klucz dostawcy AI pozostaje wyłącznie w Supabase Secrets.
@@ -64,7 +64,7 @@
     }
     return window.supabase.createClient(String(supa.url).replace(/\/+$/, ''), String(supa.anonKey), {
       auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
-      global: { headers: { 'x-client-info': 'aio-iptv-ai-chat/3.0' } }
+      global: { headers: { 'x-client-info': 'aio-iptv-ai-chat/4.0' } }
     });
   }
 
@@ -241,14 +241,14 @@
       const button = form.querySelector('button[type="submit"]');
       if (button) button.disabled = true;
       appendMessage('user', query);
-      const waiting = appendMessage('bot', 'Łączenie z płatnym AI Chat…', true);
-      setStatus('Wysyłanie pytania do Supabase Edge Function…', 'loading');
+      const waiting = appendMessage('bot', 'Analizuję pytanie i przygotowuję odpowiedź…', true);
+      setStatus('AI Chat analizuje pytanie…', 'loading');
 
       try {
         const result = await sendQuestion(query);
         if (waiting) waiting.remove();
         appendMessage('bot', result.reply);
-        setStatus('AI Chat ONLINE — odpowiedź z funkcji „' + result.functionName + '”.', 'online');
+        setStatus('AI Chat ONLINE — odpowiedź gotowa.', 'online');
       } catch (error) {
         if (waiting) waiting.remove();
         const reason = String(error && error.message || error || 'Nieznany błąd');
