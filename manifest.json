@@ -21,6 +21,18 @@
   ],
   "shortcuts": [
     {
+      "name": "Studio AIO-IPTV.pl",
+      "short_name": "Studio",
+      "url": "./studio.html",
+      "icons": [
+        {
+          "src": "assets/icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
       "name": "Asystent doboru",
       "short_name": "Asystent",
       "url": "./assistant.html",

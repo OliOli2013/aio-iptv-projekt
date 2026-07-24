@@ -54,7 +54,8 @@
         '<a href="my-tuner.html">📡 Mój tuner</a>',
         '<a href="status.html">🟢 Status</a>',
         '<a href="qr-install.html">▦ QR instalacji</a>',
-        '<a href="log-analyzer.html">🔎 Analizator logów</a>'
+        '<a href="log-analyzer.html">🔎 Analizator logów</a>',
+        '<a href="studio.html">🧰 Studio</a>'
       ].join(''));
     }
 
@@ -605,10 +606,10 @@
       if (!findings.length) {
         report.push('<div class="empty-state"><h3>Brak jednoznacznego wzorca</h3><p>Nie oznacza to, że log jest poprawny. Do zgłoszenia dołącz model tunera, system, wersję Pythona, nazwę wtyczki i pełny fragment tracebacku.</p><a class="button" href="report-error.html">Otwórz generator zgłoszenia</a></div>');
       } else {
-        report.push(`<div class="log-findings">${findings.map(rule => `<article class="log-finding severity-${rule.severity}"><div><span>${severityLabel(rule.severity)}</span><h3>${escapeHtml(rule.title)}</h3><p>${escapeHtml(rule.advice)}</p>${rule.command ? `<pre><code>${escapeHtml(rule.command)}</code></pre>` : ''}</div></article>`).join('')}</div>`);
+        report.push(`<div class="log-findings">${findings.map(rule => `<article class="log-finding severity-${rule.severity}"><div><span>${severityLabel(rule.severity)}</span><h3>${escapeHtml(rule.title)}</h3><p>${escapeHtml(rule.advice)}</p>${rule.command ? `<pre><code>${escapeHtml(rule.command)}</code></pre>` : ''}<div class="action-row"><a class="button" href="errors.html#error-${escapeHtml(rule.id)}">Otwórz w bazie błędów</a></div></div></article>`).join('')}</div>`);
       }
       const safe = sanitizeLog(text);
-      output.innerHTML = `<div class="assistant-result-head"><div><p class="eyebrow">Analiza lokalna</p><h2>Wykryto ${findings.length} możliwych problemów</h2></div><span>Treść nie została wysłana na serwer</span></div>${report.join('')}<div class="action-row"><button class="button primary" type="button" id="copyLogAnalysis">Kopiuj podsumowanie</button><a class="button" href="report-error.html">Utwórz zgłoszenie</a></div>`;
+      output.innerHTML = `<div class="assistant-result-head"><div><p class="eyebrow">Analiza lokalna</p><h2>Wykryto ${findings.length} możliwych problemów</h2></div><span>Treść nie została wysłana na serwer</span></div>${report.join('')}<div class="action-row"><button class="button primary" type="button" id="copyLogAnalysis">Kopiuj podsumowanie</button><a class="button" href="errors.html">Baza błędów</a><a class="button" href="report-error.html">Utwórz zgłoszenie</a></div>`;
       output.hidden = false;
       $('#copyLogAnalysis')?.addEventListener('click', () => {
         const plain = findings.length

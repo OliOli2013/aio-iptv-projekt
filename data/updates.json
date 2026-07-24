@@ -1,6 +1,23 @@
 [
   {
     "date": "2026-07-24",
+    "ts": 1784952000000,
+    "type": "release",
+    "title": "AIO-IPTV.pl — Studio, publikator, symulator pilota, baza błędów i status projektów",
+    "desc": "Dodano cztery rozbudowane narzędzia: lokalny panel publikowania aktualizacji, interaktywny pilot, bazę błędów połączoną z analizatorem logów oraz stronę statusu projektów.",
+    "details": "Nowe funkcje:\n• Studio AIO-IPTV.pl jako wspólne centrum narzędzi\n• lokalny publikator tworzący stronę projektu, JSON-y i paczkę ZIP do GitHuba\n• obsługa lokalnych plików IPK/APK/EXE/ZIP, zdjęć, SHA-256 i changelogu\n• interaktywny symulator pilota z kontekstami TV, lista kanałów, EPG, odtwarzanie i ustawienia\n• baza typowych błędów Enigma2 z komendami i ostrzeżeniami\n• połączenie wyników analizatora logów z odpowiednimi wpisami bazy\n• status projektów: aktywnie rozwijane, stabilne, utrzymywane, wstrzymane i archiwalne\n• automatyczne oznaczenie statusu na stronach projektów",
+    "url": "studio.html",
+    "tags": [
+      "Studio",
+      "publikator",
+      "pilot",
+      "baza błędów",
+      "status projektów",
+      "Enigma2"
+    ]
+  },
+  {
+    "date": "2026-07-24",
     "ts": 1784944800000,
     "type": "release",
     "title": "AIO-IPTV.pl — 5 inteligentnych narzędzi i dzienna zasada pobierania",

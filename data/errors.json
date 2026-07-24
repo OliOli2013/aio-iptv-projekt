@@ -1,0 +1,941 @@
+[
+  {
+    "id": "space",
+    "code": "E2-FLASH-001",
+    "title": "Brak wolnego miejsca we flashu",
+    "category": "Pamięć i nośniki",
+    "severity": "critical",
+    "patterns": [
+      "No space left on device",
+      "Errno 28",
+      "ENOSPC"
+    ],
+    "symptom": "Instalacja zatrzymuje się, zapis ustawień nie działa, GUI może się restartować albo wtyczka zgłasza brak miejsca.",
+    "causes": [
+      "zapełniona pamięć flash",
+      "duża liczba crashlogów",
+      "pozostałości po aktualizacjach",
+      "niepotrzebne paczki i cache"
+    ],
+    "steps": [
+      "Wykonaj kopię listy kanałów i ustawień.",
+      "Sprawdź wolne miejsce poleceniem df -h.",
+      "Znajdź największe katalogi, ale nie kasuj plików systemowych bez rozpoznania.",
+      "Usuń wyłącznie znane logi, cache i nieużywane dodatki."
+    ],
+    "commands": [
+      "df -h",
+      "du -h /usr/lib/enigma2/python/Plugins 2>/dev/null | sort -h | tail -20",
+      "find /home/root/logs /media/hdd -maxdepth 2 -type f -name 'enigma2_crash*.log' 2>/dev/null | tail -20"
+    ],
+    "avoid": [
+      "Nie usuwaj bibliotek z /usr/lib na chybił trafił.",
+      "Nie wykonuj pełnego czyszczenia /etc/enigma2 bez kopii."
+    ],
+    "related": [
+      {
+        "title": "Diagnostyka Enigma2",
+        "url": "guide-diagnostyka-enigma2.html"
+      },
+      {
+        "title": "E2 Doctor",
+        "url": "plugin-e2-doctor.html"
+      }
+    ]
+  },
+  {
+    "id": "memory",
+    "code": "E2-RAM-002",
+    "title": "Brak pamięci RAM lub OOM",
+    "category": "Pamięć i nośniki",
+    "severity": "critical",
+    "patterns": [
+      "Out of memory",
+      "OOM-killer",
+      "Cannot allocate memory",
+      "MemoryError"
+    ],
+    "symptom": "Proces Enigma2 lub inna usługa zostaje zakończona, tuner zwalnia albo pojawia się restart GUI.",
+    "causes": [
+      "zbyt wiele procesów",
+      "ciężka wtyczka uruchamiana w tle",
+      "duży import EPG",
+      "brak lub mały SWAP"
+    ],
+    "steps": [
+      "Sprawdź użycie RAM i listę procesów.",
+      "Wyłącz zbędne zadania startowe i wtyczki działające w tle.",
+      "Sprawdź rozmiar EPG i cache piconów.",
+      "Restart GUI traktuj jako działanie doraźne, nie rozwiązanie przyczyny."
+    ],
+    "commands": [
+      "free -m",
+      "ps aux --sort=-%mem | head -15",
+      "swapon -s"
+    ],
+    "avoid": [
+      "Nie zwiększaj SWAP na uszkodzonym lub niestabilnym pendrivie.",
+      "Nie wyłączaj losowych procesów systemowych."
+    ],
+    "related": [
+      {
+        "title": "E2 Doctor",
+        "url": "plugin-e2-doctor.html"
+      }
+    ]
+  },
+  {
+    "id": "module",
+    "code": "E2-PY-003",
+    "title": "Brak modułu Pythona",
+    "category": "Python i wtyczki",
+    "severity": "high",
+    "patterns": [
+      "ModuleNotFoundError",
+      "No module named",
+      "ImportError: cannot import"
+    ],
+    "symptom": "Wtyczka nie uruchamia się, a traceback wskazuje brak modułu lub importu.",
+    "causes": [
+      "brak zależności",
+      "paczka dla innej wersji Pythona",
+      "niepełna instalacja",
+      "moduł dostępny pod inną nazwą w danym obrazie"
+    ],
+    "steps": [
+      "Sprawdź wersję Pythona w tunerze.",
+      "Zweryfikuj wymagania wtyczki.",
+      "Odśwież feed systemu i zainstaluj zależność przeznaczoną dla danego obrazu.",
+      "Po instalacji usuń stare pliki pyc/pyo tylko w katalogu aktualizowanej wtyczki."
+    ],
+    "commands": [
+      "python --version 2>&1; python3 --version 2>&1",
+      "opkg update",
+      "opkg list | grep -i NAZWA_MODULU"
+    ],
+    "avoid": [
+      "Nie kopiuj bibliotek z innego modelu tunera lub innego obrazu.",
+      "Nie instaluj paczki Python 2 na obrazie Python 3."
+    ],
+    "related": [
+      {
+        "title": "Centrum zgodności",
+        "url": "compatibility.html"
+      }
+    ]
+  },
+  {
+    "id": "syntax",
+    "code": "E2-PY-004",
+    "title": "Błąd składni lub niezgodna wersja Pythona",
+    "category": "Python i wtyczki",
+    "severity": "high",
+    "patterns": [
+      "SyntaxError",
+      "invalid syntax",
+      "Missing parentheses in call to print"
+    ],
+    "symptom": "Enigma2 zatrzymuje ładowanie pliku wtyczki i pokazuje SyntaxError.",
+    "causes": [
+      "kod Python 2 uruchamiany na Python 3",
+      "uszkodzony lub ucięty plik",
+      "błąd po ręcznej edycji"
+    ],
+    "steps": [
+      "Porównaj wersję wtyczki z wersją Pythona.",
+      "Przywróć oryginalny plik lub ponownie zainstaluj właściwe IPK.",
+      "Zachowaj pełny traceback z numerem linii."
+    ],
+    "commands": [
+      "python --version 2>&1; python3 --version 2>&1"
+    ],
+    "avoid": [
+      "Nie poprawiaj składni pojedynczej linii, gdy cała wtyczka jest przeznaczona dla innej wersji Pythona."
+    ],
+    "related": [
+      {
+        "title": "Centrum zgodności",
+        "url": "compatibility.html"
+      }
+    ]
+  },
+  {
+    "id": "permission",
+    "code": "E2-FS-005",
+    "title": "Brak uprawnień do pliku lub katalogu",
+    "category": "System plików",
+    "severity": "high",
+    "patterns": [
+      "Permission denied",
+      "Errno 13",
+      "EACCES"
+    ],
+    "symptom": "Skrypt nie uruchamia się albo wtyczka nie może zapisać konfiguracji.",
+    "causes": [
+      "złe prawa pliku",
+      "zły właściciel",
+      "katalog tylko do odczytu",
+      "uruchomienie bez uprawnień root"
+    ],
+    "steps": [
+      "Sprawdź prawa i właściciela wskazanej ścieżki.",
+      "Dla skryptu instalacyjnego ustaw 755, a dla zwykłego pliku konfiguracyjnego zachowaj bezpieczne prawa.",
+      "Sprawdź, czy system plików nie przeszedł w tryb read-only."
+    ],
+    "commands": [
+      "ls -la /SCIEZKA/DO/PLIKU",
+      "chmod 755 /SCIEZKA/DO/SKRYPTU"
+    ],
+    "avoid": [
+      "Nie ustawiaj chmod 777 dla całych katalogów systemowych."
+    ],
+    "related": [
+      {
+        "title": "Terminal i OpenWebif",
+        "url": "guide-terminal-openwebif.html"
+      }
+    ]
+  },
+  {
+    "id": "readonly",
+    "code": "E2-FS-006",
+    "title": "System plików tylko do odczytu",
+    "category": "System plików",
+    "severity": "critical",
+    "patterns": [
+      "Read-only file system",
+      "EROFS"
+    ],
+    "symptom": "Nie można zapisać plików, aktualizować systemu ani zmienić ustawień.",
+    "causes": [
+      "błąd nośnika",
+      "uszkodzenie systemu plików",
+      "awaryjne zamontowanie partycji tylko do odczytu"
+    ],
+    "steps": [
+      "Nie wymuszaj dalszych zapisów.",
+      "Wykonaj kopię dostępnych ustawień.",
+      "Sprawdź log jądra i stan montowania.",
+      "Rozważ ponowną instalację obrazu, gdy błąd wraca."
+    ],
+    "commands": [
+      "mount | grep ' / '",
+      "dmesg | tail -100"
+    ],
+    "avoid": [
+      "Nie remountuj partycji na rw bez rozpoznania przyczyny i kopii danych."
+    ],
+    "related": [
+      {
+        "title": "Instalacja image",
+        "url": "guide-instalacja-image.html"
+      }
+    ]
+  },
+  {
+    "id": "opkg",
+    "code": "E2-OPKG-007",
+    "title": "Błąd OPKG lub instalacji pakietu",
+    "category": "Instalacja",
+    "severity": "high",
+    "patterns": [
+      "Collected errors",
+      "opkg_install_cmd",
+      "Cannot satisfy dependencies",
+      "Package architecture incompatible",
+      "md5sum mismatch"
+    ],
+    "symptom": "Pakiet IPK nie instaluje się albo pozostawia niedokończoną konfigurację.",
+    "causes": [
+      "niewłaściwa architektura",
+      "brak zależności",
+      "nieaktualny feed",
+      "uszkodzony plik IPK",
+      "konflikt starszej wersji"
+    ],
+    "steps": [
+      "Sprawdź architekturę i wersję systemu.",
+      "Wykonaj opkg update.",
+      "Usuń wyłącznie konfliktujący pakiet, jeśli komunikat go jednoznacznie wskazuje.",
+      "Pobierz IPK ponownie i porównaj sumę SHA-256."
+    ],
+    "commands": [
+      "opkg update",
+      "opkg print-architecture",
+      "opkg list-installed | grep -i NAZWA_PAKIETU"
+    ],
+    "avoid": [
+      "Nie używaj --force-depends jako pierwszego rozwiązania.",
+      "Nie instaluj pakietów dla innej architektury."
+    ],
+    "related": [
+      {
+        "title": "Centrum pobierania",
+        "url": "downloads.html"
+      }
+    ]
+  },
+  {
+    "id": "network",
+    "code": "E2-NET-008",
+    "title": "Problem z siecią lub DNS",
+    "category": "Sieć",
+    "severity": "medium",
+    "patterns": [
+      "Name or service not known",
+      "Temporary failure in name resolution",
+      "Network is unreachable",
+      "Connection refused"
+    ],
+    "symptom": "Tuner nie pobiera plików, nie łączy się z GitHubem albo nie otwiera serwera IPTV.",
+    "causes": [
+      "brak adresu IP",
+      "błędna brama",
+      "niedziałający DNS",
+      "blokada zapory",
+      "serwer odrzuca połączenie"
+    ],
+    "steps": [
+      "Sprawdź adres IP tunera i bramę.",
+      "Rozdziel test internetu od testu DNS.",
+      "Sprawdź, czy problem dotyczy tylko jednego hosta.",
+      "Zweryfikuj datę systemową przy połączeniach HTTPS."
+    ],
+    "commands": [
+      "ip addr",
+      "ip route",
+      "ping -c 3 1.1.1.1",
+      "ping -c 3 github.com"
+    ],
+    "avoid": [
+      "Nie zmieniaj wielu ustawień sieci jednocześnie."
+    ],
+    "related": [
+      {
+        "title": "Diagnostyka sieci",
+        "url": "guide-diagnostyka-enigma2.html"
+      }
+    ]
+  },
+  {
+    "id": "timeout",
+    "code": "E2-NET-009",
+    "title": "Przekroczony czas połączenia",
+    "category": "Sieć",
+    "severity": "medium",
+    "patterns": [
+      "Timed out",
+      "Timeout",
+      "ReadTimeout",
+      "ConnectTimeout"
+    ],
+    "symptom": "Pobieranie lub logowanie trwa długo, po czym operacja kończy się błędem.",
+    "causes": [
+      "wolny lub przeciążony serwer",
+      "niestabilny internet",
+      "zbyt długi łańcuch przekierowań",
+      "blokada pośrednia"
+    ],
+    "steps": [
+      "Sprawdź URL poleceniem wget --spider.",
+      "Powtórz test w sieci lokalnej bez VPN.",
+      "Sprawdź usługę później, jeśli inne strony działają poprawnie."
+    ],
+    "commands": [
+      "wget -S --spider 'ADRES_URL' 2>&1 | head -50"
+    ],
+    "avoid": [
+      "Nie zwiększaj timeoutów bez końca, gdy serwer nie odpowiada."
+    ],
+    "related": [
+      {
+        "title": "Status usług",
+        "url": "status.html"
+      }
+    ]
+  },
+  {
+    "id": "remote",
+    "code": "E2-NET-010",
+    "title": "Zerwane połączenie z serwerem",
+    "category": "Sieć",
+    "severity": "medium",
+    "patterns": [
+      "RemoteDisconnected",
+      "Remote end closed connection",
+      "Connection reset by peer",
+      "Broken pipe"
+    ],
+    "symptom": "Serwer zamyka połączenie w trakcie pobierania listy lub logowania.",
+    "causes": [
+      "limit połączeń",
+      "ochrona serwera",
+      "wygasłe konto",
+      "niestabilna usługa",
+      "błędny sposób logowania"
+    ],
+    "steps": [
+      "Sprawdź dane dostępu i liczbę aktywnych połączeń.",
+      "Przetestuj usługę bez VPN lub przez inną sieć.",
+      "Porównaj działanie w innej aplikacji, ale nie traktuj tego jako dowodu poprawności wszystkich endpointów."
+    ],
+    "commands": [],
+    "avoid": [
+      "Nie publikuj pełnego adresu serwera, loginu ani hasła w zgłoszeniu."
+    ],
+    "related": [
+      {
+        "title": "IPTV Dream",
+        "url": "plugin-iptv-dream.html"
+      }
+    ]
+  },
+  {
+    "id": "ssl",
+    "code": "E2-SSL-011",
+    "title": "Błąd certyfikatu SSL/TLS",
+    "category": "Sieć",
+    "severity": "medium",
+    "patterns": [
+      "Certificate verify failed",
+      "SSLError",
+      "TLSV1",
+      "wrong version number"
+    ],
+    "symptom": "Połączenie HTTPS nie jest zestawiane.",
+    "causes": [
+      "zła data systemowa",
+      "stare certyfikaty CA",
+      "niezgodny TLS",
+      "błędny port lub protokół"
+    ],
+    "steps": [
+      "Sprawdź datę i strefę czasową tunera.",
+      "Sprawdź obecność ca-certificates i OpenSSL.",
+      "Zweryfikuj, czy adres używa właściwego protokołu i portu."
+    ],
+    "commands": [
+      "date",
+      "opkg list-installed | grep -E 'ca-certificates|openssl'"
+    ],
+    "avoid": [
+      "Nie wyłączaj weryfikacji certyfikatów jako stałego rozwiązania."
+    ],
+    "related": [
+      {
+        "title": "Diagnostyka Enigma2",
+        "url": "guide-diagnostyka-enigma2.html"
+      }
+    ]
+  },
+  {
+    "id": "httpauth",
+    "code": "E2-HTTP-012",
+    "title": "HTTP 401 lub 403 — brak dostępu",
+    "category": "HTTP i serwery",
+    "severity": "medium",
+    "patterns": [
+      "HTTP 401",
+      "HTTP 403",
+      "Unauthorized",
+      "Forbidden"
+    ],
+    "symptom": "Serwer działa, ale odmawia dostępu do pliku, listy lub API.",
+    "causes": [
+      "błędny login lub token",
+      "wygasłe uprawnienia",
+      "blokada IP",
+      "wymagany User-Agent lub referer"
+    ],
+    "steps": [
+      "Sprawdź dane dostępu bez publikowania ich.",
+      "Zweryfikuj, czy konto jest aktywne.",
+      "Sprawdź ograniczenia adresu IP i liczbę urządzeń."
+    ],
+    "commands": [],
+    "avoid": [
+      "Nie wklejaj tokenów i haseł na publiczne forum."
+    ],
+    "related": [
+      {
+        "title": "Generator zgłoszenia",
+        "url": "report-error.html"
+      }
+    ]
+  },
+  {
+    "id": "httpnotfound",
+    "code": "E2-HTTP-013",
+    "title": "HTTP 404 — plik lub endpoint nie istnieje",
+    "category": "HTTP i serwery",
+    "severity": "medium",
+    "patterns": [
+      "HTTP 404",
+      "Not Found"
+    ],
+    "symptom": "Link zwraca informację, że zasób nie istnieje.",
+    "causes": [
+      "zmieniona nazwa pliku",
+      "usunięte wydanie",
+      "błędna ścieżka",
+      "stary cache strony"
+    ],
+    "steps": [
+      "Otwórz stronę projektu zamiast starego linku bezpośredniego.",
+      "Wykonaj Ctrl+F5.",
+      "Sprawdź aktualny status plików."
+    ],
+    "commands": [],
+    "avoid": [
+      "Nie pobieraj przypadkowej wersji z nieznanego źródła."
+    ],
+    "related": [
+      {
+        "title": "Status usług",
+        "url": "status.html"
+      },
+      {
+        "title": "Centrum pobierania",
+        "url": "downloads.html"
+      }
+    ]
+  },
+  {
+    "id": "server",
+    "code": "E2-HTTP-014",
+    "title": "Błąd serwera 500/502/503/504/884",
+    "category": "HTTP i serwery",
+    "severity": "medium",
+    "patterns": [
+      "HTTP 500",
+      "HTTP 502",
+      "HTTP 503",
+      "HTTP 504",
+      "HTTP 884",
+      "Bad Gateway",
+      "Service Unavailable"
+    ],
+    "symptom": "Serwer odpowiada błędem po swojej stronie albo nietypowym kodem dostawcy.",
+    "causes": [
+      "awaria serwera",
+      "przeciążenie",
+      "błąd proxy",
+      "prace techniczne",
+      "niestandardowy mechanizm dostawcy"
+    ],
+    "steps": [
+      "Sprawdź usługę po kilku minutach.",
+      "Zweryfikuj status i test z innej sieci.",
+      "Zgłoś dostawcy godzinę oraz kod odpowiedzi."
+    ],
+    "commands": [],
+    "avoid": [
+      "Nie reinstaluj całego systemu z powodu pojedynczego błędu 5xx."
+    ],
+    "related": [
+      {
+        "title": "IPTV Dream",
+        "url": "plugin-iptv-dream.html"
+      },
+      {
+        "title": "Status usług",
+        "url": "status.html"
+      }
+    ]
+  },
+  {
+    "id": "lamedb",
+    "code": "E2-LIST-015",
+    "title": "Uszkodzona baza kanałów lamedb lub service reference",
+    "category": "Kanały i bukiety",
+    "severity": "high",
+    "patterns": [
+      "lamedb",
+      "Malformed service reference",
+      "Invalid service reference",
+      "Bouquet corrupt"
+    ],
+    "symptom": "Kanały znikają, lista nie ładuje się albo synchronizacja zatrzymuje się na nieprawidłowym wpisie.",
+    "causes": [
+      "uszkodzone #SERVICE",
+      "mieszanie lamedb i lamedb5",
+      "niepełna paczka listy",
+      "ręczna edycja bez zachowania składni"
+    ],
+    "steps": [
+      "Wykonaj kopię /etc/enigma2.",
+      "Sprawdź ostatnio dodane lub zmienione wpisy.",
+      "Przywróć ostatnią poprawną kopię, gdy walidacja nie przechodzi.",
+      "Po zmianie przeładuj listy lub zrestartuj GUI."
+    ],
+    "commands": [
+      "tar -czf /tmp/enigma2-backup.tar.gz /etc/enigma2 2>/dev/null"
+    ],
+    "avoid": [
+      "Nie nadpisuj listy bez backupu.",
+      "Nie usuwaj całego /etc/enigma2 z powodu jednego wpisu."
+    ],
+    "related": [
+      {
+        "title": "PP Channel Sync",
+        "url": "plugin-pp-channel-sync.html"
+      },
+      {
+        "title": "Listy kanałów",
+        "url": "channel-lists.html"
+      }
+    ]
+  },
+  {
+    "id": "skin",
+    "code": "E2-SKIN-016",
+    "title": "SkinError lub brak elementu skina",
+    "category": "Interfejs",
+    "severity": "high",
+    "patterns": [
+      "SkinError",
+      "Screen was not found",
+      "Font not found",
+      "Pixmap not found"
+    ],
+    "symptom": "GUI restartuje się podczas otwierania ekranu lub po zmianie skina.",
+    "causes": [
+      "brak grafiki lub fontu",
+      "niezgodny ekran XML",
+      "skin dla innej rozdzielczości",
+      "wtyczka wymaga elementu nieobecnego w skórce"
+    ],
+    "steps": [
+      "Przełącz na domyślny skin.",
+      "Sprawdź nazwę brakującego pliku w tracebacku.",
+      "Zainstaluj zgodną wersję skina albo popraw ścieżkę w kopii roboczej."
+    ],
+    "commands": [],
+    "avoid": [
+      "Nie usuwaj domyślnego skina systemu."
+    ],
+    "related": [
+      {
+        "title": "E2 Doctor",
+        "url": "plugin-e2-doctor.html"
+      }
+    ]
+  },
+  {
+    "id": "attribute",
+    "code": "E2-PLUGIN-017",
+    "title": "AttributeError, TypeError, KeyError lub ValueError",
+    "category": "Python i wtyczki",
+    "severity": "high",
+    "patterns": [
+      "AttributeError",
+      "TypeError",
+      "KeyError",
+      "IndexError",
+      "ValueError"
+    ],
+    "symptom": "Wtyczka przerywa konkretną operację i pokazuje traceback.",
+    "causes": [
+      "nieobsłużone dane",
+      "zmiana API systemu",
+      "pusty lub nietypowy wpis",
+      "błąd kodu wtyczki"
+    ],
+    "steps": [
+      "Zapisz pełny traceback.",
+      "Podaj model, system, Python i wersję wtyczki.",
+      "Opisz dokładnie czynność poprzedzającą błąd.",
+      "Sprawdź, czy nowsza wersja wtyczki zawiera poprawkę."
+    ],
+    "commands": [],
+    "avoid": [
+      "Nie skracaj zgłoszenia do ostatniej linii tracebacku."
+    ],
+    "related": [
+      {
+        "title": "Generator zgłoszenia",
+        "url": "report-error.html"
+      },
+      {
+        "title": "Status projektów",
+        "url": "project-status.html"
+      }
+    ]
+  },
+  {
+    "id": "segfault",
+    "code": "E2-SYS-018",
+    "title": "Segmentation fault lub Signal 11",
+    "category": "System",
+    "severity": "critical",
+    "patterns": [
+      "Segmentation fault",
+      "Segfault",
+      "Signal 11",
+      "Fatal signal"
+    ],
+    "symptom": "Proces kończy się natychmiast bez zwykłego tracebacku Pythona.",
+    "causes": [
+      "biblioteka binarna dla innej architektury",
+      "błąd sterownika",
+      "problem pamięci",
+      "uszkodzony plik wykonywalny"
+    ],
+    "steps": [
+      "Sprawdź dmesg i ostatnio instalowane komponenty.",
+      "Usuń lub cofnij ostatnią binarną zmianę.",
+      "Sprawdź zgodność architektury paczki.",
+      "W razie powtarzalności wykonaj backup i rozważ czystą instalację obrazu."
+    ],
+    "commands": [
+      "dmesg | tail -120",
+      "opkg print-architecture"
+    ],
+    "avoid": [
+      "Nie wymuszaj uruchamiania binariów dla innej architektury."
+    ],
+    "related": [
+      {
+        "title": "Instalacja image",
+        "url": "guide-instalacja-image.html"
+      }
+    ]
+  },
+  {
+    "id": "twisted",
+    "code": "E2-NET-019",
+    "title": "Błąd Twisted lub przerwane Deferred",
+    "category": "Python i wtyczki",
+    "severity": "high",
+    "patterns": [
+      "twisted.internet",
+      "defer.Failure",
+      "ConnectionLost",
+      "ConnectionDone"
+    ],
+    "symptom": "Operacja sieciowa wtyczki przerywa się wewnątrz biblioteki Twisted.",
+    "causes": [
+      "zerwane połączenie",
+      "brak obsługi błędu",
+      "niezgodna wersja zależności",
+      "timeout serwera"
+    ],
+    "steps": [
+      "Zachowaj pełny traceback.",
+      "Sprawdź, czy najpierw wystąpił timeout, DNS albo HTTP.",
+      "Podaj system i wersję Pythona, ponieważ zachowanie bibliotek może się różnić."
+    ],
+    "commands": [],
+    "avoid": [
+      "Nie traktuj każdej wzmianki o Twisted jako uszkodzenia systemu."
+    ],
+    "related": [
+      {
+        "title": "Analizator logów",
+        "url": "log-analyzer.html"
+      }
+    ]
+  },
+  {
+    "id": "json",
+    "code": "E2-DATA-020",
+    "title": "Błędny JSON lub odpowiedź HTML zamiast danych",
+    "category": "Dane i API",
+    "severity": "medium",
+    "patterns": [
+      "JSONDecodeError",
+      "Expecting value",
+      "text/html",
+      "Unexpected token <"
+    ],
+    "symptom": "Wtyczka oczekuje JSON lub listy, ale otrzymuje stronę HTML, komunikat logowania albo pustą odpowiedź.",
+    "causes": [
+      "błędny endpoint",
+      "przekierowanie do logowania",
+      "awaria serwera",
+      "serwer zwraca niewłaściwy Content-Type"
+    ],
+    "steps": [
+      "Sprawdź początek odpowiedzi bez publikowania danych dostępowych.",
+      "Zweryfikuj URL i kod HTTP.",
+      "Użyj wersji wtyczki, która sprawdza faktyczną zawartość odpowiedzi."
+    ],
+    "commands": [
+      "wget -S -O /tmp/response.txt 'ADRES_URL' 2>&1 | head -40",
+      "head -20 /tmp/response.txt"
+    ],
+    "avoid": [
+      "Nie publikuj pliku odpowiedzi, jeśli zawiera token lub dane konta."
+    ],
+    "related": [
+      {
+        "title": "IPTV Dream",
+        "url": "plugin-iptv-dream.html"
+      }
+    ]
+  },
+  {
+    "id": "picons",
+    "code": "E2-PICON-021",
+    "title": "Picony nie są widoczne lub mają złą referencję",
+    "category": "Picony",
+    "severity": "medium",
+    "patterns": [
+      "picon not found",
+      "service reference",
+      "/picon/"
+    ],
+    "symptom": "Grafiki są zainstalowane, ale część kanałów nie pokazuje piconów.",
+    "causes": [
+      "zła nazwa pliku",
+      "inna referencja kanału",
+      "niewłaściwy katalog",
+      "stary cache skina",
+      "plik bez przezroczystości lub w złym formacie"
+    ],
+    "steps": [
+      "Sprawdź service reference kanału.",
+      "Porównaj nazwę piconu z referencją bez końcowego dwukropka.",
+      "Sprawdź lokalizację piconów i uprawnienia.",
+      "Przeładuj GUI po podmianie większej paczki."
+    ],
+    "commands": [
+      "find /usr/share/enigma2 /media -type d -name picon 2>/dev/null"
+    ],
+    "avoid": [
+      "Nie zmieniaj losowo nazw setek plików bez mapy referencji."
+    ],
+    "related": [
+      {
+        "title": "Picony i service reference",
+        "url": "help-picons-serviceref.html"
+      },
+      {
+        "title": "AIO Panel",
+        "url": "plugin-aio-panel.html"
+      }
+    ]
+  },
+  {
+    "id": "gui-loop",
+    "code": "E2-GUI-022",
+    "title": "Pętla restartu GUI po instalacji wtyczki",
+    "category": "Interfejs",
+    "severity": "critical",
+    "patterns": [
+      "GUI restart loop",
+      "bootloop",
+      "restarting enigma2"
+    ],
+    "symptom": "Po uruchomieniu Enigma2 ekran błędu pojawia się ponownie i interfejs nie startuje.",
+    "causes": [
+      "wadliwa wtyczka startowa",
+      "niezgodny skin",
+      "błąd importu podczas inicjalizacji",
+      "uszkodzone ustawienie startowe"
+    ],
+    "steps": [
+      "Połącz się przez SSH lub FTP.",
+      "Zabezpiecz crashlog.",
+      "Usuń lub tymczasowo zmień nazwę ostatnio instalowanej wtyczki.",
+      "Uruchom Enigma2 ponownie i sprawdź log przed dalszymi zmianami."
+    ],
+    "commands": [
+      "init 4",
+      "mv /usr/lib/enigma2/python/Plugins/Extensions/NAZWA /tmp/NAZWA.disabled",
+      "init 3"
+    ],
+    "avoid": [
+      "Nie kasuj wszystkich wtyczek ani całego katalogu Plugins."
+    ],
+    "related": [
+      {
+        "title": "Restart GUI",
+        "url": "help-restart-gui.html"
+      },
+      {
+        "title": "E2 Doctor",
+        "url": "plugin-e2-doctor.html"
+      }
+    ]
+  },
+  {
+    "id": "time",
+    "code": "E2-TIME-023",
+    "title": "Nieprawidłowa data i czas tunera",
+    "category": "System",
+    "severity": "medium",
+    "patterns": [
+      "certificate not yet valid",
+      "certificate has expired",
+      "clock skew"
+    ],
+    "symptom": "HTTPS, EPG, timery lub logowanie działają nieprawidłowo mimo poprawnej sieci.",
+    "causes": [
+      "brak synchronizacji NTP",
+      "zła strefa czasowa",
+      "tuner uruchomiony bez sygnału i internetu"
+    ],
+    "steps": [
+      "Sprawdź datę i strefę czasową.",
+      "Włącz synchronizację czasu z sieci lub transpondera.",
+      "Po korekcie ponów połączenie HTTPS."
+    ],
+    "commands": [
+      "date"
+    ],
+    "avoid": [
+      "Nie omijaj błędów certyfikatów, dopóki czas jest niepoprawny."
+    ],
+    "related": [
+      {
+        "title": "Diagnostyka Enigma2",
+        "url": "guide-diagnostyka-enigma2.html"
+      }
+    ]
+  },
+  {
+    "id": "webif",
+    "code": "E2-WEBIF-024",
+    "title": "OpenWebif nie odpowiada lub odrzuca logowanie",
+    "category": "Sieć",
+    "severity": "medium",
+    "patterns": [
+      "OpenWebif",
+      "port 80",
+      "port 443",
+      "connection refused"
+    ],
+    "symptom": "Panel WWW tunera nie otwiera się albo aplikacja zdalna nie może się połączyć.",
+    "causes": [
+      "zły adres IP lub port",
+      "wyłączone OpenWebif",
+      "zmienione hasło root",
+      "blokada sieci",
+      "HTTPS bez właściwego certyfikatu"
+    ],
+    "steps": [
+      "Sprawdź adres IP tunera.",
+      "Zweryfikuj port i ustawienia OpenWebif.",
+      "Sprawdź login root i aktualne hasło.",
+      "Przetestuj połączenie najpierw w sieci lokalnej."
+    ],
+    "commands": [
+      "netstat -lntp 2>/dev/null | grep -E ':80|:443|:9999'",
+      "ip addr"
+    ],
+    "avoid": [
+      "Nie wystawiaj OpenWebif bezpośrednio do internetu bez zabezpieczeń."
+    ],
+    "related": [
+      {
+        "title": "Terminal i OpenWebif",
+        "url": "guide-terminal-openwebif.html"
+      },
+      {
+        "title": "AIO Panel Remote",
+        "url": "app-aio-panel-remote.html"
+      }
+    ]
+  }
+]

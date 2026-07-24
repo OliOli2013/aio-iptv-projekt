@@ -17,6 +17,7 @@
     loadChannelLists();
     initInlineAi();
     initGenerator();
+    initProjectStateBanner();
   });
 
   function setCurrentYear() {
@@ -24,6 +25,16 @@
   }
 
   function initNavigation() {
+    // Add one compact entry to the new Studio hub on old and new pages.
+    $$('.main-nav, .side-panel nav, .site-footer nav').forEach(container => {
+      if (container.querySelector('a[href="studio.html"]')) return;
+      const contact = container.querySelector('a[href="contact.html"]');
+      const studio = document.createElement('a');
+      studio.href = 'studio.html';
+      studio.textContent = 'Studio';
+      if (contact) contact.insertAdjacentElement('beforebegin', studio); else container.appendChild(studio);
+    });
+
     // Keep the Windows applications section visible in the shared navigation,
     // including older pages that were authored before the section existed.
     $$('.main-nav, .side-panel nav, .site-footer nav').forEach(container => {
@@ -67,9 +78,10 @@
     }
 
     const current = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    const studioPages = ['studio.html','publisher.html','remote-simulator.html','errors.html','project-status.html','assistant.html','my-tuner.html','status.html','qr-install.html','log-analyzer.html'];
     $$('.main-nav a, .side-panel nav a').forEach(link => {
       const href = (link.getAttribute('href') || '').split('#')[0].split('?')[0].toLowerCase();
-      if (href && href === current) {
+      if (href && (href === current || (href === 'studio.html' && studioPages.includes(current)))) {
         link.classList.add('active');
         link.setAttribute('aria-current', 'page');
       }
@@ -143,7 +155,12 @@
       { title: 'AIO Panel Remote 1.4.6 Free / Pro', desc: 'Pilot Enigma2, listy kanałów, EPG, picony, streaming SAT/IPTV oraz ZeroTier/VPN.', url: 'app-aio-panel-remote.html', tags: ['android', 'apk', 'AIO Panel Remote', '1.4.6', 'free', 'pro', 'openwebif', 'zerotier', 'vpn', 'streaming', 'epg', 'picony'] },
       { title: 'Multi-Click i systemy', desc: 'Gotowe systemy i instrukcje instalacji.', url: 'systems.html', tags: ['systemy', 'multiclick', 'image'] },
       { title: 'Poradniki', desc: 'Instrukcje i pomoc dla Enigma2.', url: 'guides.html', tags: ['poradniki', 'pomoc'] },
-      { title: 'Listy kanałów', desc: 'Listy kanałów i bukiety.', url: 'channel-lists.html', tags: ['listy', 'bukiety'] }
+      { title: 'Listy kanałów', desc: 'Listy kanałów i bukiety.', url: 'channel-lists.html', tags: ['listy', 'bukiety'] },
+      { title: 'Studio AIO-IPTV.pl', desc: 'Publikator, symulator pilota, baza błędów i status projektów.', url: 'studio.html', tags: ['studio', 'narzędzia', 'publikator', 'pilot', 'błędy', 'status'] },
+      { title: 'Panel publikowania aktualizacji', desc: 'Lokalne tworzenie stron projektu i paczek ZIP do GitHuba.', url: 'publisher.html', tags: ['publikator', 'github', 'zip', 'aktualizacja'] },
+      { title: 'Interaktywny symulator pilota', desc: 'Klikalny pilot Enigma2 z opisem funkcji przycisków.', url: 'remote-simulator.html', tags: ['pilot', 'przyciski', 'openatv', 'openpli'] },
+      { title: 'Baza błędów Enigma2', desc: 'Komunikaty, przyczyny, komendy i bezpieczne rozwiązania.', url: 'errors.html', tags: ['błąd', 'crashlog', 'python', 'opkg', 'lamedb'] },
+      { title: 'Status projektów', desc: 'Stan rozwoju wtyczek, aplikacji, list i systemów.', url: 'project-status.html', tags: ['status', 'aktywny', 'stabilny', 'utrzymywany'] }
     ];
 
     async function loadIndex() {
@@ -411,6 +428,25 @@
     freePerDay: 1,
     unlockUntilEndOfDayAfterSupportClick: true
   };
+
+
+  async function initProjectStateBanner() {
+    const current = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    if (!/^(?:plugin-|app-)|^(?:windows-apps|channel-lists|systems)\.html$/.test(current)) return;
+    const main = $('#main-content') || $('main');
+    if (!main || $('.project-state-banner', main)) return;
+    try {
+      const response = await fetch('data/projects.json', { cache: 'no-store' });
+      if (!response.ok) return;
+      const projects = await response.json();
+      const project = Array.isArray(projects) ? projects.find(item => String(item.page || '').toLowerCase() === current) : null;
+      if (!project) return;
+      const banner = document.createElement('aside');
+      banner.className = `project-state-banner status-${escapeAttr(project.status || 'stable')}`;
+      banner.innerHTML = `<span class="project-state-dot" aria-hidden="true"></span><div><strong>${escapeHtml(project.statusLabel || 'Status projektu')}: ${escapeHtml(project.name || '')} ${escapeHtml(project.version || '')}</strong><span>Ostatnia aktualizacja: ${escapeHtml(project.updated || 'brak danych')} • ${escapeHtml(project.tested || 'szczegóły na stronie projektu')}</span></div><a href="project-status.html">Wszystkie statusy →</a>`;
+      main.insertBefore(banner, main.firstChild);
+    } catch (error) { /* status is supplemental */ }
+  }
 
   const DOWNLOAD_EXTENSIONS = /\.(?:ipk|apk|exe|msi|zip|7z|rar|deb|rpm|pdf|tar|tgz|gz|xz|img|bin|iso|m3u|m3u8|xml|conf|cfg|backup)(?:$|[?#])/i;
   const IMAGE_EXTENSIONS = /\.(?:png|jpe?g|webp|gif|svg|avif)(?:$|[?#])/i;
