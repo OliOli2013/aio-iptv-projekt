@@ -1,5 +1,68 @@
 [
   {
+    "title": "Analizator logów i crashlogów",
+    "desc": "Lokalna analiza błędów Enigma2, Python, OPKG, sieci, lamedb i skina.",
+    "url": "log-analyzer.html",
+    "tags": [
+      "log",
+      "crashlog",
+      "traceback",
+      "błąd",
+      "opkg",
+      "python",
+      "lamedb"
+    ]
+  },
+  {
+    "title": "QR instalacji",
+    "desc": "Lokalny generator kodów QR dla linków, plików i komend instalacyjnych.",
+    "url": "qr-install.html",
+    "tags": [
+      "qr",
+      "kod",
+      "telefon",
+      "komenda",
+      "instalacja"
+    ]
+  },
+  {
+    "title": "Status usług i plików",
+    "desc": "Automatyczny status instalatorów, manifestów, plików i systemów Multi-Click.",
+    "url": "status.html",
+    "tags": [
+      "status",
+      "awaria",
+      "linki",
+      "github actions",
+      "instalator"
+    ]
+  },
+  {
+    "title": "Mój tuner — profil urządzenia",
+    "desc": "Lokalny profil modelu tunera, systemu, Pythona, satelitów i połączenia.",
+    "url": "my-tuner.html",
+    "tags": [
+      "profil",
+      "tuner",
+      "localstorage",
+      "system",
+      "satelity"
+    ]
+  },
+  {
+    "title": "Asystent doboru — co mam pobrać?",
+    "desc": "Dobiera projekty do tunera, systemu Enigma2, wersji Pythona i celu użytkownika.",
+    "url": "assistant.html",
+    "tags": [
+      "asystent",
+      "dobór",
+      "co pobrać",
+      "python",
+      "tuner",
+      "rekomendacje"
+    ]
+  },
+  {
     "title": "Start",
     "desc": "Strona główna — szybkie wejście do wtyczek, narzędzi i poradników.",
     "url": "index.html",

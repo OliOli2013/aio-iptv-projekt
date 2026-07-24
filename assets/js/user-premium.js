@@ -397,7 +397,7 @@
   }
 })();
 
-/* ===== AIO-IPTV: globalny monit wsparcia przed pobieraniem — 2026-07-24 ===== */
+/* ===== AIO-IPTV: jedno bezpłatne pobranie dziennie + wsparcie — 2026-07-24 ===== */
 (function () {
   'use strict';
 
@@ -407,10 +407,16 @@
     kofi: 'https://ko-fi.com/pawelpawlek'
   };
 
+  const DOWNLOAD_POLICY = {
+    freePerDay: 1,
+    unlockUntilEndOfDayAfterSupportClick: true
+  };
+
   const DOWNLOAD_EXTENSIONS = /\.(?:ipk|apk|exe|msi|zip|7z|rar|deb|rpm|pdf|tar|tgz|gz|xz|img|bin|iso|m3u|m3u8|xml|conf|cfg|backup)(?:$|[?#])/i;
   const IMAGE_EXTENSIONS = /\.(?:png|jpe?g|webp|gif|svg|avif)(?:$|[?#])/i;
-  const SUPPORT_HIDE_KEY = 'aio_support_hide_until';
-  const SUPPORT_HOSTS = /(?:^|\.)(?:ko-fi\.com|revolut\.me|paypal\.com|buycoffee\.to)$/i;
+  const SUPPORT_HOSTS = /(?:^|\.)(?:ko-fi\.com|revolut\.me|buycoffee\.to)$/i;
+  const DAILY_USAGE_KEY = 'aio_download_daily_usage_v1';
+  const DAILY_UNLOCK_KEY = 'aio_download_support_unlock_v1';
 
   let modal = null;
   let pendingDownload = null;
@@ -418,6 +424,8 @@
   let statusMessage = null;
   let continueButton = null;
   let fileNameElement = null;
+  let modalMode = 'general';
+  let supportActionConfirmed = false;
 
   function onReady(callback) {
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', callback, { once: true });
@@ -429,38 +437,72 @@
   function initSupportGate() {
     if (document.documentElement.dataset.aioSupportGate === 'ready') return;
     document.documentElement.dataset.aioSupportGate = 'ready';
-
     createSupportTicker();
     createSupportModal();
     document.addEventListener('click', interceptDownload, true);
+  }
+
+  function localDateKey(date = new Date()) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  function readDailyUsage() {
+    const today = localDateKey();
+    try {
+      const value = JSON.parse(localStorage.getItem(DAILY_USAGE_KEY) || '{}');
+      if (value.date === today && Number.isFinite(Number(value.count))) return { date: today, count: Number(value.count) };
+    } catch (error) {}
+    return { date: today, count: 0 };
+  }
+
+  function saveDailyUsage(value) {
+    try { localStorage.setItem(DAILY_USAGE_KEY, JSON.stringify(value)); } catch (error) {}
+  }
+
+  function isUnlockedToday() {
+    try { return localStorage.getItem(DAILY_UNLOCK_KEY) === localDateKey(); }
+    catch (error) { return false; }
+  }
+
+  function unlockToday() {
+    try { localStorage.setItem(DAILY_UNLOCK_KEY, localDateKey()); } catch (error) {}
+  }
+
+  function registerFreeDownload() {
+    const usage = readDailyUsage();
+    usage.count += 1;
+    saveDailyUsage(usage);
   }
 
   function createSupportTicker() {
     const header = document.querySelector('.site-header');
     if (!header || header.querySelector('.support-ticker')) return;
 
-    const message = 'Dzięki dobrowolnemu wsparciu rozwijam AIO Panel, wtyczki, aplikacje, listy kanałów, picony, poradniki i systemy Enigma2.';
+    const message = 'Pierwsze pobranie każdego dnia jest bezpłatne. Kolejne możesz odblokować po przejściu do Revolut, BuyCoffee lub Ko-fi.';
     const ticker = document.createElement('div');
     ticker.className = 'support-ticker';
     ticker.setAttribute('role', 'button');
     ticker.setAttribute('tabindex', '0');
-    ticker.setAttribute('aria-label', 'Otwórz możliwości wsparcia projektów');
+    ticker.setAttribute('aria-label', 'Otwórz informacje o pobieraniu i wsparciu projektów');
     ticker.innerHTML = `
       <span class="support-ticker-heart" aria-hidden="true">♥</span>
       <div class="support-ticker-viewport">
         <div class="support-ticker-track">
-          <span><strong>WESPRZYJ ROZWÓJ</strong> • ${message} • Pobieranie pozostaje bezpłatne.</span>
-          <span aria-hidden="true"><strong>WESPRZYJ ROZWÓJ</strong> • ${message} • Pobieranie pozostaje bezpłatne.</span>
+          <span><strong>WSPARCIE ROZWOJU</strong> • ${message}</span>
+          <span aria-hidden="true"><strong>WSPARCIE ROZWOJU</strong> • ${message}</span>
         </div>
       </div>
-      <span class="support-ticker-cta">Wesprzyj</span>`;
+      <span class="support-ticker-cta">Zasady</span>`;
 
     header.insertBefore(ticker, header.firstChild);
-    ticker.addEventListener('click', () => openSupportModal(null));
+    ticker.addEventListener('click', () => openSupportModal(null, 'general'));
     ticker.addEventListener('keydown', event => {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();
-        openSupportModal(null);
+        openSupportModal(null, 'general');
       }
     });
   }
@@ -476,14 +518,14 @@
       <section class="support-gate-dialog" role="dialog" aria-modal="true" aria-labelledby="support-gate-title" aria-describedby="support-gate-description">
         <button class="support-gate-x" type="button" aria-label="Zamknij" data-support-close>×</button>
         <div class="support-gate-icon" aria-hidden="true">♥</div>
-        <p class="support-gate-eyebrow">DOBROWOLNE WSPARCIE PROJEKTÓW</p>
+        <p class="support-gate-eyebrow">WSPARCIE PROJEKTÓW AIO-IPTV.PL</p>
         <h2 id="support-gate-title">Pomóż rozwijać projekty dla Enigma2</h2>
-        <p id="support-gate-description">AIO Panel, wtyczki, aplikacje, listy kanałów, picony, systemy i poradniki są rozwijane dzięki poświęconemu czasowi oraz dobrowolnemu wsparciu użytkowników.</p>
+        <p id="support-gate-description">Pierwsze pobranie każdego dnia jest dostępne bez wsparcia. Przy kolejnych pobraniach otwórz jedną z metod wsparcia, aby odblokować pliki do końca bieżącego dnia w tej przeglądarce.</p>
         <div class="support-gate-file" hidden>
           <span>Wybrany plik:</span>
           <strong class="support-gate-filename"></strong>
         </div>
-        <p class="support-gate-note">Wsparcie nie jest wymagane. Możesz wybrać jedną z poniższych metod albo od razu przejść dalej.</p>
+        <p class="support-gate-note">Dzięki wsparciu mogę rozwijać AIO Panel, wtyczki, aplikacje, listy kanałów, picony, poradniki i systemy.</p>
         <div class="support-gate-methods" aria-label="Metody wsparcia">
           <a class="support-method support-method-revolut" href="${SUPPORT_LINKS.revolut}" target="_blank" rel="noopener noreferrer" data-support-bypass="true"><span>R</span><strong>Revolut</strong><small>Szybkie wsparcie</small></a>
           <a class="support-method support-method-buycoffee" href="${SUPPORT_LINKS.buycoffee}" target="_blank" rel="noopener noreferrer" data-support-bypass="true"><span>☕</span><strong>BuyCoffee</strong><small>Postaw kawę</small></a>
@@ -491,10 +533,10 @@
         </div>
         <p class="support-gate-status" aria-live="polite"></p>
         <div class="support-gate-actions">
-          <button class="support-gate-continue" type="button">Przejdź dalej do pobierania</button>
+          <button class="support-gate-continue" type="button">Zamknij planszę</button>
           <button class="support-gate-cancel" type="button" data-support-close>Nie teraz</button>
         </div>
-        <p class="support-gate-privacy">Kliknięcie metody wsparcia otwiera jej stronę w nowej karcie. Pobieranie ze strony AIO-IPTV.pl pozostaje bezpłatne.</p>
+        <p class="support-gate-privacy">Strona działa na GitHub Pages i nie ma dostępu do potwierdzenia płatności. Odblokowanie następuje po otwarciu wybranej metody wsparcia i jest zapisane lokalnie w przeglądarce.</p>
       </section>`;
 
     document.body.appendChild(modal);
@@ -505,9 +547,12 @@
     modal.querySelectorAll('[data-support-close]').forEach(element => element.addEventListener('click', closeSupportModal));
     modal.querySelectorAll('.support-method').forEach(link => {
       link.addEventListener('click', () => {
-        statusMessage.textContent = 'Dziękuję za wsparcie. Po powrocie do tej karty możesz kontynuować pobieranie.';
+        supportActionConfirmed = true;
+        if (DOWNLOAD_POLICY.unlockUntilEndOfDayAfterSupportClick) unlockToday();
+        statusMessage.textContent = 'Dziękuję. Pobieranie zostało odblokowane do końca dzisiejszego dnia w tej przeglądarce.';
+        continueButton.disabled = false;
         continueButton.classList.add('is-thanks');
-        if (pendingDownload) continueButton.textContent = 'Dziękuję — pobierz plik';
+        continueButton.textContent = pendingDownload ? 'Dziękuję — pobierz plik' : 'Dziękuję — zamknij planszę';
       });
     });
     continueButton.addEventListener('click', continueAfterPrompt);
@@ -515,9 +560,16 @@
   }
 
   function interceptDownload(event) {
-    try { if (Number(localStorage.getItem(SUPPORT_HIDE_KEY) || 0) > Date.now()) return; } catch (error) {}
     const anchor = event.target.closest && event.target.closest('a');
     if (!anchor || !isDownloadLink(anchor)) return;
+
+    if (isUnlockedToday()) return;
+
+    const usage = readDailyUsage();
+    if (usage.count < DOWNLOAD_POLICY.freePerDay) {
+      registerFreeDownload();
+      return;
+    }
 
     event.preventDefault();
     event.stopPropagation();
@@ -528,7 +580,7 @@
       target: anchor.getAttribute('target') || '',
       download: anchor.getAttribute('download') || '',
       label: getDownloadLabel(anchor)
-    });
+    }, 'limit');
   }
 
   function isDownloadLink(anchor) {
@@ -573,24 +625,39 @@
     }
   }
 
-  function openSupportModal(download) {
+  function openSupportModal(download, mode) {
     if (!modal) createSupportModal();
     pendingDownload = download;
+    modalMode = mode || 'general';
+    supportActionConfirmed = isUnlockedToday();
     previouslyFocused = document.activeElement;
     statusMessage.textContent = '';
     continueButton.classList.remove('is-thanks');
 
+    const title = modal.querySelector('#support-gate-title');
+    const description = modal.querySelector('#support-gate-description');
+    const note = modal.querySelector('.support-gate-note');
     const fileBox = modal.querySelector('.support-gate-file');
-    if (download) {
+    const cancel = modal.querySelector('.support-gate-cancel');
+
+    if (modalMode === 'limit' && download) {
+      title.textContent = 'Dzisiejsze bezpłatne pobranie zostało wykorzystane';
+      description.textContent = 'Aby pobrać kolejny plik dzisiaj, otwórz jedną z metod wsparcia. Po powrocie przycisk pobierania zostanie odblokowany do końca dnia w tej przeglądarce.';
+      note.textContent = 'Wybierz Revolut, BuyCoffee albo Ko-fi. Każda forma wsparcia pomaga utrzymywać i aktualizować projekty.';
       fileBox.hidden = false;
       fileNameElement.textContent = download.label || fileNameFromUrl(download.href);
-      continueButton.textContent = 'Przejdź dalej do pobierania';
-      modal.querySelector('.support-gate-cancel').textContent = 'Anuluj';
+      cancel.textContent = 'Anuluj';
+      continueButton.textContent = 'Najpierw wybierz metodę wsparcia';
+      continueButton.disabled = !supportActionConfirmed;
     } else {
+      title.textContent = 'Pomóż rozwijać projekty dla Enigma2';
+      description.textContent = 'Pierwsze pobranie każdego dnia jest dostępne bez wsparcia. Przy kolejnych pobraniach możesz odblokować pliki do końca dnia po otwarciu jednej z metod wsparcia.';
+      note.textContent = 'Dzięki wsparciu mogę rozwijać AIO Panel, wtyczki, aplikacje, listy kanałów, picony, poradniki i systemy.';
       fileBox.hidden = true;
       fileNameElement.textContent = '';
+      cancel.textContent = 'Nie teraz';
       continueButton.textContent = 'Zamknij planszę';
-      modal.querySelector('.support-gate-cancel').textContent = 'Nie teraz';
+      continueButton.disabled = false;
     }
 
     modal.classList.add('is-open');
@@ -605,12 +672,16 @@
     modal.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('support-gate-open');
     pendingDownload = null;
+    modalMode = 'general';
+    supportActionConfirmed = false;
     if (previouslyFocused && typeof previouslyFocused.focus === 'function') previouslyFocused.focus();
   }
 
   function continueAfterPrompt() {
-    const snooze = document.getElementById('supportSnooze');
-    if (snooze && snooze.checked) { try { localStorage.setItem(SUPPORT_HIDE_KEY, String(Date.now() + 7 * 24 * 60 * 60 * 1000)); } catch (error) {} }
+    if (modalMode === 'limit' && !supportActionConfirmed && !isUnlockedToday()) {
+      statusMessage.textContent = 'Wybierz najpierw jedną z metod wsparcia.';
+      return;
+    }
     if (!pendingDownload) {
       closeSupportModal();
       return;

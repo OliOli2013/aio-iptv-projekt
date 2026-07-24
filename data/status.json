@@ -1,0 +1,145 @@
+{
+  "generatedAt": "2026-07-24T21:36:53.360146+00:00",
+  "items": [
+    {
+      "id": "site-home",
+      "name": "Strona główna AIO-IPTV.pl",
+      "url": "https://olioli2013.github.io/aio-iptv-projekt/",
+      "category": "Strona",
+      "status": "online",
+      "httpStatus": 200,
+      "checkedAt": null,
+      "message": "Plik znajduje się w przygotowanej paczce strony."
+    },
+    {
+      "id": "aio-installer",
+      "name": "Instalator AIO Panel",
+      "url": "https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh",
+      "category": "Instalatory",
+      "status": "unknown",
+      "httpStatus": null,
+      "checkedAt": null,
+      "message": "Oczekuje na pierwszy automatyczny test GitHub Actions."
+    },
+    {
+      "id": "iptv-installer",
+      "name": "Instalator IPTV Dream",
+      "url": "https://raw.githubusercontent.com/OliOli2013/IPTV-Dream-Plugin/main/installer.sh",
+      "category": "Instalatory",
+      "status": "unknown",
+      "httpStatus": null,
+      "checkedAt": null,
+      "message": "Oczekuje na pierwszy automatyczny test GitHub Actions."
+    },
+    {
+      "id": "ppsync-installer",
+      "name": "Instalator PP Channel Sync",
+      "url": "https://raw.githubusercontent.com/OliOli2013/PPChannelSync-Plugin/main/installer.sh",
+      "category": "Instalatory",
+      "status": "unknown",
+      "httpStatus": null,
+      "checkedAt": null,
+      "message": "Oczekuje na pierwszy automatyczny test GitHub Actions."
+    },
+    {
+      "id": "doctor-installer",
+      "name": "Instalator E2 Doctor",
+      "url": "https://raw.githubusercontent.com/OliOli2013/E2-Doctor-Plugin/main/installer.sh",
+      "category": "Instalatory",
+      "status": "unknown",
+      "httpStatus": null,
+      "checkedAt": null,
+      "message": "Oczekuje na pierwszy automatyczny test GitHub Actions."
+    },
+    {
+      "id": "lists-manifest",
+      "name": "Manifest list kanałów AIO Panel",
+      "url": "https://raw.githubusercontent.com/OliOli2013/PanelAIO-Lists/main/manifest.json",
+      "category": "Listy kanałów",
+      "status": "unknown",
+      "httpStatus": null,
+      "checkedAt": null,
+      "message": "Oczekuje na pierwszy automatyczny test GitHub Actions."
+    },
+    {
+      "id": "aio-ipk",
+      "name": "AIO Panel 14.0.1 — plik IPK",
+      "url": "https://olioli2013.github.io/aio-iptv-projekt/pliki/enigma2-plugin-extensions-panelaio_14.0.1_all.ipk",
+      "category": "Pliki",
+      "status": "online",
+      "httpStatus": 200,
+      "checkedAt": null,
+      "message": "Plik znajduje się w przygotowanej paczce strony."
+    },
+    {
+      "id": "iptv-ipk",
+      "name": "IPTV Dream 7.0.0 — plik IPK",
+      "url": "https://olioli2013.github.io/aio-iptv-projekt/pliki/enigma2-plugin-extensions-iptvdream_7.0.0_all.ipk",
+      "category": "Pliki",
+      "status": "online",
+      "httpStatus": 200,
+      "checkedAt": null,
+      "message": "Plik znajduje się w przygotowanej paczce strony."
+    },
+    {
+      "id": "remote-apk",
+      "name": "AIO Panel Remote 1.4.6 — APK",
+      "url": "https://olioli2013.github.io/aio-iptv-projekt/pliki/AIO_Panel_Remote_1.4.6_FREE_PRO.apk",
+      "category": "Pliki",
+      "status": "online",
+      "httpStatus": 200,
+      "checkedAt": null,
+      "message": "Plik znajduje się w przygotowanej paczce strony."
+    },
+    {
+      "id": "h9sse-system",
+      "name": "Zgemma H9s SE — Multi-Click",
+      "url": "https://multi-click.pl/index.php?controller=attachment&id_attachment=145",
+      "category": "Systemy Multi-Click",
+      "status": "unknown",
+      "httpStatus": null,
+      "checkedAt": null,
+      "message": "Oczekuje na pierwszy automatyczny test GitHub Actions."
+    },
+    {
+      "id": "sf8008-system",
+      "name": "Octagon SF8008 — Multi-Click",
+      "url": "https://multi-click.pl/index.php?controller=attachment&id_attachment=146",
+      "category": "Systemy Multi-Click",
+      "status": "unknown",
+      "httpStatus": null,
+      "checkedAt": null,
+      "message": "Oczekuje na pierwszy automatyczny test GitHub Actions."
+    },
+    {
+      "id": "buycoffee",
+      "name": "BuyCoffee — wsparcie",
+      "url": "https://buycoffee.to/pawelpawelek",
+      "category": "Wsparcie",
+      "status": "unknown",
+      "httpStatus": null,
+      "checkedAt": null,
+      "message": "Oczekuje na pierwszy automatyczny test GitHub Actions."
+    },
+    {
+      "id": "kofi",
+      "name": "Ko-fi — wsparcie zagraniczne",
+      "url": "https://ko-fi.com/pawelpawlek",
+      "category": "Wsparcie",
+      "status": "unknown",
+      "httpStatus": null,
+      "checkedAt": null,
+      "message": "Oczekuje na pierwszy automatyczny test GitHub Actions."
+    },
+    {
+      "id": "revolut",
+      "name": "Revolut — wsparcie",
+      "url": "https://revolut.me/pawelz75",
+      "category": "Wsparcie",
+      "status": "unknown",
+      "httpStatus": null,
+      "checkedAt": null,
+      "message": "Oczekuje na pierwszy automatyczny test GitHub Actions."
+    }
+  ]
+}

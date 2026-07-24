@@ -1,0 +1,40 @@
+name: Aktualizacja statusu plików
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "20 5 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: aio-iptv-status
+  cancel-in-progress: true
+
+jobs:
+  check-links:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pobierz repozytorium
+        uses: actions/checkout@v4
+
+      - name: Ustaw Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Sprawdź usługi i pliki
+        run: python scripts/check_status.py
+
+      - name: Zapisz aktualny raport
+        run: |
+          if git diff --quiet -- data/status.json; then
+            echo "Brak zmian w raporcie."
+            exit 0
+          fi
+          git config user.name "AIO-IPTV Status Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/status.json
+          git commit -m "Automatyczna aktualizacja statusu"
+          git push

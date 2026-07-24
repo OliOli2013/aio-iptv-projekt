@@ -1,0 +1,50 @@
+[
+  {
+    "label": "AIO Panel 14.0.1 — strona projektu",
+    "value": "https://olioli2013.github.io/aio-iptv-projekt/plugin-aio-panel.html"
+  },
+  {
+    "label": "AIO Panel — komenda instalacyjna",
+    "value": "wget -q -O - https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh | /bin/sh"
+  },
+  {
+    "label": "IPTV Dream 7.0.0",
+    "value": "https://olioli2013.github.io/aio-iptv-projekt/plugin-iptv-dream.html"
+  },
+  {
+    "label": "PP Channel Sync 2.1.1",
+    "value": "https://olioli2013.github.io/aio-iptv-projekt/plugin-pp-channel-sync.html"
+  },
+  {
+    "label": "E2 Doctor 2.3",
+    "value": "https://olioli2013.github.io/aio-iptv-projekt/plugin-e2-doctor.html"
+  },
+  {
+    "label": "AIO Panel Remote 1.4.6",
+    "value": "https://olioli2013.github.io/aio-iptv-projekt/app-aio-panel-remote.html"
+  },
+  {
+    "label": "CamBridge PL Android",
+    "value": "https://olioli2013.github.io/aio-iptv-projekt/app-cambridge-android.html"
+  },
+  {
+    "label": "CamBridge PL Windows",
+    "value": "https://olioli2013.github.io/aio-iptv-projekt/windows-apps.html"
+  },
+  {
+    "label": "Systemy Multi-Click",
+    "value": "https://olioli2013.github.io/aio-iptv-projekt/systems.html"
+  },
+  {
+    "label": "Aktualne listy kanałów",
+    "value": "https://olioli2013.github.io/aio-iptv-projekt/channel-lists.html"
+  },
+  {
+    "label": "Wsparcie BuyCoffee",
+    "value": "https://buycoffee.to/pawelpawelek"
+  },
+  {
+    "label": "Wsparcie Ko-fi",
+    "value": "https://ko-fi.com/pawelpawlek"
+  }
+]

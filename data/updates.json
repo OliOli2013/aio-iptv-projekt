@@ -1,6 +1,25 @@
 [
   {
     "date": "2026-07-24",
+    "ts": 1784944800000,
+    "type": "release",
+    "title": "AIO-IPTV.pl — 5 inteligentnych narzędzi i dzienna zasada pobierania",
+    "desc": "Dodano asystenta doboru, profil Mój tuner, automatyczny status usług, generator QR, analizator logów oraz jedno bezpłatne pobranie dziennie.",
+    "details": "Nowe funkcje strony:\n• Asystent „Co mam pobrać?”\n• lokalny profil „Mój tuner”\n• codzienny status instalatorów, plików i systemów przez GitHub Actions\n• lokalny generator kodów QR dla linków i komend\n• analizator crashlogów i błędów Enigma2\n• jedno bezpłatne pobranie dziennie w danej przeglądarce\n• kolejne pobrania odblokowywane po otwarciu Revolut, BuyCoffee lub Ko-fi\n\nMechanizm pobierania działa lokalnie w przeglądarce. Statyczna strona GitHub Pages nie potwierdza wykonania płatności.",
+    "url": "assistant.html",
+    "tags": [
+      "AIO-IPTV.pl",
+      "asystent",
+      "Mój tuner",
+      "status",
+      "QR",
+      "analizator logów",
+      "wsparcie",
+      "pobieranie"
+    ]
+  },
+  {
+    "date": "2026-07-24",
     "ts": 1784937600000,
     "type": "release",
     "title": "AIO-IPTV.pl — profesjonalna przebudowa strony",
