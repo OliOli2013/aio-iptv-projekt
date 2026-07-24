@@ -1,4 +1,4 @@
-/* AIO-IPTV.pl — AI Chat ONLINE v4
+/* AIO-IPTV.pl — Asystent AIO Panel ONLINE v5
  * Używa oficjalnego klienta supabase-js i pokazuje rzeczywistą klasę błędu.
  * Konfiguracja publiczna: data/aichat_config.json
  * Prywatny klucz dostawcy AI pozostaje wyłącznie w Supabase Secrets.
@@ -11,7 +11,14 @@
   const CONFIG_URL = 'data/aichat_config.json';
   const KNOWLEDGE_URL = 'data/knowledge.json';
   const DEFAULT_TIMEOUT = 70000;
-  const state = { client: null, config: null, knowledge: [], busy: false };
+  const state = { client: null, config: null, knowledge: [], busy: false, supportTimer: null, supportShown: false };
+
+  const SUPPORT_DELAY_MS = 45000;
+  const SUPPORT_LINKS = {
+    revolut: 'https://revolut.me/pawelz75',
+    buycoffee: 'https://buycoffee.to/pawelpawelek',
+    kofi: 'https://ko-fi.com/pawelpawlek'
+  };
 
   const byId = (id) => document.getElementById(id);
 
@@ -32,6 +39,67 @@
     box.appendChild(p);
     box.scrollTop = box.scrollHeight;
     return p;
+  }
+
+
+
+  function clearSupportTimer() {
+    if (state.supportTimer) {
+      window.clearTimeout(state.supportTimer);
+      state.supportTimer = null;
+    }
+  }
+
+  function appendSupportReminder() {
+    if (state.supportShown) return;
+    const box = byId('chatMessages');
+    if (!box) return;
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'bot';
+    wrapper.setAttribute('role', 'note');
+    wrapper.style.display = 'block';
+
+    const title = document.createElement('strong');
+    title.textContent = 'Dziękuję za rozmowę z Asystentem AIO Panel.';
+    wrapper.appendChild(title);
+
+    const text = document.createElement('span');
+    text.style.display = 'block';
+    text.style.marginTop = '6px';
+    text.textContent = 'Jeżeli odpowiedź była pomocna, możesz dobrowolnie wesprzeć rozwój AIO Panel, bezpłatnych wtyczek, poradników i aktualizacji.';
+    wrapper.appendChild(text);
+
+    const actions = document.createElement('div');
+    actions.className = 'action-row';
+    actions.style.marginTop = '10px';
+
+    [
+      ['Revolut', SUPPORT_LINKS.revolut],
+      ['BuyCoffee', SUPPORT_LINKS.buycoffee],
+      ['Ko-fi', SUPPORT_LINKS.kofi]
+    ].forEach(([label, href], index) => {
+      const link = document.createElement('a');
+      link.className = 'button small' + (index === 0 ? ' primary' : '');
+      link.href = href;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.textContent = label;
+      actions.appendChild(link);
+    });
+
+    wrapper.appendChild(actions);
+    box.appendChild(wrapper);
+    box.scrollTop = box.scrollHeight;
+    state.supportShown = true;
+  }
+
+  function scheduleSupportReminder() {
+    clearSupportTimer();
+    if (state.supportShown) return;
+    state.supportTimer = window.setTimeout(function () {
+      if (!state.busy) appendSupportReminder();
+    }, SUPPORT_DELAY_MS);
   }
 
   async function fetchJsonNoCache(url) {
@@ -205,19 +273,19 @@
     const input = byId('inlineAiInput');
     if (!form || !input) return;
 
-    setStatus('Ładowanie konfiguracji AI Chat…', 'loading');
+    setStatus('Uruchamianie Asystenta AIO Panel…', 'loading');
     try {
       state.config = await fetchJsonNoCache(CONFIG_URL);
       state.client = createSupabaseClient(state.config);
       if (!state.client) {
-        setStatus('AI Chat OFFLINE — konfiguracja ONLINE nie jest kompletna.', 'offline');
+        setStatus('Asystent AIO Panel OFFLINE — konfiguracja ONLINE nie jest kompletna.', 'offline');
       } else {
         const names = buildFunctionNames(state.config).join(', ');
-        setStatus('Konfiguracja ONLINE załadowana. Funkcja: ' + names + '. Połączenie zostanie sprawdzone po wysłaniu pytania.', 'online');
+        setStatus('Asystent AIO Panel jest gotowy. Połączenie zostanie sprawdzone po wysłaniu pytania.', 'online');
       }
     } catch (error) {
       state.client = null;
-      setStatus('AI Chat OFFLINE — błąd konfiguracji: ' + String(error.message || error), 'offline');
+      setStatus('Asystent AIO Panel OFFLINE — błąd konfiguracji: ' + String(error.message || error), 'offline');
       console.error('[AIO AI Chat] Config:', error);
     }
 
@@ -240,20 +308,22 @@
       input.disabled = true;
       const button = form.querySelector('button[type="submit"]');
       if (button) button.disabled = true;
+      clearSupportTimer();
       appendMessage('user', query);
-      const waiting = appendMessage('bot', 'Analizuję pytanie i przygotowuję odpowiedź…', true);
-      setStatus('AI Chat analizuje pytanie…', 'loading');
+      const waiting = appendMessage('bot', 'Asystent AIO Panel analizuje pytanie i przygotowuje odpowiedź…', true);
+      setStatus('Asystent AIO Panel pracuje nad odpowiedzią…', 'loading');
 
       try {
         const result = await sendQuestion(query);
         if (waiting) waiting.remove();
         appendMessage('bot', result.reply);
-        setStatus('AI Chat ONLINE — odpowiedź gotowa.', 'online');
+        setStatus('Asystent AIO Panel ONLINE — odpowiedź gotowa.', 'online');
+        scheduleSupportReminder();
       } catch (error) {
         if (waiting) waiting.remove();
         const reason = String(error && error.message || error || 'Nieznany błąd');
-        appendMessage('bot', 'AI Chat ONLINE nie odpowiedział.\n\nDiagnoza: ' + reason + '\n\n' + localFallback(query));
-        setStatus('AI Chat OFFLINE — backend Supabase wymaga naprawy lub ponownego wdrożenia.', 'offline');
+        appendMessage('bot', 'Asystent AIO Panel nie odpowiedział.\n\nDiagnoza: ' + reason + '\n\n' + localFallback(query));
+        setStatus('Asystent AIO Panel OFFLINE — backend Supabase wymaga naprawy lub ponownego wdrożenia.', 'offline');
         console.error('[AIO AI Chat] Request:', error);
       } finally {
         state.busy = false;
