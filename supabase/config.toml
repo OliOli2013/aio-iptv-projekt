@@ -1,0 +1,2 @@
+[functions.ai-chat]
+verify_jwt = true
