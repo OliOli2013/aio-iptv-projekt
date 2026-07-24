@@ -17,7 +17,6 @@
     loadChannelLists();
     initInlineAi();
     initGenerator();
-    initProjectStateBanner();
   });
 
   function setCurrentYear() {
@@ -330,6 +329,10 @@
   }
 
   async function initInlineAi() {
+    // ai-chat.html ma własnego, kompletnego klienta. Nie podpinaj drugiego
+    // formularza, bo dwa handlery jednocześnie powodują przejście do trybu offline.
+    if (document.querySelector('script[src*="assets/js/ai-chat.js"]')) return;
+
     const form = $('#inlineAiForm');
     const input = $('#inlineAiInput');
     const box = $('#chatMessages');
@@ -433,8 +436,10 @@
   async function initProjectStateBanner() {
     const current = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
     if (!/^(?:plugin-|app-)|^(?:windows-apps|channel-lists|systems)\.html$/.test(current)) return;
-    const main = $('#main-content') || $('main');
-    if (!main || $('.project-state-banner', main)) return;
+    const select = (selector, root = document) => root.querySelector(selector);
+    const escape = value => String(value == null ? '' : value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
+    const main = select('#main-content') || select('main');
+    if (!main || select('.project-state-banner', main)) return;
     try {
       const response = await fetch('data/projects.json', { cache: 'no-store' });
       if (!response.ok) return;
@@ -442,8 +447,8 @@
       const project = Array.isArray(projects) ? projects.find(item => String(item.page || '').toLowerCase() === current) : null;
       if (!project) return;
       const banner = document.createElement('aside');
-      banner.className = `project-state-banner status-${escapeAttr(project.status || 'stable')}`;
-      banner.innerHTML = `<span class="project-state-dot" aria-hidden="true"></span><div><strong>${escapeHtml(project.statusLabel || 'Status projektu')}: ${escapeHtml(project.name || '')} ${escapeHtml(project.version || '')}</strong><span>Ostatnia aktualizacja: ${escapeHtml(project.updated || 'brak danych')} • ${escapeHtml(project.tested || 'szczegóły na stronie projektu')}</span></div><a href="project-status.html">Wszystkie statusy →</a>`;
+      banner.className = `project-state-banner status-${String(project.status || 'stable').replace(/[^a-z0-9_-]/gi, '')}`;
+      banner.innerHTML = `<span class="project-state-dot" aria-hidden="true"></span><div><strong>${escape(project.statusLabel || 'Status projektu')}: ${escape(project.name || '')} ${escape(project.version || '')}</strong><span>Ostatnia aktualizacja: ${escape(project.updated || 'brak danych')} • ${escape(project.tested || 'szczegóły na stronie projektu')}</span></div><a href="project-status.html">Wszystkie statusy →</a>`;
       main.insertBefore(banner, main.firstChild);
     } catch (error) { /* status is supplemental */ }
   }
@@ -469,6 +474,7 @@
   }
 
   onReady(initSupportGate);
+  onReady(initProjectStateBanner);
 
   function initSupportGate() {
     if (document.documentElement.dataset.aioSupportGate === 'ready') return;

@@ -5,6 +5,9 @@
 (function () {
   'use strict';
 
+  // Informacja dla wspólnego skryptu strony: ten formularz obsługuje tylko ten klient.
+  window.__AIO_DEDICATED_AI_CHAT__ = true;
+
   const CONFIG_URL = 'data/aichat_config.json';
   const KNOWLEDGE_URL = 'data/knowledge.json';
   const REQUEST_TIMEOUT_MS = 60000;
@@ -101,6 +104,9 @@
       payload.output,
       payload.content,
       payload.result,
+      payload.error,
+      payload.details,
+      payload.error_description,
       payload.data && payload.data.reply,
       payload.data && payload.data.answer,
       payload.data && payload.data.text,
@@ -186,15 +192,10 @@
         credentials: 'omit',
         headers: state.client.headers,
         signal: controller.signal,
-        body: JSON.stringify({
-          query: question,
-          question: question,
-          message: question,
-          prompt: question,
-          source: 'aio-iptv',
-          locale: 'pl',
-          page: window.location.href
-        })
+        // Funkcja Supabase używana przez tę stronę od początku oczekuje
+        // dokładnie pola „query”. Dodatkowe pola z przebudowy strony powodowały
+        // odrzucenie żądania przez część wdrożeń funkcji.
+        body: JSON.stringify({ query: question })
       });
 
       const payload = await readResponse(response);
@@ -226,7 +227,7 @@
       if (!state.client) {
         setStatus('AI Chat OFFLINE — konfiguracja ONLINE nie jest aktywna.', 'offline');
       } else {
-        setStatus('AI Chat ONLINE — konfiguracja Supabase została załadowana.', 'online');
+        setStatus('Konfiguracja AI Chat została załadowana. Połączenie zostanie sprawdzone po wysłaniu pytania.', 'online');
       }
     } catch (error) {
       state.client = null;
@@ -243,6 +244,9 @@
 
     form.addEventListener('submit', async function (event) {
       event.preventDefault();
+      // Przechwycenie w fazie capture blokuje starszy handler z user-premium.js,
+      // nawet gdy przeglądarka ma jeszcze jego poprzednią wersję w pamięci.
+      event.stopImmediatePropagation();
       if (state.busy) return;
 
       const question = String(input.value || '').trim();
@@ -280,7 +284,7 @@
         if (button) button.disabled = false;
         input.focus();
       }
-    });
+    }, true);
   }
 
   document.addEventListener('DOMContentLoaded', initialise);
