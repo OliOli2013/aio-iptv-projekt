@@ -401,9 +401,9 @@
   'use strict';
 
   const SUPPORT_LINKS = {
-    kofi: 'https://ko-fi.com/pawelpawlek',
     revolut: 'https://revolut.me/pawelz75',
-    paypal: 'https://www.paypal.com/send?recipient=pawelzarzycki61@gmail.com&currencyCode=PLN'
+    buycoffee: 'https://buycoffee.to/pawelpawelek',
+    kofi: 'https://ko-fi.com/pawelpawlek'
   };
 
   const DOWNLOAD_EXTENSIONS = /\.(?:ipk|apk|exe|msi|zip|7z|rar|deb|rpm|pdf|tar|tgz|gz|xz|img|bin|iso|m3u|m3u8|xml|conf|cfg|backup)(?:$|[?#])/i;
@@ -483,9 +483,9 @@
         </div>
         <p class="support-gate-note">Wsparcie nie jest wymagane. Możesz wybrać jedną z poniższych metod albo od razu przejść dalej.</p>
         <div class="support-gate-methods" aria-label="Metody wsparcia">
-          <a class="support-method support-method-kofi" href="${SUPPORT_LINKS.kofi}" target="_blank" rel="noopener noreferrer" data-support-bypass="true"><span>☕</span><strong>Ko-fi</strong><small>Dobrowolna wpłata</small></a>
           <a class="support-method support-method-revolut" href="${SUPPORT_LINKS.revolut}" target="_blank" rel="noopener noreferrer" data-support-bypass="true"><span>R</span><strong>Revolut</strong><small>Szybkie wsparcie</small></a>
-          <a class="support-method support-method-paypal" href="${SUPPORT_LINKS.paypal}" target="_blank" rel="noopener noreferrer" data-support-bypass="true"><span>P</span><strong>PayPal</strong><small>Wpłata online</small></a>
+          <a class="support-method support-method-buycoffee" href="${SUPPORT_LINKS.buycoffee}" target="_blank" rel="noopener noreferrer" data-support-bypass="true"><span>☕</span><strong>BuyCoffee</strong><small>Postaw kawę</small></a>
+          <a class="support-method support-method-kofi" href="${SUPPORT_LINKS.kofi}" target="_blank" rel="noopener noreferrer" data-support-bypass="true"><span>☕</span><strong>Ko-fi</strong><small>Wsparcie z zagranicy</small></a>
         </div>
         <p class="support-gate-status" aria-live="polite"></p>
         <div class="support-gate-actions">
