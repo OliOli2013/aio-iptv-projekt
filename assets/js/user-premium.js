@@ -395,3 +395,274 @@
     return escapeHtml(value).replace(/`/g, '&#96;');
   }
 })();
+
+/* ===== AIO-IPTV: globalny monit wsparcia przed pobieraniem — 2026-07-24 ===== */
+(function () {
+  'use strict';
+
+  const SUPPORT_LINKS = {
+    kofi: 'https://ko-fi.com/pawelpawlek',
+    revolut: 'https://revolut.me/pawelz75',
+    paypal: 'https://www.paypal.com/send?recipient=pawelzarzycki61@gmail.com&currencyCode=PLN'
+  };
+
+  const DOWNLOAD_EXTENSIONS = /\.(?:ipk|apk|exe|msi|zip|7z|rar|deb|rpm|pdf|tar|tgz|gz|xz|img|bin|iso|m3u|m3u8|xml|conf|cfg|backup)(?:$|[?#])/i;
+  const IMAGE_EXTENSIONS = /\.(?:png|jpe?g|webp|gif|svg|avif)(?:$|[?#])/i;
+  const SUPPORT_HOSTS = /(?:^|\.)(?:ko-fi\.com|revolut\.me|paypal\.com|buycoffee\.to)$/i;
+
+  let modal = null;
+  let pendingDownload = null;
+  let previouslyFocused = null;
+  let statusMessage = null;
+  let continueButton = null;
+  let fileNameElement = null;
+
+  function onReady(callback) {
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', callback, { once: true });
+    else callback();
+  }
+
+  onReady(initSupportGate);
+
+  function initSupportGate() {
+    if (document.documentElement.dataset.aioSupportGate === 'ready') return;
+    document.documentElement.dataset.aioSupportGate = 'ready';
+
+    createSupportTicker();
+    createSupportModal();
+    document.addEventListener('click', interceptDownload, true);
+  }
+
+  function createSupportTicker() {
+    const header = document.querySelector('.site-header');
+    if (!header || header.querySelector('.support-ticker')) return;
+
+    const message = 'Dzięki dobrowolnemu wsparciu rozwijam AIO Panel, wtyczki, aplikacje, listy kanałów, picony, poradniki i systemy Enigma2.';
+    const ticker = document.createElement('div');
+    ticker.className = 'support-ticker';
+    ticker.setAttribute('role', 'button');
+    ticker.setAttribute('tabindex', '0');
+    ticker.setAttribute('aria-label', 'Otwórz możliwości wsparcia projektów');
+    ticker.innerHTML = `
+      <span class="support-ticker-heart" aria-hidden="true">♥</span>
+      <div class="support-ticker-viewport">
+        <div class="support-ticker-track">
+          <span><strong>WESPRZYJ ROZWÓJ</strong> • ${message} • Pobieranie pozostaje bezpłatne.</span>
+          <span aria-hidden="true"><strong>WESPRZYJ ROZWÓJ</strong> • ${message} • Pobieranie pozostaje bezpłatne.</span>
+        </div>
+      </div>
+      <span class="support-ticker-cta">Wesprzyj</span>`;
+
+    header.insertBefore(ticker, header.firstChild);
+    ticker.addEventListener('click', () => openSupportModal(null));
+    ticker.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        openSupportModal(null);
+      }
+    });
+  }
+
+  function createSupportModal() {
+    if (document.querySelector('.support-gate-modal')) return;
+
+    modal = document.createElement('div');
+    modal.className = 'support-gate-modal';
+    modal.setAttribute('aria-hidden', 'true');
+    modal.innerHTML = `
+      <div class="support-gate-backdrop" data-support-close></div>
+      <section class="support-gate-dialog" role="dialog" aria-modal="true" aria-labelledby="support-gate-title" aria-describedby="support-gate-description">
+        <button class="support-gate-x" type="button" aria-label="Zamknij" data-support-close>×</button>
+        <div class="support-gate-icon" aria-hidden="true">♥</div>
+        <p class="support-gate-eyebrow">DOBROWOLNE WSPARCIE PROJEKTÓW</p>
+        <h2 id="support-gate-title">Pomóż rozwijać projekty dla Enigma2</h2>
+        <p id="support-gate-description">AIO Panel, wtyczki, aplikacje, listy kanałów, picony, systemy i poradniki są rozwijane dzięki poświęconemu czasowi oraz dobrowolnemu wsparciu użytkowników.</p>
+        <div class="support-gate-file" hidden>
+          <span>Wybrany plik:</span>
+          <strong class="support-gate-filename"></strong>
+        </div>
+        <p class="support-gate-note">Wsparcie nie jest wymagane. Możesz wybrać jedną z poniższych metod albo od razu przejść dalej.</p>
+        <div class="support-gate-methods" aria-label="Metody wsparcia">
+          <a class="support-method support-method-kofi" href="${SUPPORT_LINKS.kofi}" target="_blank" rel="noopener noreferrer" data-support-bypass="true"><span>☕</span><strong>Ko-fi</strong><small>Dobrowolna wpłata</small></a>
+          <a class="support-method support-method-revolut" href="${SUPPORT_LINKS.revolut}" target="_blank" rel="noopener noreferrer" data-support-bypass="true"><span>R</span><strong>Revolut</strong><small>Szybkie wsparcie</small></a>
+          <a class="support-method support-method-paypal" href="${SUPPORT_LINKS.paypal}" target="_blank" rel="noopener noreferrer" data-support-bypass="true"><span>P</span><strong>PayPal</strong><small>Wpłata online</small></a>
+        </div>
+        <p class="support-gate-status" aria-live="polite"></p>
+        <div class="support-gate-actions">
+          <button class="support-gate-continue" type="button">Przejdź dalej do pobierania</button>
+          <button class="support-gate-cancel" type="button" data-support-close>Nie teraz</button>
+        </div>
+        <p class="support-gate-privacy">Kliknięcie metody wsparcia otwiera jej stronę w nowej karcie. Pobieranie ze strony AIO-IPTV.pl pozostaje bezpłatne.</p>
+      </section>`;
+
+    document.body.appendChild(modal);
+    statusMessage = modal.querySelector('.support-gate-status');
+    continueButton = modal.querySelector('.support-gate-continue');
+    fileNameElement = modal.querySelector('.support-gate-filename');
+
+    modal.querySelectorAll('[data-support-close]').forEach(element => element.addEventListener('click', closeSupportModal));
+    modal.querySelectorAll('.support-method').forEach(link => {
+      link.addEventListener('click', () => {
+        statusMessage.textContent = 'Dziękuję za wsparcie. Po powrocie do tej karty możesz kontynuować pobieranie.';
+        continueButton.classList.add('is-thanks');
+        if (pendingDownload) continueButton.textContent = 'Dziękuję — pobierz plik';
+      });
+    });
+    continueButton.addEventListener('click', continueAfterPrompt);
+    modal.addEventListener('keydown', trapModalKeyboard);
+  }
+
+  function interceptDownload(event) {
+    const anchor = event.target.closest && event.target.closest('a');
+    if (!anchor || !isDownloadLink(anchor)) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+    if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
+
+    openSupportModal({
+      href: anchor.href,
+      target: anchor.getAttribute('target') || '',
+      download: anchor.getAttribute('download') || '',
+      label: getDownloadLabel(anchor)
+    });
+  }
+
+  function isDownloadLink(anchor) {
+    if (anchor.dataset.supportBypass === 'true' || anchor.closest('.support-gate-modal') || anchor.closest('.support-ticker')) return false;
+
+    const rawHref = (anchor.getAttribute('href') || '').trim();
+    if (!rawHref || /^(?:#|javascript:|mailto:|tel:)/i.test(rawHref)) return false;
+
+    let url;
+    try { url = new URL(rawHref, window.location.href); }
+    catch (error) { return false; }
+
+    if (SUPPORT_HOSTS.test(url.hostname)) return false;
+
+    const full = `${url.pathname}${url.search}${url.hash}`;
+    const decoded = safeDecode(full).toLowerCase();
+    const text = `${anchor.textContent || ''} ${anchor.getAttribute('aria-label') || ''} ${anchor.className || ''}`.toLowerCase();
+
+    if (IMAGE_EXTENSIONS.test(decoded)) return false;
+    if (anchor.hasAttribute('download')) return true;
+    if (DOWNLOAD_EXTENSIONS.test(decoded)) return true;
+    if (/controller=attachment|id_attachment=|\/releases\/download\/|\/downloads?\/|[?&](?:download|attachment)=/i.test(decoded)) return true;
+    if (/multi-click\.pl$/i.test(url.hostname) && /attachment|id_attachment/i.test(decoded)) return true;
+    if (/raw\.githubusercontent\.com$/i.test(url.hostname) && /\.(?:sh|ipk|apk|zip|json)(?:$|[?#])/i.test(decoded)) return true;
+
+    const isInternalHtml = url.origin === window.location.origin && /\.html(?:$|[?#])/i.test(decoded);
+    if (isInternalHtml) return false;
+
+    const looksLikeDownloadButton = /\b(?:pobierz|pobieranie|download|ściągnij|instaluj|plik\s+ipk|plik\s+apk|wersja\s+x64|wersja\s+x86)\b/i.test(text);
+    const pointsToFiles = /(?:^|\/)pliki\//i.test(decoded) || /(?:^|\/)archives?\//i.test(decoded);
+    return looksLikeDownloadButton && pointsToFiles;
+  }
+
+  function getDownloadLabel(anchor) {
+    const rawText = (anchor.textContent || '').replace(/\s+/g, ' ').trim();
+    if (rawText && rawText.length <= 90) return rawText;
+    try {
+      const path = new URL(anchor.href, window.location.href).pathname;
+      return safeDecode(path.split('/').pop() || 'Wybrany plik');
+    } catch (error) {
+      return 'Wybrany plik';
+    }
+  }
+
+  function openSupportModal(download) {
+    if (!modal) createSupportModal();
+    pendingDownload = download;
+    previouslyFocused = document.activeElement;
+    statusMessage.textContent = '';
+    continueButton.classList.remove('is-thanks');
+
+    const fileBox = modal.querySelector('.support-gate-file');
+    if (download) {
+      fileBox.hidden = false;
+      fileNameElement.textContent = download.label || fileNameFromUrl(download.href);
+      continueButton.textContent = 'Przejdź dalej do pobierania';
+      modal.querySelector('.support-gate-cancel').textContent = 'Anuluj';
+    } else {
+      fileBox.hidden = true;
+      fileNameElement.textContent = '';
+      continueButton.textContent = 'Zamknij planszę';
+      modal.querySelector('.support-gate-cancel').textContent = 'Nie teraz';
+    }
+
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('support-gate-open');
+    window.setTimeout(() => modal.querySelector('.support-method')?.focus(), 30);
+  }
+
+  function closeSupportModal() {
+    if (!modal) return;
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('support-gate-open');
+    pendingDownload = null;
+    if (previouslyFocused && typeof previouslyFocused.focus === 'function') previouslyFocused.focus();
+  }
+
+  function continueAfterPrompt() {
+    if (!pendingDownload) {
+      closeSupportModal();
+      return;
+    }
+
+    const download = pendingDownload;
+    pendingDownload = null;
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('support-gate-open');
+
+    const link = document.createElement('a');
+    link.href = download.href;
+    link.dataset.supportBypass = 'true';
+    if (download.download) link.setAttribute('download', download.download);
+    if (download.target) link.target = download.target;
+    if (download.target === '_blank') link.rel = 'noopener noreferrer';
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  }
+
+  function trapModalKeyboard(event) {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      closeSupportModal();
+      return;
+    }
+    if (event.key !== 'Tab') return;
+
+    const focusable = Array.from(modal.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'))
+      .filter(element => element.offsetParent !== null);
+    if (!focusable.length) return;
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
+
+  function fileNameFromUrl(href) {
+    try {
+      const path = new URL(href, window.location.href).pathname;
+      return safeDecode(path.split('/').pop() || 'Wybrany plik');
+    } catch (error) {
+      return 'Wybrany plik';
+    }
+  }
+
+  function safeDecode(value) {
+    try { return decodeURIComponent(value); }
+    catch (error) { return value; }
+  }
+})();
