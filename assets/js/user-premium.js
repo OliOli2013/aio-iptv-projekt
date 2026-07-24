@@ -1,3 +1,4 @@
+// Support gate buttons: Revolut + BuyCoffee + Ko-fi, revision 2026-07-24-v2
 (function () {
   'use strict';
 

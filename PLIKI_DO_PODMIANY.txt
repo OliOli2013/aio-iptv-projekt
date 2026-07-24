@@ -1,18 +1,28 @@
-AIO Panel 14.0.1 — pliki do podmiany / dodania na GitHubie
+POPRAWKA PRZYCISKÓW WSPARCIA — WERSJA 2
 
-Podmień pliki HTML i JSON z zachowaniem ich obecnych katalogów.
-Dodaj nowe pliki z katalogu pliki/.
+Przyczyna poprzedniego problemu: przeglądarka lub GitHub Pages nadal ładowały starszą, zapisaną w pamięci wersję pliku JavaScript.
+Dlatego ta paczka zawiera również strony HTML z nowym numerem wersji zasobów, co wymusza pobranie poprawionego JS i CSS.
 
-Zawartość paczki:
+Aktualne przyciski:
+- Revolut: https://revolut.me/pawelz75
+- BuyCoffee: https://buycoffee.to/pawelpawelek
+- Ko-fi: https://ko-fi.com/pawelpawlek
+- Przejdź dalej do pobierania
+
+Pliki do podmiany:
+- assets/js/user-premium.js
+- assets/css/user-premium.css
 - 404.html
 - ai-chat.html
 - android-apps.html
 - app-aio-panel-remote.html
 - app-cambridge-android.html
 - channel-lists.html
+- config-builder.html
 - contact.html
-- data/search-index.json
-- data/updates.json
+- downloads.html
+- error-scan.html
+- future-lab.html
 - guide-diagnostyka-enigma2.html
 - guide-enigma2-pilot-funkcje.html
 - guide-instalacja-image.html
@@ -28,12 +38,13 @@ Zawartość paczki:
 - help-root-password.html
 - help-satellites-xml.html
 - help-softcam-feed.html
+- image-installation.html
 - index.html
+- knowledge.html
+- kreator.html
+- multi-click.html
+- nowe-projekty.html
 - one-liner.html
-- pliki/aio-panel-14.0.1-picons-tvn.jpg
-- pliki/aio-panel-14.0.1-picons-viasat.jpg
-- pliki/aio-panel-14.0.1-screen.png
-- pliki/enigma2-plugin-extensions-panelaio_14.0.1_all.ipk
 - plugin-aio-panel.html
 - plugin-dodatki-systemowe.html
 - plugin-dreamosatx-signal.html
@@ -47,11 +58,15 @@ Zawartość paczki:
 - plugin-pp-channel-sync.html
 - plugin-simple-iptv-epg.html
 - plugins.html
+- poradniki-praktyczne.html
+- porownywarka.html
+- porownywarka_legacy.html
+- stats.html
+- support.html
 - systems.html
+- tools.html
+- tuner-compare.html
+- updates.html
 - windows-apps.html
 
-Najważniejsze nowe pliki:
-- pliki/enigma2-plugin-extensions-panelaio_14.0.1_all.ipk
-- pliki/aio-panel-14.0.1-screen.png
-- pliki/aio-panel-14.0.1-picons-viasat.jpg
-- pliki/aio-panel-14.0.1-picons-tvn.jpg
+Po wgraniu plików odczekaj chwilę na publikację GitHub Pages i otwórz stronę ponownie.

@@ -613,7 +613,7 @@ body.support-gate-open{overflow:hidden}
 .support-method strong{align-self:end;font-size:1rem}.support-method small{align-self:start;color:rgba(255,255,255,.78);font-size:.72rem}
 .support-method-kofi{background:linear-gradient(135deg,#086a77,#1596a5);border-color:#35c2ce}
 .support-method-revolut{background:linear-gradient(135deg,#1c438d,#2875df);border-color:#72a2ff}
-.support-method-buycoffee{background:linear-gradient(135deg,#a65d00,#e79a16);border-color:#ffc45c}
+.support-method-buycoffee{background:linear-gradient(135deg,#9a5b08,#d88916);border-color:#ffbd56}
 .support-gate-status{min-height:22px;margin:4px 0 8px;color:#8ef0ca;font-size:.86rem;font-weight:750}
 .support-gate-actions{display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:8px}
 .support-gate-continue,.support-gate-cancel{border-radius:12px;padding:13px 16px;font:inherit;font-weight:900;cursor:pointer}
