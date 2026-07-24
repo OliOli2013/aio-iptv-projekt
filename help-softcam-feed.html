@@ -1,40 +1,42 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="pl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0d2633">
-  <title>SoftCam feed — instalacja | AIO-IPTV.pl</title>
-  <meta name="description" content="Instalacja feeda i podstawowe kroki po dodaniu softcama.">
-  <link rel="icon" href="pliki/logo.png">
-  <link rel="manifest" href="manifest.json">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/user-premium.css?v=20260724-v12">
-  
-</head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="#0d2633" name="theme-color"/>
+<title>SoftCam feed — instalacja | AIO-IPTV.pl</title>
+<meta content="Instalacja feeda i podstawowe kroki po dodaniu softcama." name="description"/>
+<link href="pliki/logo.png" rel="icon"/>
+<link href="manifest.json" rel="manifest"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Caveat:wght@700&amp;display=swap" rel="stylesheet"/>
+<link href="assets/css/user-premium.css?v=20260724-v12" rel="stylesheet"/>
+<link href="assets/css/pro-suite.css?v=20260724-pro1" rel="stylesheet"/><meta content="dark" name="color-scheme"/><link href="https://olioli2013.github.io/aio-iptv-projekt/help-softcam-feed.html" rel="canonical"/><meta content="SoftCam feed — instalacja | AIO-IPTV.pl" property="og:title"/><meta content="Instalacja feeda i podstawowe kroki po dodaniu softcama." property="og:description"/><meta content="website" property="og:type"/><meta content="https://olioli2013.github.io/aio-iptv-projekt/help-softcam-feed.html" property="og:url"/></head>
 <body class="">
-  <a class="skip-link" href="#main-content">Przejdź do treści</a>
-  <div class="page-shell">
-    <header class="site-header">
-      <div class="brand-row">
-        <a class="brand" href="index.html"><img src="pliki/logo.png" alt="AIO-IPTV.pl"><span><strong>AIO‑IPTV.pl</strong><small>Enigma2 • IPTV • pomoc</small></span></a>
-        <a class="header-download" href="plugin-aio-panel.html">AIO Panel 14.0.1</a>
-      </div>
-      <nav class="main-nav" data-menu><a class="" href="index.html">Start</a><a class="" href="plugins.html">Wtyczki</a><a class="" href="android-apps.html">Aplikacje Android</a><a class="" href="guides.html">Poradniki</a><a class="" href="systems.html">Multi-Click i systemy</a><a class="" href="channel-lists.html">Listy kanałów</a><a class="" href="one-liner.html">One-Liner / FTP</a><a class="" href="ai-chat.html">AI Chat</a><a class="" href="contact.html">Kontakt i wsparcie</a></nav>
-      <button class="mobile-menu" type="button" data-menu-toggle>Menu</button>
-    </header>
-    <div class="content-layout">
-      <aside class="side-panel"><h2>Pomoc użytkownika</h2><nav><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Aplikacje Android</a><a href="guides.html">Poradniki</a><a href="one-liner.html">One‑Liner / FTP</a><a href="channel-lists.html">Listy kanałów</a><a href="systems.html">Multi‑Click i systemy</a><a href="ai-chat.html">AI Chat</a><a href="contact.html">Kontakt i wsparcie</a></nav><div class="side-help"><strong>Szybka pomoc</strong><a href="guide-terminal-openwebif.html">Terminal / OpenWebif</a><a href="guide-oscam.html">Dane do OSCam</a><a href="guide-xstremity.html">IPTV do Xstremity</a><a href="help-softcam-feed.html">SoftCam feed</a><a href="help-picons-serviceref.html">Picony / ServiceRef</a><a href="help-restart-gui.html">Restart GUI</a></div></aside>
-      <main id="main-content" class="content-main"><section class="hero-compact"><div><p class="script-line">Witam na mojej stronie <span>Paweł Pawełek</span></p><p class="eyebrow">SoftCam feed</p><h1>SoftCam feed OpenATV / OpenPLi</h1><p class="lead">Dodanie feeda softcam i odświeżenie listy pakietów.</p><div class="action-row"><a class="button primary" href="guides.html">Wróć do poradników</a><a class="button" href="one-liner.html">One‑Liner / FTP</a></div></div><figure><img src="pliki/logo.png" alt="Pomoc techniczna"><figcaption>Pomoc techniczna</figcaption></figure></section><section class="module"><h2>Instrukcja</h2><p>Dodanie feeda softcam i odświeżenie listy pakietów.</p><div class="command-grid"><div class="command"><div><strong>Softcam Feed OpenATV</strong><button type="button" data-copy="wget -O - -q http://updates.mynonpublic.com/oea/feed | bash">Kopiuj</button></div><pre><code>wget -O - -q http://updates.mynonpublic.com/oea/feed | bash</code></pre></div><div class="command"><div><strong>Odświeżenie listy pakietów</strong><button type="button" data-copy="opkg update">Kopiuj</button></div><pre><code>opkg update</code></pre></div></div></section></main>
-    </div>
-    <footer class="site-footer">
-      <div><strong>AIO‑IPTV.pl</strong><span>Wtyczki, poradniki, listy kanałów, Multi‑Click, One‑Liner i AI Chat.</span></div>
-      <nav><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Aplikacje Android</a><a href="guides.html">Poradniki</a><a href="one-liner.html">One‑Liner</a><a href="contact.html">Kontakt</a></nav>
-      <p>© <span id="year"></span> Paweł Pawełek • <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></p>
-    </footer>
-  </div>
-  <script src="assets/js/user-premium.js?v=20260724-v12" defer></script>
-</body>
+<a class="skip-link" href="#main-content">Przejdź do treści</a>
+<div class="page-shell">
+<header class="site-header">
+<div class="brand-row">
+<a class="brand" href="index.html"><img alt="AIO-IPTV.pl" src="pliki/logo.png"/><span><strong>AIO‑IPTV.pl</strong><small>Enigma2 • IPTV • pomoc</small></span></a>
+<a class="header-download" href="plugin-aio-panel.html">AIO Panel 14.0.1</a>
+</div>
+<nav class="main-nav" data-menu="">
+<a href="index.html">Start</a><a href="downloads.html">Centrum pobierania</a><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Android</a><a href="windows-apps.html">Windows</a><a href="guides.html">Poradniki</a><a href="systems.html">Systemy</a><a href="channel-lists.html">Listy kanałów</a><a href="compatibility.html">Zgodność</a><a href="report-error.html">Zgłoś błąd</a><a href="contact.html">Kontakt</a>
+</nav>
+<button class="mobile-menu" data-menu-toggle="" type="button">Menu</button>
+</header>
+<div class="content-layout">
+<aside class="side-panel"><h2>Pomoc użytkownika</h2><nav><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Aplikacje Android</a><a href="guides.html">Poradniki</a><a href="one-liner.html">One‑Liner / FTP</a><a href="channel-lists.html">Listy kanałów</a><a href="systems.html">Multi‑Click i systemy</a><a href="ai-chat.html">AI Chat</a><a href="contact.html">Kontakt i wsparcie</a></nav><div class="side-help"><strong>Szybka pomoc</strong><a href="guide-terminal-openwebif.html">Terminal / OpenWebif</a><a href="guide-oscam.html">Dane do OSCam</a><a href="guide-xstremity.html">IPTV do Xstremity</a><a href="help-softcam-feed.html">SoftCam feed</a><a href="help-picons-serviceref.html">Picony / ServiceRef</a><a href="help-restart-gui.html">Restart GUI</a></div></aside>
+<main class="content-main" id="main-content"><section class="hero-compact"><div><p class="script-line">Witam na mojej stronie <span>Paweł Pawełek</span></p><p class="eyebrow">SoftCam feed</p><h1>SoftCam feed OpenATV / OpenPLi</h1><p class="lead">Dodanie feeda softcam i odświeżenie listy pakietów.</p><div class="action-row"><a class="button primary" href="guides.html">Wróć do poradników</a><a class="button" href="one-liner.html">One‑Liner / FTP</a></div></div><figure><img alt="Pomoc techniczna" src="pliki/logo.png"/><figcaption>Pomoc techniczna</figcaption></figure></section><section class="module"><h2>Instrukcja</h2><p>Dodanie feeda softcam i odświeżenie listy pakietów.</p><div class="command-grid"><div class="command"><div><strong>Softcam Feed OpenATV</strong><button data-copy="wget -O - -q http://updates.mynonpublic.com/oea/feed | bash" type="button">Kopiuj</button></div><pre><code>wget -O - -q http://updates.mynonpublic.com/oea/feed | bash</code></pre></div><div class="command"><div><strong>Odświeżenie listy pakietów</strong><button data-copy="opkg update" type="button">Kopiuj</button></div><pre><code>opkg update</code></pre></div></div></section></main>
+</div>
+<footer class="site-footer">
+<div><strong>AIO‑IPTV.pl</strong><span>Wtyczki, poradniki, listy kanałów, Multi‑Click, One‑Liner i AI Chat.</span></div>
+<nav><a href="downloads.html">Pobieranie</a><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Android</a><a href="windows-apps.html">Windows</a><a href="guides.html">Poradniki</a><a href="systems.html">Systemy</a><a href="compatibility.html">Zgodność</a><a href="report-error.html">Zgłoś błąd</a><a href="contact.html">Kontakt</a></nav>
+<p>© <span id="year"></span> Paweł Pawełek • <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></p>
+</footer>
+</div>
+<script defer="" src="assets/js/user-premium.js?v=20260724-v12"></script>
+<script defer="True" src="assets/js/pro-suite.js?v=20260724-pro1"></script></body>
 </html>

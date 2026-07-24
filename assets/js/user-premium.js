@@ -409,6 +409,7 @@
 
   const DOWNLOAD_EXTENSIONS = /\.(?:ipk|apk|exe|msi|zip|7z|rar|deb|rpm|pdf|tar|tgz|gz|xz|img|bin|iso|m3u|m3u8|xml|conf|cfg|backup)(?:$|[?#])/i;
   const IMAGE_EXTENSIONS = /\.(?:png|jpe?g|webp|gif|svg|avif)(?:$|[?#])/i;
+  const SUPPORT_HIDE_KEY = 'aio_support_hide_until';
   const SUPPORT_HOSTS = /(?:^|\.)(?:ko-fi\.com|revolut\.me|paypal\.com|buycoffee\.to)$/i;
 
   let modal = null;
@@ -514,6 +515,7 @@
   }
 
   function interceptDownload(event) {
+    try { if (Number(localStorage.getItem(SUPPORT_HIDE_KEY) || 0) > Date.now()) return; } catch (error) {}
     const anchor = event.target.closest && event.target.closest('a');
     if (!anchor || !isDownloadLink(anchor)) return;
 
@@ -607,6 +609,8 @@
   }
 
   function continueAfterPrompt() {
+    const snooze = document.getElementById('supportSnooze');
+    if (snooze && snooze.checked) { try { localStorage.setItem(SUPPORT_HIDE_KEY, String(Date.now() + 7 * 24 * 60 * 60 * 1000)); } catch (error) {} }
     if (!pendingDownload) {
       closeSupportModal();
       return;

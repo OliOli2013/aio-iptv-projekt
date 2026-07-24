@@ -1,13 +1,15 @@
 {
-  "name": "AIO-IPTV.pl",
+  "name": "AIO-IPTV.pl — Enigma2, IPTV i pomoc",
   "short_name": "AIO-IPTV",
-  "start_url": "index.html",
+  "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#07111f",
-  "theme_color": "#39a8ff",
+  "background_color": "#06141c",
+  "theme_color": "#0d2633",
+  "description": "Wtyczki, aplikacje, systemy i poradniki dla Enigma2.",
   "icons": [
     {
-      "src": "logo-192.png",
+      "src": "assets/icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },

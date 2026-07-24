@@ -1,0 +1,22 @@
+AIO-IPTV.pl — pełna profesjonalna wersja strony
+
+1. Rozpakuj archiwum.
+2. Skopiuj CAŁĄ zawartość tego katalogu do katalogu głównego repozytorium GitHub Pages.
+3. Zastąp istniejące pliki.
+4. Nie twórz dodatkowego katalogu nadrzędnego w repozytorium.
+5. Po publikacji wykonaj twarde odświeżenie strony: Ctrl+F5.
+
+Najważniejsze nowe strony:
+- downloads.html — Centrum pobierania
+- compatibility.html — Centrum zgodności
+- report-error.html — Generator zgłoszenia błędu
+- offline.html — strona trybu offline
+
+Nowe zasoby:
+- assets/css/pro-suite.css
+- assets/js/pro-suite.js
+- data/downloads.json
+- data/compatibility.json
+- service-worker.js
+- sitemap.xml
+- robots.txt

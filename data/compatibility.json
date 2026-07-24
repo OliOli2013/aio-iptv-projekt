@@ -1,0 +1,79 @@
+[
+  {
+    "name": "AIO Panel",
+    "version": "14.0.1",
+    "type": "Wtyczka Enigma2",
+    "python": "Python 2 i 3",
+    "systems": "OpenATV, OpenPLi, Egami, OpenViX, OpenBH, Pure2 i inne obrazy Enigma2",
+    "requirements": "Enigma2; po instalacji zalecany Restart GUI",
+    "status": "Szeroka zgodność",
+    "url": "plugin-aio-panel.html",
+    "notes": "Pakiet deklaruje zgodność z Pythonem 2 i Pythonem 3."
+  },
+  {
+    "name": "PP Channel Sync",
+    "version": "2.1.1",
+    "type": "Wtyczka Enigma2",
+    "python": "Python 2 i 3",
+    "systems": "Egami, OpenATV (w tym nowsze wydania), pozostałe obrazy Enigma2",
+    "requirements": "Enigma2; raport błędów: /tmp/ppchannelsync_error.txt",
+    "status": "Stabilna",
+    "url": "plugin-pp-channel-sync.html",
+    "notes": "Obsługa lamedb/lamedb5, wielu satelitów, kopii i rollbacku."
+  },
+  {
+    "name": "IPTV Dream",
+    "version": "7.0.0",
+    "type": "Wtyczka Enigma2",
+    "python": "Python 3",
+    "systems": "Obrazy Enigma2 z Pythonem 3",
+    "requirements": "python3-requests, python3-twisted, python3-twisted-web",
+    "status": "Python 3",
+    "url": "plugin-iptv-dream.html",
+    "notes": "Wymagania pochodzą z metadanych pakietu IPK."
+  },
+  {
+    "name": "E2 Doctor",
+    "version": "2.3",
+    "type": "Wtyczka Enigma2",
+    "python": "Python 3",
+    "systems": "Obrazy Enigma2 z Pythonem 3",
+    "requirements": "python3-core",
+    "status": "Python 3",
+    "url": "plugin-e2-doctor.html",
+    "notes": "Nie jest wyświetlany przez AIO Panel na systemach Python 2."
+  },
+  {
+    "name": "AIO Panel Remote",
+    "version": "1.4.6",
+    "type": "Aplikacja Android",
+    "python": "Nie dotyczy",
+    "systems": "Android 5.0+ oraz tuner Enigma2 z OpenWebif",
+    "requirements": "LAN dla Free; ZeroTier/VPN i licencja Pro dla zdalnego streamingu",
+    "status": "Free / Pro",
+    "url": "app-aio-panel-remote.html",
+    "notes": "Port OpenWebif zwykle 80, streaming 8001, transkodowanie zwykle 8002."
+  },
+  {
+    "name": "CamBridge PL Android",
+    "version": "1.0.0",
+    "type": "Aplikacja Android",
+    "python": "Nie dotyczy",
+    "systems": "Android",
+    "requirements": "Instalacja APK; aplikacja działa offline",
+    "status": "Stabilna",
+    "url": "app-cambridge-android.html",
+    "notes": "Konwerter CCcam do OSCam/NCam; używaj wyłącznie do konfiguracji, do której masz uprawnienia."
+  },
+  {
+    "name": "CamBridge PL Windows",
+    "version": "1.0.0",
+    "type": "Program Windows",
+    "python": "Nie dotyczy",
+    "systems": "Windows x64 i Windows x86",
+    "requirements": "Wersja przenośna; bez instalatora",
+    "status": "Stabilna",
+    "url": "windows-apps.html",
+    "notes": "Wybierz x64 dla większości współczesnych komputerów; x86 dla systemów 32-bitowych."
+  }
+]

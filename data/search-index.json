@@ -9,6 +9,46 @@
     ]
   },
   {
+    "title": "Centrum pobierania",
+    "desc": "Wszystkie wtyczki, aplikacje, systemy, listy i poradniki z filtrami, statusem i SHA-256.",
+    "url": "downloads.html",
+    "tags": [
+      "pobieranie",
+      "download",
+      "ipk",
+      "apk",
+      "exe",
+      "systemy",
+      "listy",
+      "sha256"
+    ]
+  },
+  {
+    "title": "Centrum zgodności",
+    "desc": "Wymagania Python, system, Android i Windows dla głównych projektów.",
+    "url": "compatibility.html",
+    "tags": [
+      "zgodność",
+      "python 2",
+      "python 3",
+      "OpenATV",
+      "Android",
+      "Windows"
+    ]
+  },
+  {
+    "title": "Generator zgłoszenia błędu",
+    "desc": "Przygotuj kompletne zgłoszenie z modelem, systemem, Pythonem i logiem.",
+    "url": "report-error.html",
+    "tags": [
+      "błąd",
+      "raport",
+      "crashlog",
+      "pomoc",
+      "zgłoszenie"
+    ]
+  },
+  {
     "title": "Wtyczki — Moje wtyczki",
     "desc": "Lista wszystkich moich wtyczek Enigma2 + pobieranie.",
     "url": "plugins.html#wtyczki",

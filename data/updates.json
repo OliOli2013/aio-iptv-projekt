@@ -1,5 +1,23 @@
 [
   {
+    "date": "2026-07-24",
+    "ts": 1784937600000,
+    "type": "release",
+    "title": "AIO-IPTV.pl — profesjonalna przebudowa strony",
+    "desc": "Nowe centrum pobierania, centrum zgodności, generator zgłoszeń błędów, przebudowana strona główna, PWA i ujednolicone menu.",
+    "details": "Przebudowano stronę AIO-IPTV.pl: dodano centrum pobierania z filtrami, rozmiarami i SHA-256, centrum zgodności projektów, generator zgłoszeń błędów, nowy układ strony głównej według zadań użytkownika, PWA i tryb offline, sitemapę, robots.txt, ujednolicone menu, metadane projektów oraz opcję ukrycia monitu wsparcia na 7 dni.",
+    "url": "index.html",
+    "tags": [
+      "AIO-IPTV.pl",
+      "strona",
+      "centrum pobierania",
+      "zgodność",
+      "raport błędów",
+      "PWA",
+      "SEO"
+    ]
+  },
+  {
     "date": "2026-07-23",
     "ts": 1784764800000,
     "type": "release",

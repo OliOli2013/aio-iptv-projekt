@@ -1,147 +1,141 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="pl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0d2633">
-  <title>IPTV Dream 7.0.0 | AIO-IPTV.pl</title>
-  <meta name="description" content="IPTV Dream 7.0.0 dla Enigma2 — przebudowana obsługa M3U, Xtream Codes, portali MAC/Stalker/MAG, eksportu bukietów, EPG, piconów i błędów połączenia.">
-  <link rel="icon" href="pliki/logo.png">
-  <link rel="manifest" href="manifest.json">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/user-premium.css?v=20260724-v12">
-</head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="#0d2633" name="theme-color"/>
+<title>IPTV Dream 7.0.0 | AIO-IPTV.pl</title>
+<meta content="IPTV Dream 7.0.0 dla Enigma2 — przebudowana obsługa M3U, Xtream Codes, portali MAC/Stalker/MAG, eksportu bukietów, EPG, piconów i błędów połączenia." name="description"/>
+<link href="pliki/logo.png" rel="icon"/>
+<link href="manifest.json" rel="manifest"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Caveat:wght@700&amp;display=swap" rel="stylesheet"/>
+<link href="assets/css/user-premium.css?v=20260724-v12" rel="stylesheet"/>
+<link href="assets/css/pro-suite.css?v=20260724-pro1" rel="stylesheet"/><meta content="dark" name="color-scheme"/><link href="https://olioli2013.github.io/aio-iptv-projekt/plugin-iptv-dream.html" rel="canonical"/><meta content="IPTV Dream 7.0.0 | AIO-IPTV.pl" property="og:title"/><meta content="IPTV Dream 7.0.0 dla Enigma2 — przebudowana obsługa M3U, Xtream Codes, portali MAC/Stalker/MAG, eksportu bukietów, EPG, piconów i błędów połączenia." property="og:description"/><meta content="website" property="og:type"/><meta content="https://olioli2013.github.io/aio-iptv-projekt/plugin-iptv-dream.html" property="og:url"/></head>
 <body class="">
-  <a class="skip-link" href="#main-content">Przejdź do treści</a>
-  <div class="page-shell">
-    <header class="site-header">
-      <div class="brand-row">
-        <a class="brand" href="index.html"><img src="pliki/logo.png" alt="AIO-IPTV.pl"><span><strong>AIO‑IPTV.pl</strong><small>Enigma2 • IPTV • pomoc</small></span></a>
-        <a class="header-download" href="plugin-aio-panel.html">AIO Panel 14.0.1</a>
-      </div>
-      <nav class="main-nav" data-menu><a href="index.html">Start</a><a class="active" href="plugins.html">Wtyczki</a><a href="android-apps.html">Aplikacje Android</a><a href="windows-apps.html">Aplikacje Windows</a><a href="guides.html">Poradniki</a><a href="systems.html">Multi-Click i systemy</a><a href="channel-lists.html">Listy kanałów</a><a href="one-liner.html">One-Liner / FTP</a><a href="ai-chat.html">AI Chat</a><a href="contact.html">Kontakt i wsparcie</a></nav>
-      <button class="mobile-menu" type="button" data-menu-toggle>Menu</button>
-    </header>
-    <div class="content-layout">
-      <aside class="side-panel"><h2>Pomoc użytkownika</h2><nav><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Aplikacje Android</a><a href="windows-apps.html">Aplikacje Windows</a><a href="guides.html">Poradniki</a><a href="one-liner.html">One‑Liner / FTP</a><a href="channel-lists.html">Listy kanałów</a><a href="systems.html">Multi‑Click i systemy</a><a href="ai-chat.html">AI Chat</a><a href="contact.html">Kontakt i wsparcie</a></nav><div class="side-help"><strong>Szybka pomoc</strong><a href="guide-terminal-openwebif.html">Terminal / OpenWebif</a><a href="guide-oscam.html">Dane do OSCam</a><a href="guide-xstremity.html">IPTV do Xstremity</a><a href="help-softcam-feed.html">SoftCam feed</a><a href="help-picons-serviceref.html">Picony / ServiceRef</a><a href="help-restart-gui.html">Restart GUI</a></div></aside>
-      <main id="main-content" class="content-main">
-        <section class="hero-compact">
-          <div>
-            <p class="script-line">Witam na mojej stronie <span>Paweł Pawełek</span></p>
-            <p class="eyebrow">Duża przebudowa • wersja 7.0.0</p>
-            <h1>📺 IPTV Dream v7.0.0</h1>
-            <p class="lead">Nowa, znacząco przebudowana wersja wtyczki IPTV dla Enigma2. Poprawiono stabilność, zgodność z różnymi serwerami, pobieranie i parsowanie list M3U, obsługę Xtream Codes i portali MAC oraz szybki eksport bukietów.</p>
-            <div class="action-row"><a class="button primary" href="pliki/enigma2-plugin-extensions-iptvdream_7.0.0_all.ipk">Pobierz IPK 7.0.0</a><a class="button" href="#instalacja">Instalacja z GitHuba</a><a class="button" href="plugins.html">Wróć do wtyczek</a></div>
-          </div>
-          <figure><img src="pliki/iptv-dream-7.0.0.png" alt="IPTV Dream v7.0.0"><figcaption>IPTV Dream v7.0.0</figcaption></figure>
-        </section>
-
-        <section class="module"><div class="info-box"><strong>To nie jest drobna poprawka.</strong> Wersja 7.0.0 przebudowuje najważniejsze mechanizmy odpowiedzialne za listy M3U, połączenia z serwerami, portale MAC oraz tworzenie bukietów. Wszystkie dotychczasowe funkcje zostały zachowane.</div></section>
-
-        <div class="detail-grid">
-          <section class="module">
-            <h2>Obsługiwane źródła i funkcje</h2>
-            <ul class="clean-list">
-              <li>M3U z adresu URL</li>
-              <li>M3U z pliku</li>
-              <li>Xtream Codes</li>
-              <li>MAC Portal / Stalker / MAG / eStalker</li>
-              <li>ulubione oraz zarządzanie źródłami</li>
-              <li>eksport kanałów do bukietów Enigma2</li>
-              <li>EPG i picony</li>
-              <li>Web Interface na porcie 9999</li>
-              <li>statystyki i aktualizacje z poziomu wtyczki</li>
-            </ul>
-          </section>
-          <section class="module">
-            <h2>Plik i zgodność</h2>
-            <p><strong>Wersja:</strong> 7.0.0</p>
-            <p><strong>Plik:</strong> <a href="pliki/enigma2-plugin-extensions-iptvdream_7.0.0_all.ipk">enigma2-plugin-extensions-iptvdream_7.0.0_all.ipk</a> — 317.7 KB</p>
-            <p><strong>Autor:</strong> by Paweł Pawełek</p>
-            <p><strong>Dostępność:</strong> plik IPK, instalator GitHub oraz AIO Panel.</p>
-            <p>Po instalacji lub aktualizacji zalecany jest <strong>Restart GUI</strong>.</p>
-          </section>
-        </div>
-
-        <section class="module">
-          <h2>Przebudowane pobieranie i parser M3U</h2>
-          <ul class="clean-list">
-            <li>przebudowano mechanizm pobierania list M3U</li>
-            <li>poprawiono obsługę błędów HTTP 884, <code>RemoteDisconnected</code> i zerwanych połączeń</li>
-            <li>dodano obsługę serwerów zwracających błędny typ <code>text/html</code></li>
-            <li>wtyczka sprawdza faktyczną zawartość odpowiedzi zamiast odrzucać listę wyłącznie na podstawie nagłówka serwera</li>
-            <li>poprawiono zgodność ze źródłami, które działają prawidłowo w XStreamity</li>
-            <li>przebudowano parser M3U oraz obsługę <code>group-title</code>, <code>tvg-id</code>, <code>tvg-logo</code> i <code>EXTGRP</code></li>
-            <li>poprawiono nazwy kanałów zawierające przecinki, nietypowe znaki i niestandardowe metadane</li>
-          </ul>
-        </section>
-
-        <section class="module">
-          <h2>Xtream Codes i portale MAC</h2>
-          <div class="detail-grid">
-            <div>
-              <h3>Xtream Codes</h3>
-              <ul class="clean-list">
-                <li>przebudowano obsługę kont Xtream Codes</li>
-                <li>poprawiono zgodność z różnymi implementacjami API</li>
-                <li>ograniczono błędy podczas ładowania kategorii i kanałów</li>
-              </ul>
-            </div>
-            <div>
-              <h3>MAC / Stalker / MAG</h3>
-              <ul class="clean-list">
-                <li>przebudowano obsługę portali MAC, Stalker, MAG i eStalker</li>
-                <li>ograniczono timeouty oraz liczbę niepotrzebnych prób połączenia</li>
-                <li>przyspieszono ładowanie danych z portali MAC</li>
-                <li>poprawiono usuwanie zapisanych portali</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        <section class="module">
-          <h2>Eksport bukietów, EPG i bezpieczeństwo</h2>
-          <ul class="clean-list">
-            <li>przywrócono szybki eksport bukietów bez zatrzymywania się na 0%</li>
-            <li>poprawiono tworzenie i bezpieczne zapisywanie plików bukietów</li>
-            <li>poprawiono referencje kanałów wykorzystywane przez EPG i picony</li>
-            <li>zwiększono ochronę przed błędami powodującymi niebieski ekran lub restart GUI</li>
-            <li>zachowano dotychczasowe funkcje zarządzania, ulubionych, WebIF, statystyk i aktualizacji</li>
-          </ul>
-        </section>
-
-        <section class="module">
-          <h2>Ważne ograniczenia</h2>
-          <p>Wtyczka może poprawić obsługę protokołów, parserów i błędów połączenia, ale nie naprawi problemów znajdujących się po stronie dostawcy. Wygasłe konto, martwy link, błędne dane dostępowe, blokada adresu IP albo niedziałający serwer nadal uniemożliwią pobranie i odtwarzanie kanałów.</p>
-        </section>
-
-        <section class="module">
-          <h2>Zdjęcie / podgląd</h2>
-          <div class="guide-gallery"><figure><a href="pliki/iptv-dream-7.0.0.png" target="_blank" rel="noopener"><img src="pliki/iptv-dream-7.0.0.png" alt="Ekran IPTV Dream v7.0.0" loading="lazy"></a><figcaption>Nowy ekran główny IPTV Dream v7.0.0.</figcaption></figure></div>
-        </section>
-
-        <section class="module" id="instalacja">
-          <h2>Instalacja i aktualizacja</h2>
-          <p>IPTV Dream v7.0.0 można zainstalować z pliku IPK, bezpośrednio z GitHuba albo z poziomu AIO Panel.</p>
-          <div class="command"><div><strong>IPTV Dream — instalacja z GitHuba</strong><button type="button" data-copy="wget -q -O - https://raw.githubusercontent.com/OliOli2013/IPTV-Dream-Plugin/main/installer.sh | /bin/sh">Kopiuj</button></div><pre><code>wget -q -O - https://raw.githubusercontent.com/OliOli2013/IPTV-Dream-Plugin/main/installer.sh | /bin/sh</code></pre><p class="command-note">Po zakończeniu instalacji wykonaj Restart GUI.</p></div>
-          <div class="command"><div><strong>Wariant OpenPLi / problemy z pobieraniem GitHub</strong><button type="button" data-copy="wget -q -O - --user-agent=&quot;Enigma2&quot; -4 https://raw.githubusercontent.com/OliOli2013/IPTV-Dream-Plugin/main/installer.sh | /bin/sh">Kopiuj</button></div><pre><code>wget -q -O - --user-agent=&quot;Enigma2&quot; -4 https://raw.githubusercontent.com/OliOli2013/IPTV-Dream-Plugin/main/installer.sh | /bin/sh</code></pre></div>
-        </section>
-
-        <section class="module" id="ftp">
-          <h2>Instalacja pobranego IPK przez FTP</h2>
-          <p>Wgraj plik IPK do katalogu <code>/tmp</code>, a następnie wykonaj polecenie:</p>
-          <div class="command"><div><strong>Instalacja IPK z /tmp</strong><button type="button" data-copy="opkg install /tmp/enigma2-plugin-extensions-iptvdream_7.0.0_all.ipk">Kopiuj</button></div><pre><code>opkg install /tmp/enigma2-plugin-extensions-iptvdream_7.0.0_all.ipk</code></pre></div>
-        </section>
-      </main>
-    </div>
-    <footer class="site-footer">
-      <div><strong>AIO‑IPTV.pl</strong><span>Wtyczki, poradniki, listy kanałów, Multi‑Click, One‑Liner i AI Chat.</span></div>
-      <nav><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Aplikacje Android</a><a href="windows-apps.html">Aplikacje Windows</a><a href="guides.html">Poradniki</a><a href="one-liner.html">One‑Liner</a><a href="contact.html">Kontakt</a></nav>
-      <p>© <span id="year"></span> Paweł Pawełek • <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></p>
-    </footer>
-  </div>
-  <script src="assets/js/user-premium.js?v=20260724-v12" defer></script>
-</body>
+<a class="skip-link" href="#main-content">Przejdź do treści</a>
+<div class="page-shell">
+<header class="site-header">
+<div class="brand-row">
+<a class="brand" href="index.html"><img alt="AIO-IPTV.pl" src="pliki/logo.png"/><span><strong>AIO‑IPTV.pl</strong><small>Enigma2 • IPTV • pomoc</small></span></a>
+<a class="header-download" href="plugin-aio-panel.html">AIO Panel 14.0.1</a>
+</div>
+<nav class="main-nav" data-menu="">
+<a href="index.html">Start</a><a href="downloads.html">Centrum pobierania</a><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Android</a><a href="windows-apps.html">Windows</a><a href="guides.html">Poradniki</a><a href="systems.html">Systemy</a><a href="channel-lists.html">Listy kanałów</a><a href="compatibility.html">Zgodność</a><a href="report-error.html">Zgłoś błąd</a><a href="contact.html">Kontakt</a>
+</nav>
+<button class="mobile-menu" data-menu-toggle="" type="button">Menu</button>
+</header>
+<div class="content-layout">
+<aside class="side-panel"><h2>Pomoc użytkownika</h2><nav><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Aplikacje Android</a><a href="windows-apps.html">Aplikacje Windows</a><a href="guides.html">Poradniki</a><a href="one-liner.html">One‑Liner / FTP</a><a href="channel-lists.html">Listy kanałów</a><a href="systems.html">Multi‑Click i systemy</a><a href="ai-chat.html">AI Chat</a><a href="contact.html">Kontakt i wsparcie</a></nav><div class="side-help"><strong>Szybka pomoc</strong><a href="guide-terminal-openwebif.html">Terminal / OpenWebif</a><a href="guide-oscam.html">Dane do OSCam</a><a href="guide-xstremity.html">IPTV do Xstremity</a><a href="help-softcam-feed.html">SoftCam feed</a><a href="help-picons-serviceref.html">Picony / ServiceRef</a><a href="help-restart-gui.html">Restart GUI</a></div></aside>
+<main class="content-main" id="main-content">
+<section class="hero-compact">
+<div>
+<p class="script-line">Witam na mojej stronie <span>Paweł Pawełek</span></p>
+<p class="eyebrow">Duża przebudowa • wersja 7.0.0</p>
+<h1>📺 IPTV Dream v7.0.0</h1>
+<p class="lead">Nowa, znacząco przebudowana wersja wtyczki IPTV dla Enigma2. Poprawiono stabilność, zgodność z różnymi serwerami, pobieranie i parsowanie list M3U, obsługę Xtream Codes i portali MAC oraz szybki eksport bukietów.</p>
+<div class="action-row"><a class="button primary" href="pliki/enigma2-plugin-extensions-iptvdream_7.0.0_all.ipk">Pobierz IPK 7.0.0</a><a class="button" href="#instalacja">Instalacja z GitHuba</a><a class="button" href="plugins.html">Wróć do wtyczek</a></div>
+</div>
+<figure><img alt="IPTV Dream v7.0.0" src="pliki/iptv-dream-7.0.0.png"/><figcaption>IPTV Dream v7.0.0</figcaption></figure>
+</section>
+<section class="module"><div class="info-box"><strong>To nie jest drobna poprawka.</strong> Wersja 7.0.0 przebudowuje najważniejsze mechanizmy odpowiedzialne za listy M3U, połączenia z serwerami, portale MAC oraz tworzenie bukietów. Wszystkie dotychczasowe funkcje zostały zachowane.</div></section>
+<div class="detail-grid">
+<section class="module">
+<h2>Obsługiwane źródła i funkcje</h2>
+<ul class="clean-list">
+<li>M3U z adresu URL</li>
+<li>M3U z pliku</li>
+<li>Xtream Codes</li>
+<li>MAC Portal / Stalker / MAG / eStalker</li>
+<li>ulubione oraz zarządzanie źródłami</li>
+<li>eksport kanałów do bukietów Enigma2</li>
+<li>EPG i picony</li>
+<li>Web Interface na porcie 9999</li>
+<li>statystyki i aktualizacje z poziomu wtyczki</li>
+</ul>
+</section>
+<section class="module">
+<h2>Plik i zgodność</h2>
+<p><strong>Wersja:</strong> 7.0.0</p>
+<p><strong>Plik:</strong> <a href="pliki/enigma2-plugin-extensions-iptvdream_7.0.0_all.ipk">enigma2-plugin-extensions-iptvdream_7.0.0_all.ipk</a> — 317.7 KB</p>
+<p><strong>Autor:</strong> by Paweł Pawełek</p>
+<p><strong>Dostępność:</strong> plik IPK, instalator GitHub oraz AIO Panel.</p>
+<p>Po instalacji lub aktualizacji zalecany jest <strong>Restart GUI</strong>.</p>
+</section>
+</div>
+<section class="module">
+<h2>Przebudowane pobieranie i parser M3U</h2>
+<ul class="clean-list">
+<li>przebudowano mechanizm pobierania list M3U</li>
+<li>poprawiono obsługę błędów HTTP 884, <code>RemoteDisconnected</code> i zerwanych połączeń</li>
+<li>dodano obsługę serwerów zwracających błędny typ <code>text/html</code></li>
+<li>wtyczka sprawdza faktyczną zawartość odpowiedzi zamiast odrzucać listę wyłącznie na podstawie nagłówka serwera</li>
+<li>poprawiono zgodność ze źródłami, które działają prawidłowo w XStreamity</li>
+<li>przebudowano parser M3U oraz obsługę <code>group-title</code>, <code>tvg-id</code>, <code>tvg-logo</code> i <code>EXTGRP</code></li>
+<li>poprawiono nazwy kanałów zawierające przecinki, nietypowe znaki i niestandardowe metadane</li>
+</ul>
+</section>
+<section class="module">
+<h2>Xtream Codes i portale MAC</h2>
+<div class="detail-grid">
+<div>
+<h3>Xtream Codes</h3>
+<ul class="clean-list">
+<li>przebudowano obsługę kont Xtream Codes</li>
+<li>poprawiono zgodność z różnymi implementacjami API</li>
+<li>ograniczono błędy podczas ładowania kategorii i kanałów</li>
+</ul>
+</div>
+<div>
+<h3>MAC / Stalker / MAG</h3>
+<ul class="clean-list">
+<li>przebudowano obsługę portali MAC, Stalker, MAG i eStalker</li>
+<li>ograniczono timeouty oraz liczbę niepotrzebnych prób połączenia</li>
+<li>przyspieszono ładowanie danych z portali MAC</li>
+<li>poprawiono usuwanie zapisanych portali</li>
+</ul>
+</div>
+</div>
+</section>
+<section class="module">
+<h2>Eksport bukietów, EPG i bezpieczeństwo</h2>
+<ul class="clean-list">
+<li>przywrócono szybki eksport bukietów bez zatrzymywania się na 0%</li>
+<li>poprawiono tworzenie i bezpieczne zapisywanie plików bukietów</li>
+<li>poprawiono referencje kanałów wykorzystywane przez EPG i picony</li>
+<li>zwiększono ochronę przed błędami powodującymi niebieski ekran lub restart GUI</li>
+<li>zachowano dotychczasowe funkcje zarządzania, ulubionych, WebIF, statystyk i aktualizacji</li>
+</ul>
+</section>
+<section class="module">
+<h2>Ważne ograniczenia</h2>
+<p>Wtyczka może poprawić obsługę protokołów, parserów i błędów połączenia, ale nie naprawi problemów znajdujących się po stronie dostawcy. Wygasłe konto, martwy link, błędne dane dostępowe, blokada adresu IP albo niedziałający serwer nadal uniemożliwią pobranie i odtwarzanie kanałów.</p>
+</section>
+<section class="module">
+<h2>Zdjęcie / podgląd</h2>
+<div class="guide-gallery"><figure><a href="pliki/iptv-dream-7.0.0.png" rel="noopener" target="_blank"><img alt="Ekran IPTV Dream v7.0.0" loading="lazy" src="pliki/iptv-dream-7.0.0.png"/></a><figcaption>Nowy ekran główny IPTV Dream v7.0.0.</figcaption></figure></div>
+</section>
+<section class="module" id="instalacja">
+<h2>Instalacja i aktualizacja</h2>
+<p>IPTV Dream v7.0.0 można zainstalować z pliku IPK, bezpośrednio z GitHuba albo z poziomu AIO Panel.</p>
+<div class="command"><div><strong>IPTV Dream — instalacja z GitHuba</strong><button data-copy="wget -q -O - https://raw.githubusercontent.com/OliOli2013/IPTV-Dream-Plugin/main/installer.sh | /bin/sh" type="button">Kopiuj</button></div><pre><code>wget -q -O - https://raw.githubusercontent.com/OliOli2013/IPTV-Dream-Plugin/main/installer.sh | /bin/sh</code></pre><p class="command-note">Po zakończeniu instalacji wykonaj Restart GUI.</p></div>
+<div class="command"><div><strong>Wariant OpenPLi / problemy z pobieraniem GitHub</strong><button data-copy='wget -q -O - --user-agent="Enigma2" -4 https://raw.githubusercontent.com/OliOli2013/IPTV-Dream-Plugin/main/installer.sh | /bin/sh' type="button">Kopiuj</button></div><pre><code>wget -q -O - --user-agent="Enigma2" -4 https://raw.githubusercontent.com/OliOli2013/IPTV-Dream-Plugin/main/installer.sh | /bin/sh</code></pre></div>
+</section>
+<section class="module" id="ftp">
+<h2>Instalacja pobranego IPK przez FTP</h2>
+<p>Wgraj plik IPK do katalogu <code>/tmp</code>, a następnie wykonaj polecenie:</p>
+<div class="command"><div><strong>Instalacja IPK z /tmp</strong><button data-copy="opkg install /tmp/enigma2-plugin-extensions-iptvdream_7.0.0_all.ipk" type="button">Kopiuj</button></div><pre><code>opkg install /tmp/enigma2-plugin-extensions-iptvdream_7.0.0_all.ipk</code></pre></div>
+</section>
+</main>
+</div>
+<footer class="site-footer">
+<div><strong>AIO‑IPTV.pl</strong><span>Wtyczki, poradniki, listy kanałów, Multi‑Click, One‑Liner i AI Chat.</span></div>
+<nav><a href="downloads.html">Pobieranie</a><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Android</a><a href="windows-apps.html">Windows</a><a href="guides.html">Poradniki</a><a href="systems.html">Systemy</a><a href="compatibility.html">Zgodność</a><a href="report-error.html">Zgłoś błąd</a><a href="contact.html">Kontakt</a></nav>
+<p>© <span id="year"></span> Paweł Pawełek • <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></p>
+</footer>
+</div>
+<script defer="" src="assets/js/user-premium.js?v=20260724-v12"></script>
+<script defer="True" src="assets/js/pro-suite.js?v=20260724-pro1"></script></body>
 </html>

@@ -1,48 +1,51 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="pl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0d2633">
-  <title>Pilot Enigma2 — funkcje przycisków | AIO-IPTV.pl</title>
-  <meta name="description" content="Kompletny poradnik obsługi pilota Enigma2 na przykładzie Zgemma H7s i OpenATV 7.6. Przyciski, EPG, nagrywanie, timeshift, lista kanałów i ustawienia tunera.">
-  <link rel="icon" href="pliki/logo.png">
-  <link rel="manifest" href="manifest.json">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/user-premium.css?v=20260724-v12">
-</head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="#0d2633" name="theme-color"/>
+<title>Pilot Enigma2 — funkcje przycisków | AIO-IPTV.pl</title>
+<meta content="Kompletny poradnik obsługi pilota Enigma2 na przykładzie Zgemma H7s i OpenATV 7.6. Przyciski, EPG, nagrywanie, timeshift, lista kanałów i ustawienia tunera." name="description"/>
+<link href="pliki/logo.png" rel="icon"/>
+<link href="manifest.json" rel="manifest"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Caveat:wght@700&amp;display=swap" rel="stylesheet"/>
+<link href="assets/css/user-premium.css?v=20260724-v12" rel="stylesheet"/>
+<link href="assets/css/pro-suite.css?v=20260724-pro1" rel="stylesheet"/><meta content="dark" name="color-scheme"/><link href="https://olioli2013.github.io/aio-iptv-projekt/guide-enigma2-pilot-funkcje.html" rel="canonical"/><meta content="Pilot Enigma2 — funkcje przycisków | AIO-IPTV.pl" property="og:title"/><meta content="Kompletny poradnik obsługi pilota Enigma2 na przykładzie Zgemma H7s i OpenATV 7.6. Przyciski, EPG, nagrywanie, timeshift, lista kanałów i ustawienia tunera." property="og:description"/><meta content="website" property="og:type"/><meta content="https://olioli2013.github.io/aio-iptv-projekt/guide-enigma2-pilot-funkcje.html" property="og:url"/></head>
 <body class="">
-  <a class="skip-link" href="#main-content">Przejdź do treści</a>
-  <div class="page-shell">
-    <header class="site-header">
-      <div class="brand-row">
-        <a class="brand" href="index.html"><img src="pliki/logo.png" alt="AIO-IPTV.pl"><span><strong>AIO‑IPTV.pl</strong><small>Enigma2 • IPTV • pomoc</small></span></a>
-        <a class="header-download" href="plugin-aio-panel.html">AIO Panel 14.0.1</a>
-      </div>
-      <nav class="main-nav" data-menu><a href="index.html">Start</a><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Aplikacje Android</a><a class="active" href="guides.html">Poradniki</a><a href="systems.html">Multi-Click i systemy</a><a href="channel-lists.html">Listy kanałów</a><a href="one-liner.html">One-Liner / FTP</a><a href="ai-chat.html">AI Chat</a><a href="contact.html">Kontakt i wsparcie</a></nav>
-      <button class="mobile-menu" type="button" data-menu-toggle>Menu</button>
-    </header>
-    <div class="content-layout">
-      <aside class="side-panel"><h2>Pomoc użytkownika</h2><nav><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Aplikacje Android</a><a href="guides.html">Poradniki</a><a href="one-liner.html">One‑Liner / FTP</a><a href="channel-lists.html">Listy kanałów</a><a href="systems.html">Multi‑Click i systemy</a><a href="ai-chat.html">AI Chat</a><a href="contact.html">Kontakt i wsparcie</a></nav><div class="side-help"><strong>Szybka pomoc</strong><a href="guide-terminal-openwebif.html">Terminal / OpenWebif</a><a href="guide-oscam.html">Dane do OSCam</a><a href="guide-xstremity.html">IPTV do Xstremity</a><a href="help-softcam-feed.html">SoftCam feed</a><a href="help-picons-serviceref.html">Picony / ServiceRef</a><a href="help-restart-gui.html">Restart GUI</a></div></aside>
-      <main id="main-content" class="content-main">
-        <section class="hero-compact">
-          <div>
-            <p class="script-line">Witam na mojej stronie <span>Paweł Pawełek</span></p>
-            <p class="eyebrow">Enigma2 od podstaw</p>
-            <h1>Pilot Enigma2 — funkcje przycisków</h1>
-            <p class="lead">Praktyczny opis przycisków pilota, listy kanałów, EPG, nagrywania, timeshiftu i najważniejszych funkcji tunera na przykładzie Zgemma H7s oraz OpenATV 7.6.</p>
-            <div class="action-row"><a class="button primary" href="#spis-tresci">Przejdź do spisu</a><a class="button" href="guides.html">Wróć do poradników</a></div>
-          </div>
-          <figure><a href="pliki/guide-enigma2-pilot-funkcje.webp" target="_blank" rel="noopener"><img src="pliki/guide-enigma2-pilot-funkcje.webp" alt="Enigma2 od podstaw — funkcje przycisków pilota"></a><figcaption>Zgemma H7s / OpenATV 7.6</figcaption></figure>
-        </section>
-        <section class="module"><h2>O poradniku</h2><p>Obsługa tunera z systemem Enigma2 może początkowo wydawać się skomplikowana. Pilot posiada wiele przycisków, a ten sam klawisz może wykonywać inną funkcję podczas oglądania telewizji, przeglądania listy kanałów, korzystania z EPG, odtwarzania nagrania lub pracy we wtyczce.</p>
+<a class="skip-link" href="#main-content">Przejdź do treści</a>
+<div class="page-shell">
+<header class="site-header">
+<div class="brand-row">
+<a class="brand" href="index.html"><img alt="AIO-IPTV.pl" src="pliki/logo.png"/><span><strong>AIO‑IPTV.pl</strong><small>Enigma2 • IPTV • pomoc</small></span></a>
+<a class="header-download" href="plugin-aio-panel.html">AIO Panel 14.0.1</a>
+</div>
+<nav class="main-nav" data-menu="">
+<a href="index.html">Start</a><a href="downloads.html">Centrum pobierania</a><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Android</a><a href="windows-apps.html">Windows</a><a href="guides.html">Poradniki</a><a href="systems.html">Systemy</a><a href="channel-lists.html">Listy kanałów</a><a href="compatibility.html">Zgodność</a><a href="report-error.html">Zgłoś błąd</a><a href="contact.html">Kontakt</a>
+</nav>
+<button class="mobile-menu" data-menu-toggle="" type="button">Menu</button>
+</header>
+<div class="content-layout">
+<aside class="side-panel"><h2>Pomoc użytkownika</h2><nav><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Aplikacje Android</a><a href="guides.html">Poradniki</a><a href="one-liner.html">One‑Liner / FTP</a><a href="channel-lists.html">Listy kanałów</a><a href="systems.html">Multi‑Click i systemy</a><a href="ai-chat.html">AI Chat</a><a href="contact.html">Kontakt i wsparcie</a></nav><div class="side-help"><strong>Szybka pomoc</strong><a href="guide-terminal-openwebif.html">Terminal / OpenWebif</a><a href="guide-oscam.html">Dane do OSCam</a><a href="guide-xstremity.html">IPTV do Xstremity</a><a href="help-softcam-feed.html">SoftCam feed</a><a href="help-picons-serviceref.html">Picony / ServiceRef</a><a href="help-restart-gui.html">Restart GUI</a></div></aside>
+<main class="content-main" id="main-content">
+<section class="hero-compact">
+<div>
+<p class="script-line">Witam na mojej stronie <span>Paweł Pawełek</span></p>
+<p class="eyebrow">Enigma2 od podstaw</p>
+<h1>Pilot Enigma2 — funkcje przycisków</h1>
+<p class="lead">Praktyczny opis przycisków pilota, listy kanałów, EPG, nagrywania, timeshiftu i najważniejszych funkcji tunera na przykładzie Zgemma H7s oraz OpenATV 7.6.</p>
+<div class="action-row"><a class="button primary" href="#spis-tresci">Przejdź do spisu</a><a class="button" href="guides.html">Wróć do poradników</a></div>
+</div>
+<figure><a href="pliki/guide-enigma2-pilot-funkcje.webp" rel="noopener" target="_blank"><img alt="Enigma2 od podstaw — funkcje przycisków pilota" src="pliki/guide-enigma2-pilot-funkcje.webp"/></a><figcaption>Zgemma H7s / OpenATV 7.6</figcaption></figure>
+</section>
+<section class="module"><h2>O poradniku</h2><p>Obsługa tunera z systemem Enigma2 może początkowo wydawać się skomplikowana. Pilot posiada wiele przycisków, a ten sam klawisz może wykonywać inną funkcję podczas oglądania telewizji, przeglądania listy kanałów, korzystania z EPG, odtwarzania nagrania lub pracy we wtyczce.</p>
 <p>Poniższy poradnik został przygotowany na przykładzie tunera <strong>Zgemma H7s z systemem OpenATV 7.6</strong>. Podstawowe zasady są jednak podobne także w innych odbiornikach oraz systemach Enigma2, takich jak OpenPLi, OpenViX, OpenBH, Egami, Pure2 czy OpenSPA.</p>
 <div class="info-box">Niektóre funkcje mogą różnić się zależnie od modelu pilota, używanego skina, zainstalowanych wtyczek oraz konfiguracji przycisków.</div>
 </section>
-        <div id="spis-tresci"><section class="module"><h2>Spis treści</h2><p>Wybierz interesującą funkcję pilota lub część obsługi tunera.</p><div class="detail-grid"><div><ul class="clean-list"><li><a href="#najwazniejsza-zasada-obs-ugi-enigma2">Najważniejsza zasada obsługi Enigma2</a></li><li><a href="#power-w-aczanie-i-wy-aczanie-tunera">POWER — włączanie i wyłączanie tunera</a></li><li><a href="#mute-vol-i-vol">MUTE, VOL+ i VOL−</a></li><li><a href="#przyciski-numeryczne-0-9">Przyciski numeryczne 0–9</a></li><li><a href="#krzyzak-gora-do-lewo-i-prawo">Krzyżak: góra, dół, lewo i prawo</a></li><li><a href="#ok">OK</a></li><li><a href="#exit-i-back">EXIT i BACK</a></li><li><a href="#menu">MENU</a></li><li><a href="#info">INFO</a></li><li><a href="#epg-elektroniczny-przewodnik-po-programach">EPG — elektroniczny przewodnik po programach</a></li><li><a href="#ch-page-i-ch-page">CH/PAGE+ i CH/PAGE−</a></li><li><a href="#tv-radio-i-fav">TV, RADIO i FAV</a></li><li><a href="#kolorowe-przyciski">Kolorowe przyciski</a></li><li><a href="#audio">AUDIO</a></li></ul></div><div><ul class="clean-list"><li><a href="#subtitle">SUBTITLE</a></li><li><a href="#text">TEXT</a></li><li><a href="#pvr-file-list-video-i-media">PVR, FILE LIST, VIDEO i MEDIA</a></li><li><a href="#rec-nagrywanie">REC — nagrywanie</a></li><li><a href="#play-pause-i-timeshift">PLAY/PAUSE i timeshift</a></li><li><a href="#rewind-fast-forward-i-stop">REWIND, FAST FORWARD i STOP</a></li><li><a href="#timer-i-sleep">TIMER i SLEEP</a></li><li><a href="#v-mode">V.MODE</a></li><li><a href="#portal-i-help">PORTAL i HELP</a></li><li><a href="#obs-uga-listy-kana-ow">Obsługa listy kanałów</a></li><li><a href="#najwazniejsze-funkcje-tunera-enigma2">Najważniejsze funkcje tunera Enigma2</a></li><li><a href="#konfiguracja-w-asnych-przyciskow">Konfiguracja własnych przycisków</a></li><li><a href="#podsumowanie">Podsumowanie</a></li></ul></div></div></section></div>
-        <section class="module" id="najwazniejsza-zasada-obs-ugi-enigma2"><h2>Najważniejsza zasada obsługi Enigma2</h2><p>W Enigma2 przyciski są kontekstowe. Oznacza to, że ich działanie zależy od aktualnie otwartego ekranu.</p>
+<div id="spis-tresci"><section class="module"><h2>Spis treści</h2><p>Wybierz interesującą funkcję pilota lub część obsługi tunera.</p><div class="detail-grid"><div><ul class="clean-list"><li><a href="#najwazniejsza-zasada-obs-ugi-enigma2">Najważniejsza zasada obsługi Enigma2</a></li><li><a href="#power-w-aczanie-i-wy-aczanie-tunera">POWER — włączanie i wyłączanie tunera</a></li><li><a href="#mute-vol-i-vol">MUTE, VOL+ i VOL−</a></li><li><a href="#przyciski-numeryczne-0-9">Przyciski numeryczne 0–9</a></li><li><a href="#krzyzak-gora-do-lewo-i-prawo">Krzyżak: góra, dół, lewo i prawo</a></li><li><a href="#ok">OK</a></li><li><a href="#exit-i-back">EXIT i BACK</a></li><li><a href="#menu">MENU</a></li><li><a href="#info">INFO</a></li><li><a href="#epg-elektroniczny-przewodnik-po-programach">EPG — elektroniczny przewodnik po programach</a></li><li><a href="#ch-page-i-ch-page">CH/PAGE+ i CH/PAGE−</a></li><li><a href="#tv-radio-i-fav">TV, RADIO i FAV</a></li><li><a href="#kolorowe-przyciski">Kolorowe przyciski</a></li><li><a href="#audio">AUDIO</a></li></ul></div><div><ul class="clean-list"><li><a href="#subtitle">SUBTITLE</a></li><li><a href="#text">TEXT</a></li><li><a href="#pvr-file-list-video-i-media">PVR, FILE LIST, VIDEO i MEDIA</a></li><li><a href="#rec-nagrywanie">REC — nagrywanie</a></li><li><a href="#play-pause-i-timeshift">PLAY/PAUSE i timeshift</a></li><li><a href="#rewind-fast-forward-i-stop">REWIND, FAST FORWARD i STOP</a></li><li><a href="#timer-i-sleep">TIMER i SLEEP</a></li><li><a href="#v-mode">V.MODE</a></li><li><a href="#portal-i-help">PORTAL i HELP</a></li><li><a href="#obs-uga-listy-kana-ow">Obsługa listy kanałów</a></li><li><a href="#najwazniejsze-funkcje-tunera-enigma2">Najważniejsze funkcje tunera Enigma2</a></li><li><a href="#konfiguracja-w-asnych-przyciskow">Konfiguracja własnych przycisków</a></li><li><a href="#podsumowanie">Podsumowanie</a></li></ul></div></div></section></div>
+<section class="module" id="najwazniejsza-zasada-obs-ugi-enigma2"><h2>Najważniejsza zasada obsługi Enigma2</h2><p>W Enigma2 przyciski są kontekstowe. Oznacza to, że ich działanie zależy od aktualnie otwartego ekranu.</p>
 <p>Przykładowo:</p>
 <ul class="clean-list">
 <li>zielony przycisk w ustawieniach zwykle zapisuje zmiany,</li>
@@ -52,7 +55,7 @@
 </ul>
 <p>Aktualne znaczenie kolorowych przycisków jest zazwyczaj opisane na dole ekranu.</p>
 <p>OpenATV obsługuje również krótkie i długie naciśnięcia. Dzięki temu jeden przycisk może mieć przypisane dwie różne funkcje.</p>
-<hr />
+<hr/>
 <p><a class="button small" href="#main-content">Wróć na górę</a></p></section><section class="module" id="power-w-aczanie-i-wy-aczanie-tunera"><h2>POWER — włączanie i wyłączanie tunera</h2><p>Krótkie naciśnięcie przycisku POWER:</p>
 <ul class="clean-list">
 <li>włącza tuner ze stanu czuwania,</li>
@@ -78,7 +81,7 @@
 <li>aktualizacji listy kanałów,</li>
 <li>zmianie konfiguracji systemowej.</li>
 </ul>
-<hr />
+<hr/>
 <p><a class="button small" href="#main-content">Wróć na górę</a></p></section><section class="module" id="mute-vol-i-vol"><h2>MUTE, VOL+ i VOL−</h2><h3>MUTE</h3>
 <p>Przycisk MUTE wycisza dźwięk. Ponowne naciśnięcie przywraca poprzedni poziom głośności.</p>
 <h3>VOL+ i VOL−</h3>
@@ -89,7 +92,7 @@
 <li>zaprogramowania pilota uniwersalnego,</li>
 <li>odpowiednich ustawień telewizora.</li>
 </ul>
-<hr />
+<hr/>
 <p><a class="button small" href="#main-content">Wróć na górę</a></p></section><section class="module" id="przyciski-numeryczne-0-9"><h2>Przyciski numeryczne 0–9</h2><p>Podczas oglądania telewizji przyciski numeryczne służą do bezpośredniego wyboru kanału.</p>
 <p>Po wpisaniu numeru tuner:</p>
 <ul class="clean-list">
@@ -118,7 +121,7 @@
 <li>9 — mały skok do przodu.</li>
 </ul>
 <p>Długość skoków można zmienić w ustawieniach odtwarzania.</p>
-<hr />
+<hr/>
 <p><a class="button small" href="#main-content">Wróć na górę</a></p></section><section class="module" id="krzyzak-gora-do-lewo-i-prawo"><h2>Krzyżak: góra, dół, lewo i prawo</h2><h3>Góra i dół</h3>
 <p>Przyciski służą do:</p>
 <ul class="clean-list">
@@ -139,7 +142,7 @@
 <li>pokazywać poprzedni albo następny program.</li>
 </ul>
 <p>Ich działanie podczas oglądania telewizji można dostosować w ustawieniach OpenATV.</p>
-<hr />
+<hr/>
 <p><a class="button small" href="#main-content">Wróć na górę</a></p></section><section class="module" id="ok"><h2>OK</h2><p>Przycisk OK jest jednym z najważniejszych klawiszy pilota.</p>
 <p>Podczas oglądania telewizji:</p>
 <ul class="clean-list">
@@ -157,7 +160,7 @@
 <li>przełącza na zaznaczony kanał,</li>
 <li>może zamknąć listę po przełączeniu.</li>
 </ul>
-<hr />
+<hr/>
 <p><a class="button small" href="#main-content">Wróć na górę</a></p></section><section class="module" id="exit-i-back"><h2>EXIT i BACK</h2><h3>EXIT</h3>
 <p>Przycisk EXIT:</p>
 <ul class="clean-list">
@@ -177,7 +180,7 @@
 <li>cofnąć do poprzedniego ekranu.</li>
 </ul>
 <p>W niektórych pilotach funkcje BACK i EXIT mogą być podobne.</p>
-<hr />
+<hr/>
 <p><a class="button small" href="#main-content">Wróć na górę</a></p></section><section class="module" id="menu"><h2>MENU</h2><p>Podczas oglądania telewizji przycisk MENU otwiera główne menu Enigma2.</p>
 <p>Z jego poziomu można przejść między innymi do:</p>
 <ul class="clean-list">
@@ -202,7 +205,7 @@
 <li>blokada rodzicielska,</li>
 <li>informacje o transponderze.</li>
 </ul>
-<hr />
+<hr/>
 <p><a class="button small" href="#main-content">Wróć na górę</a></p></section><section class="module" id="info"><h2>INFO</h2><p>Przycisk INFO wyświetla informacje o aktualnie nadawanym programie:</p>
 <ul class="clean-list">
 <li>nazwę audycji,</li>
@@ -213,7 +216,7 @@
 <li>informację o następnej audycji.</li>
 </ul>
 <p>Ponowne naciśnięcie może otworzyć rozszerzony opis albo drugi infobar.</p>
-<hr />
+<hr/>
 <p><a class="button small" href="#main-content">Wróć na górę</a></p></section><section class="module" id="epg-elektroniczny-przewodnik-po-programach"><h2>EPG — elektroniczny przewodnik po programach</h2><p>Przycisk EPG otwiera przewodnik telewizyjny.</p>
 <p>W zależności od ustawień może uruchamiać:</p>
 <ul class="clean-list">
@@ -230,11 +233,11 @@
 <li>dodać timer przełączenia,</li>
 <li>wyszukać podobne programy.</li>
 </ul>
-<hr />
+<hr/>
 <p><a class="button small" href="#main-content">Wróć na górę</a></p></section><section class="module" id="ch-page-i-ch-page"><h2>CH/PAGE+ i CH/PAGE−</h2><p>Podczas oglądania telewizji przyciski zmieniają kanał.</p>
 <p>W menu, EPG oraz długich listach przewijają zawartość całymi stronami.</p>
 <p>Na liście kanałów mogą również przełączać między kolejnymi bukietami.</p>
-<hr />
+<hr/>
 <p><a class="button small" href="#main-content">Wróć na górę</a></p></section><section class="module" id="tv-radio-i-fav"><h2>TV, RADIO i FAV</h2><h3>TV</h3>
 <p>Przycisk TV:</p>
 <ul class="clean-list">
@@ -257,7 +260,7 @@
 <li>Informacyjne,</li>
 <li>Kanały zagraniczne.</li>
 </ul>
-<hr />
+<hr/>
 <p><a class="button small" href="#main-content">Wróć na górę</a></p></section><section class="module" id="kolorowe-przyciski"><h2>Kolorowe przyciski</h2><p>Kolorowe przyciski nie mają jednej stałej funkcji. Ich działanie zależy od otwartego ekranu.</p>
 <h3>W ustawieniach</h3>
 <p>Najczęściej:</p>
@@ -286,7 +289,7 @@
 <li>menedżer logów.</li>
 </ul>
 <p>Krótkie i długie działanie niebieskiego przycisku można zamienić w konfiguracji.</p>
-<hr />
+<hr/>
 <p><a class="button small" href="#main-content">Wróć na górę</a></p></section><section class="module" id="audio"><h2>AUDIO</h2><p>Przycisk AUDIO otwiera wybór ścieżki dźwiękowej.</p>
 <p>Można wybrać:</p>
 <ul class="clean-list">
@@ -298,7 +301,7 @@
 <li>dodatkowe ustawienia dźwięku.</li>
 </ul>
 <p>Dostępne opcje zależą od oglądanego kanału lub odtwarzanego pliku.</p>
-<hr />
+<hr/>
 <p><a class="button small" href="#main-content">Wróć na górę</a></p></section><section class="module" id="subtitle"><h2>SUBTITLE</h2><p>Przycisk SUBTITLE otwiera menu napisów.</p>
 <p>Można wybrać:</p>
 <ul class="clean-list">
@@ -308,11 +311,11 @@
 <li>język napisów.</li>
 </ul>
 <p>Jeżeli kanał nie nadaje napisów, lista może być pusta.</p>
-<hr />
+<hr/>
 <p><a class="button small" href="#main-content">Wróć na górę</a></p></section><section class="module" id="text"><h2>TEXT</h2><p>Przycisk TEXT uruchamia teletekst, jeżeli jest dostępny na oglądanym kanale.</p>
 <p>Przycisk EXIT zamyka teletekst.</p>
 <p>W niektórych ekranach TEXT może również zmieniać język lub układ klawiatury ekranowej.</p>
-<hr />
+<hr/>
 <p><a class="button small" href="#main-content">Wróć na górę</a></p></section><section class="module" id="pvr-file-list-video-i-media"><h2>PVR, FILE LIST, VIDEO i MEDIA</h2><p>W zależności od modelu pilota przycisk może być opisany jako PVR, VIDEO, FILE LIST albo MEDIA.</p>
 <p>Najczęściej otwiera:</p>
 <ul class="clean-list">
@@ -329,7 +332,7 @@
 <li>MENU otwiera dodatkowe operacje,</li>
 <li>EXIT wraca do poprzedniego ekranu.</li>
 </ul>
-<hr />
+<hr/>
 <p><a class="button small" href="#main-content">Wróć na górę</a></p></section><section class="module" id="rec-nagrywanie"><h2>REC — nagrywanie</h2><p>Przycisk REC otwiera opcje natychmiastowego nagrywania.</p>
 <p>Można:</p>
 <ul class="clean-list">
@@ -347,7 +350,7 @@
 <li>karty pamięci,</li>
 <li>zasobu sieciowego NFS lub CIFS.</li>
 </ul>
-<hr />
+<hr/>
 <p><a class="button small" href="#main-content">Wróć na górę</a></p></section><section class="module" id="play-pause-i-timeshift"><h2>PLAY/PAUSE i timeshift</h2><p>Podczas odtwarzania nagrania przycisk PLAY/PAUSE zatrzymuje lub wznawia materiał.</p>
 <p>Podczas oglądania telewizji może uruchamiać timeshift.</p>
 <p>Timeshift pozwala:</p>
@@ -359,7 +362,7 @@
 <li>w niektórych konfiguracjach zapisać materiał jako nagranie.</li>
 </ul>
 <p>Timeshift wymaga nośnika z odpowiednią ilością wolnego miejsca.</p>
-<hr />
+<hr/>
 <p><a class="button small" href="#main-content">Wróć na górę</a></p></section><section class="module" id="rewind-fast-forward-i-stop"><h2>REWIND, FAST FORWARD i STOP</h2><h3>REWIND</h3>
 <p>Przewija nagranie lub timeshift do tyłu. Kolejne naciśnięcia mogą zwiększać prędkość przewijania.</p>
 <h3>FAST FORWARD</h3>
@@ -373,7 +376,7 @@
 <li>timeshift,</li>
 <li>trwające nagrywanie — po potwierdzeniu.</li>
 </ul>
-<hr />
+<hr/>
 <p><a class="button small" href="#main-content">Wróć na górę</a></p></section><section class="module" id="timer-i-sleep"><h2>TIMER i SLEEP</h2><h3>TIMER</h3>
 <p>Otwiera listę zaplanowanych timerów.</p>
 <p>Timer może:</p>
@@ -392,7 +395,7 @@
 <li>wyłączenie tunera,</li>
 <li>zakończenie odtwarzania po określonym czasie.</li>
 </ul>
-<hr />
+<hr/>
 <p><a class="button small" href="#main-content">Wróć na górę</a></p></section><section class="module" id="v-mode"><h2>V.MODE</h2><p>Przycisk V.MODE zmienia sposób dopasowania obrazu do ekranu.</p>
 <p>Dostępne mogą być tryby:</p>
 <ul class="clean-list">
@@ -404,7 +407,7 @@
 <li>dopasowanie obrazu 4:3 do ekranu 16:9.</li>
 </ul>
 <p>Nie jest to to samo co zmiana rozdzielczości HDMI. Rozdzielczość 720p, 1080p lub 2160p ustawia się osobno w konfiguracji obrazu.</p>
-<hr />
+<hr/>
 <p><a class="button small" href="#main-content">Wróć na górę</a></p></section><section class="module" id="portal-i-help"><h2>PORTAL i HELP</h2><h3>PORTAL</h3>
 <p>W zależności od modelu tunera może otwierać:</p>
 <ul class="clean-list">
@@ -422,7 +425,7 @@
 <li>funkcje przycisków,</li>
 <li>instrukcję obsługi danej wtyczki.</li>
 </ul>
-<hr />
+<hr/>
 <p><a class="button small" href="#main-content">Wróć na górę</a></p></section><section class="module" id="obs-uga-listy-kana-ow"><h2>Obsługa listy kanałów</h2><p>Po otwarciu listy kanałów najczęściej działają następujące przyciski:</p>
 <ul class="clean-list">
 <li>góra i dół — wybór kanału,</li>
@@ -437,7 +440,7 @@
 <li>MENU — dodatkowe operacje,</li>
 <li>EXIT — zamknięcie listy.</li>
 </ul>
-<hr />
+<hr/>
 <p><a class="button small" href="#main-content">Wróć na górę</a></p></section><section class="module" id="najwazniejsze-funkcje-tunera-enigma2"><h2>Najważniejsze funkcje tunera Enigma2</h2><p>Pilot służy nie tylko do zmiany kanałów. Z jego pomocą można korzystać z najważniejszych możliwości odbiornika.</p>
 <h3>Konfiguracja głowic</h3>
 <p>Odpowiednia konfiguracja głowic pozwala:</p>
@@ -496,7 +499,7 @@
 <li>streaming kanałów,</li>
 <li>restart GUI lub całego systemu.</li>
 </ul>
-<hr />
+<hr/>
 <p><a class="button small" href="#main-content">Wróć na górę</a></p></section><section class="module" id="konfiguracja-w-asnych-przyciskow"><h2>Konfiguracja własnych przycisków</h2><p>W OpenATV można zmienić funkcje wielu przycisków pilota.</p>
 <p>Dla części klawiszy można przypisać oddzielnie:</p>
 <ul class="clean-list">
@@ -512,7 +515,7 @@
 <li>zainstalowane wtyczki,</li>
 <li>indywidualna konfiguracja użytkownika.</li>
 </ul>
-<hr />
+<hr/>
 <p><a class="button small" href="#main-content">Wróć na górę</a></p></section><section class="module" id="podsumowanie"><h2>Podsumowanie</h2><p>Najważniejsze przyciski Enigma2:</p>
 <ul class="clean-list">
 <li><strong>OK</strong> — zatwierdzanie i wyświetlanie informacji,</li>
@@ -531,16 +534,16 @@
 <p>Poradnik przygotowany na przykładzie <strong>Zgemma H7s i OpenATV 7.6</strong>. Większość opisanych funkcji działa podobnie w innych tunerach i systemach Enigma2.</p>
 <p><strong>Opracowanie: Paweł Pawełek</strong></p>
 <p><a class="button small" href="#main-content">Wróć na górę</a></p></section>
-        <section class="module"><h2>Grafika poradnika</h2><div class="guide-gallery"><figure><a href="pliki/guide-enigma2-pilot-funkcje.webp" target="_blank" rel="noopener"><img src="pliki/guide-enigma2-pilot-funkcje.webp" alt="Infografika przycisków pilota Enigma2" loading="lazy"></a><figcaption>Infografika: najważniejsze przyciski pilota Enigma2.</figcaption></figure></div></section>
-        <section class="module"><h2>Powiązane poradniki</h2><div class="choice-grid three"><a class="choice-card" href="guide-openatv-76.html"><span class="card-icon">📘</span><strong>OpenATV 7.6 — konfiguracja</strong><p>Pierwsza konfiguracja systemu krok po kroku.</p></a><a class="choice-card" href="guide-terminal-openwebif.html"><span class="card-icon">💻</span><strong>Terminal / OpenWebif</strong><p>Logowanie, polecenia i instalacja dodatków.</p></a><a class="choice-card" href="guide-instalacja-image.html"><span class="card-icon">💿</span><strong>Instalacja image</strong><p>Wgrywanie systemu na popularne tunery Enigma2.</p></a></div></section>
-      </main>
-    </div>
-    <footer class="site-footer">
-      <div><strong>AIO‑IPTV.pl</strong><span>Wtyczki, poradniki, listy kanałów, Multi‑Click, One‑Liner i AI Chat.</span></div>
-      <nav><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Aplikacje Android</a><a href="guides.html">Poradniki</a><a href="one-liner.html">One‑Liner</a><a href="contact.html">Kontakt</a></nav>
-      <p>© <span id="year"></span> Paweł Pawełek • <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></p>
-    </footer>
-  </div>
-  <script src="assets/js/user-premium.js?v=20260724-v12" defer></script>
-</body>
+<section class="module"><h2>Grafika poradnika</h2><div class="guide-gallery"><figure><a href="pliki/guide-enigma2-pilot-funkcje.webp" rel="noopener" target="_blank"><img alt="Infografika przycisków pilota Enigma2" loading="lazy" src="pliki/guide-enigma2-pilot-funkcje.webp"/></a><figcaption>Infografika: najważniejsze przyciski pilota Enigma2.</figcaption></figure></div></section>
+<section class="module"><h2>Powiązane poradniki</h2><div class="choice-grid three"><a class="choice-card" href="guide-openatv-76.html"><span class="card-icon">📘</span><strong>OpenATV 7.6 — konfiguracja</strong><p>Pierwsza konfiguracja systemu krok po kroku.</p></a><a class="choice-card" href="guide-terminal-openwebif.html"><span class="card-icon">💻</span><strong>Terminal / OpenWebif</strong><p>Logowanie, polecenia i instalacja dodatków.</p></a><a class="choice-card" href="guide-instalacja-image.html"><span class="card-icon">💿</span><strong>Instalacja image</strong><p>Wgrywanie systemu na popularne tunery Enigma2.</p></a></div></section>
+</main>
+</div>
+<footer class="site-footer">
+<div><strong>AIO‑IPTV.pl</strong><span>Wtyczki, poradniki, listy kanałów, Multi‑Click, One‑Liner i AI Chat.</span></div>
+<nav><a href="downloads.html">Pobieranie</a><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Android</a><a href="windows-apps.html">Windows</a><a href="guides.html">Poradniki</a><a href="systems.html">Systemy</a><a href="compatibility.html">Zgodność</a><a href="report-error.html">Zgłoś błąd</a><a href="contact.html">Kontakt</a></nav>
+<p>© <span id="year"></span> Paweł Pawełek • <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></p>
+</footer>
+</div>
+<script defer="" src="assets/js/user-premium.js?v=20260724-v12"></script>
+<script defer="True" src="assets/js/pro-suite.js?v=20260724-pro1"></script></body>
 </html>

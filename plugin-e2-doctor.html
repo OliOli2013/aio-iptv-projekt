@@ -1,168 +1,162 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="pl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0d2633">
-  <title>E2 Doctor 2.3 | AIO-IPTV.pl</title>
-  <meta name="description" content="E2 Doctor 2.3 — centrum diagnostyki i bezpiecznej naprawy Enigma2 Python 3. Kontrola kondycji tunera, analiza problemów, bezpieczne działania naprawcze, raporty i aktualizacja z GitHub.">
-  <link rel="icon" href="pliki/logo.png">
-  <link rel="manifest" href="manifest.json">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/user-premium.css?v=20260724-v12">
-</head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="#0d2633" name="theme-color"/>
+<title>E2 Doctor 2.3 | AIO-IPTV.pl</title>
+<meta content="E2 Doctor 2.3 — centrum diagnostyki i bezpiecznej naprawy Enigma2 Python 3. Kontrola kondycji tunera, analiza problemów, bezpieczne działania naprawcze, raporty i aktualizacja z GitHub." name="description"/>
+<link href="pliki/logo.png" rel="icon"/>
+<link href="manifest.json" rel="manifest"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Caveat:wght@700&amp;display=swap" rel="stylesheet"/>
+<link href="assets/css/user-premium.css?v=20260724-v12" rel="stylesheet"/>
+<link href="assets/css/pro-suite.css?v=20260724-pro1" rel="stylesheet"/><meta content="dark" name="color-scheme"/><link href="https://olioli2013.github.io/aio-iptv-projekt/plugin-e2-doctor.html" rel="canonical"/><meta content="E2 Doctor 2.3 | AIO-IPTV.pl" property="og:title"/><meta content="E2 Doctor 2.3 — centrum diagnostyki i bezpiecznej naprawy Enigma2 Python 3. Kontrola kondycji tunera, analiza problemów, bezpieczne działania naprawcze, raporty i aktualizacja z GitHub." property="og:description"/><meta content="website" property="og:type"/><meta content="https://olioli2013.github.io/aio-iptv-projekt/plugin-e2-doctor.html" property="og:url"/></head>
 <body class="">
-  <a class="skip-link" href="#main-content">Przejdź do treści</a>
-  <div class="page-shell">
-    <header class="site-header">
-      <div class="brand-row">
-        <a class="brand" href="index.html"><img src="pliki/logo.png" alt="AIO-IPTV.pl"><span><strong>AIO‑IPTV.pl</strong><small>Enigma2 • IPTV • pomoc</small></span></a>
-        <a class="header-download" href="plugin-aio-panel.html">AIO Panel 14.0.1</a>
-      </div>
-      <nav class="main-nav" data-menu><a class="" href="index.html">Start</a><a class="" href="plugins.html">Wtyczki</a><a class="" href="android-apps.html">Aplikacje Android</a><a class="" href="guides.html">Poradniki</a><a class="" href="systems.html">Multi-Click i systemy</a><a class="" href="channel-lists.html">Listy kanałów</a><a class="" href="one-liner.html">One-Liner / FTP</a><a class="" href="ai-chat.html">AI Chat</a><a class="" href="contact.html">Kontakt i wsparcie</a></nav>
-      <button class="mobile-menu" type="button" data-menu-toggle>Menu</button>
-    </header>
-    <div class="content-layout">
-      <aside class="side-panel"><h2>Pomoc użytkownika</h2><nav><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Aplikacje Android</a><a href="guides.html">Poradniki</a><a href="one-liner.html">One‑Liner / FTP</a><a href="channel-lists.html">Listy kanałów</a><a href="systems.html">Multi‑Click i systemy</a><a href="ai-chat.html">AI Chat</a><a href="contact.html">Kontakt i wsparcie</a></nav><div class="side-help"><strong>Szybka pomoc</strong><a href="guide-terminal-openwebif.html">Terminal / OpenWebif</a><a href="guide-oscam.html">Dane do OSCam</a><a href="guide-xstremity.html">IPTV do Xstremity</a><a href="help-softcam-feed.html">SoftCam feed</a><a href="help-picons-serviceref.html">Picony / ServiceRef</a><a href="help-restart-gui.html">Restart GUI</a></div></aside>
-      <main id="main-content" class="content-main">
-        <section class="hero-compact">
-          <div>
-            <p class="script-line">Witam na mojej stronie <span>Paweł Pawełek</span></p>
-            <p class="eyebrow">Centrum diagnostyki i bezpiecznej naprawy</p>
-            <h1>🩺 E2 Doctor 2.3</h1>
-            <p class="lead">Codzienne narzędzie dla dekoderów Enigma2 z <strong>Pythonem 3</strong>. Sprawdza kondycję tunera, wykrywa problemy, wyjaśnia ich możliwe przyczyny i — tam, gdzie jest to bezpieczne — pozwala uruchomić odpowiednie działanie naprawcze.</p>
-            <div class="action-row"><a class="button primary" href="pliki/enigma2-plugin-extensions-e2doctor_2.3_all.ipk">Pobierz IPK 2.3</a><a class="button" href="#github">Instalacja z GitHub</a><a class="button" href="plugins.html">Wróć do wtyczek</a></div>
-          </div>
-          <figure><img src="pliki/e2-doctor-2.3-main.png" alt="E2 Doctor 2.3 — centrum diagnostyki Enigma2"><figcaption>E2 Doctor 2.3</figcaption></figure>
-        </section>
-
-        <div class="detail-grid">
-          <section class="module">
-            <h2>Centrum kondycji tunera</h2>
-            <p>E2 Doctor pokazuje ogólną kondycję dekodera w skali <strong>0–100</strong>, liczbę prawidłowych wyników, informacji, ostrzeżeń i błędów. Najważniejsze problemy są wyróżniane, aby użytkownik od razu wiedział, od czego zacząć.</p>
-            <p>Każdy moduł ma własny piktogram, krótki opis i czytelne oznaczenie statusu. Wtyczka została przygotowana jako praktyczne narzędzie do regularnej kontroli systemu, a nie tylko jednorazowy skaner.</p>
-          </section>
-          <section class="module">
-            <h2>Informacje o wydaniu</h2>
-            <p><strong>Wersja:</strong> 2.3<br><strong>Wymagania:</strong> Enigma2 Python 3<br><strong>Autor:</strong> by Paweł Pawełek<br><strong>Kontakt:</strong> <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></p>
-            <p><strong>Plik:</strong> <a href="pliki/enigma2-plugin-extensions-e2doctor_2.3_all.ipk">enigma2-plugin-extensions-e2doctor_2.3_all.ipk</a> — około 262 KB</p>
-            <p class="info-box">Każda operacja wymagająca zmian musi zostać zatwierdzona przez użytkownika. E2 Doctor nie przywraca ustawień fabrycznych i nie usuwa konfiguracji tunera.</p>
-          </section>
-        </div>
-
-        <section class="module">
-          <h2>Co sprawdza E2 Doctor?</h2>
-          <div class="detail-grid">
-            <div>
-              <ul class="clean-list">
-                <li>system, wersję obrazu i Pythona</li>
-                <li>pamięć flash, RAM, CPU i temperaturę</li>
-                <li>połączenie sieciowe, adres IP, DNS i HTTPS</li>
-                <li>listy kanałów, <code>lamedb</code> i odwołania do bukietów</li>
-                <li>głowice, konfigurację tunerów i bieżący sygnał</li>
-                <li>dyski, pendrive’y i punkty montowania</li>
-              </ul>
-            </div>
-            <div>
-              <ul class="clean-list">
-                <li>menedżer pakietów OPKG</li>
-                <li>działanie OSCam</li>
-                <li>EPG i picony</li>
-                <li>zainstalowane wtyczki pod kątem zgodności z Pythonem 3</li>
-                <li>crashlogi Enigma2 wraz z próbą wskazania źródła błędu</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        <section class="module">
-          <h2>Pomoc i bezpieczna naprawa</h2>
-          <p>Po wejściu w wykryty problem E2 Doctor pokazuje, co zostało wykryte, możliwą przyczynę, konsekwencje problemu, instrukcję postępowania krok po kroku oraz dostępne bezpieczne działania.</p>
-          <div class="detail-grid">
-            <div>
-              <h3>Porządkowanie i pamięć</h3>
-              <ul class="clean-list">
-                <li>oczyszczenie starych crashlogów i plików tymczasowych</li>
-                <li>sprawdzenie największych plików zajmujących pamięć flash</li>
-                <li>odświeżenie pamięci RAM bez zatrzymywania procesów</li>
-              </ul>
-            </div>
-            <div>
-              <h3>System i usługi</h3>
-              <ul class="clean-list">
-                <li>usunięcie nieaktywnej blokady OPKG</li>
-                <li>ponowne uruchomienie OSCam</li>
-                <li>wykonanie rozszerzonego testu sieci</li>
-                <li>tymczasowe wyłączenie podejrzanej wtyczki</li>
-              </ul>
-            </div>
-          </div>
-          <div class="detail-grid">
-            <div>
-              <h3>Listy kanałów</h3>
-              <ul class="clean-list">
-                <li>naprawa brakujących odwołań do bukietów</li>
-                <li>przeładowanie listy kanałów</li>
-              </ul>
-            </div>
-            <div>
-              <h3>Diagnostyka</h3>
-              <ul class="clean-list">
-                <li>przygotowanie pełnego raportu diagnostycznego</li>
-                <li>analiza crashlogów i próba wskazania źródła problemu</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        <section class="module">
-          <h2>Język polski i angielski</h2>
-          <p>Domyślnie E2 Doctor korzysta z języka systemu:</p>
-          <ul class="clean-list">
-            <li>🇵🇱 polski system — interfejs polski</li>
-            <li>🇬🇧 każdy inny język systemu — interfejs angielski</li>
-          </ul>
-          <p>Język można również ustawić ręcznie w ustawieniach wtyczki.</p>
-        </section>
-
-        <section class="module">
-          <h2>Aktualizacja z GitHub i weryfikacja paczki</h2>
-          <p>E2 Doctor posiada własny moduł aktualizacji. Wtyczka sprawdza dostępność nowej wersji, pobiera paczkę z GitHub i przed instalacją weryfikuje jej sumę <strong>SHA-256</strong>.</p>
-        </section>
-
-        <section class="module">
-          <h2>Zdjęcie / podgląd</h2>
-          <div class="guide-gallery">
-            <figure><a href="pliki/e2-doctor-2.3-main.png" target="_blank" rel="noopener"><img src="pliki/e2-doctor-2.3-main.png" alt="E2 Doctor 2.3 — nowoczesny panel diagnostyczny" loading="lazy"></a><figcaption>Główny ekran E2 Doctor 2.3 z oceną kondycji tunera, statystykami oraz modułami diagnostycznymi.</figcaption></figure>
-          </div>
-        </section>
-
-        <section class="module" id="github">
-          <h2>Instalacja bezpośrednio z GitHub</h2>
-          <p>Polecenie wklej w terminalu SSH, Telnet lub konsoli dekodera. Po instalacji wykonaj restart GUI Enigma2.</p>
-          <div class="command"><div><strong>E2 Doctor 2.3 — instalator GitHub</strong><button type="button" data-copy="wget -q -O - https://raw.githubusercontent.com/OliOli2013/E2-Doctor-Plugin/main/installer.sh | /bin/sh">Kopiuj</button></div><pre><code>wget -q -O - https://raw.githubusercontent.com/OliOli2013/E2-Doctor-Plugin/main/installer.sh | /bin/sh</code></pre><p class="command-note">Instalator pobiera aktualne wydanie z repozytorium projektu.</p></div>
-        </section>
-
-        <section class="module" id="ftp">
-          <h2>Instalacja pobranego IPK przez FTP</h2>
-          <p>Wgraj plik IPK do katalogu <code>/tmp</code>, a następnie wykonaj poniższe polecenie w terminalu.</p>
-          <div class="command"><div><strong>Instalacja IPK z /tmp</strong><button type="button" data-copy="opkg install /tmp/enigma2-plugin-extensions-e2doctor_2.3_all.ipk">Kopiuj</button></div><pre><code>opkg install /tmp/enigma2-plugin-extensions-e2doctor_2.3_all.ipk</code></pre><p class="command-note">Po zakończeniu instalacji wykonaj restart GUI Enigma2.</p></div>
-        </section>
-
-        <section class="module">
-          <h2>Testy i zgłoszenia</h2>
-          <p>Wszelkie zauważone problemy oraz propozycje kolejnych funkcji można zgłaszać w komentarzach pod postem lub przez adres <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a>.</p>
-        </section>
-      </main>
-    </div>
-    <footer class="site-footer">
-      <div><strong>AIO‑IPTV.pl</strong><span>Wtyczki, poradniki, listy kanałów, Multi‑Click, One‑Liner i AI Chat.</span></div>
-      <nav><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Aplikacje Android</a><a href="guides.html">Poradniki</a><a href="one-liner.html">One‑Liner</a><a href="contact.html">Kontakt</a></nav>
-      <p>© <span id="year"></span> Paweł Pawełek • <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></p>
-    </footer>
-  </div>
-  <script src="assets/js/user-premium.js?v=20260724-v12" defer></script>
-</body>
+<a class="skip-link" href="#main-content">Przejdź do treści</a>
+<div class="page-shell">
+<header class="site-header">
+<div class="brand-row">
+<a class="brand" href="index.html"><img alt="AIO-IPTV.pl" src="pliki/logo.png"/><span><strong>AIO‑IPTV.pl</strong><small>Enigma2 • IPTV • pomoc</small></span></a>
+<a class="header-download" href="plugin-aio-panel.html">AIO Panel 14.0.1</a>
+</div>
+<nav class="main-nav" data-menu="">
+<a href="index.html">Start</a><a href="downloads.html">Centrum pobierania</a><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Android</a><a href="windows-apps.html">Windows</a><a href="guides.html">Poradniki</a><a href="systems.html">Systemy</a><a href="channel-lists.html">Listy kanałów</a><a href="compatibility.html">Zgodność</a><a href="report-error.html">Zgłoś błąd</a><a href="contact.html">Kontakt</a>
+</nav>
+<button class="mobile-menu" data-menu-toggle="" type="button">Menu</button>
+</header>
+<div class="content-layout">
+<aside class="side-panel"><h2>Pomoc użytkownika</h2><nav><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Aplikacje Android</a><a href="guides.html">Poradniki</a><a href="one-liner.html">One‑Liner / FTP</a><a href="channel-lists.html">Listy kanałów</a><a href="systems.html">Multi‑Click i systemy</a><a href="ai-chat.html">AI Chat</a><a href="contact.html">Kontakt i wsparcie</a></nav><div class="side-help"><strong>Szybka pomoc</strong><a href="guide-terminal-openwebif.html">Terminal / OpenWebif</a><a href="guide-oscam.html">Dane do OSCam</a><a href="guide-xstremity.html">IPTV do Xstremity</a><a href="help-softcam-feed.html">SoftCam feed</a><a href="help-picons-serviceref.html">Picony / ServiceRef</a><a href="help-restart-gui.html">Restart GUI</a></div></aside>
+<main class="content-main" id="main-content">
+<section class="hero-compact">
+<div>
+<p class="script-line">Witam na mojej stronie <span>Paweł Pawełek</span></p>
+<p class="eyebrow">Centrum diagnostyki i bezpiecznej naprawy</p>
+<h1>🩺 E2 Doctor 2.3</h1>
+<p class="lead">Codzienne narzędzie dla dekoderów Enigma2 z <strong>Pythonem 3</strong>. Sprawdza kondycję tunera, wykrywa problemy, wyjaśnia ich możliwe przyczyny i — tam, gdzie jest to bezpieczne — pozwala uruchomić odpowiednie działanie naprawcze.</p>
+<div class="action-row"><a class="button primary" href="pliki/enigma2-plugin-extensions-e2doctor_2.3_all.ipk">Pobierz IPK 2.3</a><a class="button" href="#github">Instalacja z GitHub</a><a class="button" href="plugins.html">Wróć do wtyczek</a></div>
+</div>
+<figure><img alt="E2 Doctor 2.3 — centrum diagnostyki Enigma2" src="pliki/e2-doctor-2.3-main.png"/><figcaption>E2 Doctor 2.3</figcaption></figure>
+</section>
+<div class="detail-grid">
+<section class="module">
+<h2>Centrum kondycji tunera</h2>
+<p>E2 Doctor pokazuje ogólną kondycję dekodera w skali <strong>0–100</strong>, liczbę prawidłowych wyników, informacji, ostrzeżeń i błędów. Najważniejsze problemy są wyróżniane, aby użytkownik od razu wiedział, od czego zacząć.</p>
+<p>Każdy moduł ma własny piktogram, krótki opis i czytelne oznaczenie statusu. Wtyczka została przygotowana jako praktyczne narzędzie do regularnej kontroli systemu, a nie tylko jednorazowy skaner.</p>
+</section>
+<section class="module">
+<h2>Informacje o wydaniu</h2>
+<p><strong>Wersja:</strong> 2.3<br/><strong>Wymagania:</strong> Enigma2 Python 3<br/><strong>Autor:</strong> by Paweł Pawełek<br/><strong>Kontakt:</strong> <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></p>
+<p><strong>Plik:</strong> <a href="pliki/enigma2-plugin-extensions-e2doctor_2.3_all.ipk">enigma2-plugin-extensions-e2doctor_2.3_all.ipk</a> — około 262 KB</p>
+<p class="info-box">Każda operacja wymagająca zmian musi zostać zatwierdzona przez użytkownika. E2 Doctor nie przywraca ustawień fabrycznych i nie usuwa konfiguracji tunera.</p>
+</section>
+</div>
+<section class="module">
+<h2>Co sprawdza E2 Doctor?</h2>
+<div class="detail-grid">
+<div>
+<ul class="clean-list">
+<li>system, wersję obrazu i Pythona</li>
+<li>pamięć flash, RAM, CPU i temperaturę</li>
+<li>połączenie sieciowe, adres IP, DNS i HTTPS</li>
+<li>listy kanałów, <code>lamedb</code> i odwołania do bukietów</li>
+<li>głowice, konfigurację tunerów i bieżący sygnał</li>
+<li>dyski, pendrive’y i punkty montowania</li>
+</ul>
+</div>
+<div>
+<ul class="clean-list">
+<li>menedżer pakietów OPKG</li>
+<li>działanie OSCam</li>
+<li>EPG i picony</li>
+<li>zainstalowane wtyczki pod kątem zgodności z Pythonem 3</li>
+<li>crashlogi Enigma2 wraz z próbą wskazania źródła błędu</li>
+</ul>
+</div>
+</div>
+</section>
+<section class="module">
+<h2>Pomoc i bezpieczna naprawa</h2>
+<p>Po wejściu w wykryty problem E2 Doctor pokazuje, co zostało wykryte, możliwą przyczynę, konsekwencje problemu, instrukcję postępowania krok po kroku oraz dostępne bezpieczne działania.</p>
+<div class="detail-grid">
+<div>
+<h3>Porządkowanie i pamięć</h3>
+<ul class="clean-list">
+<li>oczyszczenie starych crashlogów i plików tymczasowych</li>
+<li>sprawdzenie największych plików zajmujących pamięć flash</li>
+<li>odświeżenie pamięci RAM bez zatrzymywania procesów</li>
+</ul>
+</div>
+<div>
+<h3>System i usługi</h3>
+<ul class="clean-list">
+<li>usunięcie nieaktywnej blokady OPKG</li>
+<li>ponowne uruchomienie OSCam</li>
+<li>wykonanie rozszerzonego testu sieci</li>
+<li>tymczasowe wyłączenie podejrzanej wtyczki</li>
+</ul>
+</div>
+</div>
+<div class="detail-grid">
+<div>
+<h3>Listy kanałów</h3>
+<ul class="clean-list">
+<li>naprawa brakujących odwołań do bukietów</li>
+<li>przeładowanie listy kanałów</li>
+</ul>
+</div>
+<div>
+<h3>Diagnostyka</h3>
+<ul class="clean-list">
+<li>przygotowanie pełnego raportu diagnostycznego</li>
+<li>analiza crashlogów i próba wskazania źródła problemu</li>
+</ul>
+</div>
+</div>
+</section>
+<section class="module">
+<h2>Język polski i angielski</h2>
+<p>Domyślnie E2 Doctor korzysta z języka systemu:</p>
+<ul class="clean-list">
+<li>🇵🇱 polski system — interfejs polski</li>
+<li>🇬🇧 każdy inny język systemu — interfejs angielski</li>
+</ul>
+<p>Język można również ustawić ręcznie w ustawieniach wtyczki.</p>
+</section>
+<section class="module">
+<h2>Aktualizacja z GitHub i weryfikacja paczki</h2>
+<p>E2 Doctor posiada własny moduł aktualizacji. Wtyczka sprawdza dostępność nowej wersji, pobiera paczkę z GitHub i przed instalacją weryfikuje jej sumę <strong>SHA-256</strong>.</p>
+</section>
+<section class="module">
+<h2>Zdjęcie / podgląd</h2>
+<div class="guide-gallery">
+<figure><a href="pliki/e2-doctor-2.3-main.png" rel="noopener" target="_blank"><img alt="E2 Doctor 2.3 — nowoczesny panel diagnostyczny" loading="lazy" src="pliki/e2-doctor-2.3-main.png"/></a><figcaption>Główny ekran E2 Doctor 2.3 z oceną kondycji tunera, statystykami oraz modułami diagnostycznymi.</figcaption></figure>
+</div>
+</section>
+<section class="module" id="github">
+<h2>Instalacja bezpośrednio z GitHub</h2>
+<p>Polecenie wklej w terminalu SSH, Telnet lub konsoli dekodera. Po instalacji wykonaj restart GUI Enigma2.</p>
+<div class="command"><div><strong>E2 Doctor 2.3 — instalator GitHub</strong><button data-copy="wget -q -O - https://raw.githubusercontent.com/OliOli2013/E2-Doctor-Plugin/main/installer.sh | /bin/sh" type="button">Kopiuj</button></div><pre><code>wget -q -O - https://raw.githubusercontent.com/OliOli2013/E2-Doctor-Plugin/main/installer.sh | /bin/sh</code></pre><p class="command-note">Instalator pobiera aktualne wydanie z repozytorium projektu.</p></div>
+</section>
+<section class="module" id="ftp">
+<h2>Instalacja pobranego IPK przez FTP</h2>
+<p>Wgraj plik IPK do katalogu <code>/tmp</code>, a następnie wykonaj poniższe polecenie w terminalu.</p>
+<div class="command"><div><strong>Instalacja IPK z /tmp</strong><button data-copy="opkg install /tmp/enigma2-plugin-extensions-e2doctor_2.3_all.ipk" type="button">Kopiuj</button></div><pre><code>opkg install /tmp/enigma2-plugin-extensions-e2doctor_2.3_all.ipk</code></pre><p class="command-note">Po zakończeniu instalacji wykonaj restart GUI Enigma2.</p></div>
+</section>
+<section class="module">
+<h2>Testy i zgłoszenia</h2>
+<p>Wszelkie zauważone problemy oraz propozycje kolejnych funkcji można zgłaszać w komentarzach pod postem lub przez adres <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a>.</p>
+</section>
+</main>
+</div>
+<footer class="site-footer">
+<div><strong>AIO‑IPTV.pl</strong><span>Wtyczki, poradniki, listy kanałów, Multi‑Click, One‑Liner i AI Chat.</span></div>
+<nav><a href="downloads.html">Pobieranie</a><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Android</a><a href="windows-apps.html">Windows</a><a href="guides.html">Poradniki</a><a href="systems.html">Systemy</a><a href="compatibility.html">Zgodność</a><a href="report-error.html">Zgłoś błąd</a><a href="contact.html">Kontakt</a></nav>
+<p>© <span id="year"></span> Paweł Pawełek • <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></p>
+</footer>
+</div>
+<script defer="" src="assets/js/user-premium.js?v=20260724-v12"></script>
+<script defer="True" src="assets/js/pro-suite.js?v=20260724-pro1"></script></body>
 </html>

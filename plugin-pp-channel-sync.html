@@ -1,144 +1,139 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="pl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0d2633">
-  <title>PP Channel Sync 2.1.1 | AIO-IPTV.pl</title>
-  <meta name="description" content="PP Channel Sync 2.1.1 dla Enigma2 Python 2/3 — poprawiona obsługa niestandardowych wpisów #SERVICE, zgodność z Egami i OpenATV, czyszczenie starego kodu Python oraz wszystkie funkcje bezpiecznej synchronizacji list.">
-  <link rel="icon" href="pliki/logo.png">
-  <link rel="manifest" href="manifest.json">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/user-premium.css?v=20260724-v12">
-</head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="#0d2633" name="theme-color"/>
+<title>PP Channel Sync 2.1.1 | AIO-IPTV.pl</title>
+<meta content="PP Channel Sync 2.1.1 dla Enigma2 Python 2/3 — poprawiona obsługa niestandardowych wpisów #SERVICE, zgodność z Egami i OpenATV, czyszczenie starego kodu Python oraz wszystkie funkcje bezpiecznej synchronizacji list." name="description"/>
+<link href="pliki/logo.png" rel="icon"/>
+<link href="manifest.json" rel="manifest"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Caveat:wght@700&amp;display=swap" rel="stylesheet"/>
+<link href="assets/css/user-premium.css?v=20260724-v12" rel="stylesheet"/>
+<link href="assets/css/pro-suite.css?v=20260724-pro1" rel="stylesheet"/><meta content="dark" name="color-scheme"/><link href="https://olioli2013.github.io/aio-iptv-projekt/plugin-pp-channel-sync.html" rel="canonical"/><meta content="PP Channel Sync 2.1.1 | AIO-IPTV.pl" property="og:title"/><meta content="PP Channel Sync 2.1.1 dla Enigma2 Python 2/3 — poprawiona obsługa niestandardowych wpisów #SERVICE, zgodność z Egami i OpenATV, czyszczenie starego kodu Python oraz wszystkie funkcje bezpiecznej synchronizacji list." property="og:description"/><meta content="website" property="og:type"/><meta content="https://olioli2013.github.io/aio-iptv-projekt/plugin-pp-channel-sync.html" property="og:url"/></head>
 <body class="">
-  <a class="skip-link" href="#main-content">Przejdź do treści</a>
-  <div class="page-shell">
-    <header class="site-header">
-      <div class="brand-row">
-        <a class="brand" href="index.html"><img src="pliki/logo.png" alt="AIO-IPTV.pl"><span><strong>AIO‑IPTV.pl</strong><small>Enigma2 • IPTV • pomoc</small></span></a>
-        <a class="header-download" href="plugin-aio-panel.html">AIO Panel 14.0.1</a>
-      </div>
-      <nav class="main-nav" data-menu><a href="index.html">Start</a><a class="active" href="plugins.html">Wtyczki</a><a href="android-apps.html">Aplikacje Android</a><a href="windows-apps.html">Aplikacje Windows</a><a href="guides.html">Poradniki</a><a href="systems.html">Multi-Click i systemy</a><a href="channel-lists.html">Listy kanałów</a><a href="one-liner.html">One-Liner / FTP</a><a href="ai-chat.html">AI Chat</a><a href="contact.html">Kontakt i wsparcie</a></nav>
-      <button class="mobile-menu" type="button" data-menu-toggle>Menu</button>
-    </header>
-    <div class="content-layout">
-      <aside class="side-panel"><h2>Pomoc użytkownika</h2><nav><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Aplikacje Android</a><a href="windows-apps.html">Aplikacje Windows</a><a href="guides.html">Poradniki</a><a href="one-liner.html">One‑Liner / FTP</a><a href="channel-lists.html">Listy kanałów</a><a href="systems.html">Multi‑Click i systemy</a><a href="ai-chat.html">AI Chat</a><a href="contact.html">Kontakt i wsparcie</a></nav><div class="side-help"><strong>Szybka pomoc</strong><a href="guide-terminal-openwebif.html">Terminal / OpenWebif</a><a href="guide-oscam.html">Dane do OSCam</a><a href="guide-xstremity.html">IPTV do Xstremity</a><a href="help-softcam-feed.html">SoftCam feed</a><a href="help-picons-serviceref.html">Picony / ServiceRef</a><a href="help-restart-gui.html">Restart GUI</a></div></aside>
-      <main id="main-content" class="content-main">
-        <section class="hero-compact">
-          <div>
-            <p class="script-line">Witam na mojej stronie <span>Paweł Pawełek</span></p>
-            <p class="eyebrow">Aktualizacja na podstawie raportów użytkowników • Egami i OpenATV</p>
-            <h1>PP Channel Sync 2.1.1</h1>
-            <p class="lead">Wersja 2.1.1 poprawia zgodność z listami zawierającymi niestandardowe wpisy techniczne <code>#SERVICE</code>. Zastane wpisy nie blokują już całej synchronizacji, a ochrona nadal zatrzymuje zapis rzeczywiście uszkodzonego odwołania utworzonego lub zmienionego przez wtyczkę.</p>
-            <div class="action-row"><a class="button primary" href="pliki/enigma2-plugin-extensions-ppchannelsync_2.1.1_all.ipk">Pobierz IPK 2.1.1</a><a class="button" href="#instalacja">Instalacja z GitHub</a><a class="button" href="plugins.html">Wróć do wtyczek</a></div>
-          </div>
-          <figure><img src="pliki/pp-channel-sync-2.1.1-screen.png" alt="PP Channel Sync 2.1.1"><figcaption>PP Channel Sync 2.1.1</figcaption></figure>
-        </section>
-
-        <section class="module">
-          <h2>🚀 Co poprawiono w wersji 2.1.1?</h2>
-          <div class="info-box"><strong>Aktualizacja powstała po analizie raportów z Egami, OpenATV 8.0 beta i innych obrazów Enigma2.</strong> W wybranych listach występowały niestandardowe wpisy techniczne, które wcześniej mogły przerwać operację i uruchomić automatyczne przywracanie kopii.</div>
-          <div class="detail-grid">
-            <div>
-              <ul class="clean-list">
-                <li>poprawiono obsługę niestandardowych wpisów <code>#SERVICE</code></li>
-                <li>zastane wpisy techniczne nie blokują już całej synchronizacji</li>
-                <li>walidowane są przede wszystkim wpisy utworzone lub zmienione przez PP Channel Sync</li>
-                <li>zachowano blokadę przed zapisaniem rzeczywiście uszkodzonego <em>service reference</em></li>
-              </ul>
-            </div>
-            <div>
-              <ul class="clean-list">
-                <li>poprawiono działanie na systemach Egami oraz najnowszych wersjach OpenATV</li>
-                <li>instalator usuwa stare pliki <code>pyc</code>, <code>pyo</code> i katalogi <code>__pycache__</code></li>
-                <li>tuner nie powinien już uruchamiać wcześniejszej wersji kodu z pamięci podręcznej</li>
-                <li>poprawiono aktualizację między starszymi wersjami 1.x i gałęzią 2.x</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        <section class="module">
-          <h2>Wszystkie wcześniejsze poprawki pozostają aktywne</h2>
-          <div class="detail-grid">
-            <div>
-              <h3>Bazy, źródła i satelity</h3>
-              <ul class="clean-list">
-                <li>pełna obsługa baz <strong>lamedb</strong> oraz <strong>lamedb5</strong></li>
-                <li>pobieranie list kontrolnych zamiast błędnych paczek z piconami</li>
-                <li>obsługa dodatkowych i zagnieżdżonych archiwów</li>
-                <li>synchronizacja kilku satelitów podczas jednej operacji</li>
-                <li>osobna analiza każdej zaznaczonej pozycji orbitalnej</li>
-                <li>wykrywanie satelitów z list, bazy Enigma2 i konfiguracji głowic</li>
-              </ul>
-            </div>
-            <div>
-              <h3>Bukiety i nowe kanały</h3>
-              <ul class="clean-list">
-                <li>nowe kanały są dopisywane na dole właściwych bukietów</li>
-                <li>separator i oznaczenie nowych kanałów przez PP Channel Sync</li>
-                <li>data synchronizacji oraz podpis <strong>@ PP Channel Sync</strong></li>
-                <li>brak dublowania kanałów, separatorów i wpisów informacyjnych</li>
-                <li>zachowanie dotychczasowej kolejności kanałów i układu bukietów</li>
-                <li>brak ingerencji w DVB-T, DVB-C oraz IPTV</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        <section class="module">
-          <h2>Bezpieczeństwo listy</h2>
-          <p>PP Channel Sync nie zastępuje całej listy użytkownika. Analizuje konfigurację znajdującą się na tunerze, poprawia zmienione parametry kanałów satelitarnych i dopisuje wykryte nowości do odpowiednich bukietów.</p>
-          <div class="detail-grid">
-            <div><ul class="clean-list"><li>przed zmianami wykonywana jest kopia bezpieczeństwa</li><li>sprawdzana jest poprawność danych przed zapisem</li><li>rzeczywiście uszkodzone wpisy nadal są blokowane</li></ul></div>
-            <div><ul class="clean-list"><li>w przypadku błędu operacja jest cofana</li><li>lista jest automatycznie przywracana z kopii</li><li>rozszerzone raporty pomagają ustalić źródło problemu</li></ul></div>
-          </div>
-        </section>
-
-        <section class="module">
-          <h2>Obsługa wtyczki</h2>
-          <ol class="steps-list">
-            <li>Naciśnij <strong>żółty przycisk</strong>, aby wybrać jedną lub kilka pozycji orbitalnych.</li>
-            <li>Sprawdź tryb pracy oraz pozostałe opcje korekty.</li>
-            <li>Naciśnij <strong>zielony przycisk</strong>, aby uruchomić analizę i synchronizację.</li>
-            <li>Po zakończeniu otwórz raport i sprawdź podsumowanie zmian.</li>
-          </ol>
-          <div class="info-box"><strong>Przyciski:</strong> OK — funkcja lub opcja, zielony — uruchom, żółty — wybór satelitów, niebieski — przywróć, MENU — raport, czerwony / EXIT — wyjście.</div>
-        </section>
-
-        <section class="module">
-          <h2>Zdjęcie wtyczki</h2>
-          <div class="guide-gallery"><figure><a href="pliki/pp-channel-sync-2.1.1-screen.png" target="_blank" rel="noopener"><img src="pliki/pp-channel-sync-2.1.1-screen.png" alt="Ekran PP Channel Sync 2.1.1" loading="lazy"></a><figcaption>Ekran PP Channel Sync 2.1.1 z wyborem satelitów, trybem bezpiecznej korekty, raportami i funkcją przywracania.</figcaption></figure></div>
-        </section>
-
-        <section class="module" id="instalacja">
-          <h2>Instalacja lub aktualizacja</h2>
-          <p>Instalację można wykonać z poziomu <strong>AIO Panel</strong>, z pozycji samej wtyczki PP Channel Sync albo przez terminal. Po instalacji wykonaj restart interfejsu Enigma2.</p>
-          <div class="command"><div><strong>Instalacja bezpośrednio z GitHub — bez użycia starego cache</strong><button type="button" data-copy="wget -q -O - &quot;https://raw.githubusercontent.com/OliOli2013/PPChannelSync-Plugin/main/installer.sh?$(date +%s)&quot; | /bin/sh">Kopiuj</button></div><pre><code>wget -q -O - "https://raw.githubusercontent.com/OliOli2013/PPChannelSync-Plugin/main/installer.sh?$(date +%s)" | /bin/sh</code></pre><p class="command-note">Parametr z bieżącym czasem ogranicza ryzyko pobrania starej wersji instalatora z pamięci podręcznej.</p></div>
-          <div class="command"><div><strong>Instalacja pobranego IPK z katalogu /tmp</strong><button type="button" data-copy="opkg install --force-reinstall /tmp/enigma2-plugin-extensions-ppchannelsync_2.1.1_all.ipk">Kopiuj</button></div><pre><code>opkg install --force-reinstall /tmp/enigma2-plugin-extensions-ppchannelsync_2.1.1_all.ipk</code></pre></div>
-        </section>
-
-        <section class="module">
-          <h2>Raport błędów</h2>
-          <p>W przypadku dalszego problemu podaj model tunera, nazwę i wersję systemu, wersję Pythona oraz zawartość pliku:</p>
-          <div class="command"><pre><code>/tmp/ppchannelsync_error.txt</code></pre></div>
-        </section>
-
-        <section class="module">
-          <h2>Informacje</h2>
-          <p><strong>Wersja:</strong> 2.1.1<br><strong>System:</strong> Enigma2 Python 2/3<br><strong>Autor:</strong> by Paweł Pawełek<br><strong>Kontakt:</strong> <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></p>
-        </section>
-      </main>
-    </div>
-    <footer class="site-footer">
-      <div><strong>AIO‑IPTV.pl</strong><span>Wtyczki, aplikacje, poradniki, listy kanałów, Multi‑Click i narzędzia.</span></div>
-      <nav><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Aplikacje Android</a><a href="windows-apps.html">Aplikacje Windows</a><a href="guides.html">Poradniki</a><a href="one-liner.html">One‑Liner</a><a href="contact.html">Kontakt</a></nav>
-      <p>© <span id="year"></span> Paweł Pawełek • <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></p>
-    </footer>
-  </div>
-  <script src="assets/js/user-premium.js?v=20260724-v12" defer></script>
-</body>
+<a class="skip-link" href="#main-content">Przejdź do treści</a>
+<div class="page-shell">
+<header class="site-header">
+<div class="brand-row">
+<a class="brand" href="index.html"><img alt="AIO-IPTV.pl" src="pliki/logo.png"/><span><strong>AIO‑IPTV.pl</strong><small>Enigma2 • IPTV • pomoc</small></span></a>
+<a class="header-download" href="plugin-aio-panel.html">AIO Panel 14.0.1</a>
+</div>
+<nav class="main-nav" data-menu="">
+<a href="index.html">Start</a><a href="downloads.html">Centrum pobierania</a><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Android</a><a href="windows-apps.html">Windows</a><a href="guides.html">Poradniki</a><a href="systems.html">Systemy</a><a href="channel-lists.html">Listy kanałów</a><a href="compatibility.html">Zgodność</a><a href="report-error.html">Zgłoś błąd</a><a href="contact.html">Kontakt</a>
+</nav>
+<button class="mobile-menu" data-menu-toggle="" type="button">Menu</button>
+</header>
+<div class="content-layout">
+<aside class="side-panel"><h2>Pomoc użytkownika</h2><nav><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Aplikacje Android</a><a href="windows-apps.html">Aplikacje Windows</a><a href="guides.html">Poradniki</a><a href="one-liner.html">One‑Liner / FTP</a><a href="channel-lists.html">Listy kanałów</a><a href="systems.html">Multi‑Click i systemy</a><a href="ai-chat.html">AI Chat</a><a href="contact.html">Kontakt i wsparcie</a></nav><div class="side-help"><strong>Szybka pomoc</strong><a href="guide-terminal-openwebif.html">Terminal / OpenWebif</a><a href="guide-oscam.html">Dane do OSCam</a><a href="guide-xstremity.html">IPTV do Xstremity</a><a href="help-softcam-feed.html">SoftCam feed</a><a href="help-picons-serviceref.html">Picony / ServiceRef</a><a href="help-restart-gui.html">Restart GUI</a></div></aside>
+<main class="content-main" id="main-content">
+<section class="hero-compact">
+<div>
+<p class="script-line">Witam na mojej stronie <span>Paweł Pawełek</span></p>
+<p class="eyebrow">Aktualizacja na podstawie raportów użytkowników • Egami i OpenATV</p>
+<h1>PP Channel Sync 2.1.1</h1>
+<p class="lead">Wersja 2.1.1 poprawia zgodność z listami zawierającymi niestandardowe wpisy techniczne <code>#SERVICE</code>. Zastane wpisy nie blokują już całej synchronizacji, a ochrona nadal zatrzymuje zapis rzeczywiście uszkodzonego odwołania utworzonego lub zmienionego przez wtyczkę.</p>
+<div class="action-row"><a class="button primary" href="pliki/enigma2-plugin-extensions-ppchannelsync_2.1.1_all.ipk">Pobierz IPK 2.1.1</a><a class="button" href="#instalacja">Instalacja z GitHub</a><a class="button" href="plugins.html">Wróć do wtyczek</a></div>
+</div>
+<figure><img alt="PP Channel Sync 2.1.1" src="pliki/pp-channel-sync-2.1.1-screen.png"/><figcaption>PP Channel Sync 2.1.1</figcaption></figure>
+</section>
+<section class="module">
+<h2>🚀 Co poprawiono w wersji 2.1.1?</h2>
+<div class="info-box"><strong>Aktualizacja powstała po analizie raportów z Egami, OpenATV 8.0 beta i innych obrazów Enigma2.</strong> W wybranych listach występowały niestandardowe wpisy techniczne, które wcześniej mogły przerwać operację i uruchomić automatyczne przywracanie kopii.</div>
+<div class="detail-grid">
+<div>
+<ul class="clean-list">
+<li>poprawiono obsługę niestandardowych wpisów <code>#SERVICE</code></li>
+<li>zastane wpisy techniczne nie blokują już całej synchronizacji</li>
+<li>walidowane są przede wszystkim wpisy utworzone lub zmienione przez PP Channel Sync</li>
+<li>zachowano blokadę przed zapisaniem rzeczywiście uszkodzonego <em>service reference</em></li>
+</ul>
+</div>
+<div>
+<ul class="clean-list">
+<li>poprawiono działanie na systemach Egami oraz najnowszych wersjach OpenATV</li>
+<li>instalator usuwa stare pliki <code>pyc</code>, <code>pyo</code> i katalogi <code>__pycache__</code></li>
+<li>tuner nie powinien już uruchamiać wcześniejszej wersji kodu z pamięci podręcznej</li>
+<li>poprawiono aktualizację między starszymi wersjami 1.x i gałęzią 2.x</li>
+</ul>
+</div>
+</div>
+</section>
+<section class="module">
+<h2>Wszystkie wcześniejsze poprawki pozostają aktywne</h2>
+<div class="detail-grid">
+<div>
+<h3>Bazy, źródła i satelity</h3>
+<ul class="clean-list">
+<li>pełna obsługa baz <strong>lamedb</strong> oraz <strong>lamedb5</strong></li>
+<li>pobieranie list kontrolnych zamiast błędnych paczek z piconami</li>
+<li>obsługa dodatkowych i zagnieżdżonych archiwów</li>
+<li>synchronizacja kilku satelitów podczas jednej operacji</li>
+<li>osobna analiza każdej zaznaczonej pozycji orbitalnej</li>
+<li>wykrywanie satelitów z list, bazy Enigma2 i konfiguracji głowic</li>
+</ul>
+</div>
+<div>
+<h3>Bukiety i nowe kanały</h3>
+<ul class="clean-list">
+<li>nowe kanały są dopisywane na dole właściwych bukietów</li>
+<li>separator i oznaczenie nowych kanałów przez PP Channel Sync</li>
+<li>data synchronizacji oraz podpis <strong>@ PP Channel Sync</strong></li>
+<li>brak dublowania kanałów, separatorów i wpisów informacyjnych</li>
+<li>zachowanie dotychczasowej kolejności kanałów i układu bukietów</li>
+<li>brak ingerencji w DVB-T, DVB-C oraz IPTV</li>
+</ul>
+</div>
+</div>
+</section>
+<section class="module">
+<h2>Bezpieczeństwo listy</h2>
+<p>PP Channel Sync nie zastępuje całej listy użytkownika. Analizuje konfigurację znajdującą się na tunerze, poprawia zmienione parametry kanałów satelitarnych i dopisuje wykryte nowości do odpowiednich bukietów.</p>
+<div class="detail-grid">
+<div><ul class="clean-list"><li>przed zmianami wykonywana jest kopia bezpieczeństwa</li><li>sprawdzana jest poprawność danych przed zapisem</li><li>rzeczywiście uszkodzone wpisy nadal są blokowane</li></ul></div>
+<div><ul class="clean-list"><li>w przypadku błędu operacja jest cofana</li><li>lista jest automatycznie przywracana z kopii</li><li>rozszerzone raporty pomagają ustalić źródło problemu</li></ul></div>
+</div>
+</section>
+<section class="module">
+<h2>Obsługa wtyczki</h2>
+<ol class="steps-list">
+<li>Naciśnij <strong>żółty przycisk</strong>, aby wybrać jedną lub kilka pozycji orbitalnych.</li>
+<li>Sprawdź tryb pracy oraz pozostałe opcje korekty.</li>
+<li>Naciśnij <strong>zielony przycisk</strong>, aby uruchomić analizę i synchronizację.</li>
+<li>Po zakończeniu otwórz raport i sprawdź podsumowanie zmian.</li>
+</ol>
+<div class="info-box"><strong>Przyciski:</strong> OK — funkcja lub opcja, zielony — uruchom, żółty — wybór satelitów, niebieski — przywróć, MENU — raport, czerwony / EXIT — wyjście.</div>
+</section>
+<section class="module">
+<h2>Zdjęcie wtyczki</h2>
+<div class="guide-gallery"><figure><a href="pliki/pp-channel-sync-2.1.1-screen.png" rel="noopener" target="_blank"><img alt="Ekran PP Channel Sync 2.1.1" loading="lazy" src="pliki/pp-channel-sync-2.1.1-screen.png"/></a><figcaption>Ekran PP Channel Sync 2.1.1 z wyborem satelitów, trybem bezpiecznej korekty, raportami i funkcją przywracania.</figcaption></figure></div>
+</section>
+<section class="module" id="instalacja">
+<h2>Instalacja lub aktualizacja</h2>
+<p>Instalację można wykonać z poziomu <strong>AIO Panel</strong>, z pozycji samej wtyczki PP Channel Sync albo przez terminal. Po instalacji wykonaj restart interfejsu Enigma2.</p>
+<div class="command"><div><strong>Instalacja bezpośrednio z GitHub — bez użycia starego cache</strong><button data-copy='wget -q -O - "https://raw.githubusercontent.com/OliOli2013/PPChannelSync-Plugin/main/installer.sh?$(date +%s)" | /bin/sh' type="button">Kopiuj</button></div><pre><code>wget -q -O - "https://raw.githubusercontent.com/OliOli2013/PPChannelSync-Plugin/main/installer.sh?$(date +%s)" | /bin/sh</code></pre><p class="command-note">Parametr z bieżącym czasem ogranicza ryzyko pobrania starej wersji instalatora z pamięci podręcznej.</p></div>
+<div class="command"><div><strong>Instalacja pobranego IPK z katalogu /tmp</strong><button data-copy="opkg install --force-reinstall /tmp/enigma2-plugin-extensions-ppchannelsync_2.1.1_all.ipk" type="button">Kopiuj</button></div><pre><code>opkg install --force-reinstall /tmp/enigma2-plugin-extensions-ppchannelsync_2.1.1_all.ipk</code></pre></div>
+</section>
+<section class="module">
+<h2>Raport błędów</h2>
+<p>W przypadku dalszego problemu podaj model tunera, nazwę i wersję systemu, wersję Pythona oraz zawartość pliku:</p>
+<div class="command"><pre><code>/tmp/ppchannelsync_error.txt</code></pre></div>
+</section>
+<section class="module">
+<h2>Informacje</h2>
+<p><strong>Wersja:</strong> 2.1.1<br/><strong>System:</strong> Enigma2 Python 2/3<br/><strong>Autor:</strong> by Paweł Pawełek<br/><strong>Kontakt:</strong> <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></p>
+</section>
+</main>
+</div>
+<footer class="site-footer">
+<div><strong>AIO‑IPTV.pl</strong><span>Wtyczki, aplikacje, poradniki, listy kanałów, Multi‑Click i narzędzia.</span></div>
+<nav><a href="downloads.html">Pobieranie</a><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Android</a><a href="windows-apps.html">Windows</a><a href="guides.html">Poradniki</a><a href="systems.html">Systemy</a><a href="compatibility.html">Zgodność</a><a href="report-error.html">Zgłoś błąd</a><a href="contact.html">Kontakt</a></nav>
+<p>© <span id="year"></span> Paweł Pawełek • <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></p>
+</footer>
+</div>
+<script defer="" src="assets/js/user-premium.js?v=20260724-v12"></script>
+<script defer="True" src="assets/js/pro-suite.js?v=20260724-pro1"></script></body>
 </html>
