@@ -1,29 +1,74 @@
-/* Społeczność AIO — moderacja, 2026-07-25 community1 */
+/* Społeczność AIO — moderacja, 2026-07-26 community3 */
 (function () {
   'use strict';
+
   let tab = 'pending';
+  let bound = false;
+  let initTimer = null;
+  let initSequence = 0;
 
   function boot() {
     if (!window.AIOCommunity) return;
-    if (AIOCommunity.ready) init(); else document.addEventListener('aio-community-ready', init, { once: true });
+    document.addEventListener('aio-community-ready', scheduleInit);
+    document.addEventListener('aio-community-auth', scheduleInit);
+    if (AIOCommunity.ready) scheduleInit();
+  }
+
+  function scheduleInit() {
+    window.clearTimeout(initTimer);
+    initTimer = window.setTimeout(init, 40);
   }
 
   async function init() {
     const root = document.querySelector('[data-community-admin]');
-    if (!root) return;
+    if (!root || !window.AIOCommunity) return;
+    const sequence = ++initSequence;
+
     if (!AIOCommunity.user) {
       root.innerHTML = '<div class="community-empty"><strong>Zaloguj się jako administrator lub moderator.</strong><p>Panel moderacji nie jest dostępny publicznie.</p><button class="button primary" data-community-login>Zaloguj się</button></div>';
       return;
     }
-    if (!AIOCommunity.isAdmin()) {
-      root.innerHTML = '<div class="community-error"><strong>Brak uprawnień.</strong><p>To konto nie ma roli administratora ani moderatora.</p></div>';
-      return;
+
+    root.innerHTML = '<div class="community-loading">Sprawdzam uprawnienia konta…</div>';
+
+    try {
+      if (!AIOCommunity.profile || AIOCommunity.profile.id !== AIOCommunity.user.id) {
+        await AIOCommunity.ensureProfile();
+      }
+
+      // Odczyt bezpośredni usuwa problem wyścigu między INITIAL_SESSION
+      // a pobraniem profilu po powrocie z linku logowania.
+      const current = await AIOCommunity.client
+        .from('community_profiles')
+        .select('*')
+        .eq('id', AIOCommunity.user.id)
+        .maybeSingle();
+
+      if (sequence !== initSequence) return;
+      if (current.error) throw current.error;
+      if (current.data) AIOCommunity.profile = current.data;
+
+      AIOCommunity.renderAccountBars();
+
+      const role = String(AIOCommunity.profile && AIOCommunity.profile.role || '')
+        .trim().toLowerCase();
+
+      if (!['admin', 'moderator'].includes(role)) {
+        root.innerHTML = '<div class="community-error"><strong>Brak uprawnień.</strong><p>To konto nie ma roli administratora ani moderatora.</p></div>';
+        return;
+      }
+
+      bind();
+      await loadTab();
+    } catch (error) {
+      if (sequence !== initSequence) return;
+      root.innerHTML = '<div class="community-error"><strong>Nie udało się sprawdzić uprawnień.</strong><p>' + AIOCommunity.escape(AIOCommunity.friendlyError(error)) + '</p></div>';
     }
-    bind();
-    loadTab();
   }
 
   function bind() {
+    if (bound) return;
+    bound = true;
     document.querySelectorAll('[data-admin-tab]').forEach(button => button.addEventListener('click', () => {
       document.querySelectorAll('[data-admin-tab]').forEach(item => item.classList.remove('active'));
       button.classList.add('active');
@@ -35,13 +80,14 @@
 
   async function loadTab() {
     const root = document.querySelector('[data-community-admin]');
+    if (!root) return;
     root.innerHTML = '<div class="community-loading">Ładuję dane moderacji…</div>';
     try {
       if (tab === 'pending') await loadPending(root);
       else if (tab === 'reports') await loadReports(root);
       else if (tab === 'users') await loadUsers(root);
       else await loadPublished(root);
-      loadAdminStats();
+      await loadAdminStats();
     } catch (error) {
       root.innerHTML = '<div class="community-error">' + AIOCommunity.escape(AIOCommunity.friendlyError(error)) + '</div>';
     }
@@ -58,7 +104,7 @@
     const result = await AIOCommunity.client.from('community_posts').select('id,author_id,title,content,category,status,pinned,locked,kind,created_at,author:community_profiles!community_posts_author_id_fkey(display_name,avatar_url,role)').eq('status', 'published').order('created_at', { ascending: false }).limit(100);
     if (result.error) throw result.error;
     const rows = result.data || [];
-    root.innerHTML = '<div class="community-admin-list">' + rows.map(item => adminPost(item, false)).join('') + '</div>';
+    root.innerHTML = rows.length ? '<div class="community-admin-list">' + rows.map(item => adminPost(item, false)).join('') + '</div>' : '<div class="community-empty"><strong>Brak opublikowanych wpisów.</strong></div>';
   }
 
   function adminPost(item, pending) {
@@ -77,7 +123,7 @@
     const result = await AIOCommunity.client.from('community_profiles').select('*').order('created_at', { ascending: false }).limit(200);
     if (result.error) throw result.error;
     const rows = result.data || [];
-    root.innerHTML = '<div class="community-admin-list">' + rows.map(item => '<article class="community-admin-item community-user-row" data-admin-user="' + AIOCommunity.escapeAttr(item.id) + '">' + AIOCommunity.avatarHtml(item, item.display_name) + '<div><strong>' + AIOCommunity.escape(item.display_name || 'Użytkownik') + ' <span class="community-role ' + AIOCommunity.escapeAttr(item.role) + '">' + AIOCommunity.escape(AIOCommunity.roleLabel(item.role)) + '</span></strong><small>' + AIOCommunity.escape([item.tuner_model, item.system_name, item.banned_until && new Date(item.banned_until) > new Date() ? 'blokada do ' + AIOCommunity.formatDate(item.banned_until) : ''].filter(Boolean).join(' • ') || 'Brak dodatkowych danych') + '</small></div><div class="community-admin-actions"><button class="button" data-user-action="trust">' + (item.trusted ? 'Cofnij zaufanie' : 'Oznacz jako zaufany') + '</button><button class="button" data-user-action="ban">' + (item.banned_until && new Date(item.banned_until) > new Date() ? 'Odblokuj' : 'Zablokuj 7 dni') + '</button>' + (AIOCommunity.profile.role === 'admin' && item.id !== AIOCommunity.user.id ? '<button class="button" data-user-action="moderator">' + (item.role === 'moderator' ? 'Odbierz moderatora' : 'Nadaj moderatora') + '</button>' : '') + '</div></article>').join('') + '</div>';
+    root.innerHTML = rows.length ? '<div class="community-admin-list">' + rows.map(item => '<article class="community-admin-item community-user-row" data-admin-user="' + AIOCommunity.escapeAttr(item.id) + '">' + AIOCommunity.avatarHtml(item, item.display_name) + '<div><strong>' + AIOCommunity.escape(item.display_name || 'Użytkownik') + ' <span class="community-role ' + AIOCommunity.escapeAttr(item.role) + '">' + AIOCommunity.escape(AIOCommunity.roleLabel(item.role)) + '</span></strong><small>' + AIOCommunity.escape([item.tuner_model, item.system_name, item.banned_until && new Date(item.banned_until) > new Date() ? 'blokada do ' + AIOCommunity.formatDate(item.banned_until) : ''].filter(Boolean).join(' • ') || 'Brak dodatkowych danych') + '</small></div><div class="community-admin-actions"><button class="button" data-user-action="trust">' + (item.trusted ? 'Cofnij zaufanie' : 'Oznacz jako zaufany') + '</button><button class="button" data-user-action="ban">' + (item.banned_until && new Date(item.banned_until) > new Date() ? 'Odblokuj' : 'Zablokuj 7 dni') + '</button>' + (AIOCommunity.profile.role === 'admin' && item.id !== AIOCommunity.user.id ? '<button class="button" data-user-action="moderator">' + (item.role === 'moderator' ? 'Odbierz moderatora' : 'Nadaj moderatora') + '</button>' : '') + '</div></article>').join('') + '</div>' : '<div class="community-empty"><strong>Brak użytkowników.</strong></div>';
   }
 
   async function handleAction(event) {
@@ -124,7 +170,9 @@
       AIOCommunity.client.from('community_reports').select('id', { count: 'exact', head: true }).eq('status', 'open'),
       AIOCommunity.client.from('community_profiles').select('id', { count: 'exact', head: true })
     ]);
-    set('pending', pending.count); set('reports', reports.count); set('users', users.count);
+    set('pending', pending.count);
+    set('reports', reports.count);
+    set('users', users.count);
   }
 
   boot();

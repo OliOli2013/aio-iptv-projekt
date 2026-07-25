@@ -1,4 +1,4 @@
-/* Społeczność AIO — rdzeń, 2026-07-25 community2 */
+/* Społeczność AIO — rdzeń, 2026-07-26 community3 */
 (function () {
   'use strict';
 
@@ -33,8 +33,17 @@
         // onAuthStateChange. W supabase-js może to zablokować kolejne
         // wywołania klienta (deadlock). Obsługę sesji odkładamy do
         // następnego obrotu pętli zdarzeń.
-        this.client.auth.onAuthStateChange((_event, session) => {
+        this.client.auth.onAuthStateChange((event, session) => {
           window.setTimeout(() => {
+            const sameUser = Boolean(this.user && session && session.user && this.user.id === session.user.id);
+            if (event === 'INITIAL_SESSION' && sameUser && this.profile) {
+              this.session = session;
+              this.renderAccountBars();
+              document.dispatchEvent(new CustomEvent('aio-community-auth', {
+                detail: { user: this.user, profile: this.profile }
+              }));
+              return;
+            }
             this.applyAuthSession(session);
           }, 0);
         });
@@ -56,9 +65,12 @@
 
     async applyAuthSession(session) {
       const sequence = ++this.authEventSequence;
+      const previousUserId = this.user ? this.user.id : null;
+      const previousProfile = this.profile;
       this.session = session || null;
       this.user = session ? session.user : null;
-      this.profile = null;
+      const sameUser = Boolean(previousUserId && this.user && previousUserId === this.user.id);
+      this.profile = sameUser ? previousProfile : null;
 
       try {
         if (this.user) await this.ensureProfile();
@@ -79,7 +91,7 @@
     },
 
     async loadConfig() {
-      const response = await fetch('data/community_config.json?v=20260725-community2', { cache: 'no-store' });
+      const response = await fetch('data/community_config.json?v=20260726-community3', { cache: 'no-store' });
       if (!response.ok) throw new Error('Nie udało się odczytać konfiguracji społeczności.');
       return response.json();
     },
