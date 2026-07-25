@@ -1,5 +1,62 @@
 [
   {
+    "title": "Społeczność AIO",
+    "desc": "Pytania, odpowiedzi, zdjęcia, komentarze, reakcje i pomoc dla użytkowników Enigma2.",
+    "url": "community.html",
+    "tags": [
+      "społeczność",
+      "forum",
+      "pytania",
+      "odpowiedzi",
+      "pomoc",
+      "enigma2"
+    ]
+  },
+  {
+    "title": "Aktualności AIO-IPTV.pl",
+    "desc": "Oficjalne komunikaty o wtyczkach, aplikacjach, listach kanałów i systemach.",
+    "url": "news.html",
+    "tags": [
+      "aktualności",
+      "komunikaty",
+      "wydania",
+      "wersje"
+    ]
+  },
+  {
+    "title": "Profil Społeczności AIO",
+    "desc": "Profil użytkownika z modelem tunera, systemem i opublikowanymi wpisami.",
+    "url": "profile.html",
+    "tags": [
+      "profil",
+      "konto",
+      "tuner",
+      "system"
+    ]
+  },
+  {
+    "title": "Regulamin Społeczności AIO",
+    "desc": "Zasady bezpiecznego publikowania i legalnej pomocy technicznej.",
+    "url": "community-rules.html",
+    "tags": [
+      "regulamin",
+      "zasady",
+      "bezpieczeństwo",
+      "moderacja"
+    ]
+  },
+  {
+    "title": "Prywatność Społeczności AIO",
+    "desc": "Informacja o danych kont, postów, komentarzy, zdjęć i logowania.",
+    "url": "privacy-community.html",
+    "tags": [
+      "prywatność",
+      "dane",
+      "supabase",
+      "konto"
+    ]
+  },
+  {
     "title": "Studio AIO-IPTV.pl",
     "desc": "Lokalny publikator, symulator pilota, baza błędów i status projektów.",
     "url": "studio.html",

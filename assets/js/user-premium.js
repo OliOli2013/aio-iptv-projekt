@@ -17,6 +17,7 @@
     loadChannelLists();
     initInlineAi();
     initGenerator();
+    initProjectStateBanner();
   });
 
   function setCurrentYear() {
@@ -32,6 +33,25 @@
       studio.href = 'studio.html';
       studio.textContent = 'Studio';
       if (contact) contact.insertAdjacentElement('beforebegin', studio); else container.appendChild(studio);
+    });
+
+    // Niezależne aktualności i społeczność AIO — dodawane również do starszych podstron.
+    $$('.main-nav, .side-panel nav, .site-footer nav').forEach(container => {
+      const studio = container.querySelector('a[href="studio.html"]');
+      const contact = container.querySelector('a[href="contact.html"]');
+      const anchor = studio || contact;
+      if (!container.querySelector('a[href="news.html"]')) {
+        const news = document.createElement('a');
+        news.href = 'news.html';
+        news.textContent = 'Aktualności';
+        if (anchor) anchor.insertAdjacentElement('beforebegin', news); else container.appendChild(news);
+      }
+      if (!container.querySelector('a[href="community.html"]')) {
+        const community = document.createElement('a');
+        community.href = 'community.html';
+        community.textContent = 'Społeczność';
+        if (anchor) anchor.insertAdjacentElement('beforebegin', community); else container.appendChild(community);
+      }
     });
 
     // Keep the Windows applications section visible in the shared navigation,
@@ -78,9 +98,10 @@
 
     const current = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
     const studioPages = ['studio.html','publisher.html','remote-simulator.html','errors.html','project-status.html','assistant.html','my-tuner.html','status.html','qr-install.html','log-analyzer.html'];
+    const communityPages = ['community.html','post.html','profile.html','community-admin.html','community-rules.html','privacy-community.html'];
     $$('.main-nav a, .side-panel nav a').forEach(link => {
       const href = (link.getAttribute('href') || '').split('#')[0].split('?')[0].toLowerCase();
-      if (href && (href === current || (href === 'studio.html' && studioPages.includes(current)))) {
+      if (href && (href === current || (href === 'studio.html' && studioPages.includes(current)) || (href === 'community.html' && communityPages.includes(current)))) {
         link.classList.add('active');
         link.setAttribute('aria-current', 'page');
       }
@@ -156,6 +177,8 @@
       { title: 'Poradniki', desc: 'Instrukcje i pomoc dla Enigma2.', url: 'guides.html', tags: ['poradniki', 'pomoc'] },
       { title: 'Listy kanałów', desc: 'Listy kanałów i bukiety.', url: 'channel-lists.html', tags: ['listy', 'bukiety'] },
       { title: 'Studio AIO-IPTV.pl', desc: 'Publikator, symulator pilota, baza błędów i status projektów.', url: 'studio.html', tags: ['studio', 'narzędzia', 'publikator', 'pilot', 'błędy', 'status'] },
+      { title: 'Aktualności AIO-IPTV.pl', desc: 'Oficjalne komunikaty, wydania wtyczek, aplikacji i list kanałów.', url: 'news.html', tags: ['aktualności', 'komunikaty', 'wersje', 'wydania'] },
+      { title: 'Społeczność AIO', desc: 'Pytania, odpowiedzi, zdjęcia, komentarze i pomoc użytkowników Enigma2.', url: 'community.html', tags: ['społeczność', 'forum', 'pytania', 'pomoc', 'komentarze'] },
       { title: 'Panel publikowania aktualizacji', desc: 'Lokalne tworzenie stron projektu i paczek ZIP do GitHuba.', url: 'publisher.html', tags: ['publikator', 'github', 'zip', 'aktualizacja'] },
       { title: 'Interaktywny symulator pilota', desc: 'Klikalny pilot Enigma2 z opisem funkcji przycisków.', url: 'remote-simulator.html', tags: ['pilot', 'przyciski', 'openatv', 'openpli'] },
       { title: 'Baza błędów Enigma2', desc: 'Komunikaty, przyczyny, komendy i bezpieczne rozwiązania.', url: 'errors.html', tags: ['błąd', 'crashlog', 'python', 'opkg', 'lamedb'] },
@@ -329,10 +352,6 @@
   }
 
   async function initInlineAi() {
-    // ai-chat.html ma własnego, kompletnego klienta. Nie podpinaj drugiego
-    // formularza, bo dwa handlery jednocześnie powodują przejście do trybu offline.
-    if (document.querySelector('script[src*="assets/js/ai-chat.js"]')) return;
-
     const form = $('#inlineAiForm');
     const input = $('#inlineAiInput');
     const box = $('#chatMessages');
@@ -436,10 +455,8 @@
   async function initProjectStateBanner() {
     const current = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
     if (!/^(?:plugin-|app-)|^(?:windows-apps|channel-lists|systems)\.html$/.test(current)) return;
-    const select = (selector, root = document) => root.querySelector(selector);
-    const escape = value => String(value == null ? '' : value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
-    const main = select('#main-content') || select('main');
-    if (!main || select('.project-state-banner', main)) return;
+    const main = $('#main-content') || $('main');
+    if (!main || $('.project-state-banner', main)) return;
     try {
       const response = await fetch('data/projects.json', { cache: 'no-store' });
       if (!response.ok) return;
@@ -447,8 +464,8 @@
       const project = Array.isArray(projects) ? projects.find(item => String(item.page || '').toLowerCase() === current) : null;
       if (!project) return;
       const banner = document.createElement('aside');
-      banner.className = `project-state-banner status-${String(project.status || 'stable').replace(/[^a-z0-9_-]/gi, '')}`;
-      banner.innerHTML = `<span class="project-state-dot" aria-hidden="true"></span><div><strong>${escape(project.statusLabel || 'Status projektu')}: ${escape(project.name || '')} ${escape(project.version || '')}</strong><span>Ostatnia aktualizacja: ${escape(project.updated || 'brak danych')} • ${escape(project.tested || 'szczegóły na stronie projektu')}</span></div><a href="project-status.html">Wszystkie statusy →</a>`;
+      banner.className = `project-state-banner status-${escapeAttr(project.status || 'stable')}`;
+      banner.innerHTML = `<span class="project-state-dot" aria-hidden="true"></span><div><strong>${escapeHtml(project.statusLabel || 'Status projektu')}: ${escapeHtml(project.name || '')} ${escapeHtml(project.version || '')}</strong><span>Ostatnia aktualizacja: ${escapeHtml(project.updated || 'brak danych')} • ${escapeHtml(project.tested || 'szczegóły na stronie projektu')}</span></div><a href="project-status.html">Wszystkie statusy →</a>`;
       main.insertBefore(banner, main.firstChild);
     } catch (error) { /* status is supplemental */ }
   }
@@ -474,7 +491,6 @@
   }
 
   onReady(initSupportGate);
-  onReady(initProjectStateBanner);
 
   function initSupportGate() {
     if (document.documentElement.dataset.aioSupportGate === 'ready') return;

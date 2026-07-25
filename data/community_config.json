@@ -1,0 +1,28 @@
+{
+  "version": "2026.07.25-community1",
+  "enabled": true,
+  "siteName": "Społeczność AIO",
+  "siteUrl": "https://olioli2013.github.io/aio-iptv-projekt/",
+  "supabase": {
+    "url": "https://pynjjeobqzxbrvmqofcw.supabase.co",
+    "anonKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB5bmpqZW9icXp4YnJ2bXFvZmN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU3NDA5MDYsImV4cCI6MjA4MTMxNjkwNn0.XSBB0DJw27Wrn41nranqFyj8YI0-YjLzX52dkdrgkrg"
+  },
+  "mediaBucket": "community-media",
+  "maxImageSizeMb": 5,
+  "maxImagesPerPost": 4,
+  "postsPerPage": 12,
+  "firstPostRequiresApproval": true,
+  "categories": [
+    {"id": "pomoc", "label": "Pomoc techniczna", "icon": "🛠️"},
+    {"id": "aio-panel", "label": "AIO Panel", "icon": "🧩"},
+    {"id": "iptv", "label": "IPTV i listy M3U", "icon": "📺"},
+    {"id": "kanaly", "label": "Listy kanałów", "icon": "📡"},
+    {"id": "picony", "label": "Picony i EPG", "icon": "🖼️"},
+    {"id": "oscam", "label": "OSCam i softcam", "icon": "🔐"},
+    {"id": "systemy", "label": "Systemy Enigma2", "icon": "💿"},
+    {"id": "wtyczki", "label": "Wtyczki", "icon": "🔌"},
+    {"id": "aplikacje", "label": "Aplikacje", "icon": "📱"},
+    {"id": "testy", "label": "Testy i opinie", "icon": "✅"},
+    {"id": "inne", "label": "Inne", "icon": "💬"}
+  ]
+}

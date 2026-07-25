@@ -21,6 +21,30 @@
   ],
   "shortcuts": [
     {
+      "name": "Społeczność AIO",
+      "short_name": "Społeczność",
+      "url": "./community.html",
+      "icons": [
+        {
+          "src": "assets/icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Aktualności AIO-IPTV.pl",
+      "short_name": "Aktualności",
+      "url": "./news.html",
+      "icons": [
+        {
+          "src": "assets/icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
       "name": "Studio AIO-IPTV.pl",
       "short_name": "Studio",
       "url": "./studio.html",

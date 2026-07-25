@@ -1,51 +1,107 @@
-AIO-IPTV.pl — 5 inteligentnych narzędzi
-Pliki do podmiany / dodania na GitHubie
-Data: 24.07.2026
+SPOŁECZNOŚĆ AIO — PLIKI DO DODANIA / PODMIANY NA GITHUBIE
 
-DODANE FUNKCJE
-1. assistant.html — asystent „Co mam pobrać?”
-2. my-tuner.html — lokalny profil „Mój tuner”
-3. status.html — status instalatorów, plików i usług
-4. qr-install.html — lokalny generator kodów QR
-5. log-analyzer.html — lokalny analizator logów i crashlogów
+Wgraj całą zawartość paczki do katalogu głównego repozytorium, zachowując strukturę katalogów.
 
-DODATKOWO
-- jedno pobranie dziennie bez wsparcia w danej przeglądarce,
-- kolejne pobrania odblokowywane po otwarciu Revolut, BuyCoffee albo Ko-fi,
-- odblokowanie działa do końca bieżącego dnia,
-- kody QR przy komendach oraz bezpośrednich plikach,
-- profil tunera zapisuje się tylko w localStorage,
-- codzienny status działa przez GitHub Actions,
-- zaktualizowana wyszukiwarka, PWA, sitemap i historia zmian.
+KONIECZNA KONFIGURACJA BACKENDU:
+1. Uruchom w Supabase plik supabase/community_setup.sql.
+2. Zaloguj się pierwszy raz na community.html.
+3. Nadaj sobie rolę administratora za pomocą supabase/nadaj_admina_i_pierwszy_wpis.sql.
+4. Dokładne kroki znajdują się w INSTRUKCJA_URUCHOMIENIA_SPOLECZNOSCI_AIO.txt.
 
-WAŻNE O POBIERANIU
-GitHub Pages jest stroną statyczną i nie może potwierdzić wykonania płatności.
-Dlatego blokada kolejnych pobrań działa uczciwościowo: przycisk pobrania
-odblokowuje się po otwarciu jednej z metod wsparcia. Limit i odblokowanie
-są zapisane lokalnie w przeglądarce i można je obejść przez wyczyszczenie danych.
-Prawdziwa weryfikacja wpłaty wymagałaby osobnego backendu oraz integracji płatności.
-
-INSTALACJA
-1. Wgraj całą zawartość tej paczki do katalogu głównego repozytorium.
-2. Zachowaj strukturę katalogów, w tym .github/workflows, assets, data i scripts.
-3. Zastąp istniejące pliki, gdy GitHub zapyta o podmianę.
-4. Po publikacji wykonaj Ctrl+F5.
-5. W GitHub → Actions uruchom ręcznie „Aktualizacja statusu plików”,
-   aby od razu utworzyć pierwszy aktualny raport statusu.
-
-NAJWAŻNIEJSZE NOWE PLIKI
+Pliki w paczce:
+- 404.html
+- INSTRUKCJA_URUCHOMIENIA_SPOLECZNOSCI_AIO.txt
+- ai-chat.html
+- android-apps.html
+- app-aio-panel-remote.html
+- app-cambridge-android.html
+- assets/css/community.css
+- assets/js/community-admin.js
+- assets/js/community-core.js
+- assets/js/community-feed.js
+- assets/js/community-post.js
+- assets/js/community-profile.js
+- assets/js/user-premium.js
 - assistant.html
-- my-tuner.html
-- status.html
-- qr-install.html
+- channel-lists.html
+- community-admin.html
+- community-rules.html
+- community.html
+- compatibility.html
+- config-builder.html
+- contact.html
+- data/community_config.json
+- data/search-index.json
+- data/updates.json
+- downloads.html
+- error-scan.html
+- errors.html
+- future-lab.html
+- googlef4b9a82addbed417.html
+- guide-diagnostyka-enigma2.html
+- guide-enigma2-pilot-funkcje.html
+- guide-instalacja-image.html
+- guide-openatv-76.html
+- guide-oscam.html
+- guide-pamiec-zgemma.html
+- guide-terminal-openwebif.html
+- guide-xstremity.html
+- guides.html
+- help-oscam-check.html
+- help-picons-serviceref.html
+- help-restart-gui.html
+- help-root-password.html
+- help-satellites-xml.html
+- help-softcam-feed.html
+- image-installation.html
+- index.html
+- knowledge.html
+- kreator.html
 - log-analyzer.html
-- assets/js/smart-tools.js
-- assets/css/smart-tools.css
-- assets/vendor/qrcode.min.js
-- data/status-targets.json
-- data/status.json
-- data/qr-presets.json
-- scripts/check_status.py
-- .github/workflows/status-check.yml
+- manifest.json
+- multi-click.html
+- my-tuner.html
+- news.html
+- nowe-projekty.html
+- offline.html
+- one-liner.html
+- plugin-aio-panel.html
+- plugin-dodatki-systemowe.html
+- plugin-dreamosatx-signal.html
+- plugin-e2-doctor.html
+- plugin-iptv-dream.html
+- plugin-myupdater.html
+- plugin-nagrania-on-demand.html
+- plugin-neoradio.html
+- plugin-opencamview.html
+- plugin-picon-updater.html
+- plugin-pp-channel-sync.html
+- plugin-simple-iptv-epg.html
+- plugins.html
+- poradniki-praktyczne.html
+- porownywarka.html
+- porownywarka_legacy.html
+- post.html
+- privacy-community.html
+- profile.html
+- project-status.html
+- publisher.html
+- qr-install.html
+- remote-simulator.html
+- report-error.html
+- robots.txt
+- service-worker.js
+- sitemap.xml
+- stats.html
+- status.html
+- studio.html
+- supabase/community_setup.sql
+- supabase/nadaj_admina_i_pierwszy_wpis.sql
+- support.html
+- systems.html
+- tools.html
+- tuner-compare.html
+- updates.html
+- windows-apps.html
 
-Łączna liczba plików do dodania lub podmiany: 82
+Po publikacji wykonaj Ctrl+F5.

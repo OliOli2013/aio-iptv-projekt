@@ -1,5 +1,22 @@
 [
   {
+    "date": "2026-07-25",
+    "ts": 1785038400000,
+    "type": "release",
+    "title": "Społeczność AIO — własne aktualności, posty i komentarze",
+    "desc": "Dodano niezależną przestrzeń społecznościową działającą bezpośrednio na AIO-IPTV.pl: oficjalne aktualności, konta, posty, zdjęcia, komentarze, reakcje, obserwowanie i moderację.",
+    "details": "Nowe funkcje:\n• logowanie bez hasła przez link e-mail\n• publiczne profile użytkowników z modelem tunera i systemem\n• posty, pytania, zdjęcia oraz filtrowanie kategorii\n• oficjalna sekcja Aktualności AIO-IPTV.pl\n• komentarze, odpowiedzi i reakcje Pomocne / Działa / Dziękuję\n• obserwowanie wpisów i powiadomienia\n• akceptacja pierwszych wpisów nowych kont\n• zgłaszanie treści, blokady użytkowników i panel moderacji\n• zabezpieczenie bazy przez Supabase Row Level Security\n• regulamin społeczności i informacja o prywatności",
+    "url": "community.html",
+    "tags": [
+      "Społeczność AIO",
+      "aktualności",
+      "komentarze",
+      "Supabase",
+      "moderacja",
+      "Enigma2"
+    ]
+  },
+  {
     "date": "2026-07-24",
     "ts": 1784952000000,
     "type": "release",
