@@ -1,5 +1,5 @@
 {
-  "version": "2026.07.25-community1",
+  "version": "2026.07.25-community2",
   "enabled": true,
   "siteName": "Społeczność AIO",
   "siteUrl": "https://olioli2013.github.io/aio-iptv-projekt/",
@@ -13,16 +13,60 @@
   "postsPerPage": 12,
   "firstPostRequiresApproval": true,
   "categories": [
-    {"id": "pomoc", "label": "Pomoc techniczna", "icon": "🛠️"},
-    {"id": "aio-panel", "label": "AIO Panel", "icon": "🧩"},
-    {"id": "iptv", "label": "IPTV i listy M3U", "icon": "📺"},
-    {"id": "kanaly", "label": "Listy kanałów", "icon": "📡"},
-    {"id": "picony", "label": "Picony i EPG", "icon": "🖼️"},
-    {"id": "oscam", "label": "OSCam i softcam", "icon": "🔐"},
-    {"id": "systemy", "label": "Systemy Enigma2", "icon": "💿"},
-    {"id": "wtyczki", "label": "Wtyczki", "icon": "🔌"},
-    {"id": "aplikacje", "label": "Aplikacje", "icon": "📱"},
-    {"id": "testy", "label": "Testy i opinie", "icon": "✅"},
-    {"id": "inne", "label": "Inne", "icon": "💬"}
+    {
+      "id": "pomoc",
+      "label": "Pomoc techniczna",
+      "icon": "🛠️"
+    },
+    {
+      "id": "aio-panel",
+      "label": "AIO Panel",
+      "icon": "🧩"
+    },
+    {
+      "id": "iptv",
+      "label": "IPTV i listy M3U",
+      "icon": "📺"
+    },
+    {
+      "id": "kanaly",
+      "label": "Listy kanałów",
+      "icon": "📡"
+    },
+    {
+      "id": "picony",
+      "label": "Picony i EPG",
+      "icon": "🖼️"
+    },
+    {
+      "id": "oscam",
+      "label": "OSCam i softcam",
+      "icon": "🔐"
+    },
+    {
+      "id": "systemy",
+      "label": "Systemy Enigma2",
+      "icon": "💿"
+    },
+    {
+      "id": "wtyczki",
+      "label": "Wtyczki",
+      "icon": "🔌"
+    },
+    {
+      "id": "aplikacje",
+      "label": "Aplikacje",
+      "icon": "📱"
+    },
+    {
+      "id": "testy",
+      "label": "Testy i opinie",
+      "icon": "✅"
+    },
+    {
+      "id": "inne",
+      "label": "Inne",
+      "icon": "💬"
+    }
   ]
 }

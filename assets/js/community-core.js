@@ -1,4 +1,4 @@
-/* Społeczność AIO — rdzeń, 2026-07-25 community1 */
+/* Społeczność AIO — rdzeń, 2026-07-25 community2 */
 (function () {
   'use strict';
 
@@ -11,6 +11,7 @@
     ready: false,
     backendReady: false,
     subscriptions: [],
+    authEventSequence: 0,
     async init() {
       try {
         this.config = await this.loadConfig();
@@ -28,14 +29,14 @@
         this.session = result.data ? result.data.session : null;
         this.user = this.session ? this.session.user : null;
         if (this.user) await this.ensureProfile();
-        this.client.auth.onAuthStateChange(async (_event, session) => {
-          this.session = session || null;
-          this.user = session ? session.user : null;
-          this.profile = null;
-          if (this.user) await this.ensureProfile();
-          this.renderAccountBars();
-          this.loadNotifications();
-          document.dispatchEvent(new CustomEvent('aio-community-auth', { detail: { user: this.user, profile: this.profile } }));
+        // Nie wykonujemy zapytań Supabase bezpośrednio w callbacku
+        // onAuthStateChange. W supabase-js może to zablokować kolejne
+        // wywołania klienta (deadlock). Obsługę sesji odkładamy do
+        // następnego obrotu pętli zdarzeń.
+        this.client.auth.onAuthStateChange((_event, session) => {
+          window.setTimeout(() => {
+            this.applyAuthSession(session);
+          }, 0);
         });
         this.backendReady = await this.probeBackend();
         this.ready = true;
@@ -53,8 +54,32 @@
       }
     },
 
+    async applyAuthSession(session) {
+      const sequence = ++this.authEventSequence;
+      this.session = session || null;
+      this.user = session ? session.user : null;
+      this.profile = null;
+
+      try {
+        if (this.user) await this.ensureProfile();
+        if (sequence !== this.authEventSequence) return;
+        this.renderAccountBars();
+        this.loadNotifications();
+        document.dispatchEvent(new CustomEvent('aio-community-auth', {
+          detail: { user: this.user, profile: this.profile }
+        }));
+      } catch (error) {
+        if (sequence !== this.authEventSequence) return;
+        console.error('Społeczność AIO — błąd odświeżania sesji:', error);
+        this.renderAccountBars(error);
+        document.dispatchEvent(new CustomEvent('aio-community-auth', {
+          detail: { user: this.user, profile: this.profile, error: error }
+        }));
+      }
+    },
+
     async loadConfig() {
-      const response = await fetch('data/community_config.json?v=20260725-community1', { cache: 'no-store' });
+      const response = await fetch('data/community_config.json?v=20260725-community2', { cache: 'no-store' });
       if (!response.ok) throw new Error('Nie udało się odczytać konfiguracji społeczności.');
       return response.json();
     },
@@ -367,6 +392,7 @@
 
     friendlyError(error) {
       const message = String(error && (error.message || error.details || error.error_description) || error || 'Nieznany błąd');
+      if (/signal is aborted|AbortError|aborted without reason/i.test(message)) return 'Przerwano odczyt sesji. Zamknij dodatkowe karty Społeczności AIO i odśwież stronę.';
       if (/Failed to fetch|NetworkError/i.test(message)) return 'Nie udało się połączyć z usługą. Sprawdź Internet i konfigurację Supabase.';
       if (/rate|too many/i.test(message)) return 'Wykonano zbyt wiele prób. Odczekaj chwilę i spróbuj ponownie.';
       if (/row-level security|policy/i.test(message)) return 'Brak uprawnień do tej operacji. Sprawdź konfigurację RLS w Supabase.';
