@@ -97,6 +97,7 @@
     const result = await AIOCommunity.client.from('community_posts').select('id,author_id,title,content,category,status,created_at,author:community_profiles!community_posts_author_id_fkey(display_name,avatar_url,role)').eq('status', 'pending').order('created_at', { ascending: true }).limit(100);
     if (result.error) throw result.error;
     const rows = result.data || [];
+    await Promise.all(rows.map(async item => { if (item.author) item.author = await AIOCommunity.prepareProfile(item.author); }));
     root.innerHTML = rows.length ? '<div class="community-admin-list">' + rows.map(item => adminPost(item, true)).join('') + '</div>' : '<div class="community-empty"><strong>Brak wpisów oczekujących.</strong><p>Kolejka moderacji jest pusta.</p></div>';
   }
 
@@ -104,6 +105,7 @@
     const result = await AIOCommunity.client.from('community_posts').select('id,author_id,title,content,category,status,pinned,locked,kind,created_at,author:community_profiles!community_posts_author_id_fkey(display_name,avatar_url,role)').eq('status', 'published').order('created_at', { ascending: false }).limit(100);
     if (result.error) throw result.error;
     const rows = result.data || [];
+    await Promise.all(rows.map(async item => { if (item.author) item.author = await AIOCommunity.prepareProfile(item.author); }));
     root.innerHTML = rows.length ? '<div class="community-admin-list">' + rows.map(item => adminPost(item, false)).join('') + '</div>' : '<div class="community-empty"><strong>Brak opublikowanych wpisów.</strong></div>';
   }
 
@@ -116,13 +118,15 @@
     const result = await AIOCommunity.client.from('community_reports').select('id,reporter_id,target_type,target_id,reason,details,status,created_at,reporter:community_profiles!community_reports_reporter_id_fkey(display_name,avatar_url)').eq('status', 'open').order('created_at', { ascending: true }).limit(100);
     if (result.error) throw result.error;
     const rows = result.data || [];
+    await Promise.all(rows.map(async item => { if (item.reporter) item.reporter = await AIOCommunity.prepareProfile(item.reporter); }));
     root.innerHTML = rows.length ? '<div class="community-admin-list">' + rows.map(item => '<article class="community-admin-item" data-admin-report="' + AIOCommunity.escapeAttr(item.id) + '"><div class="community-admin-item-head">' + AIOCommunity.avatarHtml(item.reporter || {}, item.reporter && item.reporter.display_name) + '<div><strong>' + AIOCommunity.escape(item.reason) + '</strong><small>' + AIOCommunity.escape((item.reporter && item.reporter.display_name || 'Użytkownik') + ' • ' + AIOCommunity.formatDate(item.created_at)) + '</small></div></div><p>Typ: <strong>' + AIOCommunity.escape(item.target_type) + '</strong><br>ID: <code>' + AIOCommunity.escape(item.target_id) + '</code></p><div class="community-admin-actions">' + (item.target_type === 'post' ? '<a class="button" href="post.html?id=' + AIOCommunity.escapeAttr(item.target_id) + '">Otwórz wpis</a>' : '') + '<button class="button primary" data-report-action="resolved">Rozwiązane</button><button class="button" data-report-action="dismissed">Odrzuć zgłoszenie</button></div></article>').join('') + '</div>' : '<div class="community-empty"><strong>Brak otwartych zgłoszeń.</strong></div>';
   }
 
   async function loadUsers(root) {
     const result = await AIOCommunity.client.from('community_profiles').select('*').order('created_at', { ascending: false }).limit(200);
     if (result.error) throw result.error;
-    const rows = result.data || [];
+    let rows = result.data || [];
+    rows = await Promise.all(rows.map(item => AIOCommunity.prepareProfile(item)));
     root.innerHTML = rows.length ? '<div class="community-admin-list">' + rows.map(item => '<article class="community-admin-item community-user-row" data-admin-user="' + AIOCommunity.escapeAttr(item.id) + '">' + AIOCommunity.avatarHtml(item, item.display_name) + '<div><strong>' + AIOCommunity.escape(item.display_name || 'Użytkownik') + ' <span class="community-role ' + AIOCommunity.escapeAttr(item.role) + '">' + AIOCommunity.escape(AIOCommunity.roleLabel(item.role)) + '</span></strong><small>' + AIOCommunity.escape([item.tuner_model, item.system_name, item.banned_until && new Date(item.banned_until) > new Date() ? 'blokada do ' + AIOCommunity.formatDate(item.banned_until) : ''].filter(Boolean).join(' • ') || 'Brak dodatkowych danych') + '</small></div><div class="community-admin-actions"><button class="button" data-user-action="trust">' + (item.trusted ? 'Cofnij zaufanie' : 'Oznacz jako zaufany') + '</button><button class="button" data-user-action="ban">' + (item.banned_until && new Date(item.banned_until) > new Date() ? 'Odblokuj' : 'Zablokuj 7 dni') + '</button>' + (AIOCommunity.profile.role === 'admin' && item.id !== AIOCommunity.user.id ? '<button class="button" data-user-action="moderator">' + (item.role === 'moderator' ? 'Odbierz moderatora' : 'Nadaj moderatora') + '</button>' : '') + '</div></article>').join('') + '</div>' : '<div class="community-empty"><strong>Brak użytkowników.</strong></div>';
   }
 

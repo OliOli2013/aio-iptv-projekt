@@ -1,4 +1,4 @@
-/* Społeczność AIO — profil użytkownika, 2026-07-25 community1 */
+/* Społeczność AIO — profile tylko dla zalogowanych, 2026-07-26 community4 */
 (function () {
   'use strict';
   let targetId = '';
@@ -12,24 +12,31 @@
   async function init() {
     const root = document.querySelector('[data-community-profile]');
     if (!root) return;
-    targetId = AIOCommunity.queryParam('id') || (AIOCommunity.user ? AIOCommunity.user.id : '');
     bind();
-    if (!targetId) {
-      root.innerHTML = '<div class="community-empty"><strong>Zaloguj się, aby otworzyć swój profil.</strong><p>Możesz też otworzyć publiczny profil użytkownika z poziomu jego wpisu.</p><button class="button primary" type="button" data-community-login>Zaloguj się</button></div>';
+    if (!AIOCommunity.user) {
+      root.innerHTML = privateProfileGate();
       return;
     }
+    targetId = AIOCommunity.queryParam('id') || AIOCommunity.user.id;
     if (!AIOCommunity.backendReady) return AIOCommunity.showSetupError(new Error('Brak bazy społeczności.'));
     await loadProfile();
   }
 
   function bind() {
     document.addEventListener('aio-community-auth', () => {
-      if (!AIOCommunity.queryParam('id') && AIOCommunity.user) { targetId = AIOCommunity.user.id; loadProfile(); }
+      const root = document.querySelector('[data-community-profile]');
+      if (!AIOCommunity.user) { if (root) root.innerHTML = privateProfileGate(); return; }
+      targetId = AIOCommunity.queryParam('id') || AIOCommunity.user.id;
+      loadProfile();
     });
     const form = document.querySelector('[data-profile-form]');
     if (form) form.addEventListener('submit', saveProfile);
     const avatar = document.querySelector('[data-profile-avatar-file]');
     if (avatar) avatar.addEventListener('change', previewAvatar);
+  }
+
+  function privateProfileGate() {
+    return '<section class="community-access-gate compact"><div class="community-access-icon">👤</div><p class="eyebrow">Profile Społeczności AIO</p><h1>Zaloguj się, aby zobaczyć profile</h1><p>Dane profili, aktywność użytkowników i ich wpisy nie są udostępniane osobom niezalogowanym.</p><button class="button primary" type="button" data-community-login>Zaloguj się / utwórz konto</button></section>';
   }
 
   async function loadProfile() {
@@ -39,7 +46,7 @@
       const result = await AIOCommunity.client.from('community_profiles').select('*').eq('id', targetId).maybeSingle();
       if (result.error) throw result.error;
       if (!result.data) throw new Error('Nie znaleziono profilu użytkownika.');
-      profile = result.data;
+      profile = await AIOCommunity.prepareProfile(result.data);
       const posts = await AIOCommunity.client.from('community_posts').select('id,title,category,status,kind,created_at').eq('author_id', targetId).order('created_at', { ascending: false }).limit(20);
       renderProfile(root, posts.data || []);
       populateForm();
@@ -100,7 +107,7 @@
       const fileInput = form.querySelector('[data-profile-avatar-file]');
       if (fileInput.files && fileInput.files[0]) {
         const uploaded = await AIOCommunity.uploadImages([fileInput.files[0]], 'avatars');
-        if (uploaded[0]) avatarUrl = uploaded[0].url;
+        if (uploaded[0]) avatarUrl = uploaded[0].path || uploaded[0].url;
       }
       const update = {
         display_name: name,
@@ -113,7 +120,7 @@
       };
       const result = await AIOCommunity.client.from('community_profiles').update(update).eq('id', targetId).select('*').single();
       if (result.error) throw result.error;
-      profile = result.data;
+      profile = await AIOCommunity.prepareProfile(result.data);
       AIOCommunity.profile = profile;
       AIOCommunity.renderAccountBars();
       AIOCommunity.showToast('Profil został zapisany.', 'success');

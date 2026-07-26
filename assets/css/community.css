@@ -16,3 +16,16 @@
 @media(prefers-reduced-motion:reduce){.community-toast{animation:none}}
 .community-home-promo{overflow:hidden;border-color:#38bfa0;background:radial-gradient(circle at 90% 10%,rgba(80,225,188,.18),transparent 38%),linear-gradient(145deg,rgba(11,53,61,.98),rgba(5,22,30,.98))}.community-home-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:20px;align-items:center}.community-home-grid h2{font-size:clamp(1.7rem,4vw,2.7rem);margin:.2rem 0 .6rem}.community-home-features{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.community-home-features span{padding:10px;border:1px solid #346575;border-radius:10px;background:rgba(5,24,32,.72);font-size:.78rem;font-weight:750}.community-home-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}@media(max-width:760px){.community-home-grid{grid-template-columns:1fr}.community-home-features{grid-template-columns:1fr}}
 .community-account-actions{position:relative}
+
+
+/* Prywatna Społeczność AIO — community4 */
+.community-access-gate{margin:18px 0;padding:clamp(24px,5vw,54px);text-align:center;border:1px solid #36839b;border-radius:22px;background:radial-gradient(circle at 50% 0,rgba(47,206,237,.16),transparent 45%),linear-gradient(145deg,#0c3040,#061822);box-shadow:0 24px 70px rgba(0,0,0,.34)}
+.community-access-gate.compact{padding:28px;margin:0}
+.community-access-icon{width:72px;height:72px;margin:0 auto 14px;border-radius:22px;display:grid;place-items:center;font-size:2rem;border:1px solid #49c8e6;background:#0c4052;box-shadow:0 0 34px rgba(41,205,238,.2)}
+.community-access-gate h1,.community-access-gate h2{margin:.3rem 0 .7rem}.community-access-gate p{max-width:760px;margin:.4rem auto 1.2rem;color:#bed2da;line-height:1.65}
+.community-access-gate .community-hero-actions{justify-content:center}
+.community-access-benefits{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:22px}.community-access-benefits span{padding:12px;border:1px solid #326579;border-radius:11px;background:rgba(5,25,34,.72);font-weight:750;color:#cde7ef}
+.community-private-note{padding:20px;text-align:center;border:1px dashed #3c7185;border-radius:12px;background:#08232f;color:#c5dbe3}
+[hidden]{display:none!important}
+@media(max-width:760px){.community-access-benefits{grid-template-columns:1fr 1fr}.community-access-gate{padding:24px 16px}}
+@media(max-width:460px){.community-access-benefits{grid-template-columns:1fr}}

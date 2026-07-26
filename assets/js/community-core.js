@@ -1,4 +1,4 @@
-/* Społeczność AIO — rdzeń, 2026-07-26 community3 */
+/* Społeczność AIO — rdzeń prywatnej społeczności, 2026-07-26 community4 */
 (function () {
   'use strict';
 
@@ -12,6 +12,7 @@
     backendReady: false,
     subscriptions: [],
     authEventSequence: 0,
+    mediaUrlCache: new Map(),
     async init() {
       try {
         this.config = await this.loadConfig();
@@ -91,7 +92,7 @@
     },
 
     async loadConfig() {
-      const response = await fetch('data/community_config.json?v=20260726-community3', { cache: 'no-store' });
+      const response = await fetch('data/community_config.json?v=20260726-community4', { cache: 'no-store' });
       if (!response.ok) throw new Error('Nie udało się odczytać konfiguracji społeczności.');
       return response.json();
     },
@@ -119,7 +120,7 @@
         }).select('*').single();
         if (!insert.error) data = insert.data;
       }
-      this.profile = data || null;
+      this.profile = data ? await this.prepareProfile(data) : null;
       return this.profile;
     },
 
@@ -283,10 +284,70 @@
         const path = this.user.id + '/' + (folder || 'posts') + '/' + Date.now() + '-' + crypto.randomUUID() + '-' + safe;
         const upload = await this.client.storage.from(this.config.mediaBucket).upload(path, file, { cacheControl: '3600', upsert: false });
         if (upload.error) throw upload.error;
-        const publicUrl = this.client.storage.from(this.config.mediaBucket).getPublicUrl(path).data.publicUrl;
-        results.push({ url: publicUrl, path: path, name: file.name, size: file.size, type: file.type });
+        results.push({ url: path, path: path, name: file.name, size: file.size, type: file.type });
       }
       return results;
+    },
+
+    mediaPath(value) {
+      const raw = String(value || '').trim();
+      if (!raw) return '';
+      const bucket = String(this.config && this.config.mediaBucket || 'community-media');
+      if (!/^https?:\/\//i.test(raw)) return raw.replace(/^\/+/, '');
+      try {
+        const url = new URL(raw);
+        const markers = [
+          '/storage/v1/object/public/' + bucket + '/',
+          '/storage/v1/object/sign/' + bucket + '/',
+          '/storage/v1/object/authenticated/' + bucket + '/'
+        ];
+        for (const marker of markers) {
+          const index = url.pathname.indexOf(marker);
+          if (index !== -1) return decodeURIComponent(url.pathname.slice(index + marker.length));
+        }
+      } catch (_) {}
+      return '';
+    },
+
+    async signedMediaUrl(value, expiresIn) {
+      const raw = String(value || '').trim();
+      if (!raw) return '';
+      const path = this.mediaPath(raw);
+      if (!path) return raw; // zewnętrzny avatar lub obraz
+      const scope = this.user ? this.user.id : 'anon';
+      const key = scope + ':' + path;
+      const cached = this.mediaUrlCache.get(key);
+      if (cached && cached.expires > Date.now()) return cached.url;
+      const result = await this.client.storage.from(this.config.mediaBucket).createSignedUrl(path, Number(expiresIn || 3600));
+      if (result.error || !result.data || !result.data.signedUrl) return '';
+      const url = result.data.signedUrl;
+      this.mediaUrlCache.set(key, { url: url, expires: Date.now() + Math.max(60, Number(expiresIn || 3600) - 60) * 1000 });
+      return url;
+    },
+
+    async prepareProfile(profile) {
+      if (!profile) return profile;
+      const copy = Object.assign({}, profile);
+      copy._avatar_display_url = copy.avatar_url ? await this.signedMediaUrl(copy.avatar_url, 3600) : '';
+      return copy;
+    },
+
+    async prepareAttachments(items) {
+      const list = Array.isArray(items) ? items : [];
+      return Promise.all(list.map(async item => {
+        if (!item) return item;
+        const copy = Object.assign({}, item);
+        copy.path = copy.path || this.mediaPath(copy.url);
+        copy.url = copy.path ? await this.signedMediaUrl(copy.path, 3600) : String(copy.url || '');
+        return copy;
+      }));
+    },
+
+    async preparePostMedia(post) {
+      if (!post) return post;
+      if (post.author) post.author = await this.prepareProfile(post.author);
+      post.attachments = await this.prepareAttachments(post.attachments);
+      return post;
     },
 
     async loadNotifications() {
@@ -349,8 +410,9 @@
 
     avatarHtml(profile, fallback, large) {
       const name = profile && profile.display_name ? profile.display_name : (fallback || 'AIO');
-      if (profile && profile.avatar_url) {
-        return '<img class="community-avatar' + (large ? ' large' : '') + '" src="' + this.escapeAttr(profile.avatar_url) + '" alt="Avatar ' + this.escapeAttr(name) + '" loading="lazy">';
+      const avatarUrl = profile && (profile._avatar_display_url || (!this.mediaPath(profile.avatar_url) ? profile.avatar_url : ''));
+      if (avatarUrl) {
+        return '<img class="community-avatar' + (large ? ' large' : '') + '" src="' + this.escapeAttr(avatarUrl) + '" alt="Avatar ' + this.escapeAttr(name) + '" loading="lazy">';
       }
       const initials = String(name).trim().split(/\s+/).slice(0, 2).map(x => x.charAt(0).toUpperCase()).join('') || 'AIO';
       return '<span class="community-avatar' + (large ? ' large' : '') + '">' + this.escape(initials) + '</span>';

@@ -1,4 +1,4 @@
-/* Społeczność AIO — widok wpisu i komentarze, 2026-07-25 community1 */
+/* Społeczność AIO — prywatne wpisy i publiczne komunikaty, 2026-07-26 community4 */
 (function () {
   'use strict';
   let postId = '';
@@ -62,13 +62,18 @@
     const root = document.querySelector('[data-community-post]');
     root.innerHTML = '<div class="community-loading">Ładuję wpis…</div>';
     try {
-      const result = await AIOCommunity.client.from('community_posts').select('id,author_id,kind,category,title,content,status,pinned,locked,attachments,created_at,published_at,author:community_profiles!community_posts_author_id_fkey(id,display_name,avatar_url,tuner_model,system_name,role)').eq('id', postId).maybeSingle();
+      const fields = 'id,author_id,kind,category,title,content,status,pinned,locked,attachments,created_at,published_at' + (AIOCommunity.user ? ',author:community_profiles!community_posts_author_id_fkey(id,display_name,avatar_url,tuner_model,system_name,role)' : '');
+      const result = await AIOCommunity.client.from('community_posts').select(fields).eq('id', postId).maybeSingle();
       if (result.error) throw result.error;
-      if (!result.data) throw new Error('Wpis nie istnieje albo nie masz dostępu do jego treści.');
+      if (!result.data) {
+        if (!AIOCommunity.user) return renderPrivateGate(root);
+        throw new Error('Wpis nie istnieje albo nie masz dostępu do jego treści.');
+      }
       post = result.data;
+      await AIOCommunity.preparePostMedia(post);
       const [reactionResult, commentResult, followResult] = await Promise.all([
-        AIOCommunity.client.from('community_reactions').select('type,user_id').eq('post_id', postId),
-        AIOCommunity.client.from('community_comments').select('id,post_id,author_id,parent_id,content,status,created_at,updated_at,author:community_profiles!community_comments_author_id_fkey(id,display_name,avatar_url,tuner_model,system_name,role)').eq('post_id', postId).order('created_at', { ascending: true }),
+        AIOCommunity.client.from('community_reactions').select(AIOCommunity.user ? 'type,user_id' : 'type').eq('post_id', postId),
+        AIOCommunity.user ? AIOCommunity.client.from('community_comments').select('id,post_id,author_id,parent_id,content,status,created_at,updated_at,author:community_profiles!community_comments_author_id_fkey(id,display_name,avatar_url,tuner_model,system_name,role)').eq('post_id', postId).order('created_at', { ascending: true }) : Promise.resolve({ data: [] }),
         AIOCommunity.user ? AIOCommunity.client.from('community_subscriptions').select('post_id').eq('post_id', postId).eq('user_id', AIOCommunity.user.id).maybeSingle() : Promise.resolve({ data: null })
       ]);
       post.reactions = { helpful: 0, works: 0, thanks: 0, mine: '' };
@@ -78,6 +83,7 @@
       });
       post.following = Boolean(followResult.data);
       comments = commentResult.data || [];
+      await Promise.all(comments.map(async item => { if (item.author) item.author = await AIOCommunity.prepareProfile(item.author); }));
       renderPost();
       renderComments();
       renderCommentForm();
@@ -87,14 +93,24 @@
     }
   }
 
+  function renderPrivateGate(root) {
+    post = null;
+    const commentsRoot = document.querySelector('[data-community-comments]');
+    if (commentsRoot) commentsRoot.innerHTML = '<div class="community-private-note"><strong>Komentarze są dostępne po zalogowaniu.</strong></div>';
+    root.innerHTML = '<section class="community-access-gate compact"><div class="community-access-icon">🔒</div><p class="eyebrow">Treść dla członków społeczności</p><h1>Zaloguj się, aby przeczytać ten wpis</h1><p>Posty użytkowników, komentarze, profile i zdjęcia są dostępne wyłącznie dla zalogowanych osób.</p><div class="community-hero-actions"><button class="button primary" type="button" data-community-login>Zaloguj się / utwórz konto</button><a class="button" href="news.html">Publiczne aktualności AIO</a></div></section>';
+    renderCommentForm();
+  }
+
   function renderPost() {
     const root = document.querySelector('[data-community-post]');
     const author = post.author || {};
+    const authorName = author.display_name || (post.kind === 'official' ? 'AIO-IPTV.pl' : 'Użytkownik');
+    const authorTitle = AIOCommunity.user && post.author_id ? '<a href="profile.html?id=' + AIOCommunity.escapeAttr(post.author_id) + '">' + AIOCommunity.escape(authorName) + '</a>' : '<span>' + AIOCommunity.escape(authorName) + '</span>';
     const category = AIOCommunity.category(post.category);
     const images = Array.isArray(post.attachments) ? post.attachments.filter(item => item && item.url) : [];
     const canDelete = AIOCommunity.isOwner(post.author_id) || AIOCommunity.isAdmin();
     root.innerHTML = '<article class="community-post-card ' + (post.pinned ? 'pinned ' : '') + (post.kind === 'official' ? 'official' : '') + '">' +
-      '<header class="community-post-head">' + AIOCommunity.avatarHtml(author, author.display_name) + '<div class="community-post-author"><strong><a href="profile.html?id=' + AIOCommunity.escapeAttr(post.author_id) + '">' + AIOCommunity.escape(author.display_name || 'Użytkownik') + '</a>' + (author.role && author.role !== 'user' ? '<span class="community-role ' + AIOCommunity.escapeAttr(author.role) + '">' + AIOCommunity.escape(AIOCommunity.roleLabel(author.role)) + '</span>' : '') + '</strong><small>' + AIOCommunity.escape([author.tuner_model, author.system_name].filter(Boolean).join(' • ') || 'Społeczność AIO') + '</small></div><div class="community-post-meta">' + AIOCommunity.escape(AIOCommunity.formatDate(post.created_at)) + '</div></header>' +
+      '<header class="community-post-head">' + AIOCommunity.avatarHtml(author, authorName) + '<div class="community-post-author"><strong>' + authorTitle + (author.role && author.role !== 'user' ? '<span class="community-role ' + AIOCommunity.escapeAttr(author.role) + '">' + AIOCommunity.escape(AIOCommunity.roleLabel(author.role)) + '</span>' : '') + '</strong><small>' + AIOCommunity.escape([author.tuner_model, author.system_name].filter(Boolean).join(' • ') || 'Społeczność AIO') + '</small></div><div class="community-post-meta">' + AIOCommunity.escape(AIOCommunity.formatDate(post.created_at)) + '</div></header>' +
       '<div class="community-post-content"><div class="community-post-tags">' + (post.kind === 'official' ? '<span class="community-status-pill official">✓ Oficjalne</span>' : '') + (post.pinned ? '<span class="community-status-pill pinned">📌 Przypięte</span>' : '') + (post.status !== 'published' ? '<span class="community-status-pill pending">Oczekuje na zatwierdzenie</span>' : '') + '<span class="community-category">' + AIOCommunity.escape(category.icon + ' ' + category.label) + '</span></div><h1>' + AIOCommunity.escape(post.title) + '</h1><div class="community-post-text">' + AIOCommunity.formatText(post.content) + '</div>' + renderImages(images) + '</div>' +
       '<footer class="community-post-footer">' + reactionButton('helpful', '👍 Pomocne') + reactionButton('works', '✅ Działa') + reactionButton('thanks', '❤️ Dziękuję') + '<button class="community-action" type="button" data-follow-post>' + (post.following ? '🔔 Obserwujesz' : '🔕 Obserwuj') + '</button><button class="community-action" type="button" data-report-current-post>⚑ Zgłoś</button>' + (canDelete ? '<button class="community-action danger" type="button" data-delete-current-post>Usuń wpis</button>' : '') + '</footer></article>';
   }
@@ -111,6 +127,10 @@
   function renderComments() {
     const root = document.querySelector('[data-community-comments]');
     if (!root) return;
+    if (!AIOCommunity.user) {
+      root.innerHTML = '<div class="community-access-gate compact"><div class="community-access-icon">💬</div><h2>Zaloguj się, aby zobaczyć komentarze</h2><p>Dyskusja i profile uczestników są dostępne tylko dla członków Społeczności AIO.</p><button class="button primary" type="button" data-community-login>Zaloguj się</button></div>';
+      return;
+    }
     const visible = comments.filter(item => item.status === 'published' || AIOCommunity.isOwner(item.author_id) || AIOCommunity.isAdmin());
     if (!visible.length) {
       root.innerHTML = '<div class="community-empty"><strong>Brak odpowiedzi.</strong><p>Dodaj pierwszy komentarz do tego wpisu.</p></div>';
@@ -217,6 +237,7 @@
   }
 
   function subscribe() {
+    if (!AIOCommunity.user) return;
     AIOCommunity.client.channel('community-post-' + postId)
       .on('postgres_changes', { event: '*', schema: 'public', table: 'community_comments', filter: 'post_id=eq.' + postId }, () => loadAll())
       .on('postgres_changes', { event: '*', schema: 'public', table: 'community_reactions', filter: 'post_id=eq.' + postId }, () => loadAll())

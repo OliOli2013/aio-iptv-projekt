@@ -1,5 +1,5 @@
 {
-  "version": "2026.07.25-community2",
+  "version": "2026.07.26-community4",
   "enabled": true,
   "siteName": "Społeczność AIO",
   "siteUrl": "https://olioli2013.github.io/aio-iptv-projekt/",
@@ -68,5 +68,6 @@
       "label": "Inne",
       "icon": "💬"
     }
-  ]
+  ],
+  "privacyMode": "authenticated-community-public-official"
 }
