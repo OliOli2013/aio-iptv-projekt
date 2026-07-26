@@ -1,4 +1,4 @@
-/* Społeczność AIO — rdzeń prywatnej społeczności i bezpiecznych zapisów, 2026-07-26 community5 */
+/* Społeczność AIO — rdzeń prywatnej społeczności i bezpiecznych zapisów, 2026-07-26 community6 */
 (function () {
   'use strict';
 
@@ -32,9 +32,12 @@
         const result = await this.client.auth.getSession();
         this.session = result.data ? result.data.session : null;
         this.user = this.session ? this.session.user : null;
+        const publicNewsPage = document.body && document.body.dataset.communityPage === 'news';
         if (this.user) {
           await this.ensureProfile();
-          await this.checkAccess();
+          // Oficjalne aktualności są publiczne i nie mogą czekać na funkcję Edge.
+          // Kontrolę blokad uruchamiamy w tle, a pozostałe strony czekają maksymalnie kilka sekund.
+          if (!publicNewsPage) await this.checkAccessWithTimeout(8000);
         }
         // Nie wykonujemy zapytań Supabase bezpośrednio w callbacku
         // onAuthStateChange. W supabase-js może to zablokować kolejne
@@ -45,12 +48,21 @@
             const sameUser = Boolean(this.user && session && session.user && this.user.id === session.user.id);
             if (event === 'INITIAL_SESSION' && sameUser && this.profile) {
               this.session = session;
-              this.checkAccess().finally(() => {
+              const publicNewsPage = document.body && document.body.dataset.communityPage === 'news';
+              if (publicNewsPage) {
                 this.renderAccountBars();
                 document.dispatchEvent(new CustomEvent('aio-community-auth', {
                   detail: { user: this.user, profile: this.profile }
                 }));
-              });
+                this.checkAccessWithTimeout(8000).finally(() => this.renderAccountBars());
+              } else {
+                this.checkAccessWithTimeout(8000).finally(() => {
+                  this.renderAccountBars();
+                  document.dispatchEvent(new CustomEvent('aio-community-auth', {
+                    detail: { user: this.user, profile: this.profile }
+                  }));
+                });
+              }
               return;
             }
             this.applyAuthSession(session);
@@ -62,6 +74,14 @@
         this.renderAccountBars();
         this.loadNotifications();
         document.dispatchEvent(new CustomEvent('aio-community-ready', { detail: this }));
+        if (this.user && publicNewsPage) {
+          this.checkAccessWithTimeout(8000).finally(() => {
+            this.renderAccountBars();
+            document.dispatchEvent(new CustomEvent('aio-community-auth', {
+              detail: { user: this.user, profile: this.profile }
+            }));
+          });
+        }
       } catch (error) {
         this.ready = true;
         this.backendReady = false;
@@ -82,9 +102,10 @@
       this.profile = sameUser ? previousProfile : null;
 
       try {
+        const publicNewsPage = document.body && document.body.dataset.communityPage === 'news';
         if (this.user) {
           await this.ensureProfile();
-          await this.checkAccess();
+          if (!publicNewsPage) await this.checkAccessWithTimeout(8000);
         }
         if (sequence !== this.authEventSequence) return;
         this.renderAccountBars();
@@ -92,6 +113,11 @@
         document.dispatchEvent(new CustomEvent('aio-community-auth', {
           detail: { user: this.user, profile: this.profile }
         }));
+        if (this.user && publicNewsPage) {
+          this.checkAccessWithTimeout(8000).finally(() => {
+            this.renderAccountBars();
+          });
+        }
       } catch (error) {
         if (sequence !== this.authEventSequence) return;
         console.error('Społeczność AIO — błąd odświeżania sesji:', error);
@@ -103,7 +129,7 @@
     },
 
     async loadConfig() {
-      const response = await fetch('data/community_config.json?v=20260726-community5', { cache: 'no-store' });
+      const response = await fetch('data/community_config.json?v=20260726-community6', { cache: 'no-store' });
       if (!response.ok) throw new Error('Nie udało się odczytać konfiguracji społeczności.');
       return response.json();
     },
@@ -160,15 +186,28 @@
     },
 
     async edgeCall(type, payload) {
-      if (!this.client || !this.user || !this.session || !this.session.access_token) {
+      if (!this.client || !this.user) {
         throw new Error('Zaloguj się do Społeczności AIO.');
+      }
+      const sessionResult = await this.client.auth.getSession();
+      const currentSession = sessionResult && sessionResult.data ? sessionResult.data.session : null;
+      if (currentSession) {
+        this.session = currentSession;
+        this.user = currentSession.user;
+      }
+      if (!this.session || !this.session.access_token) {
+        throw new Error('Sesja wygasła. Zaloguj się ponownie.');
       }
       const functions = this.config && this.config.edgeFunctions ? this.config.edgeFunctions : {};
       const name = functions[type] || type;
-      const result = await this.client.functions.invoke(name, {
+      const invokePromise = this.client.functions.invoke(name, {
         body: payload || {},
         headers: { Authorization: 'Bearer ' + this.session.access_token }
       });
+      const timeoutPromise = new Promise((_, reject) => {
+        window.setTimeout(() => reject(new Error('Przekroczono czas odpowiedzi funkcji Edge.')), 12000);
+      });
+      const result = await Promise.race([invokePromise, timeoutPromise]);
       if (result.error) {
         let detail = result.error.message || 'Błąd funkcji Edge.';
         try {
@@ -182,6 +221,17 @@
       }
       if (result.data && result.data.error) throw new Error(result.data.error);
       return result.data || {};
+    },
+
+    async checkAccessWithTimeout(timeoutMs) {
+      const wait = Number(timeoutMs || 8000);
+      return Promise.race([
+        this.checkAccess(),
+        new Promise(resolve => window.setTimeout(() => {
+          this.secureWriteAvailable = false;
+          resolve(true);
+        }, wait))
+      ]);
     },
 
     async checkAccess() {
@@ -568,6 +618,7 @@
       if (/does not exist|schema cache|relation/i.test(message)) return 'Baza Społeczności AIO nie została jeszcze utworzona. Administrator musi uruchomić plik community_setup.sql.';
       if (/IP_BLOCKED|adresu IP/i.test(message)) return 'Dostęp z tego adresu IP został zablokowany przez administrację.';
       if (/ACCOUNT_BANNED|banned|konto zostało zablokowane|zablokowane/i.test(message)) return 'To konto ma zablokowaną możliwość korzystania ze społeczności.';
+      if (/Przekroczono czas odpowiedzi/i.test(message)) return 'Funkcja bezpieczeństwa odpowiada zbyt długo. Publiczne aktualności nadal powinny się wyświetlić; sprawdź ustawienia funkcji Edge.';
       if (/FunctionsHttpError|Edge Function|non-2xx/i.test(message)) return 'Nie udało się wykonać bezpiecznej operacji. Sprawdź wdrożenie funkcji Edge community-write.';
       return message;
     },
