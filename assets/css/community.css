@@ -29,3 +29,16 @@
 [hidden]{display:none!important}
 @media(max-width:760px){.community-access-benefits{grid-template-columns:1fr 1fr}.community-access-gate{padding:24px 16px}}
 @media(max-width:460px){.community-access-benefits{grid-template-columns:1fr}}
+
+/* community5 — długie treści, linki i zaawansowana moderacja */
+.community-link{display:inline-flex;align-items:center;gap:5px;max-width:100%;margin:1px 2px;padding:2px 7px;border:1px solid rgba(76,211,238,.48);border-radius:7px;background:rgba(13,64,81,.58);color:#83e8ff!important;text-decoration:none!important;font-weight:750;overflow-wrap:anywhere;word-break:break-word;box-shadow:0 0 0 1px rgba(70,207,238,.06)}
+.community-link:hover,.community-link:focus-visible{background:#13556b;border-color:#72e6fb;color:#fff!important;box-shadow:0 0 16px rgba(57,210,241,.2)}
+.community-link b{font-size:.78em;color:#d8f9ff}.community-inline-link{display:inline-block;margin-top:8px;color:#75e4fb;font-weight:800;text-decoration:none}.community-inline-link:hover{text-decoration:underline}
+.community-expand{margin-top:9px;padding:7px 11px;border:1px solid #3c7489;border-radius:9px;background:#0b3040;color:#8eeaff;font-weight:800;cursor:pointer}.community-expand:hover{background:#12495e;color:#fff}
+.community-char-count{display:block;text-align:right;font-weight:850;color:#7edcf0}.community-char-count.warning{color:#ffd07a}
+.community-admin-preview{padding:10px 0;color:#c7dce4;line-height:1.58;overflow-wrap:anywhere}.community-admin-select{min-height:38px;padding:0 9px;border:1px solid #356174;border-radius:9px;background:#071d27;color:#e8f8fc;font-weight:750}
+.community-user-card{display:grid;gap:12px}.community-ip-list{display:flex;flex-wrap:wrap;gap:8px;padding:10px;border:1px solid rgba(57,101,119,.55);border-radius:11px;background:rgba(3,17,24,.46)}
+.community-ip-chip{display:grid;gap:3px;min-width:220px;padding:8px 10px;border:1px solid #315e70;border-radius:9px;background:#08232e}.community-ip-chip code{font-weight:850;color:#9eeafd}.community-ip-chip small{color:#91aab4}.community-mini-danger{justify-self:start;padding:4px 8px;border:1px solid #8b4b57;border-radius:7px;background:#351b22;color:#ffc4cc;font-weight:800;cursor:pointer}
+.community-danger-text{color:#ff9fac!important}.community-success-text{color:#84e6c4!important}.community-muted{color:#879fa9}.button.strong{font-weight:900;border-width:2px}
+.community-admin-tabs{overflow-x:auto;padding-bottom:3px}.community-admin-item code{overflow-wrap:anywhere;word-break:break-word}
+@media(max-width:760px){.community-ip-chip{min-width:100%;}.community-admin-actions .community-admin-select{width:100%}.community-link{display:inline;box-decoration-break:clone;-webkit-box-decoration-break:clone}}

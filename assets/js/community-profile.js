@@ -1,4 +1,4 @@
-/* Społeczność AIO — profile tylko dla zalogowanych, 2026-07-26 community4 */
+/* Społeczność AIO — profile tylko dla zalogowanych, 2026-07-26 community5 */
 (function () {
   'use strict';
   let targetId = '';
@@ -13,7 +13,7 @@
     const root = document.querySelector('[data-community-profile]');
     if (!root) return;
     bind();
-    if (!AIOCommunity.user) {
+    if (!AIOCommunity.user || AIOCommunity.ipBlocked) {
       root.innerHTML = privateProfileGate();
       return;
     }
@@ -25,7 +25,7 @@
   function bind() {
     document.addEventListener('aio-community-auth', () => {
       const root = document.querySelector('[data-community-profile]');
-      if (!AIOCommunity.user) { if (root) root.innerHTML = privateProfileGate(); return; }
+      if (!AIOCommunity.user || AIOCommunity.ipBlocked) { if (root) root.innerHTML = privateProfileGate(); return; }
       targetId = AIOCommunity.queryParam('id') || AIOCommunity.user.id;
       loadProfile();
     });
@@ -94,7 +94,7 @@
 
   async function saveProfile(event) {
     event.preventDefault();
-    if (!AIOCommunity.requireAuth()) return;
+    if (!AIOCommunity.requireWritable()) return;
     if (!AIOCommunity.isOwner(targetId)) return;
     const form = event.currentTarget;
     const button = form.querySelector('button[type="submit"]');

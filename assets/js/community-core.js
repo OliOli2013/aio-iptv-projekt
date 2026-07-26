@@ -1,4 +1,4 @@
-/* Społeczność AIO — rdzeń prywatnej społeczności, 2026-07-26 community4 */
+/* Społeczność AIO — rdzeń prywatnej społeczności i bezpiecznych zapisów, 2026-07-26 community5 */
 (function () {
   'use strict';
 
@@ -13,6 +13,9 @@
     subscriptions: [],
     authEventSequence: 0,
     mediaUrlCache: new Map(),
+    ipBlocked: false,
+    ipBlockInfo: null,
+    secureWriteAvailable: true,
     async init() {
       try {
         this.config = await this.loadConfig();
@@ -29,7 +32,10 @@
         const result = await this.client.auth.getSession();
         this.session = result.data ? result.data.session : null;
         this.user = this.session ? this.session.user : null;
-        if (this.user) await this.ensureProfile();
+        if (this.user) {
+          await this.ensureProfile();
+          await this.checkAccess();
+        }
         // Nie wykonujemy zapytań Supabase bezpośrednio w callbacku
         // onAuthStateChange. W supabase-js może to zablokować kolejne
         // wywołania klienta (deadlock). Obsługę sesji odkładamy do
@@ -39,10 +45,12 @@
             const sameUser = Boolean(this.user && session && session.user && this.user.id === session.user.id);
             if (event === 'INITIAL_SESSION' && sameUser && this.profile) {
               this.session = session;
-              this.renderAccountBars();
-              document.dispatchEvent(new CustomEvent('aio-community-auth', {
-                detail: { user: this.user, profile: this.profile }
-              }));
+              this.checkAccess().finally(() => {
+                this.renderAccountBars();
+                document.dispatchEvent(new CustomEvent('aio-community-auth', {
+                  detail: { user: this.user, profile: this.profile }
+                }));
+              });
               return;
             }
             this.applyAuthSession(session);
@@ -74,7 +82,10 @@
       this.profile = sameUser ? previousProfile : null;
 
       try {
-        if (this.user) await this.ensureProfile();
+        if (this.user) {
+          await this.ensureProfile();
+          await this.checkAccess();
+        }
         if (sequence !== this.authEventSequence) return;
         this.renderAccountBars();
         this.loadNotifications();
@@ -92,7 +103,7 @@
     },
 
     async loadConfig() {
-      const response = await fetch('data/community_config.json?v=20260726-community4', { cache: 'no-store' });
+      const response = await fetch('data/community_config.json?v=20260726-community5', { cache: 'no-store' });
       if (!response.ok) throw new Error('Nie udało się odczytać konfiguracji społeczności.');
       return response.json();
     },
@@ -143,7 +154,72 @@
     async signOut() {
       if (!this.client) return;
       await this.client.auth.signOut();
+      this.ipBlocked = false;
+      this.ipBlockInfo = null;
       this.showToast('Wylogowano ze Społeczności AIO.', 'success');
+    },
+
+    async edgeCall(type, payload) {
+      if (!this.client || !this.user || !this.session || !this.session.access_token) {
+        throw new Error('Zaloguj się do Społeczności AIO.');
+      }
+      const functions = this.config && this.config.edgeFunctions ? this.config.edgeFunctions : {};
+      const name = functions[type] || type;
+      const result = await this.client.functions.invoke(name, {
+        body: payload || {},
+        headers: { Authorization: 'Bearer ' + this.session.access_token }
+      });
+      if (result.error) {
+        let detail = result.error.message || 'Błąd funkcji Edge.';
+        try {
+          const context = result.error.context;
+          if (context && typeof context.clone === 'function') {
+            const body = await context.clone().json();
+            if (body && body.error) detail = body.error;
+          }
+        } catch (_) {}
+        throw new Error(detail);
+      }
+      if (result.data && result.data.error) throw new Error(result.data.error);
+      return result.data || {};
+    },
+
+    async checkAccess() {
+      this.ipBlocked = false;
+      this.ipBlockInfo = null;
+      if (!this.user || !this.config || !this.config.secureWriteEnabled) return true;
+      try {
+        const result = await this.edgeCall('write', { action: 'check_access' });
+        this.secureWriteAvailable = true;
+        return Boolean(result.allowed !== false);
+      } catch (error) {
+        const text = String(error && error.message || error || '');
+        if (/adresu IP|IP_BLOCKED|zablokowan/i.test(text)) {
+          this.ipBlocked = true;
+          this.ipBlockInfo = { message: text };
+          return false;
+        }
+        if (/konto zostało zablokowane|ACCOUNT_BANNED/i.test(text)) {
+          if (this.profile) this.profile.banned_until = '9999-12-31T23:59:59.000Z';
+          return false;
+        }
+        this.secureWriteAvailable = false;
+        console.warn('Społeczność AIO — funkcja bezpiecznego zapisu nie odpowiada:', error);
+        return true;
+      }
+    },
+
+    requireWritable(message) {
+      if (!this.requireAuth(message)) return false;
+      if (this.ipBlocked) {
+        this.showToast('Dostęp z tego adresu IP został zablokowany przez administrację.', 'error');
+        return false;
+      }
+      if (this.isBanned()) {
+        this.showToast('To konto ma zablokowaną możliwość korzystania ze społeczności.', 'error');
+        return false;
+      }
+      return true;
     },
 
     isAdmin() {
@@ -191,7 +267,7 @@
           const avatar = this.avatarHtml(this.profile, name, false);
           const role = this.profile && this.profile.role && this.profile.role !== 'user'
             ? '<span class="community-role ' + this.escape(this.profile.role) + '">' + this.escape(this.roleLabel(this.profile.role)) + '</span>' : '';
-          main.innerHTML = avatar + '<div class="community-account-copy"><strong>' + this.escape(name) + ' ' + role + '</strong><small>' + this.escape(this.user.email || 'Zalogowany użytkownik') + '</small></div>';
+          main.innerHTML = avatar + '<div class="community-account-copy"><strong>' + this.escape(name) + ' ' + role + '</strong><small>' + this.escape(this.ipBlocked ? 'Dostęp z tego adresu IP jest zablokowany' : (this.user.email || 'Zalogowany użytkownik')) + '</small></div>';
           actions.innerHTML = '<button class="button community-notification-button" type="button" data-community-notifications>🔔<span class="community-notification-count" data-community-notification-count hidden>0</span></button>' +
             '<a class="button" href="profile.html">Mój profil</a>' +
             (this.isAdmin() ? '<a class="button" href="community-admin.html">Moderacja</a>' : '') +
@@ -429,10 +505,29 @@
 
     formatText(text, maxLength) {
       let value = String(text || '');
-      if (maxLength && value.length > maxLength) value = value.slice(0, maxLength).trim() + '…';
-      let safe = this.escape(value);
-      safe = safe.replace(/(https?:\/\/[^\s<]+)/gi, url => '<a href="' + this.escapeAttr(url) + '" target="_blank" rel="noopener noreferrer nofollow ugc">' + this.escape(url) + '</a>');
-      return safe.replace(/\n/g, '<br>');
+      if (maxLength && value.length > maxLength) value = value.slice(0, maxLength).trimEnd() + '…';
+      const pattern = /(?:https?:\/\/|www\.)[^\s<>"']+|\b(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+(?:pl|com|net|org|eu|io|tv|dev|app|info|me)(?:\/[^\s<>"']*)?/gi;
+      let html = '';
+      let last = 0;
+      let match;
+      while ((match = pattern.exec(value)) !== null) {
+        html += this.escape(value.slice(last, match.index));
+        let shown = match[0];
+        let trailing = '';
+        while (/[.,;:!?\)\]\}]+$/.test(shown)) {
+          trailing = shown.slice(-1) + trailing;
+          shown = shown.slice(0, -1);
+        }
+        const href = /^https?:\/\//i.test(shown) ? shown : 'https://' + shown;
+        html += '<a class="community-link" href="' + this.escapeAttr(href) + '" target="_blank" rel="noopener noreferrer nofollow ugc"><span>' + this.escape(shown) + '</span><b aria-hidden="true">↗</b></a>' + this.escape(trailing);
+        last = match.index + match[0].length;
+      }
+      html += this.escape(value.slice(last));
+      return html.replace(/\r?\n/g, '<br>');
+    },
+
+    characterLabel(current, maximum) {
+      return Number(current || 0).toLocaleString('pl-PL') + ' / ' + Number(maximum || 0).toLocaleString('pl-PL');
     },
 
     timeAgo(value) {
@@ -471,7 +566,9 @@
       if (/rate|too many/i.test(message)) return 'Wykonano zbyt wiele prób. Odczekaj chwilę i spróbuj ponownie.';
       if (/row-level security|policy/i.test(message)) return 'Brak uprawnień do tej operacji. Sprawdź konfigurację RLS w Supabase.';
       if (/does not exist|schema cache|relation/i.test(message)) return 'Baza Społeczności AIO nie została jeszcze utworzona. Administrator musi uruchomić plik community_setup.sql.';
-      if (/banned|zablokowane/i.test(message)) return 'To konto ma czasowo zablokowaną możliwość publikowania.';
+      if (/IP_BLOCKED|adresu IP/i.test(message)) return 'Dostęp z tego adresu IP został zablokowany przez administrację.';
+      if (/ACCOUNT_BANNED|banned|konto zostało zablokowane|zablokowane/i.test(message)) return 'To konto ma zablokowaną możliwość korzystania ze społeczności.';
+      if (/FunctionsHttpError|Edge Function|non-2xx/i.test(message)) return 'Nie udało się wykonać bezpiecznej operacji. Sprawdź wdrożenie funkcji Edge community-write.';
       return message;
     },
 

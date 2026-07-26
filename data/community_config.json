@@ -1,5 +1,5 @@
 {
-  "version": "2026.07.26-community4",
+  "version": "2026.07.26-community5",
   "enabled": true,
   "siteName": "Społeczność AIO",
   "siteUrl": "https://olioli2013.github.io/aio-iptv-projekt/",
@@ -69,5 +69,15 @@
       "icon": "💬"
     }
   ],
-  "privacyMode": "authenticated-community-public-official"
+  "privacyMode": "authenticated-community-public-official",
+  "maxPostLength": 50000,
+  "maxCommentLength": 10000,
+  "postPreviewLength": 1400,
+  "officialPreviewLength": 3200,
+  "secureWriteEnabled": true,
+  "edgeFunctions": {
+    "write": "community-write",
+    "admin": "community-admin-action"
+  },
+  "ipHistoryRetentionDays": 90
 }

@@ -1,4 +1,4 @@
-/* Społeczność AIO — prywatne wpisy i publiczne komunikaty, 2026-07-26 community4 */
+/* Społeczność AIO — pełne długie wpisy, linki i bezpieczne zapisy, 2026-07-26 community5 */
 (function () {
   'use strict';
   let postId = '';
@@ -20,6 +20,8 @@
       return;
     }
     bind();
+    setupCommentCounter();
+    if (AIOCommunity.ipBlocked) { renderBlocked(root); return; }
     if (!AIOCommunity.backendReady) {
       AIOCommunity.showSetupError(new Error('Baza społeczności nie została jeszcze uruchomiona.'));
       return;
@@ -29,7 +31,11 @@
   }
 
   function bind() {
-    document.addEventListener('aio-community-auth', () => { renderCommentForm(); loadAll(); });
+    document.addEventListener('aio-community-auth', () => {
+      renderCommentForm();
+      const root = document.querySelector('[data-community-post]');
+      if (AIOCommunity.ipBlocked) renderBlocked(root); else loadAll();
+    });
     document.addEventListener('click', async event => {
       const reaction = event.target.closest('[data-post-reaction]');
       if (reaction) { event.preventDefault(); await toggleReaction(reaction.dataset.postReaction); }
@@ -56,6 +62,29 @@
     });
     const form = document.querySelector('[data-comment-form]');
     if (form) form.addEventListener('submit', submitComment);
+  }
+
+  function setupCommentCounter() {
+    const input = document.querySelector('[data-comment-content]');
+    const counter = document.querySelector('[data-comment-count]');
+    if (!input || !counter) return;
+    const maximum = Number(AIOCommunity.config.maxCommentLength || 10000);
+    input.maxLength = maximum;
+    const update = () => {
+      counter.textContent = AIOCommunity.characterLabel(input.value.length, maximum);
+      counter.classList.toggle('warning', input.value.length > maximum * 0.9);
+    };
+    input.addEventListener('input', update);
+    update();
+  }
+
+  function renderBlocked(root) {
+    post = null;
+    if (!root) return;
+    root.innerHTML = '<section class="community-access-gate compact"><div class="community-access-icon">⛔</div><p class="eyebrow">Dostęp zablokowany</p><h1>Ten adres IP nie ma dostępu do Społeczności AIO</h1><p>Blokada została nałożona przez administrację w celu ochrony użytkowników i treści.</p><a class="button" href="contact.html">Kontakt z administratorem</a></section>';
+    const commentsRoot = document.querySelector('[data-community-comments]');
+    if (commentsRoot) commentsRoot.innerHTML = '';
+    renderCommentForm();
   }
 
   async function loadAll() {
@@ -166,17 +195,19 @@
 
   async function submitComment(event) {
     event.preventDefault();
-    if (!AIOCommunity.requireAuth()) return;
+    if (!AIOCommunity.requireWritable()) return;
     const form = event.currentTarget;
     const input = form.querySelector('[data-comment-content]');
     const content = input.value.trim();
-    if (content.length < 2 || content.length > 3000) { AIOCommunity.showToast('Komentarz powinien mieć od 2 do 3000 znaków.', 'error'); return; }
+    const maxCommentLength = Number(AIOCommunity.config.maxCommentLength || 10000);
+    if (content.length < 2 || content.length > maxCommentLength) { AIOCommunity.showToast('Komentarz powinien mieć od 2 do ' + maxCommentLength.toLocaleString('pl-PL') + ' znaków.', 'error'); return; }
     const button = form.querySelector('button[type="submit"]');
     button.disabled = true;
     try {
-      const result = await AIOCommunity.client.from('community_comments').insert({ post_id: postId, author_id: AIOCommunity.user.id, parent_id: replyTo ? replyTo.id : null, content }).select('id').single();
-      if (result.error) throw result.error;
+      await AIOCommunity.edgeCall('write', { action: 'create_comment', postId, parentId: replyTo ? replyTo.id : null, content });
       input.value = '';
+      const counter = document.querySelector('[data-comment-count]');
+      if (counter) counter.textContent = AIOCommunity.characterLabel(0, Number(AIOCommunity.config.maxCommentLength || 10000));
       replyTo = null;
       AIOCommunity.showToast('Odpowiedź została dodana.', 'success');
       await loadAll();
@@ -187,13 +218,8 @@
   async function toggleReaction(type) {
     if (!AIOCommunity.requireAuth('Zaloguj się, aby reagować.')) return;
     try {
-      if (post.reactions.mine === type) {
-        const result = await AIOCommunity.client.from('community_reactions').delete().eq('post_id', postId).eq('user_id', AIOCommunity.user.id);
-        if (result.error) throw result.error;
-      } else {
-        const result = await AIOCommunity.client.from('community_reactions').upsert({ post_id: postId, user_id: AIOCommunity.user.id, type }, { onConflict: 'post_id,user_id' });
-        if (result.error) throw result.error;
-      }
+      if (!AIOCommunity.requireWritable('Zaloguj się, aby reagować.')) return;
+      await AIOCommunity.edgeCall('write', { action: 'set_reaction', postId, type });
       await loadAll();
     } catch (error) { AIOCommunity.showToast(AIOCommunity.friendlyError(error), 'error'); }
   }
@@ -220,20 +246,26 @@
     if (!AIOCommunity.requireAuth('Zaloguj się, aby wysłać zgłoszenie.')) return;
     const reason = prompt('Podaj krótki powód zgłoszenia:');
     if (!reason) return;
-    const result = await AIOCommunity.client.from('community_reports').insert({ reporter_id: AIOCommunity.user.id, target_type: type, target_id: id, reason: reason.slice(0, 120) });
-    if (result.error) AIOCommunity.showToast(AIOCommunity.friendlyError(result.error), 'error'); else AIOCommunity.showToast('Zgłoszenie zostało wysłane.', 'success');
+    try {
+      await AIOCommunity.edgeCall('write', { action: 'report', targetType: type, targetId: id, reason: reason.slice(0, 120) });
+      AIOCommunity.showToast('Zgłoszenie zostało wysłane.', 'success');
+    } catch (error) { AIOCommunity.showToast(AIOCommunity.friendlyError(error), 'error'); }
   }
 
   async function deleteCurrentPost() {
     if (!confirm('Na pewno usunąć ten wpis wraz z komentarzami?')) return;
-    const result = await AIOCommunity.client.from('community_posts').delete().eq('id', postId);
-    if (result.error) AIOCommunity.showToast(AIOCommunity.friendlyError(result.error), 'error'); else location.href = 'community.html';
+    try {
+      await AIOCommunity.edgeCall('write', { action: 'delete_post', id: postId });
+      location.href = 'community.html';
+    } catch (error) { AIOCommunity.showToast(AIOCommunity.friendlyError(error), 'error'); }
   }
 
   async function deleteCurrentComment(id) {
     if (!confirm('Usunąć ten komentarz?')) return;
-    const result = await AIOCommunity.client.from('community_comments').delete().eq('id', id);
-    if (result.error) AIOCommunity.showToast(AIOCommunity.friendlyError(result.error), 'error'); else loadAll();
+    try {
+      await AIOCommunity.edgeCall('write', { action: 'delete_comment', id });
+      loadAll();
+    } catch (error) { AIOCommunity.showToast(AIOCommunity.friendlyError(error), 'error'); }
   }
 
   function subscribe() {

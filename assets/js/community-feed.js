@@ -1,4 +1,4 @@
-/* Społeczność AIO — prywatna tablica i publiczne aktualności, 2026-07-26 community4 */
+/* Społeczność AIO — długie wpisy, linki i bezpieczne zapisy, 2026-07-26 community5 */
 (function () {
   'use strict';
 
@@ -24,13 +24,14 @@
     state.mode = isNewsPage ? 'official' : 'latest';
     fillCategories();
     bind();
+    setupComposeCounter();
     renderComposeState();
     renderAccessState();
     if (!AIOCommunity.backendReady) {
       AIOCommunity.showSetupError(new Error('Baza społeczności nie została jeszcze utworzona.'));
       return;
     }
-    if (!isNewsPage && !AIOCommunity.user) return;
+    if (!isNewsPage && (!AIOCommunity.user || AIOCommunity.ipBlocked)) return;
     await Promise.all([loadFeed(true), loadStats()]);
     subscribe();
   }
@@ -61,7 +62,7 @@
     document.addEventListener('aio-community-auth', async () => {
       renderComposeState();
       renderAccessState();
-      if (isNewsPage || AIOCommunity.user) { await loadFeed(true); await loadStats(); subscribe(); }
+      if (isNewsPage || (AIOCommunity.user && !AIOCommunity.ipBlocked)) { await loadFeed(true); await loadStats(); subscribe(); }
     });
     document.addEventListener('click', handleActions);
     const form = document.querySelector('[data-compose-form]');
@@ -76,10 +77,24 @@
     });
   }
 
+  function setupComposeCounter() {
+    const input = document.querySelector('[data-compose-content]');
+    const counter = document.querySelector('[data-compose-count]');
+    if (!input || !counter) return;
+    const maximum = Number(AIOCommunity.config.maxPostLength || 50000);
+    input.maxLength = maximum;
+    const update = () => {
+      counter.textContent = AIOCommunity.characterLabel(input.value.length, maximum);
+      counter.classList.toggle('warning', input.value.length > maximum * 0.9);
+    };
+    input.addEventListener('input', update);
+    update();
+  }
+
   function renderAccessState() {
     const gate = document.querySelector('[data-community-access-gate]');
     const content = document.querySelector('[data-community-private-content]');
-    const allowed = isNewsPage || Boolean(AIOCommunity.user);
+    const allowed = isNewsPage || Boolean(AIOCommunity.user && !AIOCommunity.ipBlocked);
     if (gate) gate.hidden = allowed;
     if (content) content.hidden = !allowed;
     if (!allowed && selectors.feed) selectors.feed.innerHTML = '';
@@ -103,7 +118,7 @@
 
   async function loadFeed(reset) {
     if (state.loading || !AIOCommunity.client) return;
-    if (!isNewsPage && !AIOCommunity.user) { renderAccessState(); return; }
+    if (!isNewsPage && (!AIOCommunity.user || AIOCommunity.ipBlocked)) { renderAccessState(); return; }
     state.loading = true;
     if (reset) { state.page = 0; state.rows = []; selectors.feed.innerHTML = '<div class="community-loading">Ładuję wpisy…</div>'; }
     if (selectors.more) selectors.more.disabled = true;
@@ -185,11 +200,16 @@
     const official = post.kind === 'official';
     const images = Array.isArray(post.attachments) ? post.attachments.filter(item => item && item.url).slice(0, 4) : [];
     const canDelete = AIOCommunity.isOwner(post.author_id) || AIOCommunity.isAdmin();
+    const previewLimit = Number(official ? (AIOCommunity.config.officialPreviewLength || 3200) : (AIOCommunity.config.postPreviewLength || 1400));
+    const longPost = String(post.content || '').length > previewLimit;
+    const textHtml = longPost
+      ? '<div class="community-post-text" data-post-preview>' + AIOCommunity.formatText(post.content, previewLimit) + '</div><div class="community-post-text" data-post-full hidden>' + AIOCommunity.formatText(post.content) + '</div><button class="community-expand" type="button" data-toggle-post>Rozwiń cały wpis <span aria-hidden="true">↓</span></button>'
+      : '<div class="community-post-text">' + AIOCommunity.formatText(post.content) + '</div>';
     return '<article class="community-post-card ' + (post.pinned ? 'pinned ' : '') + (official ? 'official' : '') + '" data-post-id="' + AIOCommunity.escapeAttr(post.id) + '">' +
       '<header class="community-post-head">' + AIOCommunity.avatarHtml(author, authorName) + '<div class="community-post-author"><strong>' + authorTitle + (author.role && author.role !== 'user' ? '<span class="community-role ' + AIOCommunity.escapeAttr(author.role) + '">' + AIOCommunity.escape(AIOCommunity.roleLabel(author.role)) + '</span>' : '') + '</strong><small>' + AIOCommunity.escape([author.tuner_model, author.system_name].filter(Boolean).join(' • ') || (official ? 'Oficjalny wpis AIO-IPTV.pl' : 'Użytkownik Społeczności AIO')) + '</small></div>' +
       '<div class="community-post-meta"><span>' + AIOCommunity.escape(AIOCommunity.timeAgo(post.created_at)) + '</span>' + (post.status !== 'published' ? '<br><span class="community-status-pill pending">Oczekuje</span>' : '') + '</div></header>' +
       '<div class="community-post-content"><div class="community-post-tags">' + (official ? '<span class="community-status-pill official">✓ Oficjalne</span>' : '') + (post.pinned ? '<span class="community-status-pill pinned">📌 Przypięte</span>' : '') + '<span class="community-category">' + AIOCommunity.escape(category.icon + ' ' + category.label) + '</span></div>' +
-      '<h2><a href="post.html?id=' + AIOCommunity.escapeAttr(post.id) + '">' + AIOCommunity.escape(post.title) + '</a></h2><div class="community-post-text">' + AIOCommunity.formatText(post.content, 700) + '</div>' + renderImages(images) + '</div>' +
+      '<h2><a href="post.html?id=' + AIOCommunity.escapeAttr(post.id) + '">' + AIOCommunity.escape(post.title) + '</a></h2>' + textHtml + renderImages(images) + '</div>' +
       '<footer class="community-post-footer">' + reactionButton(post, 'helpful', '👍 Pomocne') + reactionButton(post, 'works', '✅ Działa') + reactionButton(post, 'thanks', '❤️ Dziękuję') +
       '<a class="community-action community-open" href="post.html?id=' + AIOCommunity.escapeAttr(post.id) + '">' + (AIOCommunity.user ? '💬 ' + Number(post.comment_count || 0) + ' odpowiedzi' : '🔐 Dyskusja po zalogowaniu') + '</a><button class="community-action" type="button" data-report-post>⚑ Zgłoś</button>' + (canDelete ? '<button class="community-action danger" type="button" data-delete-post>Usuń</button>' : '') + '</footer></article>';
   }
@@ -208,6 +228,18 @@
     const card = event.target.closest('[data-post-id]');
     if (!card) return;
     const postId = card.dataset.postId;
+    const expand = event.target.closest('[data-toggle-post]');
+    if (expand) {
+      event.preventDefault();
+      const preview = card.querySelector('[data-post-preview]');
+      const full = card.querySelector('[data-post-full]');
+      if (!preview || !full) return;
+      const opening = full.hidden;
+      preview.hidden = opening;
+      full.hidden = !opening;
+      expand.innerHTML = opening ? 'Zwiń wpis <span aria-hidden="true">↑</span>' : 'Rozwiń cały wpis <span aria-hidden="true">↓</span>';
+      return;
+    }
     const reaction = event.target.closest('[data-reaction]');
     if (reaction) {
       event.preventDefault();
@@ -216,13 +248,8 @@
       const post = state.rows.find(item => item.id === postId);
       if (!post) return;
       try {
-        if (post.reactions.mine === type) {
-          const result = await AIOCommunity.client.from('community_reactions').delete().eq('post_id', postId).eq('user_id', AIOCommunity.user.id);
-          if (result.error) throw result.error;
-        } else {
-          const result = await AIOCommunity.client.from('community_reactions').upsert({ post_id: postId, user_id: AIOCommunity.user.id, type: type }, { onConflict: 'post_id,user_id' });
-          if (result.error) throw result.error;
-        }
+        if (!AIOCommunity.requireWritable('Zaloguj się, aby reagować na wpisy.')) return;
+        await AIOCommunity.edgeCall('write', { action: 'set_reaction', postId, type });
         await loadFeed(true);
       } catch (error) { AIOCommunity.showToast(AIOCommunity.friendlyError(error), 'error'); }
     }
@@ -232,9 +259,11 @@
     if (del) {
       event.preventDefault();
       if (!confirm('Usunąć ten wpis? Tej operacji nie można cofnąć.')) return;
-      const result = await AIOCommunity.client.from('community_posts').delete().eq('id', postId);
-      if (result.error) AIOCommunity.showToast(AIOCommunity.friendlyError(result.error), 'error');
-      else { AIOCommunity.showToast('Wpis został usunięty.', 'success'); loadFeed(true); }
+      try {
+        await AIOCommunity.edgeCall('write', { action: 'delete_post', id: postId });
+        AIOCommunity.showToast('Wpis został usunięty.', 'success');
+        loadFeed(true);
+      } catch (error) { AIOCommunity.showToast(AIOCommunity.friendlyError(error), 'error'); }
     }
   }
 
@@ -242,8 +271,10 @@
     if (!AIOCommunity.requireAuth('Zaloguj się, aby zgłosić wpis moderatorowi.')) return;
     const reason = prompt('Powód zgłoszenia (np. dane dostępowe, obraźliwa treść, spam):');
     if (!reason) return;
-    const result = await AIOCommunity.client.from('community_reports').insert({ reporter_id: AIOCommunity.user.id, target_type: 'post', target_id: postId, reason: reason.slice(0, 120) });
-    if (result.error) AIOCommunity.showToast(AIOCommunity.friendlyError(result.error), 'error'); else AIOCommunity.showToast('Zgłoszenie zostało przekazane moderatorowi.', 'success');
+    try {
+      await AIOCommunity.edgeCall('write', { action: 'report', targetType: 'post', targetId: postId, reason: reason.slice(0, 120) });
+      AIOCommunity.showToast('Zgłoszenie zostało przekazane moderatorowi.', 'success');
+    } catch (error) { AIOCommunity.showToast(AIOCommunity.friendlyError(error), 'error'); }
   }
 
   function previewImages(event) {
@@ -263,8 +294,7 @@
 
   async function submitPost(event) {
     event.preventDefault();
-    if (!AIOCommunity.requireAuth()) return;
-    if (AIOCommunity.isBanned()) { AIOCommunity.showToast('Publikowanie z tego konta jest czasowo zablokowane.', 'error'); return; }
+    if (!AIOCommunity.requireWritable()) return;
     const form = event.currentTarget;
     const button = form.querySelector('button[type="submit"]');
     const title = form.querySelector('[data-compose-title]').value.trim();
@@ -272,7 +302,8 @@
     const category = form.querySelector('[data-compose-category]').value;
     const files = form.querySelector('[data-compose-images]').files;
     if (title.length < 6 || title.length > 140) { AIOCommunity.showToast('Tytuł powinien mieć od 6 do 140 znaków.', 'error'); return; }
-    if (content.length < 20 || content.length > 6000) { AIOCommunity.showToast('Treść powinna mieć od 20 do 6000 znaków.', 'error'); return; }
+    const maxPostLength = Number(AIOCommunity.config.maxPostLength || 50000);
+    if (content.length < 20 || content.length > maxPostLength) { AIOCommunity.showToast('Treść powinna mieć od 20 do ' + maxPostLength.toLocaleString('pl-PL') + ' znaków.', 'error'); return; }
     if (/cccam:\/\/[^\s]+:[^\s]+@|\b(?:user|username|login|password|pass)\s*[=:]\s*\S+/i.test(content)) {
       const proceed = confirm('Treść może zawierać dane dostępowe. Nigdy nie publikuj loginów, haseł ani aktywnych linii. Czy na pewno treść jest bezpieczna?');
       if (!proceed) return;
@@ -283,11 +314,13 @@
       const attachments = await AIOCommunity.uploadImages(files, 'posts');
       const officialInput = form.querySelector('[data-compose-official]');
       const kind = AIOCommunity.isAdmin() && officialInput && officialInput.checked ? 'official' : 'community';
-      const result = await AIOCommunity.client.from('community_posts').insert({ author_id: AIOCommunity.user.id, title, content, category, attachments, kind }).select('id,status').single();
-      if (result.error) throw result.error;
+      const result = await AIOCommunity.edgeCall('write', { action: 'create_post', title, content, category, attachments, kind });
+      const saved = result.data || {};
       form.reset();
       document.querySelector('[data-compose-preview]').innerHTML = '';
-      AIOCommunity.showToast(result.data.status === 'published' ? 'Wpis został opublikowany.' : 'Wpis zapisano i przekazano do zatwierdzenia.', 'success');
+      const counter = document.querySelector('[data-compose-count]');
+      if (counter) counter.textContent = AIOCommunity.characterLabel(0, Number(AIOCommunity.config.maxPostLength || 50000));
+      AIOCommunity.showToast(saved.status === 'published' ? 'Wpis został opublikowany.' : 'Wpis zapisano i przekazano do zatwierdzenia.', 'success');
       loadFeed(true);
       window.setTimeout(() => document.querySelector('[data-community-feed]').scrollIntoView({ behavior: 'smooth' }), 200);
     } catch (error) {
