@@ -12,7 +12,7 @@ function corsHeaders(req: Request) {
   const origin = req.headers.get("origin") || "";
   return {
     "Access-Control-Allow-Origin": ALLOWED_ORIGINS.has(origin) ? origin : "https://olioli2013.github.io",
-    "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+    "Access-Control-Allow-Headers": "authorization, x-client-info, x-aio-community, apikey, content-type",
     "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Content-Type": "application/json; charset=utf-8",
     "Vary": "Origin",
@@ -25,6 +25,15 @@ function errorMessage(error: unknown) {
   if (typeof error === "object" && error && "message" in error) return String((error as { message: unknown }).message);
   return String(error || "Nieznany błąd");
 }
+async function authenticatedUser(admin: ReturnType<typeof createClient>, jwt: string) {
+  const result = await admin.auth.getUser(jwt);
+  if (result.error || !result.data.user) {
+    console.warn("Nie udało się potwierdzić sesji użytkownika:", result.error?.message || "brak użytkownika");
+    return null;
+  }
+  return result.data.user;
+}
+
 function durationValues(value: string) {
   const now = Date.now();
   if (value === "24h") return { until: new Date(now + 86400000).toISOString(), auth: "24h", permanent: false };
@@ -66,10 +75,10 @@ Deno.serve(async (req: Request) => {
   try {
     const jwt = token(req);
     if (!jwt) return json(req, { error: "Zaloguj się jako administrator." }, 401);
-    const admin = createClient(SUPABASE_URL, SERVICE_ROLE_KEY, { auth: { persistSession: false, autoRefreshToken: false } });
-    const auth = await admin.auth.getUser(jwt);
-    const actor = auth.data.user;
-    if (auth.error || !actor) return json(req, { error: "Sesja wygasła." }, 401);
+    if (!SUPABASE_URL || !SERVICE_ROLE_KEY) return json(req, { error: "Brak konfiguracji funkcji Edge." }, 500);
+    const admin = createClient(SUPABASE_URL, SERVICE_ROLE_KEY, { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } });
+    const actor = await authenticatedUser(admin, jwt);
+    if (!actor) return json(req, { error: "Sesja wygasła albo token został odrzucony. Odśwież stronę i spróbuj ponownie.", code: "INVALID_SESSION" }, 401);
     const actorProfileResult = await admin.from("community_profiles").select("id,role,banned_until").eq("id", actor.id).maybeSingle();
     const actorProfile = actorProfileResult.data;
     if (!actorProfile || !["admin", "moderator"].includes(actorProfile.role)) return json(req, { error: "Brak uprawnień administratora lub moderatora." }, 403);
@@ -83,6 +92,7 @@ Deno.serve(async (req: Request) => {
       const ips = await admin.from("community_user_ips").select("user_id,ip_address,first_seen_at,last_seen_at,event_count,last_event").order("last_seen_at", { ascending: false }).limit(3000);
       if (ips.error) throw ips.error;
       const authUsers = fullAdmin ? await admin.auth.admin.listUsers({ page: 1, perPage: 1000 }) : null;
+      if (authUsers?.error) throw authUsers.error;
       const emailMap = new Map<string, string>();
       for (const user of authUsers?.data?.users || []) emailMap.set(user.id, user.email || "");
       const ipMap = new Map<string, unknown[]>();
@@ -95,15 +105,31 @@ Deno.serve(async (req: Request) => {
     }
 
     if (action === "list_ip_blocks") {
-      const result = await admin.from("community_ip_blocks").select("*,target:community_profiles!community_ip_blocks_target_user_id_fkey(display_name)").order("created_at", { ascending: false }).limit(500);
+      const result = await admin.from("community_ip_blocks").select("*").order("created_at", { ascending: false }).limit(500);
       if (result.error) throw result.error;
-      return json(req, { ok: true, blocks: result.data || [] });
+      const rows = result.data || [];
+      const ids = [...new Set(rows.map(row => row.target_user_id).filter(Boolean))];
+      const profileMap = new Map<string, { display_name: string }>();
+      if (ids.length) {
+        const profiles = await admin.from("community_profiles").select("id,display_name").in("id", ids);
+        if (profiles.error) throw profiles.error;
+        for (const profile of profiles.data || []) profileMap.set(profile.id, { display_name: profile.display_name || "Użytkownik" });
+      }
+      return json(req, { ok: true, blocks: rows.map(row => ({ ...row, target: row.target_user_id ? profileMap.get(row.target_user_id) || null : null })) });
     }
 
     if (action === "list_logs") {
-      const result = await admin.from("community_moderation_log").select("*,actor:community_profiles!community_moderation_log_actor_id_fkey(display_name)").order("created_at", { ascending: false }).limit(300);
+      const result = await admin.from("community_moderation_log").select("*").order("created_at", { ascending: false }).limit(300);
       if (result.error) throw result.error;
-      return json(req, { ok: true, logs: result.data || [] });
+      const rows = result.data || [];
+      const ids = [...new Set(rows.map(row => row.actor_id).filter(Boolean))];
+      const profileMap = new Map<string, { display_name: string }>();
+      if (ids.length) {
+        const profiles = await admin.from("community_profiles").select("id,display_name").in("id", ids);
+        if (profiles.error) throw profiles.error;
+        for (const profile of profiles.data || []) profileMap.set(profile.id, { display_name: profile.display_name || "Użytkownik" });
+      }
+      return json(req, { ok: true, logs: rows.map(row => ({ ...row, actor: row.actor_id ? profileMap.get(row.actor_id) || null : null })) });
     }
 
     if (action === "post_action") {
@@ -255,6 +281,6 @@ Deno.serve(async (req: Request) => {
     return json(req, { error: "Nieobsługiwana operacja administracyjna." }, 400);
   } catch (error) {
     console.error("community-admin-action:", error);
-    return json(req, { error: errorMessage(error) }, 400);
+    return json(req, { error: errorMessage(error), code: "COMMUNITY_ADMIN_ERROR" }, 400);
   }
 });

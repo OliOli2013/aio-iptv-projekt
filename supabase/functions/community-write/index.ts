@@ -15,7 +15,7 @@ function corsHeaders(req: Request) {
   const allowed = ALLOWED_ORIGINS.has(origin) ? origin : "https://olioli2013.github.io";
   return {
     "Access-Control-Allow-Origin": allowed,
-    "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+    "Access-Control-Allow-Headers": "authorization, x-client-info, x-aio-community, apikey, content-type",
     "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Content-Type": "application/json; charset=utf-8",
     "Vary": "Origin",
@@ -57,6 +57,15 @@ function message(error: unknown): string {
   if (error instanceof Error) return error.message;
   if (typeof error === "object" && error && "message" in error) return String((error as { message: unknown }).message);
   return String(error || "Nieznany błąd");
+}
+
+async function authenticatedUser(admin: ReturnType<typeof createClient>, jwt: string) {
+  const result = await admin.auth.getUser(jwt);
+  if (result.error || !result.data.user) {
+    console.warn("Nie udało się potwierdzić sesji użytkownika:", result.error?.message || "brak użytkownika");
+    return null;
+  }
+  return result.data.user;
 }
 
 async function recordIp(admin: ReturnType<typeof createClient>, userId: string, ip: string, event: string) {
@@ -129,11 +138,10 @@ Deno.serve(async (req: Request) => {
     if (!token) return json(req, { error: "Zaloguj się do Społeczności AIO." }, 401);
 
     const admin = createClient(SUPABASE_URL, SERVICE_ROLE_KEY, {
-      auth: { persistSession: false, autoRefreshToken: false },
+      auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
     });
-    const authResult = await admin.auth.getUser(token);
-    const user = authResult.data.user;
-    if (authResult.error || !user) return json(req, { error: "Sesja wygasła. Zaloguj się ponownie." }, 401);
+    const user = await authenticatedUser(admin, token);
+    if (!user) return json(req, { error: "Sesja wygasła albo token został odrzucony. Odśwież stronę i spróbuj ponownie.", code: "INVALID_SESSION" }, 401);
 
     const payload = await req.json().catch(() => ({})) as Record<string, unknown>;
     const action = String(payload.action || "check_access");
@@ -148,8 +156,15 @@ Deno.serve(async (req: Request) => {
       report: "report",
       delete_post: "delete",
       delete_comment: "delete",
+      toggle_follow: "reaction",
     };
-    await recordIp(admin, user.id, ip, eventMap[action] || "access");
+    try {
+      await recordIp(admin, user.id, ip, eventMap[action] || "access");
+    } catch (ipError) {
+      // Historia IP jest dodatkiem bezpieczeństwa. Jej błąd nie może blokować
+      // publikowania, komentarzy, reakcji ani obserwowania wpisów.
+      console.warn("Nie udało się zapisać historii IP:", message(ipError));
+    }
 
     if (access.accountBanned) {
       return json(req, {
@@ -170,7 +185,7 @@ Deno.serve(async (req: Request) => {
     }
 
     if (action === "check_access") {
-      return json(req, { ok: true, allowed: true, ipRecorded: Boolean(ip) });
+      return json(req, { ok: true, allowed: true, ipRecorded: Boolean(ip), version: "community8" });
     }
 
     if (action === "create_post") {
@@ -242,6 +257,25 @@ Deno.serve(async (req: Request) => {
       return json(req, { ok: true, removed: false });
     }
 
+    if (action === "toggle_follow") {
+      const postId = String(payload.postId || "");
+      if (!postId) throw new Error("Brak identyfikatora wpisu.");
+      const existing = await admin.from("community_subscriptions")
+        .select("post_id")
+        .eq("post_id", postId)
+        .eq("user_id", user.id)
+        .maybeSingle();
+      if (existing.error) throw existing.error;
+      if (existing.data) {
+        const removed = await admin.from("community_subscriptions").delete().eq("post_id", postId).eq("user_id", user.id);
+        if (removed.error) throw removed.error;
+        return json(req, { ok: true, following: false });
+      }
+      const added = await admin.from("community_subscriptions").insert({ post_id: postId, user_id: user.id });
+      if (added.error) throw added.error;
+      return json(req, { ok: true, following: true });
+    }
+
     if (action === "report") {
       const targetType = String(payload.targetType || "");
       const targetId = String(payload.targetId || "");
@@ -283,6 +317,6 @@ Deno.serve(async (req: Request) => {
     return json(req, { error: "Nieobsługiwana operacja." }, 400);
   } catch (error) {
     console.error("community-write:", error);
-    return json(req, { error: message(error) }, 400);
+    return json(req, { error: message(error), code: "COMMUNITY_WRITE_ERROR" }, 400);
   }
 });

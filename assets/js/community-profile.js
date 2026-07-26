@@ -1,4 +1,4 @@
-/* Społeczność AIO — profile tylko dla zalogowanych, 2026-07-26 community5 */
+/* Społeczność AIO — profile tylko dla zalogowanych, 2026-07-26 community8 */
 (function () {
   'use strict';
   let targetId = '';

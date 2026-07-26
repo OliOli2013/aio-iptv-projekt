@@ -1,4 +1,4 @@
-/* Społeczność AIO — długie wpisy, linki i bezpieczne zapisy, 2026-07-26 community5 */
+/* Społeczność AIO — długie wpisy, linki i bezpieczne zapisy, 2026-07-26 community8 */
 (function () {
   'use strict';
 

@@ -1,4 +1,4 @@
-/* Społeczność AIO — zaawansowana moderacja użytkowników, treści i IP, 2026-07-26 community5 */
+/* Społeczność AIO — zaawansowana moderacja użytkowników, treści i IP, 2026-07-26 community8 */
 (function () {
   'use strict';
 

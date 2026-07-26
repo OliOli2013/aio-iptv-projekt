@@ -30,7 +30,7 @@
 @media(max-width:760px){.community-access-benefits{grid-template-columns:1fr 1fr}.community-access-gate{padding:24px 16px}}
 @media(max-width:460px){.community-access-benefits{grid-template-columns:1fr}}
 
-/* community5 — długie treści, linki i zaawansowana moderacja */
+/* community8 — długie treści, linki i zaawansowana moderacja */
 .community-link{display:inline-flex;align-items:center;gap:5px;max-width:100%;margin:1px 2px;padding:2px 7px;border:1px solid rgba(76,211,238,.48);border-radius:7px;background:rgba(13,64,81,.58);color:#83e8ff!important;text-decoration:none!important;font-weight:750;overflow-wrap:anywhere;word-break:break-word;box-shadow:0 0 0 1px rgba(70,207,238,.06)}
 .community-link:hover,.community-link:focus-visible{background:#13556b;border-color:#72e6fb;color:#fff!important;box-shadow:0 0 16px rgba(57,210,241,.2)}
 .community-link b{font-size:.78em;color:#d8f9ff}.community-inline-link{display:inline-block;margin-top:8px;color:#75e4fb;font-weight:800;text-decoration:none}.community-inline-link:hover{text-decoration:underline}

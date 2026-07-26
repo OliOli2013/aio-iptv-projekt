@@ -1,4 +1,4 @@
-/* Społeczność AIO — pełne długie wpisy, linki i bezpieczne zapisy, 2026-07-26 community5 */
+/* Społeczność AIO — pełne długie wpisy, linki i bezpieczne zapisy, 2026-07-26 community8 */
 (function () {
   'use strict';
   let postId = '';
@@ -225,19 +225,13 @@
   }
 
   async function toggleFollow(button) {
-    if (!AIOCommunity.requireAuth('Zaloguj się, aby obserwować wpis.')) return;
+    if (!AIOCommunity.requireWritable('Zaloguj się, aby obserwować wpis.')) return;
     button.disabled = true;
     try {
-      if (post.following) {
-        const result = await AIOCommunity.client.from('community_subscriptions').delete().eq('post_id', postId).eq('user_id', AIOCommunity.user.id);
-        if (result.error) throw result.error;
-        post.following = false;
-      } else {
-        const result = await AIOCommunity.client.from('community_subscriptions').upsert({ post_id: postId, user_id: AIOCommunity.user.id }, { onConflict: 'post_id,user_id' });
-        if (result.error) throw result.error;
-        post.following = true;
-      }
+      const result = await AIOCommunity.edgeCall('write', { action: 'toggle_follow', postId });
+      post.following = Boolean(result.following);
       button.textContent = post.following ? '🔔 Obserwujesz' : '🔕 Obserwuj';
+      AIOCommunity.showToast(post.following ? 'Wpis został dodany do obserwowanych.' : 'Wyłączono obserwowanie wpisu.', 'success');
     } catch (error) { AIOCommunity.showToast(AIOCommunity.friendlyError(error), 'error'); }
     finally { button.disabled = false; }
   }

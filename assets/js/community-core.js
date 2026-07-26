@@ -1,4 +1,4 @@
-/* Społeczność AIO — rdzeń prywatnej społeczności i bezpiecznych zapisów, 2026-07-26 community6 */
+/* Społeczność AIO — stabilne funkcje Edge, reakcje i komentarze, 2026-07-26 community8 */
 (function () {
   'use strict';
 
@@ -129,7 +129,7 @@
     },
 
     async loadConfig() {
-      const response = await fetch('data/community_config.json?v=20260726-community6', { cache: 'no-store' });
+      const response = await fetch('data/community_config.json?v=20260726-community8', { cache: 'no-store' });
       if (!response.ok) throw new Error('Nie udało się odczytać konfiguracji społeczności.');
       return response.json();
     },
@@ -189,38 +189,82 @@
       if (!this.client || !this.user) {
         throw new Error('Zaloguj się do Społeczności AIO.');
       }
-      const sessionResult = await this.client.auth.getSession();
-      const currentSession = sessionResult && sessionResult.data ? sessionResult.data.session : null;
-      if (currentSession) {
-        this.session = currentSession;
-        this.user = currentSession.user;
-      }
-      if (!this.session || !this.session.access_token) {
-        throw new Error('Sesja wygasła. Zaloguj się ponownie.');
-      }
+
       const functions = this.config && this.config.edgeFunctions ? this.config.edgeFunctions : {};
       const name = functions[type] || type;
-      const invokePromise = this.client.functions.invoke(name, {
-        body: payload || {},
-        headers: { Authorization: 'Bearer ' + this.session.access_token }
-      });
-      const timeoutPromise = new Promise((_, reject) => {
-        window.setTimeout(() => reject(new Error('Przekroczono czas odpowiedzi funkcji Edge.')), 12000);
-      });
-      const result = await Promise.race([invokePromise, timeoutPromise]);
-      if (result.error) {
-        let detail = result.error.message || 'Błąd funkcji Edge.';
+      const supa = this.config && this.config.supabase ? this.config.supabase : {};
+      const endpoint = String(supa.url || '').replace(/\/+$/, '') + '/functions/v1/' + encodeURIComponent(name);
+      if (!supa.url || !supa.anonKey) throw new Error('Brak konfiguracji funkcji Edge.');
+
+      const obtainSession = async (forceRefresh) => {
+        let result;
+        if (forceRefresh) result = await this.client.auth.refreshSession();
+        else result = await this.client.auth.getSession();
+        const session = result && result.data ? result.data.session : null;
+        if (result && result.error) throw result.error;
+        if (!session || !session.access_token) throw new Error('Sesja wygasła. Zaloguj się ponownie.');
+        this.session = session;
+        this.user = session.user;
+        return session;
+      };
+
+      const request = async (session) => {
+        const controller = new AbortController();
+        const timeout = window.setTimeout(() => controller.abort(), 22000);
         try {
-          const context = result.error.context;
-          if (context && typeof context.clone === 'function') {
-            const body = await context.clone().json();
-            if (body && body.error) detail = body.error;
+          const response = await fetch(endpoint, {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-store',
+            signal: controller.signal,
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + session.access_token,
+              'apikey': supa.anonKey,
+              'x-client-info': 'aio-community-web/community8'
+            },
+            body: JSON.stringify(payload || {})
+          });
+
+          const raw = await response.text();
+          let data = {};
+          if (raw) {
+            try { data = JSON.parse(raw); }
+            catch (_) { data = { error: raw.slice(0, 1200) }; }
           }
-        } catch (_) {}
-        throw new Error(detail);
+          if (!response.ok || (data && data.error)) {
+            const detail = data && (data.error || data.message || data.msg)
+              ? String(data.error || data.message || data.msg)
+              : 'Funkcja ' + name + ' zwróciła HTTP ' + response.status + '.';
+            const error = new Error(detail);
+            error.status = response.status;
+            error.functionName = name;
+            error.code = data && data.code ? data.code : '';
+            throw error;
+          }
+          return data || {};
+        } catch (error) {
+          if (error && error.name === 'AbortError') {
+            throw new Error('Przekroczono czas odpowiedzi funkcji Edge ' + name + '.');
+          }
+          throw error;
+        } finally {
+          window.clearTimeout(timeout);
+        }
+      };
+
+      let session = await obtainSession(false);
+      try {
+        return await request(session);
+      } catch (error) {
+        // Po zmianie kluczy JWT lub dłuższej bezczynności pierwszy token może
+        // zostać odrzucony. Odświeżamy sesję raz i ponawiamy operację.
+        if (error && (error.status === 401 || /INVALID_SESSION|Invalid JWT|JWT expired|token/i.test(String(error.message || '')))) {
+          session = await obtainSession(true);
+          return request(session);
+        }
+        throw error;
       }
-      if (result.data && result.data.error) throw new Error(result.data.error);
-      return result.data || {};
     },
 
     async checkAccessWithTimeout(timeoutMs) {
@@ -619,7 +663,10 @@
       if (/IP_BLOCKED|adresu IP/i.test(message)) return 'Dostęp z tego adresu IP został zablokowany przez administrację.';
       if (/ACCOUNT_BANNED|banned|konto zostało zablokowane|zablokowane/i.test(message)) return 'To konto ma zablokowaną możliwość korzystania ze społeczności.';
       if (/Przekroczono czas odpowiedzi/i.test(message)) return 'Funkcja bezpieczeństwa odpowiada zbyt długo. Publiczne aktualności nadal powinny się wyświetlić; sprawdź ustawienia funkcji Edge.';
-      if (/FunctionsHttpError|Edge Function|non-2xx/i.test(message)) return 'Nie udało się wykonać bezpiecznej operacji. Sprawdź wdrożenie funkcji Edge community-write.';
+      if (/Invalid JWT|JWT|401|Sesja wygasła|INVALID_SESSION/i.test(message)) return 'Sesja użytkownika została odrzucona. Wyloguj się, zaloguj ponownie i upewnij się, że w funkcjach Edge opcja Verify JWT with legacy secret jest wyłączona.';
+      if (/403|Brak uprawnień/i.test(message)) return message;
+      if (/404|Function not found|not found/i.test(message)) return 'Nie znaleziono funkcji Edge. Sprawdź nazwy community-write i community-admin-action.';
+      if (/500|502|503|FunctionsHttpError|Edge Function|non-2xx/i.test(message)) return 'Funkcja Edge zwróciła błąd: ' + message;
       return message;
     },
 
