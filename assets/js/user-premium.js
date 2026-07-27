@@ -495,7 +495,8 @@
   function initSupportGate() {
     if (document.documentElement.dataset.aioSupportGate === 'ready') return;
     document.documentElement.dataset.aioSupportGate = 'ready';
-    createSupportTicker();
+    // Górny przewijany pasek „Zasady” został celowo usunięty.
+    // Plansza wsparcia przy pobieraniu i limit jednego bezpłatnego pliku dziennie pozostają aktywne.
     createSupportModal();
     document.addEventListener('click', interceptDownload, true);
   }
