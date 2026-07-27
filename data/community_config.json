@@ -1,5 +1,5 @@
 {
-  "version": "2026.07.26-community8",
+  "version": "2026.07.27-community9",
   "enabled": true,
   "siteName": "Społeczność AIO",
   "siteUrl": "https://olioli2013.github.io/aio-iptv-projekt/",
@@ -79,5 +79,12 @@
     "write": "community-write",
     "admin": "community-admin-action"
   },
-  "ipHistoryRetentionDays": 90
+  "ipHistoryRetentionDays": 90,
+  "engagementFeatures": {
+    "solvedTopics": true,
+    "bestAnswers": true,
+    "publicStats": true,
+    "postWizard": true,
+    "contactAdminUrl": "contact.html"
+  }
 }

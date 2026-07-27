@@ -1,4 +1,4 @@
-/* Społeczność AIO — długie wpisy, linki i bezpieczne zapisy, 2026-07-26 community8 */
+/* Społeczność AIO — długie wpisy, linki i bezpieczne zapisy, 2026-07-27 community9 */
 (function () {
   'use strict';
 
@@ -21,8 +21,11 @@
     selectors.compose = document.querySelector('[data-community-compose]');
     state.pageSize = Number(AIOCommunity.config && AIOCommunity.config.postsPerPage || 12);
     isNewsPage = document.body.dataset.communityPage === 'news';
-    state.mode = isNewsPage ? 'official' : 'latest';
+    const requestedMode = new URLSearchParams(location.search).get('mode');
+    const allowedModes = new Set(['latest','questions','unanswered','solved','popular','official','mine']);
+    state.mode = isNewsPage ? 'official' : (allowedModes.has(requestedMode) ? requestedMode : 'latest');
     fillCategories();
+    syncActiveTab();
     bind();
     setupComposeCounter();
     renderComposeState();
@@ -43,6 +46,12 @@
     if (composeCategory) composeCategory.innerHTML = AIOCommunity.config.categories.map(item => '<option value="' + AIOCommunity.escapeAttr(item.id) + '">' + AIOCommunity.escape(item.icon + ' ' + item.label) + '</option>').join('');
   }
 
+  function syncActiveTab() {
+    document.querySelectorAll('[data-community-mode]').forEach(item => {
+      item.classList.toggle('active', item.dataset.communityMode === state.mode);
+    });
+  }
+
   function bind() {
     if (selectors.search) {
       let timer;
@@ -56,6 +65,9 @@
       document.querySelectorAll('[data-community-mode]').forEach(item => item.classList.remove('active'));
       button.classList.add('active');
       state.mode = button.dataset.communityMode;
+      const url = new URL(location.href);
+      if (state.mode === 'latest') url.searchParams.delete('mode'); else url.searchParams.set('mode', state.mode);
+      history.replaceState({}, '', url);
       loadFeed(true);
     }));
     if (selectors.more) selectors.more.addEventListener('click', () => loadFeed(false));
@@ -65,6 +77,7 @@
       if (isNewsPage || (AIOCommunity.user && !AIOCommunity.ipBlocked)) { await loadFeed(true); await loadStats(); subscribe(); }
     });
     document.addEventListener('click', handleActions);
+    document.querySelectorAll('[data-compose-template]').forEach(button => button.addEventListener('click', () => applyPostTemplate(button.dataset.composeTemplate)));
     const form = document.querySelector('[data-compose-form]');
     if (form) form.addEventListener('submit', submitPost);
     const images = document.querySelector('[data-compose-images]');
@@ -75,6 +88,29 @@
       document.querySelector('[data-compose-title]').focus();
       selectors.compose.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
+  }
+
+  function applyPostTemplate(type) {
+    const category = document.querySelector('[data-compose-category]');
+    const content = document.querySelector('[data-compose-content]');
+    const status = document.querySelector('[data-compose-template-status]');
+    if (!category || !content) return;
+    const templates = {
+      tuner: { category: 'pomoc', text: 'Model tunera:\nSystem i wersja:\nWersja Pythona:\n\nCo nie działa:\n\nCo zostało wykonane przed wystąpieniem problemu:\n\nDokładny komunikat błędu:\n' },
+      plugin: { category: 'wtyczki', text: 'Model tunera:\nSystem i wersja:\nNazwa i wersja wtyczki:\n\nOpis problemu:\n\nCzynność, przy której pojawia się błąd:\n\nTreść błędu / crashlog:\n' },
+      channels: { category: 'kanaly', text: 'Model tunera:\nSystem i wersja:\nPozycje satelitarne / rodzaj listy:\n\nProblem z listą kanałów, piconami lub EPG:\n\nCo zostało już sprawdzone:\n' },
+      iptv: { category: 'iptv', text: 'Model tunera:\nSystem i wersja:\nRodzaj źródła: M3U / Xtream / MAC Portal:\n\nOpis problemu:\n\nKomunikat błędu:\n\nCzy źródło działa w innej aplikacji:\n' },
+      solution: { category: 'inne', text: 'Problem, którego dotyczy rozwiązanie:\n\nSprawdzone rozwiązanie krok po kroku:\n1. \n2. \n3. \n\nSystemy / tunery, na których rozwiązanie zostało przetestowane:\n' },
+      update: { category: 'wtyczki', text: 'Nazwa projektu i wersja:\nData wydania:\n\nNajważniejsze zmiany:\n✅ \n✅ \n✅ \n\nSposób instalacji lub aktualizacji:\n\nDodatkowe informacje:\n' }
+    };
+    const selected = templates[type];
+    if (!selected) return;
+    if (content.value.trim() && !confirm('Zastąpić obecną treść szablonem kreatora?')) return;
+    category.value = selected.category;
+    content.value = selected.text;
+    content.dispatchEvent(new Event('input', { bubbles: true }));
+    content.focus();
+    if (status) status.textContent = 'Szablon został wstawiony. Uzupełnij pola i usuń te, które nie dotyczą Twojego wpisu.';
   }
 
   function setupComposeCounter() {
@@ -125,8 +161,11 @@
     try {
       const start = state.page * state.pageSize;
       const end = start + state.pageSize - 1;
-      const fields = 'id,author_id,kind,category,title,content,status,pinned,locked,attachments,created_at,published_at' + (AIOCommunity.user ? ',author:community_profiles!community_posts_author_id_fkey(id,display_name,avatar_url,tuner_model,system_name,role)' : '');
-      let query = AIOCommunity.client.from('community_posts').select(fields).order('pinned', { ascending: false }).order('created_at', { ascending: false }).range(start, end);
+      const fields = 'id,author_id,kind,category,title,content,status,pinned,locked,attachments,created_at,published_at,solved,best_comment_id,solved_at,comment_count,reaction_count' + (AIOCommunity.user ? ',author:community_profiles!community_posts_author_id_fkey(id,display_name,avatar_url,tuner_model,system_name,role)' : '');
+      let query = AIOCommunity.client.from('community_posts').select(fields).order('pinned', { ascending: false });
+      if (state.mode === 'popular') query = query.order('reaction_count', { ascending: false }).order('comment_count', { ascending: false }).order('created_at', { ascending: false });
+      else query = query.order('created_at', { ascending: false });
+      query = query.range(start, end);
       if (state.mode === 'official') query = query.eq('kind', 'official').eq('status', 'published');
       else if (state.mode === 'mine') {
         if (!AIOCommunity.user) {
@@ -139,7 +178,8 @@
       } else {
         query = query.eq('status', 'published');
         if (state.mode === 'questions') query = query.in('category', ['pomoc', 'oscam', 'iptv', 'systemy']);
-        if (state.mode === 'popular') query = query.order('created_at', { ascending: false });
+        if (state.mode === 'unanswered') query = query.eq('kind', 'community').eq('solved', false).eq('comment_count', 0);
+        if (state.mode === 'solved') query = query.eq('kind', 'community').eq('solved', true);
       }
       if (state.category) query = query.eq('category', state.category);
       if (state.search) {
@@ -169,24 +209,21 @@
     if (!rows.length) return rows;
     const ids = rows.map(row => row.id);
     const reactionFields = AIOCommunity.user ? 'post_id,type,user_id' : 'post_id,type';
-    const [reactions, comments] = await Promise.all([
-      AIOCommunity.client.from('community_reactions').select(reactionFields).in('post_id', ids),
-      AIOCommunity.user ? AIOCommunity.client.from('community_comments').select('post_id').in('post_id', ids).eq('status', 'published') : Promise.resolve({ data: [] })
-    ]);
+    const reactions = await AIOCommunity.client.from('community_reactions').select(reactionFields).in('post_id', ids);
     const reactionMap = {};
     (reactions.data || []).forEach(item => {
       reactionMap[item.post_id] = reactionMap[item.post_id] || { helpful: 0, works: 0, thanks: 0, mine: '' };
       reactionMap[item.post_id][item.type] = (reactionMap[item.post_id][item.type] || 0) + 1;
       if (AIOCommunity.user && item.user_id === AIOCommunity.user.id) reactionMap[item.post_id].mine = item.type;
     });
-    const commentMap = {};
-    (comments.data || []).forEach(item => { commentMap[item.post_id] = (commentMap[item.post_id] || 0) + 1; });
-    return rows.map(row => Object.assign({}, row, { reactions: reactionMap[row.id] || { helpful: 0, works: 0, thanks: 0, mine: '' }, comment_count: commentMap[row.id] || 0 }));
+    return rows.map(row => Object.assign({}, row, { reactions: reactionMap[row.id] || { helpful: 0, works: 0, thanks: 0, mine: '' }, comment_count: Number(row.comment_count || 0), reaction_count: Number(row.reaction_count || 0) }));
   }
 
   function renderFeed() {
     if (!state.rows.length) {
-      selectors.feed.innerHTML = '<div class="community-empty"><strong>Nie znaleziono wpisów.</strong><p>Zmień filtr albo opublikuj pierwszy wpis w tej kategorii.</p></div>';
+      const messages = { unanswered: ['Brak pytań bez odpowiedzi.', 'To dobra wiadomość — wszystkie widoczne pytania otrzymały już odpowiedź.'], solved: ['Brak rozwiązanych tematów.', 'Autor wpisu lub administrator może oznaczyć problem jako rozwiązany.'], popular: ['Brak popularnych dyskusji.', 'Dodaj komentarz lub reakcję, aby pomóc wyróżnić wartościowe wpisy.'] };
+      const message = messages[state.mode] || ['Nie znaleziono wpisów.', 'Zmień filtr albo opublikuj pierwszy wpis w tej kategorii.'];
+      selectors.feed.innerHTML = '<div class="community-empty"><strong>' + message[0] + '</strong><p>' + message[1] + '</p></div>';
       return;
     }
     selectors.feed.innerHTML = state.rows.map(renderCard).join('');
@@ -208,7 +245,7 @@
     return '<article class="community-post-card ' + (post.pinned ? 'pinned ' : '') + (official ? 'official' : '') + '" data-post-id="' + AIOCommunity.escapeAttr(post.id) + '">' +
       '<header class="community-post-head">' + AIOCommunity.avatarHtml(author, authorName) + '<div class="community-post-author"><strong>' + authorTitle + (author.role && author.role !== 'user' ? '<span class="community-role ' + AIOCommunity.escapeAttr(author.role) + '">' + AIOCommunity.escape(AIOCommunity.roleLabel(author.role)) + '</span>' : '') + '</strong><small>' + AIOCommunity.escape([author.tuner_model, author.system_name].filter(Boolean).join(' • ') || (official ? 'Oficjalny wpis AIO-IPTV.pl' : 'Użytkownik Społeczności AIO')) + '</small></div>' +
       '<div class="community-post-meta"><span>' + AIOCommunity.escape(AIOCommunity.timeAgo(post.created_at)) + '</span>' + (post.status !== 'published' ? '<br><span class="community-status-pill pending">Oczekuje</span>' : '') + '</div></header>' +
-      '<div class="community-post-content"><div class="community-post-tags">' + (official ? '<span class="community-status-pill official">✓ Oficjalne</span>' : '') + (post.pinned ? '<span class="community-status-pill pinned">📌 Przypięte</span>' : '') + '<span class="community-category">' + AIOCommunity.escape(category.icon + ' ' + category.label) + '</span></div>' +
+      '<div class="community-post-content"><div class="community-post-tags">' + (official ? '<span class="community-status-pill official">✓ Oficjalne</span>' : '') + (post.pinned ? '<span class="community-status-pill pinned">📌 Przypięte</span>' : '') + (post.solved ? '<span class="community-status-pill solved">✅ Rozwiązane</span>' : (Number(post.comment_count || 0) === 0 ? '<span class="community-status-pill unanswered">❓ Bez odpowiedzi</span>' : '')) + '<span class="community-category">' + AIOCommunity.escape(category.icon + ' ' + category.label) + '</span></div>' +
       '<h2><a href="post.html?id=' + AIOCommunity.escapeAttr(post.id) + '">' + AIOCommunity.escape(post.title) + '</a></h2>' + textHtml + renderImages(images) + '</div>' +
       '<footer class="community-post-footer">' + reactionButton(post, 'helpful', '👍 Pomocne') + reactionButton(post, 'works', '✅ Działa') + reactionButton(post, 'thanks', '❤️ Dziękuję') +
       '<a class="community-action community-open" href="post.html?id=' + AIOCommunity.escapeAttr(post.id) + '">' + (AIOCommunity.user ? '💬 ' + Number(post.comment_count || 0) + ' odpowiedzi' : '🔐 Dyskusja po zalogowaniu') + '</a><button class="community-action" type="button" data-report-post>⚑ Zgłoś</button>' + (canDelete ? '<button class="community-action danger" type="button" data-delete-post>Usuń</button>' : '') + '</footer></article>';

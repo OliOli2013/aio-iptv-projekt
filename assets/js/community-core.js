@@ -1,4 +1,4 @@
-/* Społeczność AIO — stabilne funkcje Edge, reakcje i komentarze, 2026-07-26 community8 */
+/* Społeczność AIO — stabilne funkcje Edge, reakcje i komentarze, 2026-07-27 community9 */
 (function () {
   'use strict';
 
@@ -129,7 +129,7 @@
     },
 
     async loadConfig() {
-      const response = await fetch('data/community_config.json?v=20260726-community8', { cache: 'no-store' });
+      const response = await fetch('data/community_config.json?v=20260727-community9', { cache: 'no-store' });
       if (!response.ok) throw new Error('Nie udało się odczytać konfiguracji społeczności.');
       return response.json();
     },

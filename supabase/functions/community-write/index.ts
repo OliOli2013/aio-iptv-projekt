@@ -157,6 +157,7 @@ Deno.serve(async (req: Request) => {
       delete_post: "delete",
       delete_comment: "delete",
       toggle_follow: "reaction",
+      set_solution: "comment",
     };
     try {
       await recordIp(admin, user.id, ip, eventMap[action] || "access");
@@ -185,7 +186,7 @@ Deno.serve(async (req: Request) => {
     }
 
     if (action === "check_access") {
-      return json(req, { ok: true, allowed: true, ipRecorded: Boolean(ip), version: "community8" });
+      return json(req, { ok: true, allowed: true, ipRecorded: Boolean(ip), version: "community9" });
     }
 
     if (action === "create_post") {
@@ -276,6 +277,36 @@ Deno.serve(async (req: Request) => {
       return json(req, { ok: true, following: true });
     }
 
+    if (action === "set_solution") {
+      const postId = String(payload.postId || "");
+      const solved = payload.solved !== false;
+      const commentId = solved && payload.commentId ? String(payload.commentId) : null;
+      if (!postId) throw new Error("Brak identyfikatora wpisu.");
+      const postResult = await admin.from("community_posts")
+        .select("id,author_id,status,best_comment_id")
+        .eq("id", postId)
+        .maybeSingle();
+      if (postResult.error || !postResult.data) throw new Error("Wpis nie istnieje.");
+      if (postResult.data.author_id !== user.id && !access.staff) return json(req, { error: "Tylko autor wpisu lub administrator może oznaczyć rozwiązanie." }, 403);
+      if (commentId) {
+        const commentResult = await admin.from("community_comments")
+          .select("id,post_id,status")
+          .eq("id", commentId)
+          .maybeSingle();
+        if (commentResult.error || !commentResult.data || commentResult.data.post_id !== postId || commentResult.data.status !== "published") {
+          throw new Error("Wybrana odpowiedź nie istnieje albo nie należy do tego wpisu.");
+        }
+      }
+      const updated = await admin.from("community_posts").update({
+        solved,
+        best_comment_id: solved ? commentId : null,
+        solved_at: solved ? new Date().toISOString() : null,
+        solved_by: solved ? user.id : null,
+      }).eq("id", postId).select("id,solved,best_comment_id,solved_at").single();
+      if (updated.error) throw updated.error;
+      return json(req, { ok: true, data: updated.data });
+    }
+
     if (action === "report") {
       const targetType = String(payload.targetType || "");
       const targetId = String(payload.targetId || "");
@@ -306,11 +337,15 @@ Deno.serve(async (req: Request) => {
 
     if (action === "delete_comment") {
       const id = String(payload.id || "");
-      const current = await admin.from("community_comments").select("id,author_id").eq("id", id).maybeSingle();
+      const current = await admin.from("community_comments").select("id,author_id,post_id").eq("id", id).maybeSingle();
       if (current.error || !current.data) throw new Error("Komentarz nie istnieje.");
       if (current.data.author_id !== user.id && !access.staff) return json(req, { error: "Brak uprawnień." }, 403);
+      const best = await admin.from("community_posts").select("id,best_comment_id").eq("id", current.data.post_id).maybeSingle();
       const result = await admin.from("community_comments").delete().eq("id", id);
       if (result.error) throw result.error;
+      if (best.data && best.data.best_comment_id === id) {
+        await admin.from("community_posts").update({ solved: false, best_comment_id: null, solved_at: null, solved_by: null }).eq("id", current.data.post_id);
+      }
       return json(req, { ok: true });
     }
 

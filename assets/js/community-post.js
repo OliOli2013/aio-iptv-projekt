@@ -1,4 +1,4 @@
-/* Społeczność AIO — pełne długie wpisy, linki i bezpieczne zapisy, 2026-07-26 community8 */
+/* Społeczność AIO — pełne długie wpisy, linki i bezpieczne zapisy, 2026-07-27 community9 */
 (function () {
   'use strict';
   let postId = '';
@@ -59,6 +59,10 @@
       if (deleteComment) deleteCurrentComment(deleteComment.dataset.deleteComment);
       const follow = event.target.closest('[data-follow-post]');
       if (follow) toggleFollow(follow);
+      const solved = event.target.closest('[data-toggle-solved]');
+      if (solved) toggleSolved();
+      const best = event.target.closest('[data-best-answer]');
+      if (best) setBestAnswer(best.dataset.bestAnswer);
     });
     const form = document.querySelector('[data-comment-form]');
     if (form) form.addEventListener('submit', submitComment);
@@ -91,7 +95,7 @@
     const root = document.querySelector('[data-community-post]');
     root.innerHTML = '<div class="community-loading">Ładuję wpis…</div>';
     try {
-      const fields = 'id,author_id,kind,category,title,content,status,pinned,locked,attachments,created_at,published_at' + (AIOCommunity.user ? ',author:community_profiles!community_posts_author_id_fkey(id,display_name,avatar_url,tuner_model,system_name,role)' : '');
+      const fields = 'id,author_id,kind,category,title,content,status,pinned,locked,attachments,created_at,published_at,solved,best_comment_id,solved_at,solved_by,comment_count,reaction_count' + (AIOCommunity.user ? ',author:community_profiles!community_posts_author_id_fkey(id,display_name,avatar_url,tuner_model,system_name,role)' : '');
       const result = await AIOCommunity.client.from('community_posts').select(fields).eq('id', postId).maybeSingle();
       if (result.error) throw result.error;
       if (!result.data) {
@@ -138,10 +142,11 @@
     const category = AIOCommunity.category(post.category);
     const images = Array.isArray(post.attachments) ? post.attachments.filter(item => item && item.url) : [];
     const canDelete = AIOCommunity.isOwner(post.author_id) || AIOCommunity.isAdmin();
+    const canManageSolution = AIOCommunity.isOwner(post.author_id) || AIOCommunity.isAdmin();
     root.innerHTML = '<article class="community-post-card ' + (post.pinned ? 'pinned ' : '') + (post.kind === 'official' ? 'official' : '') + '">' +
       '<header class="community-post-head">' + AIOCommunity.avatarHtml(author, authorName) + '<div class="community-post-author"><strong>' + authorTitle + (author.role && author.role !== 'user' ? '<span class="community-role ' + AIOCommunity.escapeAttr(author.role) + '">' + AIOCommunity.escape(AIOCommunity.roleLabel(author.role)) + '</span>' : '') + '</strong><small>' + AIOCommunity.escape([author.tuner_model, author.system_name].filter(Boolean).join(' • ') || 'Społeczność AIO') + '</small></div><div class="community-post-meta">' + AIOCommunity.escape(AIOCommunity.formatDate(post.created_at)) + '</div></header>' +
-      '<div class="community-post-content"><div class="community-post-tags">' + (post.kind === 'official' ? '<span class="community-status-pill official">✓ Oficjalne</span>' : '') + (post.pinned ? '<span class="community-status-pill pinned">📌 Przypięte</span>' : '') + (post.status !== 'published' ? '<span class="community-status-pill pending">Oczekuje na zatwierdzenie</span>' : '') + '<span class="community-category">' + AIOCommunity.escape(category.icon + ' ' + category.label) + '</span></div><h1>' + AIOCommunity.escape(post.title) + '</h1><div class="community-post-text">' + AIOCommunity.formatText(post.content) + '</div>' + renderImages(images) + '</div>' +
-      '<footer class="community-post-footer">' + reactionButton('helpful', '👍 Pomocne') + reactionButton('works', '✅ Działa') + reactionButton('thanks', '❤️ Dziękuję') + '<button class="community-action" type="button" data-follow-post>' + (post.following ? '🔔 Obserwujesz' : '🔕 Obserwuj') + '</button><button class="community-action" type="button" data-report-current-post>⚑ Zgłoś</button>' + (canDelete ? '<button class="community-action danger" type="button" data-delete-current-post>Usuń wpis</button>' : '') + '</footer></article>';
+      '<div class="community-post-content"><div class="community-post-tags">' + (post.kind === 'official' ? '<span class="community-status-pill official">✓ Oficjalne</span>' : '') + (post.pinned ? '<span class="community-status-pill pinned">📌 Przypięte</span>' : '') + (post.status !== 'published' ? '<span class="community-status-pill pending">Oczekuje na zatwierdzenie</span>' : '') + (post.solved ? '<span class="community-status-pill solved">✅ Problem rozwiązany</span>' : '<span class="community-status-pill unanswered">❓ Oczekuje na rozwiązanie</span>') + '<span class="community-category">' + AIOCommunity.escape(category.icon + ' ' + category.label) + '</span></div><h1>' + AIOCommunity.escape(post.title) + '</h1>' + (post.solved ? '<div class="community-solution-banner"><strong>✅ Temat rozwiązany</strong><span>' + (post.best_comment_id ? 'Najlepsza odpowiedź została wyróżniona poniżej.' : 'Autor oznaczył problem jako rozwiązany.') + '</span></div>' : '') + '<div class="community-post-text">' + AIOCommunity.formatText(post.content) + '</div>' + renderImages(images) + '</div>' +
+      '<footer class="community-post-footer">' + reactionButton('helpful', '👍 Pomocne') + reactionButton('works', '✅ Działa') + reactionButton('thanks', '❤️ Dziękuję') + (canManageSolution ? '<button class="community-action solution-action" type="button" data-toggle-solved>' + (post.solved ? '↩ Otwórz ponownie' : '✅ Oznacz jako rozwiązane') + '</button>' : '') + '<button class="community-action" type="button" data-follow-post>' + (post.following ? '🔔 Obserwujesz' : '🔕 Obserwuj') + '</button><button class="community-action" type="button" data-report-current-post>⚑ Zgłoś</button>' + (canDelete ? '<button class="community-action danger" type="button" data-delete-current-post>Usuń wpis</button>' : '') + '</footer></article>';
   }
 
   function renderImages(images) {
@@ -165,7 +170,7 @@
       root.innerHTML = '<div class="community-empty"><strong>Brak odpowiedzi.</strong><p>Dodaj pierwszy komentarz do tego wpisu.</p></div>';
       return;
     }
-    const parents = visible.filter(item => !item.parent_id);
+    const parents = visible.filter(item => !item.parent_id).sort((a, b) => Number(b.id === post.best_comment_id) - Number(a.id === post.best_comment_id));
     const children = visible.filter(item => item.parent_id);
     root.innerHTML = parents.map(parent => renderComment(parent) + children.filter(child => child.parent_id === parent.id).map(child => renderComment(child, true)).join('')).join('') + children.filter(child => !visible.some(parent => parent.id === child.parent_id)).map(child => renderComment(child, true)).join('');
   }
@@ -173,7 +178,9 @@
   function renderComment(comment, reply) {
     const author = comment.author || {};
     const canDelete = AIOCommunity.isOwner(comment.author_id) || AIOCommunity.isAdmin();
-    return '<article class="community-comment ' + (reply ? 'reply' : '') + '" id="comment-' + AIOCommunity.escapeAttr(comment.id) + '"><header class="community-comment-head">' + AIOCommunity.avatarHtml(author, author.display_name) + '<div><strong><a href="profile.html?id=' + AIOCommunity.escapeAttr(comment.author_id) + '">' + AIOCommunity.escape(author.display_name || 'Użytkownik') + '</a></strong><small>' + AIOCommunity.escape(AIOCommunity.timeAgo(comment.created_at)) + (comment.status !== 'published' ? ' • oczekuje' : '') + '</small></div></header><div class="community-comment-body">' + AIOCommunity.formatText(comment.content) + '</div><div class="community-comment-actions"><button class="community-action" type="button" data-comment-reply="' + AIOCommunity.escapeAttr(comment.id) + '">Odpowiedz</button><button class="community-action" type="button" data-report-comment="' + AIOCommunity.escapeAttr(comment.id) + '">Zgłoś</button>' + (canDelete ? '<button class="community-action danger" type="button" data-delete-comment="' + AIOCommunity.escapeAttr(comment.id) + '">Usuń</button>' : '') + '</div></article>';
+    const canChooseBest = Boolean(post && (AIOCommunity.isOwner(post.author_id) || AIOCommunity.isAdmin()) && comment.status === 'published');
+    const isBest = Boolean(post && post.best_comment_id === comment.id);
+    return '<article class="community-comment ' + (reply ? 'reply ' : '') + (isBest ? 'best-answer' : '') + '" id="comment-' + AIOCommunity.escapeAttr(comment.id) + '">' + (isBest ? '<div class="community-best-answer-badge">✅ Najlepsza odpowiedź</div>' : '') + '<header class="community-comment-head">' + AIOCommunity.avatarHtml(author, author.display_name) + '<div><strong><a href="profile.html?id=' + AIOCommunity.escapeAttr(comment.author_id) + '">' + AIOCommunity.escape(author.display_name || 'Użytkownik') + '</a></strong><small>' + AIOCommunity.escape(AIOCommunity.timeAgo(comment.created_at)) + (comment.status !== 'published' ? ' • oczekuje' : '') + '</small></div></header><div class="community-comment-body">' + AIOCommunity.formatText(comment.content) + '</div><div class="community-comment-actions"><button class="community-action" type="button" data-comment-reply="' + AIOCommunity.escapeAttr(comment.id) + '">Odpowiedz</button>' + (canChooseBest && !isBest ? '<button class="community-action solution-action" type="button" data-best-answer="' + AIOCommunity.escapeAttr(comment.id) + '">✅ Oznacz jako rozwiązanie</button>' : '') + '<button class="community-action" type="button" data-report-comment="' + AIOCommunity.escapeAttr(comment.id) + '">Zgłoś</button>' + (canDelete ? '<button class="community-action danger" type="button" data-delete-comment="' + AIOCommunity.escapeAttr(comment.id) + '">Usuń</button>' : '') + '</div></article>';
   }
 
   function renderCommentForm() {
@@ -234,6 +241,26 @@
       AIOCommunity.showToast(post.following ? 'Wpis został dodany do obserwowanych.' : 'Wyłączono obserwowanie wpisu.', 'success');
     } catch (error) { AIOCommunity.showToast(AIOCommunity.friendlyError(error), 'error'); }
     finally { button.disabled = false; }
+  }
+
+  async function toggleSolved() {
+    if (!post || !(AIOCommunity.isOwner(post.author_id) || AIOCommunity.isAdmin())) return;
+    try {
+      await AIOCommunity.edgeCall('write', { action: 'set_solution', postId, solved: !post.solved, commentId: null });
+      AIOCommunity.showToast(post.solved ? 'Temat został ponownie otwarty.' : 'Temat został oznaczony jako rozwiązany.', 'success');
+      await loadAll();
+    } catch (error) { AIOCommunity.showToast(AIOCommunity.friendlyError(error), 'error'); }
+  }
+
+  async function setBestAnswer(commentId) {
+    if (!post || !(AIOCommunity.isOwner(post.author_id) || AIOCommunity.isAdmin())) return;
+    try {
+      await AIOCommunity.edgeCall('write', { action: 'set_solution', postId, solved: true, commentId });
+      AIOCommunity.showToast('Odpowiedź została oznaczona jako rozwiązanie.', 'success');
+      await loadAll();
+      const target = document.getElementById('comment-' + commentId);
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } catch (error) { AIOCommunity.showToast(AIOCommunity.friendlyError(error), 'error'); }
   }
 
   async function report(type, id) {
