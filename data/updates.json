@@ -1,97 +1,22 @@
 [
   {
-    "date": "2026-07-25",
-    "ts": 1785038400000,
+    "date": "2026-07-28",
+    "ts": 1785196800000,
     "type": "release",
-    "title": "Społeczność AIO — własne aktualności, posty i komentarze",
-    "desc": "Dodano niezależną przestrzeń społecznościową działającą bezpośrednio na AIO-IPTV.pl: oficjalne aktualności, konta, posty, zdjęcia, komentarze, reakcje, obserwowanie i moderację.",
-    "details": "Nowe funkcje:\n• logowanie bez hasła przez link e-mail\n• publiczne profile użytkowników z modelem tunera i systemem\n• posty, pytania, zdjęcia oraz filtrowanie kategorii\n• oficjalna sekcja Aktualności AIO-IPTV.pl\n• komentarze, odpowiedzi i reakcje Pomocne / Działa / Dziękuję\n• obserwowanie wpisów i powiadomienia\n• akceptacja pierwszych wpisów nowych kont\n• zgłaszanie treści, blokady użytkowników i panel moderacji\n• zabezpieczenie bazy przez Supabase Row Level Security\n• regulamin społeczności i informacja o prywatności",
-    "url": "community.html",
-    "tags": [
-      "Społeczność AIO",
-      "aktualności",
-      "komentarze",
-      "Supabase",
-      "moderacja",
-      "Enigma2"
-    ]
-  },
-  {
-    "date": "2026-07-24",
-    "ts": 1784952000000,
-    "type": "release",
-    "title": "AIO-IPTV.pl — Studio, publikator, symulator pilota, baza błędów i status projektów",
-    "desc": "Dodano cztery rozbudowane narzędzia: lokalny panel publikowania aktualizacji, interaktywny pilot, bazę błędów połączoną z analizatorem logów oraz stronę statusu projektów.",
-    "details": "Nowe funkcje:\n• Studio AIO-IPTV.pl jako wspólne centrum narzędzi\n• lokalny publikator tworzący stronę projektu, JSON-y i paczkę ZIP do GitHuba\n• obsługa lokalnych plików IPK/APK/EXE/ZIP, zdjęć, SHA-256 i changelogu\n• interaktywny symulator pilota z kontekstami TV, lista kanałów, EPG, odtwarzanie i ustawienia\n• baza typowych błędów Enigma2 z komendami i ostrzeżeniami\n• połączenie wyników analizatora logów z odpowiednimi wpisami bazy\n• status projektów: aktywnie rozwijane, stabilne, utrzymywane, wstrzymane i archiwalne\n• automatyczne oznaczenie statusu na stronach projektów",
-    "url": "studio.html",
-    "tags": [
-      "Studio",
-      "publikator",
-      "pilot",
-      "baza błędów",
-      "status projektów",
-      "Enigma2"
-    ]
-  },
-  {
-    "date": "2026-07-24",
-    "ts": 1784944800000,
-    "type": "release",
-    "title": "AIO-IPTV.pl — 5 inteligentnych narzędzi i dzienna zasada pobierania",
-    "desc": "Dodano asystenta doboru, profil Mój tuner, automatyczny status usług, generator QR, analizator logów oraz jedno bezpłatne pobranie dziennie.",
-    "details": "Nowe funkcje strony:\n• Asystent „Co mam pobrać?”\n• lokalny profil „Mój tuner”\n• codzienny status instalatorów, plików i systemów przez GitHub Actions\n• lokalny generator kodów QR dla linków i komend\n• analizator crashlogów i błędów Enigma2\n• jedno bezpłatne pobranie dziennie w danej przeglądarce\n• kolejne pobrania odblokowywane po otwarciu Revolut, BuyCoffee lub Ko-fi\n\nMechanizm pobierania działa lokalnie w przeglądarce. Statyczna strona GitHub Pages nie potwierdza wykonania płatności.",
-    "url": "assistant.html",
-    "tags": [
-      "AIO-IPTV.pl",
-      "asystent",
-      "Mój tuner",
-      "status",
-      "QR",
-      "analizator logów",
-      "wsparcie",
-      "pobieranie"
-    ]
-  },
-  {
-    "date": "2026-07-24",
-    "ts": 1784937600000,
-    "type": "release",
-    "title": "AIO-IPTV.pl — profesjonalna przebudowa strony",
-    "desc": "Nowe centrum pobierania, centrum zgodności, generator zgłoszeń błędów, przebudowana strona główna, PWA i ujednolicone menu.",
-    "details": "Przebudowano stronę AIO-IPTV.pl: dodano centrum pobierania z filtrami, rozmiarami i SHA-256, centrum zgodności projektów, generator zgłoszeń błędów, nowy układ strony głównej według zadań użytkownika, PWA i tryb offline, sitemapę, robots.txt, ujednolicone menu, metadane projektów oraz opcję ukrycia monitu wsparcia na 7 dni.",
-    "url": "index.html",
-    "tags": [
-      "AIO-IPTV.pl",
-      "strona",
-      "centrum pobierania",
-      "zgodność",
-      "raport błędów",
-      "PWA",
-      "SEO"
-    ]
-  },
-  {
-    "date": "2026-07-23",
-    "ts": 1784764800000,
-    "type": "release",
-    "title": "AIO Panel 14.0.1 — autorskie picony i poprawiona instalacja",
-    "desc": "Dodano autorskie picony dla AIO Panel, poprawiono instalowanie grafik z archiwów, nadpisywanie istniejących plików, komunikaty o wolnym miejscu oraz zgodność z systemami Enigma2.",
-    "details": "AIO Panel 14.0.1\n\nW najnowszej aktualizacji dodano autorskie picony przygotowane specjalnie dla AIO Panel.\n\nPoprawiono mechanizm instalacji piconów:\n• usunięto błędne komunikaty o braku miejsca\n• poprawiono obsługę powtarzających się nazw plików\n• usprawniono instalację piconów z archiwów\n• poprawiono nadpisywanie istniejących grafik\n• zwiększono zgodność z różnymi systemami Enigma2\n\nDodatkowo usprawniono Super Konfigurator, instalację Softcam i OSCam-Emu oraz mechanizm aktualizacji wtyczki.\n\nAIO Panel 14.0.1 — by Paweł Pawełek.",
+    "title": "AIO Panel 15.0.0 — AIO Connect i naprawa E2iPlayer",
+    "desc": "Dodano AIO Connect z diagnostyką, pełnym raportem, zgłoszeniem przez kod QR, dostępem do strony i Społeczności AIO. Naprawiono instalator E2iPlayer.",
+    "details": "AIO Panel 15.0.0 — AIO Connect\n\nNajważniejsze zmiany:\n• naprawiono instalator E2iPlayer\n• dodano kategorię AIO Connect pod Wtyczki Online\n• diagnostyka kondycji tunera 0–100\n• pełny raport techniczny zapisywany lokalnie\n• anonimowy kod urządzenia\n• zgłoszenie problemu przez telefon i kod QR\n• kod QR strony AIO-IPTV.pl\n• funkcja Dołącz do AIO Społeczności\n• informacje o prywatności i świadomym udostępnianiu raportu\n\nPozostałe funkcje AIO Panel pozostają dostępne. Po instalacji wykonaj restart GUI.\n\nAIO Panel 15.0.0 — by Paweł Pawełek",
     "url": "plugin-aio-panel.html",
     "tags": [
       "AIO Panel",
-      "14.0.1",
+      "15.0.0",
+      "AIO Connect",
+      "E2iPlayer",
       "Enigma2",
-      "picony",
-      "autorskie picony",
-      "TVN",
-      "Polsat Viasat",
-      "archiwa",
-      "nadpisywanie",
-      "Super Konfigurator",
-      "Softcam",
-      "OSCam-Emu",
-      "aktualizacja"
+      "diagnostyka",
+      "raport",
+      "kod QR",
+      "Społeczność AIO"
     ]
   },
   {

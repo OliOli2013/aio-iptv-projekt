@@ -1,5 +1,5 @@
 {
-  "version": "2026.07.28-community10",
+  "version": "2026.07.28-community10-aio-connect",
   "enabled": true,
   "siteName": "Społeczność AIO",
   "siteUrl": "https://olioli2013.github.io/aio-iptv-projekt/",
@@ -77,7 +77,8 @@
   "secureWriteEnabled": true,
   "edgeFunctions": {
     "write": "community-write",
-    "admin": "community-admin-action"
+    "admin": "community-admin-action",
+    "aioConnectReport": "aio-connect-report"
   },
   "ipHistoryRetentionDays": 90,
   "engagementFeatures": {

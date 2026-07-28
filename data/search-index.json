@@ -1,236 +1,11 @@
 [
   {
-    "title": "Społeczność AIO",
-    "desc": "Pytania, odpowiedzi, zdjęcia, komentarze, reakcje i pomoc dla użytkowników Enigma2.",
-    "url": "community.html",
-    "tags": [
-      "społeczność",
-      "forum",
-      "pytania",
-      "odpowiedzi",
-      "pomoc",
-      "enigma2"
-    ]
-  },
-  {
-    "title": "Aktualności AIO-IPTV.pl",
-    "desc": "Oficjalne komunikaty o wtyczkach, aplikacjach, listach kanałów i systemach.",
-    "url": "news.html",
-    "tags": [
-      "aktualności",
-      "komunikaty",
-      "wydania",
-      "wersje"
-    ]
-  },
-  {
-    "title": "Profil Społeczności AIO",
-    "desc": "Profil użytkownika z modelem tunera, systemem i opublikowanymi wpisami.",
-    "url": "profile.html",
-    "tags": [
-      "profil",
-      "konto",
-      "tuner",
-      "system"
-    ]
-  },
-  {
-    "title": "Regulamin Społeczności AIO",
-    "desc": "Zasady bezpiecznego publikowania i legalnej pomocy technicznej.",
-    "url": "community-rules.html",
-    "tags": [
-      "regulamin",
-      "zasady",
-      "bezpieczeństwo",
-      "moderacja"
-    ]
-  },
-  {
-    "title": "Prywatność Społeczności AIO",
-    "desc": "Informacja o danych kont, postów, komentarzy, zdjęć i logowania.",
-    "url": "privacy-community.html",
-    "tags": [
-      "prywatność",
-      "dane",
-      "supabase",
-      "konto"
-    ]
-  },
-  {
-    "title": "Studio AIO-IPTV.pl",
-    "desc": "Lokalny publikator, symulator pilota, baza błędów i status projektów.",
-    "url": "studio.html",
-    "tags": [
-      "studio",
-      "narzędzia",
-      "publikator",
-      "pilot",
-      "błędy",
-      "status"
-    ]
-  },
-  {
-    "title": "Lokalny panel publikowania aktualizacji",
-    "desc": "Generator stron projektów i paczek ZIP do wgrania na GitHub.",
-    "url": "publisher.html",
-    "tags": [
-      "publikator",
-      "github",
-      "zip",
-      "ipk",
-      "apk",
-      "exe",
-      "changelog"
-    ]
-  },
-  {
-    "title": "Interaktywny symulator pilota Enigma2",
-    "desc": "Klikalny pilot z opisem funkcji w TV, EPG, liście kanałów i odtwarzaniu.",
-    "url": "remote-simulator.html",
-    "tags": [
-      "pilot",
-      "przyciski",
-      "openatv",
-      "openpli",
-      "epg",
-      "timeshift"
-    ]
-  },
-  {
-    "title": "Baza błędów Enigma2",
-    "desc": "Wzorce komunikatów, przyczyny, komendy i bezpieczne rozwiązania.",
-    "url": "errors.html",
-    "tags": [
-      "błąd",
-      "crashlog",
-      "python",
-      "opkg",
-      "sieć",
-      "lamedb",
-      "skin"
-    ]
-  },
-  {
-    "title": "Status projektów AIO-IPTV.pl",
-    "desc": "Stan rozwoju wtyczek, aplikacji, list kanałów i systemów.",
-    "url": "project-status.html",
-    "tags": [
-      "status",
-      "aktywnie rozwijany",
-      "stabilny",
-      "utrzymywany"
-    ]
-  },
-  {
-    "title": "Analizator logów i crashlogów",
-    "desc": "Lokalna analiza błędów Enigma2, Python, OPKG, sieci, lamedb i skina.",
-    "url": "log-analyzer.html",
-    "tags": [
-      "log",
-      "crashlog",
-      "traceback",
-      "błąd",
-      "opkg",
-      "python",
-      "lamedb"
-    ]
-  },
-  {
-    "title": "QR instalacji",
-    "desc": "Lokalny generator kodów QR dla linków, plików i komend instalacyjnych.",
-    "url": "qr-install.html",
-    "tags": [
-      "qr",
-      "kod",
-      "telefon",
-      "komenda",
-      "instalacja"
-    ]
-  },
-  {
-    "title": "Status usług i plików",
-    "desc": "Automatyczny status instalatorów, manifestów, plików i systemów Multi-Click.",
-    "url": "status.html",
-    "tags": [
-      "status",
-      "awaria",
-      "linki",
-      "github actions",
-      "instalator"
-    ]
-  },
-  {
-    "title": "Mój tuner — profil urządzenia",
-    "desc": "Lokalny profil modelu tunera, systemu, Pythona, satelitów i połączenia.",
-    "url": "my-tuner.html",
-    "tags": [
-      "profil",
-      "tuner",
-      "localstorage",
-      "system",
-      "satelity"
-    ]
-  },
-  {
-    "title": "Asystent doboru — co mam pobrać?",
-    "desc": "Dobiera projekty do tunera, systemu Enigma2, wersji Pythona i celu użytkownika.",
-    "url": "assistant.html",
-    "tags": [
-      "asystent",
-      "dobór",
-      "co pobrać",
-      "python",
-      "tuner",
-      "rekomendacje"
-    ]
-  },
-  {
     "title": "Start",
     "desc": "Strona główna — szybkie wejście do wtyczek, narzędzi i poradników.",
     "url": "index.html",
     "tags": [
       "start",
       "home"
-    ]
-  },
-  {
-    "title": "Centrum pobierania",
-    "desc": "Wszystkie wtyczki, aplikacje, systemy, listy i poradniki z filtrami, statusem i SHA-256.",
-    "url": "downloads.html",
-    "tags": [
-      "pobieranie",
-      "download",
-      "ipk",
-      "apk",
-      "exe",
-      "systemy",
-      "listy",
-      "sha256"
-    ]
-  },
-  {
-    "title": "Centrum zgodności",
-    "desc": "Wymagania Python, system, Android i Windows dla głównych projektów.",
-    "url": "compatibility.html",
-    "tags": [
-      "zgodność",
-      "python 2",
-      "python 3",
-      "OpenATV",
-      "Android",
-      "Windows"
-    ]
-  },
-  {
-    "title": "Generator zgłoszenia błędu",
-    "desc": "Przygotuj kompletne zgłoszenie z modelem, systemem, Pythonem i logiem.",
-    "url": "report-error.html",
-    "tags": [
-      "błąd",
-      "raport",
-      "crashlog",
-      "pomoc",
-      "zgłoszenie"
     ]
   },
   {
@@ -244,36 +19,21 @@
     ]
   },
   {
-    "title": "AIO Panel Remote 1.4.6 Free / Pro - aplikacja Android",
-    "desc": "Sterowanie tunerem Enigma2 przez OpenWebif, listy kanałów, EPG, picony oraz streaming SAT/IPTV. Free działa w LAN, Pro odblokowuje streaming i ZeroTier/VPN.",
-    "url": "app-aio-panel-remote.html",
+    "title": "AIO Panel 15.0.0 — AIO Connect",
+    "desc": "AIO Connect, diagnostyka tunera, pełny raport, zgłoszenie przez kod QR, Społeczność AIO i naprawiony instalator E2iPlayer.",
+    "url": "plugin-aio-panel.html",
     "tags": [
-      "Aplikacje Android",
-      "Android",
-      "APK",
-      "AIO Panel Remote",
-      "1.4.6",
-      "Free",
-      "Pro",
+      "AIO Panel",
+      "15.0.0",
+      "AIO Connect",
       "Enigma2",
-      "OpenWebif",
-      "ZeroTier",
-      "VPN",
-      "pilot",
-      "kanały",
-      "bukiety",
-      "EPG",
-      "picony",
-      "cache",
-      "streaming SAT",
-      "streaming IPTV",
-      "transkodowanie",
-      "8001",
-      "8002",
-      "Arc Player",
-      "VLC",
-      "Play Protect",
-      "licencja roczna"
+      "diagnostyka",
+      "raport",
+      "QR",
+      "Społeczność AIO",
+      "E2iPlayer",
+      "Python 2",
+      "Python 3"
     ]
   },
   {
@@ -315,65 +75,6 @@
       "x64",
       "x86",
       "EXE"
-    ]
-  },
-  {
-    "title": "CamBridge PL 1.0.0 Windows",
-    "desc": "Przenośny polski konwerter CCcam do OSCam lub NCam dla Windows x64 i x86, działający całkowicie offline.",
-    "url": "windows-apps.html",
-    "tags": [
-      "CamBridge PL",
-      "1.0.0",
-      "Windows",
-      "x64",
-      "x86",
-      "CCcam",
-      "OSCam",
-      "NCam",
-      "reader",
-      "offline",
-      "portable"
-    ]
-  },
-  {
-    "title": "AIO Panel 14.0.1",
-    "desc": "AIO Panel 14.0.1 dla Enigma2: autorskie picony, poprawiona instalacja grafik z archiwów, prawidłowe nadpisywanie plików, usprawniony Super Konfigurator, Softcam, OSCam-Emu i mechanizm aktualizacji.",
-    "url": "plugin-aio-panel.html",
-    "tags": [
-      "AIO Panel",
-      "14.0.0",
-      "Enigma2",
-      "Python 2",
-      "Python 3",
-      "Py2",
-      "Py3",
-      "nowy interfejs",
-      "CPU",
-      "RAM",
-      "flash",
-      "język polski",
-      "język angielski",
-      "E2 Doctor",
-      "listy kanałów",
-      "sortowanie list",
-      "Vhannibal",
-      "Azman",
-      "Super Konfigurator",
-      "OSCam",
-      "softcam",
-      "backup",
-      "restore",
-      "picony",
-      "aktualizacja",
-      "14.0.1",
-      "autorskie picony",
-      "picony TVN",
-      "Polsat Viasat",
-      "instalacja piconów",
-      "archiwa piconów",
-      "nadpisywanie piconów",
-      "brak miejsca",
-      "OSCam-Emu"
     ]
   },
   {
@@ -775,6 +476,19 @@
       "tunery",
       "ustym",
       "zgemma"
+    ]
+  },
+  {
+    "title": "Raport AIO Connect",
+    "desc": "Otwórz raport z tunera, dopisz opis problemu i opublikuj zgłoszenie w Społeczności AIO.",
+    "url": "aio-connect-report.html",
+    "tags": [
+      "AIO Connect",
+      "raport",
+      "diagnostyka",
+      "kod QR",
+      "zgłoszenie",
+      "Społeczność AIO"
     ]
   }
 ]
