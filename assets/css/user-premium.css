@@ -1020,3 +1020,36 @@ body.support-gate-open{overflow:hidden}
 .home-community-live-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}.home-community-live-grid>div{min-height:112px;padding:16px;border:1px solid rgba(81,151,168,.36);border-radius:13px;background:rgba(5,27,37,.72);display:flex;flex-direction:column;justify-content:center}.home-community-live-grid strong{font-size:clamp(1.65rem,3vw,2.35rem);color:#8ae8ff}.home-community-live-grid span{margin-top:5px;color:#adc4cd;font-size:.74rem;line-height:1.4}.home-community-live-grid .needs-help{border-color:rgba(224,173,79,.58);background:linear-gradient(145deg,rgba(70,49,17,.58),rgba(15,34,39,.78))}.home-community-live-grid .needs-help strong{color:#ffd27a}.home-community-live-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:17px}
 @media(max-width:900px){.home-community-live-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.home-community-live-grid>div:last-child{grid-column:1/-1}}
 @media(max-width:520px){.home-community-live-grid{grid-template-columns:1fr}.home-community-live-grid>div:last-child{grid-column:auto}.home-community-live-actions .button{width:100%;justify-content:center;text-align:center}}
+
+/* Community10 — bardziej kompaktowy pierwszy ekran bez usuwania treści */
+.home-command-center.home-command-compact{
+  grid-template-columns:minmax(0,1.08fr) minmax(330px,.82fr);
+  gap:clamp(22px,3vw,44px);
+  padding:clamp(24px,3vw,42px);
+  min-height:auto;
+}
+.home-command-center.home-command-compact .home-command-copy{max-width:760px}
+.home-command-center.home-command-compact h1{
+  font-size:clamp(2.65rem,5vw,5.15rem);
+  line-height:.96;
+  letter-spacing:-.045em;
+  margin:.32em 0 .28em;
+}
+.home-command-center.home-command-compact .lead{font-size:clamp(.98rem,1.35vw,1.18rem);line-height:1.55;margin-bottom:20px}
+.home-command-center.home-command-compact .home-search-box{margin-top:16px}
+.home-command-center.home-command-compact .home-primary-actions{margin-top:16px}
+.home-command-center.home-command-compact .home-hero-signals{margin-top:14px}
+.home-command-center.home-command-compact .home-command-visual img{max-height:330px;object-fit:contain}
+.home-command-center.home-command-compact .floating-version{transform:scale(.92);transform-origin:right bottom}
+.community-continuation-note{
+  margin:10px 0 0;
+  color:var(--muted,#a9c2cc);
+  font-size:.78rem;
+  line-height:1.45;
+  opacity:.88;
+}
+@media(max-width:900px){
+  .home-command-center.home-command-compact{grid-template-columns:1fr;padding:24px 20px}
+  .home-command-center.home-command-compact h1{font-size:clamp(2.35rem,10vw,4rem)}
+  .home-command-center.home-command-compact .home-command-visual img{max-height:280px}
+}

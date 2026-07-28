@@ -1,4 +1,4 @@
-/* Społeczność AIO — zaawansowana moderacja użytkowników, treści i IP, 2026-07-26 community8 */
+/* Społeczność AIO — zaawansowana moderacja użytkowników, treści i IP, 2026-07-28 community10 */
 (function () {
   'use strict';
 
@@ -6,6 +6,7 @@
   let bound = false;
   let initTimer = null;
   let initSequence = 0;
+  const postCache = new Map();
 
   function boot() {
     if (!window.AIOCommunity) return;
@@ -55,6 +56,7 @@
       loadTab();
     }));
     document.addEventListener('click', handleAction);
+    ensureEditDialog();
   }
 
   async function adminCall(payload) {
@@ -79,17 +81,19 @@
   }
 
   async function loadPending(root) {
-    const result = await AIOCommunity.client.from('community_posts').select('id,author_id,title,content,category,status,created_at,author:community_profiles!community_posts_author_id_fkey(display_name,avatar_url,role)').eq('status', 'pending').order('created_at', { ascending: true }).limit(100);
+    const result = await AIOCommunity.client.from('community_posts').select('id,author_id,title,content,category,post_type,status,kind,created_at,edited_at,edit_reason,author:community_profiles!community_posts_author_id_fkey(display_name,avatar_url,role)').eq('status', 'pending').order('created_at', { ascending: true }).limit(100);
     if (result.error) throw result.error;
     const rows = result.data || [];
+    rows.forEach(item => postCache.set(item.id, item));
     await Promise.all(rows.map(async item => { if (item.author) item.author = await AIOCommunity.prepareProfile(item.author); }));
     root.innerHTML = rows.length ? '<div class="community-admin-list">' + rows.map(item => adminPost(item, true)).join('') + '</div>' : '<div class="community-empty"><strong>Brak wpisów oczekujących.</strong><p>Kolejka moderacji jest pusta.</p></div>';
   }
 
   async function loadPublished(root) {
-    const result = await AIOCommunity.client.from('community_posts').select('id,author_id,title,content,category,status,pinned,locked,kind,created_at,author:community_profiles!community_posts_author_id_fkey(display_name,avatar_url,role)').eq('status', 'published').order('created_at', { ascending: false }).limit(150);
+    const result = await AIOCommunity.client.from('community_posts').select('id,author_id,title,content,category,post_type,status,pinned,locked,kind,created_at,edited_at,edit_reason,author:community_profiles!community_posts_author_id_fkey(display_name,avatar_url,role)').eq('status', 'published').order('created_at', { ascending: false }).limit(150);
     if (result.error) throw result.error;
     const rows = result.data || [];
+    rows.forEach(item => postCache.set(item.id, item));
     await Promise.all(rows.map(async item => { if (item.author) item.author = await AIOCommunity.prepareProfile(item.author); }));
     root.innerHTML = rows.length ? '<div class="community-admin-list">' + rows.map(item => adminPost(item, false)).join('') + '</div>' : '<div class="community-empty"><strong>Brak opublikowanych wpisów.</strong></div>';
   }
@@ -99,7 +103,8 @@
     const preview = String(item.content || '').length > 1400
       ? AIOCommunity.formatText(item.content, 1400) + '<div><a class="community-inline-link" href="post.html?id=' + AIOCommunity.escapeAttr(item.id) + '">Czytaj pełną treść →</a></div>'
       : AIOCommunity.formatText(item.content);
-    return '<article class="community-admin-item" data-admin-post="' + AIOCommunity.escapeAttr(item.id) + '"><div class="community-admin-item-head">' + AIOCommunity.avatarHtml(author, author.display_name) + '<div><strong>' + AIOCommunity.escape(item.title) + '</strong><small>' + AIOCommunity.escape((author.display_name || 'Użytkownik') + ' • ' + AIOCommunity.formatDate(item.created_at)) + '</small></div></div><div class="community-admin-preview">' + preview + '</div><div class="community-admin-actions">' + (pending ? '<button class="button primary" data-admin-action="approve">Zatwierdź</button><button class="button" data-admin-action="reject">Odrzuć</button>' : '<a class="button" href="post.html?id=' + AIOCommunity.escapeAttr(item.id) + '">Otwórz</a><button class="button" data-admin-action="official">' + (item.kind === 'official' ? 'Zmień na społecznościowy' : 'Oznacz jako oficjalny') + '</button><button class="button" data-admin-action="pin">' + (item.pinned ? 'Odepnij' : 'Przypnij') + '</button><button class="button" data-admin-action="lock">' + (item.locked ? 'Odblokuj komentarze' : 'Zablokuj komentarze') + '</button><button class="button danger" data-admin-action="hide">Ukryj</button>') + '</div></article>';
+    const edited = item.edited_at ? '<p class="community-edit-note">✏️ Wpis był edytowany przez moderację' + (item.edit_reason ? ': ' + AIOCommunity.escape(item.edit_reason) : '') + '.</p>' : '';
+    return '<article class="community-admin-item" data-admin-post="' + AIOCommunity.escapeAttr(item.id) + '"><div class="community-admin-item-head">' + AIOCommunity.avatarHtml(author, author.display_name) + '<div><strong>' + AIOCommunity.escape(item.title) + '</strong><small>' + AIOCommunity.escape((author.display_name || 'Użytkownik') + ' • ' + AIOCommunity.formatDate(item.created_at)) + '</small></div></div><div class="community-admin-preview">' + preview + edited + '</div><div class="community-admin-actions"><button class="button" data-admin-action="edit">Edytuj wpis</button>' + (pending ? '<button class="button primary" data-admin-action="approve">Zatwierdź</button><button class="button" data-admin-action="reject">Odrzuć</button>' : '<a class="button" href="post.html?id=' + AIOCommunity.escapeAttr(item.id) + '">Otwórz</a><button class="button" data-admin-action="official">' + (item.kind === 'official' ? 'Zmień na społecznościowy' : 'Oznacz jako oficjalny') + '</button><button class="button" data-admin-action="pin">' + (item.pinned ? 'Odepnij' : 'Przypnij') + '</button><button class="button" data-admin-action="lock">' + (item.locked ? 'Odblokuj komentarze' : 'Zablokuj komentarze') + '</button><button class="button danger" data-admin-action="hide">Ukryj</button>') + '</div></article>';
   }
 
   async function loadReports(root) {
@@ -154,6 +159,10 @@
     const postRow = event.target.closest('[data-admin-post]');
     const postAction = event.target.closest('[data-admin-action]');
     if (postRow && postAction) {
+      if (postAction.dataset.adminAction === 'edit') {
+        openEditDialog(postRow.dataset.adminPost);
+        return;
+      }
       await runAdmin({ action: 'post_action', id: postRow.dataset.adminPost, operation: postAction.dataset.adminAction }, 'Zmiana wpisu została zapisana.');
       return;
     }
@@ -211,6 +220,67 @@
       if (!reason) return;
       await runAdmin({ action: 'delete_user', userId, reason }, 'Konto oraz jego dane zostały trwale usunięte.');
     }
+  }
+
+  function ensureEditDialog() {
+    if (document.getElementById('community-admin-edit-dialog')) return;
+    const dialog = document.createElement('dialog');
+    dialog.id = 'community-admin-edit-dialog';
+    dialog.className = 'community-dialog community-admin-edit-dialog';
+    const categories = (AIOCommunity.config.categories || []).map(item => '<option value="' + AIOCommunity.escapeAttr(item.id) + '">' + AIOCommunity.escape(item.icon + ' ' + item.label) + '</option>').join('');
+    const postTypes = (AIOCommunity.config.postTypes || []).map(item => '<option value="' + AIOCommunity.escapeAttr(item.id) + '">' + AIOCommunity.escape(item.icon + ' ' + item.label) + '</option>').join('');
+    dialog.innerHTML = '<form method="dialog" class="community-dialog-card community-admin-edit-form" data-admin-edit-form><button class="community-dialog-close" type="button" aria-label="Zamknij">✕</button><p class="eyebrow">Moderacja treści</p><h2>Edytuj wpis</h2><p class="community-side-note">Popraw treść naruszającą regulamin, usuń dane dostępowe albo zmień rodzaj publikacji. Każda zmiana zostanie zapisana w dzienniku moderacji.</p><input type="hidden" data-edit-id><div class="community-form-row"><div class="community-field"><label>Rodzaj wpisu</label><select data-edit-post-type required>' + postTypes + '</select></div><div class="community-field"><label>Kategoria</label><select data-edit-category required>' + categories + '</select></div></div><label class="community-notice success" data-edit-official-wrap><input type="checkbox" data-edit-official> Wpis oficjalny AIO-IPTV.pl</label><div class="community-field"><label>Tytuł</label><input type="text" minlength="6" maxlength="140" data-edit-title required></div><div class="community-field"><label>Treść</label><textarea minlength="20" maxlength="50000" data-edit-content required></textarea><small data-edit-count>0 / 50 000</small></div><div class="community-field"><label>Powód edycji widoczny przy wpisie</label><input type="text" minlength="3" maxlength="300" data-edit-reason placeholder="Np. Usunięto dane dostępowe naruszające regulamin" required></div><div class="community-form-actions"><button class="button" type="button" data-edit-cancel>Anuluj</button><button class="button primary" type="submit">Zapisz zmiany</button></div></form>';
+    document.body.appendChild(dialog);
+    dialog.querySelector('.community-dialog-close').addEventListener('click', () => dialog.close());
+    dialog.querySelector('[data-edit-cancel]').addEventListener('click', () => dialog.close());
+    const content = dialog.querySelector('[data-edit-content]');
+    const count = dialog.querySelector('[data-edit-count]');
+    content.addEventListener('input', () => { count.textContent = AIOCommunity.characterLabel(content.value.length, 50000); });
+    dialog.querySelector('[data-admin-edit-form]').addEventListener('submit', submitPostEdit);
+  }
+
+  function openEditDialog(id) {
+    const item = postCache.get(id);
+    const dialog = document.getElementById('community-admin-edit-dialog');
+    if (!item || !dialog) return;
+    dialog.querySelector('[data-edit-id]').value = item.id;
+    dialog.querySelector('[data-edit-title]').value = item.title || '';
+    dialog.querySelector('[data-edit-content]').value = item.content || '';
+    dialog.querySelector('[data-edit-category]').value = item.category || 'inne';
+    dialog.querySelector('[data-edit-post-type]').value = item.post_type || (item.kind === 'official' ? 'update' : 'problem');
+    dialog.querySelector('[data-edit-reason]').value = '';
+    const official = dialog.querySelector('[data-edit-official]');
+    const officialWrap = dialog.querySelector('[data-edit-official-wrap]');
+    official.checked = item.kind === 'official';
+    official.disabled = AIOCommunity.profile.role !== 'admin';
+    officialWrap.hidden = AIOCommunity.profile.role !== 'admin';
+    dialog.querySelector('[data-edit-count]').textContent = AIOCommunity.characterLabel(String(item.content || '').length, 50000);
+    dialog.showModal();
+  }
+
+  async function submitPostEdit(event) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const payload = {
+      action: 'edit_post',
+      id: form.querySelector('[data-edit-id]').value,
+      title: form.querySelector('[data-edit-title]').value.trim(),
+      content: form.querySelector('[data-edit-content]').value.trim(),
+      category: form.querySelector('[data-edit-category]').value,
+      postType: form.querySelector('[data-edit-post-type]').value,
+      official: form.querySelector('[data-edit-official]').checked,
+      reason: form.querySelector('[data-edit-reason]').value.trim()
+    };
+    const button = form.querySelector('button[type="submit"]');
+    button.disabled = true;
+    try {
+      await adminCall(payload);
+      document.getElementById('community-admin-edit-dialog').close();
+      AIOCommunity.showToast('Wpis został zaktualizowany, a zmiana zapisana w dzienniku moderacji.', 'success');
+      await loadTab();
+    } catch (error) {
+      AIOCommunity.showToast(AIOCommunity.friendlyError(error), 'error');
+    } finally { button.disabled = false; }
   }
 
   async function runAdmin(payload, success) {

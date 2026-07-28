@@ -1,10 +1,15 @@
-/* Społeczność AIO — długie wpisy, linki i bezpieczne zapisy, 2026-07-27 community9 */
+/* Społeczność AIO — długie wpisy, linki i bezpieczne zapisy, 2026-07-28 community10 */
 (function () {
   'use strict';
 
   const state = { page: 0, search: '', category: '', mode: 'latest', loading: false, rows: [], pageSize: 12 };
   const selectors = {};
   let isNewsPage = false;
+
+  function postTypeInfo(value) {
+    const list = Array.isArray(AIOCommunity.config && AIOCommunity.config.postTypes) ? AIOCommunity.config.postTypes : [];
+    return list.find(item => item.id === value) || list[0] || { id: 'problem', label: 'Problem / pytanie', icon: '❓' };
+  }
 
   function boot() {
     if (!window.AIOCommunity) return;
@@ -92,21 +97,25 @@
 
   function applyPostTemplate(type) {
     const category = document.querySelector('[data-compose-category]');
+    const postType = document.querySelector('[data-compose-post-type]');
     const content = document.querySelector('[data-compose-content]');
     const status = document.querySelector('[data-compose-template-status]');
     if (!category || !content) return;
     const templates = {
-      tuner: { category: 'pomoc', text: 'Model tunera:\nSystem i wersja:\nWersja Pythona:\n\nCo nie działa:\n\nCo zostało wykonane przed wystąpieniem problemu:\n\nDokładny komunikat błędu:\n' },
-      plugin: { category: 'wtyczki', text: 'Model tunera:\nSystem i wersja:\nNazwa i wersja wtyczki:\n\nOpis problemu:\n\nCzynność, przy której pojawia się błąd:\n\nTreść błędu / crashlog:\n' },
-      channels: { category: 'kanaly', text: 'Model tunera:\nSystem i wersja:\nPozycje satelitarne / rodzaj listy:\n\nProblem z listą kanałów, piconami lub EPG:\n\nCo zostało już sprawdzone:\n' },
-      iptv: { category: 'iptv', text: 'Model tunera:\nSystem i wersja:\nRodzaj źródła: M3U / Xtream / MAC Portal:\n\nOpis problemu:\n\nKomunikat błędu:\n\nCzy źródło działa w innej aplikacji:\n' },
-      solution: { category: 'inne', text: 'Problem, którego dotyczy rozwiązanie:\n\nSprawdzone rozwiązanie krok po kroku:\n1. \n2. \n3. \n\nSystemy / tunery, na których rozwiązanie zostało przetestowane:\n' },
-      update: { category: 'wtyczki', text: 'Nazwa projektu i wersja:\nData wydania:\n\nNajważniejsze zmiany:\n✅ \n✅ \n✅ \n\nSposób instalacji lub aktualizacji:\n\nDodatkowe informacje:\n' }
+      tuner: { category: 'pomoc', postType: 'problem', text: 'Model tunera:\nSystem i wersja:\nWersja Pythona:\n\nCo nie działa:\n\nCo zostało wykonane przed wystąpieniem problemu:\n\nDokładny komunikat błędu:\n' },
+      plugin: { category: 'wtyczki', postType: 'problem', text: 'Model tunera:\nSystem i wersja:\nNazwa i wersja wtyczki:\n\nOpis problemu:\n\nCzynność, przy której pojawia się błąd:\n\nTreść błędu / crashlog:\n' },
+      channels: { category: 'kanaly', postType: 'problem', text: 'Model tunera:\nSystem i wersja:\nPozycje satelitarne / rodzaj listy:\n\nProblem z listą kanałów, piconami lub EPG:\n\nCo zostało już sprawdzone:\n' },
+      iptv: { category: 'iptv', postType: 'problem', text: 'Model tunera:\nSystem i wersja:\nRodzaj źródła: M3U / Xtream / MAC Portal:\n\nOpis problemu:\n\nKomunikat błędu:\n\nCzy źródło działa w innej aplikacji:\n' },
+      solution: { category: 'inne', postType: 'guide', text: 'Temat, którego dotyczy poradnik lub rozwiązanie:\n\nSprawdzone rozwiązanie krok po kroku:\n1. \n2. \n3. \n\nSystemy / tunery, na których rozwiązanie zostało przetestowane:\n' },
+      update: { category: 'wtyczki', postType: 'update', text: 'Nazwa projektu i wersja:\nData wydania:\n\nNajważniejsze zmiany:\n✅ \n✅ \n✅ \n\nSposób instalacji lub aktualizacji:\n\nDodatkowe informacje:\n' },
+      information: { category: 'inne', postType: 'information', text: 'Temat informacji:\n\nNajważniejsze szczegóły:\n\nKogo dotyczy komunikat:\n\nDodatkowe informacje lub link:\n' },
+      'system-update': { category: 'systemy', postType: 'update', text: 'Nazwa systemu i wersja:\nModel tunera:\nData przygotowania:\n\nNajważniejsze elementy konfiguracji:\n✅ \n✅ \n✅ \n\nInstrukcja instalacji:\n\nLink i dodatkowe informacje:\n' }
     };
     const selected = templates[type];
     if (!selected) return;
     if (content.value.trim() && !confirm('Zastąpić obecną treść szablonem kreatora?')) return;
     category.value = selected.category;
+    if (postType) postType.value = selected.postType;
     content.value = selected.text;
     content.dispatchEvent(new Event('input', { bubbles: true }));
     content.focus();
@@ -161,7 +170,7 @@
     try {
       const start = state.page * state.pageSize;
       const end = start + state.pageSize - 1;
-      const fields = 'id,author_id,kind,category,title,content,status,pinned,locked,attachments,created_at,published_at,solved,best_comment_id,solved_at,comment_count,reaction_count' + (AIOCommunity.user ? ',author:community_profiles!community_posts_author_id_fkey(id,display_name,avatar_url,tuner_model,system_name,role)' : '');
+      const fields = 'id,author_id,kind,post_type,category,title,content,status,pinned,locked,attachments,created_at,published_at,solved,best_comment_id,solved_at,comment_count,reaction_count,edited_at,edited_by,edit_reason' + (AIOCommunity.user ? ',author:community_profiles!community_posts_author_id_fkey(id,display_name,avatar_url,tuner_model,system_name,role)' : '');
       let query = AIOCommunity.client.from('community_posts').select(fields).order('pinned', { ascending: false });
       if (state.mode === 'popular') query = query.order('reaction_count', { ascending: false }).order('comment_count', { ascending: false }).order('created_at', { ascending: false });
       else query = query.order('created_at', { ascending: false });
@@ -177,9 +186,9 @@
         query = query.eq('author_id', AIOCommunity.user.id);
       } else {
         query = query.eq('status', 'published');
-        if (state.mode === 'questions') query = query.in('category', ['pomoc', 'oscam', 'iptv', 'systemy']);
-        if (state.mode === 'unanswered') query = query.eq('kind', 'community').eq('solved', false).eq('comment_count', 0);
-        if (state.mode === 'solved') query = query.eq('kind', 'community').eq('solved', true);
+        if (state.mode === 'questions') query = query.eq('post_type', 'problem');
+        if (state.mode === 'unanswered') query = query.eq('post_type', 'problem').eq('kind', 'community').eq('solved', false).eq('comment_count', 0);
+        if (state.mode === 'solved') query = query.eq('post_type', 'problem').eq('kind', 'community').eq('solved', true);
       }
       if (state.category) query = query.eq('category', state.category);
       if (state.search) {
@@ -234,6 +243,8 @@
     const authorName = author.display_name || (post.kind === 'official' ? 'AIO-IPTV.pl' : 'Użytkownik');
     const authorTitle = AIOCommunity.user && post.author_id ? '<a href="profile.html?id=' + AIOCommunity.escapeAttr(post.author_id) + '">' + AIOCommunity.escape(authorName) + '</a>' : '<span>' + AIOCommunity.escape(authorName) + '</span>';
     const category = AIOCommunity.category(post.category);
+    const typeInfo = postTypeInfo(post.post_type || (post.kind === 'official' ? 'update' : 'problem'));
+    const isProblem = typeInfo.id === 'problem';
     const official = post.kind === 'official';
     const images = Array.isArray(post.attachments) ? post.attachments.filter(item => item && item.url).slice(0, 4) : [];
     const canDelete = AIOCommunity.isOwner(post.author_id) || AIOCommunity.isAdmin();
@@ -245,8 +256,8 @@
     return '<article class="community-post-card ' + (post.pinned ? 'pinned ' : '') + (official ? 'official' : '') + '" data-post-id="' + AIOCommunity.escapeAttr(post.id) + '">' +
       '<header class="community-post-head">' + AIOCommunity.avatarHtml(author, authorName) + '<div class="community-post-author"><strong>' + authorTitle + (author.role && author.role !== 'user' ? '<span class="community-role ' + AIOCommunity.escapeAttr(author.role) + '">' + AIOCommunity.escape(AIOCommunity.roleLabel(author.role)) + '</span>' : '') + '</strong><small>' + AIOCommunity.escape([author.tuner_model, author.system_name].filter(Boolean).join(' • ') || (official ? 'Oficjalny wpis AIO-IPTV.pl' : 'Użytkownik Społeczności AIO')) + '</small></div>' +
       '<div class="community-post-meta"><span>' + AIOCommunity.escape(AIOCommunity.timeAgo(post.created_at)) + '</span>' + (post.status !== 'published' ? '<br><span class="community-status-pill pending">Oczekuje</span>' : '') + '</div></header>' +
-      '<div class="community-post-content"><div class="community-post-tags">' + (official ? '<span class="community-status-pill official">✓ Oficjalne</span>' : '') + (post.pinned ? '<span class="community-status-pill pinned">📌 Przypięte</span>' : '') + (post.solved ? '<span class="community-status-pill solved">✅ Rozwiązane</span>' : (Number(post.comment_count || 0) === 0 ? '<span class="community-status-pill unanswered">❓ Bez odpowiedzi</span>' : '')) + '<span class="community-category">' + AIOCommunity.escape(category.icon + ' ' + category.label) + '</span></div>' +
-      '<h2><a href="post.html?id=' + AIOCommunity.escapeAttr(post.id) + '">' + AIOCommunity.escape(post.title) + '</a></h2>' + textHtml + renderImages(images) + '</div>' +
+      '<div class="community-post-content"><div class="community-post-tags">' + (official ? '<span class="community-status-pill official">✓ Oficjalne</span>' : '') + (post.pinned ? '<span class="community-status-pill pinned">📌 Przypięte</span>' : '') + '<span class="community-status-pill post-type ' + AIOCommunity.escapeAttr(typeInfo.id) + '">' + AIOCommunity.escape(typeInfo.icon + ' ' + typeInfo.label) + '</span>' + (isProblem && post.solved ? '<span class="community-status-pill solved">✅ Rozwiązane</span>' : (isProblem && Number(post.comment_count || 0) === 0 ? '<span class="community-status-pill unanswered">❓ Bez odpowiedzi</span>' : '')) + '<span class="community-category">' + AIOCommunity.escape(category.icon + ' ' + category.label) + '</span></div>' +
+      '<h2><a href="post.html?id=' + AIOCommunity.escapeAttr(post.id) + '">' + AIOCommunity.escape(post.title) + '</a></h2>' + textHtml + (post.edited_at ? '<p class="community-edit-note">✏️ Wpis edytowany przez moderację' + (post.edit_reason ? ': ' + AIOCommunity.escape(post.edit_reason) : '') + '.</p>' : '') + renderImages(images) + '</div>' +
       '<footer class="community-post-footer">' + reactionButton(post, 'helpful', '👍 Pomocne') + reactionButton(post, 'works', '✅ Działa') + reactionButton(post, 'thanks', '❤️ Dziękuję') +
       '<a class="community-action community-open" href="post.html?id=' + AIOCommunity.escapeAttr(post.id) + '">' + (AIOCommunity.user ? '💬 ' + Number(post.comment_count || 0) + ' odpowiedzi' : '🔐 Dyskusja po zalogowaniu') + '</a><button class="community-action" type="button" data-report-post>⚑ Zgłoś</button>' + (canDelete ? '<button class="community-action danger" type="button" data-delete-post>Usuń</button>' : '') + '</footer></article>';
   }
@@ -317,8 +328,23 @@
   function previewImages(event) {
     const preview = document.querySelector('[data-compose-preview]');
     if (!preview) return;
+    const input = event.target;
+    const maxCount = Number(AIOCommunity.config.maxImagesPerPost || 4);
+    let files = Array.from(input.files || []);
+    if (files.length > maxCount) {
+      files = files.slice(0, maxCount);
+      try {
+        const transfer = new DataTransfer();
+        files.forEach(file => transfer.items.add(file));
+        input.files = transfer.files;
+      } catch (_) {
+        input.value = '';
+        files = [];
+      }
+      AIOCommunity.showToast('Do jednego wpisu można dodać maksymalnie ' + maxCount + ' zdjęcia.', 'error');
+    }
     preview.innerHTML = '';
-    Array.from(event.target.files || []).slice(0, Number(AIOCommunity.config.maxImagesPerPost || 4)).forEach(file => {
+    files.forEach(file => {
       const figure = document.createElement('figure');
       const image = document.createElement('img');
       image.src = URL.createObjectURL(file);
@@ -337,7 +363,12 @@
     const title = form.querySelector('[data-compose-title]').value.trim();
     const content = form.querySelector('[data-compose-content]').value.trim();
     const category = form.querySelector('[data-compose-category]').value;
+    const postType = form.querySelector('[data-compose-post-type]') ? form.querySelector('[data-compose-post-type]').value : 'problem';
     const files = form.querySelector('[data-compose-images]').files;
+    const allowedPostTypes = new Set((AIOCommunity.config.postTypes || []).map(item => item.id));
+    if (!allowedPostTypes.has(postType)) { AIOCommunity.showToast('Wybierz prawidłowy rodzaj wpisu.', 'error'); return; }
+    const maxImages = Number(AIOCommunity.config.maxImagesPerPost || 4);
+    if (files.length > maxImages) { AIOCommunity.showToast('Do wpisu można dodać maksymalnie ' + maxImages + ' zdjęcia.', 'error'); return; }
     if (title.length < 6 || title.length > 140) { AIOCommunity.showToast('Tytuł powinien mieć od 6 do 140 znaków.', 'error'); return; }
     const maxPostLength = Number(AIOCommunity.config.maxPostLength || 50000);
     if (content.length < 20 || content.length > maxPostLength) { AIOCommunity.showToast('Treść powinna mieć od 20 do ' + maxPostLength.toLocaleString('pl-PL') + ' znaków.', 'error'); return; }
@@ -351,7 +382,7 @@
       const attachments = await AIOCommunity.uploadImages(files, 'posts');
       const officialInput = form.querySelector('[data-compose-official]');
       const kind = AIOCommunity.isAdmin() && officialInput && officialInput.checked ? 'official' : 'community';
-      const result = await AIOCommunity.edgeCall('write', { action: 'create_post', title, content, category, attachments, kind });
+      const result = await AIOCommunity.edgeCall('write', { action: 'create_post', title, content, category, postType, attachments, kind });
       const saved = result.data || {};
       form.reset();
       document.querySelector('[data-compose-preview]').innerHTML = '';

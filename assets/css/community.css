@@ -55,3 +55,17 @@
 .community-comment.best-answer{border:2px solid #3fc18e;background:linear-gradient(145deg,#0d392e,#08262a);box-shadow:0 0 24px rgba(53,193,139,.12)}.community-best-answer-badge{display:inline-flex;margin:-4px 0 10px;padding:5px 9px;border-radius:999px;background:#165844;color:#aaf2d7;font-size:.7rem;font-weight:900}.solution-action{border-color:#3a9f7a!important;color:#aaf0d7!important}.solution-action:hover{background:#155340!important}
 @media(max-width:760px){.community-wizard-grid{grid-template-columns:1fr 1fr}.community-breadcrumb-contact{float:none;display:block;margin:8px 0 0}}
 @media(max-width:460px){.community-wizard-grid{grid-template-columns:1fr}}
+
+/* Community10 — typy wpisów, edycja administracyjna i limit 4 zdjęć */
+@media(min-width:980px){.community-form-row{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.community-status-pill.post-type{border-color:rgba(96,211,255,.34);background:rgba(9,91,122,.22);color:#bfefff}
+.community-status-pill.post-type.information{border-color:rgba(81,198,255,.46);background:rgba(30,115,160,.24)}
+.community-status-pill.post-type.update{border-color:rgba(255,202,66,.5);background:rgba(127,89,10,.25);color:#ffe49a}
+.community-status-pill.post-type.guide{border-color:rgba(70,219,158,.46);background:rgba(14,108,74,.25);color:#bfffe2}
+.community-status-pill.post-type.discussion{border-color:rgba(187,132,255,.46);background:rgba(83,41,132,.25);color:#e4ccff}
+.community-edit-note{margin:13px 0 2px;padding:9px 11px;border-left:3px solid #f0b34a;border-radius:0 8px 8px 0;background:rgba(179,115,17,.11);color:#e8c98f;font-size:.8rem;line-height:1.45}
+.community-admin-edit-dialog .community-dialog-card{width:min(880px,calc(100vw - 28px));max-height:92vh;overflow:auto}
+.community-admin-edit-form textarea{min-height:290px;resize:vertical}
+.community-admin-edit-form [data-edit-count]{display:block;text-align:right;color:var(--muted,#9eb6c0);margin-top:5px}
+.community-image-preview{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media(max-width:720px){.community-image-preview{grid-template-columns:repeat(2,minmax(0,1fr))}.community-admin-edit-form textarea{min-height:230px}}

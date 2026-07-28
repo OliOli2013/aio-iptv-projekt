@@ -1,5 +1,5 @@
 {
-  "version": "2026.07.27-community9",
+  "version": "2026.07.28-community10",
   "enabled": true,
   "siteName": "Społeczność AIO",
   "siteUrl": "https://olioli2013.github.io/aio-iptv-projekt/",
@@ -86,5 +86,36 @@
     "publicStats": true,
     "postWizard": true,
     "contactAdminUrl": "contact.html"
+  },
+  "postTypes": [
+    {
+      "id": "problem",
+      "label": "Problem / pytanie",
+      "icon": "❓"
+    },
+    {
+      "id": "information",
+      "label": "Informacja / komunikat",
+      "icon": "ℹ️"
+    },
+    {
+      "id": "update",
+      "label": "Aktualizacja / nowość",
+      "icon": "📢"
+    },
+    {
+      "id": "guide",
+      "label": "Poradnik / rozwiązanie",
+      "icon": "💡"
+    },
+    {
+      "id": "discussion",
+      "label": "Dyskusja / opinia",
+      "icon": "💬"
+    }
+  ],
+  "moderationFeatures": {
+    "editPosts": true,
+    "editReasonRequired": true
   }
 }

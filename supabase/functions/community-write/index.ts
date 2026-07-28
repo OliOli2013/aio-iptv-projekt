@@ -9,6 +9,7 @@ const ALLOWED_ORIGINS = new Set([
 ]);
 const CATEGORIES = new Set(["pomoc", "aio-panel", "iptv", "kanaly", "picony", "oscam", "systemy", "wtyczki", "aplikacje", "testy", "inne"]);
 const REACTIONS = new Set(["helpful", "works", "thanks"]);
+const POST_TYPES = new Set(["problem", "information", "update", "guide", "discussion"]);
 
 function corsHeaders(req: Request) {
   const origin = req.headers.get("origin") || "";
@@ -186,13 +187,14 @@ Deno.serve(async (req: Request) => {
     }
 
     if (action === "check_access") {
-      return json(req, { ok: true, allowed: true, ipRecorded: Boolean(ip), version: "community9" });
+      return json(req, { ok: true, allowed: true, ipRecorded: Boolean(ip), version: "community10" });
     }
 
     if (action === "create_post") {
       const title = String(payload.title || "").trim();
       const content = String(payload.content || "").trim();
       const category = CATEGORIES.has(String(payload.category || "")) ? String(payload.category) : "inne";
+      const postType = POST_TYPES.has(String(payload.postType || "")) ? String(payload.postType) : "problem";
       if (title.length < 6 || title.length > 140) throw new Error("Tytuł powinien mieć od 6 do 140 znaków.");
       if (content.length < 20 || content.length > 50000) throw new Error("Treść powinna mieć od 20 do 50 000 znaków.");
       if (!access.staff) {
@@ -208,6 +210,7 @@ Deno.serve(async (req: Request) => {
         title,
         content,
         category,
+        post_type: postType,
         attachments,
         kind,
         status,
@@ -283,10 +286,11 @@ Deno.serve(async (req: Request) => {
       const commentId = solved && payload.commentId ? String(payload.commentId) : null;
       if (!postId) throw new Error("Brak identyfikatora wpisu.");
       const postResult = await admin.from("community_posts")
-        .select("id,author_id,status,best_comment_id")
+        .select("id,author_id,status,best_comment_id,post_type")
         .eq("id", postId)
         .maybeSingle();
       if (postResult.error || !postResult.data) throw new Error("Wpis nie istnieje.");
+      if (postResult.data.post_type !== "problem") throw new Error("Tylko wpis typu problem lub pytanie można oznaczyć jako rozwiązany.");
       if (postResult.data.author_id !== user.id && !access.staff) return json(req, { error: "Tylko autor wpisu lub administrator może oznaczyć rozwiązanie." }, 403);
       if (commentId) {
         const commentResult = await admin.from("community_comments")

@@ -7,6 +7,8 @@ const ALLOWED_ORIGINS = new Set([
   "http://localhost:8000",
   "http://127.0.0.1:8000",
 ]);
+const CATEGORIES = new Set(["pomoc", "aio-panel", "iptv", "kanaly", "picony", "oscam", "systemy", "wtyczki", "aplikacje", "testy", "inne"]);
+const POST_TYPES = new Set(["problem", "information", "update", "guide", "discussion"]);
 
 function corsHeaders(req: Request) {
   const origin = req.headers.get("origin") || "";
@@ -130,6 +132,53 @@ Deno.serve(async (req: Request) => {
         for (const profile of profiles.data || []) profileMap.set(profile.id, { display_name: profile.display_name || "Użytkownik" });
       }
       return json(req, { ok: true, logs: rows.map(row => ({ ...row, actor: row.actor_id ? profileMap.get(row.actor_id) || null : null })) });
+    }
+
+    if (action === "edit_post") {
+      const id = String(body.id || "");
+      const title = String(body.title || "").trim();
+      const content = String(body.content || "").trim();
+      const category = CATEGORIES.has(String(body.category || "")) ? String(body.category) : "inne";
+      const postType = POST_TYPES.has(String(body.postType || "")) ? String(body.postType) : "problem";
+      const reason = String(body.reason || "").trim().slice(0, 300);
+      if (!id) throw new Error("Brak identyfikatora wpisu.");
+      if (title.length < 6 || title.length > 140) throw new Error("Tytuł powinien mieć od 6 do 140 znaków.");
+      if (content.length < 20 || content.length > 50000) throw new Error("Treść powinna mieć od 20 do 50 000 znaków.");
+      if (reason.length < 3) throw new Error("Podaj krótki powód edycji wpisu.");
+      const current = await admin.from("community_posts")
+        .select("id,title,content,category,post_type,kind,author_id,status")
+        .eq("id", id)
+        .maybeSingle();
+      if (current.error || !current.data) throw new Error("Wpis nie istnieje.");
+      const patch: Record<string, unknown> = {
+        title,
+        content,
+        category,
+        post_type: postType,
+        edited_at: new Date().toISOString(),
+        edited_by: actor.id,
+        edit_reason: reason,
+        updated_at: new Date().toISOString(),
+      };
+      if (fullAdmin) patch.kind = Boolean(body.official) ? "official" : "community";
+      if (postType !== "problem") Object.assign(patch, { solved: false, best_comment_id: null, solved_at: null, solved_by: null });
+      const update = await admin.from("community_posts").update(patch).eq("id", id);
+      if (update.error) throw update.error;
+      await logAction(admin, actor.id, "post_edited", {
+        targetType: "post",
+        targetId: id,
+        targetUserId: current.data.author_id,
+        reason,
+        metadata: {
+          oldTitle: current.data.title,
+          newTitle: title,
+          oldCategory: current.data.category,
+          newCategory: category,
+          oldPostType: current.data.post_type || "problem",
+          newPostType: postType,
+        },
+      });
+      return json(req, { ok: true });
     }
 
     if (action === "post_action") {
