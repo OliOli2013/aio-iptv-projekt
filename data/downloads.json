@@ -150,18 +150,18 @@
     "official": "Plik na AIO-IPTV.pl"
   },
   {
-    "title": "Pobierz IPK 14.0.1",
-    "href": "pliki/enigma2-plugin-extensions-panelaio_14.0.1_all.ipk",
+    "title": "Pobierz IPK 15.0.0",
+    "href": "pliki/enigma2-plugin-extensions-panelaio_15.0.0_all.ipk",
     "category": "Wtyczki",
     "platform": "Enigma2",
-    "version": "14.0.1",
-    "date": "23.07.2026",
+    "version": "15.0.0",
+    "date": "28.07.2026",
     "status": "Aktualna",
     "sourcePage": "plugin-aio-panel.html",
-    "sourceTitle": "AIO Panel 14.0.1",
+    "sourceTitle": "AIO Panel 15.0.0",
     "kind": "IPK",
-    "size": "271 KB",
-    "sha256": "319a6eb03bce54d6f7d8f28ee57a44c5fab0f97651fff97289c1732704a5db1b",
+    "size": "313 KB",
+    "sha256": "ddb55b90c5cc437cbffeeb5f38e04febbd01f7d197d76d226728443842e50cf4",
     "official": "Plik na AIO-IPTV.pl"
   },
   {

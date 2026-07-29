@@ -1,0 +1,26 @@
+AIO-IPTV.pl — pliki do podmiany na GitHubie
+Data przygotowania: 29.07.2026
+
+ZAKRES ZMIAN
+1. Wszystkie bieżące wpisy AIO Panel 14.0.1 zostały zmienione na AIO Panel 15.0.0.
+2. Linki do starego IPK prowadzą teraz do:
+   pliki/enigma2-plugin-extensions-panelaio_15.0.0_all.ipk
+3. Stare zdjęcie podglądu 14.0.1 zostało zastąpione istniejącym zdjęciem:
+   pliki/aio-panel-15.0.0-main.jpg
+4. Historyczny wpis o wydaniu AIO Panel 14.0.0 w data/updates.json pozostał bez zmian.
+5. Dodano automatyczny język strony:
+   - urządzenia z językiem polskim: oryginalna wersja polska,
+   - urządzenia z każdym innym językiem: automatyczne otwarcie widoku angielskiego,
+   - ręczne wymuszenie: ?lang=pl albo ?lang=en.
+6. Polecenia, ścieżki, logi i bloki kodu są zabezpieczone przed tłumaczeniem.
+
+WDROŻENIE
+Skopiuj zawartość ZIP do głównego katalogu repozytorium i zaakceptuj nadpisanie plików.
+Nie usuwaj pozostałych plików strony.
+
+UWAGA
+Widok angielski korzysta z zewnętrznej usługi Google Translate i wymaga połączenia z internetem.
+Jeżeli usługa tłumaczenia jest czasowo niedostępna, strona pozostanie dostępna po polsku.
+
+Kontrolna suma SHA-256 aktualnego IPK:
+ddb55b90c5cc437cbffeeb5f38e04febbd01f7d197d76d226728443842e50cf4

@@ -1,7 +1,7 @@
 [
   {
     "name": "AIO Panel",
-    "version": "14.0.1",
+    "version": "15.0.0",
     "type": "Wtyczka Enigma2",
     "python": "Python 2 i 3",
     "systems": "OpenATV, OpenPLi, Egami, OpenViX, OpenBH, Pure2 i inne obrazy Enigma2",

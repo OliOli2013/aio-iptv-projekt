@@ -2,12 +2,12 @@
   {
     "id": "aio-panel",
     "name": "AIO Panel",
-    "version": "14.0.1",
+    "version": "15.0.0",
     "page": "plugin-aio-panel.html",
     "category": "Wtyczka Enigma2",
     "status": "active",
     "statusLabel": "Aktywnie rozwijany",
-    "updated": "23.07.2026",
+    "updated": "28.07.2026",
     "summary": "Główny panel narzędzi, list kanałów, piconów, Softcam, OSCam i konfiguracji Enigma2.",
     "tested": "Python 2 i 3; różne obrazy Enigma2",
     "next": "Kolejne poprawki publikowane po testach i zgłoszeniach użytkowników."

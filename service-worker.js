@@ -1,6 +1,7 @@
 /* AIO-IPTV.pl PWA — community10-aio-connect 2026-07-28 */
-const CACHE='aio-iptv-pro-20260728-community10-aio-connect';
+const CACHE='aio-iptv-pro-20260729-aio1500-auto-en1';
 const CORE=[
+  './assets/js/auto-language.js?v=20260729-auto-en1',
   './','./index.html','./downloads.html','./plugins.html','./guides.html','./systems.html',
   './community.html','./post.html','./profile.html','./news.html','./community-admin.html','./community-rules.html','./privacy-community.html',
   './aio-connect-report.html','./assets/css/aio-connect-report.css?v=20260728-aio1','./assets/js/aio-connect-report.js?v=20260728-aio1',
