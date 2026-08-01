@@ -1053,3 +1053,206 @@ body.support-gate-open{overflow:hidden}
   .home-command-center.home-command-compact h1{font-size:clamp(2.35rem,10vw,4rem)}
   .home-command-center.home-command-compact .home-command-visual img{max-height:280px}
 }
+
+/* ===== Zbiórka celowa AIO IPTV PL — 2026-08-01 ===== */
+.fundraiser-ribbon{
+  position:relative;
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr) auto;
+  align-items:center;
+  gap:12px;
+  min-height:46px;
+  padding:8px 14px;
+  overflow:hidden;
+  border-bottom:1px solid rgba(108,224,255,.34);
+  color:#f4fbff;
+  background:
+    radial-gradient(circle at 15% 50%,rgba(37,99,235,.26),transparent 36%),
+    radial-gradient(circle at 92% 50%,rgba(168,85,247,.28),transparent 34%),
+    linear-gradient(90deg,#07172f,#0b2b55 48%,#2b135d);
+  box-shadow:0 8px 24px rgba(1,8,23,.28);
+  isolation:isolate;
+}
+.fundraiser-ribbon::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  background:linear-gradient(105deg,transparent 22%,rgba(255,255,255,.10) 46%,transparent 70%);
+  transform:translateX(-130%);
+  animation:fundraiserRibbonShine 8s ease-in-out infinite;
+}
+.fundraiser-ribbon-badge{
+  display:inline-flex;
+  align-items:center;
+  min-height:28px;
+  padding:5px 10px;
+  border:1px solid rgba(112,220,255,.56);
+  border-radius:999px;
+  color:#b9f3ff;
+  background:rgba(4,18,42,.62);
+  font-size:.7rem;
+  font-weight:950;
+  letter-spacing:.09em;
+  white-space:nowrap;
+}
+.fundraiser-ribbon-copy{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  overflow:hidden;
+  font-size:.84rem;
+  line-height:1.35;
+}
+.fundraiser-ribbon-copy strong{color:#fff;font-weight:900}
+.fundraiser-ribbon-copy span{color:#d3e8f7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fundraiser-ribbon-link{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:32px;
+  padding:7px 13px;
+  border:1px solid rgba(137,229,255,.72);
+  border-radius:999px;
+  color:#07192b;
+  background:linear-gradient(135deg,#8cecff,#6cb7ff 48%,#ba8cff);
+  box-shadow:0 8px 20px rgba(74,155,255,.22);
+  font-size:.76rem;
+  font-weight:950;
+  text-decoration:none;
+  white-space:nowrap;
+  transition:transform .16s ease,filter .16s ease;
+}
+.fundraiser-ribbon-link:hover{transform:translateY(-1px);filter:brightness(1.07)}
+.fundraiser-ribbon-link:focus-visible{outline:3px solid #fff;outline-offset:3px}
+@keyframes fundraiserRibbonShine{0%,66%{transform:translateX(-130%)}86%,100%{transform:translateX(130%)}}
+
+.fundraiser-home{
+  position:relative;
+  display:grid;
+  grid-template-columns:minmax(300px,.92fr) minmax(0,1.08fr);
+  gap:clamp(22px,4vw,44px);
+  align-items:center;
+  overflow:hidden;
+  border-color:rgba(97,202,255,.30)!important;
+  background:
+    radial-gradient(circle at 8% 10%,rgba(37,99,235,.19),transparent 36%),
+    radial-gradient(circle at 96% 100%,rgba(168,85,247,.18),transparent 38%),
+    linear-gradient(145deg,rgba(7,27,57,.94),rgba(18,17,60,.92))!important;
+  box-shadow:0 24px 70px rgba(0,8,27,.38),0 0 0 1px rgba(86,197,255,.06) inset;
+}
+.fundraiser-home::after{
+  content:"";
+  position:absolute;
+  width:280px;
+  height:280px;
+  right:-120px;
+  top:-150px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(124,58,237,.24),transparent 68%);
+  pointer-events:none;
+}
+.fundraiser-home-media{
+  position:relative;
+  min-width:0;
+}
+.fundraiser-home-media img{
+  display:block;
+  width:100%;
+  aspect-ratio:16/9;
+  object-fit:cover;
+  border:1px solid rgba(109,215,255,.35);
+  border-radius:22px;
+  box-shadow:0 20px 54px rgba(0,7,28,.48),0 0 34px rgba(42,151,255,.12);
+}
+.fundraiser-home-badge{
+  position:absolute;
+  top:14px;
+  left:14px;
+  display:inline-flex;
+  align-items:center;
+  min-height:31px;
+  padding:6px 11px;
+  border:1px solid rgba(145,231,255,.66);
+  border-radius:999px;
+  color:#071525;
+  background:linear-gradient(135deg,#92ecff,#8bb5ff 58%,#d0a1ff);
+  box-shadow:0 8px 22px rgba(0,9,30,.32);
+  font-size:.72rem;
+  font-weight:950;
+  letter-spacing:.09em;
+}
+.fundraiser-home-copy{position:relative;z-index:1;min-width:0}
+.fundraiser-home-copy h2{
+  margin:4px 0 14px;
+  max-width:760px;
+  color:#fff;
+  font-size:clamp(1.65rem,3.1vw,2.65rem);
+  line-height:1.08;
+  letter-spacing:-.035em;
+}
+.fundraiser-home-lead{
+  margin:0;
+  color:#cfdeed;
+  font-size:1rem;
+  line-height:1.68;
+}
+.fundraiser-home-points{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+  margin:18px 0;
+}
+.fundraiser-home-points span{
+  display:flex;
+  align-items:center;
+  min-height:48px;
+  padding:10px 12px;
+  border:1px solid rgba(134,198,255,.16);
+  border-radius:13px;
+  color:#e8f4ff;
+  background:rgba(4,18,45,.48);
+  font-size:.86rem;
+  font-weight:720;
+}
+.fundraiser-home-goal{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin:0 0 16px;
+  padding:12px 14px;
+  border-left:3px solid #77dfff;
+  border-radius:0 12px 12px 0;
+  background:rgba(15,72,133,.30);
+}
+.fundraiser-home-goal strong{color:#aeeeff;font-size:1rem}
+.fundraiser-home-goal span{color:#c5d6e6;font-size:.83rem}
+.fundraiser-home-actions{display:flex;gap:10px;flex-wrap:wrap}
+.fundraiser-main-button{
+  border-color:#86e5ff!important;
+  color:#071525!important;
+  background:linear-gradient(135deg,#85ebff,#6db9ff 52%,#ba8fff)!important;
+  box-shadow:0 12px 28px rgba(58,150,255,.24)!important;
+}
+.fundraiser-home-note{margin:13px 0 0;color:#8ea8bd;font-size:.78rem}
+
+@media(max-width:900px){
+  .fundraiser-ribbon{grid-template-columns:1fr auto;gap:8px 10px;padding:8px 10px}
+  .fundraiser-ribbon-badge{grid-column:1/2;justify-self:start}
+  .fundraiser-ribbon-copy{grid-column:1/2;grid-row:2/3;font-size:.75rem}
+  .fundraiser-ribbon-link{grid-column:2/3;grid-row:1/3;align-self:center}
+  .fundraiser-home{grid-template-columns:1fr}
+  .fundraiser-home-media{order:1}
+  .fundraiser-home-copy{order:2}
+}
+@media(max-width:620px){
+  .fundraiser-ribbon-copy span{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+  .fundraiser-ribbon-link{padding:7px 10px;font-size:.7rem}
+  .fundraiser-home{padding:16px!important}
+  .fundraiser-home-media img{border-radius:16px}
+  .fundraiser-home-points{grid-template-columns:1fr}
+  .fundraiser-home-actions .button{width:100%;justify-content:center;text-align:center}
+}
+@media(prefers-reduced-motion:reduce){.fundraiser-ribbon::before{animation:none}}

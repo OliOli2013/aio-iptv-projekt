@@ -442,7 +442,7 @@
 
   const SUPPORT_LINKS = {
     revolut: 'https://revolut.me/pawelz75',
-    buycoffee: 'https://buycoffee.to/pawelpawelek',
+    buycoffee: 'https://buycoffee.to/pawelpawelek/rozwoj-strony-aio-iptv-pl-i-darmowych-projektow-enigma2',
     kofi: 'https://ko-fi.com/pawelpawlek'
   };
 
@@ -495,8 +495,9 @@
   function initSupportGate() {
     if (document.documentElement.dataset.aioSupportGate === 'ready') return;
     document.documentElement.dataset.aioSupportGate = 'ready';
-    // Górny przewijany pasek „Zasady” został celowo usunięty.
+    // Zbiórka celowa jest widoczna w kompaktowym pasku na każdej podstronie.
     // Plansza wsparcia przy pobieraniu i limit jednego bezpłatnego pliku dziennie pozostają aktywne.
+    createFundraiserRibbon();
     createSupportModal();
     document.addEventListener('click', interceptDownload, true);
   }
@@ -534,6 +535,35 @@
     const usage = readDailyUsage();
     usage.count += 1;
     saveDailyUsage(usage);
+  }
+
+  function createFundraiserRibbon() {
+    const header = document.querySelector('.site-header');
+    if (!header || header.querySelector('.fundraiser-ribbon')) return;
+
+    const language = String(navigator.language || document.documentElement.lang || 'pl').toLowerCase();
+    const polish = language.startsWith('pl');
+    const copy = polish ? {
+      badge: 'ZBIÓRKA CELOWA',
+      title: 'Pomóż rozwijać AIO IPTV PL',
+      text: 'Wsparcie utrzymania strony, Społeczności AIO i darmowych projektów Enigma2.',
+      button: 'Wesprzyj projekt'
+    } : {
+      badge: 'FUNDRAISING CAMPAIGN',
+      title: 'Support AIO IPTV PL',
+      text: 'Help maintain the website, AIO Community and free Enigma2 projects.',
+      button: 'Support the project'
+    };
+
+    const ribbon = document.createElement('aside');
+    ribbon.className = 'fundraiser-ribbon';
+    ribbon.setAttribute('aria-label', polish ? 'Zbiórka na rozwój AIO IPTV PL' : 'AIO IPTV PL fundraising campaign');
+    ribbon.innerHTML = `
+      <span class="fundraiser-ribbon-badge">${copy.badge}</span>
+      <div class="fundraiser-ribbon-copy"><strong>${copy.title}</strong><span>${copy.text}</span></div>
+      <a class="fundraiser-ribbon-link" href="${SUPPORT_LINKS.buycoffee}" target="_blank" rel="noopener noreferrer" data-support-bypass="true">${copy.button}</a>`;
+
+    header.insertBefore(ribbon, header.firstChild);
   }
 
   function createSupportTicker() {
@@ -587,7 +617,7 @@
         <p class="support-gate-note">Dzięki wsparciu mogę rozwijać AIO Panel, wtyczki, aplikacje, listy kanałów, picony, poradniki i systemy.</p>
         <div class="support-gate-methods" aria-label="Metody wsparcia">
           <a class="support-method support-method-revolut" href="${SUPPORT_LINKS.revolut}" target="_blank" rel="noopener noreferrer" data-support-bypass="true"><span>R</span><strong>Revolut</strong><small>Szybkie wsparcie</small></a>
-          <a class="support-method support-method-buycoffee" href="${SUPPORT_LINKS.buycoffee}" target="_blank" rel="noopener noreferrer" data-support-bypass="true"><span>☕</span><strong>BuyCoffee</strong><small>Postaw kawę</small></a>
+          <a class="support-method support-method-buycoffee" href="${SUPPORT_LINKS.buycoffee}" target="_blank" rel="noopener noreferrer" data-support-bypass="true"><span>☕</span><strong>Zbiórka celowa</strong><small>Rozwój AIO IPTV PL</small></a>
           <a class="support-method support-method-kofi" href="${SUPPORT_LINKS.kofi}" target="_blank" rel="noopener noreferrer" data-support-bypass="true"><span>☕</span><strong>Ko-fi</strong><small>Wsparcie z zagranicy</small></a>
         </div>
         <p class="support-gate-status" aria-live="polite"></p>
