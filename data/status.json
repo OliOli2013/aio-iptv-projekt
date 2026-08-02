@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-01T07:38:29.679863+00:00",
+  "generatedAt": "2026-08-02T07:41:39.440190+00:00",
   "items": [
     {
       "id": "site-home",
@@ -8,8 +8,8 @@
       "category": "Strona",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-01T07:38:17.857135+00:00",
-      "message": "Usługa odpowiada prawidłowo • text/html • 18671 B."
+      "checkedAt": "2026-08-02T07:41:28.975905+00:00",
+      "message": "Usługa odpowiada prawidłowo • text/html • 20431 B."
     },
     {
       "id": "aio-installer",
@@ -18,7 +18,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-01T07:38:18.014900+00:00",
+      "checkedAt": "2026-08-02T07:41:29.053277+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 3915 B."
     },
     {
@@ -28,7 +28,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-01T07:38:18.137636+00:00",
+      "checkedAt": "2026-08-02T07:41:29.136001+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 5494 B."
     },
     {
@@ -38,7 +38,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-01T07:38:18.334775+00:00",
+      "checkedAt": "2026-08-02T07:41:29.223163+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 2469 B."
     },
     {
@@ -48,7 +48,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-01T07:38:18.526823+00:00",
+      "checkedAt": "2026-08-02T07:41:29.322315+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 2596 B."
     },
     {
@@ -58,7 +58,7 @@
       "category": "Listy kanałów",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-01T07:38:18.651529+00:00",
+      "checkedAt": "2026-08-02T07:41:29.413142+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 6480 B."
     },
     {
@@ -68,7 +68,7 @@
       "category": "Pliki",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-01T07:38:18.810168+00:00",
+      "checkedAt": "2026-08-02T07:41:29.506063+00:00",
       "message": "Usługa odpowiada prawidłowo • application/vnd.shana.informed.package • 320240 B."
     },
     {
@@ -78,7 +78,7 @@
       "category": "Pliki",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-01T07:38:18.985643+00:00",
+      "checkedAt": "2026-08-02T07:41:29.552844+00:00",
       "message": "Usługa odpowiada prawidłowo • application/vnd.shana.informed.package • 325320 B."
     },
     {
@@ -88,7 +88,7 @@
       "category": "Pliki",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-01T07:38:19.108726+00:00",
+      "checkedAt": "2026-08-02T07:41:29.612417+00:00",
       "message": "Usługa odpowiada prawidłowo • application/vnd.android.package-archive • 111271 B."
     },
     {
@@ -98,7 +98,7 @@
       "category": "Systemy Multi-Click",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-01T07:38:19.262398+00:00",
+      "checkedAt": "2026-08-02T07:41:29.655284+00:00",
       "message": "Usługa odpowiada prawidłowo • application/zip • 214085499 B."
     },
     {
@@ -108,7 +108,7 @@
       "category": "Systemy Multi-Click",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-01T07:38:22.382779+00:00",
+      "checkedAt": "2026-08-02T07:41:33.815563+00:00",
       "message": "Usługa odpowiada prawidłowo • application/zip • 299143104 B."
     },
     {
@@ -118,7 +118,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-01T07:38:28.690631+00:00",
+      "checkedAt": "2026-08-02T07:41:38.629689+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     },
     {
@@ -128,7 +128,7 @@
       "category": "Wsparcie",
       "status": "warning",
       "httpStatus": 403,
-      "checkedAt": "2026-08-01T07:38:29.320920+00:00",
+      "checkedAt": "2026-08-02T07:41:39.142000+00:00",
       "message": "Serwer działa, ale blokuje test automatyczny (HTTP 403)."
     },
     {
@@ -138,7 +138,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-01T07:38:29.431696+00:00",
+      "checkedAt": "2026-08-02T07:41:39.292090+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     }
   ]
