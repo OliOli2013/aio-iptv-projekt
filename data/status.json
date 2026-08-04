@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-03T08:43:28.593680+00:00",
+  "generatedAt": "2026-08-04T07:49:00.512321+00:00",
   "items": [
     {
       "id": "site-home",
@@ -8,7 +8,7 @@
       "category": "Strona",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-03T08:43:21.045490+00:00",
+      "checkedAt": "2026-08-04T07:48:57.801081+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html • 20431 B."
     },
     {
@@ -18,7 +18,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-03T08:43:21.144120+00:00",
+      "checkedAt": "2026-08-04T07:48:57.905128+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 3915 B."
     },
     {
@@ -28,7 +28,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-03T08:43:21.259692+00:00",
+      "checkedAt": "2026-08-04T07:48:58.011929+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 5494 B."
     },
     {
@@ -38,7 +38,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-03T08:43:21.386003+00:00",
+      "checkedAt": "2026-08-04T07:48:58.115170+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 2469 B."
     },
     {
@@ -48,7 +48,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-03T08:43:21.532050+00:00",
+      "checkedAt": "2026-08-04T07:48:58.208840+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 2596 B."
     },
     {
@@ -58,7 +58,7 @@
       "category": "Listy kanałów",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-03T08:43:21.650265+00:00",
+      "checkedAt": "2026-08-04T07:48:58.322086+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 6480 B."
     },
     {
@@ -68,7 +68,7 @@
       "category": "Pliki",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-03T08:43:21.765077+00:00",
+      "checkedAt": "2026-08-04T07:48:58.417952+00:00",
       "message": "Usługa odpowiada prawidłowo • application/vnd.shana.informed.package • 320240 B."
     },
     {
@@ -78,7 +78,7 @@
       "category": "Pliki",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-03T08:43:21.870616+00:00",
+      "checkedAt": "2026-08-04T07:48:58.465624+00:00",
       "message": "Usługa odpowiada prawidłowo • application/vnd.shana.informed.package • 325320 B."
     },
     {
@@ -88,7 +88,7 @@
       "category": "Pliki",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-03T08:43:22.000105+00:00",
+      "checkedAt": "2026-08-04T07:48:58.520271+00:00",
       "message": "Usługa odpowiada prawidłowo • application/vnd.android.package-archive • 111271 B."
     },
     {
@@ -98,8 +98,8 @@
       "category": "Systemy Multi-Click",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-03T08:43:22.076508+00:00",
-      "message": "Usługa odpowiada prawidłowo • application/zip • 214085499 B."
+      "checkedAt": "2026-08-04T07:48:58.572633+00:00",
+      "message": "Usługa odpowiada prawidłowo • text/html • 12214 B."
     },
     {
       "id": "sf8008-system",
@@ -108,8 +108,8 @@
       "category": "Systemy Multi-Click",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-03T08:43:24.505730+00:00",
-      "message": "Usługa odpowiada prawidłowo • application/zip • 299143104 B."
+      "checkedAt": "2026-08-04T07:48:59.128852+00:00",
+      "message": "Usługa odpowiada prawidłowo • text/html • 12214 B."
     },
     {
       "id": "buycoffee",
@@ -118,7 +118,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-03T08:43:27.610219+00:00",
+      "checkedAt": "2026-08-04T07:48:59.595197+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     },
     {
@@ -126,10 +126,10 @@
       "name": "Ko-fi — wsparcie zagraniczne",
       "url": "https://ko-fi.com/pawelpawlek",
       "category": "Wsparcie",
-      "status": "warning",
-      "httpStatus": 403,
-      "checkedAt": "2026-08-03T08:43:28.194503+00:00",
-      "message": "Serwer działa, ale blokuje test automatyczny (HTTP 403)."
+      "status": "online",
+      "httpStatus": 200,
+      "checkedAt": "2026-08-04T07:49:00.091550+00:00",
+      "message": "Usługa odpowiada prawidłowo • text/html."
     },
     {
       "id": "revolut",
@@ -138,7 +138,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-03T08:43:28.380488+00:00",
+      "checkedAt": "2026-08-04T07:49:00.375835+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     }
   ]
