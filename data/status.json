@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-08T05:59:20.913428+00:00",
+  "generatedAt": "2026-08-09T06:00:15.753402+00:00",
   "items": [
     {
       "id": "site-home",
@@ -8,7 +8,7 @@
       "category": "Strona",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-08T05:59:18.016610+00:00",
+      "checkedAt": "2026-08-09T06:00:12.497511+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html • 20431 B."
     },
     {
@@ -18,7 +18,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-08T05:59:18.146648+00:00",
+      "checkedAt": "2026-08-09T06:00:12.578734+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 3915 B."
     },
     {
@@ -28,7 +28,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-08T05:59:18.249924+00:00",
+      "checkedAt": "2026-08-09T06:00:12.700488+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 5494 B."
     },
     {
@@ -38,7 +38,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-08T05:59:18.357227+00:00",
+      "checkedAt": "2026-08-09T06:00:12.807617+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 2469 B."
     },
     {
@@ -48,7 +48,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-08T05:59:18.453304+00:00",
+      "checkedAt": "2026-08-09T06:00:12.913723+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 2596 B."
     },
     {
@@ -58,7 +58,7 @@
       "category": "Listy kanałów",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-08T05:59:18.543452+00:00",
+      "checkedAt": "2026-08-09T06:00:13.121080+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 6480 B."
     },
     {
@@ -68,7 +68,7 @@
       "category": "Pliki",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-08T05:59:18.613866+00:00",
+      "checkedAt": "2026-08-09T06:00:13.212375+00:00",
       "message": "Usługa odpowiada prawidłowo • application/vnd.shana.informed.package • 320240 B."
     },
     {
@@ -78,7 +78,7 @@
       "category": "Pliki",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-08T05:59:18.668116+00:00",
+      "checkedAt": "2026-08-09T06:00:13.281626+00:00",
       "message": "Usługa odpowiada prawidłowo • application/vnd.shana.informed.package • 325320 B."
     },
     {
@@ -88,7 +88,7 @@
       "category": "Pliki",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-08T05:59:18.736703+00:00",
+      "checkedAt": "2026-08-09T06:00:13.348754+00:00",
       "message": "Usługa odpowiada prawidłowo • application/vnd.android.package-archive • 111271 B."
     },
     {
@@ -98,8 +98,8 @@
       "category": "Systemy Multi-Click",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-08T05:59:18.779596+00:00",
-      "message": "Usługa odpowiada prawidłowo • text/html • 12119 B."
+      "checkedAt": "2026-08-09T06:00:13.400610+00:00",
+      "message": "Usługa odpowiada prawidłowo • text/html • 12113 B."
     },
     {
       "id": "sf8008-system",
@@ -108,8 +108,8 @@
       "category": "Systemy Multi-Click",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-08T05:59:19.540311+00:00",
-      "message": "Usługa odpowiada prawidłowo • text/html • 12119 B."
+      "checkedAt": "2026-08-09T06:00:14.089933+00:00",
+      "message": "Usługa odpowiada prawidłowo • text/html • 12113 B."
     },
     {
       "id": "buycoffee",
@@ -118,7 +118,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-08T05:59:20.001128+00:00",
+      "checkedAt": "2026-08-09T06:00:14.684012+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     },
     {
@@ -128,7 +128,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-08T05:59:20.467243+00:00",
+      "checkedAt": "2026-08-09T06:00:15.258646+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     },
     {
@@ -138,7 +138,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-08T05:59:20.727706+00:00",
+      "checkedAt": "2026-08-09T06:00:15.493073+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     }
   ]
