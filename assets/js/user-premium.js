@@ -451,6 +451,10 @@
     unlockUntilEndOfDayAfterSupportClick: true
   };
 
+  const COMMUNITY_LINK_POLICY = {
+    freePerDay: 1
+  };
+
 
   async function initProjectStateBanner() {
     const current = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
@@ -474,6 +478,7 @@
   const IMAGE_EXTENSIONS = /\.(?:png|jpe?g|webp|gif|svg|avif)(?:$|[?#])/i;
   const SUPPORT_HOSTS = /(?:^|\.)(?:ko-fi\.com|revolut\.me|buycoffee\.to)$/i;
   const DAILY_USAGE_KEY = 'aio_download_daily_usage_v1';
+  const COMMUNITY_LINK_USAGE_KEY = 'aio_community_link_daily_usage_v1';
   const DAILY_UNLOCK_KEY = 'aio_download_support_unlock_v1';
 
   let modal = null;
@@ -499,6 +504,10 @@
     // Plansza wsparcia przy pobieraniu i limit jednego bezpłatnego pliku dziennie pozostają aktywne.
     createFundraiserRibbon();
     createSupportModal();
+    // Linki wpisane w treści Społeczności mają własny dzienny limit: 1 bezpłatne otwarcie.
+    // Obsługujemy je przed zwykłymi linkami pobierania, aby kliknięcie linku w poście
+    // nie zużywało jednocześnie limitu pobierania.
+    document.addEventListener('click', interceptCommunityLink, true);
     document.addEventListener('click', interceptDownload, true);
   }
 
@@ -535,6 +544,25 @@
     const usage = readDailyUsage();
     usage.count += 1;
     saveDailyUsage(usage);
+  }
+
+  function readCommunityLinkUsage() {
+    const today = localDateKey();
+    try {
+      const value = JSON.parse(localStorage.getItem(COMMUNITY_LINK_USAGE_KEY) || '{}');
+      if (value.date === today && Number.isFinite(Number(value.count))) return { date: today, count: Number(value.count) };
+    } catch (error) {}
+    return { date: today, count: 0 };
+  }
+
+  function saveCommunityLinkUsage(value) {
+    try { localStorage.setItem(COMMUNITY_LINK_USAGE_KEY, JSON.stringify(value)); } catch (error) {}
+  }
+
+  function registerFreeCommunityLink() {
+    const usage = readCommunityLinkUsage();
+    usage.count += 1;
+    saveCommunityLinkUsage(usage);
   }
 
   function createFundraiserRibbon() {
@@ -609,7 +637,7 @@
         <div class="support-gate-icon" aria-hidden="true">♥</div>
         <p class="support-gate-eyebrow">WSPARCIE PROJEKTÓW AIO-IPTV.PL</p>
         <h2 id="support-gate-title">Pomóż rozwijać projekty dla Enigma2</h2>
-        <p id="support-gate-description">Pierwsze pobranie każdego dnia jest dostępne bez wsparcia. Przy kolejnych pobraniach otwórz jedną z metod wsparcia, aby odblokować pliki do końca bieżącego dnia w tej przeglądarce.</p>
+        <p id="support-gate-description">Pierwsze pobranie oraz pierwszy link w Społeczności każdego dnia są dostępne bez wsparcia. Kolejne pobrania i linki możesz odblokować po otwarciu jednej z metod wsparcia.</p>
         <div class="support-gate-file" hidden>
           <span>Wybrany plik:</span>
           <strong class="support-gate-filename"></strong>
@@ -638,19 +666,75 @@
       link.addEventListener('click', () => {
         supportActionConfirmed = true;
         if (DOWNLOAD_POLICY.unlockUntilEndOfDayAfterSupportClick) unlockToday();
-        statusMessage.textContent = 'Dziękuję. Pobieranie zostało odblokowane do końca dzisiejszego dnia w tej przeglądarce.';
+        const communityLinkMode = modalMode === 'community-link-limit';
+        statusMessage.textContent = communityLinkMode
+          ? 'Dziękuję. Linki w Społeczności zostały odblokowane do końca dzisiejszego dnia w tej przeglądarce.'
+          : 'Dziękuję. Pobieranie zostało odblokowane do końca dzisiejszego dnia w tej przeglądarce.';
         continueButton.disabled = false;
         continueButton.classList.add('is-thanks');
-        continueButton.textContent = pendingDownload ? 'Dziękuję — pobierz plik' : 'Dziękuję — zamknij planszę';
+        continueButton.textContent = communityLinkMode
+          ? 'Dziękuję — otwórz link'
+          : (pendingDownload ? 'Dziękuję — pobierz plik' : 'Dziękuję — zamknij planszę');
       });
     });
     continueButton.addEventListener('click', continueAfterPrompt);
     modal.addEventListener('keydown', trapModalKeyboard);
   }
 
+  function interceptCommunityLink(event) {
+    const anchor = event.target.closest && event.target.closest('a.community-link');
+    if (!anchor || !isCommunityContentLink(anchor)) return;
+
+    if (isUnlockedToday()) return;
+
+    const usage = readCommunityLinkUsage();
+    if (usage.count < COMMUNITY_LINK_POLICY.freePerDay) {
+      registerFreeCommunityLink();
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+    if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
+
+    openSupportModal({
+      href: anchor.href,
+      target: anchor.getAttribute('target') || '_blank',
+      download: '',
+      label: getCommunityLinkLabel(anchor)
+    }, 'community-link-limit');
+  }
+
+  function isCommunityContentLink(anchor) {
+    if (!anchor || !anchor.classList.contains('community-link')) return false;
+    if (anchor.dataset.supportBypass === 'true' || anchor.closest('.support-gate-modal')) return false;
+
+    const rawHref = (anchor.getAttribute('href') || '').trim();
+    if (!rawHref || /^(?:#|javascript:|mailto:|tel:)/i.test(rawHref)) return false;
+
+    try {
+      const url = new URL(rawHref, window.location.href);
+      if (SUPPORT_HOSTS.test(url.hostname)) return false;
+    } catch (error) {
+      return false;
+    }
+    return true;
+  }
+
+  function getCommunityLinkLabel(anchor) {
+    const rawText = (anchor.textContent || '').replace(/\s+/g, ' ').trim();
+    if (rawText && rawText.length <= 100) return rawText;
+    try {
+      const url = new URL(anchor.href, window.location.href);
+      return safeDecode(url.hostname + url.pathname).slice(0, 100);
+    } catch (error) {
+      return 'Link ze Społeczności AIO';
+    }
+  }
+
   function interceptDownload(event) {
     const anchor = event.target.closest && event.target.closest('a');
-    if (!anchor || !isDownloadLink(anchor)) return;
+    if (!anchor || anchor.classList.contains('community-link') || !isDownloadLink(anchor)) return;
 
     if (isUnlockedToday()) return;
 
@@ -729,20 +813,35 @@
     const fileBox = modal.querySelector('.support-gate-file');
     const cancel = modal.querySelector('.support-gate-cancel');
 
-    if (modalMode === 'limit' && download) {
+    if (modalMode === 'community-link-limit' && download) {
+      title.textContent = 'Dzisiejszy bezpłatny link został wykorzystany';
+      description.textContent = 'Pierwszy link otwierany każdego dnia w Społeczności AIO jest bezpłatny. Aby otworzyć kolejny link dzisiaj, przejdź do jednej z metod wsparcia. Po powrocie linki zostaną odblokowane do końca dnia w tej przeglądarce.';
+      note.textContent = 'Wybierz Revolut, BuyCoffee albo Ko-fi. Wsparcie pomaga utrzymywać stronę, Społeczność AIO oraz bezpłatne projekty Enigma2.';
+      fileBox.hidden = false;
+      const label = fileBox.querySelector('span');
+      if (label) label.textContent = 'Wybrany link:';
+      fileNameElement.textContent = download.label || 'Link ze Społeczności AIO';
+      cancel.textContent = 'Anuluj';
+      continueButton.textContent = 'Najpierw wybierz metodę wsparcia';
+      continueButton.disabled = !supportActionConfirmed;
+    } else if (modalMode === 'limit' && download) {
       title.textContent = 'Dzisiejsze bezpłatne pobranie zostało wykorzystane';
       description.textContent = 'Aby pobrać kolejny plik dzisiaj, otwórz jedną z metod wsparcia. Po powrocie przycisk pobierania zostanie odblokowany do końca dnia w tej przeglądarce.';
       note.textContent = 'Wybierz Revolut, BuyCoffee albo Ko-fi. Każda forma wsparcia pomaga utrzymywać i aktualizować projekty.';
       fileBox.hidden = false;
+      const label = fileBox.querySelector('span');
+      if (label) label.textContent = 'Wybrany plik:';
       fileNameElement.textContent = download.label || fileNameFromUrl(download.href);
       cancel.textContent = 'Anuluj';
       continueButton.textContent = 'Najpierw wybierz metodę wsparcia';
       continueButton.disabled = !supportActionConfirmed;
     } else {
       title.textContent = 'Pomóż rozwijać projekty dla Enigma2';
-      description.textContent = 'Pierwsze pobranie każdego dnia jest dostępne bez wsparcia. Przy kolejnych pobraniach możesz odblokować pliki do końca dnia po otwarciu jednej z metod wsparcia.';
-      note.textContent = 'Dzięki wsparciu mogę rozwijać AIO Panel, wtyczki, aplikacje, listy kanałów, picony, poradniki i systemy.';
+      description.textContent = 'Pierwsze pobranie oraz pierwszy link w Społeczności każdego dnia są dostępne bez wsparcia. Kolejne możesz odblokować do końca dnia po otwarciu jednej z metod wsparcia.';
+      note.textContent = 'Dzięki wsparciu mogę rozwijać AIO Panel, wtyczki, aplikacje, listy kanałów, picony, poradniki, systemy i Społeczność AIO.';
       fileBox.hidden = true;
+      const label = fileBox.querySelector('span');
+      if (label) label.textContent = 'Wybrany plik:';
       fileNameElement.textContent = '';
       cancel.textContent = 'Nie teraz';
       continueButton.textContent = 'Zamknij planszę';
@@ -767,7 +866,7 @@
   }
 
   function continueAfterPrompt() {
-    if (modalMode === 'limit' && !supportActionConfirmed && !isUnlockedToday()) {
+    if ((modalMode === 'limit' || modalMode === 'community-link-limit') && !supportActionConfirmed && !isUnlockedToday()) {
       statusMessage.textContent = 'Wybierz najpierw jedną z metod wsparcia.';
       return;
     }
