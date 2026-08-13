@@ -1,14 +1,14 @@
 [
   {
     "name": "AIO Panel",
-    "version": "15.0.0",
+    "version": "16.0.0",
     "type": "Wtyczka Enigma2",
     "python": "Python 2 i 3",
     "systems": "OpenATV, OpenPLi, Egami, OpenViX, OpenBH, Pure2 i inne obrazy Enigma2",
     "requirements": "Enigma2; po instalacji zalecany Restart GUI",
     "status": "Szeroka zgodność",
     "url": "plugin-aio-panel.html",
-    "notes": "Pakiet deklaruje zgodność z Pythonem 2 i Pythonem 3."
+    "notes": "Wersja 16.0.0 zachowuje szeroką zgodność projektu i dodaje modularny rdzeń, Self-Test oraz bezpieczniejsze mechanizmy źródeł i aktualizacji."
   },
   {
     "name": "PP Channel Sync",

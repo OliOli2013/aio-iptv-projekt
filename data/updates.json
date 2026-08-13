@@ -1,5 +1,32 @@
 [
   {
+    "date": "2026-08-13",
+    "ts": 1786579200000,
+    "type": "release",
+    "title": "AIO Panel 16.0.0 — duża aktualizacja projektu",
+    "desc": "Duża modernizacja techniczna AIO Panel: modularny rdzeń, bezpieczniejsze źródła i aktualizacje, centralny logger, wyszukiwarka, ulubione, historia, Health Check, Stable/Test, Self-Test oraz nowy bootstrap instalatora.",
+    "details": "AIO Panel 16.0.0 — duża aktualizacja projektu\n\nNajważniejsze zmiany:\n• przebudowany rdzeń AIO Panel i rozpoczęcie odejścia od monolitycznego kodu\n• osobne moduły dla logowania, wyników operacji, rejestru akcji, źródeł i diagnostyki\n• nowa warstwa Action Dispatcher oraz warstwa kompatybilności ze starszym kodem\n• rejestr zaufanych źródeł, dokładniejsza kontrola adresów i dodatkowa walidacja pobranych plików\n• kontrola SHA-256 i rozszerzona ochrona przed potencjalnie niebezpiecznymi poleceniami systemowymi\n• centralny logger i czytelniejsze informacje diagnostyczne\n• wyszukiwarka AIO Panel, Ulubione i Ostatnio używane\n• Health Check najważniejszych źródeł bez rozpoczynania instalacji\n• kanały aktualizacji Stable / Test\n• rozbudowany system wyników operacji z informacją o błędzie, logu i wymaganym restarcie GUI\n• uporządkowana automatyczna konserwacja: przy starcie GUI, raz dziennie lub raz na kilka dni\n• poprawiona obsługa pamięci procesu AIO i plików tymczasowych bez sugerowania sztucznego „czyszczenia RAM Linuxa”\n• rozbudowany Self-Test instalacji i wymaganych modułów\n• lepsza diagnostyka AIO Connect, dodatkowe zabezpieczenia raportów i anonimizacja części danych sieciowych\n• przebudowany system aktualizacji AIO i nowy bootstrap instalatora\n• uporządkowane repozytorium w katalogach core/, data/, ui/, tests/, tools/, docs/ i release/\n• automatyczne testy składni Python, skryptów shell, Self-Test, testy regresyjne i kontrola budowania IPK\n\nWersja 16.0.0 tworzy fundament pod dalszy rozwój AIO Panel bez dalszego powiększania jednego ogromnego pliku źródłowego.\n\nAIO Team / Paweł Pawełek.",
+    "url": "plugin-aio-panel.html",
+    "tags": [
+      "AIO Panel",
+      "16.0.0",
+      "Enigma2",
+      "modularny rdzeń",
+      "Action Dispatcher",
+      "bezpieczeństwo",
+      "SHA-256",
+      "logger",
+      "wyszukiwarka",
+      "ulubione",
+      "Health Check",
+      "Stable/Test",
+      "Self-Test",
+      "AIO Connect",
+      "bootstrap",
+      "GitHub Actions"
+    ]
+  },
+  {
     "date": "2026-07-28",
     "ts": 1785196800000,
     "type": "release",

@@ -194,8 +194,8 @@
 
   const PROJECTS = {
     aio: {
-      title: 'AIO Panel 15.0.0', url: 'plugin-aio-panel.html', kind: 'Wtyczka Enigma2', python: ['2', '3'], icon: '🧩',
-      summary: 'Listy kanałów, picony, Softcam, OSCam, narzędzia i Super Konfigurator.'
+      title: 'AIO Panel 16.0.0', url: 'plugin-aio-panel.html', kind: 'Wtyczka Enigma2', python: ['2', '3'], icon: '🧩',
+      summary: 'Modularne centrum narzędzi Enigma2 z wyszukiwarką, ulubionymi, Health Check, Self-Test i bezpieczniejszym systemem źródeł.'
     },
     doctor: {
       title: 'E2 Doctor 2.3', url: 'plugin-e2-doctor.html', kind: 'Diagnostyka', python: ['3'], icon: '🩺',

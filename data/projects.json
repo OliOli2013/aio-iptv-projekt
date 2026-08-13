@@ -2,15 +2,15 @@
   {
     "id": "aio-panel",
     "name": "AIO Panel",
-    "version": "15.0.0",
+    "version": "16.0.0",
     "page": "plugin-aio-panel.html",
     "category": "Wtyczka Enigma2",
     "status": "active",
     "statusLabel": "Aktywnie rozwijany",
-    "updated": "28.07.2026",
-    "summary": "Główny panel narzędzi, list kanałów, piconów, Softcam, OSCam i konfiguracji Enigma2.",
+    "updated": "13.08.2026",
+    "summary": "Modularne centrum narzędzi Enigma2 z bezpieczniejszym systemem źródeł, wyszukiwarką, ulubionymi, historią, Health Check, Self-Test i AIO Connect.",
     "tested": "Python 2 i 3; różne obrazy Enigma2",
-    "next": "Kolejne poprawki publikowane po testach i zgłoszeniach użytkowników."
+    "next": "Dalszy rozwój modułów core/data/ui oraz rozszerzanie testów i diagnostyki."
   },
   {
     "id": "iptv-dream",

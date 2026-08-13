@@ -19,21 +19,27 @@
     ]
   },
   {
-    "title": "AIO Panel 15.0.0 — AIO Connect",
-    "desc": "AIO Connect, diagnostyka tunera, pełny raport, zgłoszenie przez kod QR, Społeczność AIO i naprawiony instalator E2iPlayer.",
+    "title": "AIO Panel 16.0.0 — duża modernizacja techniczna",
+    "desc": "Modularny rdzeń, Action Dispatcher, bezpieczniejsze źródła, SHA-256, centralny logger, wyszukiwarka, ulubione, historia, Health Check, Stable/Test, Self-Test i bezpieczniejsze aktualizacje.",
     "url": "plugin-aio-panel.html",
     "tags": [
       "AIO Panel",
-      "15.0.0",
-      "AIO Connect",
+      "16.0.0",
       "Enigma2",
-      "diagnostyka",
-      "raport",
-      "QR",
-      "Społeczność AIO",
-      "E2iPlayer",
-      "Python 2",
-      "Python 3"
+      "modularny rdzeń",
+      "Action Dispatcher",
+      "SHA-256",
+      "zaufane źródła",
+      "logger",
+      "wyszukiwarka",
+      "ulubione",
+      "ostatnio używane",
+      "Health Check",
+      "Stable",
+      "Test",
+      "Self-Test",
+      "AIO Connect",
+      "bootstrap"
     ]
   },
   {

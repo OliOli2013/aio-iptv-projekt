@@ -1,5 +1,5 @@
-/* AIO-IPTV.pl PWA — community10-aio-connect 2026-07-28 */
-const CACHE='aio-iptv-pro-20260801-fundraiser1';
+/* AIO-IPTV.pl PWA — AIO Panel 16.0.0 • 2026-08-13 */
+const CACHE='aio-iptv-pro-20260813-aio1600';
 const CORE=[
   './assets/js/auto-language.js?v=20260729-auto-en1',
   './','./index.html','./downloads.html','./plugins.html','./guides.html','./systems.html',
