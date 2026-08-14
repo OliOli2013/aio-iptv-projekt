@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-13T06:48:17.500446+00:00",
+  "generatedAt": "2026-08-14T06:44:49.256528+00:00",
   "items": [
     {
       "id": "site-home",
@@ -8,8 +8,8 @@
       "category": "Strona",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-13T06:48:05.482112+00:00",
-      "message": "Usługa odpowiada prawidłowo • text/html • 20431 B."
+      "checkedAt": "2026-08-14T06:44:45.795046+00:00",
+      "message": "Usługa odpowiada prawidłowo • text/html • 20437 B."
     },
     {
       "id": "aio-installer",
@@ -18,8 +18,8 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-13T06:48:05.630111+00:00",
-      "message": "Usługa odpowiada prawidłowo • text/plain • 3915 B."
+      "checkedAt": "2026-08-14T06:44:45.933860+00:00",
+      "message": "Usługa odpowiada prawidłowo • text/plain • 8720 B."
     },
     {
       "id": "iptv-installer",
@@ -28,7 +28,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-13T06:48:05.744107+00:00",
+      "checkedAt": "2026-08-14T06:44:46.059264+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 5494 B."
     },
     {
@@ -38,7 +38,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-13T06:48:05.954121+00:00",
+      "checkedAt": "2026-08-14T06:44:46.172583+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 2469 B."
     },
     {
@@ -48,7 +48,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-13T06:48:06.132846+00:00",
+      "checkedAt": "2026-08-14T06:44:46.276643+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 2596 B."
     },
     {
@@ -58,18 +58,18 @@
       "category": "Listy kanałów",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-13T06:48:06.432716+00:00",
+      "checkedAt": "2026-08-14T06:44:46.494842+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 7036 B."
     },
     {
       "id": "aio-ipk",
-      "name": "AIO Panel 15.0.0 — plik IPK",
-      "url": "https://olioli2013.github.io/aio-iptv-projekt/pliki/enigma2-plugin-extensions-panelaio_15.0.0_all.ipk",
+      "name": "AIO Panel 16.0.0 — plik IPK",
+      "url": "https://olioli2013.github.io/aio-iptv-projekt/pliki/enigma2-plugin-extensions-panelaio_16.0.0_all.ipk",
       "category": "Pliki",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-13T06:48:06.542237+00:00",
-      "message": "Usługa odpowiada prawidłowo • application/vnd.shana.informed.package • 320240 B."
+      "checkedAt": "2026-08-14T06:44:46.593245+00:00",
+      "message": "Usługa odpowiada prawidłowo • application/vnd.shana.informed.package • 301820 B."
     },
     {
       "id": "iptv-ipk",
@@ -78,7 +78,7 @@
       "category": "Pliki",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-13T06:48:06.685178+00:00",
+      "checkedAt": "2026-08-14T06:44:46.666625+00:00",
       "message": "Usługa odpowiada prawidłowo • application/vnd.shana.informed.package • 325320 B."
     },
     {
@@ -88,7 +88,7 @@
       "category": "Pliki",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-13T06:48:06.805481+00:00",
+      "checkedAt": "2026-08-14T06:44:46.730633+00:00",
       "message": "Usługa odpowiada prawidłowo • application/vnd.android.package-archive • 111271 B."
     },
     {
@@ -98,8 +98,8 @@
       "category": "Systemy Multi-Click",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-13T06:48:06.934329+00:00",
-      "message": "Usługa odpowiada prawidłowo • application/zip • 214085499 B."
+      "checkedAt": "2026-08-14T06:44:46.797819+00:00",
+      "message": "Usługa odpowiada prawidłowo • text/html • 12102 B."
     },
     {
       "id": "sf8008-system",
@@ -108,8 +108,8 @@
       "category": "Systemy Multi-Click",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-13T06:48:10.904199+00:00",
-      "message": "Usługa odpowiada prawidłowo • application/zip • 299143104 B."
+      "checkedAt": "2026-08-14T06:44:47.696000+00:00",
+      "message": "Usługa odpowiada prawidłowo • text/html • 12128 B."
     },
     {
       "id": "buycoffee",
@@ -118,7 +118,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-13T06:48:16.260669+00:00",
+      "checkedAt": "2026-08-14T06:44:48.188285+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     },
     {
@@ -128,7 +128,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-13T06:48:16.960625+00:00",
+      "checkedAt": "2026-08-14T06:44:48.787664+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     },
     {
@@ -138,7 +138,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-13T06:48:17.232052+00:00",
+      "checkedAt": "2026-08-14T06:44:49.050683+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     }
   ]
