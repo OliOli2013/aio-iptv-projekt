@@ -1,6 +1,29 @@
 [
   {
     "date": "2026-08-14",
+    "ts": 1786722660000,
+    "type": "release",
+    "title": "NeoRadio 3.0.0 — duża przebudowa po pełnym audycie",
+    "desc": "NeoRadio 3.0.0: pełny audyt i przebudowa, zoptymalizowany Radio-Browser, bezpieczniejsze aktualizacje SHA-256, cache grafik, atomowy zapis danych, nowy interfejs AIO, QR i poprawiony INFO.",
+    "details": "🚀 NeoRadio 3.0.0 – duża przebudowa po pełnym audycie wtyczki\n\nUdostępniam nową, gruntownie poprawioną wersję NeoRadio 3.0.0 dla Enigma2.\n\nTo nie jest wyłącznie zmiana wyglądu ani kosmetyczna aktualizacja. Wtyczka została przeanalizowana od podstaw pod kątem kodu, stabilności, działania na różnych image Enigma2, obsługi Radio-Browser, aktualizacji, zapisu danych, wydajności oraz spójności z pozostałymi projektami AIO.\n\nNajważniejsze zmiany:\n• pełny audyt i uporządkowanie kodu\n• łączenie wbudowanej bazy, stacji użytkownika i Radio-Browser z deduplikacją\n• ograniczenie liczby pobieranych stacji i mniejsze obciążenie RAM\n• bezpieczniejsza obsługa mirrorów i błędów sieciowych\n• cache grafik, limity rozmiaru, PNG/JPEG i opcjonalna konwersja przez Pillow\n• aktualizator HTTPS z kontrolą rozmiaru, SHA-256, struktury IPK, nazwy pakietu i wersji\n• atomowy zapis ulubionych, historii, cache i JSON\n• nowa szata graficzna spójna z AIO Panel i IPTV Dream\n• poprawiony ekran informacji, strona projektu i kod QR\n• szersza obsługa klawisza INFO przez różne warianty ActionMap\n• automatyczne czyszczenie własnych plików instalacyjnych z /tmp\n• optymalizacja zasobów graficznych i dodatkowa walidacja paczki\n\nNeoRadio 3.0.0 — Internet Radio for Enigma2\nPaweł Pawełek / AIO Team",
+    "url": "plugin-neoradio.html",
+    "tags": [
+      "NeoRadio",
+      "3.0.0",
+      "Enigma2",
+      "radio",
+      "Radio-Browser",
+      "RDS",
+      "ICY",
+      "SHA-256",
+      "AIO",
+      "QR",
+      "INFO",
+      "aktualizacja"
+    ]
+  },
+  {
+    "date": "2026-08-14",
     "ts": 1786665600000,
     "type": "release",
     "title": "IPTV Dream 8.0.0 — duża aktualizacja projektu",

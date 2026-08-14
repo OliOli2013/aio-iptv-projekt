@@ -90,18 +90,18 @@
     "official": "Plik na AIO-IPTV.pl"
   },
   {
-    "title": "enigma2-plugin-extensions-neoradio_2.1_all.ipk",
-    "href": "pliki/enigma2-plugin-extensions-neoradio_2.1_all.ipk",
+    "title": "enigma2-plugin-extensions-neoradio_3.0.0_all.ipk",
+    "href": "pliki/enigma2-plugin-extensions-neoradio_3.0.0_all.ipk",
     "category": "Wtyczki",
     "platform": "Enigma2",
-    "version": "",
-    "date": "",
+    "version": "3.0.0",
+    "date": "2026-08-14",
     "status": "Aktualna",
     "sourcePage": "plugin-neoradio.html",
-    "sourceTitle": "NeoRadio v2.1",
+    "sourceTitle": "NeoRadio 3.0.0",
     "kind": "IPK",
-    "size": "10.98 MB",
-    "sha256": "72a3a2c25d7bcacf8fb1d0dbed398bfb1e1772ef7e03d534c7ce0f910bd45ad7",
+    "size": "10.37 MB",
+    "sha256": "d9e43b84d64c061fe106aa9d2f5d5c3371a7eb34a4b6d4dc76c99ed1991a11ef",
     "official": "Plik na AIO-IPTV.pl"
   },
   {

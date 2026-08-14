@@ -119,15 +119,15 @@
   {
     "id": "neoradio",
     "name": "NeoRadio",
-    "version": "2.1",
+    "version": "3.0.0",
     "page": "plugin-neoradio.html",
     "category": "Wtyczka Enigma2",
     "status": "maintained",
     "statusLabel": "Utrzymywany",
-    "updated": "brak nowej daty",
-    "summary": "Radio internetowe dla Enigma2.",
-    "tested": "Zależnie od obrazu Enigma2",
-    "next": "Poprawki zgodności w razie zgłoszeń."
+    "updated": "2026-08-14",
+    "summary": "Internetowe radio dla Enigma2 po pełnym audycie: Radio-Browser, RDS/ICY, cache grafik, bezpieczne aktualizacje SHA-256 i nowy interfejs AIO.",
+    "tested": "Enigma2 • zgodność zależna od image i dostępnych komponentów",
+    "next": "Dalsza optymalizacja źródeł, zgodności image i obsługi stacji na podstawie zgłoszeń użytkowników."
   },
   {
     "id": "opencamview",
