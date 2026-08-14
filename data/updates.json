@@ -1,5 +1,35 @@
 [
   {
+    "date": "2026-08-14",
+    "ts": 1786665600000,
+    "type": "release",
+    "title": "IPTV Dream 8.0.0 — duża aktualizacja projektu",
+    "desc": "Największa przebudowa od 7.0.0: stabilniejszy rdzeń, czyste nazwy bukietów i kanałów, poprawione M3U/Xtream/MAC, EPG, picony, WebIF, 4097/5002 oraz nowy interfejs AIO.",
+    "details": "🚀 IPTV Dream 8.0.0 – duża aktualizacja projektu\n\nPodsumowanie zmian od wersji 7.0.0 do 8.0.0.\n\nNajważniejsze zmiany:\n• pełny audyt kodu, poprawki stabilności, wyjątków, timeoutów, zapisu konfiguracji, historii, statystyk i cache\n• uporządkowanie starych i równoległych modułów oraz bezpieczniejszy instalator i aktualizator z walidacją nowej wersji i możliwością przywrócenia poprzednich plików\n• przebudowany parser M3U/M3U8: group-title, tvg-id, tvg-name, tvg-logo, nazwy z przecinkami, LIVE, VOD, Adult, pliki lokalne i URL\n• poprawiona obsługa Xtream Codes: kodowanie loginu/hasła, znaki specjalne, adresy strumieni, kategorie i eksport\n• poprawiona obsługa MAC / Stalker / MAG: grupy, kanały, adresy strumieni, dane portalu i bukiety\n• czyste nazwy bukietów bez nazwy serwera, portalu, loginu lub źródła\n• usuwanie typowych prefiksów krajowych i flag z nazw kanałów bez agresywnego usuwania prawidłowych elementów HD/FHD/UHD/4K/CANAL+/TV\n• bezpieczniejsza normalizacja nazw dla piconów\n• przebudowane mapowanie EPGImport, tvg-id, XML/XML.GZ i lepsze dopasowanie kanałów\n• poprawiony eksport #SERVICE, adresy z portami i parametrami URL, typy usług 4097 oraz 5002/ServiceApp\n• poprawiony WebIF, stan serwera, cache, historia, statystyki i zarządzanie źródłami\n• nowy interfejs w stylistyce AIO Panel: ciemny granat, cyjanowe akcenty, menu po lewej i dynamiczne podpowiedzi po prawej\n• podpowiedzi w wielu językach: PL, EN, DE, ES, AR i RU\n• usunięto informację o starej grupie Facebook i dodano oficjalną stronę projektu oraz czytelny kod QR\n• nowa opcja 0 – Strona projektu / QR\n• dodatkowe poprawki ProgressBar.setRange(), grafik Xtream, ścieżek cache, nawigacji grup i importów tools/__init__.py\n\nIPTV Dream 8.0.0 koncentruje się na stabilności, poprawnym eksporcie, czytelnych nazwach, EPG, piconach, kompatybilności i prostszej obsłudze.\n\nUwaga techniczna: dostarczony pakiet IPK 8.0.0 ma zależności python3-requests i python3-twisted, dlatego publikowana paczka jest przeznaczona dla Enigma2 z Pythonem 3.\n\nPaweł Pawełek\nhttps://olioli2013.github.io/aio-iptv-projekt/",
+    "url": "plugin-iptv-dream.html",
+    "tags": [
+      "IPTV Dream",
+      "8.0.0",
+      "Enigma2",
+      "Python 3",
+      "M3U",
+      "M3U8",
+      "Xtream Codes",
+      "MAC Portal",
+      "Stalker",
+      "MAG",
+      "bukiety",
+      "EPG",
+      "picony",
+      "WebIF",
+      "4097",
+      "5002",
+      "ServiceApp",
+      "QR",
+      "AIO"
+    ]
+  },
+  {
     "date": "2026-08-13",
     "ts": 1786579200000,
     "type": "release",

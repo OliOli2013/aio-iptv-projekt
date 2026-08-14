@@ -8,7 +8,7 @@
     "value": "wget -q -O - https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh | /bin/sh"
   },
   {
-    "label": "IPTV Dream 7.0.0",
+    "label": "IPTV Dream 8.0.0",
     "value": "https://olioli2013.github.io/aio-iptv-projekt/plugin-iptv-dream.html"
   },
   {

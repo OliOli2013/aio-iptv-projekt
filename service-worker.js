@@ -1,5 +1,5 @@
-/* AIO-IPTV.pl PWA — AIO Panel 16.0.0 • 2026-08-13 */
-const CACHE='aio-iptv-pro-20260813-aio1600';
+/* AIO-IPTV.pl PWA — AIO Panel 16.0.0 + IPTV Dream 8.0.0 • 2026-08-14 */
+const CACHE='aio-iptv-pro-20260814-iptvdream800';
 const CORE=[
   './assets/js/auto-language.js?v=20260729-auto-en1',
   './','./index.html','./downloads.html','./plugins.html','./guides.html','./systems.html',

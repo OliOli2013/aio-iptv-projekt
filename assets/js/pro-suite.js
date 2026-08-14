@@ -12,7 +12,7 @@ function initReportGenerator(){const form=$('#reportForm');if(!form)return;const
 const facts={
 'plugin-aio-panel.html':[['Wersja','16.0.0'],['Platforma','Enigma2'],['Python','2 i 3'],['Status','Stabilna'],['Data','13.08.2026']],
 'plugin-pp-channel-sync.html':[['Wersja','2.1.1'],['Platforma','Enigma2'],['Python','2 i 3'],['Status','Stabilna'],['Data','20.07.2026']],
-'plugin-iptv-dream.html':[['Wersja','7.0.0'],['Platforma','Enigma2'],['Python','3'],['Status','Stabilna'],['Data','22.07.2026']],
+'plugin-iptv-dream.html':[['Wersja','8.0.0'],['Platforma','Enigma2'],['Python','3'],['Status','Stabilna'],['Data','14.08.2026']],
 'plugin-e2-doctor.html':[['Wersja','2.3'],['Platforma','Enigma2'],['Python','3'],['Status','Stabilna'],['Data','11.07.2026']],
 'app-aio-panel-remote.html':[['Wersja','1.4.6'],['Platforma','Android 5.0+'],['Tryb','Free / Pro'],['Status','Stabilna']],
 'app-cambridge-android.html':[['Wersja','1.0.0'],['Platforma','Android'],['Praca','Offline'],['Status','Stabilna']],

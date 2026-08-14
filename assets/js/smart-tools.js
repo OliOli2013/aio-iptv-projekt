@@ -206,8 +206,8 @@
       summary: 'Synchronizacja kanałów bez utraty kolejności i własnego układu bukietów.'
     },
     iptv: {
-      title: 'IPTV Dream 7.0.0', url: 'plugin-iptv-dream.html', kind: 'IPTV', python: ['3'], icon: '📺',
-      summary: 'M3U, Xtream Codes, portale MAC, EPG, picony i eksport bukietów.'
+      title: 'IPTV Dream 8.0.0', url: 'plugin-iptv-dream.html', kind: 'IPTV', python: ['3'], icon: '📺',
+      summary: 'Stabilniejszy rdzeń, czyste nazwy bukietów i kanałów, M3U/Xtream/MAC, EPG, picony, WebIF i eksport 4097/5002.'
     },
     remote: {
       title: 'AIO Panel Remote 1.4.6', url: 'app-aio-panel-remote.html', kind: 'Android', python: ['2', '3'], icon: '📱',

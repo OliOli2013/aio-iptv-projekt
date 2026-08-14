@@ -23,14 +23,14 @@
   },
   {
     "name": "IPTV Dream",
-    "version": "7.0.0",
+    "version": "8.0.0",
     "type": "Wtyczka Enigma2",
     "python": "Python 3",
     "systems": "Obrazy Enigma2 z Pythonem 3",
-    "requirements": "python3-requests, python3-twisted, python3-twisted-web",
+    "requirements": "python3-requests, python3-twisted; zalecane python3-twisted-web",
     "status": "Python 3",
     "url": "plugin-iptv-dream.html",
-    "notes": "Wymagania pochodzą z metadanych pakietu IPK."
+    "notes": "Pakiet 8.0.0 deklaruje zależności Python 3 w metadanych IPK."
   },
   {
     "name": "E2 Doctor",

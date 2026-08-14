@@ -45,18 +45,18 @@
     "official": "Plik na AIO-IPTV.pl"
   },
   {
-    "title": "enigma2-plugin-extensions-iptvdream_7.0.0_all.ipk",
-    "href": "pliki/enigma2-plugin-extensions-iptvdream_7.0.0_all.ipk",
+    "title": "enigma2-plugin-extensions-iptvdream_8.0.0_all.ipk",
+    "href": "pliki/enigma2-plugin-extensions-iptvdream_8.0.0_all.ipk",
     "category": "Wtyczki",
     "platform": "Enigma2",
-    "version": "7.0.0",
-    "date": "22.07.2026",
+    "version": "8.0.0",
+    "date": "14.08.2026",
     "status": "Aktualna",
     "sourcePage": "plugin-iptv-dream.html",
-    "sourceTitle": "📺 IPTV Dream v7.0.0",
+    "sourceTitle": "📺 IPTV Dream v8.0.0",
     "kind": "IPK",
-    "size": "318 KB",
-    "sha256": "a07b29342a5b320f7ee80546b600df02f0f41477d131f9a7da912fc996c68d0e",
+    "size": "380 KB",
+    "sha256": "103350b99de67dcd002081bac47d38474beca42c5687c04fd665ed9f98878bc3",
     "official": "Plik na AIO-IPTV.pl"
   },
   {
