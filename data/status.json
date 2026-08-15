@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-14T06:44:49.256528+00:00",
+  "generatedAt": "2026-08-15T05:43:59.804818+00:00",
   "items": [
     {
       "id": "site-home",
@@ -8,8 +8,8 @@
       "category": "Strona",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-14T06:44:45.795046+00:00",
-      "message": "Usługa odpowiada prawidłowo • text/html • 20437 B."
+      "checkedAt": "2026-08-15T05:43:50.847189+00:00",
+      "message": "Usługa odpowiada prawidłowo • text/html • 20605 B."
     },
     {
       "id": "aio-installer",
@@ -18,7 +18,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-14T06:44:45.933860+00:00",
+      "checkedAt": "2026-08-15T05:43:50.945021+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 8720 B."
     },
     {
@@ -28,8 +28,8 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-14T06:44:46.059264+00:00",
-      "message": "Usługa odpowiada prawidłowo • text/plain • 5494 B."
+      "checkedAt": "2026-08-15T05:43:51.046837+00:00",
+      "message": "Usługa odpowiada prawidłowo • text/plain • 7632 B."
     },
     {
       "id": "ppsync-installer",
@@ -38,7 +38,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-14T06:44:46.172583+00:00",
+      "checkedAt": "2026-08-15T05:43:51.156866+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 2469 B."
     },
     {
@@ -48,7 +48,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-14T06:44:46.276643+00:00",
+      "checkedAt": "2026-08-15T05:43:51.248640+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 2596 B."
     },
     {
@@ -58,7 +58,7 @@
       "category": "Listy kanałów",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-14T06:44:46.494842+00:00",
+      "checkedAt": "2026-08-15T05:43:51.453455+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 7036 B."
     },
     {
@@ -68,18 +68,18 @@
       "category": "Pliki",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-14T06:44:46.593245+00:00",
+      "checkedAt": "2026-08-15T05:43:51.593781+00:00",
       "message": "Usługa odpowiada prawidłowo • application/vnd.shana.informed.package • 301820 B."
     },
     {
       "id": "iptv-ipk",
-      "name": "IPTV Dream 7.0.0 — plik IPK",
-      "url": "https://olioli2013.github.io/aio-iptv-projekt/pliki/enigma2-plugin-extensions-iptvdream_7.0.0_all.ipk",
+      "name": "IPTV Dream 8.0.0 — plik IPK",
+      "url": "https://olioli2013.github.io/aio-iptv-projekt/pliki/enigma2-plugin-extensions-iptvdream_8.0.0_all.ipk",
       "category": "Pliki",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-14T06:44:46.666625+00:00",
-      "message": "Usługa odpowiada prawidłowo • application/vnd.shana.informed.package • 325320 B."
+      "checkedAt": "2026-08-15T05:43:51.643248+00:00",
+      "message": "Usługa odpowiada prawidłowo • application/vnd.shana.informed.package • 389100 B."
     },
     {
       "id": "remote-apk",
@@ -88,7 +88,7 @@
       "category": "Pliki",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-14T06:44:46.730633+00:00",
+      "checkedAt": "2026-08-15T05:43:51.695148+00:00",
       "message": "Usługa odpowiada prawidłowo • application/vnd.android.package-archive • 111271 B."
     },
     {
@@ -98,8 +98,8 @@
       "category": "Systemy Multi-Click",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-14T06:44:46.797819+00:00",
-      "message": "Usługa odpowiada prawidłowo • text/html • 12102 B."
+      "checkedAt": "2026-08-15T05:43:51.739071+00:00",
+      "message": "Usługa odpowiada prawidłowo • application/zip • 214085499 B."
     },
     {
       "id": "sf8008-system",
@@ -108,8 +108,8 @@
       "category": "Systemy Multi-Click",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-14T06:44:47.696000+00:00",
-      "message": "Usługa odpowiada prawidłowo • text/html • 12128 B."
+      "checkedAt": "2026-08-15T05:43:54.951497+00:00",
+      "message": "Usługa odpowiada prawidłowo • application/zip • 299143104 B."
     },
     {
       "id": "buycoffee",
@@ -118,7 +118,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-14T06:44:48.188285+00:00",
+      "checkedAt": "2026-08-15T05:43:58.684287+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     },
     {
@@ -128,7 +128,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-14T06:44:48.787664+00:00",
+      "checkedAt": "2026-08-15T05:43:59.181389+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     },
     {
@@ -138,7 +138,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-14T06:44:49.050683+00:00",
+      "checkedAt": "2026-08-15T05:43:59.563972+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     }
   ]
