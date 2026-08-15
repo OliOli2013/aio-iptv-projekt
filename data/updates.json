@@ -1,5 +1,31 @@
 [
   {
+    "date": "2026-08-15",
+    "ts": 1786752000000,
+    "type": "release",
+    "title": "Nagrania On Demand 3.0.0 — gruntownie przebudowana wersja",
+    "desc": "Pełny audyt i największa przebudowa Nagrania On Demand: nowy interfejs AIO, biblioteka HDD/USB, segmenty i pliki Enigma2, bezpieczniejsze usuwanie, EPG/timery, diagnostyka, optymalizacja i Python 2/3.",
+    "details": "🚀 Nagrania On Demand 3.0.0 – gruntownie przebudowana wersja dla Enigma2\n\nNajwiększa dotychczasowa przebudowa wtyczki do obsługi nagrań i materiałów multimedialnych na HDD, USB i innych nośnikach Enigma2.\n\nNajważniejsze zmiany:\n• pełny audyt techniczny kodu, skanowania, nagrywania, EPG, timerów i zgodności\n• całkowicie nowy interfejs w stylistyce AIO Panel / IPTV Dream / NeoRadio\n• nowa biblioteka nagrań z filtrowaniem, sortowaniem i szczegółami plików\n• bezpieczniejsze wykrywanie duplikatów oraz aliasów /hdd i /media/hdd\n• obsługa nagrań segmentowanych .ts.001/.002/.003\n• pełniejsza obsługa plików .meta, .eit, .cuts, .ap i .sc\n• bezpieczniejsze usuwanie całego zestawu plików nagrania\n• poprawiona współpraca z EPG, timerami, RecordTimerEntry i ServiceReference\n• zoptymalizowane skanowanie HDD/USB, ograniczenie zbędnych katalogów i linków symbolicznych\n• możliwość części pracy poza głównym wątkiem GUI tam, gdzie dostępne są odpowiednie komponenty Twisted\n• uporządkowana zgodność Python 2 / Python 3\n• modułowa architektura i log diagnostyczny /tmp/nagraniaondemand.log\n• ekran informacji o projekcie, kod QR, dane autora i oficjalna strona AIO IPTV PL\n• czyszczenie starych .pyc i .pyo podczas aktualizacji\n\nNagrania On Demand 3.0.0 — narzędzie do codziennej obsługi nagrań na Enigma2.\nPaweł Pawełek / AIO IPTV PL",
+    "url": "plugin-nagrania-on-demand.html",
+    "tags": [
+      "Nagrania On Demand",
+      "3.0.0",
+      "Enigma2",
+      "nagrania",
+      "HDD",
+      "USB",
+      "EPG",
+      "timery",
+      "RecordTimerEntry",
+      "ServiceReference",
+      "Python 2",
+      "Python 3",
+      "AIO",
+      "QR",
+      "diagnostyka"
+    ]
+  },
+  {
     "date": "2026-08-14",
     "ts": 1786722660000,
     "type": "release",

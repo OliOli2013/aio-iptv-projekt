@@ -234,13 +234,36 @@
     ]
   },
   {
-    "title": "Nagrania On Demand",
-    "desc": "Porządkowanie nagrań: scalanie, tytuły z .meta, usuwanie plików technicznych.",
-    "url": "plugins.html#nagrania-on-demand",
+    "title": "Nagrania On Demand 3.0.0",
+    "desc": "Gruntownie przebudowane zarządzanie nagraniami i multimediami Enigma2: biblioteka HDD/USB, duplikaty, segmenty .ts.001, pliki .meta/.eit/.cuts/.ap/.sc, bezpieczne usuwanie, EPG, timery, diagnostyka, Python 2/3 i interfejs AIO.",
+    "url": "plugin-nagrania-on-demand.html",
     "tags": [
       "nagrania",
-      "vod",
-      "enigma2"
+      "Nagrania On Demand",
+      "3.0.0",
+      "Enigma2",
+      "HDD",
+      "USB",
+      "multimedia",
+      "biblioteka nagrań",
+      "EPG",
+      "timery",
+      "RecordTimerEntry",
+      "ServiceReference",
+      "segmenty",
+      "ts.001",
+      "meta",
+      "eit",
+      "cuts",
+      "ap",
+      "sc",
+      "duplikaty",
+      "Python 2",
+      "Python 3",
+      "Twisted",
+      "diagnostyka",
+      "AIO",
+      "QR"
     ]
   },
   {

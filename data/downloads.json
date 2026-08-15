@@ -75,18 +75,18 @@
     "official": "Plik na AIO-IPTV.pl"
   },
   {
-    "title": "enigma2-plugin-extensions-nagraniaondemand_2.0_all.ipk",
-    "href": "pliki/enigma2-plugin-extensions-nagraniaondemand_2.0_all.ipk",
+    "title": "enigma2-plugin-extensions-nagraniaondemand_3.0.0_all.ipk",
+    "href": "pliki/enigma2-plugin-extensions-nagraniaondemand_3.0.0_all.ipk",
     "category": "Wtyczki",
     "platform": "Enigma2",
-    "version": "",
-    "date": "",
+    "version": "3.0.0",
+    "date": "2026-08-15",
     "status": "Aktualna",
     "sourcePage": "plugin-nagrania-on-demand.html",
-    "sourceTitle": "Nagrania On Demand 2.0",
+    "sourceTitle": "Nagrania On Demand 3.0.0",
     "kind": "IPK",
-    "size": "14 KB",
-    "sha256": "e8fa9f75ed0faeafbef416be5c44f80a72c67f02ebb62294965561b6cc3868cc",
+    "size": "18.7 KB",
+    "sha256": "cdabc43b81f59778643147d946593fa94679438ee091f4853f0cc59cc844991c",
     "official": "Plik na AIO-IPTV.pl"
   },
   {

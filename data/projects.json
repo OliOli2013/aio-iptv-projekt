@@ -145,15 +145,15 @@
   {
     "id": "recordings",
     "name": "Nagrania On Demand",
-    "version": "2.0",
+    "version": "3.0.0",
     "page": "plugin-nagrania-on-demand.html",
     "category": "Wtyczka Enigma2",
     "status": "stable",
     "statusLabel": "Stabilny",
-    "updated": "brak nowej daty",
-    "summary": "Zarządzanie materiałami i nagraniami na żądanie.",
-    "tested": "Enigma2",
-    "next": "Brak ustalonej daty następnego wydania."
+    "updated": "2026-08-15",
+    "summary": "Narzędzie do nagrań i multimediów Enigma2 po pełnym audycie: biblioteka HDD/USB, pliki Enigma2 i segmenty, bezpieczniejsze usuwanie, EPG/timery, diagnostyka i nowy interfejs AIO.",
+    "tested": "Enigma2 • Python 2 / Python 3 • zgodność zależna od image i dostępnych komponentów",
+    "next": "Dalsza optymalizacja biblioteki, nagrywania i zgodności na podstawie zgłoszeń użytkowników."
   },
   {
     "id": "simple-iptv-epg",
