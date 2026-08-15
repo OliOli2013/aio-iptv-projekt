@@ -26,7 +26,7 @@
 
   function initNavigation() {
     // Add one compact entry to the new Studio hub on old and new pages.
-    $$('.main-nav, .side-panel nav, .site-footer nav').forEach(container => {
+    $$('.main-nav, .site-footer nav').forEach(container => {
       if (container.querySelector('a[href="studio.html"]')) return;
       const contact = container.querySelector('a[href="contact.html"]');
       const studio = document.createElement('a');
@@ -36,7 +36,7 @@
     });
 
     // Niezależne aktualności i społeczność AIO — dodawane również do starszych podstron.
-    $$('.main-nav, .side-panel nav, .site-footer nav').forEach(container => {
+    $$('.main-nav, .site-footer nav').forEach(container => {
       const studio = container.querySelector('a[href="studio.html"]');
       const contact = container.querySelector('a[href="contact.html"]');
       const anchor = studio || contact;
@@ -56,7 +56,7 @@
 
     // Keep the Windows applications section visible in the shared navigation,
     // including older pages that were authored before the section existed.
-    $$('.main-nav, .side-panel nav, .site-footer nav').forEach(container => {
+    $$('.main-nav, .site-footer nav').forEach(container => {
       if (container.querySelector('a[href="windows-apps.html"]')) return;
       const androidLink = container.querySelector('a[href="android-apps.html"]');
       if (!androidLink) return;
