@@ -1,5 +1,5 @@
 /* AIO-IPTV.pl PWA — Simple IPTV EPG 3.0.0 r1 + Nowości hub • 2026-08-15 */
-const CACHE='aio-iptv-pro-20260815-simpleepg300r1-news1';
+const CACHE='aio-iptv-pro-20260815-aio-nova2';
 const CORE=[
   './assets/js/auto-language.js?v=20260729-auto-en1',
   './','./index.html','./downloads.html','./plugins.html','./guides.html','./systems.html','./updates.html',
@@ -10,8 +10,10 @@ const CORE=[
   './assets/css/user-premium.css?v=20260728-community10-aio-connect',
   './assets/css/pro-suite.css?v=20260728-community10-aio-connect',
   './assets/css/community.css?v=20260728-community10-aio-connect',
+  './assets/css/aio-2026.css?v=20260815-aio-nova2',
   './assets/js/user-premium.js?v=20260801-fundraiser1',
   './assets/js/user-premium.js?v=20260728-community10-aio-connect',
+  './assets/js/aio-experience.js?v=20260815-aio-nova2',
   './assets/js/community-core.js?v=20260728-community10-aio-connect',
   './assets/js/community-feed.js?v=20260728-community10-aio-connect',
   './assets/js/community-post.js?v=20260728-community10-aio-connect','./assets/js/community-profile.js?v=20260728-community10-aio-connect','./assets/js/community-admin.js?v=20260728-community10-aio-connect',
