@@ -27,3 +27,45 @@ body{background-color:#02090e;background-image:radial-gradient(circle at 85% -10
 @media(max-width:760px){.pro-hero{grid-template-columns:1fr;padding:24px 18px}.hero-stat{min-height:130px}.home-command-center{padding:24px 18px}.home-command-center h1,.pro-hero h1{font-size:2.45rem}.home-trust-strip{grid-template-columns:1fr 1fr}.home-trust-strip>div:nth-child(2){border-right:0}.home-trust-strip>div:nth-child(-n+2){border-bottom:1px solid #244c5e}.intent-grid,.release-grid,.home-split,.download-catalog,.compat-grid,.choice-grid.three{grid-template-columns:1fr}.release-card.primary-release{display:block}.release-card.primary-release img{min-height:0;height:220px}.download-controls,.compatibility-controls,.form-grid{grid-template-columns:1fr}.download-controls .wide{grid-column:auto}.download-meta{grid-template-columns:1fr 1fr}.report-form .full{grid-column:auto}.section-heading{align-items:flex-start;flex-direction:column}.pro-utility-bar{align-items:flex-start;flex-direction:column}.floating-version{position:static;margin-top:10px}.home-search-open kbd{display:none}}
 
 .hub-filter{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:0 0 16px}.hub-filter label{display:grid;gap:6px;min-width:min(420px,100%);color:#b8d0d9;font-size:.78rem;font-weight:850}.hub-filter input{border:1px solid #346176;border-radius:10px;padding:10px 12px;color:#fff;background:#071923;font:inherit}.hub-filter span{color:#88dff4;font-weight:850}.choice-card[hidden]{display:none}
+
+/* ===== MOBILE HEADER FIX — 2026-08-15 =====
+   Pasek narzędzi na telefonie jest pojedynczym przewijanym poziomo wierszem,
+   zamiast zawijać linki na 2–3 linie. */
+@media (max-width: 760px) {
+  .pro-utility-bar {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 0 !important;
+    min-height: 38px;
+    padding: 0 6px !important;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .pro-utility-bar::-webkit-scrollbar { display: none; }
+
+  .pro-utility-links {
+    display: flex !important;
+    flex: 0 0 auto;
+    flex-wrap: nowrap !important;
+    gap: 0 !important;
+    width: max-content;
+  }
+
+  .pro-utility-links a {
+    flex: 0 0 auto;
+    padding: 10px 8px;
+    font-size: .67rem;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .pro-utility-actions { display: none !important; }
+}

@@ -1256,3 +1256,106 @@ body.support-gate-open{overflow:hidden}
   .fundraiser-home-actions .button{width:100%;justify-content:center;text-align:center}
 }
 @media(prefers-reduced-motion:reduce){.fundraiser-ribbon::before{animation:none}}
+
+/* ===== MOBILE HEADER FIX — 2026-08-15 =====
+   Na telefonach nagłówek nie jest przyklejony do ekranu.
+   Pasek zbiórki, marka i przycisk Menu są dodatkowo zagęszczone.
+   Desktop pozostaje bez zmian. */
+@media (max-width: 900px) {
+  html { scroll-padding-top: 12px; }
+
+  .site-header {
+    position: relative !important;
+    top: auto !important;
+    overflow: hidden;
+    border-radius: 14px;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .brand-row {
+    min-height: 52px;
+    gap: 10px;
+    padding: 8px 10px !important;
+  }
+
+  .brand { gap: 9px; }
+  .brand img {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+  }
+  .brand strong {
+    font-size: 1.05rem;
+    line-height: 1.05;
+  }
+  .brand small { display: none; }
+
+  .site-search-trigger {
+    width: 38px;
+    min-width: 38px;
+    height: 38px;
+    min-height: 38px;
+    padding: 0;
+  }
+
+  .mobile-menu {
+    min-height: 40px;
+    padding: 9px 11px;
+    line-height: 1.1;
+  }
+
+  .fundraiser-ribbon {
+    display: flex !important;
+    grid-template-columns: none !important;
+    align-items: center !important;
+    gap: 7px !important;
+    min-height: 42px !important;
+    padding: 6px 8px !important;
+  }
+
+  .fundraiser-ribbon-badge {
+    flex: 0 0 auto;
+    min-height: 24px;
+    padding: 4px 7px;
+    font-size: .58rem;
+    letter-spacing: .06em;
+  }
+
+  .fundraiser-ribbon-copy {
+    display: block !important;
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    font-size: .70rem !important;
+    line-height: 1.15;
+  }
+
+  .fundraiser-ribbon-copy strong {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .fundraiser-ribbon-copy span { display: none !important; }
+
+  .fundraiser-ribbon-link {
+    flex: 0 0 auto;
+    min-height: 30px;
+    padding: 5px 8px !important;
+    font-size: .62rem !important;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .main-nav.open {
+    max-height: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .fundraiser-ribbon-badge { display: none; }
+  .fundraiser-ribbon-copy { font-size: .68rem !important; }
+  .fundraiser-ribbon-link { padding-inline: 7px !important; }
+}
