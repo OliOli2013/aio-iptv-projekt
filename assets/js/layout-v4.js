@@ -64,7 +64,7 @@
           <a href="channel-lists.html">Listy kanałów</a>
           <a href="downloads.html">Pobieranie</a>
           <a href="knowledge.html">Wiedza</a>
-          <a href="updates.html">Aktualizacje</a>
+          <a class="news-nav-highlight" href="updates.html">🔥 Nowości</a>
         </div>
 
         <div class="menu-group">
@@ -121,7 +121,7 @@
         <span class="sep" aria-hidden="true"></span>
         <a href="multi-click.html">Multi-Click</a>
         <span class="sep" aria-hidden="true"></span>
-        <a href="updates.html">Aktualizacje</a>
+        <a class="news-nav-highlight" href="updates.html">🔥 Nowości</a>
         <span class="sep" aria-hidden="true"></span>
         <a class="support-link" href="support.html">Wsparcie</a>
         <span class="sep" aria-hidden="true"></span>
@@ -150,7 +150,7 @@
       'channel-lists.html':'listy kanałów',
       'knowledge.html':'wiedza',
       'one-liner.html':'one-liner',
-      'updates.html':'aktualizacje',
+      'updates.html':'nowości',
       'support.html':'wsparcie',
       'contact.html':'kontakt',
       'stats.html':'statystyki'

@@ -1,8 +1,8 @@
-/* AIO-IPTV.pl PWA — AIO Panel 16.0.0 + IPTV Dream 8.0.0 + NeoRadio 3.0.0 + Nagrania On Demand 3.0.0 + mobile header fix • 2026-08-15 */
-const CACHE='aio-iptv-pro-20260815-nagrania300';
+/* AIO-IPTV.pl PWA — Simple IPTV EPG 3.0.0 r1 + Nowości hub • 2026-08-15 */
+const CACHE='aio-iptv-pro-20260815-simpleepg300r1-news1';
 const CORE=[
   './assets/js/auto-language.js?v=20260729-auto-en1',
-  './','./index.html','./downloads.html','./plugins.html','./guides.html','./systems.html',
+  './','./index.html','./downloads.html','./plugins.html','./guides.html','./systems.html','./updates.html',
   './community.html','./post.html','./profile.html','./news.html','./community-admin.html','./community-rules.html','./privacy-community.html',
   './aio-connect-report.html','./assets/css/aio-connect-report.css?v=20260728-aio1','./assets/js/aio-connect-report.js?v=20260728-aio1',
   './studio.html','./ai-chat.html','./offline.html',
@@ -17,7 +17,7 @@ const CORE=[
   './assets/js/community-post.js?v=20260728-community10-aio-connect','./assets/js/community-profile.js?v=20260728-community10-aio-connect','./assets/js/community-admin.js?v=20260728-community10-aio-connect',
   './data/community_config.json?v=20260728-community10-aio-connect',
   './assets/js/community-home.js?v=20260728-community10-aio-connect',
-  './pliki/logo.png','./pliki/aio-iptv-zbiorka-celowa-2026.webp'
+  './data/updates.json','./pliki/logo.png','./pliki/aio-iptv-zbiorka-celowa-2026.webp'
 ];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));

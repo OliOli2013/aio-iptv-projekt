@@ -296,12 +296,22 @@
     ]
   },
   {
-    "title": "Simple IPTV EPG",
-    "desc": "Proste EPG dla kanałów internetowych — przypisywanie programu do kanałów IPTV.",
-    "url": "plugins.html#simple-iptv-epg",
+    "title": "Simple IPTV EPG 3.0.0 r1",
+    "desc": "Automatyczne mapowanie i import EPG dla IPTV: AutoMapper, tvg-id, XMLTV, SAT→IPTV, cache, scheduler, test źródła i diagnostyka.",
+    "url": "plugin-simple-iptv-epg.html",
     "tags": [
-      "epg",
-      "iptv"
+      "EPG",
+      "IPTV",
+      "Simple IPTV EPG",
+      "3.0.0",
+      "r1",
+      "AutoMapper",
+      "tvg-id",
+      "xmltv",
+      "SAT IPTV",
+      "eEPGCache",
+      "scheduler",
+      "diagnostyka"
     ]
   },
   {
@@ -456,12 +466,19 @@
     ]
   },
   {
-    "title": "Aktualizacje",
-    "desc": "Oś czasu zmian i nowości projektu (AIO Panel, IPTV Dream).",
+    "title": "🔥 Nowości AIO IPTV PL",
+    "desc": "Najnowsze aktualizacje AIO Panel, IPTV Dream, NeoRadio, Nagrania On Demand, Simple IPTV EPG i pozostałych projektów AIO IPTV PL.",
     "url": "updates.html",
     "tags": [
+      "nowości",
+      "aktualizacje",
       "release",
-      "nowości"
+      "wydania",
+      "AIO Panel",
+      "IPTV Dream",
+      "NeoRadio",
+      "Nagrania On Demand",
+      "Simple IPTV EPG"
     ]
   },
   {

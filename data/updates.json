@@ -1,6 +1,14 @@
 [
   {
     "date": "2026-08-15",
+    "ts": 1786819680000,
+    "type": "release",
+    "title": "Simple IPTV EPG 3.0.0 r1 — nowy AutoMapper, XMLTV i stabilniejsze importy",
+    "url": "plugin-simple-iptv-epg.html",
+    "details": "🚀 Simple IPTV EPG 3.0.0 r1 – gruntownie przebudowana wersja dla Enigma2\n\nNajważniejsze zmiany:\n• pełny audyt techniczny poprzedniej wersji i nowa modułowa architektura\n• całkowicie nowy interfejs AIO\n• nowy AutoMapper z priorytetem tvg-id / epg_id / xmltv_id\n• tryby Strict, Balanced i Flexible oraz bezpieczniejsze fuzzy matching\n• przebudowane SAT → IPTV i cache zależny od rzeczywiście użytego źródła XMLTV\n• pełniejszy parser XMLTV: namespace, strefy czasowe, GZIP, duże pliki i pełna walidacja\n• test źródła przed importem\n• harmonogram automatycznych importów co 6/12/24/48 godzin\n• rozbudowana diagnostyka i log /tmp/simpleiptvepg.log\n• operacje eEPGCache / eServiceCenter / importEvents wykonywane w głównym wątku GUI\n• import 0 wydarzeń jest raportowany jako błąd\n• usunięto wyłączanie weryfikacji TLS\n• build r1 naprawia kolejność warstw zPosition, która mogła ukrywać tekst na ekranach."
+  },
+  {
+    "date": "2026-08-15",
     "ts": 1786752000000,
     "type": "release",
     "title": "Nagrania On Demand 3.0.0 — gruntownie przebudowana wersja",
