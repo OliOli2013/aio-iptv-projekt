@@ -26,7 +26,7 @@
 
   function initNavigation() {
     // Add one compact entry to the new Studio hub on old and new pages.
-    $$('.main-nav, .site-footer nav').forEach(container => {
+    $$('.main-nav, .side-panel nav, .site-footer nav').forEach(container => {
       if (container.querySelector('a[href="studio.html"]')) return;
       const contact = container.querySelector('a[href="contact.html"]');
       const studio = document.createElement('a');
@@ -36,7 +36,7 @@
     });
 
     // Niezależne aktualności i społeczność AIO — dodawane również do starszych podstron.
-    $$('.main-nav, .site-footer nav').forEach(container => {
+    $$('.main-nav, .side-panel nav, .site-footer nav').forEach(container => {
       const studio = container.querySelector('a[href="studio.html"]');
       const contact = container.querySelector('a[href="contact.html"]');
       const anchor = studio || contact;
@@ -54,9 +54,19 @@
       }
     });
 
+    // Keep the Support hub visible in legacy sidebars and footers.
+    $$('.side-panel nav, .site-footer nav').forEach(container => {
+      if (container.querySelector('a[href="support.html"]')) return;
+      const contact = container.querySelector('a[href="contact.html"]');
+      const support = document.createElement('a');
+      support.href = 'support.html';
+      support.textContent = 'Wsparcie';
+      if (contact) contact.insertAdjacentElement('beforebegin', support); else container.appendChild(support);
+    });
+
     // Keep the Windows applications section visible in the shared navigation,
     // including older pages that were authored before the section existed.
-    $$('.main-nav, .site-footer nav').forEach(container => {
+    $$('.main-nav, .side-panel nav, .site-footer nav').forEach(container => {
       if (container.querySelector('a[href="windows-apps.html"]')) return;
       const androidLink = container.querySelector('a[href="android-apps.html"]');
       if (!androidLink) return;
