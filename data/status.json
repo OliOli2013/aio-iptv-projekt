@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-15T05:43:59.804818+00:00",
+  "generatedAt": "2026-08-16T05:45:49.154130+00:00",
   "items": [
     {
       "id": "site-home",
@@ -8,8 +8,8 @@
       "category": "Strona",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-15T05:43:50.847189+00:00",
-      "message": "Usługa odpowiada prawidłowo • text/html • 20605 B."
+      "checkedAt": "2026-08-16T05:45:38.860899+00:00",
+      "message": "Usługa odpowiada prawidłowo • text/html • 20065 B."
     },
     {
       "id": "aio-installer",
@@ -18,8 +18,8 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-15T05:43:50.945021+00:00",
-      "message": "Usługa odpowiada prawidłowo • text/plain • 8720 B."
+      "checkedAt": "2026-08-16T05:45:39.034270+00:00",
+      "message": "Usługa odpowiada prawidłowo • text/plain • 9973 B."
     },
     {
       "id": "iptv-installer",
@@ -28,7 +28,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-15T05:43:51.046837+00:00",
+      "checkedAt": "2026-08-16T05:45:39.197865+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 7632 B."
     },
     {
@@ -38,7 +38,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-15T05:43:51.156866+00:00",
+      "checkedAt": "2026-08-16T05:45:39.389715+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 2469 B."
     },
     {
@@ -48,7 +48,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-15T05:43:51.248640+00:00",
+      "checkedAt": "2026-08-16T05:45:39.557687+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 2596 B."
     },
     {
@@ -58,7 +58,7 @@
       "category": "Listy kanałów",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-15T05:43:51.453455+00:00",
+      "checkedAt": "2026-08-16T05:45:39.819733+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 7036 B."
     },
     {
@@ -68,8 +68,8 @@
       "category": "Pliki",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-15T05:43:51.593781+00:00",
-      "message": "Usługa odpowiada prawidłowo • application/vnd.shana.informed.package • 301820 B."
+      "checkedAt": "2026-08-16T05:45:40.018058+00:00",
+      "message": "Usługa odpowiada prawidłowo • application/vnd.shana.informed.package • 302644 B."
     },
     {
       "id": "iptv-ipk",
@@ -78,7 +78,7 @@
       "category": "Pliki",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-15T05:43:51.643248+00:00",
+      "checkedAt": "2026-08-16T05:45:40.205222+00:00",
       "message": "Usługa odpowiada prawidłowo • application/vnd.shana.informed.package • 389100 B."
     },
     {
@@ -88,7 +88,7 @@
       "category": "Pliki",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-15T05:43:51.695148+00:00",
+      "checkedAt": "2026-08-16T05:45:40.343520+00:00",
       "message": "Usługa odpowiada prawidłowo • application/vnd.android.package-archive • 111271 B."
     },
     {
@@ -98,7 +98,7 @@
       "category": "Systemy Multi-Click",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-15T05:43:51.739071+00:00",
+      "checkedAt": "2026-08-16T05:45:40.492755+00:00",
       "message": "Usługa odpowiada prawidłowo • application/zip • 214085499 B."
     },
     {
@@ -108,7 +108,7 @@
       "category": "Systemy Multi-Click",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-15T05:43:54.951497+00:00",
+      "checkedAt": "2026-08-16T05:45:44.171204+00:00",
       "message": "Usługa odpowiada prawidłowo • application/zip • 299143104 B."
     },
     {
@@ -118,7 +118,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-15T05:43:58.684287+00:00",
+      "checkedAt": "2026-08-16T05:45:48.056570+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     },
     {
@@ -128,7 +128,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-15T05:43:59.181389+00:00",
+      "checkedAt": "2026-08-16T05:45:48.693379+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     },
     {
@@ -138,7 +138,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-15T05:43:59.563972+00:00",
+      "checkedAt": "2026-08-16T05:45:48.865433+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     }
   ]
