@@ -44,13 +44,34 @@
   },
   {
     "title": "Aplikacje Android",
-    "desc": "Aplikacje mobilne by Paweł Pawełek: CamBridge PL oraz AIO Panel Remote, pliki APK i poradniki PDF.",
+    "desc": "Aplikacje mobilne by Paweł Pawełek: AIO Channel Editor, AIO Panel Remote i CamBridge PL, pliki APK i poradniki PDF.",
     "url": "android-apps.html",
     "tags": [
       "aplikacje Android",
       "APK",
       "CamBridge PL",
-      "AIO Panel Remote"
+      "AIO Panel Remote",
+      "AIO Channel Editor"
+    ]
+  },
+  {
+    "title": "AIO Channel Editor 1.1.3 Free / Pro",
+    "desc": "Mobilny edytor list kanałów Enigma2: OpenWebif, pobieranie i edycja bukietów, katalog list AIO, kolejka zmian, Free/Pro i poradnik PDF.",
+    "url": "app-aio-channel-editor.html",
+    "tags": [
+      "AIO Channel Editor",
+      "Android",
+      "Enigma2",
+      "OpenWebif",
+      "listy kanałów",
+      "bukiety",
+      "AIO",
+      "DreamboxEDIT",
+      "e-Channelizer",
+      "Free",
+      "Pro",
+      "APK",
+      "Play Protect"
     ]
   },
   {

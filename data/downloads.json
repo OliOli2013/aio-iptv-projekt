@@ -1,5 +1,35 @@
 [
   {
+    "title": "AIO Channel Editor 1.1.3 Free / Pro — APK",
+    "href": "pliki/AIO_Channel_Editor_1.1.3_FREE_PRO.apk",
+    "category": "Android",
+    "platform": "Android",
+    "version": "1.1.3",
+    "date": "25.08.2026",
+    "status": "Aktualna",
+    "sourcePage": "app-aio-channel-editor.html",
+    "sourceTitle": "AIO Channel Editor 1.1.3",
+    "kind": "APK",
+    "size": "123 KB",
+    "sha256": "d4cca9d72a0359311ee395e075188af50171da5c022d806a6366e09ad0e07a71",
+    "official": "Plik na AIO-IPTV.pl"
+  },
+  {
+    "title": "AIO Channel Editor 1.1.3 — poradnik PDF",
+    "href": "pliki/AIO_Channel_Editor_1.1.3_Poradnik_PL.pdf",
+    "category": "Android",
+    "platform": "Android",
+    "version": "1.1.3",
+    "date": "25.08.2026",
+    "status": "Aktualna",
+    "sourcePage": "app-aio-channel-editor.html",
+    "sourceTitle": "AIO Channel Editor 1.1.3",
+    "kind": "PDF",
+    "size": "1.0 MB",
+    "sha256": "8cdc2007f1ea9f3799c1e291aeb1ba2f26f0e20b8ba4fc98f2d9e8119a1913c3",
+    "official": "Plik na AIO-IPTV.pl"
+  },
+  {
     "title": "Aktualne listy kanałów AIO Panel",
     "href": "channel-lists.html",
     "category": "Listy kanałów",

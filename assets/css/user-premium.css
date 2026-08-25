@@ -1359,3 +1359,28 @@ body.support-gate-open{overflow:hidden}
   .fundraiser-ribbon-copy { font-size: .68rem !important; }
   .fundraiser-ribbon-link { padding-inline: 7px !important; }
 }
+
+
+/* AIO Channel Editor 1.1.3 — 2026-08-25 */
+.channel-editor-hero{border-color:rgba(240,189,49,.45);background:radial-gradient(circle at 92% 5%,rgba(27,205,233,.18),transparent 34%),linear-gradient(150deg,rgba(8,42,58,.99),rgba(3,17,25,.99));}
+.channel-editor-hero figure img{max-height:590px;object-fit:contain;background:#020a10;}
+.channel-editor-download{border-color:rgba(55,215,185,.34);background:linear-gradient(180deg,rgba(8,47,55,.96),rgba(5,24,33,.98));}
+.channel-editor-inline-shot{margin:0;display:flex;justify-content:center;align-items:flex-start;}
+.channel-editor-inline-shot img{display:block;width:min(100%,360px);max-height:680px;object-fit:contain;border:1px solid rgba(79,210,240,.28);border-radius:16px;background:#020a10;box-shadow:0 20px 48px rgba(0,0,0,.28);}
+.channel-editor-duo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:20px;}
+.channel-editor-duo figure{margin:0;border:1px solid rgba(79,210,240,.25);border-radius:16px;overflow:hidden;background:#020a10;}
+.channel-editor-duo img{display:block;width:100%;height:560px;object-fit:contain;background:#020a10;}
+.channel-editor-duo figcaption{padding:10px 13px;color:#bfd4dd;font-size:.82rem;}
+.channel-editor-gallery img{object-fit:contain!important;background:#020a10!important;}
+.channel-editor-home-featured{position:relative;overflow:hidden;border:1px solid rgba(240,189,49,.42)!important;border-radius:28px;background:radial-gradient(circle at 10% 10%,rgba(14,189,224,.16),transparent 34%),radial-gradient(circle at 92% 5%,rgba(240,189,49,.12),transparent 30%),linear-gradient(145deg,rgba(7,39,55,.98),rgba(3,17,25,.99));padding:clamp(24px,4vw,42px)!important;}
+.channel-editor-home-layout{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(300px,.75fr);gap:clamp(24px,4vw,44px);align-items:center;}
+.channel-editor-home-copy h2{margin:.2rem 0 .5rem;font-size:clamp(2.1rem,4.5vw,3.8rem);line-height:1;letter-spacing:-.045em;}
+.channel-editor-home-copy .lead{max-width:760px;}
+.channel-editor-home-features{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:18px;}
+.channel-editor-home-features span{border:1px solid rgba(95,204,235,.22);border-radius:11px;padding:10px 11px;background:rgba(4,25,36,.64);color:#d4e8ef;font-size:.78rem;font-weight:780;}
+.channel-editor-home-media{margin:0;display:flex;justify-content:center;}
+.channel-editor-home-media img{display:block;width:min(100%,390px);max-height:630px;object-fit:contain;border-radius:22px;box-shadow:0 26px 60px rgba(0,0,0,.42),0 0 42px rgba(31,197,230,.09);}
+.channel-editor-home-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px;}
+.channel-editor-install-note{margin-top:14px;border-left:3px solid #e8b52d;padding:9px 0 9px 12px;color:#aebfca;font-size:.78rem;line-height:1.55;}
+@media(max-width:980px){.channel-editor-home-layout,.detail-grid{grid-template-columns:1fr}.channel-editor-home-media{order:-1}.channel-editor-home-media img{max-height:500px}.channel-editor-duo{grid-template-columns:1fr}.channel-editor-duo img{height:auto;max-height:650px}}
+@media(max-width:700px){.channel-editor-home-features{grid-template-columns:1fr}.channel-editor-home-actions .button{width:100%;justify-content:center}.channel-editor-hero figure img{max-height:500px}}
