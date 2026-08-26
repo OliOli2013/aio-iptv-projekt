@@ -604,5 +604,56 @@
       "forum",
       "problem"
     ]
+  },
+  {
+    "title": "Zacznij tutaj — pierwsze kroki z AIO",
+    "desc": "Prosta ścieżka dla nowych użytkowników: AIO Panel, listy kanałów, picony, EPG, aplikacje Android i Społeczność AIO.",
+    "url": "start-here.html",
+    "tags": [
+      "zacznij",
+      "pierwszy raz",
+      "nowy użytkownik",
+      "Enigma2",
+      "AIO Panel",
+      "picony",
+      "EPG"
+    ]
+  },
+  {
+    "title": "Ekosystem AIO",
+    "desc": "Zobacz jak projekty na tunerze Enigma2, aplikacje Android i strona AIO-IPTV.pl współpracują ze sobą.",
+    "url": "ecosystem.html",
+    "tags": [
+      "ekosystem",
+      "AIO",
+      "tuner",
+      "Android",
+      "WWW",
+      "społeczność"
+    ]
+  },
+  {
+    "title": "Aplikacje PRO AIO",
+    "desc": "Porównanie AIO Panel Remote i AIO Channel Editor w wersjach FREE / PRO. 30 zł / 365 dni / jedno urządzenie.",
+    "url": "pro.html",
+    "tags": [
+      "PRO",
+      "FREE",
+      "30 zł",
+      "365 dni",
+      "AIO Panel Remote",
+      "AIO Channel Editor"
+    ]
+  },
+  {
+    "title": "Moje AIO — ulubione i ostatnio oglądane",
+    "desc": "Lokalne ulubione i ostatnio oglądane projekty zapisywane w przeglądarce bez konta.",
+    "url": "index.html#my-aio-title",
+    "tags": [
+      "ulubione",
+      "ostatnio oglądane",
+      "Moje AIO",
+      "gwiazdka"
+    ]
   }
 ]
