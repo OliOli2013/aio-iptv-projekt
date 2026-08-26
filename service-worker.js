@@ -1,12 +1,13 @@
 /* AIO-IPTV.pl PWA — Community First • 2026-08-16 */
-const CACHE='aio-iptv-pro-20260826-portal-subpages2';
+const CACHE='aio-iptv-pro-20260826-portal-ux2';
 const CORE=[
   './assets/js/auto-language.js?v=20260729-auto-en1',
   './','./index.html','./app-aio-channel-editor.html','./android-apps.html','./community.html','./support.html','./downloads.html','./guides.html','./news.html','./plugins.html','./systems.html','./updates.html',
   './post.html','./profile.html','./community-admin.html','./community-rules.html','./privacy-community.html',
   './aio-connect-report.html','./assets/css/aio-connect-report.css?v=20260728-aio1','./assets/js/aio-connect-report.js?v=20260728-aio1',
   './studio.html','./ai-chat.html','./offline.html',
-  './assets/css/user-premium.css?v=20260826-portal-subpages2',
+  './assets/css/user-premium.css?v=20260826-portal-ux2',
+  './assets/js/portal-ux.js?v=20260826-ux2',
   './assets/css/pro-suite.css?v=20260728-community10-aio-connect',
   './assets/css/community.css?v=20260728-community10-aio-connect',
   './assets/css/aio-2026.css?v=20260816-community-first',

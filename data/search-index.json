@@ -566,5 +566,43 @@
       "zgłoszenie",
       "Społeczność AIO"
     ]
+  },
+  {
+    "title": "Aplikacje PRO — AIO Panel Remote i AIO Channel Editor",
+    "desc": "Płatne funkcje PRO aplikacji mobilnych. Licencja 30 zł / 365 dni / jedno urządzenie.",
+    "url": "index.html#aplikacje-pro",
+    "tags": [
+      "PRO",
+      "30 zł",
+      "licencja",
+      "AIO Panel Remote",
+      "AIO Channel Editor"
+    ]
+  },
+  {
+    "title": "Pomóż mi znaleźć rozwiązanie",
+    "desc": "Szybki wybór problemu: Enigma2, listy kanałów, IPTV/EPG, picony, OSCam lub Android.",
+    "url": "index.html#pomoz-mi-znalezc",
+    "tags": [
+      "pomoc",
+      "nie wiem",
+      "problem",
+      "Enigma2",
+      "OSCam",
+      "picony",
+      "IPTV"
+    ]
+  },
+  {
+    "title": "Społeczność AIO — zapytaj użytkowników",
+    "desc": "Pytania, odpowiedzi, screeny i rozwiązania problemów Enigma2.",
+    "url": "community.html",
+    "tags": [
+      "społeczność",
+      "pomoc",
+      "pytanie",
+      "forum",
+      "problem"
+    ]
   }
 ]
