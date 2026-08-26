@@ -1384,3 +1384,207 @@ body.support-gate-open{overflow:hidden}
 .channel-editor-install-note{margin-top:14px;border-left:3px solid #e8b52d;padding:9px 0 9px 12px;color:#aebfca;font-size:.78rem;line-height:1.55;}
 @media(max-width:980px){.channel-editor-home-layout,.detail-grid{grid-template-columns:1fr}.channel-editor-home-media{order:-1}.channel-editor-home-media img{max-height:500px}.channel-editor-duo{grid-template-columns:1fr}.channel-editor-duo img{height:auto;max-height:650px}}
 @media(max-width:700px){.channel-editor-home-features{grid-template-columns:1fr}.channel-editor-home-actions .button{width:100%;justify-content:center}.channel-editor-hero figure img{max-height:500px}}
+
+
+/* ==========================================================================\n   AIO PORTAL REDESIGN 2026-08-26\n   Zwarty portal inspirowany klasycznym układem serwisów radiowych / medialnych.\n   Zawartość AIO pozostaje bez zmian; poniższe reguły zmieniają hierarchię wizualną.\n   ========================================================================== */
+
+html body.aio-portal-page{
+  --max: 1180px;
+  --portal-navy:#102f3d;
+  --portal-navy-2:#173f50;
+  --portal-panel:#163b4b;
+  --portal-panel-dark:#0f2b38;
+  --portal-sky:#7ab9d3;
+  --portal-sky-2:#9bd6eb;
+  --portal-line:#2f657c;
+  --portal-gold:#f0bd31;
+  --portal-green:#54d89a;
+  background:
+    radial-gradient(circle at 2% 20%, rgba(126,194,220,.18), transparent 22%),
+    radial-gradient(circle at 98% 22%, rgba(126,194,220,.16), transparent 23%),
+    linear-gradient(90deg,#174c62 0,#123c4e 10%,#0c2c39 22%,#0c2c39 78%,#123c4e 90%,#174c62 100%) !important;
+  color:#eef8fc;
+}
+html body.aio-portal-page::before{
+  background:
+    radial-gradient(ellipse at 0 28%,rgba(121,190,216,.22),transparent 24%),
+    radial-gradient(ellipse at 100% 28%,rgba(121,190,216,.20),transparent 24%) !important;
+  opacity:1 !important;
+}
+html body.aio-portal-page::after{
+  opacity:.12 !important;
+  background-size:48px 48px !important;
+}
+html body.aio-portal-page .page-shell{
+  width:min(1180px,calc(100% - 28px)) !important;
+  max-width:1180px !important;
+  margin:0 auto !important;
+  padding:0 0 28px !important;
+  background:#102f3d;
+  box-shadow:0 0 0 1px rgba(103,175,204,.16),0 26px 70px rgba(0,0,0,.34);
+}
+
+/* compact upper information bar */
+html body.aio-portal-page .portal-topbar{
+  min-height:34px; display:flex; align-items:center; justify-content:space-between; gap:20px;
+  padding:6px 18px; background:linear-gradient(180deg,#3d7992,#2b6279); border-bottom:1px solid rgba(255,255,255,.16);
+  color:#eaf8fd; font-size:.75rem; letter-spacing:.01em;
+}
+html body.aio-portal-page .portal-topbar-brand,html body.aio-portal-page .portal-topbar-links{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+html body.aio-portal-page .portal-topbar-brand>span:last-child{opacity:.88}
+html body.aio-portal-page .portal-topbar-links a{color:#f3fbff;font-weight:800;opacity:.92}
+html body.aio-portal-page .portal-topbar-links a:hover{color:#fff;text-decoration:underline}
+html body.aio-portal-page .portal-live-dot{width:8px;height:8px;border-radius:50%;background:#62e5aa;box-shadow:0 0 12px #62e5aa}
+
+/* header turns into a clean rectangular media portal header */
+html body.aio-portal-page .site-header{
+  position:sticky !important; top:0 !important; border:0 !important; border-radius:0 !important;
+  background:#143c4c !important; box-shadow:0 8px 24px rgba(0,0,0,.2) !important; backdrop-filter:none !important; overflow:visible !important;
+}
+html body.aio-portal-page .brand-row{
+  min-height:76px; padding:11px 18px !important; background:linear-gradient(180deg,#194a5d,#143c4c);
+}
+html body.aio-portal-page .brand img{width:58px !important;height:58px !important;border-radius:8px !important;box-shadow:none !important}
+html body.aio-portal-page .brand strong{font-size:1.5rem !important;letter-spacing:.015em}
+html body.aio-portal-page .brand small{font-size:.78rem !important;color:#b9d9e6 !important}
+html body.aio-portal-page .header-download{border-radius:4px !important;background:#7ab9d3 !important;color:#0b2a38 !important;border:0 !important;box-shadow:none !important;text-transform:uppercase;font-size:.78rem;letter-spacing:.035em}
+
+html body.aio-portal-page .main-nav{
+  min-height:42px; padding:0 12px !important; gap:0 !important; border:0 !important;
+  border-top:1px solid rgba(255,255,255,.11) !important; border-bottom:3px solid #0b2531 !important;
+  background:#79b7d1 !important; overflow:visible !important;
+}
+html body.aio-portal-page .main-nav>a,html body.aio-portal-page .main-nav details>summary{
+  min-height:40px !important; border-radius:0 !important; padding:11px 13px !important; color:#123646 !important;
+  font-size:.78rem !important; font-weight:900 !important; text-transform:uppercase; letter-spacing:.025em;
+}
+html body.aio-portal-page .main-nav>a:hover,html body.aio-portal-page .main-nav>a.active,html body.aio-portal-page .main-nav>a[aria-current="page"]{
+  background:#173f50 !important;color:#fff !important;
+}
+html body.aio-portal-page .main-nav a::after{display:none !important}
+html body.aio-portal-page .nav-more{position:relative}
+html body.aio-portal-page .nav-more summary{list-style:none;cursor:pointer}
+html body.aio-portal-page .nav-more-menu{border-radius:0 !important;background:#173f50 !important;border:1px solid #5e9bb5 !important;box-shadow:0 16px 34px rgba(0,0,0,.32)!important}
+html body.aio-portal-page .nav-more-menu a{color:#e9f7fc!important;border-radius:0!important}
+
+/* homepage showcase: large left feature + stacked right promos */
+html body.aio-portal-home .standalone-main{padding:0 10px 18px !important}
+html body.aio-portal-page .portal-showcase{display:grid;grid-template-columns:minmax(0,2.05fr) minmax(270px,.82fr);gap:12px;margin:12px 0 0}
+html body.aio-portal-page .portal-main-feature{position:relative;min-height:430px;overflow:hidden;background:#081d27;border:1px solid #32647a;box-shadow:0 12px 28px rgba(0,0,0,.24)}
+html body.aio-portal-page .portal-main-feature>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.78;filter:saturate(.95) contrast(1.04)}
+html body.aio-portal-page .portal-main-feature::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,20,28,.96) 0%,rgba(5,20,28,.78) 48%,rgba(5,20,28,.18) 85%),linear-gradient(0deg,rgba(5,20,28,.56),transparent 60%)}
+html body.aio-portal-page .portal-feature-overlay{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:flex-end;min-height:430px;padding:32px;max-width:72%}
+html body.aio-portal-page .portal-feature-overlay h1{margin:6px 0 10px;font-size:clamp(2rem,4vw,3.25rem);line-height:1.02;letter-spacing:-.04em;text-shadow:0 3px 12px rgba(0,0,0,.65)}
+html body.aio-portal-page .portal-feature-overlay p{margin:0;color:#d7edf6;font-size:1rem;max-width:62ch}
+html body.aio-portal-page .portal-feature-overlay small{margin-top:16px;color:#9cc7d8}
+html body.aio-portal-page .portal-chip{align-self:flex-start!important;width:auto!important;padding:5px 8px!important;background:#f0bd31!important;color:#102b36!important;font-size:.68rem!important;font-weight:950!important;letter-spacing:.08em!important}
+html body.aio-portal-page .portal-feature-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+html body.aio-portal-page .portal-btn{display:inline-flex;align-items:center;justify-content:center;min-height:39px;padding:8px 13px;border:1px solid #75b6d0;background:#173e4f;color:#f3fbff;font-weight:850;font-size:.82rem}
+html body.aio-portal-page .portal-btn.primary{background:#7ab9d3;color:#0c2d3b;border-color:#9cd5e9}
+html body.aio-portal-page .portal-btn:hover{filter:brightness(1.1)}
+html body.aio-portal-page .portal-side-promos{display:grid;grid-template-rows:repeat(3,1fr);gap:12px}
+html body.aio-portal-page .portal-side-card{display:grid;grid-template-columns:60px 1fr;gap:13px;align-items:center;padding:17px;background:linear-gradient(135deg,#1b4b5f,#123747);border:1px solid #3e7288;color:#eef9fd;transition:transform .15s ease,filter .15s ease}
+html body.aio-portal-page .portal-side-card:hover{transform:translateX(-3px);filter:brightness(1.08)}
+html body.aio-portal-page .portal-side-card.community{background:linear-gradient(135deg,#205969,#164553)}
+html body.aio-portal-page .portal-side-card.panel{background:linear-gradient(135deg,#234c61,#163b4b)}
+html body.aio-portal-page .portal-side-card.remote{background:linear-gradient(135deg,#193d52,#112e40)}
+html body.aio-portal-page .portal-side-icon{display:grid;place-items:center;width:58px;height:58px;border:1px solid rgba(255,255,255,.22);background:rgba(4,24,34,.4);font-weight:950;font-size:1.12rem;color:#8fdcf8}
+html body.aio-portal-page .portal-side-card small{display:block;color:#83cbe6;font-weight:900;font-size:.65rem;letter-spacing:.09em}
+html body.aio-portal-page .portal-side-card strong{display:block;margin:3px 0 5px;font-size:1rem}
+html body.aio-portal-page .portal-side-card p{margin:0;color:#bad6e1;font-size:.78rem;line-height:1.38}
+
+/* horizontal thumbnail-like quick navigation */
+html body.aio-portal-page .portal-quick-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:10px 0 16px;padding:9px;background:#0d2d3a;border:1px solid #315f72}
+html body.aio-portal-page .portal-quick-strip a{display:grid;grid-template-columns:38px 1fr;grid-template-rows:auto auto;column-gap:9px;align-items:center;min-height:68px;padding:9px 10px;background:#173f50;border:1px solid #2d6075;color:#f2fbff}
+html body.aio-portal-page .portal-quick-strip a:hover{background:#22566a;border-color:#72b4ce}
+html body.aio-portal-page .portal-quick-strip span{grid-row:1/3;display:grid;place-items:center;width:38px;height:38px;background:#0c2d3a;border:1px solid #356f88;font-size:1.15rem}
+html body.aio-portal-page .portal-quick-strip strong{align-self:end;font-size:.78rem}
+html body.aio-portal-page .portal-quick-strip small{align-self:start;color:#9fc5d4;font-size:.66rem}
+
+/* existing content becomes compact, readable portal panels */
+html body.aio-portal-page .portal-panel,html body.aio-portal-page .module,html body.aio-portal-page .aio-section,html body.aio-portal-page .aio-community,html body.aio-portal-page .aio-feature-app,html body.aio-portal-page .aio-support{
+  border-radius:0 !important;border:1px solid #2f6176 !important;background:#123747 !important;box-shadow:none !important;
+}
+html body.aio-portal-page .module::before{display:none!important}
+html body.aio-portal-page .aio-section-head,html body.aio-portal-page .section-heading-row{border-bottom:1px solid #2d6075;padding-bottom:10px;margin-bottom:14px}
+html body.aio-portal-page .aio-kicker,html body.aio-portal-page .eyebrow{color:#7fc5e0 !important;letter-spacing:.08em}
+html body.aio-portal-page h1,html body.aio-portal-page h2,html body.aio-portal-page h3{color:#f4fbfe}
+html body.aio-portal-page .button{border-radius:2px!important;background:#285d73!important;border-color:#4f8ca7!important;box-shadow:none!important}
+html body.aio-portal-page .button.primary{background:#78b8d2!important;color:#0d2f3d!important;border-color:#9dd4e8!important}
+html body.aio-portal-page .button.subtle{background:#163b4b!important}
+html body.aio-portal-page .badge{border-radius:2px!important}
+
+/* directory becomes a compact grid reminiscent of program thumbnails */
+html body.aio-portal-page .home-directory{padding:16px!important}
+html body.aio-portal-page .home-directory-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important}
+html body.aio-portal-page .directory-card{border-radius:0!important;background:#173f50!important;border:1px solid #2f657c!important;padding:13px!important}
+html body.aio-portal-page .directory-card:hover{background:#205166!important}
+html body.aio-portal-page .directory-icon{border-radius:0!important;background:#0d2e3c!important}
+
+/* classic 2-column content areas */
+html body.aio-portal-page .home-support-paths,html body.aio-portal-page .aio-split{gap:12px!important}
+html body.aio-portal-page .support-path{border-radius:0!important;background:#143b4b!important;border:1px solid #2e6278!important}
+html body.aio-portal-page .compact-project-grid{gap:8px!important}
+html body.aio-portal-page .compact-project-grid>a{border-radius:0!important;background:#173e50!important;border:1px solid #2d6075!important}
+html body.aio-portal-page .aio-news-card{border-radius:0!important;background:#173e50!important;border:1px solid #2d6075!important}
+html body.aio-portal-page .project-mark{border-radius:0!important;background:#0c2e3c!important;color:#8ad4ef!important}
+
+/* generic inner pages */
+html body.aio-portal-page .content-layout{gap:12px!important;margin:12px 10px 0!important;grid-template-columns:220px minmax(0,1fr)!important}
+html body.aio-portal-page .side-panel{top:118px!important;border-radius:0!important;background:#123747!important;border:1px solid #2e6278!important;box-shadow:none!important;padding:10px!important}
+html body.aio-portal-page .side-panel h2{border-radius:0!important;background:#79b7d1!important;color:#123646!important;text-transform:uppercase;font-size:.82rem!important}
+html body.aio-portal-page .side-panel nav a{border-radius:0!important;border-bottom:1px solid rgba(113,179,205,.13)}
+html body.aio-portal-page .hero-compact{border-radius:0!important;background:#143b4b!important;border:1px solid #2f657c!important;box-shadow:none!important;padding:20px!important}
+html body.aio-portal-page .hero-compact figure{border-radius:0!important;background:#0a2632!important}
+html body.aio-portal-page .hero-compact figure img{border-radius:0!important}
+html body.aio-portal-page .mini-card,html body.aio-portal-page .app-download-card,html body.aio-portal-page .platform-app-card,html body.aio-portal-page .system-card{border-radius:0!important;background:#163e50!important;border:1px solid #30677e!important}
+
+/* footer modeled as a classic portal footer with columns */
+html body.aio-portal-page .site-footer{margin:16px 10px 0!important;border-radius:0!important;border:0!important;border-top:4px solid #79b7d1!important;background:#0a2530!important;box-shadow:none!important;padding:22px!important}
+html body.aio-portal-page .home-footer .footer-columns{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:22px!important;border-top:1px solid #234f60;padding-top:16px}
+html body.aio-portal-page .home-footer .footer-columns>div{display:grid;gap:6px}
+html body.aio-portal-page .home-footer .footer-columns strong{text-transform:uppercase;color:#8fcce3;font-size:.72rem;letter-spacing:.06em}
+html body.aio-portal-page .site-footer a{font-size:.8rem;color:#c6e1eb!important}
+html body.aio-portal-page .site-footer a:hover{color:#fff!important}
+
+/* keep the featured Channel Editor visually special */
+html body.aio-portal-page .channel-editor-home-featured{border:2px solid #d4a928!important;background:linear-gradient(145deg,#143d4e,#102f3d)!important;border-radius:0!important}
+html body.aio-portal-page .channel-editor-home-media img{border-radius:0!important}
+
+@media (max-width:1000px){
+  html body.aio-portal-page .portal-showcase{grid-template-columns:1fr}
+  html body.aio-portal-page .portal-side-promos{grid-template-columns:repeat(3,1fr);grid-template-rows:auto}
+  html body.aio-portal-page .portal-side-card{grid-template-columns:48px 1fr;padding:12px}
+  html body.aio-portal-page .portal-side-icon{width:46px;height:46px}
+  html body.aio-portal-page .portal-quick-strip{grid-template-columns:repeat(3,1fr)}
+  html body.aio-portal-page .portal-feature-overlay{max-width:80%}
+}
+@media (max-width:900px){
+  html body.aio-portal-page .page-shell{width:100%!important}
+  html body.aio-portal-page .portal-topbar{display:none}
+  html body.aio-portal-page .site-header{top:0!important}
+  html body.aio-portal-page .brand-row{min-height:66px}
+  html body.aio-portal-page .main-nav{display:none!important;padding:7px!important;background:#173f50!important}
+  html body.aio-portal-page .main-nav.open{display:flex!important}
+  html body.aio-portal-page .main-nav>a{color:#eef9fd!important;width:100%;border-bottom:1px solid #315f72}
+  html body.aio-portal-page .mobile-menu{display:block!important;background:#79b7d1!important;color:#103545!important;border:0!important}
+  html body.aio-portal-page .content-layout{grid-template-columns:1fr!important;margin:10px!important}
+  html body.aio-portal-page .portal-main-feature,html body.aio-portal-page .portal-feature-overlay{min-height:390px}
+  html body.aio-portal-page .portal-feature-overlay{max-width:100%;padding:24px;background:linear-gradient(90deg,rgba(5,20,28,.84),rgba(5,20,28,.5))}
+  html body.aio-portal-page .portal-side-promos{grid-template-columns:1fr}
+  html body.aio-portal-page .portal-quick-strip{grid-template-columns:repeat(2,1fr)}
+  html body.aio-portal-page .home-directory-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  html body.aio-portal-page .home-footer .footer-columns{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media (max-width:560px){
+  html body.aio-portal-page .standalone-main{padding:0 8px 12px!important}
+  html body.aio-portal-page .portal-showcase{margin-top:8px}
+  html body.aio-portal-page .portal-main-feature,html body.aio-portal-page .portal-feature-overlay{min-height:360px}
+  html body.aio-portal-page .portal-feature-overlay h1{font-size:2rem}
+  html body.aio-portal-page .portal-feature-actions{display:grid;grid-template-columns:1fr}
+  html body.aio-portal-page .portal-quick-strip{grid-template-columns:1fr 1fr;padding:6px;gap:6px}
+  html body.aio-portal-page .portal-quick-strip a{grid-template-columns:32px 1fr;min-height:58px;padding:7px}
+  html body.aio-portal-page .portal-quick-strip span{width:32px;height:32px;font-size:1rem}
+  html body.aio-portal-page .home-directory-grid{grid-template-columns:1fr!important}
+  html body.aio-portal-page .home-footer .footer-columns{grid-template-columns:1fr!important}
+}
