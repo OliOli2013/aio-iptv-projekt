@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-26T05:52:22.301862+00:00",
+  "generatedAt": "2026-08-27T16:33:18.870015+00:00",
   "items": [
     {
       "id": "site-home",
@@ -8,8 +8,8 @@
       "category": "Strona",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-26T05:52:13.005737+00:00",
-      "message": "Usługa odpowiada prawidłowo • text/html • 22102 B."
+      "checkedAt": "2026-08-27T16:33:02.540855+00:00",
+      "message": "Usługa odpowiada prawidłowo • text/html • 36971 B."
     },
     {
       "id": "aio-installer",
@@ -18,7 +18,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-26T05:52:13.122323+00:00",
+      "checkedAt": "2026-08-27T16:33:02.747182+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 9973 B."
     },
     {
@@ -26,10 +26,10 @@
       "name": "Instalator IPTV Dream",
       "url": "https://raw.githubusercontent.com/OliOli2013/IPTV-Dream-Plugin/main/installer.sh",
       "category": "Instalatory",
-      "status": "offline",
-      "httpStatus": null,
-      "checkedAt": "2026-08-26T05:52:13.264110+00:00",
-      "message": "Brak odpowiedzi: [Errno 104] Connection reset by peer."
+      "status": "online",
+      "httpStatus": 200,
+      "checkedAt": "2026-08-27T16:33:02.944116+00:00",
+      "message": "Usługa odpowiada prawidłowo • text/plain • 7632 B."
     },
     {
       "id": "ppsync-installer",
@@ -38,7 +38,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-26T05:52:13.303527+00:00",
+      "checkedAt": "2026-08-27T16:33:03.158931+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 2469 B."
     },
     {
@@ -46,10 +46,10 @@
       "name": "Instalator E2 Doctor",
       "url": "https://raw.githubusercontent.com/OliOli2013/E2-Doctor-Plugin/main/installer.sh",
       "category": "Instalatory",
-      "status": "offline",
-      "httpStatus": null,
-      "checkedAt": "2026-08-26T05:52:13.462913+00:00",
-      "message": "Brak odpowiedzi: [Errno 104] Connection reset by peer."
+      "status": "online",
+      "httpStatus": 200,
+      "checkedAt": "2026-08-27T16:33:03.340456+00:00",
+      "message": "Usługa odpowiada prawidłowo • text/plain • 2596 B."
     },
     {
       "id": "lists-manifest",
@@ -58,7 +58,7 @@
       "category": "Listy kanałów",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-26T05:52:13.505456+00:00",
+      "checkedAt": "2026-08-27T16:33:03.543868+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 7361 B."
     },
     {
@@ -68,7 +68,7 @@
       "category": "Pliki",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-26T05:52:13.629821+00:00",
+      "checkedAt": "2026-08-27T16:33:03.718288+00:00",
       "message": "Usługa odpowiada prawidłowo • application/vnd.shana.informed.package • 302644 B."
     },
     {
@@ -78,7 +78,7 @@
       "category": "Pliki",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-26T05:52:13.859521+00:00",
+      "checkedAt": "2026-08-27T16:33:03.849480+00:00",
       "message": "Usługa odpowiada prawidłowo • application/vnd.shana.informed.package • 389100 B."
     },
     {
@@ -88,7 +88,7 @@
       "category": "Pliki",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-26T05:52:14.017848+00:00",
+      "checkedAt": "2026-08-27T16:33:04.125490+00:00",
       "message": "Usługa odpowiada prawidłowo • application/vnd.android.package-archive • 111271 B."
     },
     {
@@ -98,7 +98,7 @@
       "category": "Systemy Multi-Click",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-26T05:52:14.160736+00:00",
+      "checkedAt": "2026-08-27T16:33:04.242645+00:00",
       "message": "Usługa odpowiada prawidłowo • application/zip • 214085499 B."
     },
     {
@@ -108,7 +108,7 @@
       "category": "Systemy Multi-Click",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-26T05:52:17.374306+00:00",
+      "checkedAt": "2026-08-27T16:33:09.584484+00:00",
       "message": "Usługa odpowiada prawidłowo • application/zip • 299143104 B."
     },
     {
@@ -118,7 +118,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-26T05:52:21.126564+00:00",
+      "checkedAt": "2026-08-27T16:33:17.032993+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     },
     {
@@ -128,7 +128,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-26T05:52:21.683107+00:00",
+      "checkedAt": "2026-08-27T16:33:18.308979+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     },
     {
@@ -138,7 +138,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-08-26T05:52:21.963292+00:00",
+      "checkedAt": "2026-08-27T16:33:18.557903+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     }
   ]
