@@ -145,12 +145,17 @@
     ]
   },
   {
-    "title": "IPTV Dream 8.0.0",
-    "desc": "Duża aktualizacja IPTV Dream dla Enigma2: stabilniejszy rdzeń, poprawione M3U/M3U8, Xtream Codes i portale MAC/Stalker, czyste nazwy bukietów i kanałów, EPG, picony, WebIF, typy usług 4097/5002 oraz nowy interfejs AIO.",
+    "title": "IPTV Dream 8.0.1",
+    "desc": "Aktualizacja IPTV Dream dla Enigma2: poprawiony eksport kanałów bez N/A, M3U/Xtream/MAC, MAC/Stalker, kodowanie adresów, porządkowanie bouquets.tv, WebIF z automatycznym portem, EPG, picony, logi i instalator.",
     "url": "plugin-iptv-dream.html",
     "tags": [
       "IPTV Dream",
-      "8.0.0",
+      "8.0.1",
+      "N/A",
+      "eksport kanałów",
+      "bouquets.tv",
+      "WebIF 10000",
+      "GitHub Actions",
       "IPTV",
       "Enigma2",
       "Python 3",

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-07T10:24:32.825009+00:00",
+  "generatedAt": "2026-09-07T19:45:00+00:00",
   "items": [
     {
       "id": "site-home",
@@ -73,13 +73,13 @@
     },
     {
       "id": "iptv-ipk",
-      "name": "IPTV Dream 8.0.0 — plik IPK",
-      "url": "https://olioli2013.github.io/aio-iptv-projekt/pliki/enigma2-plugin-extensions-iptvdream_8.0.0_all.ipk",
+      "name": "IPTV Dream 8.0.1 — plik IPK",
+      "url": "https://olioli2013.github.io/aio-iptv-projekt/pliki/enigma2-plugin-extensions-iptvdream_8.0.1_all.ipk",
       "category": "Pliki",
-      "status": "online",
-      "httpStatus": 200,
-      "checkedAt": "2026-09-07T10:24:24.079473+00:00",
-      "message": "Usługa odpowiada prawidłowo • application/vnd.shana.informed.package • 389100 B."
+      "status": "unknown",
+      "httpStatus": null,
+      "checkedAt": null,
+      "message": "Nowa wersja 8.0.1 — status zostanie sprawdzony automatycznie po publikacji przez GitHub Actions."
     },
     {
       "id": "remote-apk",

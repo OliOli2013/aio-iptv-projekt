@@ -15,15 +15,15 @@
   {
     "id": "iptv-dream",
     "name": "IPTV Dream",
-    "version": "8.0.0",
+    "version": "8.0.1",
     "page": "plugin-iptv-dream.html",
     "category": "Wtyczka Enigma2",
     "status": "active",
     "statusLabel": "Aktywnie rozwijany",
-    "updated": "14.08.2026",
-    "summary": "Duża aktualizacja: stabilniejszy rdzeń, M3U/Xtream/MAC, czyste nazwy bukietów i kanałów, EPG, picony, WebIF oraz nowy interfejs AIO.",
-    "tested": "Python 3; M3U, Xtream Codes i portale MAC/Stalker",
-    "next": "Dalsze poprawki zgodności i stabilności na podstawie raportów użytkowników."
+    "updated": "07.09.2026",
+    "summary": "Aktualizacja naprawcza: poprawiony eksport bez N/A, M3U/Xtream/MAC, MAC/Stalker, bezpieczne nazwy plików, WebIF z automatycznym portem, EPG, picony i instalator.",
+    "tested": "Python 3; eksport bukietów, M3U, Xtream Codes i portale MAC/Stalker",
+    "next": "Dalsze testy zgodności i stabilności na różnych image Enigma2."
   },
   {
     "id": "pp-channel-sync",

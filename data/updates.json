@@ -1,5 +1,32 @@
 [
   {
+    "date": "2026-09-07",
+    "ts": 1788739200000,
+    "type": "release",
+    "title": "IPTV Dream 8.0.1 — poprawiony eksport, MAC/Stalker, WebIF i EPG",
+    "desc": "Wydanie naprawcze: usunięty problem kanałów N/A, poprawne #SERVICE/#DESCRIPTION, bezpieczniejsze adresy i nazwy plików, stabilniejszy MAC/Stalker, porządkowanie bouquets.tv, automatyczny port WebIF oraz poprawki EPG, piconów, logów i instalatora.",
+    "details": "🚀 IPTV Dream 8.0.1 – nowa aktualizacja\n\nNajważniejsze zmiany:\n• usunięty problem kanałów wyświetlanych jako N/A\n• nazwa kanału jest poprawnie zapisywana w #SERVICE oraz #DESCRIPTION\n• poprawiona literówka 128.0.0.1 → 127.0.0.1\n• naprawione rozwiązywanie linków MAC/Stalker, również przy listach zawierających ponad 400 kanałów\n• poprawione kodowanie adresów z tokenami, spacjami, dwukropkami i znakami specjalnymi\n• usunięty fałszywy komunikat sukcesu, gdy bukiet nie został faktycznie dodany\n• automatyczne usuwanie duplikatów i martwych wpisów z bouquets.tv\n• możliwość usunięcia wszystkich starych bukietów IPTV Dream jednym wyborem\n• wyeliminowane kolizje pomiędzy kilkoma listami M3U / Xtream / MAC\n• login Xtream i fragment adresu MAC nie są używane w nazwach plików\n• WebIF automatycznie wybiera port 10000 lub kolejny, jeśli 9999 jest zajęty\n• poprawiona obsługa EPG XML, piconów, logów, aktualizatora i instalatora\n• dodane automatyczne testy GitHub Actions\n\nPaweł Pawełek\nhttps://olioli2013.github.io/aio-iptv-projekt/",
+    "url": "plugin-iptv-dream.html",
+    "tags": [
+      "IPTV Dream",
+      "8.0.1",
+      "Enigma2",
+      "Python 3",
+      "N/A",
+      "#SERVICE",
+      "#DESCRIPTION",
+      "M3U",
+      "Xtream Codes",
+      "MAC",
+      "Stalker",
+      "bouquets.tv",
+      "WebIF",
+      "EPG XML",
+      "picony",
+      "GitHub Actions"
+    ]
+  },
+  {
     "date": "2026-08-15",
     "ts": 1786819680000,
     "type": "release",
