@@ -1,18 +1,29 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="pl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AIO Panel 16.0.0 | AIO-IPTV.pl</title>
-  <meta name="description" content="AIO Panel 16.0.0 dla Enigma2 — duża modernizacja techniczna: modularny rdzeń, Action Dispatcher, zaufane źródła, SHA-256, centralny logger, wyszukiwarka, ulubione, historia, Health Check, Stable/Test, Self-Test i bezpieczniejsze aktualizacje.">
-  <link rel="icon" href="pliki/logo.png"><link rel="manifest" href="manifest.json">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/user-premium.css?v=20260728-aio1500">
-<script src="assets/js/auto-language.js?v=20260729-auto-en1"></script><link rel="stylesheet" href="assets/css/aio-2026.css?v=20260816-community-first"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="#0d2633" name="theme-color"/>
+<title>AIO Panel 16.0.2 | AIO-IPTV.pl</title>
+<meta content="AIO Panel 16.0.2 dla Enigma2 — naprawiony mechanizm aktualizacji, poprawione oscam.srvid/srvid2 i SoftCam.Key, zachowane instalatory, nowe Jihad FHD i Adult XXX oraz wygodniejszy start od list kanałów." name="description"/>
+<link href="pliki/logo.png" rel="icon"/>
+<link href="manifest.json" rel="manifest"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Caveat:wght@700&amp;display=swap" rel="stylesheet"/>
+<link href="assets/css/user-premium.css?v=20260724-v14" rel="stylesheet"/>
+<link href="assets/css/pro-suite.css?v=20260724-pro3" rel="stylesheet"/><meta content="dark" name="color-scheme"/><link href="https://olioli2013.github.io/aio-iptv-projekt/plugin-aio-panel.html" rel="canonical"/><meta content="AIO Panel 16.0.2 | AIO-IPTV.pl" property="og:title"/><meta content="AIO Panel 16.0.2 — stabilniejszy updater, poprawione oscam.srvid/srvid2 i SoftCam.Key, uporządkowane PL/EN i wygodniejsza codzienna obsługa." property="og:description"/><meta content="https://olioli2013.github.io/aio-iptv-projekt/pliki/aio-panel-16.0.2-update.png" property="og:image"/><meta content="website" property="og:type"/><meta content="https://olioli2013.github.io/aio-iptv-projekt/plugin-aio-panel.html" property="og:url"/><script src="assets/js/auto-language.js?v=20260729-auto-en1"></script><link rel="stylesheet" href="assets/css/aio-2026.css?v=20260816-community-first"/>
 </head>
-<body><a class="skip-link" href="#main-content">Przejdź do treści</a><div class="page-shell">
-<header class="site-header"><div class="brand-row"><a class="brand" href="index.html"><img src="pliki/logo.png" alt="AIO-IPTV.pl"><span><strong>AIO‑IPTV.pl</strong><small>Enigma2 • IPTV • pomoc</small></span></a><a class="header-download header-community" href="community.html" aria-label="Otwórz Społeczność AIO">Społeczność AIO</a></div><nav class="main-nav" data-menu="" aria-label="Główna nawigacja">
+<body class="">
+<a class="skip-link" href="#main-content">Przejdź do treści</a>
+<div class="page-shell">
+<header class="site-header">
+<div class="brand-row">
+<a class="brand" href="index.html"><img alt="AIO-IPTV.pl" src="pliki/logo.png"/><span><strong>AIO‑IPTV.pl</strong><small>Enigma2 • IPTV • pomoc</small></span></a>
+<a class="header-download header-community" href="community.html" aria-label="Otwórz Społeczność AIO">Społeczność AIO</a>
+</div>
+<nav class="main-nav" data-menu="" aria-label="Główna nawigacja">
   <a href="index.html">Start</a>
   <a class="nav-community" href="community.html">Społeczność</a>
   <a href="downloads.html">Pobieranie</a>
@@ -36,39 +47,73 @@
       <a href="contact.html">Kontakt</a>
     </div>
   </details>
-</nav><button class="mobile-menu" type="button" data-menu-toggle>Menu</button></header>
-<div class="content-layout"><aside class="side-panel"><h2>Pomoc użytkownika</h2><nav><a href="plugins.html">Wtyczki</a><a href="downloads.html">Centrum pobierania</a><a href="compatibility.html">Zgodność</a><a href="report-error.html">Zgłoś błąd</a><a href="community.html">Społeczność AIO</a><a href="contact.html">Kontakt</a></nav><div class="side-help"><strong>Szybkie przejścia</strong><a href="aio-connect-report.html">Raport AIO Connect</a><a href="guide-terminal-openwebif.html">Terminal / OpenWebif</a><a href="guide-oscam.html">OSCam</a><a href="help-restart-gui.html">Restart GUI</a></div></aside>
-<main id="main-content" class="content-main">
-<section class="hero-compact"><div><p class="script-line">Witam na mojej stronie <span>Paweł Pawełek</span></p><p class="eyebrow">Modularny rdzeń • bezpieczeństwo • diagnostyka • Enigma2</p><h1>AIO Panel 16.0.0</h1><p class="lead">Duża aktualizacja projektu. Wersja 16.0.0 przebudowuje techniczne fundamenty AIO Panel, zwiększa bezpieczeństwo źródeł i diagnostyki oraz dodaje wygodniejsze wyszukiwanie i organizację najczęściej używanych funkcji.</p><div class="action-row"><a class="button primary" href="pliki/enigma2-plugin-extensions-panelaio_16.0.0_all.ipk">Pobierz IPK 16.0.0</a><a class="button" href="aio-connect-report.html">Otwórz AIO Connect</a></div></div><figure><img src="pliki/aio-panel-16.0.0-main.png" alt="AIO Panel 16.0.0 — ekran główny" loading="eager"><figcaption>AIO Panel 16.0.0 — nowy ekran główny.</figcaption></figure></section>
+</nav>
+<button class="mobile-menu" data-menu-toggle="" type="button">Menu</button>
+</header>
+<div class="content-layout">
+<aside class="side-panel"><h2>Pomoc użytkownika</h2><nav><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Aplikacje Android</a><a href="windows-apps.html">Aplikacje Windows</a><a href="guides.html">Poradniki</a><a href="one-liner.html">One‑Liner / FTP</a><a href="channel-lists.html">Listy kanałów</a><a href="systems.html">Multi‑Click i systemy</a><a href="ai-chat.html">AI Chat</a><a href="contact.html">Kontakt i wsparcie</a></nav><div class="side-help"><strong>Szybka pomoc</strong><a href="guide-terminal-openwebif.html">Terminal / OpenWebif</a><a href="guide-oscam.html">Dane do OSCam</a><a href="guide-xstremity.html">IPTV do Xstremity</a><a href="help-softcam-feed.html">SoftCam feed</a><a href="help-picons-serviceref.html">Picony / ServiceRef</a><a href="help-restart-gui.html">Restart GUI</a></div></aside>
+<main class="content-main" id="main-content">
+<section class="hero-compact">
+<div>
+<p class="script-line">Witam na mojej stronie <span>Paweł Pawełek</span></p>
+<p class="eyebrow">Aktualizacja stabilności • 08.09.2026</p>
+<h1>⚙️ AIO Panel 16.0.2</h1>
+<p class="lead">Jedna, spójna aktualizacja skupiona na stabilności mechanizmu aktualizacji, poprawnym działaniu najważniejszych funkcji oraz wygodniejszej codziennej obsłudze AIO Panel na tunerach Enigma2.</p>
+<div class="action-row"><a class="button primary" href="pliki/enigma2-plugin-extensions-panelaio_16.0.2_all.ipk">Pobierz IPK 16.0.2</a><a class="button" href="#instalacja">Instalacja z GitHuba</a><a class="button" href="plugins.html">Wróć do wtyczek</a></div>
+</div>
+<figure><img alt="AIO Panel 16.0.2 — ekran główny" src="pliki/aio-panel-16.0.2-main.png" loading="eager"/><figcaption>AIO Panel 16.0.2 — Listy kanałów otwierają się jako pierwsza zakładka.</figcaption></figure>
+</section>
 
-<section class="module"><h2>AIO Panel 16.0.0 — duża aktualizacja projektu</h2><p>To nie jest wyłącznie zmiana wyglądu ani dodanie kolejnych pozycji w menu. Duża część pracy została wykonana <strong>wewnątrz samego AIO Panel</strong>, aby wtyczka była stabilniejsza, bezpieczniejsza i łatwiejsza do dalszego rozwijania.</p><div class="info-box"><strong>Najważniejsza zmiana:</strong> rozpoczęto odejście od dużego monolitycznego kodu i przygotowano modularny fundament pod kolejne wydania, przy zachowaniu znanego sposobu obsługi AIO Panel.</div></section>
+<section class="module"><div class="info-box"><strong>AIO Panel 16.0.2 jest aktualizacją naprawczą i porządkującą.</strong> Najważniejszy cel wydania to pewniejsze aktualizacje i przewidywalne wykonanie operacji, bez zmieniania sprawdzonych poleceń instalatorów.</div></section>
+
+<section class="module">
+<h2>Najważniejsze zmiany w 16.0.2</h2>
+<ul class="clean-list">
+<li>naprawiony błąd aktualizacji, przez który stary walidator potrafił odrzucać własny instalator</li>
+<li>poprawione sprawdzanie wersji, pobieranie plików, blokady oraz potwierdzanie wyniku instalacji</li>
+<li>zachowane dotychczasowe polecenia instalatorów, w tym <strong>E2iPlayer</strong></li>
+<li>dodane <strong>Jihad FHD</strong> oraz <strong>Adult XXX</strong></li>
+<li>uporządkowane zakładki <strong>PL / EN</strong></li>
+<li>poprawione aktualizacje <strong>oscam.srvid / srvid2</strong> oraz <strong>SoftCam.Key</strong></li>
+<li>dodane wykrywanie właściwych katalogów, tworzenie kopii zapasowych i potwierdzenie poprawnie zapisanych plików</li>
+<li><strong>Listy kanałów</strong> otwierają się jako pierwsza zakładka po uruchomieniu wtyczki</li>
+<li>podczas instalacji i operacji wykonywanych w tle komunikat pozostaje widoczny do zakończenia zadania</li>
+<li>dotychczasowe polecenia instalatorów pozostają bez zmian</li>
+</ul>
+</section>
 
 <div class="detail-grid">
-<section class="module"><h2>Przebudowany rdzeń AIO Panel</h2><ul class="clean-list"><li>rozpoczęto odejście od dużego monolitycznego kodu</li><li>wydzielono moduły odpowiedzialne za logowanie, wyniki operacji, rejestr akcji, źródła i diagnostykę</li><li>przygotowano nową warstwę <strong>Action Dispatcher</strong></li><li>zachowano warstwę kompatybilności ze starszym kodem</li></ul></section>
-<section class="module"><h2>Nowy system bezpieczeństwa źródeł</h2><ul class="clean-list"><li>rejestr zaufanych źródeł</li><li>dokładniejsza kontrola adresów pobierania</li><li>dodatkowa walidacja pobranych skryptów i plików</li><li>kontrola sum <strong>SHA-256</strong></li><li>rozszerzona ochrona przed potencjalnie niebezpiecznymi poleceniami systemowymi</li></ul></section>
+<section class="module"><h2>🔄 Pewniejsze aktualizacje</h2><p>Mechanizm aktualizacji został poprawiony w punktach, które odpowiadają za wykrycie nowej wersji, pobranie plików, walidację instalatora i potwierdzenie faktycznego wyniku operacji.</p><ul class="clean-list"><li>mniej fałszywych odrzuceń aktualizacji</li><li>lepsza kontrola blokad podczas instalacji</li><li>czytelniejsze potwierdzenie sukcesu lub błędu</li></ul></section>
+<section class="module"><h2>🔑 OSCam i SoftCam.Key</h2><p>Poprawiono aktualizację plików <code>oscam.srvid</code>, <code>oscam.srvid2</code> oraz <code>SoftCam.Key</code>.</p><ul class="clean-list"><li>wykrywanie właściwego katalogu konfiguracji</li><li>kopia zapasowa przed podmianą</li><li>kontrola zapisu i potwierdzenie wyniku</li></ul></section>
 </div>
 
 <div class="detail-grid">
-<section class="module"><h2>Wyszukiwarka, Ulubione i Ostatnio używane</h2><ul class="clean-list"><li><strong>Wyszukiwarka AIO Panel</strong> — szybkie odnalezienie funkcji bez przeglądania wszystkich kategorii</li><li><strong>Ulubione</strong> — własna lista najczęściej używanych narzędzi</li><li><strong>Ostatnio używane</strong> — szybki powrót do niedawno wykonywanych operacji</li></ul></section>
-<section class="module"><h2>Health Check i kanały aktualizacji</h2><ul class="clean-list"><li><strong>Health Check</strong> sprawdza dostępność najważniejszych źródeł AIO bez rozpoczynania instalacji</li><li>przygotowano kanały aktualizacji <strong>Stable / Test</strong></li><li>łatwiejsze rozdzielenie stabilnych wydań od wersji przeznaczonych do testów</li></ul></section>
+<section class="module"><h2>📺 Wygodniejszy start</h2><p>Po uruchomieniu AIO Panel pierwszą zakładką są teraz <strong>Listy kanałów</strong> — funkcja używana najczęściej przez wielu użytkowników.</p><p>Zakładki polskie i angielskie zostały dodatkowo uporządkowane, aby nawigacja była bardziej przewidywalna.</p></section>
+<section class="module"><h2>🧩 Instalatory bez regresji</h2><p>Wydanie 16.0.2 nie zmienia działających poleceń instalacyjnych. Dotyczy to m.in. E2iPlayer i pozostałych pozycji, które wcześniej działały poprawnie.</p><p>Dodano natomiast nowe pozycje <strong>Jihad FHD</strong> i <strong>Adult XXX</strong>.</p></section>
 </div>
 
-<div class="detail-grid">
-<section class="module"><h2>Centralny logger i wyniki operacji</h2><ul class="clean-list"><li>nowy centralny logger AIO Panel</li><li>czytelniejsze informacje diagnostyczne i łatwiejsze wykrywanie przyczyn błędów</li><li>ograniczenie sytuacji, w których błąd był przechwytywany bez zapisu informacji</li><li>nowe funkcje mogą zwracać jednoznaczny wynik, błąd, log, wymagany restart GUI lub inne wymagane działanie</li></ul></section>
-<section class="module"><h2>Automatyczna konserwacja i pamięć</h2><ul class="clean-list"><li>uporządkowany mechanizm automatycznej konserwacji</li><li>tryby: przy starcie GUI, raz dziennie lub raz na kilka dni</li><li>funkcja pamięci nie sugeruje już sztucznego „czyszczenia RAM Linuxa”</li><li>wykonywane są rzeczywiste operacje dotyczące pamięci procesu AIO i plików tymczasowych</li></ul></section>
+<section class="module"><h2>⏳ Czytelne operacje w tle</h2><p>Podczas instalacji, pobierania i innych operacji wykonywanych w tle komunikat pozostaje widoczny aż do zakończenia zadania. Użytkownik widzi więc, że AIO Panel nadal pracuje i kiedy operacja faktycznie się zakończyła.</p></section>
+
+<section class="module"><h2>Co daje ta aktualizacja?</h2><div class="detail-grid"><div><ul class="clean-list"><li>pewniejsze aktualizacje</li><li>lepsza czytelność działania</li><li>bardziej przewidywalna obsługa funkcji systemowych</li></ul></div><div><ul class="clean-list"><li>wygodniejszy start od najczęściej używanej zakładki</li><li>większa kontrola nad operacjami w tle</li><li>mniejsze ryzyko regresji działających instalatorów</li></ul></div></div></section>
+
+<section class="module"><h2>Plik i zgodność</h2><p><strong>Wersja:</strong> 16.0.2</p><p><strong>Data wydania:</strong> 08.09.2026</p><p><strong>Plik:</strong> <a href="pliki/enigma2-plugin-extensions-panelaio_16.0.2_all.ipk">enigma2-plugin-extensions-panelaio_16.0.2_all.ipk</a> — 387.6 KB</p><p><strong>SHA-256:</strong> <code>2b9cdbe8a8d9fe39d7a20b5f6d6684f8626d86ba4deae6500934f989749d1f62</code></p><p><strong>Platforma:</strong> Enigma2.</p><p><strong>Autor:</strong> Paweł Pawełek / AIO Team.</p></section>
+
+<section class="module"><h2>Galeria</h2><div class="guide-gallery"><figure><a href="pliki/aio-panel-16.0.2-main.png" target="_blank" rel="noopener"><img src="pliki/aio-panel-16.0.2-main.png" alt="AIO Panel 16.0.2 — ekran główny" loading="lazy"/></a><figcaption>Ekran główny AIO Panel 16.0.2.</figcaption></figure><figure><a href="pliki/aio-panel-16.0.2-update.png" target="_blank" rel="noopener"><img src="pliki/aio-panel-16.0.2-update.png" alt="AIO Panel 16.0.2 — najważniejsze zmiany" loading="lazy"/></a><figcaption>Grafika informacyjna wydania 16.0.2.</figcaption></figure></div></section>
+
+<section class="module" id="instalacja"><h2>Instalacja i aktualizacja</h2><p>Po instalacji lub aktualizacji wykonaj <strong>Restart GUI</strong>.</p><div class="command"><div><strong>AIO Panel — instalacja z GitHuba</strong><button data-copy="wget -q -O - &quot;https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh?$(date +%s)&quot; | /bin/sh" type="button">Kopiuj</button></div><pre><code>wget -q -O - "https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh?$(date +%s)" | /bin/sh</code></pre><p class="command-note">Polecenie korzysta z aktualnego instalatora projektu AIO Panel.</p></div></section>
+
+<section class="module" id="ftp"><h2>Instalacja pobranego IPK przez FTP</h2><p>Wgraj plik do <code>/tmp</code>, a następnie wykonaj:</p><div class="command"><div><strong>Instalacja IPK</strong><button data-copy="opkg install --force-reinstall /tmp/enigma2-plugin-extensions-panelaio_16.0.2_all.ipk" type="button">Kopiuj</button></div><pre><code>opkg install --force-reinstall /tmp/enigma2-plugin-extensions-panelaio_16.0.2_all.ipk</code></pre></div></section>
+
+<section class="module"><p><strong>Dziękuję wszystkim za zgłoszenia, testy i uwagi — AIO Panel 16.0.2 jest już dostępny.</strong></p></section>
+</main>
 </div>
-
-<div class="detail-grid">
-<section class="module"><h2>Rozbudowany Self-Test i AIO Connect</h2><ul class="clean-list"><li>dodatkowa kontrola podstawowych elementów instalacji i wymaganych modułów</li><li>rozszerzona diagnostyka AIO Connect</li><li>dodatkowe zabezpieczenia raportów</li><li>anonimizacja części danych sieciowych</li><li>raporty pozostają lokalne i nie są automatycznie wysyłane</li></ul></section>
-<section class="module"><h2>Aktualizacje i nowy bootstrap instalatora</h2><ul class="clean-list"><li>przebudowany mechanizm aktualizacji AIO</li><li>docelowo jeden pakiet IPK jest właściwym artefaktem instalacyjnym niezależnie od sposobu rozpoczęcia aktualizacji</li><li>nowy bootstrap instalatora może przygotować wymagane elementy na czystym tunerze i uruchomić instalację właściwego pakietu</li></ul></section>
+<footer class="site-footer">
+<div><strong>AIO‑IPTV.pl</strong><span>Wtyczki, poradniki, listy kanałów, Multi‑Click, One‑Liner i AI Chat.</span></div>
+<nav><a href="downloads.html">Pobieranie</a><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Android</a><a href="windows-apps.html">Windows</a><a href="guides.html">Poradniki</a><a href="systems.html">Systemy</a><a href="compatibility.html">Zgodność</a><a href="report-error.html">Zgłoś błąd</a><a href="contact.html">Kontakt</a></nav>
+<p>© <span id="year"></span> Paweł Pawełek • <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></p>
+</footer>
 </div>
-
-<section class="module"><h2>Uporządkowane repozytorium i automatyczne testy</h2><p>Repozytorium GitHub zostało oczyszczone z dużej części historycznych raportów, dokumentów technicznych i plików po wcześniejszych testach. Kod uporządkowano w logiczne katalogi, m.in. <code>core/</code>, <code>data/</code>, <code>ui/</code>, <code>tests/</code>, <code>tools/</code>, <code>docs/</code> i <code>release/</code>.</p><ul class="clean-list"><li>automatyczne sprawdzanie składni Python</li><li>kontrola skryptów shell</li><li>wewnętrzny Self-Test</li><li>testy regresyjne</li><li>sprawdzanie poprawności budowania pakietu IPK</li></ul><div class="info-box"><strong>Cel wersji 16.0.0:</strong> stworzenie fundamentu, dzięki któremu kolejne funkcje można rozwijać bez dalszego powiększania jednego ogromnego pliku źródłowego.</div></section>
-
-<section class="module"><h2>Zdjęcie / podgląd</h2><div class="guide-gallery"><figure><a href="pliki/aio-panel-16.0.0-main.png" target="_blank" rel="noopener"><img src="pliki/aio-panel-16.0.0-main.png" alt="AIO Panel 16.0.0 — ekran główny" loading="lazy"></a><figcaption>AIO Panel 16.0.0 — listy kanałów i nowy interfejs główny.</figcaption></figure></div></section>
-
-<section class="module"><h2>Instalacja i aktualizacja</h2><p>Po instalacji lub aktualizacji wykonaj restart GUI Enigma2.</p><div class="command"><div><strong>Instalacja bezpośrednio z GitHub</strong><button type="button" data-copy="wget -q -O - &quot;https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh?$(date +%s)&quot; | /bin/sh">Kopiuj</button></div><pre><code>wget -q -O - "https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh?$(date +%s)" | /bin/sh</code></pre></div></section>
-<section class="module" id="ftp"><h2>Instalacja pobranego IPK przez FTP</h2><p>Wgraj plik do <code>/tmp</code>, a następnie wykonaj:</p><div class="command"><div><strong>Instalacja IPK</strong><button type="button" data-copy="opkg install --force-reinstall /tmp/enigma2-plugin-extensions-panelaio_16.0.0_all.ipk">Kopiuj</button></div><pre><code>opkg install --force-reinstall /tmp/enigma2-plugin-extensions-panelaio_16.0.0_all.ipk</code></pre></div></section>
-<section class="module"><p><strong>AIO Panel 16.0.0 — AIO Team / Paweł Pawełek</strong></p></section>
-</main></div><footer class="site-footer"><div><strong>AIO‑IPTV.pl</strong><span>Profesjonalne centrum projektów Enigma2.</span></div><nav><a href="updates.html">Aktualności</a><a href="community.html">Społeczność</a><a href="contact.html">Kontakt</a></nav><p>© <span id="year"></span> Paweł Pawełek • <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></p></footer></div><script src="assets/js/user-premium.js?v=20260816-community-first" defer></script><script defer src="assets/js/aio-experience.js?v=20260816-community-first"></script>
-</body></html>
+<script defer="" src="assets/js/user-premium.js?v=20260816-community-first"></script>
+<script defer="True" src="assets/js/pro-suite.js?v=20260724-pro3"></script><script defer src="assets/js/aio-experience.js?v=20260816-community-first"></script>
+</body>
+</html>
