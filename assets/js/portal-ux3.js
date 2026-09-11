@@ -42,3 +42,57 @@
     apply();
   }
 })();
+
+/* ===== Home compact/full view — 2026-09-11 ===== */
+(function () {
+  'use strict';
+  if (!document.body.classList.contains('aio-portal-home')) return;
+  const main = document.querySelector('#main-content');
+  const firstExtra = main && main.querySelector('.portal-onboarding');
+  if (!main || !firstExtra || main.querySelector('.home-more-hub')) return;
+
+  const children = Array.from(main.children);
+  const start = children.indexOf(firstExtra);
+  if (start < 0) return;
+  const extras = children.slice(start).filter(el => !el.classList.contains('home-more-hub'));
+  if (!extras.length) return;
+
+  const hub = document.createElement('section');
+  hub.className = 'home-more-hub portal-panel';
+  hub.innerHTML = `
+    <div class="home-more-head">
+      <div><p class="aio-kicker">PEŁNA ZAWARTOŚĆ AIO-IPTV.PL</p><h2>Więcej z AIO-IPTV.pl</h2><p>Najważniejsze funkcje są już wyżej. Pozostałe sekcje zostały zachowane tutaj, żeby strona startowa była krótsza i czytelniejsza.</p></div>
+      <button class="home-more-toggle" type="button" aria-expanded="false"><span>Pokaż pełną stronę</span><b>↓</b></button>
+    </div>
+    <div class="home-more-summary"><span>${extras.length} dodatkowych sekcji</span><span>projekty • aplikacje • narzędzia • wsparcie</span></div>
+    <div class="home-more-content" hidden></div>`;
+  main.insertBefore(hub, firstExtra);
+  const content = hub.querySelector('.home-more-content');
+  extras.forEach(el => content.appendChild(el));
+
+  const button = hub.querySelector('.home-more-toggle');
+  const label = button.querySelector('span');
+  const arrow = button.querySelector('b');
+  const key = 'aio_home_full_view_v21';
+
+  function setExpanded(expanded, persist = true) {
+    content.hidden = !expanded;
+    hub.classList.toggle('is-expanded', expanded);
+    button.setAttribute('aria-expanded', String(expanded));
+    label.textContent = expanded ? 'Włącz krótszy widok' : 'Pokaż pełną stronę';
+    arrow.textContent = expanded ? '↑' : '↓';
+    if (persist) { try { localStorage.setItem(key, expanded ? '1' : '0'); } catch (error) {} }
+  }
+
+  let stored = false;
+  try { stored = localStorage.getItem(key) === '1'; } catch (error) {}
+  const hashTarget = location.hash ? document.querySelector(location.hash) : null;
+  const needsHashOpen = Boolean(hashTarget && content.contains(hashTarget));
+  setExpanded(stored || needsHashOpen, false);
+
+  button.addEventListener('click', () => setExpanded(button.getAttribute('aria-expanded') !== 'true'));
+  window.addEventListener('hashchange', () => {
+    const target = location.hash ? document.querySelector(location.hash) : null;
+    if (target && content.contains(target)) setExpanded(true, false);
+  });
+}());

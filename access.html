@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="robots" content="noindex,nofollow"/>
+<meta name="theme-color" content="#06111a"/>
+<title>AIO Access 2.1 | AIO-IPTV.pl</title>
+<link rel="icon" href="pliki/logo.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="assets/css/access-v21.css?v=20260911-access21"/>
+<script src="assets/js/auto-language.js?v=20260729-auto-en1"></script>
+</head>
+<body class="access-page">
+<main class="access-shell" id="main-content">
+  <a class="access-brand" href="index.html"><img src="pliki/logo.png" alt="AIO-IPTV.pl"/><span><strong>AIO-IPTV.pl</strong><small>AIO Access 2.1</small></span></a>
+  <section class="access-card" id="accessCard">
+    <div class="access-badge">AIO ACCESS 2.1</div>
+    <div class="access-icon" aria-hidden="true">↓</div>
+    <p class="access-eyebrow">JEDNORAZOWA SESJA POBIERANIA</p>
+    <h1 id="accessTitle">Sprawdzam sesję…</h1>
+    <p class="access-lead" id="accessLead">Ta strona działa tylko dla sesji rozpoczętej z konkretnego przycisku pobierania na AIO-IPTV.pl.</p>
+
+    <div class="access-file" id="accessFile" hidden>
+      <span>Wybrany element</span>
+      <strong id="accessFileName">—</strong>
+    </div>
+
+    <div class="access-steps" id="accessSteps" hidden>
+      <article class="is-active" data-step="1"><b>1</b><div><strong>Przejdź do wsparcia</strong><span>Otwórz wybraną metodę w nowej karcie.</span></div></article>
+      <article data-step="2"><b>2</b><div><strong>Zakończ proces i wróć</strong><span>AIO Access rozpozna opuszczenie i powrót do tej karty.</span></div></article>
+      <article data-step="3"><b>3</b><div><strong>Odblokuj wybrany element</strong><span>Po pełnej ścieżce przycisk pobierania stanie się dostępny.</span></div></article>
+    </div>
+
+    <div class="access-provider" id="accessProvider" hidden>
+      <div><small>WYBRANA METODA</small><strong id="accessProviderName">—</strong></div>
+      <button class="access-primary" id="accessOpenPayment" type="button">Przejdź do płatności</button>
+    </div>
+
+    <div class="access-progress" id="accessProgress" hidden>
+      <div class="access-progress-row"><span id="accessProgressText">Oczekiwanie na rozpoczęcie procesu…</span><strong id="accessTimer">00:00</strong></div>
+      <div class="access-progress-track"><i id="accessProgressBar"></i></div>
+    </div>
+
+    <label class="access-confirm" id="accessConfirmWrap" hidden>
+      <input id="accessConfirm" type="checkbox"/>
+      <span>Potwierdzam, że zakończyłem proces wsparcia i wróciłem na tę stronę.</span>
+    </label>
+
+    <p class="access-status" id="accessStatus" aria-live="polite"></p>
+
+    <div class="access-actions">
+      <button class="access-primary" id="accessUnlock" type="button" disabled hidden>Odblokuj i kontynuuj</button>
+      <a class="access-secondary" id="accessBack" href="index.html">Wróć do AIO-IPTV.pl</a>
+    </div>
+
+    <aside class="access-security">
+      <strong>Co zostało zmienione?</strong>
+      <p>Samo wejście na Revolut, BuyCoffee lub Ko-fi nie odblokowuje już pobierania. Sesja musi zostać rozpoczęta przy konkretnym pliku, następnie użytkownik opuszcza tę kartę, przechodzi ścieżkę wsparcia i wraca.</p>
+      <p><b>Ważne:</b> GitHub Pages nie otrzymuje od operatorów płatności informacji o zaksięgowaniu wpłaty. To zabezpieczenie ogranicza proste obchodzenie blokady, ale nie jest bankową weryfikacją transakcji.</p>
+    </aside>
+  </section>
+  <footer>© <span id="accessYear"></span> Paweł Pawełek • AIO-IPTV.pl</footer>
+</main>
+<script defer src="assets/js/access-v21.js?v=20260911-access21"></script>
+</body>
+</html>

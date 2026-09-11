@@ -438,34 +438,6 @@
   function normalize(value) {
     return String(value || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/ł/g, 'l');
   }
-  function escapeHtml(value) {
-    return String(value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
-  }
-  function escapeAttr(value) {
-    return escapeHtml(value).replace(/`/g, '&#96;');
-  }
-})();
-
-/* ===== AIO-IPTV: jedno bezpłatne pobranie dziennie + wsparcie — 2026-07-24 ===== */
-(function () {
-  'use strict';
-
-  const SUPPORT_LINKS = {
-    revolut: 'https://revolut.me/pawelz75',
-    buycoffee: 'https://buycoffee.to/pawelpawelek/rozwoj-strony-aio-iptv-pl-i-darmowych-projektow-enigma2',
-    kofi: 'https://ko-fi.com/pawelpawlek'
-  };
-
-  const DOWNLOAD_POLICY = {
-    freePerDay: 1,
-    unlockUntilEndOfDayAfterSupportClick: true
-  };
-
-  const COMMUNITY_LINK_POLICY = {
-    freePerDay: 1
-  };
-
-
   async function initProjectStateBanner() {
     const current = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
     if (!/^(?:plugin-|app-)|^(?:windows-apps|channel-lists|systems)\.html$/.test(current)) return;
@@ -484,12 +456,38 @@
     } catch (error) { /* status is supplemental */ }
   }
 
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
+  }
+  function escapeAttr(value) {
+    return escapeHtml(value).replace(/`/g, '&#96;');
+  }
+})();
+
+/* ===== AIO-IPTV Access 2.1 — 1 bezpłatne pobranie dziennie + samodzielna ścieżka wsparcia ===== */
+(function () {
+  'use strict';
+
+  const SUPPORT_LINKS = {
+    revolut: 'https://revolut.me/pawelz75',
+    buycoffee: 'https://buycoffee.to/pawelpawelek/rozwoj-strony-aio-iptv-pl-i-darmowych-projektow-enigma2',
+    kofi: 'https://ko-fi.com/pawelpawlek'
+  };
+
+  const DOWNLOAD_POLICY = { freePerDay: 1 };
+  const COMMUNITY_LINK_POLICY = { freePerDay: 1 };
   const DOWNLOAD_EXTENSIONS = /\.(?:ipk|apk|exe|msi|zip|7z|rar|deb|rpm|pdf|tar|tgz|gz|xz|img|bin|iso|m3u|m3u8|xml|conf|cfg|backup)(?:$|[?#])/i;
   const IMAGE_EXTENSIONS = /\.(?:png|jpe?g|webp|gif|svg|avif)(?:$|[?#])/i;
   const SUPPORT_HOSTS = /(?:^|\.)(?:ko-fi\.com|revolut\.me|buycoffee\.to)$/i;
+
   const DAILY_USAGE_KEY = 'aio_download_daily_usage_v1';
   const COMMUNITY_LINK_USAGE_KEY = 'aio_community_link_daily_usage_v1';
   const DAILY_UNLOCK_KEY = 'aio_download_support_unlock_v1';
+  const DAILY_USAGE_COOKIE = 'aio_dl_usage_v21';
+  const COMMUNITY_COOKIE = 'aio_community_usage_v21';
+  const DAILY_UNLOCK_COOKIE = 'aio_support_unlock_v21';
+  const FLOW_PREFIX = 'aio_access_flow_v21_';
+  const FLOW_TTL_MS = 15 * 60 * 1000;
 
   let modal = null;
   let pendingDownload = null;
@@ -498,7 +496,8 @@
   let continueButton = null;
   let fileNameElement = null;
   let modalMode = 'general';
-  let supportActionConfirmed = false;
+  let selectedMethod = '';
+  let accessIndicator = null;
 
   function onReady(callback) {
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', callback, { once: true });
@@ -508,15 +507,11 @@
   onReady(initSupportGate);
 
   function initSupportGate() {
-    if (document.documentElement.dataset.aioSupportGate === 'ready') return;
-    document.documentElement.dataset.aioSupportGate = 'ready';
-    // Zbiórka celowa jest widoczna w kompaktowym pasku na każdej podstronie.
-    // Plansza wsparcia przy pobieraniu i limit jednego bezpłatnego pliku dziennie pozostają aktywne.
+    if (document.documentElement.dataset.aioSupportGate === 'ready-v21') return;
+    document.documentElement.dataset.aioSupportGate = 'ready-v21';
     createFundraiserRibbon();
     createSupportModal();
-    // Linki wpisane w treści Społeczności mają własny dzienny limit: 1 bezpłatne otwarcie.
-    // Obsługujemy je przed zwykłymi linkami pobierania, aby kliknięcie linku w poście
-    // nie zużywało jednocześnie limitu pobierania.
+    createAccessIndicator();
     document.addEventListener('click', interceptCommunityLink, true);
     document.addEventListener('click', interceptDownload, true);
   }
@@ -528,45 +523,56 @@
     return `${year}-${month}-${day}`;
   }
 
-  function readDailyUsage() {
-    const today = localDateKey();
-    try {
-      const value = JSON.parse(localStorage.getItem(DAILY_USAGE_KEY) || '{}');
-      if (value.date === today && Number.isFinite(Number(value.count))) return { date: today, count: Number(value.count) };
-    } catch (error) {}
-    return { date: today, count: 0 };
+  function readCookie(name) {
+    const prefix = `${name}=`;
+    const part = document.cookie.split(';').map(v => v.trim()).find(v => v.startsWith(prefix));
+    return part ? decodeURIComponent(part.slice(prefix.length)) : '';
   }
 
-  function saveDailyUsage(value) {
-    try { localStorage.setItem(DAILY_USAGE_KEY, JSON.stringify(value)); } catch (error) {}
+  function writeCookie(name, value) {
+    const maxAge = 60 * 60 * 24 * 3;
+    document.cookie = `${name}=${encodeURIComponent(value)}; Path=/; Max-Age=${maxAge}; SameSite=Lax`;
   }
+
+  function parseCookieUsage(name) {
+    const raw = readCookie(name);
+    const [date, countText] = raw.split('|');
+    const count = Number(countText);
+    return date === localDateKey() && Number.isFinite(count) ? { date, count } : { date: localDateKey(), count: 0 };
+  }
+
+  function readUsage(storageKey, cookieName) {
+    const today = localDateKey();
+    let local = { date: today, count: 0 };
+    try {
+      const value = JSON.parse(localStorage.getItem(storageKey) || '{}');
+      if (value.date === today && Number.isFinite(Number(value.count))) local = { date: today, count: Number(value.count) };
+    } catch (error) {}
+    const cookie = parseCookieUsage(cookieName);
+    return { date: today, count: Math.max(local.count, cookie.count) };
+  }
+
+  function saveUsage(storageKey, cookieName, value) {
+    try { localStorage.setItem(storageKey, JSON.stringify(value)); } catch (error) {}
+    writeCookie(cookieName, `${value.date}|${value.count}`);
+  }
+
+  function readDailyUsage() { return readUsage(DAILY_USAGE_KEY, DAILY_USAGE_COOKIE); }
+  function readCommunityLinkUsage() { return readUsage(COMMUNITY_LINK_USAGE_KEY, COMMUNITY_COOKIE); }
+  function saveDailyUsage(value) { saveUsage(DAILY_USAGE_KEY, DAILY_USAGE_COOKIE, value); }
+  function saveCommunityLinkUsage(value) { saveUsage(COMMUNITY_LINK_USAGE_KEY, COMMUNITY_COOKIE, value); }
 
   function isUnlockedToday() {
-    try { return localStorage.getItem(DAILY_UNLOCK_KEY) === localDateKey(); }
-    catch (error) { return false; }
-  }
-
-  function unlockToday() {
-    try { localStorage.setItem(DAILY_UNLOCK_KEY, localDateKey()); } catch (error) {}
+    const today = localDateKey();
+    try { if (localStorage.getItem(DAILY_UNLOCK_KEY) === today) return true; } catch (error) {}
+    return readCookie(DAILY_UNLOCK_COOKIE) === today;
   }
 
   function registerFreeDownload() {
     const usage = readDailyUsage();
     usage.count += 1;
     saveDailyUsage(usage);
-  }
-
-  function readCommunityLinkUsage() {
-    const today = localDateKey();
-    try {
-      const value = JSON.parse(localStorage.getItem(COMMUNITY_LINK_USAGE_KEY) || '{}');
-      if (value.date === today && Number.isFinite(Number(value.count))) return { date: today, count: Number(value.count) };
-    } catch (error) {}
-    return { date: today, count: 0 };
-  }
-
-  function saveCommunityLinkUsage(value) {
-    try { localStorage.setItem(COMMUNITY_LINK_USAGE_KEY, JSON.stringify(value)); } catch (error) {}
+    updateAccessIndicator();
   }
 
   function registerFreeCommunityLink() {
@@ -582,15 +588,11 @@
     const language = String(navigator.language || document.documentElement.lang || 'pl').toLowerCase();
     const polish = language.startsWith('pl');
     const copy = polish ? {
-      badge: 'ZBIÓRKA CELOWA',
-      title: 'Pomóż rozwijać AIO IPTV PL',
-      text: 'Wsparcie utrzymania strony, Społeczności AIO i darmowych projektów Enigma2.',
-      button: 'Wesprzyj projekt'
+      badge: 'ZBIÓRKA CELOWA', title: 'Pomóż rozwijać AIO IPTV PL',
+      text: 'Wsparcie utrzymania strony, Społeczności AIO i darmowych projektów Enigma2.', button: 'Wesprzyj projekt'
     } : {
-      badge: 'FUNDRAISING CAMPAIGN',
-      title: 'Support AIO IPTV PL',
-      text: 'Help maintain the website, AIO Community and free Enigma2 projects.',
-      button: 'Support the project'
+      badge: 'FUNDRAISING CAMPAIGN', title: 'Support AIO IPTV PL',
+      text: 'Help maintain the website, AIO Community and free Enigma2 projects.', button: 'Support the project'
     };
 
     const ribbon = document.createElement('aside');
@@ -599,44 +601,40 @@
     ribbon.innerHTML = `
       <span class="fundraiser-ribbon-badge">${copy.badge}</span>
       <div class="fundraiser-ribbon-copy"><strong>${copy.title}</strong><span>${copy.text}</span></div>
-      <a class="fundraiser-ribbon-link" href="${SUPPORT_LINKS.buycoffee}" target="_blank" rel="noopener noreferrer" data-support-bypass="true">${copy.button}</a>`;
-
+      <a class="fundraiser-ribbon-link" href="support.html">${copy.button}</a>`;
     header.insertBefore(ribbon, header.firstChild);
   }
 
-  function createSupportTicker() {
-    const header = document.querySelector('.site-header');
-    if (!header || header.querySelector('.support-ticker')) return;
+  function createAccessIndicator() {
+    const current = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    const relevant = current === 'downloads.html' || /^(?:plugin-|app-)/.test(current) || ['systems.html','android-apps.html','windows-apps.html','channel-lists.html'].includes(current);
+    if (!relevant) return;
+    const main = document.querySelector('#main-content') || document.querySelector('main');
+    if (!main || main.querySelector('.aio-access-indicator')) return;
+    accessIndicator = document.createElement('aside');
+    accessIndicator.className = 'aio-access-indicator';
+    accessIndicator.setAttribute('aria-live', 'polite');
+    main.insertBefore(accessIndicator, main.firstChild);
+    updateAccessIndicator();
+  }
 
-    const message = 'Pierwsze pobranie każdego dnia jest bezpłatne. Kolejne możesz odblokować po przejściu do Revolut, BuyCoffee lub Ko-fi.';
-    const ticker = document.createElement('div');
-    ticker.className = 'support-ticker';
-    ticker.setAttribute('role', 'button');
-    ticker.setAttribute('tabindex', '0');
-    ticker.setAttribute('aria-label', 'Otwórz informacje o pobieraniu i wsparciu projektów');
-    ticker.innerHTML = `
-      <span class="support-ticker-heart" aria-hidden="true">♥</span>
-      <div class="support-ticker-viewport">
-        <div class="support-ticker-track">
-          <span><strong>WSPARCIE ROZWOJU</strong> • ${message}</span>
-          <span aria-hidden="true"><strong>WSPARCIE ROZWOJU</strong> • ${message}</span>
-        </div>
-      </div>
-      <span class="support-ticker-cta">Zasady</span>`;
-
-    header.insertBefore(ticker, header.firstChild);
-    ticker.addEventListener('click', () => openSupportModal(null, 'general'));
-    ticker.addEventListener('keydown', event => {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        openSupportModal(null, 'general');
-      }
-    });
+  function updateAccessIndicator() {
+    if (!accessIndicator) return;
+    const usage = readDailyUsage();
+    if (isUnlockedToday()) {
+      accessIndicator.className = 'aio-access-indicator is-unlocked';
+      accessIndicator.innerHTML = '<span class="aio-access-dot">✓</span><div><strong>AIO Access 2.1 • dostęp aktywny</strong><small>Kolejne pobrania są odblokowane do końca dzisiejszego dnia w tej przeglądarce.</small></div><a href="support.html">Wsparcie projektu</a>';
+    } else if (usage.count < DOWNLOAD_POLICY.freePerDay) {
+      accessIndicator.className = 'aio-access-indicator is-free';
+      accessIndicator.innerHTML = '<span class="aio-access-dot">1</span><div><strong>AIO Access 2.1 • bezpłatne pobranie dostępne</strong><small>Dzisiaj możesz pobrać pierwszy plik bez wsparcia. Kolejne wymagają przejścia pełnej ścieżki wsparcia.</small></div><a href="support.html">Zasady</a>';
+    } else {
+      accessIndicator.className = 'aio-access-indicator is-locked';
+      accessIndicator.innerHTML = '<span class="aio-access-dot">!</span><div><strong>AIO Access 2.1 • darmowy limit wykorzystany</strong><small>Samo otwarcie linku darowizny nie odblokowuje kolejnych plików. Wymagane jest przejście procesu wsparcia.</small></div><a href="support.html">Dlaczego?</a>';
+    }
   }
 
   function createSupportModal() {
     if (document.querySelector('.support-gate-modal')) return;
-
     modal = document.createElement('div');
     modal.className = 'support-gate-modal';
     modal.setAttribute('aria-hidden', 'true');
@@ -645,25 +643,22 @@
       <section class="support-gate-dialog" role="dialog" aria-modal="true" aria-labelledby="support-gate-title" aria-describedby="support-gate-description">
         <button class="support-gate-x" type="button" aria-label="Zamknij" data-support-close>×</button>
         <div class="support-gate-icon" aria-hidden="true">♥</div>
-        <p class="support-gate-eyebrow">WSPARCIE PROJEKTÓW AIO-IPTV.PL</p>
+        <p class="support-gate-eyebrow">AIO ACCESS 2.1 • WSPARCIE PROJEKTÓW</p>
         <h2 id="support-gate-title">Pomóż rozwijać projekty dla Enigma2</h2>
-        <p id="support-gate-description">Pierwsze pobranie oraz pierwszy link w Społeczności każdego dnia są dostępne bez wsparcia. Kolejne pobrania i linki możesz odblokować po otwarciu jednej z metod wsparcia.</p>
-        <div class="support-gate-file" hidden>
-          <span>Wybrany plik:</span>
-          <strong class="support-gate-filename"></strong>
-        </div>
-        <p class="support-gate-note">Dzięki wsparciu mogę rozwijać AIO Panel, wtyczki, aplikacje, listy kanałów, picony, poradniki i systemy.</p>
+        <p id="support-gate-description">Pierwsze pobranie każdego dnia jest bezpłatne. Kolejne pliki wymagają przejścia samodzielnej ścieżki wsparcia.</p>
+        <div class="support-gate-file" hidden><span>Wybrany plik:</span><strong class="support-gate-filename"></strong></div>
+        <p class="support-gate-note">Samo kliknięcie linku Revolut, BuyCoffee lub Ko-fi nie odblokowuje już pobierania.</p>
         <div class="support-gate-methods" aria-label="Metody wsparcia">
-          <a class="support-method support-method-revolut" href="${SUPPORT_LINKS.revolut}" target="_blank" rel="noopener noreferrer" data-support-bypass="true"><span>R</span><strong>Revolut</strong><small>Szybkie wsparcie</small></a>
-          <a class="support-method support-method-buycoffee" href="${SUPPORT_LINKS.buycoffee}" target="_blank" rel="noopener noreferrer" data-support-bypass="true"><span>☕</span><strong>Zbiórka celowa</strong><small>Rozwój AIO IPTV PL</small></a>
-          <a class="support-method support-method-kofi" href="${SUPPORT_LINKS.kofi}" target="_blank" rel="noopener noreferrer" data-support-bypass="true"><span>☕</span><strong>Ko-fi</strong><small>Wsparcie z zagranicy</small></a>
+          <button class="support-method support-method-revolut" type="button" data-access-method="revolut"><span>R</span><strong>Revolut</strong><small>Przejdź do płatności</small></button>
+          <button class="support-method support-method-buycoffee" type="button" data-access-method="buycoffee"><span>☕</span><strong>BuyCoffee</strong><small>Zbiórka celowa</small></button>
+          <button class="support-method support-method-kofi" type="button" data-access-method="kofi"><span>☕</span><strong>Ko-fi</strong><small>Wsparcie z zagranicy</small></button>
         </div>
         <p class="support-gate-status" aria-live="polite"></p>
         <div class="support-gate-actions">
-          <button class="support-gate-continue" type="button">Zamknij planszę</button>
+          <button class="support-gate-continue" type="button">Kontynuuj</button>
           <button class="support-gate-cancel" type="button" data-support-close>Nie teraz</button>
         </div>
-        <p class="support-gate-privacy">Strona działa na GitHub Pages i nie ma dostępu do potwierdzenia płatności. Odblokowanie następuje po otwarciu wybranej metody wsparcia i jest zapisane lokalnie w przeglądarce.</p>
+        <p class="support-gate-privacy">AIO-IPTV.pl nie odczytuje danych bankowych ani szczegółów transakcji. GitHub Pages nie może sam potwierdzić zaksięgowania wpłaty; AIO Access weryfikuje przejście pełnej ścieżki wsparcia i powrót z serwisu płatności.</p>
       </section>`;
 
     document.body.appendChild(modal);
@@ -672,126 +667,82 @@
     fileNameElement = modal.querySelector('.support-gate-filename');
 
     modal.querySelectorAll('[data-support-close]').forEach(element => element.addEventListener('click', closeSupportModal));
-    modal.querySelectorAll('.support-method').forEach(link => {
-      link.addEventListener('click', () => {
-        supportActionConfirmed = true;
-        if (DOWNLOAD_POLICY.unlockUntilEndOfDayAfterSupportClick) unlockToday();
-        const communityLinkMode = modalMode === 'community-link-limit';
-        statusMessage.textContent = communityLinkMode
-          ? 'Dziękuję. Linki w Społeczności zostały odblokowane do końca dzisiejszego dnia w tej przeglądarce.'
-          : 'Dziękuję. Pobieranie zostało odblokowane do końca dzisiejszego dnia w tej przeglądarce.';
+    modal.querySelectorAll('[data-access-method]').forEach(button => {
+      button.addEventListener('click', () => {
+        selectedMethod = button.dataset.accessMethod || '';
+        modal.querySelectorAll('[data-access-method]').forEach(item => item.classList.toggle('is-selected', item === button));
+        statusMessage.textContent = `Wybrano: ${methodLabel(selectedMethod)}. Naciśnij „Przejdź dalej”, aby rozpocząć bezpieczniejszą ścieżkę wsparcia.`;
         continueButton.disabled = false;
-        continueButton.classList.add('is-thanks');
-        continueButton.textContent = communityLinkMode
-          ? 'Dziękuję — otwórz link'
-          : (pendingDownload ? 'Dziękuję — pobierz plik' : 'Dziękuję — zamknij planszę');
+        continueButton.textContent = 'Przejdź dalej';
       });
     });
     continueButton.addEventListener('click', continueAfterPrompt);
     modal.addEventListener('keydown', trapModalKeyboard);
   }
 
+  function methodLabel(method) {
+    return ({ revolut: 'Revolut', buycoffee: 'BuyCoffee', kofi: 'Ko-fi' })[method] || 'wybrana metoda';
+  }
+
   function interceptCommunityLink(event) {
     const anchor = event.target.closest && event.target.closest('a.community-link');
     if (!anchor || !isCommunityContentLink(anchor)) return;
-
     if (isUnlockedToday()) return;
-
     const usage = readCommunityLinkUsage();
-    if (usage.count < COMMUNITY_LINK_POLICY.freePerDay) {
-      registerFreeCommunityLink();
-      return;
-    }
+    if (usage.count < COMMUNITY_LINK_POLICY.freePerDay) { registerFreeCommunityLink(); return; }
 
-    event.preventDefault();
-    event.stopPropagation();
+    event.preventDefault(); event.stopPropagation();
     if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
-
-    openSupportModal({
-      href: anchor.href,
-      target: anchor.getAttribute('target') || '_blank',
-      download: '',
-      label: getCommunityLinkLabel(anchor)
-    }, 'community-link-limit');
+    openSupportModal({ href: anchor.href, target: anchor.getAttribute('target') || '_blank', download: '', label: getCommunityLinkLabel(anchor) }, 'community-link-limit');
   }
 
   function isCommunityContentLink(anchor) {
     if (!anchor || !anchor.classList.contains('community-link')) return false;
     if (anchor.dataset.supportBypass === 'true' || anchor.closest('.support-gate-modal')) return false;
-
     const rawHref = (anchor.getAttribute('href') || '').trim();
     if (!rawHref || /^(?:#|javascript:|mailto:|tel:)/i.test(rawHref)) return false;
-
-    try {
-      const url = new URL(rawHref, window.location.href);
-      if (SUPPORT_HOSTS.test(url.hostname)) return false;
-    } catch (error) {
-      return false;
-    }
+    try { const url = new URL(rawHref, window.location.href); if (SUPPORT_HOSTS.test(url.hostname)) return false; }
+    catch (error) { return false; }
     return true;
   }
 
   function getCommunityLinkLabel(anchor) {
     const rawText = (anchor.textContent || '').replace(/\s+/g, ' ').trim();
     if (rawText && rawText.length <= 100) return rawText;
-    try {
-      const url = new URL(anchor.href, window.location.href);
-      return safeDecode(url.hostname + url.pathname).slice(0, 100);
-    } catch (error) {
-      return 'Link ze Społeczności AIO';
-    }
+    try { const url = new URL(anchor.href, window.location.href); return safeDecode(url.hostname + url.pathname).slice(0, 100); }
+    catch (error) { return 'Link ze Społeczności AIO'; }
   }
 
   function interceptDownload(event) {
     const anchor = event.target.closest && event.target.closest('a');
     if (!anchor || anchor.classList.contains('community-link') || !isDownloadLink(anchor)) return;
-
     if (isUnlockedToday()) return;
-
     const usage = readDailyUsage();
-    if (usage.count < DOWNLOAD_POLICY.freePerDay) {
-      registerFreeDownload();
-      return;
-    }
+    if (usage.count < DOWNLOAD_POLICY.freePerDay) { registerFreeDownload(); return; }
 
-    event.preventDefault();
-    event.stopPropagation();
+    event.preventDefault(); event.stopPropagation();
     if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
-
-    openSupportModal({
-      href: anchor.href,
-      target: anchor.getAttribute('target') || '',
-      download: anchor.getAttribute('download') || '',
-      label: getDownloadLabel(anchor)
-    }, 'limit');
+    openSupportModal({ href: anchor.href, target: anchor.getAttribute('target') || '', download: anchor.getAttribute('download') || '', label: getDownloadLabel(anchor) }, 'limit');
   }
 
   function isDownloadLink(anchor) {
-    if (anchor.dataset.supportBypass === 'true' || anchor.closest('.support-gate-modal') || anchor.closest('.support-ticker')) return false;
-
+    if (anchor.dataset.supportBypass === 'true' || anchor.closest('.support-gate-modal')) return false;
     const rawHref = (anchor.getAttribute('href') || '').trim();
     if (!rawHref || /^(?:#|javascript:|mailto:|tel:)/i.test(rawHref)) return false;
-
     let url;
-    try { url = new URL(rawHref, window.location.href); }
-    catch (error) { return false; }
-
+    try { url = new URL(rawHref, window.location.href); } catch (error) { return false; }
     if (SUPPORT_HOSTS.test(url.hostname)) return false;
-
     const full = `${url.pathname}${url.search}${url.hash}`;
     const decoded = safeDecode(full).toLowerCase();
     const text = `${anchor.textContent || ''} ${anchor.getAttribute('aria-label') || ''} ${anchor.className || ''}`.toLowerCase();
-
     if (IMAGE_EXTENSIONS.test(decoded)) return false;
     if (anchor.hasAttribute('download')) return true;
     if (DOWNLOAD_EXTENSIONS.test(decoded)) return true;
     if (/controller=attachment|id_attachment=|\/releases\/download\/|\/downloads?\/|[?&](?:download|attachment)=/i.test(decoded)) return true;
     if (/multi-click\.pl$/i.test(url.hostname) && /attachment|id_attachment/i.test(decoded)) return true;
     if (/raw\.githubusercontent\.com$/i.test(url.hostname) && /\.(?:sh|ipk|apk|zip|json)(?:$|[?#])/i.test(decoded)) return true;
-
     const isInternalHtml = url.origin === window.location.origin && /\.html(?:$|[?#])/i.test(decoded);
     if (isInternalHtml) return false;
-
     const looksLikeDownloadButton = /\b(?:pobierz|pobieranie|download|ściągnij|instaluj|plik\s+ipk|plik\s+apk|wersja\s+x64|wersja\s+x86)\b/i.test(text);
     const pointsToFiles = /(?:^|\/)pliki\//i.test(decoded) || /(?:^|\/)archives?\//i.test(decoded);
     return looksLikeDownloadButton && pointsToFiles;
@@ -800,143 +751,108 @@
   function getDownloadLabel(anchor) {
     const rawText = (anchor.textContent || '').replace(/\s+/g, ' ').trim();
     if (rawText && rawText.length <= 90) return rawText;
-    try {
-      const path = new URL(anchor.href, window.location.href).pathname;
-      return safeDecode(path.split('/').pop() || 'Wybrany plik');
-    } catch (error) {
-      return 'Wybrany plik';
-    }
+    return fileNameFromUrl(anchor.href);
   }
 
   function openSupportModal(download, mode) {
     if (!modal) createSupportModal();
     pendingDownload = download;
     modalMode = mode || 'general';
-    supportActionConfirmed = isUnlockedToday();
+    selectedMethod = '';
     previouslyFocused = document.activeElement;
     statusMessage.textContent = '';
     continueButton.classList.remove('is-thanks');
+    modal.querySelectorAll('[data-access-method]').forEach(item => item.classList.remove('is-selected'));
 
     const title = modal.querySelector('#support-gate-title');
     const description = modal.querySelector('#support-gate-description');
     const note = modal.querySelector('.support-gate-note');
     const fileBox = modal.querySelector('.support-gate-file');
     const cancel = modal.querySelector('.support-gate-cancel');
+    const methods = modal.querySelector('.support-gate-methods');
 
     if (modalMode === 'community-link-limit' && download) {
       title.textContent = 'Dzisiejszy bezpłatny link został wykorzystany';
-      description.textContent = 'Pierwszy link otwierany każdego dnia w Społeczności AIO jest bezpłatny. Aby otworzyć kolejny link dzisiaj, przejdź do jednej z metod wsparcia. Po powrocie linki zostaną odblokowane do końca dnia w tej przeglądarce.';
-      note.textContent = 'Wybierz Revolut, BuyCoffee albo Ko-fi. Wsparcie pomaga utrzymywać stronę, Społeczność AIO oraz bezpłatne projekty Enigma2.';
-      fileBox.hidden = false;
-      const label = fileBox.querySelector('span');
-      if (label) label.textContent = 'Wybrany link:';
+      description.textContent = 'Aby otworzyć kolejny zewnętrzny link ze Społeczności AIO, przejdź ścieżkę wsparcia. Samo kliknięcie metody wsparcia nie odblokuje linku.';
+      note.textContent = 'Wybierz metodę. AIO Access utworzy jednorazową sesję dla tego konkretnego linku.';
+      fileBox.hidden = false; methods.hidden = false;
+      fileBox.querySelector('span').textContent = 'Wybrany link:';
       fileNameElement.textContent = download.label || 'Link ze Społeczności AIO';
       cancel.textContent = 'Anuluj';
-      continueButton.textContent = 'Najpierw wybierz metodę wsparcia';
-      continueButton.disabled = !supportActionConfirmed;
+      continueButton.textContent = 'Wybierz metodę wsparcia'; continueButton.disabled = true;
     } else if (modalMode === 'limit' && download) {
       title.textContent = 'Dzisiejsze bezpłatne pobranie zostało wykorzystane';
-      description.textContent = 'Aby pobrać kolejny plik dzisiaj, otwórz jedną z metod wsparcia. Po powrocie przycisk pobierania zostanie odblokowany do końca dnia w tej przeglądarce.';
-      note.textContent = 'Wybierz Revolut, BuyCoffee albo Ko-fi. Każda forma wsparcia pomaga utrzymywać i aktualizować projekty.';
-      fileBox.hidden = false;
-      const label = fileBox.querySelector('span');
-      if (label) label.textContent = 'Wybrany plik:';
+      description.textContent = 'Kolejny plik możesz pobrać po przejściu samodzielnej ścieżki wsparcia. Samo otwarcie Revolut, BuyCoffee lub Ko-fi niczego nie odblokowuje.';
+      note.textContent = 'Wybierz metodę. AIO Access utworzy jednorazową sesję przypisaną do wybranego pliku.';
+      fileBox.hidden = false; methods.hidden = false;
+      fileBox.querySelector('span').textContent = 'Wybrany plik:';
       fileNameElement.textContent = download.label || fileNameFromUrl(download.href);
       cancel.textContent = 'Anuluj';
-      continueButton.textContent = 'Najpierw wybierz metodę wsparcia';
-      continueButton.disabled = !supportActionConfirmed;
+      continueButton.textContent = 'Wybierz metodę wsparcia'; continueButton.disabled = true;
     } else {
-      title.textContent = 'Pomóż rozwijać projekty dla Enigma2';
-      description.textContent = 'Pierwsze pobranie oraz pierwszy link w Społeczności każdego dnia są dostępne bez wsparcia. Kolejne możesz odblokować do końca dnia po otwarciu jednej z metod wsparcia.';
-      note.textContent = 'Dzięki wsparciu mogę rozwijać AIO Panel, wtyczki, aplikacje, listy kanałów, picony, poradniki, systemy i Społeczność AIO.';
-      fileBox.hidden = true;
-      const label = fileBox.querySelector('span');
-      if (label) label.textContent = 'Wybrany plik:';
+      title.textContent = 'Jak działa AIO Access 2.1?';
+      description.textContent = 'Pierwsze pobranie każdego dnia jest bezpłatne. Przy kolejnym pliku AIO Access tworzy jednorazową sesję, prowadzi do wybranej metody wsparcia i wymaga powrotu z procesu płatności.';
+      note.textContent = 'To ogranicza proste obejście „klikam link i od razu wracam”. Pełne bankowe potwierdzenie transakcji wymagałoby integracji API lub webhooka operatora płatności.';
+      fileBox.hidden = true; methods.hidden = true;
       fileNameElement.textContent = '';
-      cancel.textContent = 'Nie teraz';
-      continueButton.textContent = 'Zamknij planszę';
-      continueButton.disabled = false;
+      cancel.textContent = 'Zamknij';
+      continueButton.textContent = 'Rozumiem'; continueButton.disabled = false;
     }
 
-    modal.classList.add('is-open');
-    modal.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('support-gate-open');
-    window.setTimeout(() => modal.querySelector('.support-method')?.focus(), 30);
+    modal.classList.add('is-open'); modal.setAttribute('aria-hidden', 'false'); document.body.classList.add('support-gate-open');
+    window.setTimeout(() => (methods.hidden ? continueButton : modal.querySelector('[data-access-method]'))?.focus(), 30);
   }
 
   function closeSupportModal() {
     if (!modal) return;
-    modal.classList.remove('is-open');
-    modal.setAttribute('aria-hidden', 'true');
-    document.body.classList.remove('support-gate-open');
-    pendingDownload = null;
-    modalMode = 'general';
-    supportActionConfirmed = false;
+    modal.classList.remove('is-open'); modal.setAttribute('aria-hidden', 'true'); document.body.classList.remove('support-gate-open');
+    pendingDownload = null; modalMode = 'general'; selectedMethod = '';
     if (previouslyFocused && typeof previouslyFocused.focus === 'function') previouslyFocused.focus();
   }
 
   function continueAfterPrompt() {
-    if ((modalMode === 'limit' || modalMode === 'community-link-limit') && !supportActionConfirmed && !isUnlockedToday()) {
-      statusMessage.textContent = 'Wybierz najpierw jedną z metod wsparcia.';
-      return;
-    }
-    if (!pendingDownload) {
-      closeSupportModal();
-      return;
-    }
+    if (modalMode !== 'limit' && modalMode !== 'community-link-limit') { closeSupportModal(); return; }
+    if (!selectedMethod || !pendingDownload) { statusMessage.textContent = 'Wybierz jedną z metod wsparcia.'; return; }
+    startAccessFlow(selectedMethod, pendingDownload, modalMode);
+  }
 
-    const download = pendingDownload;
-    pendingDownload = null;
-    modal.classList.remove('is-open');
-    modal.setAttribute('aria-hidden', 'true');
-    document.body.classList.remove('support-gate-open');
+  function startAccessFlow(method, item, mode) {
+    const token = randomToken();
+    const flow = {
+      v: 21, token, method,
+      kind: mode === 'community-link-limit' ? 'community' : 'download',
+      href: item.href, target: item.target || '', download: item.download || '', label: item.label || '',
+      createdAt: Date.now(), expiresAt: Date.now() + FLOW_TTL_MS,
+      returnUrl: location.href, day: localDateKey()
+    };
+    try { sessionStorage.setItem(FLOW_PREFIX + token, JSON.stringify(flow)); }
+    catch (error) { statusMessage.textContent = 'Przeglądarka blokuje pamięć sesji. Włącz pamięć witryny i spróbuj ponownie.'; return; }
+    location.href = `access.html?flow=${encodeURIComponent(token)}&method=${encodeURIComponent(method)}`;
+  }
 
-    const link = document.createElement('a');
-    link.href = download.href;
-    link.dataset.supportBypass = 'true';
-    if (download.download) link.setAttribute('download', download.download);
-    if (download.target) link.target = download.target;
-    if (download.target === '_blank') link.rel = 'noopener noreferrer';
-    link.style.display = 'none';
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
+  function randomToken() {
+    const bytes = new Uint8Array(18);
+    if (window.crypto && crypto.getRandomValues) crypto.getRandomValues(bytes);
+    else for (let i = 0; i < bytes.length; i += 1) bytes[i] = Math.floor(Math.random() * 256);
+    return Array.from(bytes, byte => byte.toString(16).padStart(2, '0')).join('');
   }
 
   function trapModalKeyboard(event) {
-    if (event.key === 'Escape') {
-      event.preventDefault();
-      closeSupportModal();
-      return;
-    }
+    if (event.key === 'Escape') { event.preventDefault(); closeSupportModal(); return; }
     if (event.key !== 'Tab') return;
-
-    const focusable = Array.from(modal.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'))
-      .filter(element => element.offsetParent !== null);
+    const focusable = Array.from(modal.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])')).filter(element => element.offsetParent !== null);
     if (!focusable.length) return;
-
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
-    if (event.shiftKey && document.activeElement === first) {
-      event.preventDefault();
-      last.focus();
-    } else if (!event.shiftKey && document.activeElement === last) {
-      event.preventDefault();
-      first.focus();
-    }
+    const first = focusable[0], last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
   }
 
   function fileNameFromUrl(href) {
-    try {
-      const path = new URL(href, window.location.href).pathname;
-      return safeDecode(path.split('/').pop() || 'Wybrany plik');
-    } catch (error) {
-      return 'Wybrany plik';
-    }
+    try { const path = new URL(href, window.location.href).pathname; return safeDecode(path.split('/').pop() || 'Wybrany plik'); }
+    catch (error) { return 'Wybrany plik'; }
   }
+  function safeDecode(value) { try { return decodeURIComponent(value); } catch (error) { return value; } }
 
-  function safeDecode(value) {
-    try { return decodeURIComponent(value); }
-    catch (error) { return value; }
-  }
-})();
+  // Publiczny, niesekretny opis konfiguracji dla access.html.
+  window.AIO_ACCESS_V21 = { SUPPORT_LINKS, FLOW_PREFIX, DAILY_UNLOCK_KEY, DAILY_UNLOCK_COOKIE };
+}());
