@@ -647,7 +647,7 @@
         <h2 id="support-gate-title">Pomóż rozwijać projekty dla Enigma2</h2>
         <p id="support-gate-description">Pierwsze pobranie każdego dnia jest bezpłatne. Kolejne pliki wymagają przejścia samodzielnej ścieżki wsparcia.</p>
         <div class="support-gate-file" hidden><span>Wybrany plik:</span><strong class="support-gate-filename"></strong></div>
-        <p class="support-gate-note">Samo kliknięcie linku Revolut, BuyCoffee lub Ko-fi nie odblokowuje już pobierania.</p>
+        <p class="support-gate-note">AIO Access sprawdza aktywną sesję pobierania i poprawne przejście ścieżki wsparcia przed odblokowaniem kolejnego pliku.</p>
         <div class="support-gate-methods" aria-label="Metody wsparcia">
           <button class="support-method support-method-revolut" type="button" data-access-method="revolut"><span>R</span><strong>Revolut</strong><small>Przejdź do płatności</small></button>
           <button class="support-method support-method-buycoffee" type="button" data-access-method="buycoffee"><span>☕</span><strong>BuyCoffee</strong><small>Zbiórka celowa</small></button>
@@ -658,7 +658,7 @@
           <button class="support-gate-continue" type="button">Kontynuuj</button>
           <button class="support-gate-cancel" type="button" data-support-close>Nie teraz</button>
         </div>
-        <p class="support-gate-privacy">AIO-IPTV.pl nie odczytuje danych bankowych ani szczegółów transakcji. GitHub Pages nie może sam potwierdzić zaksięgowania wpłaty; AIO Access weryfikuje przejście pełnej ścieżki wsparcia i powrót z serwisu płatności.</p>
+        <p class="support-gate-privacy">Weryfikacja AIO Access obejmuje aktywną sesję pobierania, wybraną metodę wsparcia oraz poprawny powrót do rozpoczętego procesu. Po pozytywnej weryfikacji dostęp zostaje odblokowany do końca dnia.</p>
       </section>`;
 
     document.body.appendChild(modal);
