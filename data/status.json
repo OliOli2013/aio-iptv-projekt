@@ -63,13 +63,23 @@
     },
     {
       "id": "aio-ipk",
-      "name": "AIO Panel 16.0.0 — plik IPK",
-      "url": "https://olioli2013.github.io/aio-iptv-projekt/pliki/enigma2-plugin-extensions-panelaio_16.0.0_all.ipk",
+      "name": "AIO Panel 16.0.3 — plik IPK",
+      "url": "https://olioli2013.github.io/aio-iptv-projekt/pliki/enigma2-plugin-extensions-panelaio_16.0.3_all.ipk",
       "category": "Pliki",
-      "status": "online",
-      "httpStatus": 200,
-      "checkedAt": "2026-09-14T10:44:12.469216+00:00",
-      "message": "Usługa odpowiada prawidłowo • application/vnd.shana.informed.package • 302644 B."
+      "status": "unknown",
+      "httpStatus": null,
+      "checkedAt": null,
+      "message": "Nowa wersja 16.0.3 — status zostanie potwierdzony przez automatyczny test po publikacji."
+    },
+    {
+      "id": "aiohd-next-ipk",
+      "name": "AIOHD NEXT 3.2.1-r3 — plik IPK",
+      "url": "https://olioli2013.github.io/aio-iptv-projekt/pliki/enigma2-plugin-skins-aiohd-next_3.2.1-r3_all.ipk",
+      "category": "Pliki",
+      "status": "unknown",
+      "httpStatus": null,
+      "checkedAt": null,
+      "message": "Nowy projekt — status zostanie potwierdzony przez automatyczny test po publikacji."
     },
     {
       "id": "iptv-ipk",

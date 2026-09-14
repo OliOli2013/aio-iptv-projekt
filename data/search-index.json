@@ -19,27 +19,38 @@
     ]
   },
   {
-    "title": "AIO Panel 16.0.0 — duża modernizacja techniczna",
-    "desc": "Modularny rdzeń, Action Dispatcher, bezpieczniejsze źródła, SHA-256, centralny logger, wyszukiwarka, ulubione, historia, Health Check, Stable/Test, Self-Test i bezpieczniejsze aktualizacje.",
+    "title": "AIO Panel 16.0.3 — AIOHD NEXT w sekcji Skórki",
+    "desc": "AIO Panel 16.0.3 dodaje bezpośredni instalator AIOHD NEXT 3.2.1. Zachowuje poprawki updatera, oscam.srvid/srvid2, SoftCam.Key i układ z Listami kanałów jako pierwszą zakładką.",
     "url": "plugin-aio-panel.html",
     "tags": [
       "AIO Panel",
-      "16.0.0",
+      "16.0.3",
+      "AIOHD NEXT",
+      "skin",
+      "Skórki",
       "Enigma2",
-      "modularny rdzeń",
-      "Action Dispatcher",
-      "SHA-256",
-      "zaufane źródła",
-      "logger",
-      "wyszukiwarka",
-      "ulubione",
-      "ostatnio używane",
-      "Health Check",
-      "Stable",
-      "Test",
-      "Self-Test",
-      "AIO Connect",
-      "bootstrap"
+      "aktualizacja",
+      "oscam.srvid",
+      "SoftCam.Key"
+    ]
+  },
+  {
+    "title": "AIOHD NEXT 3.2.1 — skin Full HD dla OpenATV",
+    "desc": "Nowoczesny skin Enigma2: MiniTV, 3 rozmiary listy, pogoda inline, Aurora / Amber / Violet, rozbudowane EPG i InfoBar.",
+    "url": "skin-aiohd-next.html",
+    "tags": [
+      "AIOHD NEXT",
+      "3.2.1",
+      "skin",
+      "OpenATV",
+      "Enigma2",
+      "MiniTV",
+      "EPG",
+      "pogoda",
+      "Aurora",
+      "Amber",
+      "Violet",
+      "MetrixHD"
     ]
   },
   {

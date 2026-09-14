@@ -194,8 +194,12 @@
 
   const PROJECTS = {
     aio: {
-      title: 'AIO Panel 16.0.0', url: 'plugin-aio-panel.html', kind: 'Wtyczka Enigma2', python: ['2', '3'], icon: '🧩',
-      summary: 'Modularne centrum narzędzi Enigma2 z wyszukiwarką, ulubionymi, Health Check, Self-Test i bezpieczniejszym systemem źródeł.'
+      title: 'AIO Panel 16.0.3', url: 'plugin-aio-panel.html', kind: 'Wtyczka Enigma2', python: ['2', '3'], icon: '🧩',
+      summary: 'Centrum narzędzi Enigma2; wersja 16.0.3 dodaje instalator AIOHD NEXT 3.2.1 do sekcji Skórki.'
+    },
+    aiohd: {
+      title: 'AIOHD NEXT 3.2.1', url: 'skin-aiohd-next.html', kind: 'Skin Enigma2', python: ['3'], icon: '🎨',
+      summary: 'Nowoczesny skin Full HD dla OpenATV: MiniTV, EPG, pogoda inline, 3 rozmiary listy i 3 palety kolorów.'
     },
     doctor: {
       title: 'E2 Doctor 2.3', url: 'plugin-e2-doctor.html', kind: 'Diagnostyka', python: ['3'], icon: '🩺',

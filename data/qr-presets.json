@@ -1,7 +1,15 @@
 [
   {
-    "label": "AIO Panel 16.0.0 — strona projektu",
+    "label": "AIO Panel 16.0.3 — strona projektu",
     "value": "https://olioli2013.github.io/aio-iptv-projekt/plugin-aio-panel.html"
+  },
+  {
+    "label": "AIOHD NEXT 3.2.1 — strona projektu",
+    "value": "https://olioli2013.github.io/aio-iptv-projekt/skin-aiohd-next.html"
+  },
+  {
+    "label": "AIOHD NEXT 3.2.1 — instalacja IPK",
+    "value": "wget -q --no-check-certificate \"https://github.com/OliOli2013/AIOHD-NEXT-Skin/releases/download/3.2.1-r3/enigma2-plugin-skins-aiohd-next_3.2.1-r3_all.ipk\" -O /tmp/aiohd-next.ipk && opkg install /tmp/aiohd-next.ipk && rm -f /tmp/aiohd-next.ipk"
   },
   {
     "label": "AIO Panel — komenda instalacyjna",

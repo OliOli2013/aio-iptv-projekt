@@ -37,8 +37,14 @@
   },
   {
     "id": "aio-ipk",
-    "name": "AIO Panel 16.0.0 — plik IPK",
-    "url": "https://olioli2013.github.io/aio-iptv-projekt/pliki/enigma2-plugin-extensions-panelaio_16.0.0_all.ipk",
+    "name": "AIO Panel 16.0.3 — plik IPK",
+    "url": "https://olioli2013.github.io/aio-iptv-projekt/pliki/enigma2-plugin-extensions-panelaio_16.0.3_all.ipk",
+    "category": "Pliki"
+  },
+  {
+    "id": "aiohd-next-ipk",
+    "name": "AIOHD NEXT 3.2.1-r3 — plik IPK",
+    "url": "https://olioli2013.github.io/aio-iptv-projekt/pliki/enigma2-plugin-skins-aiohd-next_3.2.1-r3_all.ipk",
     "category": "Pliki"
   },
   {

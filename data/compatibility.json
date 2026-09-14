@@ -1,14 +1,25 @@
 [
   {
     "name": "AIO Panel",
-    "version": "16.0.0",
+    "version": "16.0.3",
     "type": "Wtyczka Enigma2",
     "python": "Python 2 i 3",
     "systems": "OpenATV, OpenPLi, Egami, OpenViX, OpenBH, Pure2 i inne obrazy Enigma2",
     "requirements": "Enigma2; po instalacji zalecany Restart GUI",
     "status": "Szeroka zgodność",
     "url": "plugin-aio-panel.html",
-    "notes": "Wersja 16.0.0 zachowuje szeroką zgodność projektu i dodaje modularny rdzeń, Self-Test oraz bezpieczniejsze mechanizmy źródeł i aktualizacji."
+    "notes": "Wersja 16.0.3 dodaje instalator AIOHD NEXT 3.2.1 i zachowuje szeroką zgodność oraz poprawki 16.0.2."
+  },
+  {
+    "name": "AIOHD NEXT",
+    "version": "3.2.1",
+    "type": "Skin Enigma2",
+    "python": "Python 3",
+    "systems": "OpenATV / obrazy zgodne z komponentami skina",
+    "requirements": "enigma2, python3-core, enigma2-plugin-skins-metrix-atv",
+    "status": "OpenATV / Python 3",
+    "url": "skin-aiohd-next.html",
+    "notes": "Skin Full HD oparty na bazie MetrixHD; MiniTV, rozbudowane EPG, pogoda inline i trzy warianty kolorystyczne."
   },
   {
     "name": "PP Channel Sync",

@@ -15,6 +15,21 @@
     "official": "Plik na AIO-IPTV.pl"
   },
   {
+    "title": "AIOHD NEXT 3.2.1-r3 — IPK",
+    "href": "pliki/enigma2-plugin-skins-aiohd-next_3.2.1-r3_all.ipk",
+    "category": "Skórki",
+    "platform": "Enigma2",
+    "version": "3.2.1-r3",
+    "date": "14.09.2026",
+    "status": "Aktualna",
+    "sourcePage": "skin-aiohd-next.html",
+    "sourceTitle": "AIOHD NEXT 3.2.1",
+    "kind": "IPK",
+    "size": "7.38 MB",
+    "sha256": "b2c4ed0d4e8d69e745e60019639a852e2175ce8a179239c3202609791f03ea15",
+    "official": "Plik na AIO-IPTV.pl"
+  },
+  {
     "title": "AIO Channel Editor 1.1.3 — poradnik PDF",
     "href": "pliki/AIO_Channel_Editor_1.1.3_Poradnik_PL.pdf",
     "category": "Android",
@@ -180,18 +195,18 @@
     "official": "Plik na AIO-IPTV.pl"
   },
   {
-    "title": "Pobierz IPK 16.0.0",
-    "href": "pliki/enigma2-plugin-extensions-panelaio_16.0.0_all.ipk",
+    "title": "AIO Panel 16.0.3 — IPK",
+    "href": "pliki/enigma2-plugin-extensions-panelaio_16.0.3_all.ipk",
     "category": "Wtyczki",
     "platform": "Enigma2",
-    "version": "16.0.0",
-    "date": "13.08.2026",
+    "version": "16.0.3",
+    "date": "14.09.2026",
     "status": "Aktualna",
     "sourcePage": "plugin-aio-panel.html",
-    "sourceTitle": "AIO Panel 16.0.0",
+    "sourceTitle": "AIO Panel 16.0.3",
     "kind": "IPK",
-    "size": "295 KB",
-    "sha256": "a7bab2f5d364ba7f96baa99d2b8481429a42d2c18c6fbe37804a21be77b68406",
+    "size": "389.4 KB",
+    "sha256": "ad2a71fe2d6a39eaa7e3fdc9cb1352db2679ea4dd50ac770c4950e38588e1fff",
     "official": "Plik na AIO-IPTV.pl"
   },
   {

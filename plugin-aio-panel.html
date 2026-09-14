@@ -5,15 +5,15 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="#0d2633" name="theme-color"/>
-<title>AIO Panel 16.0.2 | AIO-IPTV.pl</title>
-<meta content="AIO Panel 16.0.2 dla Enigma2 — naprawiony mechanizm aktualizacji, poprawione oscam.srvid/srvid2 i SoftCam.Key, zachowane instalatory, nowe Jihad FHD i Adult XXX oraz wygodniejszy start od list kanałów." name="description"/>
+<title>AIO Panel 16.0.3 | AIO-IPTV.pl</title>
+<meta content="AIO Panel 16.0.3 dla Enigma2 — dodano instalator nowego skina AIOHD NEXT 3.2.1 bez zmiany pozostałych działających funkcji panelu." name="description"/>
 <link href="pliki/logo.png" rel="icon"/>
 <link href="manifest.json" rel="manifest"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Caveat:wght@700&amp;display=swap" rel="stylesheet"/>
 <link href="assets/css/user-premium.css?v=20260724-v14" rel="stylesheet"/>
-<link href="assets/css/pro-suite.css?v=20260724-pro3" rel="stylesheet"/><meta content="dark" name="color-scheme"/><link href="https://olioli2013.github.io/aio-iptv-projekt/plugin-aio-panel.html" rel="canonical"/><meta content="AIO Panel 16.0.2 | AIO-IPTV.pl" property="og:title"/><meta content="AIO Panel 16.0.2 — stabilniejszy updater, poprawione oscam.srvid/srvid2 i SoftCam.Key, uporządkowane PL/EN i wygodniejsza codzienna obsługa." property="og:description"/><meta content="https://olioli2013.github.io/aio-iptv-projekt/pliki/aio-panel-16.0.2-update.png" property="og:image"/><meta content="website" property="og:type"/><meta content="https://olioli2013.github.io/aio-iptv-projekt/plugin-aio-panel.html" property="og:url"/><script src="assets/js/auto-language.js?v=20260729-auto-en1"></script><link rel="stylesheet" href="assets/css/aio-2026.css?v=20260816-community-first"/>
+<link href="assets/css/pro-suite.css?v=20260724-pro3" rel="stylesheet"/><meta content="dark" name="color-scheme"/><link href="https://olioli2013.github.io/aio-iptv-projekt/plugin-aio-panel.html" rel="canonical"/><meta content="AIO Panel 16.0.3 | AIO-IPTV.pl" property="og:title"/><meta content="AIO Panel 16.0.3 dodaje AIOHD NEXT 3.2.1 do sekcji Skórki. Pozostałe funkcje i poprawki 16.0.2 pozostają bez zmian." property="og:description"/><meta content="https://olioli2013.github.io/aio-iptv-projekt/pliki/aio-panel-16.0.3-aiohd-next-promo.png" property="og:image"/><meta content="website" property="og:type"/><meta content="https://olioli2013.github.io/aio-iptv-projekt/plugin-aio-panel.html" property="og:url"/><script src="assets/js/auto-language.js?v=20260729-auto-en1"></script><link href="assets/css/aio-2026.css?v=20260816-community-first" rel="stylesheet"/>
 </head>
 <body class="">
 <a class="skip-link" href="#main-content">Przejdź do treści</a>
@@ -21,90 +21,65 @@
 <header class="site-header">
 <div class="brand-row">
 <a class="brand" href="index.html"><img alt="AIO-IPTV.pl" src="pliki/logo.png"/><span><strong>AIO‑IPTV.pl</strong><small>Enigma2 • IPTV • pomoc</small></span></a>
-<a class="header-download header-community" href="community.html" aria-label="Otwórz Społeczność AIO">Społeczność AIO</a>
+<a aria-label="Otwórz Społeczność AIO" class="header-download header-community" href="community.html">Społeczność AIO</a>
 </div>
-<nav class="main-nav" data-menu="" aria-label="Główna nawigacja">
-  <a href="index.html">Start</a>
-  <a class="nav-community" href="community.html">Społeczność</a>
-  <a href="downloads.html">Pobieranie</a>
-  <a href="guides.html">Poradniki</a>
-  <a href="news.html">Aktualności</a>
-  <a class="nav-support" href="support.html">Wsparcie</a>
-  <details class="nav-more">
-    <summary>Więcej</summary>
-    <div class="nav-more-menu">
-      <a href="plugins.html">Projekty / wtyczki</a>
-      <a href="systems.html">Systemy Enigma2</a>
-      <a href="android-apps.html">Android</a>
-      <a href="windows-apps.html">Windows</a>
-      <a href="channel-lists.html">Listy kanałów</a>
-      <a href="compatibility.html">Zgodność</a>
-      <a href="updates.html">Historia wydań</a>
-      <a href="studio.html">Studio</a>
-      <a href="report-error.html">Zgłoś błąd</a>
-      <a href="one-liner.html">One-Liner / FTP</a>
-      <a href="ai-chat.html">AI Chat</a>
-      <a href="contact.html">Kontakt</a>
-    </div>
-  </details>
+<nav aria-label="Główna nawigacja" class="main-nav" data-menu="">
+<a href="index.html">Start</a>
+<a class="nav-community" href="community.html">Społeczność</a>
+<a href="downloads.html">Pobieranie</a>
+<a href="guides.html">Poradniki</a>
+<a href="news.html">Aktualności</a>
+<a class="nav-support" href="support.html">Wsparcie</a>
+<details class="nav-more">
+<summary>Więcej</summary>
+<div class="nav-more-menu">
+<a href="plugins.html">Projekty / wtyczki</a>
+<a href="systems.html">Systemy Enigma2</a>
+<a href="android-apps.html">Android</a>
+<a href="windows-apps.html">Windows</a>
+<a href="channel-lists.html">Listy kanałów</a>
+<a href="compatibility.html">Zgodność</a>
+<a href="updates.html">Historia wydań</a>
+<a href="studio.html">Studio</a>
+<a href="report-error.html">Zgłoś błąd</a>
+<a href="one-liner.html">One-Liner / FTP</a>
+<a href="ai-chat.html">AI Chat</a>
+<a href="contact.html">Kontakt</a>
+</div>
+</details>
 </nav>
 <button class="mobile-menu" data-menu-toggle="" type="button">Menu</button>
 </header>
 <div class="content-layout">
 <aside class="side-panel"><h2>Pomoc użytkownika</h2><nav><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Aplikacje Android</a><a href="windows-apps.html">Aplikacje Windows</a><a href="guides.html">Poradniki</a><a href="one-liner.html">One‑Liner / FTP</a><a href="channel-lists.html">Listy kanałów</a><a href="systems.html">Multi‑Click i systemy</a><a href="ai-chat.html">AI Chat</a><a href="contact.html">Kontakt i wsparcie</a></nav><div class="side-help"><strong>Szybka pomoc</strong><a href="guide-terminal-openwebif.html">Terminal / OpenWebif</a><a href="guide-oscam.html">Dane do OSCam</a><a href="guide-xstremity.html">IPTV do Xstremity</a><a href="help-softcam-feed.html">SoftCam feed</a><a href="help-picons-serviceref.html">Picony / ServiceRef</a><a href="help-restart-gui.html">Restart GUI</a></div></aside>
 <main class="content-main" id="main-content">
-<section class="hero-compact">
-<div>
+<section class="hero-compact"><div>
 <p class="script-line">Witam na mojej stronie <span>Paweł Pawełek</span></p>
-<p class="eyebrow">Aktualizacja stabilności • 08.09.2026</p>
-<h1>⚙️ AIO Panel 16.0.2</h1>
-<p class="lead">Jedna, spójna aktualizacja skupiona na stabilności mechanizmu aktualizacji, poprawnym działaniu najważniejszych funkcji oraz wygodniejszej codziennej obsłudze AIO Panel na tunerach Enigma2.</p>
-<div class="action-row"><a class="button primary" href="pliki/enigma2-plugin-extensions-panelaio_16.0.2_all.ipk">Pobierz IPK 16.0.2</a><a class="button" href="#instalacja">Instalacja z GitHuba</a><a class="button" href="plugins.html">Wróć do wtyczek</a></div>
-</div>
-<figure><img alt="AIO Panel 16.0.2 — ekran główny" src="pliki/aio-panel-16.0.2-main.png" loading="eager"/><figcaption>AIO Panel 16.0.2 — Listy kanałów otwierają się jako pierwsza zakładka.</figcaption></figure>
-</section>
-
-<section class="module"><div class="info-box"><strong>AIO Panel 16.0.2 jest aktualizacją naprawczą i porządkującą.</strong> Najważniejszy cel wydania to pewniejsze aktualizacje i przewidywalne wykonanie operacji, bez zmieniania sprawdzonych poleceń instalatorów.</div></section>
-
-<section class="module">
-<h2>Najważniejsze zmiany w 16.0.2</h2>
-<ul class="clean-list">
-<li>naprawiony błąd aktualizacji, przez który stary walidator potrafił odrzucać własny instalator</li>
-<li>poprawione sprawdzanie wersji, pobieranie plików, blokady oraz potwierdzanie wyniku instalacji</li>
-<li>zachowane dotychczasowe polecenia instalatorów, w tym <strong>E2iPlayer</strong></li>
-<li>dodane <strong>Jihad FHD</strong> oraz <strong>Adult XXX</strong></li>
-<li>uporządkowane zakładki <strong>PL / EN</strong></li>
-<li>poprawione aktualizacje <strong>oscam.srvid / srvid2</strong> oraz <strong>SoftCam.Key</strong></li>
-<li>dodane wykrywanie właściwych katalogów, tworzenie kopii zapasowych i potwierdzenie poprawnie zapisanych plików</li>
-<li><strong>Listy kanałów</strong> otwierają się jako pierwsza zakładka po uruchomieniu wtyczki</li>
-<li>podczas instalacji i operacji wykonywanych w tle komunikat pozostaje widoczny do zakończenia zadania</li>
-<li>dotychczasowe polecenia instalatorów pozostają bez zmian</li>
-</ul>
-</section>
-
+<p class="eyebrow">Aktualizacja • 14.09.2026</p>
+<h1>⚙️ AIO Panel 16.0.3</h1>
+<p class="lead">Wersja 16.0.3 jest celową, małą aktualizacją AIO Panel: do sekcji <strong>Skórki</strong> dodano bezpośrednią instalację nowego projektu <strong>AIOHD NEXT 3.2.1</strong>. Pozostałe funkcje panelu pozostają bez zmian.</p>
+<div class="action-row"><a class="button primary" href="pliki/enigma2-plugin-extensions-panelaio_16.0.3_all.ipk">Pobierz IPK 16.0.3</a><a class="button" href="skin-aiohd-next.html">Poznaj AIOHD NEXT</a><a class="button" href="#instalacja">Instalacja z GitHuba</a></div>
+</div><figure><img alt="AIO Panel 16.0.3 — AIOHD NEXT w sekcji Skórki" loading="eager" src="pliki/aio-panel-16.0.3-aiohd-next-installer.png"/><figcaption>AIOHD NEXT jest dostępny bezpośrednio w sekcji Skórki AIO Panel.</figcaption></figure></section>
+<section class="module"><div class="info-box"><strong>Co zmienia 16.0.3?</strong> Tylko integrację nowego skina AIOHD NEXT 3.2.1 z menu instalatorów. Sprawdzone funkcje i poprawki wersji 16.0.2 nie zostały przebudowane.</div></section>
+<section class="module"><h2>Nowość w AIO Panel 16.0.3</h2><ul class="clean-list">
+<li>dodano <strong>AIOHD NEXT 3.2.1</strong> jako pierwszą pozycję w sekcji <strong>Skórki</strong></li>
+<li>instalacja korzysta z oficjalnego wydania GitHub projektu AIOHD NEXT</li>
+<li>pozycja dostępna jest w polskiej i angielskiej wersji AIO Panel</li>
+<li>dotychczasowe instalatory i polecenia nie zostały zmienione</li>
+<li>zachowano naprawy 16.0.2: mechanizm aktualizacji, oscam.srvid/srvid2, SoftCam.Key, komunikaty operacji oraz Listy kanałów jako pierwszą zakładkę</li>
+</ul></section>
 <div class="detail-grid">
-<section class="module"><h2>🔄 Pewniejsze aktualizacje</h2><p>Mechanizm aktualizacji został poprawiony w punktach, które odpowiadają za wykrycie nowej wersji, pobranie plików, walidację instalatora i potwierdzenie faktycznego wyniku operacji.</p><ul class="clean-list"><li>mniej fałszywych odrzuceń aktualizacji</li><li>lepsza kontrola blokad podczas instalacji</li><li>czytelniejsze potwierdzenie sukcesu lub błędu</li></ul></section>
-<section class="module"><h2>🔑 OSCam i SoftCam.Key</h2><p>Poprawiono aktualizację plików <code>oscam.srvid</code>, <code>oscam.srvid2</code> oraz <code>SoftCam.Key</code>.</p><ul class="clean-list"><li>wykrywanie właściwego katalogu konfiguracji</li><li>kopia zapasowa przed podmianą</li><li>kontrola zapisu i potwierdzenie wyniku</li></ul></section>
+<section class="module"><h2>🎨 AIOHD NEXT w AIO Panel</h2><p>Wejdź w <strong>Skórki → AIOHD NEXT - Instalator</strong>, potwierdź instalację i po jej zakończeniu wykonaj Restart GUI. Skin można również pobrać osobno ze strony projektu.</p><div class="action-row"><a class="button primary" href="skin-aiohd-next.html">AIOHD NEXT 3.2.1</a></div></section>
+<section class="module"><h2>✅ Bez zmian w pozostałych funkcjach</h2><p>Wersja 16.0.3 nie jest kolejną przebudową AIO Panel. Jej celem było wyłącznie dodanie własnego skina do listy instalatorów i zachowanie stabilnej bazy 16.0.2.</p></section>
 </div>
-
-<div class="detail-grid">
-<section class="module"><h2>📺 Wygodniejszy start</h2><p>Po uruchomieniu AIO Panel pierwszą zakładką są teraz <strong>Listy kanałów</strong> — funkcja używana najczęściej przez wielu użytkowników.</p><p>Zakładki polskie i angielskie zostały dodatkowo uporządkowane, aby nawigacja była bardziej przewidywalna.</p></section>
-<section class="module"><h2>🧩 Instalatory bez regresji</h2><p>Wydanie 16.0.2 nie zmienia działających poleceń instalacyjnych. Dotyczy to m.in. E2iPlayer i pozostałych pozycji, które wcześniej działały poprawnie.</p><p>Dodano natomiast nowe pozycje <strong>Jihad FHD</strong> i <strong>Adult XXX</strong>.</p></section>
-</div>
-
-<section class="module"><h2>⏳ Czytelne operacje w tle</h2><p>Podczas instalacji, pobierania i innych operacji wykonywanych w tle komunikat pozostaje widoczny aż do zakończenia zadania. Użytkownik widzi więc, że AIO Panel nadal pracuje i kiedy operacja faktycznie się zakończyła.</p></section>
-
-<section class="module"><h2>Co daje ta aktualizacja?</h2><div class="detail-grid"><div><ul class="clean-list"><li>pewniejsze aktualizacje</li><li>lepsza czytelność działania</li><li>bardziej przewidywalna obsługa funkcji systemowych</li></ul></div><div><ul class="clean-list"><li>wygodniejszy start od najczęściej używanej zakładki</li><li>większa kontrola nad operacjami w tle</li><li>mniejsze ryzyko regresji działających instalatorów</li></ul></div></div></section>
-
-<section class="module"><h2>Plik i zgodność</h2><p><strong>Wersja:</strong> 16.0.2</p><p><strong>Data wydania:</strong> 08.09.2026</p><p><strong>Plik:</strong> <a href="pliki/enigma2-plugin-extensions-panelaio_16.0.2_all.ipk">enigma2-plugin-extensions-panelaio_16.0.2_all.ipk</a> — 387.6 KB</p><p><strong>SHA-256:</strong> <code>2b9cdbe8a8d9fe39d7a20b5f6d6684f8626d86ba4deae6500934f989749d1f62</code></p><p><strong>Platforma:</strong> Enigma2.</p><p><strong>Autor:</strong> Paweł Pawełek / AIO Team.</p></section>
-
-<section class="module"><h2>Galeria</h2><div class="guide-gallery"><figure><a href="pliki/aio-panel-16.0.2-main.png" target="_blank" rel="noopener"><img src="pliki/aio-panel-16.0.2-main.png" alt="AIO Panel 16.0.2 — ekran główny" loading="lazy"/></a><figcaption>Ekran główny AIO Panel 16.0.2.</figcaption></figure><figure><a href="pliki/aio-panel-16.0.2-update.png" target="_blank" rel="noopener"><img src="pliki/aio-panel-16.0.2-update.png" alt="AIO Panel 16.0.2 — najważniejsze zmiany" loading="lazy"/></a><figcaption>Grafika informacyjna wydania 16.0.2.</figcaption></figure></div></section>
-
-<section class="module" id="instalacja"><h2>Instalacja i aktualizacja</h2><p>Po instalacji lub aktualizacji wykonaj <strong>Restart GUI</strong>.</p><div class="command"><div><strong>AIO Panel — instalacja z GitHuba</strong><button data-copy="wget -q -O - &quot;https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh?$(date +%s)&quot; | /bin/sh" type="button">Kopiuj</button></div><pre><code>wget -q -O - "https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh?$(date +%s)" | /bin/sh</code></pre><p class="command-note">Polecenie korzysta z aktualnego instalatora projektu AIO Panel.</p></div></section>
-
-<section class="module" id="ftp"><h2>Instalacja pobranego IPK przez FTP</h2><p>Wgraj plik do <code>/tmp</code>, a następnie wykonaj:</p><div class="command"><div><strong>Instalacja IPK</strong><button data-copy="opkg install --force-reinstall /tmp/enigma2-plugin-extensions-panelaio_16.0.2_all.ipk" type="button">Kopiuj</button></div><pre><code>opkg install --force-reinstall /tmp/enigma2-plugin-extensions-panelaio_16.0.2_all.ipk</code></pre></div></section>
-
-<section class="module"><p><strong>Dziękuję wszystkim za zgłoszenia, testy i uwagi — AIO Panel 16.0.2 jest już dostępny.</strong></p></section>
+<section class="module"><h2>Plik i zgodność</h2><p><strong>Wersja:</strong> 16.0.3</p><p><strong>Data wydania:</strong> 14.09.2026</p><p><strong>Plik:</strong> <a href="pliki/enigma2-plugin-extensions-panelaio_16.0.3_all.ipk">enigma2-plugin-extensions-panelaio_16.0.3_all.ipk</a> — 389.4 KB</p><p><strong>SHA-256:</strong> <code>ad2a71fe2d6a39eaa7e3fdc9cb1352db2679ea4dd50ac770c4950e38588e1fff</code></p><p><strong>Platforma:</strong> Enigma2 • Python 2 / Python 3.</p><p><strong>Autor:</strong> Paweł Pawełek / AIO Team.</p></section>
+<section class="module"><h2>Galeria</h2><div class="guide-gallery">
+<figure><a href="pliki/aio-panel-16.0.3-aiohd-next-installer.png" rel="noopener" target="_blank"><img alt="AIO Panel 16.0.3 — AIOHD NEXT na liście skinów" loading="lazy" src="pliki/aio-panel-16.0.3-aiohd-next-installer.png"/></a><figcaption>AIOHD NEXT jako pierwsza pozycja w sekcji Skórki.</figcaption></figure>
+<figure><a href="pliki/aio-panel-16.0.3-aiohd-next-promo.png" rel="noopener" target="_blank"><img alt="AIO Panel 16.0.3 i AIOHD NEXT 3.2.1" loading="lazy" src="pliki/aio-panel-16.0.3-aiohd-next-promo.png"/></a><figcaption>AIO Panel 16.0.3 + AIOHD NEXT 3.2.1.</figcaption></figure>
+</div></section>
+<section class="module" id="instalacja"><h2>Instalacja i aktualizacja AIO Panel</h2><p>Po instalacji lub aktualizacji wykonaj <strong>Restart GUI</strong>.</p><div class="command"><div><strong>AIO Panel — instalacja z GitHuba</strong><button data-copy='wget -q -O - "https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh?$(date +%s)" | /bin/sh' type="button">Kopiuj</button></div><pre><code>wget -q -O - "https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh?$(date +%s)" | /bin/sh</code></pre></div></section>
+<section class="module" id="ftp"><h2>Instalacja pobranego IPK przez FTP</h2><p>Wgraj plik do <code>/tmp</code>, a następnie wykonaj:</p><div class="command"><div><strong>Instalacja IPK</strong><button data-copy="opkg install --force-reinstall /tmp/enigma2-plugin-extensions-panelaio_16.0.3_all.ipk" type="button">Kopiuj</button></div><pre><code>opkg install --force-reinstall /tmp/enigma2-plugin-extensions-panelaio_16.0.3_all.ipk</code></pre></div></section>
+<section class="module"><p><strong>AIO Panel 16.0.3 oraz nowy projekt AIOHD NEXT 3.2.1 są dostępne do pobrania.</strong></p></section>
 </main>
 </div>
 <footer class="site-footer">
@@ -114,6 +89,6 @@
 </footer>
 </div>
 <script defer="" src="assets/js/user-premium.js?v=20260816-community-first"></script>
-<script defer="True" src="assets/js/pro-suite.js?v=20260724-pro3"></script><script defer src="assets/js/aio-experience.js?v=20260816-community-first"></script>
+<script defer="True" src="assets/js/pro-suite.js?v=20260724-pro3"></script><script defer="" src="assets/js/aio-experience.js?v=20260816-community-first"></script>
 </body>
 </html>

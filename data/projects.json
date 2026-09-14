@@ -2,15 +2,28 @@
   {
     "id": "aio-panel",
     "name": "AIO Panel",
-    "version": "16.0.0",
+    "version": "16.0.3",
     "page": "plugin-aio-panel.html",
     "category": "Wtyczka Enigma2",
     "status": "active",
     "statusLabel": "Aktywnie rozwijany",
-    "updated": "13.08.2026",
-    "summary": "Modularne centrum narzędzi Enigma2 z bezpieczniejszym systemem źródeł, wyszukiwarką, ulubionymi, historią, Health Check, Self-Test i AIO Connect.",
+    "updated": "14.09.2026",
+    "summary": "Centrum narzędzi Enigma2. W 16.0.3 do sekcji Skórki dodano bezpośredni instalator nowego projektu AIOHD NEXT 3.2.1; funkcje i poprawki 16.0.2 pozostają bez zmian.",
     "tested": "Python 2 i 3; różne obrazy Enigma2",
-    "next": "Dalszy rozwój modułów core/data/ui oraz rozszerzanie testów i diagnostyki."
+    "next": "Dalszy rozwój AIO Panel i integracja kolejnych własnych projektów."
+  },
+  {
+    "id": "aiohd-next",
+    "name": "AIOHD NEXT",
+    "version": "3.2.1",
+    "page": "skin-aiohd-next.html",
+    "category": "Skin Enigma2",
+    "status": "active",
+    "statusLabel": "Nowy projekt",
+    "updated": "14.09.2026",
+    "summary": "Nowoczesny skin Full HD dla OpenATV / Enigma2 Python 3: MiniTV, rozbudowane EPG, 3 rozmiary listy kanałów, pogoda bezpośrednio w skinie i 3 warianty kolorystyczne.",
+    "tested": "OpenATV / Enigma2 Python 3; zależność MetrixHD",
+    "next": "Dalsze poprawki czytelności, zgodności i integracji pogody na podstawie testów użytkowników."
   },
   {
     "id": "iptv-dream",
