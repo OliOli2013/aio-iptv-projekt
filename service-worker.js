@@ -1,14 +1,14 @@
 /* AIO-IPTV.pl PWA — Download Link Shield • 2026-09-14 */
-const CACHE='aio-iptv-pro-20260914-linkshield2';
+const CACHE='aio-iptv-pro-20260914-unified-access1';
 const CORE=[
   './','./index.html','./access.html','./start-here.html','./ecosystem.html','./pro.html','./app-aio-channel-editor.html','./android-apps.html','./community.html','./support.html','./downloads.html','./guides.html','./news.html','./plugins.html','./skin-aiohd-next.html','./plugin-aio-panel.html','./systems.html','./updates.html',
   './post.html','./profile.html','./community-admin.html','./community-rules.html','./privacy-community.html','./aio-connect-report.html','./studio.html','./ai-chat.html','./offline.html',
   './assets/js/auto-language.js?v=20260729-auto-en1',
-  './assets/css/user-premium.css?v=20260911-access21','./assets/js/user-premium.js?v=20260914-linkshield1',
+  './assets/css/user-premium.css?v=20260911-access21','./assets/js/user-premium.js?v=20260914-access22-unified1',
   './assets/css/aio-2026.css?v=20260911-homeux4','./assets/js/portal-ux3.js?v=20260911-homeux4',
   './assets/css/access-v21.css?v=20260911-access21','./assets/js/access-v21.js?v=20260911-access21',
   './assets/css/pro-suite.css?v=20260728-community10-aio-connect','./assets/css/community.css?v=20260728-community10-aio-connect','./assets/js/aio-experience.js?v=20260816-community-first',
-  './assets/js/community-core.js?v=20260914-community11-linkshield','./assets/js/community-feed.js?v=20260728-community10-aio-connect','./assets/js/community-post.js?v=20260728-community10-aio-connect','./assets/js/community-profile.js?v=20260728-community10-aio-connect','./assets/js/community-admin.js?v=20260728-community10-aio-connect','./assets/js/community-home.js?v=20260728-community10-aio-connect',
+  './assets/js/community-core.js?v=20260914-community12-unified1','./assets/js/community-feed.js?v=20260728-community10-aio-connect','./assets/js/community-post.js?v=20260728-community10-aio-connect','./assets/js/community-profile.js?v=20260728-community10-aio-connect','./assets/js/community-admin.js?v=20260728-community10-aio-connect','./assets/js/community-home.js?v=20260728-community10-aio-connect',
   './data/community_config.json?v=20260728-community10-aio-connect','./data/updates.json','./data/projects.json','./data/downloads.json','./data/search-index.json','./pliki/logo.png','./pliki/aiohd-next-3.2.1-channel-list.jpg','./pliki/aio-panel-16.0.3-aiohd-next-installer.png','./pliki/aio-iptv-zbiorka-celowa-2026.webp','./pliki/aio-channel-editor-portal-promo.png'
 ];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)).then(()=>self.skipWaiting())));

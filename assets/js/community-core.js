@@ -1,4 +1,4 @@
-/* Społeczność AIO — linki chronione w postach, 2026-09-14 community11-linkshield */
+/* Społeczność AIO — linki chronione + wspólny limit AIO Access, 2026-09-14 community12-unified-access */
 (function () {
   'use strict';
 
@@ -36,12 +36,22 @@
     }
   }
 
-  function openProtectedCommunityLink(token) {
+  function openProtectedCommunityLink(token, anchor) {
     const url = protectedCommunityLinks.get(String(token || ''));
     if (!url) return false;
-    const opened = window.open(url, '_blank', 'noopener,noreferrer');
-    if (!opened) window.location.href = url;
-    return true;
+
+    // Nie otwieraj adresu bezpośrednio. Każdy link Społeczności przechodzi przez
+    // ten sam dzienny limit AIO Access co pliki z sekcji Pobieranie.
+    const access = window.AIO_ACCESS_V21;
+    if (!access || typeof access.openCommunityLink !== 'function') return false;
+
+    const label = anchor ? String(anchor.textContent || '').replace(/\s+/g, ' ').trim() : maskCommunityLink(url);
+    return access.openCommunityLink({
+      href: url,
+      target: (anchor && anchor.getAttribute('target')) || '_blank',
+      download: '',
+      label: label || 'Link ze Społeczności AIO'
+    });
   }
 
   const Community = {
@@ -393,7 +403,7 @@
         if (protectedLink) {
           event.preventDefault();
           event.stopPropagation();
-          if (!openProtectedCommunityLink(protectedLink.getAttribute('data-community-link-token'))) {
+          if (!openProtectedCommunityLink(protectedLink.getAttribute('data-community-link-token'), protectedLink)) {
             this.showToast('Nie udało się otworzyć linku. Odśwież stronę i spróbuj ponownie.', 'warning');
           }
         }

@@ -464,7 +464,7 @@
   }
 })();
 
-/* ===== AIO-IPTV Access 2.1 + Download Link Shield — 1 bezpłatne pobranie dziennie ===== */
+/* ===== AIO-IPTV Access 2.2 + Link Shield — 1 wspólny bezpłatny plik/link dziennie ===== */
 (function () {
   'use strict';
 
@@ -475,16 +475,15 @@
   };
 
   const DOWNLOAD_POLICY = { freePerDay: 1 };
-  const COMMUNITY_LINK_POLICY = { freePerDay: 1 };
   const DOWNLOAD_EXTENSIONS = /\.(?:ipk|apk|exe|msi|zip|7z|rar|deb|rpm|pdf|tar|tgz|gz|xz|img|bin|iso|m3u|m3u8|xml|conf|cfg|backup)(?:$|[?#])/i;
   const IMAGE_EXTENSIONS = /\.(?:png|jpe?g|webp|gif|svg|avif)(?:$|[?#])/i;
   const SUPPORT_HOSTS = /(?:^|\.)(?:ko-fi\.com|revolut\.me|buycoffee\.to)$/i;
 
   const DAILY_USAGE_KEY = 'aio_download_daily_usage_v1';
-  const COMMUNITY_LINK_USAGE_KEY = 'aio_community_link_daily_usage_v1';
+  const LEGACY_COMMUNITY_LINK_USAGE_KEY = 'aio_community_link_daily_usage_v1';
   const DAILY_UNLOCK_KEY = 'aio_download_support_unlock_v1';
   const DAILY_USAGE_COOKIE = 'aio_dl_usage_v21';
-  const COMMUNITY_COOKIE = 'aio_community_usage_v21';
+  const LEGACY_COMMUNITY_COOKIE = 'aio_community_usage_v21';
   const DAILY_UNLOCK_COOKIE = 'aio_support_unlock_v21';
   const FLOW_PREFIX = 'aio_access_flow_v21_';
   const FLOW_TTL_MS = 15 * 60 * 1000;
@@ -627,10 +626,18 @@
     writeCookie(cookieName, `${value.date}|${value.count}`);
   }
 
-  function readDailyUsage() { return readUsage(DAILY_USAGE_KEY, DAILY_USAGE_COOKIE); }
-  function readCommunityLinkUsage() { return readUsage(COMMUNITY_LINK_USAGE_KEY, COMMUNITY_COOKIE); }
-  function saveDailyUsage(value) { saveUsage(DAILY_USAGE_KEY, DAILY_USAGE_COOKIE, value); }
-  function saveCommunityLinkUsage(value) { saveUsage(COMMUNITY_LINK_USAGE_KEY, COMMUNITY_COOKIE, value); }
+  // Jeden wspólny limit dla zwykłych pobrań i chronionych linków Społeczności AIO.
+  // Stary licznik społeczności jest tylko odczytywany/synchronizowany, aby użytkownik,
+  // który wykorzystał już darmowy link przed tą poprawką, nie dostał drugiego gratisu.
+  function readDailyUsage() {
+    const primary = readUsage(DAILY_USAGE_KEY, DAILY_USAGE_COOKIE);
+    const legacyCommunity = readUsage(LEGACY_COMMUNITY_LINK_USAGE_KEY, LEGACY_COMMUNITY_COOKIE);
+    return { date: localDateKey(), count: Math.max(primary.count, legacyCommunity.count) };
+  }
+  function saveDailyUsage(value) {
+    saveUsage(DAILY_USAGE_KEY, DAILY_USAGE_COOKIE, value);
+    saveUsage(LEGACY_COMMUNITY_LINK_USAGE_KEY, LEGACY_COMMUNITY_COOKIE, value);
+  }
 
   function isUnlockedToday() {
     const today = localDateKey();
@@ -645,11 +652,6 @@
     updateAccessIndicator();
   }
 
-  function registerFreeCommunityLink() {
-    const usage = readCommunityLinkUsage();
-    usage.count += 1;
-    saveCommunityLinkUsage(usage);
-  }
 
   function createFundraiserRibbon() {
     const header = document.querySelector('.site-header');
@@ -754,16 +756,38 @@
     return ({ revolut: 'Revolut', buycoffee: 'BuyCoffee', kofi: 'Ko-fi' })[method] || 'wybrana metoda';
   }
 
+  function handleCommunityLinkAccess(item) {
+    if (!item || !item.href) return false;
+
+    if (isUnlockedToday()) {
+      openDownloadTarget(item);
+      return true;
+    }
+
+    const usage = readDailyUsage();
+    if (usage.count < DOWNLOAD_POLICY.freePerDay) {
+      registerFreeDownload();
+      openDownloadTarget(item);
+      return true;
+    }
+
+    openSupportModal(item, 'community-link-limit');
+    return true;
+  }
+
   function interceptCommunityLink(event) {
     const anchor = event.target.closest && event.target.closest('a.community-link');
     if (!anchor || !isCommunityContentLink(anchor)) return;
-    if (isUnlockedToday()) return;
-    const usage = readCommunityLinkUsage();
-    if (usage.count < COMMUNITY_LINK_POLICY.freePerDay) { registerFreeCommunityLink(); return; }
 
     event.preventDefault(); event.stopPropagation();
     if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
-    openSupportModal({ href: anchor.href, target: anchor.getAttribute('target') || '_blank', download: '', label: getCommunityLinkLabel(anchor) }, 'community-link-limit');
+
+    handleCommunityLinkAccess({
+      href: anchor.href,
+      target: anchor.getAttribute('target') || '_blank',
+      download: '',
+      label: getCommunityLinkLabel(anchor)
+    });
   }
 
   function isCommunityContentLink(anchor) {
@@ -876,8 +900,8 @@
     const methods = modal.querySelector('.support-gate-methods');
 
     if (modalMode === 'community-link-limit' && download) {
-      title.textContent = 'Dzisiejszy bezpłatny link został wykorzystany';
-      description.textContent = 'Aby otworzyć kolejny zewnętrzny link ze Społeczności AIO, przejdź ścieżkę wsparcia. Samo kliknięcie metody wsparcia nie odblokuje linku.';
+      title.textContent = 'Dzisiejszy bezpłatny dostęp został wykorzystany';
+      description.textContent = 'Pierwszy plik lub chroniony link w danym dniu jest bezpłatny. Aby otworzyć kolejny link ze Społeczności AIO, przejdź ścieżkę wsparcia. Po jej zakończeniu wszystkie pobrania i chronione linki będą odblokowane do końca dnia.';
       note.textContent = 'Wybierz metodę. AIO Access utworzy jednorazową sesję dla tego konkretnego linku.';
       fileBox.hidden = false; methods.hidden = false;
       fileBox.querySelector('span').textContent = 'Wybrany link:';
@@ -895,7 +919,7 @@
       continueButton.textContent = 'Wybierz metodę wsparcia'; continueButton.disabled = true;
     } else {
       title.textContent = 'Jak działa AIO Access 2.1?';
-      description.textContent = 'Pierwsze pobranie każdego dnia jest bezpłatne. Przy kolejnym pliku AIO Access tworzy jednorazową sesję, prowadzi do wybranej metody wsparcia i wymaga powrotu z procesu płatności.';
+      description.textContent = 'Pierwszy plik lub chroniony link każdego dnia jest bezpłatny. Przy kolejnym elemencie AIO Access tworzy jednorazową sesję, prowadzi do wybranej metody wsparcia i wymaga powrotu z procesu płatności.';
       note.textContent = 'To ogranicza proste obejście „klikam link i od razu wracam”. Pełne bankowe potwierdzenie transakcji wymagałoby integracji API lub webhooka operatora płatności.';
       fileBox.hidden = true; methods.hidden = true;
       fileNameElement.textContent = '';
@@ -958,5 +982,5 @@
   function safeDecode(value) { try { return decodeURIComponent(value); } catch (error) { return value; } }
 
   // Publiczny, niesekretny opis konfiguracji dla access.html.
-  window.AIO_ACCESS_V21 = { SUPPORT_LINKS, FLOW_PREFIX, DAILY_UNLOCK_KEY, DAILY_UNLOCK_COOKIE };
+  window.AIO_ACCESS_V21 = { SUPPORT_LINKS, FLOW_PREFIX, DAILY_UNLOCK_KEY, DAILY_UNLOCK_COOKIE, openCommunityLink: handleCommunityLinkAccess };
 }());
