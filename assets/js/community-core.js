@@ -1,6 +1,48 @@
-/* Społeczność AIO — stabilne funkcje Edge, reakcje i komentarze, 2026-07-27 community10 */
+/* Społeczność AIO — linki chronione w postach, 2026-09-14 community11-linkshield */
 (function () {
   'use strict';
+
+  // Linki publikowane w Społeczności AIO są przechowywane tylko w pamięci JS.
+  // W DOM nie ma bezpośredniego adresu URL, dzięki czemu zwykłe "Kopiuj adres linku"
+  // nie omija mechanizmu pobierania/udostępniania przez autora wpisu.
+  const protectedCommunityLinks = new Map();
+  let protectedCommunityLinkSeq = 0;
+
+  function storeProtectedCommunityLink(url) {
+    protectedCommunityLinkSeq += 1;
+    let randomPart = '';
+    try {
+      if (window.crypto && window.crypto.getRandomValues) {
+        const data = new Uint32Array(1);
+        window.crypto.getRandomValues(data);
+        randomPart = data[0].toString(36);
+      }
+    } catch (error) {}
+    if (!randomPart) randomPart = Math.random().toString(36).slice(2, 10);
+    const token = 'aio-cl-' + Date.now().toString(36) + '-' + protectedCommunityLinkSeq.toString(36) + '-' + randomPart;
+    protectedCommunityLinks.set(token, String(url || ''));
+    return token;
+  }
+
+  function maskCommunityLink(url) {
+    try {
+      const parsed = new URL(url, window.location.href);
+      const protocol = /^https?:$/.test(parsed.protocol) ? parsed.protocol + '//' : '';
+      const host = parsed.host || '';
+      const hasTail = (parsed.pathname && parsed.pathname !== '/') || parsed.search || parsed.hash;
+      return protocol + host + (hasTail ? '/••••••' : '');
+    } catch (error) {
+      return 'link/••••••';
+    }
+  }
+
+  function openProtectedCommunityLink(token) {
+    const url = protectedCommunityLinks.get(String(token || ''));
+    if (!url) return false;
+    const opened = window.open(url, '_blank', 'noopener,noreferrer');
+    if (!opened) window.location.href = url;
+    return true;
+  }
 
   const Community = {
     config: null,
@@ -347,6 +389,14 @@
         if (notify) { event.preventDefault(); this.toggleNotifications(notify); }
         const image = event.target.closest('[data-community-image]');
         if (image) { event.preventDefault(); this.openImage(image.getAttribute('src'), image.getAttribute('alt')); }
+        const protectedLink = event.target.closest('[data-community-link-token]');
+        if (protectedLink) {
+          event.preventDefault();
+          event.stopPropagation();
+          if (!openProtectedCommunityLink(protectedLink.getAttribute('data-community-link-token'))) {
+            this.showToast('Nie udało się otworzyć linku. Odśwież stronę i spróbuj ponownie.', 'warning');
+          }
+        }
       });
     },
 
@@ -613,7 +663,9 @@
           shown = shown.slice(0, -1);
         }
         const href = /^https?:\/\//i.test(shown) ? shown : 'https://' + shown;
-        html += '<a class="community-link" href="' + this.escapeAttr(href) + '" target="_blank" rel="noopener noreferrer nofollow ugc"><span>' + this.escape(shown) + '</span><b aria-hidden="true">↗</b></a>' + this.escape(trailing);
+        const token = storeProtectedCommunityLink(href);
+        const masked = maskCommunityLink(href);
+        html += '<a class="community-link community-link-protected" href="#aio-community-link" data-community-link-token="' + this.escapeAttr(token) + '" title="Link chroniony — kliknij, aby otworzyć" rel="nofollow ugc"><span>' + this.escape(masked) + '</span><b aria-hidden="true">↗</b></a>' + this.escape(trailing);
         last = match.index + match[0].length;
       }
       html += this.escape(value.slice(last));
