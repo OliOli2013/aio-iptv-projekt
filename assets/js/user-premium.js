@@ -464,7 +464,7 @@
   }
 })();
 
-/* ===== AIO-IPTV Access 2.1 — 1 bezpłatne pobranie dziennie + samodzielna ścieżka wsparcia ===== */
+/* ===== AIO-IPTV Access 2.1 + Download Link Shield — 1 bezpłatne pobranie dziennie ===== */
 (function () {
   'use strict';
 
@@ -499,6 +499,13 @@
   let selectedMethod = '';
   let accessIndicator = null;
 
+  // Download Link Shield:
+  // keep the real download target only in JS memory after page load.
+  // The visible DOM href is replaced with a local placeholder, so normal
+  // "Copy link address", dragging or hover preview does not expose the file URL.
+  const protectedDownloads = new WeakMap();
+  let downloadLinkObserver = null;
+
   function onReady(callback) {
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', callback, { once: true });
     else callback();
@@ -512,8 +519,71 @@
     createFundraiserRibbon();
     createSupportModal();
     createAccessIndicator();
+    protectDownloadLinks(document);
+    observeDownloadLinks();
     document.addEventListener('click', interceptCommunityLink, true);
     document.addEventListener('click', interceptDownload, true);
+  }
+
+  function protectDownloadLinks(root) {
+    const scope = root && root.querySelectorAll ? root : document;
+    const anchors = [];
+
+    if (scope.matches && scope.matches('a[href]')) anchors.push(scope);
+    scope.querySelectorAll('a[href]').forEach(anchor => anchors.push(anchor));
+
+    anchors.forEach(anchor => {
+      if (!anchor || protectedDownloads.has(anchor)) return;
+      if (anchor.classList.contains('community-link') || anchor.dataset.supportBypass === 'true') return;
+
+      const rawHref = (anchor.getAttribute('href') || '').trim();
+      if (!rawHref || !isDownloadHref(anchor, rawHref)) return;
+
+      let realHref = '';
+      try { realHref = new URL(rawHref, window.location.href).href; }
+      catch (error) { return; }
+
+      protectedDownloads.set(anchor, { href: realHref });
+      anchor.setAttribute('href', '#aio-protected-download');
+      anchor.setAttribute('data-aio-download-protected', 'true');
+      anchor.setAttribute('draggable', 'false');
+    });
+  }
+
+  function observeDownloadLinks() {
+    if (!window.MutationObserver || downloadLinkObserver) return;
+    const target = document.documentElement || document.body;
+    if (!target) return;
+
+    downloadLinkObserver = new MutationObserver(records => {
+      records.forEach(record => {
+        record.addedNodes.forEach(node => {
+          if (node && node.nodeType === 1) protectDownloadLinks(node);
+        });
+      });
+    });
+
+    downloadLinkObserver.observe(target, { childList: true, subtree: true });
+  }
+
+  function getDownloadHref(anchor) {
+    const protectedItem = protectedDownloads.get(anchor);
+    if (protectedItem && protectedItem.href) return protectedItem.href;
+    return (anchor && anchor.getAttribute('href') || '').trim();
+  }
+
+  function openDownloadTarget(item) {
+    if (!item || !item.href) return;
+    const link = document.createElement('a');
+    link.href = item.href;
+    link.dataset.supportBypass = 'true';
+    if (item.download) link.setAttribute('download', item.download);
+    if (item.target) link.target = item.target;
+    if (link.target === '_blank') link.rel = 'noopener noreferrer';
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
   }
 
   function localDateKey(date = new Date()) {
@@ -716,33 +786,67 @@
   function interceptDownload(event) {
     const anchor = event.target.closest && event.target.closest('a');
     if (!anchor || anchor.classList.contains('community-link') || !isDownloadLink(anchor)) return;
-    if (isUnlockedToday()) return;
-    const usage = readDailyUsage();
-    if (usage.count < DOWNLOAD_POLICY.freePerDay) { registerFreeDownload(); return; }
 
-    event.preventDefault(); event.stopPropagation();
+    const href = getDownloadHref(anchor);
+    if (!href) return;
+
+    const item = {
+      href,
+      target: anchor.getAttribute('target') || '',
+      download: anchor.getAttribute('download') || '',
+      label: getDownloadLabel(anchor)
+    };
+
+    // Protected anchors intentionally point to a harmless local fragment.
+    // Handle every real download explicitly so copying the visible link cannot
+    // bypass the free-download/support counter.
+    event.preventDefault();
+    event.stopPropagation();
     if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
-    openSupportModal({ href: anchor.href, target: anchor.getAttribute('target') || '', download: anchor.getAttribute('download') || '', label: getDownloadLabel(anchor) }, 'limit');
+
+    if (isUnlockedToday()) {
+      openDownloadTarget(item);
+      return;
+    }
+
+    const usage = readDailyUsage();
+    if (usage.count < DOWNLOAD_POLICY.freePerDay) {
+      registerFreeDownload();
+      openDownloadTarget(item);
+      return;
+    }
+
+    openSupportModal(item, 'limit');
   }
 
   function isDownloadLink(anchor) {
-    if (anchor.dataset.supportBypass === 'true' || anchor.closest('.support-gate-modal')) return false;
-    const rawHref = (anchor.getAttribute('href') || '').trim();
+    if (!anchor) return false;
+    return isDownloadHref(anchor, getDownloadHref(anchor));
+  }
+
+  function isDownloadHref(anchor, rawHref) {
+    if (!anchor || anchor.dataset.supportBypass === 'true' || anchor.closest('.support-gate-modal')) return false;
+    rawHref = String(rawHref || '').trim();
     if (!rawHref || /^(?:#|javascript:|mailto:|tel:)/i.test(rawHref)) return false;
+
     let url;
     try { url = new URL(rawHref, window.location.href); } catch (error) { return false; }
     if (SUPPORT_HOSTS.test(url.hostname)) return false;
+
     const full = `${url.pathname}${url.search}${url.hash}`;
     const decoded = safeDecode(full).toLowerCase();
     const text = `${anchor.textContent || ''} ${anchor.getAttribute('aria-label') || ''} ${anchor.className || ''}`.toLowerCase();
+
     if (IMAGE_EXTENSIONS.test(decoded)) return false;
     if (anchor.hasAttribute('download')) return true;
     if (DOWNLOAD_EXTENSIONS.test(decoded)) return true;
     if (/controller=attachment|id_attachment=|\/releases\/download\/|\/downloads?\/|[?&](?:download|attachment)=/i.test(decoded)) return true;
     if (/multi-click\.pl$/i.test(url.hostname) && /attachment|id_attachment/i.test(decoded)) return true;
     if (/raw\.githubusercontent\.com$/i.test(url.hostname) && /\.(?:sh|ipk|apk|zip|json)(?:$|[?#])/i.test(decoded)) return true;
+
     const isInternalHtml = url.origin === window.location.origin && /\.html(?:$|[?#])/i.test(decoded);
     if (isInternalHtml) return false;
+
     const looksLikeDownloadButton = /\b(?:pobierz|pobieranie|download|ściągnij|instaluj|plik\s+ipk|plik\s+apk|wersja\s+x64|wersja\s+x86)\b/i.test(text);
     const pointsToFiles = /(?:^|\/)pliki\//i.test(decoded) || /(?:^|\/)archives?\//i.test(decoded);
     return looksLikeDownloadButton && pointsToFiles;
@@ -751,7 +855,7 @@
   function getDownloadLabel(anchor) {
     const rawText = (anchor.textContent || '').replace(/\s+/g, ' ').trim();
     if (rawText && rawText.length <= 90) return rawText;
-    return fileNameFromUrl(anchor.href);
+    return fileNameFromUrl(getDownloadHref(anchor));
   }
 
   function openSupportModal(download, mode) {
