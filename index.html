@@ -16,6 +16,24 @@
 <link href="assets/css/pro-suite.css?v=20260815-aio2026" rel="stylesheet"/>
 <link href="assets/css/community.css?v=20260815-aio2026" rel="stylesheet"/>
 <link href="assets/css/aio-2026.css?v=20260911-homeux4" rel="stylesheet"/>
+<style>
+/* Pomagam.pl — wsparcie zaprzyjaźnionej rodziny (2026-09-24) */
+.aio-portal-home .fundraiser-ribbon{display:none!important}
+.home-family-support{margin:20px 0 26px;display:grid;grid-template-columns:minmax(300px,460px) minmax(0,1fr);gap:34px;align-items:center;padding:30px;border:1px solid rgba(103,211,255,.18);border-radius:30px;background:radial-gradient(circle at 12% 20%,rgba(36,141,223,.16),transparent 36%),linear-gradient(120deg,rgba(8,31,43,.94),rgba(3,16,24,.97));box-shadow:var(--aio-glow);overflow:hidden;position:relative}
+.home-family-support::before{content:"POMOC";position:absolute;right:-12px;bottom:-36px;color:rgba(102,220,255,.035);font-size:8rem;font-weight:950;letter-spacing:-.07em;pointer-events:none}
+.home-family-support-widget,.home-family-support-copy{position:relative;z-index:1}
+.home-family-support-widget{display:flex;justify-content:center}
+.home-family-support-widget iframe{display:block;width:430px;max-width:100%;height:500px;border:0;border-radius:20px;background:#fff;box-shadow:0 22px 55px rgba(0,0,0,.3)}
+.home-family-support h2{margin:0 0 14px;font-size:clamp(2rem,3.4vw,3.5rem);line-height:1.04;letter-spacing:-.045em}
+.home-family-support .family-support-lead{font-size:1.08rem;line-height:1.72;color:#d7e6ec;margin:0 0 15px}
+.home-family-support .family-support-note{margin:16px 0;padding:16px 18px;border:1px solid rgba(103,211,255,.16);border-radius:18px;background:rgba(8,35,47,.58);color:#a9c2cc;line-height:1.62}
+.home-family-support .family-support-note strong{color:#fff}
+.home-family-support .family-support-thanks{margin:16px 0 20px;font-weight:700;color:#e9f8ff;line-height:1.6}
+.home-family-support-actions{display:flex;flex-wrap:wrap;gap:10px}
+.home-family-support-actions .button{margin:0}
+@media (max-width:900px){.home-family-support{grid-template-columns:1fr;padding:22px;gap:24px}.home-family-support-widget{order:2}.home-family-support-copy{order:1}}
+@media (max-width:520px){.home-family-support{padding:16px;border-radius:22px}.home-family-support-widget iframe{height:500px}.home-family-support h2{font-size:2rem}}
+</style>
 <link href="https://olioli2013.github.io/aio-iptv-projekt/" rel="canonical"/>
 <meta content="Społeczność AIO — centrum użytkowników Enigma2" property="og:title"/>
 <meta content="Pytania, pomoc, aktualności, poradniki i projekty Enigma2 w jednym miejscu." property="og:description"/>
@@ -68,7 +86,21 @@
 </header>
 <main class="standalone-main aio-home community-first-home" id="main-content"><section aria-labelledby="portal-showcase-title" class="portal-showcase">
 <article class="portal-main-feature"><div class="portal-feature-overlay"><p class="portal-chip">NOWY PROJEKT • ENIGMA2 • OPENATV</p><h1 id="portal-showcase-title">AIOHD NEXT 3.2.1</h1><p>Nowoczesny skin Full HD: MiniTV, rozbudowane EPG, trzy rozmiary listy kanałów, pogoda bezpośrednio w skinie oraz palety Aurora, Amber i Violet.</p><div class="portal-feature-actions"><a class="portal-btn primary" href="skin-aiohd-next.html">Poznaj AIOHD NEXT</a><a class="portal-btn" download href="pliki/enigma2-plugin-skins-aiohd-next_3.2.1-r3_all.ipk">Pobierz IPK</a><a class="portal-btn" href="plugin-aio-panel.html">Instalacja przez AIO Panel</a></div><small>Nowy projekt AIO-IPTV.pl • Paweł Pawełek</small></div><img alt="AIOHD NEXT 3.2.1 — lista kanałów, MiniTV, EPG i pogoda" loading="eager" src="pliki/aiohd-next-3.2.1-channel-list.jpg"/></article><aside aria-label="Wyróżnione działy" class="portal-side-promos"><a class="portal-side-card community" href="community.html"><span class="portal-side-icon">◎</span><div><small>SPOŁECZNOŚĆ AIO</small><strong>Zapytaj i pomóż innym</strong><p>Wpisy, komentarze, screeny i rozwiązane problemy.</p></div></a><a class="portal-side-card panel" href="plugin-aio-panel.html"><span class="portal-side-icon">AP</span><div><small>ENIGMA2</small><strong>AIO Panel 16.0.3</strong><p>Nowa wersja z instalatorem AIOHD NEXT w sekcji Skórki.</p></div></a><a class="portal-side-card remote" href="app-aio-channel-editor.html"><span class="portal-side-icon">CE</span><div><small>ANDROID</small><strong>AIO Channel Editor 1.1.3</strong><p>Mobilna edycja list kanałów Enigma2.</p></div></a></aside>
-</section><nav aria-label="Najważniejsze działy" class="portal-quick-strip">
+</section>
+<section aria-labelledby="family-support-title" class="home-family-support portal-panel">
+<div class="home-family-support-widget">
+<iframe frameborder="0" width="430" height="500" scrolling="no" src="https://pomagam.pl/38ggab/widget/large" title="Zbiórka Pomagam.pl dla zaprzyjaźnionej rodziny"></iframe>
+</div>
+<div class="home-family-support-copy">
+<p class="aio-kicker">WAŻNA PROŚBA O WSPARCIE</p>
+<h2 id="family-support-title">Pomagam zaprzyjaźnionej rodzinie w trudnej sytuacji</h2>
+<p class="family-support-lead">Podjąłem się pomocy zaprzyjaźnionej rodzinie, która znalazła się w naprawdę trudnym momencie. Dlatego dziś, wyjątkowo, proszę również Was o wsparcie w ich imieniu. Każda wpłata — nawet niewielka — realnie przybliża ich do celu.</p>
+<p class="family-support-note"><strong>W ramach podziękowania:</strong> każda osoba, która wpłaci <strong>więcej niż 50 zł</strong> przez poniższą zbiórkę i prześle mi potwierdzenie na adres <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a>, może liczyć na moją pomoc przy <strong>zdalnej instalacji lub aktualizacji systemu Enigma2</strong>. Wystarczy napisać do mnie e-mail.</p>
+<p class="family-support-thanks">Dziękuję każdemu, kto zdecyduje się pomóc — za wpłatę, udostępnienie zbiórki albo zwykłe przekazanie jej dalej. Z mojej strony naprawdę wiele to znaczy.</p>
+<div class="home-family-support-actions"><a class="button primary" href="https://pomagam.pl/38ggab" rel="noopener noreferrer" target="_blank">Wesprzyj zbiórkę</a><a class="button" href="mailto:aio-iptv@wp.pl">Napisz do mnie</a></div>
+</div>
+</section>
+<nav aria-label="Najważniejsze działy" class="portal-quick-strip">
 <a href="plugins.html"><span>🧩</span><strong>Wtyczki / skiny</strong><small>projekty Enigma2</small></a>
 <a href="channel-lists.html"><span>📡</span><strong>Listy kanałów</strong><small>aktualne zestawy</small></a>
 <a href="android-apps.html"><span>📱</span><strong>Android</strong><small>aplikacje AIO</small></a>
@@ -237,7 +269,7 @@
 <p>Wsparcie jest dobrowolne i pomaga rozwijać stronę, Społeczność AIO, poradniki oraz bezpłatne projekty Enigma2.</p>
 <div class="support-path-actions">
 <a class="button primary" href="support.html">Zobacz wszystkie formy wsparcia</a>
-<a class="button" data-support-bypass="true" href="https://buycoffee.to/pawelpawelek/rozwoj-strony-aio-iptv-pl-i-darmowych-projektow-enigma2" rel="noopener noreferrer" target="_blank">Wesprzyj przez BuyCoffee</a>
+
 </div>
 </article>
 </section>
@@ -342,10 +374,6 @@
 <div class="aio-route-step"><span class="num">03</span><strong>Pobierz potrzebny plik</strong><p>Przejdź do wtyczki, aplikacji, systemu albo listy.</p></div>
 <div class="aio-route-step"><span class="num">04</span><strong>Podziel się rozwiązaniem</strong><p>Pomóż kolejnym użytkownikom z podobnym problemem.</p></div>
 </div>
-</section>
-<section aria-labelledby="support-title" class="aio-support home-fundraiser portal-panel">
-<img alt="Zbiórka na rozwój AIO IPTV PL" loading="lazy" src="pliki/aio-iptv-zbiorka-celowa-2026.webp"/>
-<div><p class="aio-kicker">DOBROWOLNE WSPARCIE</p><h2 id="support-title">Pomóż rozwijać stronę i Społeczność AIO</h2><p>Wsparcie pomaga rozwijać AIO-IPTV.pl, zaplecze Społeczności AIO, poradniki oraz darmowe projekty Enigma2. Wszystkie dostępne sposoby i szczegóły znajdziesz w osobnym dziale Wsparcie.</p><div class="aio-community-actions"><a class="button primary" href="support.html">Otwórz dział Wsparcie</a><a class="button" data-support-bypass="true" href="https://buycoffee.to/pawelpawelek/rozwoj-strony-aio-iptv-pl-i-darmowych-projektow-enigma2" rel="noopener noreferrer" target="_blank">BuyCoffee</a></div></div>
 </section>
 <section aria-labelledby="install-title" class="aio-section aio-install portal-panel">
 <div><p class="aio-kicker">SZYBKA INSTALACJA</p><h2 id="install-title">AIO Panel w jednej komendzie</h2><p>Wklej polecenie w terminalu OpenWebif, SSH lub Telnet. Po instalacji wykonaj Restart GUI.</p></div>
