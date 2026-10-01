@@ -1,399 +1,223 @@
-<!DOCTYPE html>
-
+<!doctype html>
 <html lang="pl">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>Społeczność AIO i Enigma2 — AIO-IPTV.pl</title>
-<meta content="Społeczność AIO dla użytkowników Enigma2: pytania, pomoc, aktualności, poradniki, pobieranie, systemy, listy kanałów i projekty AIO-IPTV.pl." name="description"/>
-<meta content="#02070c" name="theme-color"/>
-<link href="pliki/logo.png" rel="icon"/>
-<link href="manifest.json" rel="manifest"/>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=Caveat:wght@700&amp;display=swap" rel="stylesheet"/>
-<link href="assets/css/user-premium.css?v=20260911-access21" rel="stylesheet"/>
-<link href="assets/css/pro-suite.css?v=20260815-aio2026" rel="stylesheet"/>
-<link href="assets/css/community.css?v=20260815-aio2026" rel="stylesheet"/>
-<link href="assets/css/aio-2026.css?v=20260911-homeux4" rel="stylesheet"/>
-<style>
-/* Pomagam.pl — wsparcie zaprzyjaźnionej rodziny (2026-09-24) */
-.aio-portal-home .fundraiser-ribbon{display:none!important}
-.home-family-support{margin:20px 0 26px;display:grid;grid-template-columns:minmax(300px,460px) minmax(0,1fr);gap:34px;align-items:center;padding:30px;border:1px solid rgba(103,211,255,.18);border-radius:30px;background:radial-gradient(circle at 12% 20%,rgba(36,141,223,.16),transparent 36%),linear-gradient(120deg,rgba(8,31,43,.94),rgba(3,16,24,.97));box-shadow:var(--aio-glow);overflow:hidden;position:relative}
-.home-family-support::before{content:"POMOC";position:absolute;right:-12px;bottom:-36px;color:rgba(102,220,255,.035);font-size:8rem;font-weight:950;letter-spacing:-.07em;pointer-events:none}
-.home-family-support-widget,.home-family-support-copy{position:relative;z-index:1}
-.home-family-support-widget{display:flex;justify-content:center}
-.home-family-support-widget iframe{display:block;width:430px;max-width:100%;height:500px;border:0;border-radius:20px;background:#fff;box-shadow:0 22px 55px rgba(0,0,0,.3)}
-.home-family-support h2{margin:0 0 14px;font-size:clamp(2rem,3.4vw,3.5rem);line-height:1.04;letter-spacing:-.045em}
-.home-family-support .family-support-lead{font-size:1.08rem;line-height:1.72;color:#d7e6ec;margin:0 0 15px}
-.home-family-support .family-support-note{margin:16px 0;padding:16px 18px;border:1px solid rgba(103,211,255,.16);border-radius:18px;background:rgba(8,35,47,.58);color:#a9c2cc;line-height:1.62}
-.home-family-support .family-support-note strong{color:#fff}
-.home-family-support .family-support-thanks{margin:16px 0 20px;font-weight:700;color:#e9f8ff;line-height:1.6}
-.home-family-support-actions{display:flex;flex-wrap:wrap;gap:10px}
-.home-family-support-actions .button{margin:0}
-@media (max-width:900px){.home-family-support{grid-template-columns:1fr;padding:22px;gap:24px}.home-family-support-widget{order:2}.home-family-support-copy{order:1}}
-@media (max-width:520px){.home-family-support{padding:16px;border-radius:22px}.home-family-support-widget iframe{height:500px}.home-family-support h2{font-size:2rem}}
-</style>
-<link href="https://olioli2013.github.io/aio-iptv-projekt/" rel="canonical"/>
-<meta content="Społeczność AIO — centrum użytkowników Enigma2" property="og:title"/>
-<meta content="Pytania, pomoc, aktualności, poradniki i projekty Enigma2 w jednym miejscu." property="og:description"/>
-<meta content="https://olioli2013.github.io/aio-iptv-projekt/pliki/logo.png" property="og:image"/>
-<meta content="website" property="og:type"/>
-<meta content="https://olioli2013.github.io/aio-iptv-projekt/" property="og:url"/>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"AIO-IPTV.pl","url":"https://olioli2013.github.io/aio-iptv-projekt/","potentialAction":{"@type":"SearchAction","target":"https://olioli2013.github.io/aio-iptv-projekt/downloads.html?q={search_term_string}","query-input":"required name=search_term_string"}}</script>
-<script src="assets/js/auto-language.js?v=20260729-auto-en1"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AIO-IPTV.pl — Enigma2, projekty, poradniki i Społeczność AIO</title>
+  <meta name="description" content="AIO-IPTV.pl — centrum Enigma2: Społeczność AIO, wtyczki, skiny, aplikacje, listy kanałów, systemy, poradniki, narzędzia i pobieranie w jednym miejscu.">
+  <meta name="theme-color" content="#071018">
+  <meta name="color-scheme" content="dark">
+  <link rel="icon" href="pliki/logo.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/user-premium.css?v=20261001-home-next1">
+  <link rel="stylesheet" href="assets/css/aio-home-next.css?v=20261001-home-next1">
+  <link rel="canonical" href="https://olioli2013.github.io/aio-iptv-projekt/">
+  <meta property="og:title" content="AIO-IPTV.pl — centrum Enigma2 i Społeczność AIO">
+  <meta property="og:description" content="Wtyczki, skiny, aplikacje, systemy, listy kanałów, poradniki, narzędzia i pomoc społeczności w jednym miejscu.">
+  <meta property="og:image" content="https://olioli2013.github.io/aio-iptv-projekt/pliki/logo.png">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://olioli2013.github.io/aio-iptv-projekt/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"AIO-IPTV.pl","url":"https://olioli2013.github.io/aio-iptv-projekt/","potentialAction":{"@type":"SearchAction","target":"https://olioli2013.github.io/aio-iptv-projekt/downloads.html?q={search_term_string}","query-input":"required name=search_term_string"}}</script>
+  <script src="assets/js/auto-language.js?v=20260729-auto-en1"></script>
 </head>
-<body class="aio-portal-page aio-portal-home">
-<a class="skip-link" href="#main-content">Przejdź do treści</a>
-<div class="page-shell">
-<div aria-label="Skróty AIO-IPTV.pl" class="portal-topbar">
-<div class="portal-topbar-brand"><span class="portal-live-dot"></span><strong>AIO IPTV PROJECT</strong><span>Enigma2 • Android • Windows • pomoc</span></div>
-<div class="portal-topbar-links"><a href="news.html">Aktualności</a><a href="community.html">Społeczność</a><a href="support.html">Wsparcie projektu</a></div>
-</div><header class="site-header">
-<div class="brand-row">
-<a class="brand" href="index.html">
-<img alt="AIO-IPTV.pl" src="pliki/logo.png"/>
-<span><strong>AIO‑IPTV.pl</strong><small>Społeczność • Enigma2 • pomoc • projekty</small></span>
-</a>
-<a aria-label="Otwórz Społeczność AIO" class="header-download header-community" href="community.html">Społeczność AIO</a>
-</div>
-<nav aria-label="Główna nawigacja" class="main-nav" data-menu="">
-<a href="index.html">Start</a>
-<a class="nav-community" href="community.html">Społeczność</a>
-<a href="downloads.html">Pobieranie</a><a class="nav-pro" href="pro.html">Aplikacje PRO</a>
-<a href="guides.html">Poradniki</a>
-<a href="news.html">Aktualności</a>
-<a class="nav-support" href="support.html">Wsparcie</a>
-<details class="nav-more">
-<summary>Więcej</summary>
-<div class="nav-more-menu">
-<a href="start-here.html">Zacznij tutaj</a><a href="ecosystem.html">Ekosystem AIO</a><a href="plugins.html">Projekty / wtyczki</a>
-<a href="systems.html">Systemy Enigma2</a>
-<a href="android-apps.html">Android</a>
-<a href="windows-apps.html">Windows</a>
-<a href="channel-lists.html">Listy kanałów</a>
-<a href="compatibility.html">Zgodność</a>
-<a href="updates.html">Historia wydań</a>
-<a href="studio.html">Studio</a>
-<a href="report-error.html">Zgłoś błąd</a>
-<a href="one-liner.html">One-Liner / FTP</a>
-<a href="ai-chat.html">AI Chat</a>
-<a href="contact.html">Kontakt</a>
-</div>
-</details>
-</nav>
-<button class="mobile-menu" data-menu-toggle="" type="button">Menu</button>
-</header>
-<main class="standalone-main aio-home community-first-home" id="main-content"><section aria-labelledby="portal-showcase-title" class="portal-showcase">
-<article class="portal-main-feature"><div class="portal-feature-overlay"><p class="portal-chip">NOWY PROJEKT • ENIGMA2 • OPENATV</p><h1 id="portal-showcase-title">AIOHD NEXT 3.2.1</h1><p>Nowoczesny skin Full HD: MiniTV, rozbudowane EPG, trzy rozmiary listy kanałów, pogoda bezpośrednio w skinie oraz palety Aurora, Amber i Violet.</p><div class="portal-feature-actions"><a class="portal-btn primary" href="skin-aiohd-next.html">Poznaj AIOHD NEXT</a><a class="portal-btn" download href="pliki/enigma2-plugin-skins-aiohd-next_3.2.1-r3_all.ipk">Pobierz IPK</a><a class="portal-btn" href="plugin-aio-panel.html">Instalacja przez AIO Panel</a></div><small>Nowy projekt AIO-IPTV.pl • Paweł Pawełek</small></div><img alt="AIOHD NEXT 3.2.1 — lista kanałów, MiniTV, EPG i pogoda" loading="eager" src="pliki/aiohd-next-3.2.1-channel-list.jpg"/></article><aside aria-label="Wyróżnione działy" class="portal-side-promos"><a class="portal-side-card community" href="community.html"><span class="portal-side-icon">◎</span><div><small>SPOŁECZNOŚĆ AIO</small><strong>Zapytaj i pomóż innym</strong><p>Wpisy, komentarze, screeny i rozwiązane problemy.</p></div></a><a class="portal-side-card panel" href="plugin-aio-panel.html"><span class="portal-side-icon">AP</span><div><small>ENIGMA2</small><strong>AIO Panel 16.0.3</strong><p>Nowa wersja z instalatorem AIOHD NEXT w sekcji Skórki.</p></div></a><a class="portal-side-card remote" href="app-aio-channel-editor.html"><span class="portal-side-icon">CE</span><div><small>ANDROID</small><strong>AIO Channel Editor 1.1.3</strong><p>Mobilna edycja list kanałów Enigma2.</p></div></a></aside>
-</section>
-<section aria-labelledby="family-support-title" class="home-family-support portal-panel">
-<div class="home-family-support-widget">
-<iframe frameborder="0" width="430" height="500" scrolling="no" src="https://pomagam.pl/38ggab/widget/large" title="Zbiórka Pomagam.pl dla zaprzyjaźnionej rodziny"></iframe>
-</div>
-<div class="home-family-support-copy">
-<p class="aio-kicker">WAŻNA PROŚBA O WSPARCIE</p>
-<h2 id="family-support-title">Pomagam zaprzyjaźnionej rodzinie w trudnej sytuacji</h2>
-<p class="family-support-lead">Podjąłem się pomocy zaprzyjaźnionej rodzinie, która znalazła się w naprawdę trudnym momencie. Dlatego dziś, wyjątkowo, proszę również Was o wsparcie w ich imieniu. Każda wpłata — nawet niewielka — realnie przybliża ich do celu.</p>
-<p class="family-support-note"><strong>W ramach podziękowania:</strong> każda osoba, która wpłaci <strong>więcej niż 50 zł</strong> przez poniższą zbiórkę i prześle mi potwierdzenie na adres <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a>, może liczyć na moją pomoc przy <strong>zdalnej instalacji lub aktualizacji systemu Enigma2</strong>. Wystarczy napisać do mnie e-mail.</p>
-<p class="family-support-thanks">Dziękuję każdemu, kto zdecyduje się pomóc — za wpłatę, udostępnienie zbiórki albo zwykłe przekazanie jej dalej. Z mojej strony naprawdę wiele to znaczy.</p>
-<div class="home-family-support-actions"><a class="button primary" href="https://pomagam.pl/38ggab" rel="noopener noreferrer" target="_blank">Wesprzyj zbiórkę</a><a class="button" href="mailto:aio-iptv@wp.pl">Napisz do mnie</a></div>
-</div>
-</section>
-<nav aria-label="Najważniejsze działy" class="portal-quick-strip">
-<a href="plugins.html"><span>🧩</span><strong>Wtyczki / skiny</strong><small>projekty Enigma2</small></a>
-<a href="channel-lists.html"><span>📡</span><strong>Listy kanałów</strong><small>aktualne zestawy</small></a>
-<a href="android-apps.html"><span>📱</span><strong>Android</strong><small>aplikacje AIO</small></a>
-<a href="systems.html"><span>💿</span><strong>Systemy</strong><small>Multi-Click i obrazy</small></a>
-<a href="guides.html"><span>📘</span><strong>Poradniki</strong><small>krok po kroku</small></a>
-<a href="support.html"><span>♥</span><strong>Wsparcie</strong><small>pomoc i rozwój</small></a>
-</nav><section aria-labelledby="findbar-title" class="portal-findbar portal-panel">
-<div class="portal-findbar-copy">
-<p class="aio-kicker">ZNAJDŹ TO OD RAZU</p>
-<h2 id="findbar-title">Czego szukasz?</h2>
-<p>Wpisz nazwę projektu, problem albo temat. Wyszukiwarka obejmuje aplikacje, wtyczki, poradniki, listy kanałów i narzędzia.</p>
-</div>
-<button aria-label="Otwórz wyszukiwarkę strony" class="portal-search-big home-search-open" type="button">
-<span class="portal-search-icon">⌕</span>
-<span><strong>Szukaj na AIO-IPTV.pl</strong><small>np. AIO Panel, OSCam, picony, EPG, Android, lista kanałów…</small></span>
-<kbd>Ctrl K</kbd>
-</button>
-<div aria-label="Popularne wyszukiwania" class="portal-search-tags">
-<a href="skin-aiohd-next.html">AIOHD NEXT</a><a href="plugin-aio-panel.html">AIO Panel</a><a href="app-aio-channel-editor.html">Channel Editor</a><a href="channel-lists.html">Listy kanałów</a><a href="guides.html">OSCam</a><a href="plugins.html">Picony</a><a href="errors.html">Błędy Enigma2</a>
-</div>
-</section>
-<section aria-labelledby="routes-main-title" class="portal-main-routes portal-panel">
-<div class="portal-section-title">
-<p class="aio-kicker">TRZY NAJSZYBSZE DROGI</p>
-<h2 id="routes-main-title">Co chcesz teraz zrobić?</h2>
-<p>Nie musisz znać struktury strony. Zacznij od celu, a przejdziesz od razu do właściwego miejsca.</p>
-</div>
-<div class="portal-route-cards">
-<a class="portal-route-card download" href="downloads.html"><span>↓</span><div><small>PLIKI I INSTALATORY</small><strong>Chcę coś pobrać</strong><p>APK, IPK, systemy, listy kanałów i pozostałe pliki AIO.</p></div><b>→</b></a>
-<a class="portal-route-card help" href="#pomoz-mi-znalezc"><span>?</span><div><small>PROBLEM / KONFIGURACJA</small><strong>Potrzebuję pomocy</strong><p>Wybierz temat i przejdź do poradnika, narzędzia albo rozwiązania.</p></div><b>→</b></a>
-<a class="portal-route-card community" href="community.html"><span>◎</span><div><small>SPOŁECZNOŚĆ AIO</small><strong>Chcę zapytać ludzi</strong><p>Opisz problem, dodaj zdjęcie i skorzystaj z doświadczenia innych.</p></div><b>→</b></a>
-</div>
-</section><section aria-labelledby="popular-title" class="portal-discovery portal-panel">
-<div class="portal-discovery-col">
-<div class="portal-section-minihead"><div><p class="aio-kicker">POPULARNE TERAZ</p><h2 id="popular-title">Najczęściej wybierane miejsca</h2></div><a href="downloads.html">Pełny katalog →</a></div>
-<div class="portal-ranked-list">
-<a href="skin-aiohd-next.html"><b>01</b><span><strong>AIOHD NEXT 3.2.1</strong><small>nowy skin Full HD dla OpenATV</small></span><em>NOWY</em></a><a href="plugin-aio-panel.html"><b>02</b><span><strong>AIO Panel 16.0.3</strong><small>centrum narzędzi Enigma2</small></span><em>FREE</em></a>
-<a href="app-aio-channel-editor.html"><b>03</b><span><strong>AIO Channel Editor 1.1.3</strong><small>edycja list z telefonu</small></span><em class="pro">FREE / PRO</em></a>
-<a href="app-aio-panel-remote.html"><b>04</b><span><strong>AIO Panel Remote 1.4.6</strong><small>pilot, EPG i streaming</small></span><em class="pro">FREE / PRO</em></a>
-<a href="channel-lists.html"><b>04</b><span><strong>Listy kanałów</strong><small>Hot Bird i zestawy wielosatelitarne</small></span><em>LIVE</em></a>
-<a href="plugins.html"><b>05</b><span><strong>PiconUpdater</strong><small>picony i aktualizacje</small></span><em>FREE</em></a>
-</div>
-</div>
-<div class="portal-discovery-col">
-<div class="portal-section-minihead"><div><p class="aio-kicker">OSTATNIO AKTUALIZOWANE</p><h2>Co zmieniło się ostatnio</h2></div><a href="updates.html">Historia →</a></div>
-<div class="portal-update-list">
-<a href="skin-aiohd-next.html"><time>14.09.2026</time><span><strong>AIOHD NEXT 3.2.1</strong><small>nowy skin: MiniTV, pogoda, 3 rozmiary listy i 3 kolory</small></span></a><a href="plugin-aio-panel.html"><time>14.09.2026</time><span><strong>AIO Panel 16.0.3</strong><small>dodano instalator AIOHD NEXT w sekcji Skórki</small></span></a>
-<a href="plugin-iptv-dream.html"><time>07.09.2026</time><span><strong>IPTV Dream 8.0.1</strong><small>poprawiony eksport bez N/A, MAC/Stalker i WebIF</small></span></a>
-<a href="app-aio-channel-editor.html"><time>25.08.2026</time><span><strong>AIO Channel Editor 1.1.3</strong><small>zgodność ze starszym OpenWebif i poprawiony zapis bukietów</small></span></a>
-<a href="plugin-simple-iptv-epg.html"><time>15.08.2026</time><span><strong>Simple IPTV EPG 3.0.0 r1</strong><small>przebudowane mapowanie i import EPG</small></span></a>
-</div>
-</div>
-</section><section aria-labelledby="community-home-title" class="community-first-hero portal-panel" data-community-home-stats="">
-<div class="community-first-copy">
-<p class="aio-kicker">SPOŁECZNOŚĆ AIO / ENIGMA2</p>
-<h1 id="community-home-title">Twoje miejsce dla Enigma2.<span>Zapytaj. Pomóż. Zostań.</span></h1>
-<p class="community-first-lead">Społeczność AIO łączy użytkowników Enigma2 bezpośrednio na AIO-IPTV.pl. Zadawaj pytania, dodawaj zdjęcia i zrzuty błędów, dziel się rozwiązaniami oraz sprawdzaj oficjalne informacje o projektach.</p>
-<div class="aio-hero-actions community-first-actions">
-<a class="button primary community-main-cta" href="community.html">Wejdź do Społeczności AIO</a>
-<a class="button" href="community.html?mode=unanswered">Pytania bez odpowiedzi</a>
-<a class="button subtle" href="news.html">Oficjalne aktualności</a>
-</div>
-<div class="aio-search community-search">
-<span>⌕</span>
-<button class="home-search-open" type="button">Szukaj na stronie: poradnik, plik, system, błąd…</button>
-<kbd>Ctrl K</kbd>
-</div>
-<div aria-label="Możliwości Społeczności AIO" class="community-first-points">
-<span>● Pytania i odpowiedzi</span>
-<span>● Zdjęcia i screeny</span>
-<span>● Rozwiązane problemy</span>
-<span>● Oficjalne komunikaty</span>
-</div>
-</div>
-<aside aria-label="Społeczność AIO na żywo" class="community-live-panel">
-<div aria-hidden="true" class="community-radar"><i></i><i></i><i></i><span>AIO</span></div>
-<div class="community-live-head">
-<div><span class="live-dot"></span><strong>Społeczność AIO</strong></div>
-<small data-community-home-status="">Ładuję aktualne dane…</small>
-</div>
-<div class="community-live-main-stat">
-<span>Użytkownicy społeczności</span>
-<strong data-community-home-stat="users">—</strong>
-</div>
-<div class="community-live-grid">
-<div><strong data-community-home-stat="new_posts_7d">—</strong><span>wpisów / 7 dni</span></div>
-<div><strong data-community-home-stat="new_comments_7d">—</strong><span>komentarzy / 7 dni</span></div>
-<div><strong data-community-home-stat="solved">—</strong><span>rozwiązanych</span></div>
-<div><strong data-community-home-stat="unanswered">—</strong><span>bez odpowiedzi</span></div>
-</div>
-<div class="community-live-links">
-<a href="community.html"><span>Przejdź do wpisów</span><b>→</b></a>
-<a href="community.html?mode=unanswered"><span>Pomóż komuś teraz</span><b>→</b></a>
-<a href="community-rules.html"><span>Zasady społeczności</span><b>→</b></a>
-</div>
-</aside>
-</section>
-<section aria-labelledby="directory-title" class="home-directory portal-panel">
-<div class="aio-section-head home-directory-head">
-<div>
-<p class="aio-kicker">NAJWAŻNIEJSZE MIEJSCA</p>
-<h2 id="directory-title">Dokąd chcesz przejść?</h2>
-<p>Najczęściej używane działy są dostępne od razu — bez przeszukiwania kilku poziomów menu.</p>
-</div>
-</div>
-<div class="home-directory-grid">
-<a class="directory-card is-community" href="community.html"><span class="directory-icon">◎</span><div><strong>Społeczność AIO</strong><p>Pytania, odpowiedzi, dyskusje i pomoc użytkowników.</p></div><b>→</b></a>
-<a class="directory-card" href="downloads.html"><span class="directory-icon">↓</span><div><strong>Pobieranie</strong><p>Wtyczki, aplikacje, systemy i pozostałe pliki.</p></div><b>→</b></a>
-<a class="directory-card" href="guides.html"><span class="directory-icon">?</span><div><strong>Poradniki</strong><p>Instrukcje krok po kroku i praktyczna konfiguracja.</p></div><b>→</b></a>
-<a class="directory-card" href="news.html"><span class="directory-icon">●</span><div><strong>Aktualności</strong><p>Oficjalne komunikaty, nowe wersje i ważne informacje.</p></div><b>→</b></a>
-<a class="directory-card" href="systems.html"><span class="directory-icon">◉</span><div><strong>Systemy Enigma2</strong><p>Gotowe obrazy i Multi-Click dla obsługiwanych tunerów.</p></div><b>→</b></a>
-<a class="directory-card" href="channel-lists.html"><span class="directory-icon">⌁</span><div><strong>Listy kanałów</strong><p>Aktualne zestawy kanałów dla Enigma2.</p></div><b>→</b></a>
-<a class="directory-card" href="android-apps.html"><span class="directory-icon">▣</span><div><strong>Aplikacje</strong><p>Android, Windows i narzędzia współpracujące z Enigma2.</p></div><b>→</b></a>
-<a class="directory-card is-support" href="support.html"><span class="directory-icon">♥</span><div><strong>Wsparcie</strong><p>Pomoc techniczna, kontakt i wsparcie rozwoju projektu.</p></div><b>→</b></a>
-<a class="directory-card" href="studio.html"><span class="directory-icon">⌘</span><div><strong>Studio / narzędzia</strong><p>Diagnostyka, generatory, baza błędów i narzędzia AIO.</p></div><b>→</b></a>
-</div>
-</section>
-<section aria-labelledby="solution-finder-title" class="portal-solution-finder portal-panel" id="pomoz-mi-znalezc">
-<div class="portal-section-title finder-title">
-<p class="aio-kicker">NIE WIEM, GDZIE TEGO SZUKAĆ</p>
-<h2 id="solution-finder-title">Pomóż mi znaleźć rozwiązanie</h2>
-<p>Wybierz temat. Strona pokaże najkrótszą ścieżkę zamiast odsyłać Cię do całego katalogu.</p>
-</div>
-<div class="finder-layout">
-<div aria-label="Wybierz temat" class="finder-topics" role="list">
-<button class="is-active" data-finder-topic="enigma" type="button"><span>📺</span><strong>Mam tuner Enigma2</strong><small>instalacja, diagnostyka, system</small></button>
-<button data-finder-topic="channels" type="button"><span>📡</span><strong>Lista kanałów</strong><small>edycja, import, synchronizacja</small></button>
-<button data-finder-topic="iptv" type="button"><span>▶</span><strong>IPTV / EPG</strong><small>listy, EPG, odtwarzanie</small></button>
-<button data-finder-topic="picons" type="button"><span>▣</span><strong>Picony</strong><small>pobieranie i aktualizacja</small></button>
-<button data-finder-topic="oscam" type="button"><span>🔐</span><strong>OSCam / konfiguracja</strong><small>reader, dvbapi, diagnostyka</small></button>
-<button data-finder-topic="android" type="button"><span>📱</span><strong>Telefon / Android</strong><small>Remote i Channel Editor</small></button>
-</div>
-<div aria-live="polite" class="finder-results">
-<div class="finder-result is-active" data-finder-result="enigma">
-<small>POLECANA ŚCIEŻKA</small><h3>Enigma2 — zacznij tutaj</h3><p>Najpierw wybierz narzędzie albo sprawdź kondycję tunera.</p>
-<div><a href="plugin-aio-panel.html">AIO Panel</a><a href="skin-aiohd-next.html">AIOHD NEXT</a><a href="plugin-e2-doctor.html">E2 Doctor</a><a href="systems.html">Systemy Enigma2</a><a href="community.html">Zapytaj społeczność</a></div>
-</div>
-<div class="finder-result" data-finder-result="channels"><small>POLECANA ŚCIEŻKA</small><h3>Listy kanałów i bukiety</h3><p>Gotowe listy albo własna edycja z telefonu.</p><div><a href="channel-lists.html">Gotowe listy</a><a href="app-aio-channel-editor.html">AIO Channel Editor</a><a href="plugin-pp-channel-sync.html">PP Channel Sync</a><a href="guides.html">Poradniki</a></div></div>
-<div class="finder-result" data-finder-result="iptv"><small>POLECANA ŚCIEŻKA</small><h3>IPTV i EPG</h3><p>Odtwarzanie, import EPG i diagnostyka list.</p><div><a href="plugin-iptv-dream.html">IPTV Dream</a><a href="plugin-simple-iptv-epg.html">Simple IPTV EPG</a><a href="errors.html">Baza błędów</a><a href="community.html">Społeczność</a></div></div>
-<div class="finder-result" data-finder-result="picons"><small>POLECANA ŚCIEŻKA</small><h3>Picony</h3><p>Pobieranie, dobór i aktualizacja grafik kanałów.</p><div><a href="plugins.html">PiconUpdater</a><a href="plugin-aio-panel.html">Picony w AIO Panel</a><a href="guides.html">Poradniki</a><a href="community.html">Zapytaj społeczność</a></div></div>
-<div class="finder-result" data-finder-result="oscam"><small>POLECANA ŚCIEŻKA</small><h3>OSCam i konfiguracja</h3><p>Najpierw sprawdź poradniki i narzędzia diagnostyczne.</p><div><a href="guides.html">Poradniki OSCam</a><a href="android-apps.html">CamBridge PL</a><a href="errors.html">Baza błędów</a><a href="community.html">Pomoc społeczności</a></div></div>
-<div class="finder-result" data-finder-result="android"><small>POLECANA ŚCIEŻKA</small><h3>Aplikacje Android</h3><p>Sterowanie tunerem albo mobilna edycja list kanałów.</p><div><a href="app-aio-panel-remote.html">AIO Panel Remote</a><a href="app-aio-channel-editor.html">AIO Channel Editor</a><a href="android-apps.html">Wszystkie aplikacje</a><a href="downloads.html">Pobierz APK</a></div></div>
-</div>
-</div>
-</section><section aria-labelledby="start-aio-title" class="portal-onboarding portal-panel">
-<div class="portal-onboarding-copy"><p class="aio-kicker">NOWY W AIO?</p><h2 id="start-aio-title">Zacznij tutaj i poznaj cały ekosystem</h2><p>Nie musisz poznawać wszystkich nazw projektów. Wybierz prostą ścieżkę startową albo zobacz, jak tuner, telefon i strona AIO współpracują ze sobą.</p></div>
-<div class="portal-onboarding-actions">
-<a href="start-here.html"><span>01</span><div><strong>Zacznij tutaj</strong><small>pierwsze kroki: AIO Panel → listy → picony → EPG → telefon</small></div><b>→</b></a>
-<a href="ecosystem.html"><span>AIO</span><div><strong>Ekosystem AIO</strong><small>tuner Enigma2, aplikacje Android, WWW, poradniki i społeczność</small></div><b>→</b></a>
-</div>
-</section><section aria-labelledby="help-title" class="home-support-paths portal-panel">
-<article class="support-path technical">
-<p class="aio-kicker">POTRZEBUJESZ POMOCY?</p>
-<h2 id="help-title">Nie musisz szukać rozwiązania sam.</h2>
-<p>Najpierw sprawdź Społeczność AIO i poradniki. Jeśli problem wymaga dokładniejszej diagnozy, możesz przygotować kompletne zgłoszenie albo skontaktować się z administratorem.</p>
-<div class="support-path-links">
-<a href="community.html">Społeczność AIO <span>→</span></a>
-<a href="guides.html">Poradniki <span>→</span></a>
-<a href="errors.html">Baza błędów <span>→</span></a>
-<a href="report-error.html">Zgłoś błąd <span>→</span></a>
-</div>
-</article>
-<article class="support-path project-support">
-<p class="aio-kicker">WSPARCIE PROJEKTU</p>
-<h2>Chcesz pomóc rozwijać AIO-IPTV.pl?</h2>
-<p>Wsparcie jest dobrowolne i pomaga rozwijać stronę, Społeczność AIO, poradniki oraz bezpłatne projekty Enigma2.</p>
-<div class="support-path-actions">
-<a class="button primary" href="support.html">Zobacz wszystkie formy wsparcia</a>
+<body class="aio-next-home">
+<a class="nx-skip" href="#main-content">Przejdź do treści</a>
 
-</div>
-</article>
-</section>
-<section aria-label="Informacje o AIO-IPTV.pl" class="home-confidence portal-panel">
-<div><strong>Oficjalne źródło</strong><span>pliki i informacje bezpośrednio od autora projektów</span></div>
-<div><strong>Praktyczna pomoc</strong><span>Społeczność, poradniki, diagnostyka i baza błędów</span></div>
-<div><strong>Aktualne wydania</strong><span>wersje, changelogi i status rozwijanych projektów</span></div>
-<div><strong>Enigma2 w jednym miejscu</strong><span>systemy, listy, aplikacje i narzędzia</span></div>
-</section><section aria-label="Społeczność AIO — pomoc" class="portal-community-bridge">
-<div class="community-bridge-icon">◎</div>
-<div><small>NIE ZNALAZŁEŚ ODPOWIEDZI?</small><strong>Społeczność AIO jest następnym krokiem.</strong><p>Opisz problem, podaj model tunera i system, dodaj zdjęcie lub zrzut ekranu. Im lepiej opisany problem, tym łatwiej znaleźć rozwiązanie.</p></div>
-<div class="community-bridge-actions"><a class="portal-btn primary" href="community.html">Zadaj pytanie</a><a class="portal-btn" href="community.html?mode=unanswered">Pomóż innym</a></div>
-</section>
-<section aria-labelledby="pro-title" class="portal-pro-section portal-panel" id="aplikacje-pro">
-<div class="portal-section-title pro-title-row">
-<div><p class="aio-kicker">APLIKACJE PRO • ROZWÓJ PROJEKTU</p><h2 id="pro-title">Więcej możliwości dla osób, które tego potrzebują</h2><p>Większość projektów AIO pozostaje bezpłatna. Wersje PRO wybranych aplikacji pomagają finansować rozwój strony, poradników i Społeczności AIO.</p></div>
-<span class="pro-price-badge">30 zł<small>/ 365 dni</small></span>
-</div>
-<div class="portal-pro-grid">
-<article class="portal-pro-card remote">
-<div class="pro-card-top"><span class="pro-product-icon">AR</span><div><small>ANDROID • FREE / PRO</small><h3>AIO Panel Remote 1.4.6</h3></div><span class="badge-pro">PRO</span></div>
-<p>Pilot Enigma2, lista kanałów, EPG, picony oraz streaming SAT/IPTV z telefonu.</p>
-<ul><li>pełny pilot i obsługa tunera</li><li>EPG i lista kanałów</li><li>streaming w sieci prywatnej</li></ul>
-<div class="pro-card-actions"><a class="portal-btn primary" href="app-aio-panel-remote.html">Szczegóły</a><a class="portal-btn" href="android-apps.html">Pobierz</a></div>
-</article>
-<article class="portal-pro-card editor">
-<div class="pro-card-top"><span class="pro-product-icon">CE</span><div><small>ANDROID • FREE / PRO</small><h3>AIO Channel Editor 1.1.3</h3></div><span class="badge-pro">PRO</span></div>
-<p>Mobilna edycja list Enigma2: pobieranie z tunera, bukiety AIO, kolejka zmian i zapis przez OpenWebif.</p>
-<ul><li>edycja kanałów i bukietów</li><li>import katalogu AIO</li><li>pełny zapis zmian w PRO</li></ul>
-<div class="pro-card-actions"><a class="portal-btn primary" href="app-aio-channel-editor.html">Szczegóły</a><a class="portal-btn" download="" href="pliki/AIO_Channel_Editor_1.1.3_FREE_PRO.apk">Pobierz APK</a></div>
-</article>
-</div>
-<div class="portal-pro-note"><strong>Dlaczego PRO?</strong><span>Zakup wersji PRO jest opcjonalny. Darmowe projekty, poradniki i Społeczność AIO pozostają centralną częścią serwisu.</span><a href="support.html">Jak wspierany jest projekt →</a><a href="pro.html">Porównaj FREE i PRO →</a></div>
-</section><section aria-labelledby="channel-editor-home-title" class="module channel-editor-home-featured portal-panel">
-<div class="channel-editor-home-layout">
-<div class="channel-editor-home-copy">
-<p class="aio-kicker">NOWOŚĆ • ANDROID • ENIGMA2</p>
-<h2 id="channel-editor-home-title">AIO Channel Editor 1.1.3</h2>
-<p class="lead">Edytuj listy kanałów Enigma2 bez komputera. Pobierz bukiety z tunera, uporządkuj kanały, dodaj wybrane bukiety z katalogu AIO i przejrzyj wszystkie operacje przed wysłaniem ich do odbiornika.</p>
-<div class="channel-editor-home-features"><span>OpenWebif i automatyczne łączenie</span><span>Edycja bukietów i kolejności kanałów</span><span>Import wybranych bukietów AIO</span><span>FREE / PRO • pełna kontrola zmian</span></div>
-<div class="channel-editor-home-actions"><a class="button primary" href="app-aio-channel-editor.html">Poznaj AIO Channel Editor</a><a class="button" download="" href="pliki/AIO_Channel_Editor_1.1.3_FREE_PRO.apk">Pobierz APK</a><a class="button subtle" download="" href="pliki/AIO_Channel_Editor_1.1.3_Poradnik_PL.pdf">Poradnik PDF</a></div>
-<p class="channel-editor-install-note"><strong>Instalacja APK:</strong> jeżeli Play Protect blokuje instalację, wyłącz skanowanie tylko na czas instalowania oficjalnego pliku, a po instalacji włącz ochronę ponownie.</p>
-</div>
-<figure class="channel-editor-home-media"><a href="app-aio-channel-editor.html"><img alt="AIO Channel Editor 1.1.3 — listy Enigma2 na telefonie" loading="lazy" src="pliki/aio-channel-editor-1.1.3-start.png"/></a></figure>
-</div>
-</section>
-<section aria-labelledby="news-title" class="aio-section home-news-section portal-panel">
-<div class="aio-section-head"><div><p class="aio-kicker">CO NOWEGO</p><h2 id="news-title">Najnowsze informacje i wydania</h2><p>Najważniejsze aktualizacje projektów i oficjalne komunikaty AIO-IPTV.pl.</p></div><div class="section-head-links"><a href="news.html">Aktualności →</a><a href="updates.html">Historia wydań →</a></div></div>
-<div class="aio-news-grid">
-<a class="aio-news-card" href="skin-aiohd-next.html"><span class="news-type-badge">NOWY PROJEKT</span><time datetime="2026-09-14">14.09.2026</time><strong>AIOHD NEXT 3.2.1</strong><span>MiniTV, rozbudowane EPG, trzy rozmiary listy kanałów, pogoda inline oraz Aurora / Amber / Violet.</span></a><a class="aio-news-card" href="plugin-aio-panel.html"><span class="news-type-badge">AKTUALIZACJA</span><time datetime="2026-09-14">14.09.2026</time><strong>AIO Panel 16.0.3</strong><span>Do sekcji Skórki dodano bezpośredni instalator AIOHD NEXT 3.2.1.</span></a>
-<a class="aio-news-card" href="plugin-iptv-dream.html"><span class="news-type-badge">AKTUALIZACJA</span><time datetime="2026-09-07">07.09.2026</time><strong>IPTV Dream 8.0.1</strong><span>Poprawiony eksport bez N/A, MAC/Stalker, WebIF, EPG, picony i instalator.</span></a>
-<a class="aio-news-card" href="plugin-simple-iptv-epg.html"><span class="news-type-badge">AKTUALIZACJA</span><time datetime="2026-08-15">15.08.2026</time><strong>Simple IPTV EPG 3.0.0 r1</strong><span>Gruntowna przebudowa mapowania i importu EPG dla IPTV.</span></a>
-</div>
-</section>
-<section aria-labelledby="projects-title" class="aio-section home-projects-section portal-panel">
-<div class="aio-section-head">
-<div><p class="aio-kicker">PROJEKTY AIO</p><h2 id="projects-title">Wtyczki i aplikacje są nadal pod ręką</h2><p>Jeśli przyszedłeś po konkretny projekt, wybierz go poniżej albo otwórz pełny katalog.</p></div>
-<a href="plugins.html">Wszystkie projekty →</a>
-</div>
-<div class="compact-project-grid">
-<a href="plugin-aio-panel.html"><span class="project-mark">AP</span><div><strong>AIO Panel <em>16.0.0</em></strong><p>Instalatory, listy, picony, diagnostyka, aktualizacje i narzędzia systemowe.</p></div><span class="project-license is-free">FREE</span></a>
-<a href="plugin-iptv-dream.html"><span class="project-mark">ID</span><div><strong>IPTV Dream <em>8.0.0</em></strong><p>M3U, Xtream i MAC/Stalker z EPG, piconami i eksportem bukietów.</p></div><span class="project-license is-free">FREE</span></a>
-<a href="plugin-neoradio.html"><span class="project-mark">NR</span><div><strong>NeoRadio <em>3.0.0</em></strong><p>Radio internetowe dla Enigma2 z rozbudowaną obsługą stacji.</p></div><span class="project-license is-free">FREE</span></a>
-<a href="plugin-simple-iptv-epg.html"><span class="project-mark">EPG</span><div><strong>Simple IPTV EPG <em>3.0.0 r1</em></strong><p>Mapowanie XMLTV i import programu TV do systemowego EPG.</p></div><span class="project-license is-free">FREE</span></a>
-<a href="app-aio-panel-remote.html"><span class="project-mark">AR</span><div><strong>AIO Panel Remote <em>1.4.6</em></strong><p>Pilot, kanały, EPG, picony i streaming SAT/IPTV na telefonie.</p></div><span class="project-license is-pro">FREE / PRO</span></a>
-<a href="app-aio-channel-editor.html"><span class="project-mark">CE</span><div><strong>AIO Channel Editor <em>1.1.3</em></strong><p>Mobilna edycja list Enigma2, bukiety AIO, kolejka zmian i zapis przez OpenWebif.</p></div><span class="project-license is-pro">FREE / PRO</span></a>
-<a href="plugin-pp-channel-sync.html"><span class="project-mark">CS</span><div><strong>PP Channel Sync <em>2.1.1</em></strong><p>Synchronizacja list kanałów z backupem i możliwością cofnięcia zmian.</p></div><span class="project-license is-free">FREE</span></a>
-</div>
-</section><section aria-labelledby="my-aio-title" class="portal-my-aio portal-panel">
-<div class="portal-section-minihead"><div><p class="aio-kicker">MOJE AIO • TYLKO NA TYM URZĄDZENIU</p><h2 id="my-aio-title">Wróć szybko do tego, czego używasz</h2><p>Ulubione i ostatnio oglądane są zapisywane lokalnie w przeglądarce. Nie wymagają konta.</p></div><button class="portal-text-button" id="aioClearHistory" type="button">Wyczyść historię</button></div>
-<div class="portal-personal-grid">
-<div><h3>⭐ Ulubione</h3><div class="portal-personal-list" id="aioFavorites"><p class="portal-empty-state">Dodaj gwiazdkę przy projekcie w Centrum pobierania.</p></div></div>
-<div><h3>◷ Ostatnio oglądane</h3><div class="portal-personal-list" id="aioRecent"><p class="portal-empty-state">Otwierane projekty pojawią się tutaj.</p></div></div>
-</div>
-</section>
-<section class="aio-split home-tools-split portal-panel">
-<section aria-labelledby="remote-title" class="aio-feature-app">
-<p class="aio-kicker">APLIKACJA MOBILNA</p>
-<h2 id="remote-title">AIO Panel Remote 1.4.6</h2>
-<p>Sterowanie tunerem Enigma2 z telefonu: pilot, kanały, EPG, picony oraz streaming SAT i IPTV.</p>
-<div class="aio-app-image"><img alt="AIO Panel Remote 1.4.6" loading="lazy" src="pliki/aio-panel-remote-1.4.6-start.png"/></div>
-<div class="aio-mini-list"><span>Pełny pilot Enigma2</span><span>Lista kanałów i EPG</span><span>Tryb Free / Pro</span><span>Streaming przez prywatną sieć</span></div>
-<div class="aio-community-actions"><a class="button primary" href="app-aio-panel-remote.html">Poznaj aplikację</a><a class="button" href="pliki/AIO_Panel_Remote_1.4.6_FREE_PRO.apk">Pobierz APK</a></div>
-</section>
-<section aria-labelledby="tools-title" class="aio-community home-toolbox">
-<p class="aio-kicker">NARZĘDZIA I WIEDZA</p>
-<h2 id="tools-title">Szybciej znajdź przyczynę i rozwiązanie</h2>
-<p>Komendy instalacyjne, baza błędów, status projektów i narzędzia diagnostyczne dla Enigma2.</p>
-<div class="toolbox-links">
-<a href="one-liner.html"><span>&gt;_</span><div><strong>One-Liner / FTP</strong><small>Gotowe polecenia instalacyjne</small></div><b>→</b></a>
-<a href="errors.html"><span>i</span><div><strong>Baza błędów</strong><small>Przyczyny i rozwiązania problemów</small></div><b>→</b></a>
-<a href="project-status.html"><span>↗</span><div><strong>Status projektów</strong><small>Co jest rozwijane i stabilne</small></div><b>→</b></a>
-<a href="ai-chat.html"><span>AI</span><div><strong>AI Chat</strong><small>Szybka pomoc przy prostych pytaniach</small></div><b>→</b></a>
-</div>
-</section>
-</section>
-<section aria-labelledby="route-title" class="aio-section home-route-section portal-panel">
-<div class="aio-section-head"><div><p class="aio-kicker">PROSTA ŚCIEŻKA</p><h2 id="route-title">Od pytania do rozwiązania</h2><p>Nie wiesz, od czego zacząć? Skorzystaj z tej kolejności.</p></div></div>
-<div aria-label="Prosta ścieżka korzystania z serwisu" class="aio-route">
-<div class="aio-route-step"><span class="num">01</span><strong>Zapytaj społeczność</strong><p>Sprawdź istniejące wpisy albo opisz swój problem.</p></div>
-<div class="aio-route-step"><span class="num">02</span><strong>Sprawdź poradniki</strong><p>Skorzystaj z instrukcji, bazy błędów i diagnostyki.</p></div>
-<div class="aio-route-step"><span class="num">03</span><strong>Pobierz potrzebny plik</strong><p>Przejdź do wtyczki, aplikacji, systemu albo listy.</p></div>
-<div class="aio-route-step"><span class="num">04</span><strong>Podziel się rozwiązaniem</strong><p>Pomóż kolejnym użytkownikom z podobnym problemem.</p></div>
-</div>
-</section>
-<section aria-labelledby="install-title" class="aio-section aio-install portal-panel">
-<div><p class="aio-kicker">SZYBKA INSTALACJA</p><h2 id="install-title">AIO Panel w jednej komendzie</h2><p>Wklej polecenie w terminalu OpenWebif, SSH lub Telnet. Po instalacji wykonaj Restart GUI.</p></div>
-<div class="command"><div><strong>AIO Panel — instalator GitHub</strong><button data-copy="wget -q -O - https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh | /bin/sh" type="button">Kopiuj</button></div><pre><code>wget -q -O - https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh | /bin/sh</code></pre></div>
-</section>
+<header class="nx-header" data-nx-header>
+  <div class="nx-header-inner">
+    <a class="nx-brand" href="index.html" aria-label="AIO-IPTV.pl — strona główna">
+      <img src="pliki/logo.png" alt="" width="46" height="46">
+      <span><strong>AIO-IPTV.pl</strong><small>Enigma2 • projekty • pomoc • społeczność</small></span>
+    </a>
+
+    <nav class="nx-nav" id="nx-main-nav" aria-label="Główna nawigacja" data-nx-nav>
+      <a class="is-active" href="index.html">Start</a>
+      <a class="nx-nav-community" href="community.html">Społeczność</a>
+      <a href="downloads.html">Pobieranie</a>
+      <a href="guides.html">Poradniki</a>
+      <a href="plugins.html">Projekty</a>
+      <a href="systems.html">Systemy</a>
+      <details class="nx-nav-more">
+        <summary>Więcej</summary>
+        <div class="nx-nav-dropdown">
+          <a href="channel-lists.html">Listy kanałów</a>
+          <a href="android-apps.html">Android</a>
+          <a href="windows-apps.html">Windows</a>
+          <a href="news.html">Aktualności</a>
+          <a href="updates.html">Historia wydań</a>
+          <a href="one-liner.html">One-Liner / FTP</a>
+          <a href="errors.html">Baza błędów</a>
+          <a href="studio.html">Studio</a>
+          <a href="pro.html">Aplikacje PRO</a>
+          <a href="contact.html">Kontakt</a>
+        </div>
+      </details>
+    </nav>
+
+    <div class="nx-header-actions">
+      <button class="nx-search-trigger" type="button" data-nx-search-open aria-label="Szukaj na stronie"><span>⌕</span><span>Szukaj</span><kbd>Ctrl K</kbd></button>
+      <a class="nx-community-button" href="community.html">Społeczność AIO</a>
+      <button class="nx-menu-button" type="button" data-nx-menu aria-controls="nx-main-nav" aria-expanded="false">Menu</button>
+    </div>
+  </div>
+</header>
+
+<main id="main-content">
+  <section class="nx-hero nx-shell">
+    <div class="nx-hero-copy">
+      <p class="nx-eyebrow"><span></span>AIO IPTV PROJECT • PAWEŁ PAWEŁEK</p>
+      <h1>Wszystko do Enigma2.<br><em>Bez szukania po całej stronie.</em></h1>
+      <p class="nx-lead">Wtyczki, skiny, systemy, listy kanałów, aplikacje, poradniki i pomoc Społeczności AIO — uporządkowane według tego, co chcesz zrobić.</p>
+      <div class="nx-hero-actions">
+        <button class="nx-button nx-primary" type="button" data-nx-search-open>Znajdź na stronie</button>
+        <a class="nx-button" href="community.html">Zapytaj społeczność</a>
+        <a class="nx-text-link" href="start-here.html">Pierwszy raz tutaj? Zacznij tutaj →</a>
+      </div>
+      <div class="nx-trust-row" aria-label="Najważniejsze cechy serwisu">
+        <span><b>01</b> Projekty AIO</span>
+        <span><b>02</b> Enigma2</span>
+        <span><b>03</b> Pomoc użytkowników</span>
+        <span><b>04</b> Pliki i instrukcje</span>
+      </div>
+    </div>
+
+    <aside class="nx-start-card" aria-labelledby="nx-start-title">
+      <div class="nx-card-head">
+        <div><p class="nx-eyebrow">SZYBKI START</p><h2 id="nx-start-title">Co chcesz zrobić?</h2></div>
+        <span class="nx-status"><i></i> AIO online</span>
+      </div>
+      <div class="nx-start-grid">
+        <a href="downloads.html"><span class="nx-icon">↓</span><div><strong>Pobrać plik</strong><small>IPK, APK, listy, systemy</small></div><b>→</b></a>
+        <a href="guides.html"><span class="nx-icon">?</span><div><strong>Rozwiązać problem</strong><small>poradniki i diagnostyka</small></div><b>→</b></a>
+        <a href="plugins.html"><span class="nx-icon">◇</span><div><strong>Znaleźć projekt</strong><small>wtyczki, skiny, aplikacje</small></div><b>→</b></a>
+        <a href="community.html"><span class="nx-icon">◎</span><div><strong>Zapytać ludzi</strong><small>Społeczność AIO</small></div><b>→</b></a>
+        <a href="systems.html"><span class="nx-icon">◉</span><div><strong>Pobrać system</strong><small>obrazy i Multi-Click</small></div><b>→</b></a>
+        <a href="one-liner.html"><span class="nx-icon">&gt;_</span><div><strong>Zainstalować</strong><small>komendy i FTP</small></div><b>→</b></a>
+      </div>
+    </aside>
+  </section>
+
+  <section class="nx-search-strip nx-shell" aria-label="Wyszukiwarka AIO-IPTV.pl">
+    <button type="button" data-nx-search-open>
+      <span class="nx-search-mark">⌕</span>
+      <span><strong>Szukaj w całym AIO-IPTV.pl</strong><small>np. AIO Panel, OSCam, EPG, picony, Zgemma, Android…</small></span>
+      <kbd>Ctrl K</kbd>
+    </button>
+    <div class="nx-search-chips"><a href="plugin-aio-panel.html">AIO Panel</a><a href="plugin-e2-doctor.html">E2-Doctor</a><a href="plugin-iptv-dream.html">IPTV Dream</a><a href="channel-lists.html">Listy kanałów</a><a href="errors.html">Błędy</a></div>
+  </section>
+
+  <section class="nx-section nx-shell" aria-labelledby="nx-updates-title">
+    <div class="nx-section-head">
+      <div><p class="nx-eyebrow">AKTUALNE</p><h2 id="nx-updates-title">Co zmieniło się ostatnio</h2><p>Dane są pobierane z historii wydań, więc strona główna nie wymaga ręcznego przepisywania numerów wersji.</p></div>
+      <div class="nx-head-links"><a href="news.html">Aktualności</a><a href="updates.html">Historia wydań →</a></div>
+    </div>
+    <div class="nx-update-grid" data-nx-updates>
+      <div class="nx-skeleton"></div><div class="nx-skeleton"></div><div class="nx-skeleton"></div>
+    </div>
+  </section>
+
+  <section class="nx-section nx-shell" aria-labelledby="nx-areas-title">
+    <div class="nx-section-head">
+      <div><p class="nx-eyebrow">NA SKRÓTY</p><h2 id="nx-areas-title">Wybierz obszar</h2><p>Każdy główny dział ma własne, jednoznaczne wejście. Bez przechodzenia przez kilka poziomów menu.</p></div>
+    </div>
+    <div class="nx-area-grid">
+      <a href="plugins.html" class="nx-area-card nx-area-featured"><span class="nx-area-index">01</span><div><small>ENIGMA2</small><strong>Wtyczki i skiny</strong><p>AIO Panel, IPTV Dream, E2-Doctor, AIOHD NEXT i pozostałe projekty.</p></div><b>→</b></a>
+      <a href="channel-lists.html" class="nx-area-card"><span class="nx-area-index">02</span><div><small>SAT / IPTV</small><strong>Listy kanałów</strong><p>Aktualne zestawy AIO Team oraz narzędzia do obsługi list.</p></div><b>→</b></a>
+      <a href="systems.html" class="nx-area-card"><span class="nx-area-index">03</span><div><small>IMAGE</small><strong>Systemy Enigma2</strong><p>Obrazy, instalacja, Multi-Click i informacje o zgodności.</p></div><b>→</b></a>
+      <a href="android-apps.html" class="nx-area-card"><span class="nx-area-index">04</span><div><small>MOBILE</small><strong>Android</strong><p>Aplikacje AIO do obsługi, edycji i pracy z tunerami.</p></div><b>→</b></a>
+      <a href="guides.html" class="nx-area-card"><span class="nx-area-index">05</span><div><small>WIEDZA</small><strong>Poradniki</strong><p>Instrukcje krok po kroku, konfiguracja i rozwiązywanie problemów.</p></div><b>→</b></a>
+      <a href="errors.html" class="nx-area-card"><span class="nx-area-index">06</span><div><small>DIAGNOSTYKA</small><strong>Baza błędów</strong><p>Najczęstsze problemy Enigma2, przyczyny i praktyczne rozwiązania.</p></div><b>→</b></a>
+      <a href="windows-apps.html" class="nx-area-card"><span class="nx-area-index">07</span><div><small>DESKTOP</small><strong>Windows</strong><p>Narzędzia i aplikacje do pracy z Enigma2 na komputerze.</p></div><b>→</b></a>
+      <a href="studio.html" class="nx-area-card"><span class="nx-area-index">08</span><div><small>NARZĘDZIA</small><strong>Studio AIO</strong><p>Kreatory, diagnostyka, raporty i narzędzia użytkowe.</p></div><b>→</b></a>
+    </div>
+  </section>
+
+  <section class="nx-community-wrap nx-shell" aria-labelledby="nx-community-title" data-community-home-stats>
+    <div class="nx-community-main">
+      <p class="nx-eyebrow"><span></span>SPOŁECZNOŚĆ AIO</p>
+      <h2 id="nx-community-title">Nie tylko pobieranie.<br><em>Tu można zapytać i pomóc innym.</em></h2>
+      <p>Społeczność AIO pozostaje jednym z głównych elementów serwisu. Pytania, odpowiedzi, zdjęcia, rozwiązane problemy i oficjalne komunikaty są dostępne bez opuszczania AIO-IPTV.pl.</p>
+      <div class="nx-community-actions"><a class="nx-button nx-primary" href="community.html">Wejdź do Społeczności AIO</a><a class="nx-button" href="community.html?mode=unanswered">Pytania bez odpowiedzi</a><a class="nx-text-link" href="community-rules.html">Zasady społeczności →</a></div>
+    </div>
+    <aside class="nx-community-stats">
+      <div class="nx-community-status"><span><i></i>Społeczność AIO</span><small data-community-home-status>Ładuję dane…</small></div>
+      <div class="nx-stat-primary"><span>Użytkownicy społeczności</span><strong data-community-home-stat="users">—</strong></div>
+      <div class="nx-stat-grid">
+        <div><strong data-community-home-stat="new_posts_7d">—</strong><span>wpisów / 7 dni</span></div>
+        <div><strong data-community-home-stat="new_comments_7d">—</strong><span>komentarzy / 7 dni</span></div>
+        <div><strong data-community-home-stat="solved">—</strong><span>rozwiązanych</span></div>
+        <div><strong data-community-home-stat="unanswered">—</strong><span>bez odpowiedzi</span></div>
+      </div>
+      <a class="nx-stat-link" href="community.html">Otwórz wpisy społeczności <b>→</b></a>
+    </aside>
+  </section>
+
+  <section class="nx-section nx-shell" aria-labelledby="nx-projects-title">
+    <div class="nx-section-head">
+      <div><p class="nx-eyebrow">PROJEKTY AIO</p><h2 id="nx-projects-title">Aktywnie rozwijane</h2><p>Lista jest tworzona automatycznie z pliku projektów — wersje i daty pozostają spójne z resztą serwisu.</p></div>
+      <div class="nx-head-links"><a href="plugins.html">Pełny katalog →</a></div>
+    </div>
+    <div class="nx-project-grid" data-nx-projects>
+      <div class="nx-skeleton"></div><div class="nx-skeleton"></div><div class="nx-skeleton"></div><div class="nx-skeleton"></div>
+    </div>
+  </section>
+
+  <section class="nx-toolbelt nx-shell" aria-labelledby="nx-tools-title">
+    <div class="nx-toolbelt-copy"><p class="nx-eyebrow">POMOC TECHNICZNA</p><h2 id="nx-tools-title">Od problemu do rozwiązania</h2><p>Najkrótsza ścieżka: sprawdź bazę błędów, poradnik lub narzędzie, a jeśli problem pozostaje — opisz go w społeczności.</p></div>
+    <div class="nx-toolbelt-grid">
+      <a href="errors.html"><span>01</span><strong>Baza błędów</strong><small>przyczyny i rozwiązania</small></a>
+      <a href="guides.html"><span>02</span><strong>Poradniki</strong><small>instrukcje krok po kroku</small></a>
+      <a href="report-error.html"><span>03</span><strong>Zgłoś błąd</strong><small>przygotuj komplet informacji</small></a>
+      <a href="ai-chat.html"><span>04</span><strong>AI Chat</strong><small>szybkie pytania techniczne</small></a>
+      <a href="community.html"><span>05</span><strong>Społeczność</strong><small>zapytaj innych użytkowników</small></a>
+    </div>
+  </section>
+
+  <section class="nx-section nx-shell" aria-labelledby="nx-directory-title">
+    <div class="nx-section-head">
+      <div><p class="nx-eyebrow">PEŁNY KATALOG</p><h2 id="nx-directory-title">Wszystko ma swoje miejsce</h2><p>Rzadziej używane funkcje nie zniknęły — są uporządkowane poniżej.</p></div>
+    </div>
+    <div class="nx-directory">
+      <details open><summary>Enigma2 i projekty <span>7</span></summary><div><a href="plugins.html">Wtyczki i skiny</a><a href="plugin-aio-panel.html">AIO Panel</a><a href="plugin-e2-doctor.html">E2-Doctor</a><a href="plugin-iptv-dream.html">IPTV Dream</a><a href="skin-aiohd-next.html">AIOHD NEXT</a><a href="compatibility.html">Zgodność</a><a href="project-status.html">Status projektów</a></div></details>
+      <details><summary>Pobieranie i konfiguracja <span>7</span></summary><div><a href="downloads.html">Centrum pobierania</a><a href="channel-lists.html">Listy kanałów</a><a href="systems.html">Systemy</a><a href="one-liner.html">One-Liner / FTP</a><a href="qr-install.html">Instalacja QR</a><a href="config-builder.html">Kreator konfiguracji</a><a href="my-tuner.html">Mój tuner</a></div></details>
+      <details><summary>Pomoc i wiedza <span>8</span></summary><div><a href="guides.html">Poradniki</a><a href="errors.html">Baza błędów</a><a href="guide-diagnostyka-enigma2.html">Diagnostyka Enigma2</a><a href="guide-oscam.html">OSCam</a><a href="log-analyzer.html">Analizator logów</a><a href="report-error.html">Generator zgłoszenia</a><a href="ai-chat.html">AI Chat</a><a href="knowledge.html">Baza wiedzy</a></div></details>
+      <details><summary>Aplikacje i narzędzia <span>7</span></summary><div><a href="android-apps.html">Android</a><a href="windows-apps.html">Windows</a><a href="app-aio-channel-editor.html">AIO Channel Editor</a><a href="app-aio-panel-remote.html">AIO Panel Remote</a><a href="studio.html">Studio AIO</a><a href="remote-simulator.html">Symulator pilota</a><a href="tuner-compare.html">Porównywarka tunerów</a></div></details>
+      <details><summary>Serwis i społeczność <span>8</span></summary><div><a href="community.html">Społeczność AIO</a><a href="community-rules.html">Regulamin społeczności</a><a href="news.html">Aktualności</a><a href="updates.html">Historia wydań</a><a href="ecosystem.html">Ekosystem AIO</a><a href="start-here.html">Zacznij tutaj</a><a href="support.html">Wsparcie projektu</a><a href="contact.html">Kontakt</a></div></details>
+    </div>
+  </section>
+
+  <section class="nx-install nx-shell" aria-labelledby="nx-install-title">
+    <div><p class="nx-eyebrow">AIO PANEL</p><h2 id="nx-install-title">Instalacja w jednej komendzie</h2><p>Wklej polecenie w terminalu OpenWebif, SSH lub Telnet. Po instalacji wykonaj Restart GUI.</p></div>
+    <div class="nx-command"><code>wget -q -O - https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh | /bin/sh</code><button type="button" data-nx-copy="wget -q -O - https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh | /bin/sh">Kopiuj</button></div>
+  </section>
 </main>
-<footer class="site-footer home-footer">
-<div class="footer-intro"><strong>AIO‑IPTV.pl</strong><span>Społeczność użytkowników Enigma2 oraz projekty by Paweł Pawełek.</span></div>
-<div class="footer-columns">
-<div><strong>Społeczność</strong><a href="community.html">Wpisy i pytania</a><a href="community.html?mode=unanswered">Bez odpowiedzi</a><a href="news.html">Aktualności</a><a href="community-rules.html">Regulamin</a></div>
-<div><strong>Znajdź</strong><a href="downloads.html">Pobieranie</a><a href="guides.html">Poradniki</a><a href="systems.html">Systemy</a><a href="channel-lists.html">Listy kanałów</a></div>
-<div><strong>Pomoc</strong><a href="support.html">Wsparcie</a><a href="errors.html">Baza błędów</a><a href="report-error.html">Zgłoś błąd</a><a href="contact.html">Kontakt</a></div>
-<div><strong>Projekty</strong><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Android</a><a href="windows-apps.html">Windows</a><a href="studio.html">Studio</a></div>
-<div><strong>Zacznij</strong><a href="start-here.html">Pierwsze kroki</a><a href="ecosystem.html">Ekosystem AIO</a><a href="pro.html">Aplikacje PRO</a><a href="downloads.html">Centrum pobierania</a></div></div>
-<p>© <span id="year"></span> Paweł Pawełek • <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></p>
+
+<footer class="nx-footer">
+  <div class="nx-shell nx-footer-grid">
+    <div class="nx-footer-brand"><a class="nx-brand" href="index.html"><img src="pliki/logo.png" alt="" width="44" height="44"><span><strong>AIO-IPTV.pl</strong><small>projekty by Paweł Pawełek</small></span></a><p>Praktyczne centrum Enigma2, projektów AIO i pomocy użytkowników.</p></div>
+    <div><strong>Najważniejsze</strong><a href="community.html">Społeczność</a><a href="downloads.html">Pobieranie</a><a href="plugins.html">Projekty</a><a href="guides.html">Poradniki</a></div>
+    <div><strong>Enigma2</strong><a href="systems.html">Systemy</a><a href="channel-lists.html">Listy kanałów</a><a href="errors.html">Baza błędów</a><a href="one-liner.html">One-Liner / FTP</a></div>
+    <div><strong>Serwis</strong><a href="news.html">Aktualności</a><a href="updates.html">Historia wydań</a><a href="support.html">Wsparcie</a><a href="contact.html">Kontakt</a></div>
+  </div>
+  <div class="nx-shell nx-footer-bottom"><span>© <span id="year"></span> Paweł Pawełek</span><a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a><a href="privacy-community.html">Prywatność</a></div>
 </footer>
+
+<div class="nx-search-modal" data-nx-search-modal hidden>
+  <div class="nx-search-backdrop" data-nx-search-close></div>
+  <section class="nx-search-panel" role="dialog" aria-modal="true" aria-labelledby="nx-search-title">
+    <div class="nx-search-panel-head"><div><p class="nx-eyebrow">WYSZUKIWARKA AIO</p><h2 id="nx-search-title">Znajdź dokładnie to, czego potrzebujesz</h2></div><button type="button" data-nx-search-close aria-label="Zamknij wyszukiwarkę">×</button></div>
+    <label class="nx-search-input"><span>⌕</span><input type="search" data-nx-search-input autocomplete="off" placeholder="Wpisz projekt, problem, tuner, system lub temat…"><kbd>Esc</kbd></label>
+    <div class="nx-search-meta"><span data-nx-search-count>Zacznij pisać, aby przeszukać serwis.</span><span>↑↓ wybór • Enter otwórz</span></div>
+    <div class="nx-search-results" data-nx-search-results></div>
+    <div class="nx-search-empty" data-nx-search-empty hidden><strong>Brak pasujących wyników.</strong><span>Spróbuj krótszego hasła albo przejdź do Społeczności AIO.</span><a href="community.html">Zapytaj społeczność →</a></div>
+  </section>
 </div>
-<script defer="" src="assets/js/user-premium.js?v=20260911-access21"></script>
-<script defer="" src="assets/js/community-home.js?v=20260728-community10"></script>
-<script defer="" src="assets/js/pro-suite.js?v=20260815-aio2026"></script>
-<script defer="" src="assets/js/aio-experience.js?v=20260816-community-first"></script>
-<script defer="True" src="assets/js/portal-ux3.js?v=20260911-homeux4"></script></body>
+
+<script defer src="assets/js/user-premium.js?v=20260914-access22-unified1"></script>
+<script defer src="assets/js/community-home.js?v=20260728-community10"></script>
+<script defer src="assets/js/aio-home-next.js?v=20261001-home-next1"></script>
+</body>
 </html>
