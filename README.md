@@ -22,6 +22,15 @@ W jednym miejscu znajdziesz wtyczki, skin, listy kanałów, narzędzia systemowe
 
 ## ⭐ Najnowsze aktualizacje
 
+### 🔐 E2 Security 1.1.1 — nowy projekt
+
+Ochrona sieciowa tunera Enigma2: zapora IPv4/IPv6, profile DOM, ZAUFANE i LOCKDOWN, audyt oraz ochrona logowania SSH. Python 2/3, interfejs PL/EN.
+
+[Opis i instrukcja](plugin-e2-security.html) • [Pobierz IPK](pliki/E2-Security_1.1.1_all.ipk)
+
+Aktywna zapora wymaga modułów netfilter. E2 Security nie zastępuje zabezpieczeń routera.
+
+
 ### 🔷 AIO Panel 17.0.0
 
 AIO Panel to rozbudowane centrum zarządzania odbiornikiem Enigma2.

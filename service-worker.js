@@ -1,6 +1,7 @@
 /* AIO-IPTV.pl PWA — AIO Panel 17.0.0 2026-10-04 */
-const CACHE='aio-iptv-pro-20261004-aio-panel1700';
+const CACHE='aio-iptv-pro-20261005-e2security111';
 const CORE=[
+  './plugin-e2-security.html','./assets/css/e2-security.css?v=20261005','./pliki/e2-security-interface-1.1.0.jpg',
   './','./index.html','./access.html','./start-here.html','./ecosystem.html','./pro.html','./app-aio-channel-editor.html','./android-apps.html','./community.html','./support.html','./downloads.html','./guides.html','./news.html','./plugins.html','./skin-aiohd-next.html','./plugin-aio-panel.html','./systems.html','./updates.html',
   './post.html','./profile.html','./community-admin.html','./community-rules.html','./privacy-community.html','./aio-connect-report.html','./studio.html','./ai-chat.html','./offline.html',
   './assets/js/auto-language.js?v=20260729-auto-en1',

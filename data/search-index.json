@@ -1,5 +1,23 @@
 [
   {
+    "title": "E2 Security 1.1.1 — ochrona sieciowa Enigma2",
+    "desc": "Ochrona sieciowa tunera Enigma2: zapora IPv4/IPv6, profile DOM, ZAUFANE i LOCKDOWN, audyt oraz ochrona logowania SSH. Python 2/3, interfejs PL/EN.",
+    "url": "plugin-e2-security.html",
+    "tags": [
+      "E2 Security",
+      "AIO Security",
+      "1.1.1",
+      "firewall",
+      "zapora",
+      "SSH",
+      "IPv4",
+      "IPv6",
+      "DOM",
+      "ZAUFANE",
+      "LOCKDOWN"
+    ]
+  },
+  {
     "title": "Start",
     "desc": "Strona główna — szybkie wejście do wtyczek, narzędzi i poradników.",
     "url": "index.html",

@@ -1,5 +1,23 @@
 [
   {
+    "date": "2026-10-05",
+    "ts": 1791158400000,
+    "type": "release",
+    "title": "E2 Security 1.1.1 — nowy projekt",
+    "desc": "Ochrona sieciowa tunera Enigma2: zapora IPv4/IPv6, profile DOM, ZAUFANE i LOCKDOWN, audyt oraz ochrona logowania SSH. Python 2/3, interfejs PL/EN.",
+    "details": "E2 Security 1.1.1 — ochrona sieciowa Enigma2\n\n• Audyt bezpieczeństwa: Sprawdza stan zapory, hasło konta root, aktywne usługi, porty oraz ustawienia autoryzacji.\n• Zapora IPv4 i IPv6: Korzysta z nftables albo iptables/ip6tables. Zarządza własnymi tabelami i łańcuchami, bez czyszczenia całej konfiguracji firewalla.\n• Trzy profile ochrony: DOM dla wykrytej sieci prywatnej, ZAUFANE dla wskazanych adresów IP i LOCKDOWN blokujący nowe połączenia do usług tunera.\n• Tymczasowe SSH: Pozwala udostępnić SSH na porcie 22 jednemu adresowi IP na około 30 minut. Wymaga aktywnego profilu DOM lub ZAUFANE, ustawionego hasła root i działającego serwera SSH.\n• Ochrona logowania SSH: Po 5 nieudanych próbach w ciągu 10 minut adres może zostać zablokowany na około godzinę. Zapisane zaufane adresy są wyłączone z automatycznej blokady.\n• OpenWebif i streaming: Sprawdza i pozwala włączyć mechanizmy autoryzacji obsługiwane przez dany obraz Enigma2.\n• Zaufane urządzenia: Lista własnych adresów IPv4 i IPv6, np. komputera, telefonu i drugiego tunera.\n• Dziennik zdarzeń: Zapisuje zmiany profili, blokady adresów i automatyczne przywracanie ustawień.\n• Kontrola i naprawa modułów: Sprawdza wymagane mechanizmy zapory, próbuje doładować moduły jądra, a na obsługiwanych obrazach doinstalować brakujące pakiety.\n• Potwierdzenie z pilota i rollback: Zmiana profilu wymaga potwierdzenia z pilota. Brak potwierdzenia uruchamia automatyczne wycofanie zmiany.\n\nWymaga obsługi netfilter w obrazie. Nie jest antywirusem i nie zastępuje zabezpieczeń routera.\n\nPython 2 / Python 3 • PL/EN • by Paweł Pawełek.",
+    "url": "plugin-e2-security.html",
+    "tags": [
+      "E2 Security",
+      "1.1.1",
+      "Enigma2",
+      "SSH",
+      "IPv4",
+      "IPv6",
+      "Bezpieczeństwo"
+    ]
+  },
+  {
     "date": "2026-10-04",
     "ts": 1791072000000,
     "type": "release",

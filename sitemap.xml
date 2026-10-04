@@ -380,4 +380,5 @@
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
-<url><loc>https://olioli2013.github.io/aio-iptv-projekt/skin-aiohd-next.html</loc><lastmod>2026-09-14</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url></urlset>
+<url><loc>https://olioli2013.github.io/aio-iptv-projekt/skin-aiohd-next.html</loc><lastmod>2026-09-14</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url><url><loc>https://olioli2013.github.io/aio-iptv-projekt/plugin-e2-security.html</loc><lastmod>2026-10-05</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+</urlset>

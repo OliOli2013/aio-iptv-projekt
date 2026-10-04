@@ -1,6 +1,16 @@
 {
-  "generatedAt": "2026-10-03T10:26:47.997818+00:00",
+  "generatedAt": "2026-10-04T11:08:30.368920+00:00",
   "items": [
+    {
+      "id": "e2-security-ipk",
+      "name": "E2 Security 1.1.1 — plik IPK",
+      "url": "https://olioli2013.github.io/aio-iptv-projekt/pliki/E2-Security_1.1.1_all.ipk",
+      "category": "Pliki",
+      "status": "unknown",
+      "httpStatus": null,
+      "checkedAt": null,
+      "message": "Nowy plik — oczekuje na automatyczny test po publikacji strony."
+    },
     {
       "id": "site-home",
       "name": "Strona główna AIO-IPTV.pl",
@@ -8,8 +18,8 @@
       "category": "Strona",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-03T10:26:37.414454+00:00",
-      "message": "Usługa odpowiada prawidłowo • text/html • 36830 B."
+      "checkedAt": "2026-10-04T11:08:18.028723+00:00",
+      "message": "Usługa odpowiada prawidłowo • text/html • 37550 B."
     },
     {
       "id": "aio-installer",
@@ -18,8 +28,8 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-03T10:26:37.532791+00:00",
-      "message": "Usługa odpowiada prawidłowo • text/plain • 6398 B."
+      "checkedAt": "2026-10-04T11:08:18.086033+00:00",
+      "message": "Usługa odpowiada prawidłowo • text/plain • 8648 B."
     },
     {
       "id": "iptv-installer",
@@ -28,7 +38,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-03T10:26:37.654285+00:00",
+      "checkedAt": "2026-10-04T11:08:18.180263+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 7770 B."
     },
     {
@@ -38,7 +48,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-03T10:26:37.783104+00:00",
+      "checkedAt": "2026-10-04T11:08:18.301914+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 2469 B."
     },
     {
@@ -48,7 +58,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-03T10:26:37.902400+00:00",
+      "checkedAt": "2026-10-04T11:08:18.398224+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 11971 B."
     },
     {
@@ -58,7 +68,7 @@
       "category": "Listy kanałów",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-03T10:26:38.011281+00:00",
+      "checkedAt": "2026-10-04T11:08:18.503655+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 7361 B."
     },
     {
@@ -66,10 +76,10 @@
       "name": "AIO Panel 17.0.0 — plik IPK",
       "url": "https://olioli2013.github.io/aio-iptv-projekt/pliki/enigma2-plugin-extensions-panelaio_17.0.0_all.ipk",
       "category": "Pliki",
-      "status": "unknown",
-      "httpStatus": null,
-      "checkedAt": null,
-      "message": "Nowy plik IPK 17.0.0 — oczekuje na test po publikacji aktualizacji strony."
+      "status": "online",
+      "httpStatus": 200,
+      "checkedAt": "2026-10-04T11:08:18.603797+00:00",
+      "message": "Usługa odpowiada prawidłowo • application/vnd.shana.informed.package • 407848 B."
     },
     {
       "id": "aiohd-next-ipk",
@@ -78,7 +88,7 @@
       "category": "Pliki",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-03T10:26:38.166824+00:00",
+      "checkedAt": "2026-10-04T11:08:18.723444+00:00",
       "message": "Usługa odpowiada prawidłowo • application/vnd.shana.informed.package • 7741750 B."
     },
     {
@@ -88,7 +98,7 @@
       "category": "Pliki",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-03T10:26:38.308555+00:00",
+      "checkedAt": "2026-10-04T11:08:18.858329+00:00",
       "message": "Usługa odpowiada prawidłowo • application/vnd.shana.informed.package • 388296 B."
     },
     {
@@ -98,7 +108,7 @@
       "category": "Pliki",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-03T10:26:38.362871+00:00",
+      "checkedAt": "2026-10-04T11:08:18.923833+00:00",
       "message": "Usługa odpowiada prawidłowo • application/vnd.android.package-archive • 111271 B."
     },
     {
@@ -108,7 +118,7 @@
       "category": "Systemy Multi-Click",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-03T10:26:38.414627+00:00",
+      "checkedAt": "2026-10-04T11:08:18.965466+00:00",
       "message": "Usługa odpowiada prawidłowo • application/zip • 214085499 B."
     },
     {
@@ -118,7 +128,7 @@
       "category": "Systemy Multi-Click",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-03T10:26:41.894587+00:00",
+      "checkedAt": "2026-10-04T11:08:23.155667+00:00",
       "message": "Usługa odpowiada prawidłowo • application/zip • 299143104 B."
     },
     {
@@ -128,7 +138,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-03T10:26:46.936311+00:00",
+      "checkedAt": "2026-10-04T11:08:29.235526+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     },
     {
@@ -138,7 +148,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-03T10:26:47.502095+00:00",
+      "checkedAt": "2026-10-04T11:08:29.693950+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     },
     {
@@ -148,7 +158,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-03T10:26:47.853657+00:00",
+      "checkedAt": "2026-10-04T11:08:29.950482+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     }
   ]

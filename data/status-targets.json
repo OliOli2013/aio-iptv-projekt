@@ -1,5 +1,11 @@
 [
   {
+    "id": "e2-security-ipk",
+    "name": "E2 Security 1.1.1 — plik IPK",
+    "url": "https://olioli2013.github.io/aio-iptv-projekt/pliki/E2-Security_1.1.1_all.ipk",
+    "category": "Pliki"
+  },
+  {
     "id": "site-home",
     "name": "Strona główna AIO-IPTV.pl",
     "url": "https://olioli2013.github.io/aio-iptv-projekt/",

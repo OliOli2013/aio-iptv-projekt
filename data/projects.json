@@ -1,5 +1,18 @@
 [
   {
+    "id": "e2-security",
+    "name": "E2 Security",
+    "version": "1.1.1",
+    "page": "plugin-e2-security.html",
+    "category": "Wtyczka Enigma2",
+    "status": "active",
+    "statusLabel": "Nowy projekt",
+    "updated": "05.10.2026",
+    "summary": "Ochrona sieciowa tunera Enigma2: zapora IPv4/IPv6, profile DOM, ZAUFANE i LOCKDOWN, audyt oraz ochrona logowania SSH. Python 2/3, interfejs PL/EN.",
+    "tested": "Deklarowana zgodność Python 2/3; działanie zapory zależy od modułów systemu",
+    "next": "Informacje o zgodności i zgłoszenia użytkowników w Społeczności AIO."
+  },
+  {
     "id": "aio-panel",
     "name": "AIO Panel",
     "version": "17.0.0",

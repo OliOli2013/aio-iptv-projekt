@@ -1,5 +1,16 @@
 [
   {
+    "name": "E2 Security",
+    "version": "1.1.1",
+    "type": "Wtyczka Enigma2",
+    "python": "Python 2 i 3",
+    "systems": "Obrazy Enigma2 z obsługą netfilter",
+    "requirements": "nftables albo iptables + ip6tables oraz wymagane moduły jądra",
+    "status": "Zależna od obrazu",
+    "url": "plugin-e2-security.html",
+    "notes": "Bez wymaganych modułów działa audyt; aktywna zapora wymaga poprawnego testu backendu. Ochrona SSH wymaga obsługiwanych logów OpenSSH/Dropbear."
+  },
+  {
     "name": "AIO Panel",
     "version": "17.0.0",
     "type": "Wtyczka Enigma2",
