@@ -194,8 +194,8 @@
 
   const PROJECTS = {
     aio: {
-      title: 'AIO Panel 16.0.3', url: 'plugin-aio-panel.html', kind: 'Wtyczka Enigma2', python: ['2', '3'], icon: '🧩',
-      summary: 'Centrum narzędzi Enigma2; wersja 16.0.3 dodaje instalator AIOHD NEXT 3.2.1 do sekcji Skórki.'
+      title: 'AIO Panel 17.0.0', url: 'plugin-aio-panel.html', kind: 'Wtyczka Enigma2', python: ['2', '3'], icon: '🧩',
+      summary: 'Nowe wtyczki, dodatki i skórki, weryfikacja list kanałów oraz usprawnione aktualizacje i instalatory. Interfejs PL/EN, Python 2.7 i Python 3.'
     },
     aiohd: {
       title: 'AIOHD NEXT 3.2.1', url: 'skin-aiohd-next.html', kind: 'Skin Enigma2', python: ['3'], icon: '🎨',

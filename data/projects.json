@@ -2,14 +2,14 @@
   {
     "id": "aio-panel",
     "name": "AIO Panel",
-    "version": "16.0.3",
+    "version": "17.0.0",
     "page": "plugin-aio-panel.html",
     "category": "Wtyczka Enigma2",
     "status": "active",
     "statusLabel": "Aktywnie rozwijany",
-    "updated": "14.09.2026",
-    "summary": "Centrum narzędzi Enigma2. W 16.0.3 do sekcji Skórki dodano bezpośredni instalator nowego projektu AIOHD NEXT 3.2.1; funkcje i poprawki 16.0.2 pozostają bez zmian.",
-    "tested": "Python 2 i 3; różne obrazy Enigma2",
+    "updated": "04.10.2026",
+    "summary": "Nowe wtyczki, dodatki i skórki, weryfikacja list kanałów oraz usprawnione aktualizacje i instalatory. Interfejs PL/EN, Python 2.7 i Python 3.",
+    "tested": "Zgodność kodu: Python 2.7 i Python 3; interfejs PL/EN",
     "next": "Dalszy rozwój AIO Panel i integracja kolejnych własnych projektów."
   },
   {

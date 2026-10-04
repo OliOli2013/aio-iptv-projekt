@@ -195,18 +195,18 @@
     "official": "Plik na AIO-IPTV.pl"
   },
   {
-    "title": "AIO Panel 16.0.3 — IPK",
-    "href": "pliki/enigma2-plugin-extensions-panelaio_16.0.3_all.ipk",
+    "title": "AIO Panel 17.0.0 — IPK",
+    "href": "pliki/enigma2-plugin-extensions-panelaio_17.0.0_all.ipk",
     "category": "Wtyczki",
     "platform": "Enigma2",
-    "version": "16.0.3",
-    "date": "14.09.2026",
+    "version": "17.0.0",
+    "date": "04.10.2026",
     "status": "Aktualna",
     "sourcePage": "plugin-aio-panel.html",
-    "sourceTitle": "AIO Panel 16.0.3",
+    "sourceTitle": "AIO Panel 17.0.0",
     "kind": "IPK",
-    "size": "389.4 KB",
-    "sha256": "ad2a71fe2d6a39eaa7e3fdc9cb1352db2679ea4dd50ac770c4950e38588e1fff",
+    "size": "398.3 KB",
+    "sha256": "19d3a9eb083c344bdaf9c8ebc714c257688a1a94a66b290a5013ca268eb00b05",
     "official": "Plik na AIO-IPTV.pl"
   },
   {

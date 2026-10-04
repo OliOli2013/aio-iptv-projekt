@@ -1,11 +1,30 @@
 [
   {
+    "date": "2026-10-04",
+    "ts": 1791072000000,
+    "type": "release",
+    "title": "AIO Panel 17.0.0 — aktualizacja",
+    "desc": "Nowe wtyczki, dodatki i skórki, weryfikacja list kanałów oraz usprawnione aktualizacje i instalatory. Interfejs PL/EN, Python 2.7 i Python 3.",
+    "details": "17.0.0 — poprawiona paczka, 2026-10-04\n\n• Rozszerzono katalog instalacyjny o nowe wtyczki, dodatki i skórki dla Enigma2.\n• Dodano weryfikację archiwów list kanałów przed wyświetleniem; błędne, puste i uszkodzone paczki są ukrywane.\n• Skórki z feedu dobierane są według pakietów dostępnych w danym obrazie.\n• Uporządkowano kategorie, pozostawiając „Listy kanałów” na początku, a „AIO / Aktualizacje” na końcu.\n• Usprawniono aktualizację panelu, pobieranie plików oraz kontrolę poprawności instalacji.\n• Poprawiono obsługę zmiany hasła i przywracanie poprzednich list po nieudanej instalacji.\n• Wzmocniono zabezpieczenia instalatorów i obsługę błędów.\n• Zachowano obsługę języka polskiego i angielskiego oraz zgodność kodu z Python 2.7 i Python 3.\n\nPaweł Pawełek / AIO Team.",
+    "url": "plugin-aio-panel.html",
+    "tags": [
+      "AIO Panel",
+      "17.0.0",
+      "Enigma2",
+      "Listy kanałów",
+      "Skórki",
+      "PL/EN",
+      "Python 2.7",
+      "Python 3"
+    ]
+  },
+  {
     "date": "2026-09-14",
     "ts": 1789387200000,
     "type": "release",
     "title": "AIOHD NEXT 3.2.1 — nowy skin Full HD dla OpenATV",
     "desc": "Nowy projekt AIO: MiniTV, 3 rozmiary listy kanałów, rozbudowany panel EPG z kolejnymi audycjami, opis w InfoBarze, pogoda inline i trzy palety Aurora / Amber / Violet.",
-    "details": "AIOHD NEXT 3.2.1 — nowy projekt dla Enigma2 / OpenATV\n\nNajważniejsze funkcje:\n• trzy rozmiary listy kanałów: Standard 32 px / 18 kanałów, Duża 38 px / 15 kanałów, Bardzo duża 42 px / 14 kanałów\n• podgląd MiniTV na liście kanałów\n• prawy panel: kanał, bieżąca audycja, czas, postęp, wielowierszowy opis EPG i 4 kolejne audycje\n• kompaktowy InfoBar z opisem trwającego wydarzenia\n• pełny opis w Event Information\n• pogoda bezpośrednio w skinie: ikona, miejscowość, temperatura i warunki; tryb Auto korzysta z kompatybilnego backendu OpenATV / MetrixWeather / Weather Plugin\n• możliwość wybrania zainstalowanej wtyczki pogodowej jako skrótu do pełnego ekranu\n• trzy warianty kolorystyczne: Aurora, Amber, Violet\n• poprawiony ekran OpenATV Informacje i rozbudowany ekran programu TV / EPG\n• instalacja bezpośrednio z AIO Panel 16.0.3 lub z pliku IPK.\n\nAIOHD NEXT 3.2.1 — by Paweł Pawełek.",
+    "details": "AIOHD NEXT 3.2.1 — nowy projekt dla Enigma2 / OpenATV\n\nNajważniejsze funkcje:\n• trzy rozmiary listy kanałów: Standard 32 px / 18 kanałów, Duża 38 px / 15 kanałów, Bardzo duża 42 px / 14 kanałów\n• podgląd MiniTV na liście kanałów\n• prawy panel: kanał, bieżąca audycja, czas, postęp, wielowierszowy opis EPG i 4 kolejne audycje\n• kompaktowy InfoBar z opisem trwającego wydarzenia\n• pełny opis w Event Information\n• pogoda bezpośrednio w skinie: ikona, miejscowość, temperatura i warunki; tryb Auto korzysta z kompatybilnego backendu OpenATV / MetrixWeather / Weather Plugin\n• możliwość wybrania zainstalowanej wtyczki pogodowej jako skrótu do pełnego ekranu\n• trzy warianty kolorystyczne: Aurora, Amber, Violet\n• poprawiony ekran OpenATV Informacje i rozbudowany ekran programu TV / EPG\n• instalacja bezpośrednio z AIO Panel lub z pliku IPK.\n\nAIOHD NEXT 3.2.1 — by Paweł Pawełek.",
     "url": "skin-aiohd-next.html",
     "tags": [
       "AIOHD NEXT",
@@ -20,23 +39,6 @@
       "Amber",
       "Violet",
       "AIO Panel"
-    ]
-  },
-  {
-    "date": "2026-09-14",
-    "ts": 1789383600000,
-    "type": "release",
-    "title": "AIO Panel 16.0.3 — AIOHD NEXT w sekcji Skórki",
-    "desc": "Do AIO Panel dodano bezpośredni instalator nowego skina AIOHD NEXT 3.2.1. Pozostałe funkcje i poprawki wydania 16.0.2 pozostają bez zmian.",
-    "details": "AIO Panel 16.0.3\n\nZmiana w wersji 16.0.3:\n• do sekcji Skórki dodano AIOHD NEXT 3.2.1\n• skin jest instalowany bezpośrednio z oficjalnego wydania GitHub projektu AIOHD NEXT\n• pozycja dostępna jest w polskiej i angielskiej wersji AIO Panel\n• nie zmieniono działających instalatorów ani pozostałych funkcji panelu\n• zachowane zostały poprawki 16.0.2: updater, oscam.srvid/srvid2, SoftCam.Key, Listy kanałów jako pierwsza zakładka i komunikaty operacji.\n\nAIO Panel 16.0.3 — by Paweł Pawełek.",
-    "url": "plugin-aio-panel.html",
-    "tags": [
-      "AIO Panel",
-      "16.0.3",
-      "AIOHD NEXT",
-      "Skórki",
-      "Enigma2",
-      "OpenATV"
     ]
   },
   {

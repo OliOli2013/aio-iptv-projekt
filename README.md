@@ -5,7 +5,7 @@
 ![Enigma2](https://img.shields.io/badge/Enigma2-OpenATV%20%7C%20OpenPLi-blue?style=for-the-badge&logo=linux)
 ![Python](https://img.shields.io/badge/Python-2%20%7C%203-yellow?style=for-the-badge&logo=python)
 ![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
-![AIO Panel](https://img.shields.io/badge/AIO%20Panel-16.0.3-00bcd4?style=for-the-badge)
+![AIO Panel](https://img.shields.io/badge/AIO%20Panel-17.0.0-00bcd4?style=for-the-badge)
 ![AIOHD NEXT](https://img.shields.io/badge/AIOHD%20NEXT-3.2.1-f0b84b?style=for-the-badge)
 
 ---
@@ -22,15 +22,22 @@ W jednym miejscu znajdziesz wtyczki, skin, listy kanałów, narzędzia systemowe
 
 ## ⭐ Najnowsze aktualizacje
 
-### 🔷 AIO Panel 16.0.3
+### 🔷 AIO Panel 17.0.0
 
 AIO Panel to rozbudowane centrum zarządzania odbiornikiem Enigma2.
 
-W wersji **16.0.3** do sekcji **Skórki** został dodany mój nowy projekt:
+Aktualizacja **17.0.0 — poprawiona paczka, 2026-10-04**
 
-### 🎨 AIOHD NEXT 3.2.1
+- Rozszerzono katalog instalacyjny o nowe wtyczki, dodatki i skórki dla Enigma2.
+- Dodano weryfikację archiwów list kanałów przed wyświetleniem; błędne, puste i uszkodzone paczki są ukrywane.
+- Skórki z feedu dobierane są według pakietów dostępnych w danym obrazie.
+- Uporządkowano kategorie, pozostawiając „Listy kanałów” na początku, a „AIO / Aktualizacje” na końcu.
+- Usprawniono aktualizację panelu, pobieranie plików oraz kontrolę poprawności instalacji.
+- Poprawiono obsługę zmiany hasła i przywracanie poprzednich list po nieudanej instalacji.
+- Wzmocniono zabezpieczenia instalatorów i obsługę błędów.
+- Zachowano obsługę języka polskiego i angielskiego oraz zgodność kodu z Python 2.7 i Python 3.
 
-Skin można teraz zainstalować bezpośrednio z poziomu **AIO Panel → Skórki → AIOHD NEXT – Instalator**.
+[Pobierz IPK 17.0.0](pliki/enigma2-plugin-extensions-panelaio_17.0.0_all.ipk) • [Opis i instalacja](plugin-aio-panel.html)
 
 AIO Panel oferuje m.in.:
 

@@ -19,19 +19,18 @@
     ]
   },
   {
-    "title": "AIO Panel 16.0.3 — AIOHD NEXT w sekcji Skórki",
-    "desc": "AIO Panel 16.0.3 dodaje bezpośredni instalator AIOHD NEXT 3.2.1. Zachowuje poprawki updatera, oscam.srvid/srvid2, SoftCam.Key i układ z Listami kanałów jako pierwszą zakładką.",
+    "title": "AIO Panel 17.0.0 — aktualizacja",
+    "desc": "Nowe wtyczki, dodatki i skórki, weryfikacja list kanałów oraz usprawnione aktualizacje i instalatory. Interfejs PL/EN, Python 2.7 i Python 3.",
     "url": "plugin-aio-panel.html",
     "tags": [
       "AIO Panel",
-      "16.0.3",
-      "AIOHD NEXT",
-      "skin",
-      "Skórki",
+      "17.0.0",
       "Enigma2",
-      "aktualizacja",
-      "oscam.srvid",
-      "SoftCam.Key"
+      "listy kanałów",
+      "skórki",
+      "instalatory",
+      "Python 2.7",
+      "Python 3"
     ]
   },
   {

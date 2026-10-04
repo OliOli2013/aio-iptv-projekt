@@ -1,14 +1,14 @@
 [
   {
     "name": "AIO Panel",
-    "version": "16.0.3",
+    "version": "17.0.0",
     "type": "Wtyczka Enigma2",
     "python": "Python 2 i 3",
     "systems": "OpenATV, OpenPLi, Egami, OpenViX, OpenBH, Pure2 i inne obrazy Enigma2",
     "requirements": "Enigma2; po instalacji zalecany Restart GUI",
     "status": "Szeroka zgodność",
     "url": "plugin-aio-panel.html",
-    "notes": "Wersja 16.0.3 dodaje instalator AIOHD NEXT 3.2.1 i zachowuje szeroką zgodność oraz poprawki 16.0.2."
+    "notes": "Zgodność kodu z Python 2.7 i Python 3. Interfejs PL/EN. Skórki z feedu dobierane do pakietów dostępnych w obrazie."
   },
   {
     "name": "AIOHD NEXT",

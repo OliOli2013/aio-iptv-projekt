@@ -76,7 +76,7 @@
       </nav>
 
       <div class="sidebar-cta">
-        <a download href="pliki/enigma2-plugin-extensions-panelaio_14.0.0_all.ipk">Pobierz AIO Panel 14.0.0</a>
+        <a download href="pliki/enigma2-plugin-extensions-panelaio_17.0.0_all.ipk">Pobierz AIO Panel 17.0.0</a>
         <div class="sub">Uniwersalna paczka (Py2/Py3)</div>
 
         <div class="v4-cta-row">

@@ -1,5 +1,5 @@
-/* AIO-IPTV.pl PWA — refreshed home 2026-10-01 */
-const CACHE='aio-iptv-pro-20261001-home-next2';
+/* AIO-IPTV.pl PWA — AIO Panel 17.0.0 2026-10-04 */
+const CACHE='aio-iptv-pro-20261004-aio-panel1700';
 const CORE=[
   './','./index.html','./access.html','./start-here.html','./ecosystem.html','./pro.html','./app-aio-channel-editor.html','./android-apps.html','./community.html','./support.html','./downloads.html','./guides.html','./news.html','./plugins.html','./skin-aiohd-next.html','./plugin-aio-panel.html','./systems.html','./updates.html',
   './post.html','./profile.html','./community-admin.html','./community-rules.html','./privacy-community.html','./aio-connect-report.html','./studio.html','./ai-chat.html','./offline.html',
@@ -10,7 +10,7 @@ const CORE=[
   './assets/css/pro-suite.css?v=20260728-community10-aio-connect','./assets/css/community.css?v=20260728-community10-aio-connect','./assets/js/aio-experience.js?v=20260816-community-first',
   './assets/js/community-core.js?v=20260914-community12-unified1','./assets/js/community-feed.js?v=20260728-community10-aio-connect','./assets/js/community-post.js?v=20260728-community10-aio-connect','./assets/js/community-profile.js?v=20260728-community10-aio-connect','./assets/js/community-admin.js?v=20260728-community10-aio-connect','./assets/js/community-home.js?v=20260728-community10-aio-connect',
   './data/community_config.json?v=20260728-community10-aio-connect','./data/updates.json','./data/projects.json','./data/downloads.json','./data/search-index.json',
-  './pliki/logo.png','./pliki/aio-panel-16.0.3-aiohd-next-promo.png','./pliki/aio-channel-editor-portal-promo.png'
+  './pliki/logo.png','./pliki/aio-panel-17.0.0.png','./pliki/aio-channel-editor-portal-promo.png'
 ];
 
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)).then(()=>self.skipWaiting())));
