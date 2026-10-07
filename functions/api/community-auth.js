@@ -127,7 +127,7 @@ export async function onRequestPost({request, env}) {
       await failAttempt(env, throttleKey);
       return json({ok:false,error:"Nieprawidłowy e-mail lub hasło."}, 401);
     }
-    const calc = await hashPassword(password, auth.password_salt, Number(auth.password_iterations || 180000));
+    const calc = await hashPassword(password, auth.password_salt, Number(auth.password_iterations || 100000));
     if (!safeEqual(calc.hash, auth.password_hash)) {
       await failAttempt(env, throttleKey);
       return json({ok:false,error:"Nieprawidłowy e-mail lub hasło."}, 401);

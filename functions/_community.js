@@ -21,7 +21,7 @@ export async function ensureSchema(env) {
       email TEXT NOT NULL UNIQUE,
       password_hash TEXT NOT NULL,
       password_salt TEXT NOT NULL,
-      password_iterations INTEGER NOT NULL DEFAULT 180000,
+      password_iterations INTEGER NOT NULL DEFAULT 100000,
       created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
       last_login_at TEXT,
       FOREIGN KEY(user_id) REFERENCES community_profiles(id) ON DELETE CASCADE
@@ -70,7 +70,10 @@ export async function sha256(value) {
   const digest = new Uint8Array(await crypto.subtle.digest("SHA-256", data));
   return b64(digest);
 }
-export async function hashPassword(password, saltB64 = null, iterations = 180000) {
+export async function hashPassword(password, saltB64 = null, iterations = 100000) {
+  // Cloudflare Workers WebCrypto currently accepts PBKDF2 up to 100000 iterations.
+  // Clamp defensively so a stale database value or future config typo cannot crash auth.
+  iterations = Math.max(1, Math.min(100000, Number(iterations || 100000)));
   const salt = saltB64 ? unb64(saltB64) : crypto.getRandomValues(new Uint8Array(16));
   const key = await crypto.subtle.importKey("raw", enc.encode(password), "PBKDF2", false, ["deriveBits"]);
   const bits = new Uint8Array(await crypto.subtle.deriveBits(
