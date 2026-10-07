@@ -1,758 +1,257 @@
-/* Społeczność AIO — linki chronione + wspólny limit AIO Access, 2026-09-14 community12-unified-access */
-(function () {
+
+/* Społeczność AIO — Cloudflare D1/R2 backend, 2026-10-08 */
+(function(){
   'use strict';
 
-  // Linki publikowane w Społeczności AIO są przechowywane tylko w pamięci JS.
-  // W DOM nie ma bezpośredniego adresu URL, dzięki czemu zwykłe "Kopiuj adres linku"
-  // nie omija mechanizmu pobierania/udostępniania przez autora wpisu.
-  const protectedCommunityLinks = new Map();
-  let protectedCommunityLinkSeq = 0;
+  const AIOCommunity = {
+    config:null, user:null, profile:null, ready:false, backendReady:false, ipBlocked:false,
 
-  function storeProtectedCommunityLink(url) {
-    protectedCommunityLinkSeq += 1;
-    let randomPart = '';
-    try {
-      if (window.crypto && window.crypto.getRandomValues) {
-        const data = new Uint32Array(1);
-        window.crypto.getRandomValues(data);
-        randomPart = data[0].toString(36);
-      }
-    } catch (error) {}
-    if (!randomPart) randomPart = Math.random().toString(36).slice(2, 10);
-    const token = 'aio-cl-' + Date.now().toString(36) + '-' + protectedCommunityLinkSeq.toString(36) + '-' + randomPart;
-    protectedCommunityLinks.set(token, String(url || ''));
-    return token;
-  }
-
-  function maskCommunityLink(url) {
-    try {
-      const parsed = new URL(url, window.location.href);
-      const protocol = /^https?:$/.test(parsed.protocol) ? parsed.protocol + '//' : '';
-      const host = parsed.host || '';
-      const hasTail = (parsed.pathname && parsed.pathname !== '/') || parsed.search || parsed.hash;
-      return protocol + host + (hasTail ? '/••••••' : '');
-    } catch (error) {
-      return 'link/••••••';
-    }
-  }
-
-  function openProtectedCommunityLink(token, anchor) {
-    const url = protectedCommunityLinks.get(String(token || ''));
-    if (!url) return false;
-
-    // Nie otwieraj adresu bezpośrednio. Każdy link Społeczności przechodzi przez
-    // ten sam dzienny limit AIO Access co pliki z sekcji Pobieranie.
-    const access = window.AIO_ACCESS_V21;
-    if (!access || typeof access.openCommunityLink !== 'function') return false;
-
-    const label = anchor ? String(anchor.textContent || '').replace(/\s+/g, ' ').trim() : maskCommunityLink(url);
-    return access.openCommunityLink({
-      href: url,
-      target: (anchor && anchor.getAttribute('target')) || '_blank',
-      download: '',
-      label: label || 'Link ze Społeczności AIO'
-    });
-  }
-
-  const Community = {
-    config: null,
-    client: null,
-    session: null,
-    user: null,
-    profile: null,
-    ready: false,
-    backendReady: false,
-    subscriptions: [],
-    authEventSequence: 0,
-    mediaUrlCache: new Map(),
-    ipBlocked: false,
-    ipBlockInfo: null,
-    secureWriteAvailable: true,
-    async init() {
-      try {
+    async init(){
+      try{
         this.config = await this.loadConfig();
-        if (!this.config || !this.config.enabled) throw new Error('Moduł społeczności jest wyłączony w konfiguracji.');
-        if (!window.supabase || typeof window.supabase.createClient !== 'function') {
-          throw new Error('Nie załadowano biblioteki Supabase.');
+        const health = await this.apiGet('health');
+        this.backendReady = Boolean(health && health.ok);
+        const session = await this.authSession();
+        if(session && session.authenticated){
+          this.user = session.user;
+          this.profile = session.profile || session.user;
         }
-        const supa = this.config.supabase || {};
-        if (!supa.url || !supa.anonKey) throw new Error('Brak danych Supabase w community_config.json.');
-        this.client = window.supabase.createClient(supa.url.replace(/\/+$/, ''), supa.anonKey, {
-          auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
-          global: { headers: { 'x-aio-community': this.config.version || 'community1' } }
-        });
-        const result = await this.client.auth.getSession();
-        this.session = result.data ? result.data.session : null;
-        this.user = this.session ? this.session.user : null;
-        const publicNewsPage = document.body && document.body.dataset.communityPage === 'news';
-        if (this.user) {
-          await this.ensureProfile();
-          // Oficjalne aktualności są publiczne i nie mogą czekać na funkcję Edge.
-          // Kontrolę blokad uruchamiamy w tle, a pozostałe strony czekają maksymalnie kilka sekund.
-          if (!publicNewsPage) await this.checkAccessWithTimeout(8000);
-        }
-        // Nie wykonujemy zapytań Supabase bezpośrednio w callbacku
-        // onAuthStateChange. W supabase-js może to zablokować kolejne
-        // wywołania klienta (deadlock). Obsługę sesji odkładamy do
-        // następnego obrotu pętli zdarzeń.
-        this.client.auth.onAuthStateChange((event, session) => {
-          window.setTimeout(() => {
-            const sameUser = Boolean(this.user && session && session.user && this.user.id === session.user.id);
-            if (event === 'INITIAL_SESSION' && sameUser && this.profile) {
-              this.session = session;
-              const publicNewsPage = document.body && document.body.dataset.communityPage === 'news';
-              if (publicNewsPage) {
-                this.renderAccountBars();
-                document.dispatchEvent(new CustomEvent('aio-community-auth', {
-                  detail: { user: this.user, profile: this.profile }
-                }));
-                this.checkAccessWithTimeout(8000).finally(() => this.renderAccountBars());
-              } else {
-                this.checkAccessWithTimeout(8000).finally(() => {
-                  this.renderAccountBars();
-                  document.dispatchEvent(new CustomEvent('aio-community-auth', {
-                    detail: { user: this.user, profile: this.profile }
-                  }));
-                });
-              }
-              return;
-            }
-            this.applyAuthSession(session);
-          }, 0);
-        });
-        this.backendReady = await this.probeBackend();
-        this.ready = true;
+        this.ready=true;
         this.initGlobalUi();
         this.renderAccountBars();
-        this.loadNotifications();
-        document.dispatchEvent(new CustomEvent('aio-community-ready', { detail: this }));
-        if (this.user && publicNewsPage) {
-          this.checkAccessWithTimeout(8000).finally(() => {
+        document.dispatchEvent(new CustomEvent('aio-community-ready',{detail:this}));
+      }catch(error){
+        console.error(error);
+        this.ready=true; this.backendReady=false;
+        this.initGlobalUi(); this.renderAccountBars(error);
+        document.dispatchEvent(new CustomEvent('aio-community-ready',{detail:this}));
+      }
+    },
+
+    async loadConfig(){
+      try{
+        const r=await fetch('data/community_config.json?v=20261008-cloudflare1',{cache:'no-store'});
+        if(r.ok) return await r.json();
+      }catch(_){}
+      return {
+        enabled:true, postsPerPage:12, maxImageSizeMb:5, maxImagesPerPost:4,
+        maxPostLength:50000,maxCommentLength:10000,postPreviewLength:1400,officialPreviewLength:3200,
+        categories:[
+          {id:'pomoc',label:'Pomoc techniczna',icon:'🛠️'},{id:'aio-panel',label:'AIO Panel',icon:'🧩'},
+          {id:'iptv',label:'IPTV i listy M3U',icon:'📺'},{id:'kanaly',label:'Listy kanałów',icon:'📡'},
+          {id:'picony',label:'Picony i EPG',icon:'🖼️'},{id:'oscam',label:'OSCam i softcam',icon:'🔐'},
+          {id:'systemy',label:'Systemy Enigma2',icon:'💿'},{id:'wtyczki',label:'Wtyczki',icon:'🔌'},
+          {id:'aplikacje',label:'Aplikacje',icon:'📱'},{id:'testy',label:'Testy i opinie',icon:'✅'},
+          {id:'inne',label:'Inne',icon:'💬'}
+        ],
+        postTypes:[
+          {id:'problem',label:'Problem / pytanie',icon:'❓'},{id:'information',label:'Informacja / komunikat',icon:'ℹ️'},
+          {id:'update',label:'Aktualizacja / nowość',icon:'📢'},{id:'guide',label:'Poradnik / rozwiązanie',icon:'💡'},
+          {id:'discussion',label:'Dyskusja / opinia',icon:'💬'}
+        ]
+      };
+    },
+
+    async apiGet(action, params={}){
+      const u=new URL('/api/community',location.origin);
+      u.searchParams.set('action',action);
+      Object.entries(params).forEach(([k,v])=>{if(v!==undefined&&v!==null&&v!=='')u.searchParams.set(k,String(v));});
+      const r=await fetch(u,{credentials:'include',cache:'no-store'});
+      const d=await r.json().catch(()=>({ok:false,error:'Nieprawidłowa odpowiedź serwera.'}));
+      if(!r.ok||d.ok===false) throw new Error(d.error||('HTTP '+r.status));
+      return d;
+    },
+    async api(action,payload={}){
+      const r=await fetch('/api/community',{
+        method:'POST',credentials:'include',cache:'no-store',
+        headers:{'content-type':'application/json'},
+        body:JSON.stringify({action,...payload})
+      });
+      const d=await r.json().catch(()=>({ok:false,error:'Nieprawidłowa odpowiedź serwera.'}));
+      if(!r.ok||d.ok===false) throw new Error(d.error||('HTTP '+r.status));
+      return d;
+    },
+    async authSession(){
+      const r=await fetch('/api/community-auth',{credentials:'include',cache:'no-store'});
+      return r.json();
+    },
+    async auth(action,payload={}){
+      const r=await fetch('/api/community-auth',{
+        method:'POST',credentials:'include',cache:'no-store',
+        headers:{'content-type':'application/json'},
+        body:JSON.stringify({action,...payload})
+      });
+      const d=await r.json().catch(()=>({ok:false,error:'Nieprawidłowa odpowiedź serwera.'}));
+      if(!r.ok||d.ok===false) throw new Error(d.error||('HTTP '+r.status));
+      return d;
+    },
+
+    initGlobalUi(){
+      document.addEventListener('click',e=>{
+        const login=e.target.closest('[data-community-login]');
+        if(login){e.preventDefault();this.openAuth();}
+        const logout=e.target.closest('[data-community-logout]');
+        if(logout){e.preventDefault();this.signOut();}
+        const image=e.target.closest('[data-community-image]');
+        if(image){e.preventDefault();this.openImage(image.getAttribute('src'),image.getAttribute('alt'));}
+      });
+    },
+
+    async signOut(){
+      try{await this.auth('logout');}catch(_){}
+      this.user=null;this.profile=null;this.renderAccountBars();
+      document.dispatchEvent(new CustomEvent('aio-community-auth',{detail:{user:null,profile:null}}));
+      this.showToast('Wylogowano ze Społeczności AIO.','success');
+    },
+
+    openAuth(message){
+      let dialog=document.querySelector('[data-aio-auth-dialog]');
+      if(!dialog){
+        dialog=document.createElement('dialog');
+        dialog.setAttribute('data-aio-auth-dialog','');
+        dialog.className='community-dialog';
+        dialog.innerHTML=`
+          <form class="community-dialog-card" data-aio-auth-form>
+            <button class="community-dialog-close" type="button" aria-label="Zamknij">✕</button>
+            <p class="eyebrow">Społeczność AIO • Cloudflare</p>
+            <h2>Zaloguj się lub utwórz konto</h2>
+            <p data-aio-auth-message class="community-side-note">Konto działa już na Cloudflare. Hasło musi mieć co najmniej 10 znaków.</p>
+            <div class="community-field"><label>E-mail</label><input type="email" name="email" required autocomplete="email"></div>
+            <div class="community-field"><label>Hasło</label><input type="password" name="password" required minlength="10" autocomplete="current-password"></div>
+            <div class="community-field" data-register-name hidden><label>Nazwa wyświetlana</label><input type="text" name="displayName" minlength="2" maxlength="60"></div>
+            <div class="community-form-actions">
+              <button class="button primary" type="submit" data-login-submit>Zaloguj</button>
+              <button class="button" type="button" data-register-toggle>Utwórz konto</button>
+            </div>
+            <small class="community-muted">Stare konta Supabase nie przenoszą haseł. Przy pierwszym wejściu do nowej Społeczności utwórz nowe konto.</small>
+          </form>`;
+        document.body.appendChild(dialog);
+        const form=dialog.querySelector('[data-aio-auth-form]');
+        const regWrap=dialog.querySelector('[data-register-name]');
+        const toggle=dialog.querySelector('[data-register-toggle]');
+        const submit=dialog.querySelector('[data-login-submit]');
+        let register=false;
+        toggle.addEventListener('click',()=>{
+          register=!register;regWrap.hidden=!register;
+          submit.textContent=register?'Utwórz konto':'Zaloguj';
+          toggle.textContent=register?'Mam już konto':'Utwórz konto';
+          form.querySelector('[name="displayName"]').required=register;
+        });
+        dialog.querySelector('.community-dialog-close').addEventListener('click',()=>dialog.close());
+        form.addEventListener('submit',async e=>{
+          e.preventDefault();
+          const button=submit;button.disabled=true;
+          try{
+            const email=form.email.value.trim(), password=form.password.value;
+            const d=await this.auth(register?'register':'login',{
+              email,password,displayName:form.displayName.value.trim()
+            });
+            this.user=d.user;this.profile=d.user;dialog.close();form.reset();
             this.renderAccountBars();
-            document.dispatchEvent(new CustomEvent('aio-community-auth', {
-              detail: { user: this.user, profile: this.profile }
-            }));
-          });
-        }
-      } catch (error) {
-        this.ready = true;
-        this.backendReady = false;
-        this.initGlobalUi();
-        this.renderAccountBars(error);
-        document.dispatchEvent(new CustomEvent('aio-community-ready', { detail: this }));
-        this.showSetupError(error);
+            document.dispatchEvent(new CustomEvent('aio-community-auth',{detail:{user:this.user,profile:this.profile}}));
+            this.showToast(d.firstAccount?'Konto utworzone. To pierwsze konto otrzymało uprawnienia administratora.':'Zalogowano.','success');
+          }catch(err){this.showToast(this.friendlyError(err),'error');}
+          finally{button.disabled=false;}
+        });
       }
+      const msg=dialog.querySelector('[data-aio-auth-message]');
+      if(msg&&message)msg.textContent=message;
+      if(typeof dialog.showModal==='function')dialog.showModal();else dialog.setAttribute('open','');
     },
 
-    async applyAuthSession(session) {
-      const sequence = ++this.authEventSequence;
-      const previousUserId = this.user ? this.user.id : null;
-      const previousProfile = this.profile;
-      this.session = session || null;
-      this.user = session ? session.user : null;
-      const sameUser = Boolean(previousUserId && this.user && previousUserId === this.user.id);
-      this.profile = sameUser ? previousProfile : null;
-
-      try {
-        const publicNewsPage = document.body && document.body.dataset.communityPage === 'news';
-        if (this.user) {
-          await this.ensureProfile();
-          if (!publicNewsPage) await this.checkAccessWithTimeout(8000);
-        }
-        if (sequence !== this.authEventSequence) return;
-        this.renderAccountBars();
-        this.loadNotifications();
-        document.dispatchEvent(new CustomEvent('aio-community-auth', {
-          detail: { user: this.user, profile: this.profile }
-        }));
-        if (this.user && publicNewsPage) {
-          this.checkAccessWithTimeout(8000).finally(() => {
-            this.renderAccountBars();
-          });
-        }
-      } catch (error) {
-        if (sequence !== this.authEventSequence) return;
-        console.error('Społeczność AIO — błąd odświeżania sesji:', error);
-        this.renderAccountBars(error);
-        document.dispatchEvent(new CustomEvent('aio-community-auth', {
-          detail: { user: this.user, profile: this.profile, error: error }
-        }));
-      }
-    },
-
-    async loadConfig() {
-      const response = await fetch('data/community_config.json?v=20260728-community10', { cache: 'no-store' });
-      if (!response.ok) throw new Error('Nie udało się odczytać konfiguracji społeczności.');
-      return response.json();
-    },
-
-    async probeBackend() {
-      if (!this.client) return false;
-      const { error } = await this.client.from('community_posts').select('id', { head: true, count: 'exact' }).limit(1);
-      if (!error) return true;
-      const text = String(error.message || error.details || '');
-      if (/does not exist|schema cache|relation/i.test(text)) return false;
-      return true;
-    },
-
-    async ensureProfile() {
-      if (!this.client || !this.user) return null;
-      let { data, error } = await this.client.from('community_profiles').select('*').eq('id', this.user.id).maybeSingle();
-      if (error && !/does not exist|schema cache/i.test(String(error.message || ''))) throw error;
-      if (!data && !error) {
-        const fallbackName = this.user.user_metadata && (this.user.user_metadata.display_name || this.user.user_metadata.full_name)
-          ? (this.user.user_metadata.display_name || this.user.user_metadata.full_name)
-          : String(this.user.email || 'Użytkownik').split('@')[0];
-        const insert = await this.client.from('community_profiles').upsert({
-          id: this.user.id,
-          display_name: String(fallbackName).slice(0, 60)
-        }).select('*').single();
-        if (!insert.error) data = insert.data;
-      }
-      this.profile = data ? await this.prepareProfile(data) : null;
-      return this.profile;
-    },
-
-    async signIn(email) {
-      if (!this.client) throw new Error('Brak połączenia z modułem logowania.');
-      const address = String(email || '').trim().toLowerCase();
-      if (!/^\S+@\S+\.\S+$/.test(address)) throw new Error('Podaj poprawny adres e-mail.');
-      const redirect = new URL('community.html', window.location.href).href.split('#')[0];
-      const { error } = await this.client.auth.signInWithOtp({
-        email: address,
-        options: {
-          emailRedirectTo: redirect,
-          data: { display_name: address.split('@')[0] }
+    renderAccountBars(error){
+      document.querySelectorAll('[data-community-account]').forEach(bar=>{
+        bar.classList.toggle('is-guest',!this.user);
+        const main=bar.querySelector('[data-community-account-main]');
+        const actions=bar.querySelector('[data-community-account-actions]');
+        if(!main||!actions)return;
+        if(this.user){
+          main.innerHTML=this.avatarHtml(this.profile,this.profile?.display_name,false)+
+            `<div class="community-account-copy"><strong>${this.escape(this.profile?.display_name||'Użytkownik')}</strong><small>${this.escape(this.roleLabel(this.profile?.role||'user'))}</small></div>`;
+          actions.innerHTML=`<a class="button" href="profile.html?id=${this.escapeAttr(this.user.id)}">Profil</a>`+
+            (this.isAdmin()?'<a class="button" href="community-admin.html">Moderacja</a>':'')+
+            '<button class="button" type="button" data-community-logout>Wyloguj</button>';
+        }else{
+          main.innerHTML='<span class="community-avatar">AIO</span><div class="community-account-copy"><strong>Społeczność AIO</strong><small>'+
+            (error?'Backend chwilowo niedostępny':'Zaloguj się, aby czytać i publikować')+'</small></div>';
+          actions.innerHTML='<button class="button primary" type="button" data-community-login>Zaloguj się / utwórz konto</button>';
         }
       });
-      if (error) throw error;
-      return true;
     },
 
-    async signOut() {
-      if (!this.client) return;
-      await this.client.auth.signOut();
-      this.ipBlocked = false;
-      this.ipBlockInfo = null;
-      this.showToast('Wylogowano ze Społeczności AIO.', 'success');
-    },
-
-    async edgeCall(type, payload) {
-      if (!this.client || !this.user) {
-        throw new Error('Zaloguj się do Społeczności AIO.');
-      }
-
-      const functions = this.config && this.config.edgeFunctions ? this.config.edgeFunctions : {};
-      const name = functions[type] || type;
-      const supa = this.config && this.config.supabase ? this.config.supabase : {};
-      const endpoint = String(supa.url || '').replace(/\/+$/, '') + '/functions/v1/' + encodeURIComponent(name);
-      if (!supa.url || !supa.anonKey) throw new Error('Brak konfiguracji funkcji Edge.');
-
-      const obtainSession = async (forceRefresh) => {
-        let result;
-        if (forceRefresh) result = await this.client.auth.refreshSession();
-        else result = await this.client.auth.getSession();
-        const session = result && result.data ? result.data.session : null;
-        if (result && result.error) throw result.error;
-        if (!session || !session.access_token) throw new Error('Sesja wygasła. Zaloguj się ponownie.');
-        this.session = session;
-        this.user = session.user;
-        return session;
-      };
-
-      const request = async (session) => {
-        const controller = new AbortController();
-        const timeout = window.setTimeout(() => controller.abort(), 22000);
-        try {
-          const response = await fetch(endpoint, {
-            method: 'POST',
-            mode: 'cors',
-            cache: 'no-store',
-            signal: controller.signal,
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer ' + session.access_token,
-              'apikey': supa.anonKey,
-              'x-client-info': 'aio-community-web/community8'
-            },
-            body: JSON.stringify(payload || {})
-          });
-
-          const raw = await response.text();
-          let data = {};
-          if (raw) {
-            try { data = JSON.parse(raw); }
-            catch (_) { data = { error: raw.slice(0, 1200) }; }
-          }
-          if (!response.ok || (data && data.error)) {
-            const detail = data && (data.error || data.message || data.msg)
-              ? String(data.error || data.message || data.msg)
-              : 'Funkcja ' + name + ' zwróciła HTTP ' + response.status + '.';
-            const error = new Error(detail);
-            error.status = response.status;
-            error.functionName = name;
-            error.code = data && data.code ? data.code : '';
-            throw error;
-          }
-          return data || {};
-        } catch (error) {
-          if (error && error.name === 'AbortError') {
-            throw new Error('Przekroczono czas odpowiedzi funkcji Edge ' + name + '.');
-          }
-          throw error;
-        } finally {
-          window.clearTimeout(timeout);
-        }
-      };
-
-      let session = await obtainSession(false);
-      try {
-        return await request(session);
-      } catch (error) {
-        // Po zmianie kluczy JWT lub dłuższej bezczynności pierwszy token może
-        // zostać odrzucony. Odświeżamy sesję raz i ponawiamy operację.
-        if (error && (error.status === 401 || /INVALID_SESSION|Invalid JWT|JWT expired|token/i.test(String(error.message || '')))) {
-          session = await obtainSession(true);
-          return request(session);
-        }
-        throw error;
-      }
-    },
-
-    async checkAccessWithTimeout(timeoutMs) {
-      const wait = Number(timeoutMs || 8000);
-      return Promise.race([
-        this.checkAccess(),
-        new Promise(resolve => window.setTimeout(() => {
-          this.secureWriteAvailable = false;
-          resolve(true);
-        }, wait))
-      ]);
-    },
-
-    async checkAccess() {
-      this.ipBlocked = false;
-      this.ipBlockInfo = null;
-      if (!this.user || !this.config || !this.config.secureWriteEnabled) return true;
-      try {
-        const result = await this.edgeCall('write', { action: 'check_access' });
-        this.secureWriteAvailable = true;
-        return Boolean(result.allowed !== false);
-      } catch (error) {
-        const text = String(error && error.message || error || '');
-        if (/adresu IP|IP_BLOCKED|zablokowan/i.test(text)) {
-          this.ipBlocked = true;
-          this.ipBlockInfo = { message: text };
-          return false;
-        }
-        if (/konto zostało zablokowane|ACCOUNT_BANNED/i.test(text)) {
-          if (this.profile) this.profile.banned_until = '9999-12-31T23:59:59.000Z';
-          return false;
-        }
-        this.secureWriteAvailable = false;
-        console.warn('Społeczność AIO — funkcja bezpiecznego zapisu nie odpowiada:', error);
-        return true;
-      }
-    },
-
-    requireWritable(message) {
-      if (!this.requireAuth(message)) return false;
-      if (this.ipBlocked) {
-        this.showToast('Dostęp z tego adresu IP został zablokowany przez administrację.', 'error');
-        return false;
-      }
-      if (this.isBanned()) {
-        this.showToast('To konto ma zablokowaną możliwość korzystania ze społeczności.', 'error');
-        return false;
-      }
-      return true;
-    },
-
-    isAdmin() {
-      return Boolean(this.profile && ['admin', 'moderator'].includes(this.profile.role));
-    },
-
-    isOwner(id) {
-      return Boolean(this.user && id && this.user.id === id);
-    },
-
-    isBanned() {
-      if (!this.profile || !this.profile.banned_until) return false;
-      return new Date(this.profile.banned_until).getTime() > Date.now();
-    },
-
-    requireAuth(message) {
-      if (this.user) return true;
-      this.openAuth(message || 'Zaloguj się, aby skorzystać z tej funkcji.');
+    requireAuth(message){
+      if(this.user)return true;
+      this.openAuth(message||'Zaloguj się, aby skorzystać z tej funkcji.');
       return false;
     },
+    isAdmin(){return Boolean(this.profile&&['admin','moderator'].includes(this.profile.role));},
+    isOwner(id){return Boolean(this.user&&id&&this.user.id===id);},
+    isBanned(){return Boolean(this.profile?.banned_until&&Date.parse(this.profile.banned_until)>Date.now());},
 
-    initGlobalUi() {
-      this.ensureAuthDialog();
-      this.ensureImageViewer();
-      document.addEventListener('click', event => {
-        const login = event.target.closest('[data-community-login]');
-        if (login) { event.preventDefault(); this.openAuth(); }
-        const logout = event.target.closest('[data-community-logout]');
-        if (logout) { event.preventDefault(); this.signOut(); }
-        const notify = event.target.closest('[data-community-notifications]');
-        if (notify) { event.preventDefault(); this.toggleNotifications(notify); }
-        const image = event.target.closest('[data-community-image]');
-        if (image) { event.preventDefault(); this.openImage(image.getAttribute('src'), image.getAttribute('alt')); }
-        const protectedLink = event.target.closest('[data-community-link-token]');
-        if (protectedLink) {
-          event.preventDefault();
-          event.stopPropagation();
-          if (!openProtectedCommunityLink(protectedLink.getAttribute('data-community-link-token'), protectedLink)) {
-            this.showToast('Nie udało się otworzyć linku. Odśwież stronę i spróbuj ponownie.', 'warning');
-          }
-        }
-      });
+    async uploadMedia(file,kind='post'){
+      if(!file)throw new Error('Nie wybrano pliku.');
+      const compressed=await this.compressImage(file,kind==='avatar'?512:1600,kind==='avatar'?0.8:0.82);
+      const fd=new FormData();fd.append('file',compressed,compressed.name||file.name);fd.append('kind',kind);
+      const r=await fetch('/api/community-media',{method:'POST',credentials:'include',body:fd});
+      const d=await r.json().catch(()=>({ok:false,error:'Błąd wysyłania obrazu.'}));
+      if(!r.ok||d.ok===false)throw new Error(d.error||'Błąd wysyłania obrazu.');
+      return d;
+    },
+    async compressImage(file,maxEdge=1600,quality=.82){
+      if(!/^image\/(jpeg|png|webp)$/i.test(file.type)||file.size<450000)return file;
+      try{
+        const bmp=await createImageBitmap(file);
+        let w=bmp.width,h=bmp.height;
+        const scale=Math.min(1,maxEdge/Math.max(w,h));w=Math.max(1,Math.round(w*scale));h=Math.max(1,Math.round(h*scale));
+        const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;
+        canvas.getContext('2d').drawImage(bmp,0,0,w,h);
+        const blob=await new Promise(res=>canvas.toBlob(res,'image/webp',quality));
+        if(!blob)return file;
+        return new File([blob],(file.name.replace(/\.[^.]+$/,'')||'image')+'.webp',{type:'image/webp'});
+      }catch(_){return file;}
     },
 
-    renderAccountBars(error) {
-      document.querySelectorAll('[data-community-account]').forEach(bar => {
-        bar.classList.toggle('is-guest', !this.user);
-        const main = bar.querySelector('[data-community-account-main]');
-        const actions = bar.querySelector('[data-community-account-actions]');
-        if (!main || !actions) return;
-        if (this.user) {
-          const name = this.profile && this.profile.display_name ? this.profile.display_name : String(this.user.email || '').split('@')[0];
-          const avatar = this.avatarHtml(this.profile, name, false);
-          const role = this.profile && this.profile.role && this.profile.role !== 'user'
-            ? '<span class="community-role ' + this.escape(this.profile.role) + '">' + this.escape(this.roleLabel(this.profile.role)) + '</span>' : '';
-          main.innerHTML = avatar + '<div class="community-account-copy"><strong>' + this.escape(name) + ' ' + role + '</strong><small>' + this.escape(this.ipBlocked ? 'Dostęp z tego adresu IP jest zablokowany' : (this.user.email || 'Zalogowany użytkownik')) + '</small></div>';
-          actions.innerHTML = '<button class="button community-notification-button" type="button" data-community-notifications>🔔<span class="community-notification-count" data-community-notification-count hidden>0</span></button>' +
-            '<a class="button" href="profile.html">Mój profil</a>' +
-            (this.isAdmin() ? '<a class="button" href="community-admin.html">Moderacja</a>' : '') +
-            '<button class="button" type="button" data-community-logout>Wyloguj</button>';
-        } else {
-          main.innerHTML = '<span class="community-avatar">AIO</span><div class="community-account-copy"><strong>Społeczność AIO</strong><small>' + this.escape(error ? 'Moduł wymaga konfiguracji' : 'Zaloguj się kodem wysłanym na e-mail') + '</small></div>';
-          actions.innerHTML = '<button class="button primary" type="button" data-community-login>Zaloguj / utwórz konto</button>';
-        }
-      });
+    category(id){return (this.config?.categories||[]).find(x=>x.id===id)||{id:'inne',label:'Inne',icon:'💬'};},
+    postType(id){return (this.config?.postTypes||[]).find(x=>x.id===id)||{id:'problem',label:'Problem / pytanie',icon:'❓'};},
+    roleLabel(role){return role==='admin'?'Administrator':role==='moderator'?'Moderator':'Użytkownik';},
+    escape(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));},
+    escapeAttr(value){return this.escape(value);},
+    formatText(value,limit){
+      let s=String(value||'');if(limit&&s.length>limit)s=s.slice(0,limit).trim()+'…';
+      s=this.escape(s).replace(/\n/g,'<br>');
+      s=s.replace(/(https?:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+      return s;
     },
-
-    ensureAuthDialog() {
-      if (document.getElementById('community-auth-dialog')) return;
-      const dialog = document.createElement('dialog');
-      dialog.id = 'community-auth-dialog';
-      dialog.className = 'community-dialog';
-      dialog.innerHTML = '<div class="community-dialog-card"><button class="community-dialog-close" type="button" aria-label="Zamknij">✕</button>' +
-        '<p class="eyebrow">Bez tradycyjnego hasła</p><h2>Zaloguj się do Społeczności AIO</h2>' +
-        '<p data-auth-message>Na podany adres otrzymasz bezpieczny link logowania. Konto zostanie utworzone automatycznie.</p>' +
-        '<div class="community-auth-benefits"><span>Publikuj pytania</span><span>Komentuj i reaguj</span><span>Otrzymuj powiadomienia</span></div>' +
-        '<form class="community-form" data-community-auth-form><div class="community-field"><label for="community-auth-email">Adres e-mail</label><input id="community-auth-email" type="email" autocomplete="email" required placeholder="twoj@email.pl"></div>' +
-        '<label class="community-notice"><input type="checkbox" required> Akceptuję <a href="community-rules.html" target="_blank">regulamin społeczności</a> i zapoznałem się z <a href="privacy-community.html" target="_blank">informacją o prywatności</a>.</label>' +
-        '<div class="community-form-actions"><button class="button primary" type="submit">Wyślij link logowania</button></div><p class="community-notice" data-community-auth-status hidden></p></form></div>';
-      document.body.appendChild(dialog);
-      const close = () => dialog.close();
-      dialog.querySelector('.community-dialog-close').addEventListener('click', close);
-      dialog.addEventListener('click', event => { if (event.target === dialog) close(); });
-      dialog.querySelector('[data-community-auth-form]').addEventListener('submit', async event => {
-        event.preventDefault();
-        const status = dialog.querySelector('[data-community-auth-status]');
-        const button = dialog.querySelector('button[type="submit"]');
-        const email = dialog.querySelector('#community-auth-email').value;
-        status.hidden = false;
-        status.className = 'community-notice';
-        status.textContent = 'Wysyłam link logowania…';
-        button.disabled = true;
-        try {
-          await this.signIn(email);
-          status.className = 'community-notice success';
-          status.textContent = 'Link został wysłany. Sprawdź skrzynkę odbiorczą i folder SPAM.';
-        } catch (err) {
-          status.className = 'community-notice warning';
-          status.textContent = this.friendlyError(err);
-        } finally {
-          button.disabled = false;
-        }
-      });
+    timeAgo(value){
+      const t=Date.parse(value);if(!t)return '';
+      const s=Math.floor((Date.now()-t)/1000);
+      if(s<60)return 'przed chwilą';if(s<3600)return Math.floor(s/60)+' min temu';if(s<86400)return Math.floor(s/3600)+' godz. temu';
+      if(s<604800)return Math.floor(s/86400)+' dni temu';return new Intl.DateTimeFormat('pl-PL',{dateStyle:'medium'}).format(new Date(t));
     },
-
-    openAuth(message) {
-      const dialog = document.getElementById('community-auth-dialog');
-      if (!dialog) return;
-      const msg = dialog.querySelector('[data-auth-message]');
-      if (msg && message) msg.textContent = message;
-      dialog.showModal();
-      window.setTimeout(() => dialog.querySelector('input[type="email"]').focus(), 80);
+    formatDate(value){const t=Date.parse(value);return t?new Intl.DateTimeFormat('pl-PL',{dateStyle:'medium',timeStyle:'short'}).format(new Date(t)):'';},
+    characterLabel(n,max){return Number(n||0).toLocaleString('pl-PL')+' / '+Number(max||0).toLocaleString('pl-PL');},
+    friendlyError(error){return String(error?.message||error||'Wystąpił błąd.').replace(/^Error:\s*/,'');},
+    avatarHtml(profile,name,link=true){
+      const p=profile||{},label=this.escape(name||p.display_name||'Użytkownik'),src=p.avatar_url||'';
+      const body=src?`<img class="community-avatar" src="${this.escapeAttr(src)}" alt="${label}" loading="lazy">`:`<span class="community-avatar">${this.escape((name||p.display_name||'A').slice(0,2).toUpperCase())}</span>`;
+      return body;
     },
-
-    ensureImageViewer() {
-      if (document.getElementById('community-image-dialog')) return;
-      const dialog = document.createElement('dialog');
-      dialog.id = 'community-image-dialog';
-      dialog.className = 'community-dialog';
-      dialog.innerHTML = '<div class="community-dialog-card"><button class="community-dialog-close" type="button" aria-label="Zamknij">✕</button><img alt="Podgląd zdjęcia" style="width:100%;max-height:80vh;object-fit:contain;border-radius:12px;background:#02090d"></div>';
-      document.body.appendChild(dialog);
-      dialog.querySelector('.community-dialog-close').addEventListener('click', () => dialog.close());
-      dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
+    showToast(message,type='info'){
+      let box=document.querySelector('.community-toast-stack');
+      if(!box){box=document.createElement('div');box.className='community-toast-stack';document.body.appendChild(box);}
+      const el=document.createElement('div');el.className='community-toast '+type;el.textContent=String(message||'');box.appendChild(el);
+      setTimeout(()=>el.remove(),4200);
     },
-
-    openImage(src, alt) {
-      const dialog = document.getElementById('community-image-dialog');
-      if (!dialog || !src) return;
-      const image = dialog.querySelector('img');
-      image.src = src;
-      image.alt = alt || 'Zdjęcie dodane do wpisu';
-      dialog.showModal();
+    showSetupError(error){this.showToast(this.friendlyError(error),'error');},
+    openImage(src,alt){
+      let d=document.querySelector('[data-community-image-dialog]');
+      if(!d){d=document.createElement('dialog');d.className='community-image-dialog';d.setAttribute('data-community-image-dialog','');d.innerHTML='<button type="button" aria-label="Zamknij">✕</button><img alt="">';document.body.appendChild(d);d.querySelector('button').onclick=()=>d.close();}
+      d.querySelector('img').src=src;d.querySelector('img').alt=alt||'Zdjęcie';d.showModal();
     },
-
-    async uploadImages(fileList, folder) {
-      if (!this.requireAuth('Zaloguj się, aby dodawać zdjęcia.')) return [];
-      const files = Array.from(fileList || []);
-      const maxCount = Number(this.config.maxImagesPerPost || 4);
-      const maxBytes = Number(this.config.maxImageSizeMb || 5) * 1024 * 1024;
-      if (files.length > maxCount) throw new Error('Możesz dodać maksymalnie ' + maxCount + ' zdjęcia.');
-      const results = [];
-      for (const file of files) {
-        if (!/^image\/(jpeg|png|webp|gif)$/i.test(file.type)) throw new Error('Dozwolone są zdjęcia JPG, PNG, WebP i GIF.');
-        if (file.size > maxBytes) throw new Error('Plik ' + file.name + ' przekracza limit ' + this.config.maxImageSizeMb + ' MB.');
-        const safe = String(file.name || 'image').replace(/[^a-zA-Z0-9._-]+/g, '-').slice(-90);
-        const path = this.user.id + '/' + (folder || 'posts') + '/' + Date.now() + '-' + crypto.randomUUID() + '-' + safe;
-        const upload = await this.client.storage.from(this.config.mediaBucket).upload(path, file, { cacheControl: '3600', upsert: false });
-        if (upload.error) throw upload.error;
-        results.push({ url: path, path: path, name: file.name, size: file.size, type: file.type });
-      }
-      return results;
-    },
-
-    mediaPath(value) {
-      const raw = String(value || '').trim();
-      if (!raw) return '';
-      const bucket = String(this.config && this.config.mediaBucket || 'community-media');
-      if (!/^https?:\/\//i.test(raw)) return raw.replace(/^\/+/, '');
-      try {
-        const url = new URL(raw);
-        const markers = [
-          '/storage/v1/object/public/' + bucket + '/',
-          '/storage/v1/object/sign/' + bucket + '/',
-          '/storage/v1/object/authenticated/' + bucket + '/'
-        ];
-        for (const marker of markers) {
-          const index = url.pathname.indexOf(marker);
-          if (index !== -1) return decodeURIComponent(url.pathname.slice(index + marker.length));
-        }
-      } catch (_) {}
-      return '';
-    },
-
-    async signedMediaUrl(value, expiresIn) {
-      const raw = String(value || '').trim();
-      if (!raw) return '';
-      const path = this.mediaPath(raw);
-      if (!path) return raw; // zewnętrzny avatar lub obraz
-      const scope = this.user ? this.user.id : 'anon';
-      const key = scope + ':' + path;
-      const cached = this.mediaUrlCache.get(key);
-      if (cached && cached.expires > Date.now()) return cached.url;
-      const result = await this.client.storage.from(this.config.mediaBucket).createSignedUrl(path, Number(expiresIn || 3600));
-      if (result.error || !result.data || !result.data.signedUrl) return '';
-      const url = result.data.signedUrl;
-      this.mediaUrlCache.set(key, { url: url, expires: Date.now() + Math.max(60, Number(expiresIn || 3600) - 60) * 1000 });
-      return url;
-    },
-
-    async prepareProfile(profile) {
-      if (!profile) return profile;
-      const copy = Object.assign({}, profile);
-      copy._avatar_display_url = copy.avatar_url ? await this.signedMediaUrl(copy.avatar_url, 3600) : '';
-      return copy;
-    },
-
-    async prepareAttachments(items) {
-      const list = Array.isArray(items) ? items : [];
-      return Promise.all(list.map(async item => {
-        if (!item) return item;
-        const copy = Object.assign({}, item);
-        copy.path = copy.path || this.mediaPath(copy.url);
-        copy.url = copy.path ? await this.signedMediaUrl(copy.path, 3600) : String(copy.url || '');
-        return copy;
-      }));
-    },
-
-    async preparePostMedia(post) {
-      if (!post) return post;
-      if (post.author) post.author = await this.prepareProfile(post.author);
-      post.attachments = await this.prepareAttachments(post.attachments);
-      return post;
-    },
-
-    async loadNotifications() {
-      if (!this.client || !this.user || !this.backendReady) return;
-      const { data, error } = await this.client.from('community_notifications').select('*').order('created_at', { ascending: false }).limit(30);
-      if (error) return;
-      this.notifications = data || [];
-      const unread = this.notifications.filter(item => !item.read_at).length;
-      document.querySelectorAll('[data-community-notification-count]').forEach(el => {
-        el.textContent = unread > 99 ? '99+' : String(unread);
-        el.hidden = unread === 0;
-      });
-      if (!this.notificationChannel) {
-        this.notificationChannel = this.client.channel('community-notifications-' + this.user.id)
-          .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'community_notifications', filter: 'user_id=eq.' + this.user.id }, payload => {
-            this.notifications.unshift(payload.new);
-            this.loadNotifications();
-            this.showToast(payload.new.message || 'Masz nowe powiadomienie.', 'success');
-            if (window.Notification && Notification.permission === 'granted') {
-              new Notification('Społeczność AIO', { body: payload.new.message || 'Nowa aktywność w społeczności.', icon: 'pliki/logo.png' });
-            }
-          }).subscribe();
-      }
-    },
-
-    toggleNotifications(button) {
-      const host = button.parentElement || button;
-      let panel = host.querySelector('.community-notification-panel');
-      if (panel) { panel.remove(); return; }
-      panel = document.createElement('div');
-      panel.className = 'community-notification-panel';
-      const list = this.notifications || [];
-      panel.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;padding:4px 5px 9px"><strong>Powiadomienia</strong><button class="community-action" type="button" data-enable-browser-notifications>Włącz systemowe</button></div>' +
-        (list.length ? list.map(item => '<a class="community-notification-item ' + (!item.read_at ? 'unread' : '') + '" href="' + this.notificationUrl(item) + '" data-notification-id="' + item.id + '">' + this.escape(item.message || 'Nowa aktywność') + '<small>' + this.escape(this.timeAgo(item.created_at)) + '</small></a>').join('') : '<p class="community-side-note">Brak nowych powiadomień.</p>');
-      host.appendChild(panel);
-      panel.addEventListener('click', async event => {
-        event.stopPropagation();
-        const enable = event.target.closest('[data-enable-browser-notifications]');
-        if (enable && window.Notification) {
-          const permission = await Notification.requestPermission();
-          this.showToast(permission === 'granted' ? 'Powiadomienia systemowe zostały włączone.' : 'Przeglądarka nie zezwoliła na powiadomienia.', permission === 'granted' ? 'success' : 'error');
-        }
-        const item = event.target.closest('[data-notification-id]');
-        if (item) {
-          await this.client.from('community_notifications').update({ read_at: new Date().toISOString() }).eq('id', item.dataset.notificationId);
-        }
-      });
-      window.setTimeout(() => {
-        document.addEventListener('click', function closeOnce(event) {
-          if (!host.contains(event.target)) panel.remove();
-          document.removeEventListener('click', closeOnce);
-        });
-      }, 0);
-    },
-
-    notificationUrl(item) {
-      if (item.post_id) return 'post.html?id=' + encodeURIComponent(item.post_id);
-      return 'community.html';
-    },
-
-    avatarHtml(profile, fallback, large) {
-      const name = profile && profile.display_name ? profile.display_name : (fallback || 'AIO');
-      const avatarUrl = profile && (profile._avatar_display_url || (!this.mediaPath(profile.avatar_url) ? profile.avatar_url : ''));
-      if (avatarUrl) {
-        return '<img class="community-avatar' + (large ? ' large' : '') + '" src="' + this.escapeAttr(avatarUrl) + '" alt="Avatar ' + this.escapeAttr(name) + '" loading="lazy">';
-      }
-      const initials = String(name).trim().split(/\s+/).slice(0, 2).map(x => x.charAt(0).toUpperCase()).join('') || 'AIO';
-      return '<span class="community-avatar' + (large ? ' large' : '') + '">' + this.escape(initials) + '</span>';
-    },
-
-    roleLabel(role) {
-      return ({ admin: 'Administrator', moderator: 'Moderator', user: 'Użytkownik' })[role] || 'Użytkownik';
-    },
-
-    category(id) {
-      const found = this.config && Array.isArray(this.config.categories) ? this.config.categories.find(item => item.id === id) : null;
-      return found || { id: id || 'inne', label: id || 'Inne', icon: '💬' };
-    },
-
-    formatText(text, maxLength) {
-      let value = String(text || '');
-      if (maxLength && value.length > maxLength) value = value.slice(0, maxLength).trimEnd() + '…';
-      const pattern = /(?:https?:\/\/|www\.)[^\s<>"']+|\b(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+(?:pl|com|net|org|eu|io|tv|dev|app|info|me)(?:\/[^\s<>"']*)?/gi;
-      let html = '';
-      let last = 0;
-      let match;
-      while ((match = pattern.exec(value)) !== null) {
-        html += this.escape(value.slice(last, match.index));
-        let shown = match[0];
-        let trailing = '';
-        while (/[.,;:!?\)\]\}]+$/.test(shown)) {
-          trailing = shown.slice(-1) + trailing;
-          shown = shown.slice(0, -1);
-        }
-        const href = /^https?:\/\//i.test(shown) ? shown : 'https://' + shown;
-        const token = storeProtectedCommunityLink(href);
-        const masked = maskCommunityLink(href);
-        html += '<a class="community-link community-link-protected" href="#aio-community-link" data-community-link-token="' + this.escapeAttr(token) + '" title="Link chroniony — kliknij, aby otworzyć" rel="nofollow ugc"><span>' + this.escape(masked) + '</span><b aria-hidden="true">↗</b></a>' + this.escape(trailing);
-        last = match.index + match[0].length;
-      }
-      html += this.escape(value.slice(last));
-      return html.replace(/\r?\n/g, '<br>');
-    },
-
-    characterLabel(current, maximum) {
-      return Number(current || 0).toLocaleString('pl-PL') + ' / ' + Number(maximum || 0).toLocaleString('pl-PL');
-    },
-
-    timeAgo(value) {
-      if (!value) return '';
-      const date = new Date(value);
-      const seconds = Math.round((Date.now() - date.getTime()) / 1000);
-      if (!Number.isFinite(seconds)) return '';
-      if (seconds < 45) return 'przed chwilą';
-      if (seconds < 3600) return Math.floor(seconds / 60) + ' min temu';
-      if (seconds < 86400) return Math.floor(seconds / 3600) + ' godz. temu';
-      if (seconds < 604800) return Math.floor(seconds / 86400) + ' dni temu';
-      return new Intl.DateTimeFormat('pl-PL', { day: '2-digit', month: 'short', year: 'numeric' }).format(date);
-    },
-
-    formatDate(value) {
-      if (!value) return '';
-      return new Intl.DateTimeFormat('pl-PL', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value));
-    },
-
-    queryParam(name) {
-      return new URLSearchParams(location.search).get(name);
-    },
-
-    escape(value) {
-      return String(value == null ? '' : value).replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[char]);
-    },
-
-    escapeAttr(value) {
-      return this.escape(value).replace(/`/g, '&#96;');
-    },
-
-    friendlyError(error) {
-      const message = String(error && (error.message || error.details || error.error_description) || error || 'Nieznany błąd');
-      if (/signal is aborted|AbortError|aborted without reason/i.test(message)) return 'Przerwano odczyt sesji. Zamknij dodatkowe karty Społeczności AIO i odśwież stronę.';
-      if (/Failed to fetch|NetworkError/i.test(message)) return 'Nie udało się połączyć z usługą. Sprawdź Internet i konfigurację Supabase.';
-      if (/rate|too many/i.test(message)) return 'Wykonano zbyt wiele prób. Odczekaj chwilę i spróbuj ponownie.';
-      if (/row-level security|policy/i.test(message)) return 'Brak uprawnień do tej operacji. Sprawdź konfigurację RLS w Supabase.';
-      if (/does not exist|schema cache|relation/i.test(message)) return 'Baza Społeczności AIO nie została jeszcze utworzona. Administrator musi uruchomić plik community_setup.sql.';
-      if (/IP_BLOCKED|adresu IP/i.test(message)) return 'Dostęp z tego adresu IP został zablokowany przez administrację.';
-      if (/ACCOUNT_BANNED|banned|konto zostało zablokowane|zablokowane/i.test(message)) return 'To konto ma zablokowaną możliwość korzystania ze społeczności.';
-      if (/Przekroczono czas odpowiedzi/i.test(message)) return 'Funkcja bezpieczeństwa odpowiada zbyt długo. Publiczne aktualności nadal powinny się wyświetlić; sprawdź ustawienia funkcji Edge.';
-      if (/Invalid JWT|JWT|401|Sesja wygasła|INVALID_SESSION/i.test(message)) return 'Sesja użytkownika została odrzucona. Wyloguj się, zaloguj ponownie i upewnij się, że w funkcjach Edge opcja Verify JWT with legacy secret jest wyłączona.';
-      if (/403|Brak uprawnień/i.test(message)) return message;
-      if (/404|Function not found|not found/i.test(message)) return 'Nie znaleziono funkcji Edge. Sprawdź nazwy community-write i community-admin-action.';
-      if (/500|502|503|FunctionsHttpError|Edge Function|non-2xx/i.test(message)) return 'Funkcja Edge zwróciła błąd: ' + message;
-      return message;
-    },
-
-    showToast(message, type) {
-      let stack = document.querySelector('.community-toast-stack');
-      if (!stack) {
-        stack = document.createElement('div');
-        stack.className = 'community-toast-stack';
-        document.body.appendChild(stack);
-      }
-      const toast = document.createElement('div');
-      toast.className = 'community-toast ' + (type || '');
-      toast.textContent = message;
-      stack.appendChild(toast);
-      window.setTimeout(() => toast.remove(), 5200);
-    },
-
-    showSetupError(error) {
-      document.querySelectorAll('[data-community-feed], [data-community-post], [data-community-profile], [data-community-admin]').forEach(container => {
-        container.innerHTML = '<div class="community-error"><strong>Społeczność AIO wymaga jednorazowej konfiguracji Supabase.</strong><p>' + this.escape(this.friendlyError(error)) + '</p><p>W paczce znajduje się plik <code>supabase/community_setup.sql</code> oraz dokładna instrukcja uruchomienia.</p></div>';
-      });
-    }
+    async preparePostMedia(post){return post;}
   };
 
-  window.AIOCommunity = Community;
-  document.addEventListener('DOMContentLoaded', () => Community.init());
+  window.AIOCommunity=AIOCommunity;
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>AIOCommunity.init());
+  else AIOCommunity.init();
 })();
