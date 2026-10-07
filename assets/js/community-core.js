@@ -1,7 +1,60 @@
-
 /* Społeczność AIO — Cloudflare D1/R2 backend, 2026-10-08 */
 (function(){
   'use strict';
+
+  // Linki publikowane w Społeczności AIO są przechowywane tylko w pamięci JS.
+  // W DOM nie ma bezpośredniego adresu URL, dzięki czemu zwykłe
+  // "Kopiuj adres linku" nie omija mechanizmu AIO Access.
+  const protectedCommunityLinks = new Map();
+  let protectedCommunityLinkSeq = 0;
+
+  function storeProtectedCommunityLink(url){
+    protectedCommunityLinkSeq += 1;
+    let randomPart = '';
+    try{
+      if(window.crypto && window.crypto.getRandomValues){
+        const data = new Uint32Array(1);
+        window.crypto.getRandomValues(data);
+        randomPart = data[0].toString(36);
+      }
+    }catch(_){}
+    if(!randomPart) randomPart = Math.random().toString(36).slice(2,10);
+    const token = 'aio-cl-' + Date.now().toString(36) + '-' +
+      protectedCommunityLinkSeq.toString(36) + '-' + randomPart;
+    protectedCommunityLinks.set(token,String(url||''));
+    return token;
+  }
+
+  function maskCommunityLink(url){
+    try{
+      const parsed = new URL(url,window.location.href);
+      const protocol = /^https?:$/.test(parsed.protocol) ? parsed.protocol+'//' : '';
+      const host = parsed.host || '';
+      const hasTail = (parsed.pathname && parsed.pathname !== '/') || parsed.search || parsed.hash;
+      return protocol + host + (hasTail ? '/••••••' : '');
+    }catch(_){
+      return 'link/••••••';
+    }
+  }
+
+  function openProtectedCommunityLink(token,anchor){
+    const url = protectedCommunityLinks.get(String(token||''));
+    if(!url) return false;
+
+    const access = window.AIO_ACCESS_V21;
+    if(!access || typeof access.openCommunityLink !== 'function') return false;
+
+    const label = anchor
+      ? String(anchor.textContent||'').replace(/\s+/g,' ').trim()
+      : maskCommunityLink(url);
+
+    return access.openCommunityLink({
+      href:url,
+      target:(anchor && anchor.getAttribute('target')) || '_blank',
+      download:'',
+      label:label || 'Link ze Społeczności AIO'
+    });
+  }
 
   const AIOCommunity = {
     config:null, user:null, profile:null, ready:false, backendReady:false, ipBlocked:false,
@@ -94,6 +147,18 @@
         if(logout){e.preventDefault();this.signOut();}
         const image=e.target.closest('[data-community-image]');
         if(image){e.preventDefault();this.openImage(image.getAttribute('src'),image.getAttribute('alt'));}
+
+        const protectedLink=e.target.closest('[data-community-link-token]');
+        if(protectedLink){
+          e.preventDefault();
+          e.stopPropagation();
+          if(!openProtectedCommunityLink(
+            protectedLink.getAttribute('data-community-link-token'),
+            protectedLink
+          )){
+            this.showToast('Nie udało się otworzyć chronionego linku. Odśwież stronę i spróbuj ponownie.','warning');
+          }
+        }
       });
     },
 
@@ -216,12 +281,44 @@
     roleLabel(role){return role==='admin'?'Administrator':role==='moderator'?'Moderator':'Użytkownik';},
     escape(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));},
     escapeAttr(value){return this.escape(value);},
-    formatText(value,limit){
-      let s=String(value||'');if(limit&&s.length>limit)s=s.slice(0,limit).trim()+'…';
-      s=this.escape(s).replace(/\n/g,'<br>');
-      s=s.replace(/(https?:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
-      return s;
+
+    formatText(text,limit){
+      let value=String(text||'');
+      if(limit&&value.length>limit)value=value.slice(0,limit).trimEnd()+'…';
+
+      const pattern=/(?:https?:\/\/|www\.)[^\s<>"']+|\b(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+(?:pl|com|net|org|eu|io|tv|dev|app|info|me)(?:\/[^\s<>"']*)?/gi;
+      let html='';
+      let last=0;
+      let match;
+
+      while((match=pattern.exec(value))!==null){
+        html+=this.escape(value.slice(last,match.index));
+
+        let shown=match[0];
+        let trailing='';
+        while(/[.,;:!?\)\]\}]+$/.test(shown)){
+          trailing=shown.slice(-1)+trailing;
+          shown=shown.slice(0,-1);
+        }
+
+        const href=/^https?:\/\//i.test(shown)?shown:'https://'+shown;
+        const token=storeProtectedCommunityLink(href);
+        const masked=maskCommunityLink(href);
+
+        html+='<a class="community-link community-link-protected" '+
+          'href="#aio-community-link" '+
+          'data-community-link-token="'+this.escapeAttr(token)+'" '+
+          'title="Link chroniony — kliknij, aby otworzyć" '+
+          'rel="nofollow ugc"><span>'+this.escape(masked)+
+          '</span><b aria-hidden="true">↗</b></a>'+this.escape(trailing);
+
+        last=match.index+match[0].length;
+      }
+
+      html+=this.escape(value.slice(last));
+      return html.replace(/\r?\n/g,'<br>');
     },
+
     timeAgo(value){
       const t=Date.parse(value);if(!t)return '';
       const s=Math.floor((Date.now()-t)/1000);
