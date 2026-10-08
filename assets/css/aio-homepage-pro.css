@@ -261,3 +261,383 @@ body.aio-home-pro .home-pro-community-aside [data-community-home-stat]{
     border-right:0;
   }
 }
+
+/* AIO Homepage PRO V1.2 — Mobile & UX */
+body.aio-home-pro,
+body.aio-home-pro *{
+  box-sizing:border-box;
+}
+body.aio-home-pro{
+  overflow-x:hidden;
+}
+body.aio-home-pro img,
+body.aio-home-pro video,
+body.aio-home-pro iframe{
+  max-width:100%;
+}
+body.aio-home-pro a,
+body.aio-home-pro button{
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
+body.aio-home-pro :where(a,button,input,select,textarea,summary):focus-visible{
+  outline:3px solid #76e1ff;
+  outline-offset:3px;
+  border-radius:8px;
+}
+body.aio-home-pro :where(h1,h2,h3,section,[id]){
+  scroll-margin-top:120px;
+}
+body.aio-home-pro .home-pro-button,
+body.aio-home-pro .home-pro-path,
+body.aio-home-pro .home-pro-tool-links a,
+body.aio-home-pro .home-pro-status-links a{
+  min-height:44px;
+}
+body.aio-home-pro .command,
+body.aio-home-pro .command pre,
+body.aio-home-pro pre{
+  max-width:100%;
+}
+body.aio-home-pro .command pre,
+body.aio-home-pro pre{
+  overflow-x:auto;
+  overscroll-behavior-inline:contain;
+  scrollbar-width:thin;
+}
+body.aio-home-pro .command code,
+body.aio-home-pro pre code{
+  white-space:pre;
+  word-break:normal;
+}
+body.aio-home-pro .home-pro-feature-copy h2,
+body.aio-home-pro .home-pro-title,
+body.aio-home-pro .home-pro-community-main h2,
+body.aio-home-pro .home-pro-section-head h2{
+  text-wrap:balance;
+}
+body.aio-home-pro .home-pro-lead,
+body.aio-home-pro .home-pro-feature-copy p,
+body.aio-home-pro .home-pro-community-main p{
+  text-wrap:pretty;
+}
+
+/* Tablet */
+@media(max-width:900px){
+  body.aio-home-pro #main-content{
+    width:min(100% - 20px,1460px);
+    gap:14px;
+  }
+  body.aio-home-pro .home-pro-hero{
+    gap:22px;
+  }
+  body.aio-home-pro .home-pro-status{
+    max-width:none;
+  }
+  body.aio-home-pro .home-pro-latest{
+    gap:12px;
+  }
+  body.aio-home-pro .home-pro-feature{
+    min-height:360px;
+  }
+  body.aio-home-pro .home-pro-projects,
+  body.aio-home-pro .home-pro-path-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  body.aio-home-pro .home-pro-community{
+    grid-template-columns:1fr;
+  }
+  body.aio-home-pro .footer-columns{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:22px;
+  }
+}
+
+/* Telefon */
+@media(max-width:640px){
+  body.aio-home-pro #main-content{
+    width:min(100% - 12px,1460px);
+    gap:11px;
+    padding-top:8px;
+  }
+  body.aio-home-pro .portal-topbar{
+    min-height:auto;
+    padding:7px 10px;
+  }
+  body.aio-home-pro .portal-topbar-brand>span:last-child{
+    display:none;
+  }
+  body.aio-home-pro .portal-topbar-links{
+    gap:8px;
+  }
+  body.aio-home-pro .portal-topbar-links a{
+    font-size:.72rem;
+  }
+  body.aio-home-pro .fundraiser-ribbon{
+    gap:8px;
+    padding:8px 10px;
+  }
+  body.aio-home-pro .fundraiser-ribbon-copy span{
+    display:none;
+  }
+  body.aio-home-pro .brand-row{
+    min-height:58px;
+    padding:7px 8px;
+  }
+  body.aio-home-pro .brand img{
+    width:40px;
+    height:40px;
+  }
+  body.aio-home-pro .brand small{
+    display:none;
+  }
+  body.aio-home-pro .header-community{
+    min-height:42px;
+    padding-inline:11px;
+    font-size:.73rem;
+  }
+  body.aio-home-pro .site-search-trigger{
+    min-height:42px;
+    padding-inline:10px;
+  }
+  body.aio-home-pro .site-search-trigger kbd{
+    display:none;
+  }
+  body.aio-home-pro .main-nav{
+    max-width:100%;
+    overflow-x:auto;
+    overflow-y:hidden;
+    overscroll-behavior-inline:contain;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+  body.aio-home-pro .main-nav::-webkit-scrollbar{
+    display:none;
+  }
+  body.aio-home-pro .main-nav>a,
+  body.aio-home-pro .main-nav>details>summary{
+    white-space:nowrap;
+    min-height:44px;
+    display:flex;
+    align-items:center;
+  }
+  body.aio-home-pro .home-pro-hero{
+    padding:22px 16px;
+    border-radius:15px;
+    gap:20px;
+  }
+  body.aio-home-pro .home-pro-title{
+    font-size:clamp(2.25rem,13.2vw,3.65rem);
+    line-height:.96;
+    letter-spacing:-.045em;
+  }
+  body.aio-home-pro .home-pro-lead{
+    margin-top:15px;
+    line-height:1.62;
+    font-size:.96rem;
+  }
+  body.aio-home-pro .home-pro-actions{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:8px;
+    margin-top:18px;
+  }
+  body.aio-home-pro .home-pro-button{
+    width:100%;
+    min-height:48px;
+    padding:10px 13px;
+    text-align:center;
+  }
+  body.aio-home-pro .home-pro-status{
+    padding:15px;
+    border-radius:14px;
+  }
+  body.aio-home-pro .home-pro-status-head{
+    align-items:flex-start;
+    padding-bottom:12px;
+  }
+  body.aio-home-pro .home-pro-status-grid{
+    grid-template-columns:1fr 1fr;
+    gap:7px;
+    margin-top:10px;
+  }
+  body.aio-home-pro .home-pro-status-grid div{
+    padding:11px;
+  }
+  body.aio-home-pro .home-pro-status-grid strong{
+    font-size:1.28rem;
+  }
+  body.aio-home-pro .home-pro-status-grid span{
+    font-size:.68rem;
+    line-height:1.35;
+  }
+  body.aio-home-pro .home-pro-trust{
+    grid-template-columns:1fr;
+    border-radius:12px;
+  }
+  body.aio-home-pro .home-pro-trust>*{
+    min-height:auto;
+    padding:15px 16px;
+    border-right:0;
+    border-bottom:1px solid rgba(255,255,255,.06);
+  }
+  body.aio-home-pro .home-pro-trust-logo{
+    justify-content:flex-start;
+  }
+  body.aio-home-pro .home-pro-trust-logo img{
+    width:112px;
+  }
+  body.aio-home-pro .home-pro-section{
+    padding:17px 14px;
+    border-radius:14px;
+  }
+  body.aio-home-pro .home-pro-section-head{
+    margin-bottom:14px;
+  }
+  body.aio-home-pro .home-pro-section-head h2{
+    font-size:1.75rem;
+    line-height:1.05;
+  }
+  body.aio-home-pro .home-pro-path-grid,
+  body.aio-home-pro .home-pro-projects,
+  body.aio-home-pro .home-pro-tools,
+  body.aio-home-pro .home-pro-tool-links{
+    grid-template-columns:1fr;
+  }
+  body.aio-home-pro .home-pro-path{
+    grid-template-columns:42px minmax(0,1fr) auto;
+    min-height:92px;
+    padding:13px;
+    gap:11px;
+  }
+  body.aio-home-pro .home-pro-path-icon{
+    width:42px;
+    height:42px;
+  }
+  body.aio-home-pro .home-pro-stats{
+    grid-template-columns:1fr 1fr;
+    border-radius:12px;
+  }
+  body.aio-home-pro .home-pro-stats div{
+    padding:14px 12px;
+  }
+  body.aio-home-pro .home-pro-stats strong{
+    font-size:1.35rem;
+  }
+  body.aio-home-pro .home-pro-latest{
+    grid-template-columns:1fr;
+  }
+  body.aio-home-pro .home-pro-feature{
+    min-height:420px;
+    border-radius:14px;
+  }
+  body.aio-home-pro .home-pro-feature::after{
+    background:linear-gradient(180deg,rgba(3,19,27,.30) 0%,rgba(3,19,27,.88) 48%,rgba(3,19,27,.985) 100%);
+  }
+  body.aio-home-pro .home-pro-feature-copy{
+    max-width:none;
+    min-height:420px;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    padding:22px 17px;
+  }
+  body.aio-home-pro .home-pro-feature-copy h2{
+    font-size:clamp(2rem,10vw,2.85rem);
+    line-height:1;
+  }
+  body.aio-home-pro .home-pro-feature-copy p{
+    font-size:.92rem;
+  }
+  body.aio-home-pro .home-pro-side-list a{
+    grid-template-columns:1fr;
+    gap:5px;
+  }
+  body.aio-home-pro .home-pro-project{
+    padding:15px;
+    padding-right:68px;
+  }
+  body.aio-home-pro .home-pro-community-main,
+  body.aio-home-pro .home-pro-toolbox{
+    padding:19px 16px;
+    border-radius:14px;
+  }
+  body.aio-home-pro .home-pro-community-main h2,
+  body.aio-home-pro .home-pro-toolbox h2{
+    font-size:1.8rem;
+    line-height:1.08;
+  }
+  body.aio-home-pro .home-pro-community-aside{
+    gap:8px;
+  }
+  body.aio-home-pro .home-pro-install{
+    grid-template-columns:1fr;
+    padding:18px 15px;
+    border-radius:14px;
+    gap:14px;
+  }
+  body.aio-home-pro .home-pro-install h2{
+    font-size:1.75rem;
+  }
+  body.aio-home-pro .command>div{
+    gap:8px;
+    align-items:center;
+  }
+  body.aio-home-pro .command button{
+    min-height:40px;
+  }
+  body.aio-home-pro .home-pro-footer-note{
+    display:grid;
+    gap:12px;
+    padding:15px;
+  }
+  body.aio-home-pro .home-pro-footer-note .home-pro-button{
+    width:100%;
+  }
+  body.aio-home-pro .footer-columns{
+    grid-template-columns:1fr;
+  }
+  body.aio-home-pro .site-footer{
+    padding-inline:16px;
+  }
+}
+
+/* Bardzo wąskie telefony */
+@media(max-width:380px){
+  body.aio-home-pro .home-pro-title{
+    font-size:2.3rem;
+  }
+  body.aio-home-pro .home-pro-status-grid,
+  body.aio-home-pro .home-pro-stats{
+    grid-template-columns:1fr;
+  }
+  body.aio-home-pro .portal-topbar-links a:nth-child(2){
+    display:none;
+  }
+  body.aio-home-pro .header-community{
+    font-size:.68rem;
+    padding-inline:8px;
+  }
+}
+
+/* Mniej animacji, jeśli użytkownik ma taką preferencję w systemie */
+@media(prefers-reduced-motion:reduce){
+  body.aio-home-pro *,
+  body.aio-home-pro *::before,
+  body.aio-home-pro *::after{
+    scroll-behavior:auto !important;
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+  }
+}
+
+/* Tryb wysokiego kontrastu / forced colors */
+@media(forced-colors:active){
+  body.aio-home-pro .home-pro-panel,
+  body.aio-home-pro .home-pro-path,
+  body.aio-home-pro .home-pro-project,
+  body.aio-home-pro .home-pro-tool-links a{
+    border:1px solid CanvasText;
+  }
+}
