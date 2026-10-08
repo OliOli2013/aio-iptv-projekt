@@ -117,7 +117,14 @@ export async function ensureSchema(env) {
       last_seen_at TEXT NOT NULL,
       PRIMARY KEY(day,visitor_hash)
     )`,
-    `CREATE INDEX IF NOT EXISTS idx_site_visitors_day ON aio_site_visitors(day)`
+    `CREATE INDEX IF NOT EXISTS idx_site_visitors_day ON aio_site_visitors(day)`,
+    `CREATE TABLE IF NOT EXISTS aio_access_events (
+      id TEXT PRIMARY KEY, event_type TEXT NOT NULL, kind TEXT NOT NULL DEFAULT 'download', target TEXT, path TEXT, method TEXT, visitor_hash TEXT, user_id TEXT, day TEXT NOT NULL, created_at TEXT NOT NULL,
+      FOREIGN KEY(user_id) REFERENCES community_profiles(id) ON DELETE SET NULL
+    )`,
+    `CREATE INDEX IF NOT EXISTS idx_access_events_day ON aio_access_events(day,event_type)`,
+    `CREATE INDEX IF NOT EXISTS idx_access_events_created ON aio_access_events(created_at)`,
+    `CREATE INDEX IF NOT EXISTS idx_access_events_target ON aio_access_events(target)`
   ];
   await db.batch(sql.map(q => db.prepare(q)));
 }

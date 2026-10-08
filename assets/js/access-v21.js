@@ -49,6 +49,8 @@
     return ({ revolut: 'Revolut', buycoffee: 'BuyCoffee', kofi: 'Ko-fi' })[method] || 'Nieznana metoda';
   }
 
+  function accessTrack(eventType){if(!flow)return;let visitorId='';try{visitorId=localStorage.getItem('aio_site_visitor_v1')||'';}catch(error){}try{fetch('/api/access-activity',{method:'POST',credentials:'include',cache:'no-store',keepalive:true,headers:{'content-type':'application/json'},body:JSON.stringify({event:eventType,kind:flow.kind||'download',target:flow.label||safeFileName(flow.href),method:flow.method||'',path:location.pathname,visitorId})}).catch(()=>{});}catch(error){}}
+
   function loadFlow() {
     if (!token) return invalid('Brak aktywnej sesji AIO Access. Otwórz plik z normalnej strony AIO-IPTV.pl.');
     try { flow = JSON.parse(sessionStorage.getItem(FLOW_PREFIX + token) || 'null'); }
@@ -94,6 +96,7 @@
   openPayment?.addEventListener('click', () => {
     if (!flow) return;
     flow.externalOpenedAt = Date.now();
+    accessTrack('support_provider_opened');
     flow.hiddenAfterOpen = false;
     flow.returnedAfterOpen = false;
     saveFlow();
@@ -186,6 +189,7 @@
     try { localStorage.setItem(DAILY_UNLOCK_KEY, today); } catch (error) {}
     document.cookie = `${DAILY_UNLOCK_COOKIE}=${encodeURIComponent(today)}; Path=/; Max-Age=${60*60*24*3}; SameSite=Lax`;
     flow.completed = true; flow.completedAt = Date.now(); saveFlow();
+    accessTrack('access_unlocked');
     setStep(3, 'done');
     title.textContent = 'Dostęp aktywny';
     lead.textContent = 'AIO Access odblokował kolejne pobrania do końca dzisiejszego dnia w tej przeglądarce.';

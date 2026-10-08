@@ -23,6 +23,10 @@
       statsButton.textContent='Statystyki';
       tabs.appendChild(statsButton);
     }
+    if(tabs&&!q('[data-admin-tab="access-activity"]',tabs)){
+      const accessButton=document.createElement('button');
+      accessButton.className='community-tab'; accessButton.type='button'; accessButton.dataset.adminTab='access-activity'; accessButton.hidden=true; accessButton.textContent='Pobierania / AIO Access'; tabs.appendChild(accessButton);
+    }
     if(tabs&&!q('[data-admin-tab="password-resets"]',tabs)){
       const b=document.createElement('button');
       b.className='community-tab';
@@ -54,13 +58,17 @@
     root.innerHTML='<div class="community-loading">Ładuję dane…</div>';
 
     try{
-      const d=await AIOCommunity.apiGet('admin',{tab});
+      const d=tab==='access-activity'
+        ? await (async()=>{const r=await fetch('/api/access-activity',{credentials:'include',cache:'no-store'});const x=await r.json();if(!r.ok||!x.ok)throw new Error(x.error||'Nie udało się pobrać danych AIO Access.');return {rows:[x],role:AIOCommunity.user?.role||'user',stats:{}};})()
+        : await AIOCommunity.apiGet('admin',{tab});
       rows=d.rows||[];
       role=d.role||'user';
       const resetTab=q('[data-admin-tab="password-resets"]');
       if(resetTab)resetTab.hidden=role!=='admin';
       const statsTab=q('[data-admin-tab="statistics"]');
       if(statsTab)statsTab.hidden=role!=='admin';
+      const accessTab=q('[data-admin-tab="access-activity"]');
+      if(accessTab)accessTab.hidden=role!=='admin';
       const resetBadge=q('[data-admin-reset-badge]');
       if(resetBadge){
         const n=Number(d.stats?.password_resets||0);
@@ -204,6 +212,15 @@
           </section>
           <p class="community-side-note">Statystyki odwiedzin są agregowane. „Unikalny użytkownik” oznacza unikalną przeglądarkę rozpoznawaną losowym identyfikatorem zapisanym lokalnie — nie zapisujemy adresu IP w liczniku odwiedzin.</p>
         </div>`;
+      return;
+    }
+
+    if(tab==='access-activity'){
+      const d=rows[0]||{},t=d.totals||{},methods=Array.isArray(d.methods)?d.methods:[],top=Array.isArray(d.topTargets)?d.topTargets:[],daily=Array.isArray(d.daily)?d.daily:[],recent=Array.isArray(d.recent)?d.recent:[];
+      const num=v=>Number(v||0).toLocaleString('pl-PL');
+      const methodName=m=>({revolut:'Revolut',buycoffee:'BuyCoffee',kofi:'Ko-fi'})[m]||m||'—';
+      const eventName=e=>({free_access:'darmowy dostęp',direct_free:'darmowe wejście bezpośrednie',unlocked_access:'pobranie po odblokowaniu',limit_reached:'osiągnięty limit',direct_limit:'limit wejścia bezpośredniego',access_gate_shown:'wyświetlono AIO Access',support_method_selected:'wybrano metodę',support_provider_opened:'otwarto stronę wsparcia',access_unlocked:'odblokowano dostęp po zakończeniu ścieżki'})[e]||e;
+      root.innerHTML=`<div class="aio-access-admin"><div class="aio-access-note"><strong>Ważne:</strong> panel pokazuje aktywność AIO Access, a nie potwierdzone płatności. „Odblokowano dostęp” oznacza zakończenie obecnej ścieżki AIO Access.</div><div class="aio-access-kpis"><div class="aio-access-kpi"><strong>${num(t.free_today)}</strong><span>darmowych dostępów dzisiaj</span></div><div class="aio-access-kpi"><strong>${num(t.unlocked_today)}</strong><span>pobrań po odblokowaniu</span></div><div class="aio-access-kpi"><strong>${num(t.limits_today)}</strong><span>osiągnięć limitu</span></div><div class="aio-access-kpi"><strong>${num(t.gates_today)}</strong><span>wyświetleń AIO Access</span></div><div class="aio-access-kpi"><strong>${num(t.providers_today)}</strong><span>otwarć operatorów</span></div><div class="aio-access-kpi"><strong>${num(t.unlocks_today)}</strong><span>odblokowań dzisiaj</span></div><div class="aio-access-kpi"><strong>${num(t.free_7d)}</strong><span>darmowych / 7 dni</span></div><div class="aio-access-kpi"><strong>${num(t.unlocks_7d)}</strong><span>odblokowań / 7 dni</span></div><div class="aio-access-kpi"><strong>${num(t.free_30d)}</strong><span>darmowych / 30 dni</span></div><div class="aio-access-kpi"><strong>${num(t.limits_30d)}</strong><span>limitów / 30 dni</span></div><div class="aio-access-kpi"><strong>${num(t.providers_30d)}</strong><span>operatorów / 30 dni</span></div><div class="aio-access-kpi"><strong>${num(t.unlocks_30d)}</strong><span>odblokowań / 30 dni</span></div></div><section class="aio-access-panel"><h3>Metody wsparcia — 30 dni</h3><div class="aio-access-table">${methods.length?methods.map(x=>`<div class="aio-access-row"><span>${AIOCommunity.escape(methodName(x.method))}</span><strong>${num(x.n)}</strong></div>`).join(''):'<small>Brak danych.</small>'}</div></section><section class="aio-access-panel"><h3>Najczęściej otwierane pliki / elementy — 30 dni</h3><div class="aio-access-table">${top.length?top.map(x=>`<div class="aio-access-row"><span>${AIOCommunity.escape(x.target||'Nieznany element')}<small> • ${x.kind==='community'?'link społeczności':'pobranie'}</small></span><strong>${num(x.n)}</strong></div>`).join(''):'<small>Brak danych.</small>'}</div></section><section class="aio-access-panel"><h3>Aktywność dzienna — 30 dni</h3><div class="aio-access-table">${daily.length?daily.map(x=>`<div class="aio-access-row"><span><strong>${AIOCommunity.escape(x.day||'')}</strong><small> • darmowe ${num(x.free)} • limity ${num(x.limits)} • operatorzy ${num(x.providers)}</small></span><strong>${num(x.unlocks)} odblok.</strong></div>`).join(''):'<small>Brak danych.</small>'}</div></section><section class="aio-access-panel"><h3>Ostatnia aktywność</h3><div class="aio-access-table">${recent.length?recent.map(x=>`<div class="aio-access-row"><div class="aio-access-event"><strong>${AIOCommunity.escape(eventName(x.event_type))}</strong><code>${AIOCommunity.escape(x.target||x.path||'')}</code><small>${AIOCommunity.escape((x.user_name?x.user_name+' • ':'')+AIOCommunity.formatDate(x.created_at)+(x.method?' • '+methodName(x.method):''))}</small></div></div>`).join(''):'<small>Brak danych.</small>'}</div></section></div>`;
       return;
     }
 

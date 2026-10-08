@@ -1,3 +1,4 @@
+import { ensureSchema } from "../_community.js";
 /* AIO Download Shield — Cloudflare Pages, 2026-10-08 */
 const PROTECTED = /\.(?:ipk|apk|exe|msi|zip|7z|rar|deb|rpm|pdf|tar|tgz|gz|xz|img|bin|iso|m3u|m3u8|xml|conf|cfg|backup|sh|py|json|txt|list|tv|radio|bouquet)(?:$|[?#])/i;
 const IMAGE = /\.(?:png|jpe?g|webp|gif|svg|avif)(?:$|[?#])/i;
@@ -33,6 +34,8 @@ function setUsage(headers,today,count){
     `${USAGE_COOKIE}=${encodeURIComponent(today+"|"+count)}; Path=/; Max-Age=${60*60*24*3}; SameSite=Lax`);
 }
 
+async function recordAccessEvent(context,eventType,target){try{await ensureSchema(context.env);await context.env.COMMUNITY_DB.prepare(`INSERT INTO aio_access_events(id,event_type,kind,target,path,method,visitor_hash,user_id,day,created_at) VALUES(?,?,?,?,?,?,?,?,?,?)`).bind(crypto.randomUUID(),eventType,"download",String(target||"").slice(0,180),new URL(context.request.url).pathname,"",null,null,dayKey(),new Date().toISOString()).run();}catch(_){}}
+
 function protectedRequest(request){
   const url=new URL(request.url);
   const path=decodeURIComponent(url.pathname);
@@ -49,6 +52,7 @@ async function handle(context){
 
   const count=usageCount(request,today);
   if(count<1){
+    recordAccessEvent(context,"direct_free",new URL(request.url).pathname.split("/").pop()||"plik");
     const response=await context.next();
     const headers=new Headers(response.headers);
     setUsage(headers,today,1);
@@ -60,6 +64,7 @@ async function handle(context){
   }
 
   const url=new URL(request.url);
+  recordAccessEvent(context,"direct_limit",url.pathname.split("/").pop()||"plik");
   const gate=new URL("/downloads.html",url.origin);
   gate.searchParams.set("aio_direct",url.pathname+url.search);
   return Response.redirect(gate.toString(),302);

@@ -667,6 +667,10 @@
     updateAccessIndicator();
   }
 
+  function accessVisitorId(){try{return localStorage.getItem('aio_site_visitor_v1')||'';}catch(error){return '';}}
+  function accessSafeTarget(item){if(!item)return '';if(item.label)return String(item.label).slice(0,180);try{return fileNameFromUrl(item.href||'');}catch(error){return '';}}
+  function trackAccessActivity(eventType,item,extra={}){try{fetch('/api/access-activity',{method:'POST',credentials:'include',cache:'no-store',keepalive:true,headers:{'content-type':'application/json'},body:JSON.stringify({event:eventType,kind:extra.kind||'download',target:accessSafeTarget(item),method:extra.method||'',path:location.pathname,visitorId:accessVisitorId()})}).catch(()=>{});}catch(error){}}
+
 
   function createFundraiserRibbon() {
     const header = document.querySelector('.site-header');
@@ -757,6 +761,7 @@
     modal.querySelectorAll('[data-access-method]').forEach(button => {
       button.addEventListener('click', () => {
         selectedMethod = button.dataset.accessMethod || '';
+        trackAccessActivity('support_method_selected',pendingDownload,{kind:modalMode === 'community-link-limit'?'community':'download',method:selectedMethod});
         modal.querySelectorAll('[data-access-method]').forEach(item => item.classList.toggle('is-selected', item === button));
         statusMessage.textContent = `Wybrano: ${methodLabel(selectedMethod)}. Naciśnij „Przejdź dalej”, aby rozpocząć bezpieczniejszą ścieżkę wsparcia.`;
         continueButton.disabled = false;
@@ -775,6 +780,7 @@
     if (!item || !item.href) return false;
 
     if (isUnlockedToday()) {
+      trackAccessActivity('unlocked_access',item,{kind:'community'});
       openDownloadTarget(item);
       return true;
     }
@@ -782,10 +788,12 @@
     const usage = readDailyUsage();
     if (usage.count < DOWNLOAD_POLICY.freePerDay) {
       registerFreeDownload();
+      trackAccessActivity('free_access',item,{kind:'community'});
       openDownloadTarget(item);
       return true;
     }
 
+    trackAccessActivity('limit_reached',item,{kind:'community'});
     openSupportModal(item, 'community-link-limit');
     return true;
   }
@@ -844,6 +852,7 @@
     if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
 
     if (isUnlockedToday()) {
+      trackAccessActivity('unlocked_access',item,{kind:'download'});
       openDownloadTarget(item);
       return;
     }
@@ -851,10 +860,12 @@
     const usage = readDailyUsage();
     if (usage.count < DOWNLOAD_POLICY.freePerDay) {
       registerFreeDownload();
+      trackAccessActivity('free_access',item,{kind:'download'});
       openDownloadTarget(item);
       return;
     }
 
+    trackAccessActivity('limit_reached',item,{kind:'download'});
     openSupportModal(item, 'limit');
   }
 
@@ -901,6 +912,7 @@
 
   function openSupportModal(download, mode) {
     if (!modal) createSupportModal();
+    if (mode === 'limit' || mode === 'community-link-limit') trackAccessActivity('access_gate_shown',download,{kind:mode === 'community-link-limit'?'community':'download'});
     pendingDownload = download;
     modalMode = mode || 'general';
     selectedMethod = '';
