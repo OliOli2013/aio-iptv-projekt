@@ -14,6 +14,15 @@
 
   async function init(){
     const tabs=q('.community-admin-tabs');
+    if(tabs&&!q('[data-admin-tab="statistics"]',tabs)){
+      const statsButton=document.createElement('button');
+      statsButton.className='community-tab';
+      statsButton.type='button';
+      statsButton.dataset.adminTab='statistics';
+      statsButton.hidden=true;
+      statsButton.textContent='Statystyki';
+      tabs.appendChild(statsButton);
+    }
     if(tabs&&!q('[data-admin-tab="password-resets"]',tabs)){
       const b=document.createElement('button');
       b.className='community-tab';
@@ -50,6 +59,8 @@
       role=d.role||'user';
       const resetTab=q('[data-admin-tab="password-resets"]');
       if(resetTab)resetTab.hidden=role!=='admin';
+      const statsTab=q('[data-admin-tab="statistics"]');
+      if(statsTab)statsTab.hidden=role!=='admin';
       const resetBadge=q('[data-admin-reset-badge]');
       if(resetBadge){
         const n=Number(d.stats?.password_resets||0);
@@ -155,6 +166,45 @@
             ${l.reason?`<p>${AIOCommunity.escape(l.reason)}</p>`:''}
           </article>`).join('')+'</div>'
         : '<div class="community-empty"><strong>Dziennik jest pusty.</strong></div>';
+    }
+
+    if(tab==='statistics'){
+      const st=rows[0]||{};
+      const num=v=>Number(v||0).toLocaleString('pl-PL');
+      const top=Array.isArray(st.top_pages)?st.top_pages:[];
+      const online=Array.isArray(st.online_users)?st.online_users:[];
+
+      root.innerHTML=`
+        <div class="community-admin-stat-dashboard">
+          <div class="community-admin-stat-grid">
+            <div class="community-admin-stat-card"><strong>${num(st.pageviews_today)}</strong><span>odsłon dzisiaj</span></div>
+            <div class="community-admin-stat-card"><strong>${num(st.visitors_today)}</strong><span>unikalnych przeglądarek dzisiaj</span></div>
+            <div class="community-admin-stat-card"><strong>${num(st.pageviews_7d)}</strong><span>odsłon / 7 dni</span></div>
+            <div class="community-admin-stat-card"><strong>${num(st.visitors_7d)}</strong><span>unikalnych / 7 dni</span></div>
+            <div class="community-admin-stat-card"><strong>${num(st.pageviews_30d)}</strong><span>odsłon / 30 dni</span></div>
+            <div class="community-admin-stat-card"><strong>${num(st.visitors_30d)}</strong><span>unikalnych / 30 dni</span></div>
+            <div class="community-admin-stat-card"><strong>${num(st.community_users)}</strong><span>profili Społeczności</span></div>
+            <div class="community-admin-stat-card"><strong>${num(st.new_users_7d)}</strong><span>nowych profili / 7 dni</span></div>
+            <div class="community-admin-stat-card"><strong>${num(st.posts_total)}</strong><span>opublikowanych wpisów</span></div>
+            <div class="community-admin-stat-card"><strong>${num(st.comments_total)}</strong><span>komentarzy</span></div>
+            <div class="community-admin-stat-card"><strong>${num(st.chat_total)}</strong><span>wiadomości czatu łącznie</span></div>
+            <div class="community-admin-stat-card"><strong>${num(st.chat_7d)}</strong><span>wiadomości czatu / 7 dni</span></div>
+          </div>
+          <section class="community-admin-stat-section">
+            <h3>🟢 Użytkownicy online na czacie: ${num(st.online_count)}</h3>
+            <div class="community-admin-online-list">
+              ${online.length?online.map(u=>`<span class="community-admin-online-chip">${AIOCommunity.escape(u.display_name)}${u.role==='admin'?' • administrator':u.role==='moderator'?' • moderator':''}</span>`).join(''):'<span class="community-muted">W tej chwili nikt nie jest aktywny na czacie.</span>'}
+            </div>
+          </section>
+          <section class="community-admin-stat-section">
+            <h3>Najczęściej odwiedzane podstrony — 30 dni</h3>
+            <div class="community-admin-stat-table">
+              ${top.length?top.map(p=>`<div class="community-admin-stat-row"><code>${AIOCommunity.escape(p.path||'/')}</code><strong>${num(p.views)}</strong></div>`).join(''):'<span class="community-muted">Statystyki zaczną się wypełniać po wdrożeniu pakietu.</span>'}
+            </div>
+          </section>
+          <p class="community-side-note">Statystyki odwiedzin są agregowane. „Unikalny użytkownik” oznacza unikalną przeglądarkę rozpoznawaną losowym identyfikatorem zapisanym lokalnie — nie zapisujemy adresu IP w liczniku odwiedzin.</p>
+        </div>`;
+      return;
     }
 
     if(tab==='password-resets'){

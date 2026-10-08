@@ -1001,3 +1001,19 @@
   // Publiczny, niesekretny opis konfiguracji dla access.html.
   window.AIO_ACCESS_V21 = { SUPPORT_LINKS, FLOW_PREFIX, DAILY_UNLOCK_KEY, DAILY_UNLOCK_COOKIE, openCommunityLink: handleCommunityLinkAccess };
 }());
+
+
+/* AIO Site Stats loader V1 */
+(function(){
+  if(window.__AIO_SITE_STATS_LOADER_V1__)return;
+  window.__AIO_SITE_STATS_LOADER_V1__=true;
+  const load=()=>{
+    if(document.querySelector('script[data-aio-site-stats-loader]'))return;
+    const css=document.createElement('link');
+    css.rel='stylesheet';css.href='/assets/css/aio-site-stats.css?v=20261008-stats1';css.setAttribute('data-aio-site-stats-loader','');document.head.appendChild(css);
+    const js=document.createElement('script');
+    js.src='/assets/js/aio-site-stats.js?v=20261008-stats1';js.defer=true;js.setAttribute('data-aio-site-stats-loader','');document.head.appendChild(js);
+  };
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',load,{once:true});
+  else load();
+})();

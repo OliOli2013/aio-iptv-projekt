@@ -9,6 +9,16 @@ import {
 async function optionalSession(request, env) {
   try { return await getSession(request, env); } catch (_) { return null; }
 }
+function warsawDayKey(date = new Date()) {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Europe/Warsaw", year: "numeric", month: "2-digit", day: "2-digit"
+  }).formatToParts(date);
+  const map = Object.fromEntries(parts.map(p => [p.type,p.value]));
+  return `${map.year}-${map.month}-${map.day}`;
+}
+function dayKeyOffset(days) {
+  return warsawDayKey(new Date(Date.now() + days * 86400000));
+}
 function authorSelect() {
   return `
     p.*,
@@ -221,6 +231,13 @@ export async function onRequestGet({request, env}) {
 
     if (action === "chat") {
       const s=await requireUser(request,env);
+      const presenceNow=isoNow();
+      await db.prepare(`
+        INSERT INTO community_chat_presence(user_id,last_seen_at)
+        VALUES(?,?)
+        ON CONFLICT(user_id) DO UPDATE SET last_seen_at=excluded.last_seen_at
+      `).bind(s.user.id,presenceNow).run();
+
       const limit=Math.min(100,Math.max(20,Number(url.searchParams.get("limit")||80)));
       const rr=await db.prepare(`
         SELECT m.*,p.display_name AS author_display_name,p.avatar_url AS author_avatar_url,p.avatar_key AS author_avatar_key,p.role AS author_role,
@@ -232,7 +249,21 @@ export async function onRequestGet({request, env}) {
         ORDER BY m.created_at DESC LIMIT ?
       `).bind(limit).all();
       const ordered=(rr.results||[]).reverse();
-      return json({ok:true,rows:await decorateChatRows(env,ordered,s.user.id)});
+      const onlineRows=await db.prepare(`
+        SELECT p.id,p.display_name,p.avatar_url,p.avatar_key,p.role,cp.last_seen_at
+        FROM community_chat_presence cp
+        JOIN community_profiles p ON p.id=cp.user_id
+        WHERE datetime(cp.last_seen_at)>=datetime('now','-75 seconds')
+        ORDER BY CASE p.role WHEN 'admin' THEN 0 WHEN 'moderator' THEN 1 ELSE 2 END,p.display_name
+        LIMIT 50
+      `).all();
+      const online=(onlineRows.results||[]).map(p=>({
+        id:p.id,
+        display_name:p.display_name||"Użytkownik",
+        avatar_url:p.avatar_key?`/api/community-media?key=${encodeURIComponent(p.avatar_key)}`:(p.avatar_url||""),
+        role:p.role||"user"
+      }));
+      return json({ok:true,rows:await decorateChatRows(env,ordered,s.user.id),online:{count:online.length,users:online}});
     }
 
     if (action === "profile") {
@@ -302,6 +333,47 @@ export async function onRequestGet({request, env}) {
           ORDER BY l.created_at DESC LIMIT 200
         `).all();
         rows=rr.results||[];
+      } else if(tab==="statistics"){
+        if(!isFullAdmin(s)) return json({ok:false,error:"Tylko administrator może przeglądać statystyki."},403);
+        const today=warsawDayKey();
+        const from7=dayKeyOffset(-6);
+        const from30=dayKeyOffset(-29);
+
+        const topPages=await db.prepare(`
+          SELECT path,SUM(views) AS views
+          FROM aio_site_page_views
+          WHERE day>=?
+          GROUP BY path
+          ORDER BY views DESC
+          LIMIT 12
+        `).bind(from30).all();
+
+        const onlineRows=await db.prepare(`
+          SELECT p.id,p.display_name,p.role,cp.last_seen_at
+          FROM community_chat_presence cp
+          JOIN community_profiles p ON p.id=cp.user_id
+          WHERE datetime(cp.last_seen_at)>=datetime('now','-75 seconds')
+          ORDER BY CASE p.role WHEN 'admin' THEN 0 WHEN 'moderator' THEN 1 ELSE 2 END,p.display_name
+          LIMIT 50
+        `).all();
+
+        rows=[{
+          pageviews_today:await countRows(env,`SELECT COALESCE(SUM(views),0) AS n FROM aio_site_page_views WHERE day=?`,today),
+          visitors_today:await countRows(env,`SELECT COUNT(*) AS n FROM aio_site_visitors WHERE day=?`,today),
+          pageviews_7d:await countRows(env,`SELECT COALESCE(SUM(views),0) AS n FROM aio_site_page_views WHERE day>=?`,from7),
+          visitors_7d:await countRows(env,`SELECT COUNT(DISTINCT visitor_hash) AS n FROM aio_site_visitors WHERE day>=?`,from7),
+          pageviews_30d:await countRows(env,`SELECT COALESCE(SUM(views),0) AS n FROM aio_site_page_views WHERE day>=?`,from30),
+          visitors_30d:await countRows(env,`SELECT COUNT(DISTINCT visitor_hash) AS n FROM aio_site_visitors WHERE day>=?`,from30),
+          community_users:await countRows(env,`SELECT COUNT(*) AS n FROM community_profiles`),
+          new_users_7d:await countRows(env,`SELECT COUNT(*) AS n FROM community_profiles WHERE datetime(created_at)>=datetime('now','-7 day')`),
+          posts_total:await countRows(env,`SELECT COUNT(*) AS n FROM community_posts WHERE status='published'`),
+          comments_total:await countRows(env,`SELECT COUNT(*) AS n FROM community_comments WHERE status='published'`),
+          chat_total:await countRows(env,`SELECT COUNT(*) AS n FROM community_chat_messages WHERE status='published'`),
+          chat_7d:await countRows(env,`SELECT COUNT(*) AS n FROM community_chat_messages WHERE status='published' AND datetime(created_at)>=datetime('now','-7 day')`),
+          online_count:(onlineRows.results||[]).length,
+          online_users:(onlineRows.results||[]).map(x=>({id:x.id,display_name:x.display_name||"Użytkownik",role:x.role||"user",last_seen_at:x.last_seen_at})),
+          top_pages:topPages.results||[]
+        }];
       } else if(tab==="password-resets"){
         if(!isFullAdmin(s)) return json({ok:false,error:"Tylko administrator może obsługiwać reset haseł."},403);
         const rr=await db.prepare(`

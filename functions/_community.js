@@ -96,7 +96,28 @@ export async function ensureSchema(env) {
       FOREIGN KEY(message_id) REFERENCES community_chat_messages(id) ON DELETE CASCADE,
       FOREIGN KEY(user_id) REFERENCES community_profiles(id) ON DELETE CASCADE
     )`,
-    `CREATE INDEX IF NOT EXISTS idx_chat_reactions_message ON community_chat_reactions(message_id)`
+    `CREATE INDEX IF NOT EXISTS idx_chat_reactions_message ON community_chat_reactions(message_id)`,
+    `CREATE TABLE IF NOT EXISTS community_chat_presence (
+      user_id TEXT PRIMARY KEY,
+      last_seen_at TEXT NOT NULL,
+      FOREIGN KEY(user_id) REFERENCES community_profiles(id) ON DELETE CASCADE
+    )`,
+    `CREATE INDEX IF NOT EXISTS idx_chat_presence_seen ON community_chat_presence(last_seen_at)`,
+    `CREATE TABLE IF NOT EXISTS aio_site_page_views (
+      day TEXT NOT NULL,
+      path TEXT NOT NULL,
+      views INTEGER NOT NULL DEFAULT 0,
+      PRIMARY KEY(day,path)
+    )`,
+    `CREATE INDEX IF NOT EXISTS idx_site_page_views_day ON aio_site_page_views(day)`,
+    `CREATE TABLE IF NOT EXISTS aio_site_visitors (
+      day TEXT NOT NULL,
+      visitor_hash TEXT NOT NULL,
+      first_seen_at TEXT NOT NULL,
+      last_seen_at TEXT NOT NULL,
+      PRIMARY KEY(day,visitor_hash)
+    )`,
+    `CREATE INDEX IF NOT EXISTS idx_site_visitors_day ON aio_site_visitors(day)`
   ];
   await db.batch(sql.map(q => db.prepare(q)));
 }
