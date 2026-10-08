@@ -13,6 +13,15 @@
   }
 
   async function init(){
+    const tabs=q('.community-admin-tabs');
+    if(tabs&&!q('[data-admin-tab="password-resets"]',tabs)){
+      const b=document.createElement('button');
+      b.className='community-tab';
+      b.type='button';
+      b.dataset.adminTab='password-resets';
+      b.innerHTML='Reset hasła <span data-admin-reset-badge></span>';
+      tabs.appendChild(b);
+    }
     qa('[data-admin-tab]').forEach(b=>b.onclick=()=>{
       tab=b.dataset.adminTab;
       qa('[data-admin-tab]').forEach(x=>x.classList.toggle('active',x===b));
@@ -39,6 +48,13 @@
       const d=await AIOCommunity.apiGet('admin',{tab});
       rows=d.rows||[];
       role=d.role||'user';
+      const resetTab=q('[data-admin-tab="password-resets"]');
+      if(resetTab)resetTab.hidden=role!=='admin';
+      const resetBadge=q('[data-admin-reset-badge]');
+      if(resetBadge){
+        const n=Number(d.stats?.password_resets||0);
+        resetBadge.textContent=n?`(${n})`:'';
+      }
       Object.entries(d.stats||{}).forEach(([k,v])=>
         qa(`[data-admin-stat="${k}"]`).forEach(el=>el.textContent=Number(v||0).toLocaleString('pl-PL'))
       );
@@ -139,6 +155,29 @@
             ${l.reason?`<p>${AIOCommunity.escape(l.reason)}</p>`:''}
           </article>`).join('')+'</div>'
         : '<div class="community-empty"><strong>Dziennik jest pusty.</strong></div>';
+    }
+
+    if(tab==='password-resets'){
+      root.innerHTML=rows.length
+        ? '<div class="community-admin-list">'+rows.map(r=>`<article class="community-admin-item" data-password-reset="${AIOCommunity.escapeAttr(r.id)}">
+            <div class="community-admin-item-head">
+              <div>
+                <strong>🔑 ${AIOCommunity.escape(r.display_name||'Użytkownik')}</strong>
+                <small>${AIOCommunity.escape(AIOCommunity.formatDate(r.created_at))}</small>
+              </div>
+            </div>
+            <p><strong>E-mail:</strong> ${AIOCommunity.escape(r.email_snapshot||'')}</p>
+            <p class="community-side-note">${r.status==='approved'
+              ? 'Kod został już wygenerowany. Jeśli nie został przekazany użytkownikowi, wygeneruj nowy.'
+              : 'Użytkownik oczekuje na jednorazowy kod umożliwiający ustawienie nowego hasła.'}</p>
+            ${r.expires_at?`<small>Kod ważny do: ${AIOCommunity.escape(AIOCommunity.formatDate(r.expires_at))}</small>`:''}
+            <div class="community-admin-actions">
+              <button class="button primary" data-password-reset-action="approve">${r.status==='approved'?'Wygeneruj nowy kod':'Wygeneruj kod resetu'}</button>
+              <button class="button danger" data-password-reset-action="cancel">Anuluj prośbę</button>
+            </div>
+          </article>`).join('')+'</div>'
+        : '<div class="community-empty"><strong>Brak próśb o reset hasła.</strong><p>Nowe prośby użytkowników pojawią się tutaj.</p></div>';
+      return;
     }
   }
 
@@ -470,6 +509,39 @@
         duration
       });
     }
+
+    const resetCard=e.target.closest('[data-password-reset]');
+    const resetAction=e.target.closest('[data-password-reset-action]');
+    if(resetCard&&resetAction){
+      const id=resetCard.dataset.passwordReset;
+      const op=resetAction.dataset.passwordResetAction;
+
+      if(op==='cancel'){
+        if(!confirm('Anulować tę prośbę o reset hasła?'))return;
+        await call({target:'password_reset',op:'cancel',id});
+        return;
+      }
+
+      if(op==='approve'){
+        try{
+          const d=await AIOCommunity.api('admin_action',{target:'password_reset',op:'approve',id});
+          const code=d.resetCode||'';
+          if(!code)throw new Error('Serwer nie zwrócił kodu resetu.');
+          let copied=false;
+          try{await navigator.clipboard.writeText(code);copied=true;}catch(_){}
+          alert(
+            'JEDNORAZOWY KOD RESETU HASŁA:\n\n'+code+
+            '\n\nKod jest ważny 24 godziny i działa tylko raz.'+
+            (copied?'\n\nKod został skopiowany do schowka.':'\n\nSkopiuj kod i przekaż go użytkownikowi.')
+          );
+          await load();
+        }catch(err){
+          AIOCommunity.showToast(AIOCommunity.friendlyError(err),'error');
+        }
+        return;
+      }
+    }
+
   }
 
   boot();

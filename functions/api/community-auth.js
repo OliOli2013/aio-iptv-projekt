@@ -34,32 +34,6 @@ async function clearAttempt(env, key) {
   await env.COMMUNITY_DB.prepare(`DELETE FROM community_login_attempts WHERE key=?`).bind(key).run();
 }
 
-function escapeHtml(value) {
-  return String(value ?? "")
-    .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;").replace(/'/g,"&#039;");
-}
-function resetMailConfigured(env) {
-  return Boolean(String(env.RESEND_API_KEY || "").trim() && String(env.COMMUNITY_RESET_FROM || "").trim());
-}
-async function sendResetEmail(env, email, resetUrl) {
-  const response = await fetch("https://api.resend.com/emails", {
-    method:"POST",
-    headers:{"authorization":`Bearer ${String(env.RESEND_API_KEY||"").trim()}`,"content-type":"application/json"},
-    body:JSON.stringify({
-      from:String(env.COMMUNITY_RESET_FROM||"").trim(),
-      to:[email],
-      subject:"Reset hasła — Społeczność AIO",
-      text:`Otrzymaliśmy prośbę o ustawienie nowego hasła do Społeczności AIO.\n\nOtwórz link:\n${resetUrl}\n\nLink jest jednorazowy i wygasa po 30 minutach.\nJeżeli to nie Ty wysłałeś prośbę, zignoruj tę wiadomość.`,
-      html:`<div style="font-family:Arial,sans-serif;line-height:1.6;color:#17242b"><h2>Reset hasła — Społeczność AIO</h2><p>Otrzymaliśmy prośbę o ustawienie nowego hasła.</p><p><a href="${escapeHtml(resetUrl)}" style="display:inline-block;padding:12px 18px;background:#0d7897;color:#fff;text-decoration:none;border-radius:8px">Ustaw nowe hasło</a></p><p>Link jest jednorazowy i wygasa po <strong>30 minutach</strong>.</p><p style="color:#63747c">Jeżeli to nie Ty wysłałeś prośbę, zignoruj tę wiadomość.</p></div>`
-    })
-  });
-  if (!response.ok) {
-    const detail = await response.text().catch(()=>"");
-    console.error("Resend password reset error:", response.status, detail.slice(0,500));
-    throw Object.assign(new Error("Nie udało się wysłać wiadomości resetującej. Spróbuj ponownie później."), {status:503});
-  }
-}
 
 export async function onRequestGet({request, env}) {
   try {
@@ -89,42 +63,87 @@ export async function onRequestPost({request, env}) {
     }
 
     if (action === "request_reset") {
-      if (!resetMailConfigured(env)) return json({ok:false,error:"Odzyskiwanie hasła nie jest jeszcze skonfigurowane przez administratora."},503);
       const email = cleanEmail(body.email);
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json({ok:false,error:"Podaj poprawny adres e-mail."},400);
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return json({ok:false,error:"Podaj poprawny adres e-mail."},400);
+      }
+
       const resetThrottleKey = `reset:${ip || "noip"}:${email}`;
       await throttle(env, resetThrottleKey);
-      const auth = await db.prepare(`SELECT user_id,email FROM community_auth WHERE email=? LIMIT 1`).bind(email).first();
-      if (!auth) { await failAttempt(env, resetThrottleKey); return json({ok:true,message:"Jeżeli konto istnieje, wiadomość z linkiem została wysłana."}); }
+
+      const auth = await db.prepare(
+        `SELECT user_id,email FROM community_auth WHERE email=? LIMIT 1`
+      ).bind(email).first();
+
+      if (!auth) {
+        await failAttempt(env, resetThrottleKey);
+        return json({ok:true,message:"Jeżeli konto istnieje, prośba o reset została przekazana administratorowi."});
+      }
+
       await clearAttempt(env, resetThrottleKey);
-      const token = randomToken(32);
-      const tokenHash = await sha256(token);
-      const expires = new Date(Date.now()+30*60*1000).toISOString();
-      await db.batch([
-        db.prepare(`DELETE FROM community_password_resets WHERE user_id=? OR datetime(expires_at) <= datetime('now')`).bind(auth.user_id),
-        db.prepare(`INSERT INTO community_password_resets (token_hash,user_id,expires_at,created_at,requested_ip) VALUES(?,?,?,?,?)`).bind(tokenHash,auth.user_id,expires,isoNow(),ip)
-      ]);
-      const resetUrl = `${new URL(request.url).origin}/community.html?reset=${encodeURIComponent(token)}`;
-      try { await sendResetEmail(env, auth.email, resetUrl); }
-      catch (error) { await db.prepare(`DELETE FROM community_password_resets WHERE token_hash=?`).bind(tokenHash).run().catch(()=>{}); throw error; }
-      return json({ok:true,message:"Jeżeli konto istnieje, wiadomość z linkiem została wysłana."});
+
+      const existing = await db.prepare(`
+        SELECT id FROM community_password_reset_requests
+        WHERE user_id=? AND status IN ('pending','approved')
+        ORDER BY created_at DESC LIMIT 1
+      `).bind(auth.user_id).first();
+
+      if (!existing) {
+        await db.prepare(`
+          INSERT INTO community_password_reset_requests
+            (id,user_id,email_snapshot,requested_ip,status,created_at)
+          VALUES(?,?,?,?, 'pending', ?)
+        `).bind(crypto.randomUUID(),auth.user_id,auth.email,ip,isoNow()).run();
+      }
+
+      return json({ok:true,message:"Jeżeli konto istnieje, prośba o reset została przekazana administratorowi."});
     }
 
     if (action === "reset_password") {
-      const token = String(body.token || "").trim();
+      const code = String(body.code || "").trim();
       const password = String(body.password || "");
-      if (token.length < 20) return json({ok:false,error:"Link resetujący jest nieprawidłowy lub wygasł."},400);
-      if (!validPassword(password)) return json({ok:false,error:"Nowe hasło musi mieć co najmniej 10 znaków."},400);
-      const tokenHash = await sha256(token);
-      const reset = await db.prepare(`SELECT token_hash,user_id,expires_at,used_at FROM community_password_resets WHERE token_hash=? LIMIT 1`).bind(tokenHash).first();
-      if (!reset || reset.used_at || Date.parse(reset.expires_at) <= Date.now()) return json({ok:false,error:"Link resetujący jest nieprawidłowy, wykorzystany lub wygasł."},400);
+
+      if (code.length < 8 || code.length > 80) {
+        return json({ok:false,error:"Kod resetu jest nieprawidłowy."},400);
+      }
+      if (!validPassword(password)) {
+        return json({ok:false,error:"Nowe hasło musi mieć co najmniej 10 znaków."},400);
+      }
+
+      const codeHash = await sha256(code);
+      const reset = await db.prepare(`
+        SELECT id,user_id,expires_at,status
+        FROM community_password_reset_requests
+        WHERE code_hash=? AND status='approved'
+        ORDER BY approved_at DESC LIMIT 1
+      `).bind(codeHash).first();
+
+      if (!reset || !reset.expires_at || Date.parse(reset.expires_at) <= Date.now()) {
+        return json({ok:false,error:"Kod resetu jest nieprawidłowy albo wygasł."},400);
+      }
+
       const pw = await hashPassword(password);
       const now = isoNow();
+
       await db.batch([
-        db.prepare(`UPDATE community_auth SET password_hash=?,password_salt=?,password_iterations=? WHERE user_id=?`).bind(pw.hash,pw.salt,pw.iterations,reset.user_id),
-        db.prepare(`UPDATE community_password_resets SET used_at=? WHERE token_hash=?`).bind(now,tokenHash),
-        db.prepare(`DELETE FROM community_sessions WHERE user_id=?`).bind(reset.user_id)
+        db.prepare(`
+          UPDATE community_auth
+          SET password_hash=?,password_salt=?,password_iterations=?
+          WHERE user_id=?
+        `).bind(pw.hash,pw.salt,pw.iterations,reset.user_id),
+        db.prepare(`
+          UPDATE community_password_reset_requests
+          SET status='used',used_at=?
+          WHERE id=?
+        `).bind(now,reset.id),
+        db.prepare(`DELETE FROM community_sessions WHERE user_id=?`).bind(reset.user_id),
+        db.prepare(`
+          UPDATE community_password_reset_requests
+          SET status='cancelled',cancelled_at=?
+          WHERE user_id=? AND status IN ('pending','approved') AND id<>?
+        `).bind(now,reset.user_id,reset.id)
       ]);
+
       return json({ok:true,message:"Hasło zostało zmienione. Możesz się zalogować."});
     }
 

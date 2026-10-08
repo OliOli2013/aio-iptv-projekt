@@ -3,7 +3,7 @@ import {
   json, ensureSchema, getSession, requireUser, requireAdmin, isAdmin, isFullAdmin,
   cleanText, allowedCategory, allowedPostType, allowedReaction, allowedTargetType,
   decoratePost, publicProfile, parseAttachments, bodyJson, errorResponse,
-  isoNow, clientIp, recordIp, moderationLog, countRows
+  isoNow, clientIp, recordIp, moderationLog, countRows, randomToken
 } from "../_community.js";
 
 async function optionalSession(request, env) {
@@ -251,11 +251,26 @@ export async function onRequestGet({request, env}) {
           ORDER BY l.created_at DESC LIMIT 200
         `).all();
         rows=rr.results||[];
+      } else if(tab==="password-resets"){
+        if(!isFullAdmin(s)) return json({ok:false,error:"Tylko administrator może obsługiwać reset haseł."},403);
+        const rr=await db.prepare(`
+          SELECT r.id,r.user_id,r.email_snapshot,r.status,r.expires_at,r.created_at,r.approved_at,
+                 p.display_name
+          FROM community_password_reset_requests r
+          LEFT JOIN community_profiles p ON p.id=r.user_id
+          WHERE r.status IN ('pending','approved')
+          ORDER BY CASE r.status WHEN 'pending' THEN 0 ELSE 1 END, r.created_at DESC
+          LIMIT 200
+        `).all();
+        rows=(rr.results||[]).map(r=>({...r,display_name:r.display_name||"Użytkownik"}));
       }
       const st={
         pending:await countRows(env,`SELECT COUNT(*) AS n FROM community_posts WHERE status='pending'`),
         reports:await countRows(env,`SELECT COUNT(*) AS n FROM community_reports WHERE status='open'`),
-        users:await countRows(env,`SELECT COUNT(*) AS n FROM community_profiles`)
+        users:await countRows(env,`SELECT COUNT(*) AS n FROM community_profiles`),
+        password_resets:isFullAdmin(s)
+          ? await countRows(env,`SELECT COUNT(*) AS n FROM community_password_reset_requests WHERE status='pending'`)
+          : 0
       };
       return json({ok:true,rows,stats:st,role:s.user.role});
     }
@@ -454,6 +469,68 @@ export async function onRequestPost({request,env}) {
         await moderationLog(env,s.user.id,{targetType:"report",targetId:id,action:op,reason,ip:clientIp(request)});
         return json({ok:true});
       }
+      if(target==="password_reset"){
+        if(!isFullAdmin(s)) return json({ok:false,error:"Tylko administrator może obsługiwać reset haseł."},403);
+
+        const req=await db.prepare(
+          `SELECT * FROM community_password_reset_requests WHERE id=? LIMIT 1`
+        ).bind(id).first();
+        if(!req) return json({ok:false,error:"Nie znaleziono prośby o reset hasła."},404);
+
+        if(op==="approve"){
+          if(req.status!=="pending" && req.status!=="approved"){
+            return json({ok:false,error:"Ta prośba nie jest już aktywna."},400);
+          }
+
+          const code=randomToken(9);
+          const raw=new TextEncoder().encode(code);
+          const digest=new Uint8Array(await crypto.subtle.digest("SHA-256",raw));
+          let packed="";
+          for(const b of digest) packed+=String.fromCharCode(b);
+          const codeHash=btoa(packed).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/g,"");
+          const expires=new Date(Date.now()+24*60*60*1000).toISOString();
+
+          await db.prepare(`
+            UPDATE community_password_reset_requests
+            SET status='approved',code_hash=?,expires_at=?,approved_at=?,approved_by=?,
+                used_at=NULL,cancelled_at=NULL
+            WHERE id=?
+          `).bind(codeHash,expires,now,s.user.id,id).run();
+
+          await moderationLog(env,s.user.id,{
+            targetUserId:req.user_id,
+            targetType:"user",
+            targetId:req.user_id,
+            action:"password_reset_approved",
+            reason:"Wygenerowano jednorazowy kod resetu hasła.",
+            ip:clientIp(request)
+          });
+
+          return json({ok:true,resetCode:code,expiresAt:expires});
+        }
+
+        if(op==="cancel"){
+          await db.prepare(`
+            UPDATE community_password_reset_requests
+            SET status='cancelled',cancelled_at=?,code_hash=NULL,expires_at=NULL
+            WHERE id=?
+          `).bind(now,id).run();
+
+          await moderationLog(env,s.user.id,{
+            targetUserId:req.user_id,
+            targetType:"user",
+            targetId:req.user_id,
+            action:"password_reset_cancelled",
+            reason:"Anulowano prośbę o reset hasła.",
+            ip:clientIp(request)
+          });
+
+          return json({ok:true});
+        }
+
+        return json({ok:false,error:"Nieznana akcja resetu hasła."},400);
+      }
+
       if(target==="user"){
         const u=await db.prepare(`SELECT * FROM community_profiles WHERE id=?`).bind(id).first();
         if(!u) return json({ok:false,error:"Nie znaleziono użytkownika."},404);
