@@ -16,7 +16,7 @@
 
 W jednym miejscu znajdziesz wtyczki, skin, listy kanałów, narzędzia systemowe, poradniki, instalatory oraz rozwiązania przygotowane z myślą o codziennym użytkowaniu tunerów Enigma2.
 
-### 👉 [OTWÓRZ AIO-IPTV.PL](https://olioli2013.github.io/aio-iptv-projekt/)
+### 👉 [OTWÓRZ AIO-IPTV.PL](https://aio-iptv-projekt.pages.dev/)
 
 ---
 
@@ -157,7 +157,7 @@ Nie wszystkie projekty mają identyczne wymagania dotyczące wersji Pythona. Szc
 
 Aktualne wersje projektów są dostępne na:
 
-### 👉 https://olioli2013.github.io/aio-iptv-projekt/
+### 👉 https://aio-iptv-projekt.pages.dev/
 
 oraz w odpowiednich repozytoriach GitHub projektu.
 
@@ -171,7 +171,7 @@ Zalecane jest korzystanie z aktualnych wydań publikowanych na stronie lub w Git
 
 GitHub: **OliOli2013**
 
-🌐 [AIO-IPTV.pl](https://olioli2013.github.io/aio-iptv-projekt/)
+🌐 [AIO-IPTV.pl](https://aio-iptv-projekt.pages.dev/)
 
 > Projekty powstają z myślą o użytkownikach Enigma2 i są rozwijane na podstawie rzeczywistych testów, zgłoszeń użytkowników oraz codziennego korzystania z odbiorników.
 

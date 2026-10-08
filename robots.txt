@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 Disallow: /community-admin.html
-Sitemap: https://olioli2013.github.io/aio-iptv-projekt/sitemap.xml
+Sitemap: https://aio-iptv-projekt.pages.dev/sitemap.xml

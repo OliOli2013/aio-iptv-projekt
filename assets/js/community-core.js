@@ -83,7 +83,7 @@
 
     async loadConfig(){
       try{
-        const r=await fetch('data/community_config.json?v=20261008-cloudflare1',{cache:'no-store'});
+        const r=await fetch('data/community_config.json?v=20261008-cloudflare-clean1',{cache:'no-store'});
         if(r.ok) return await r.json();
       }catch(_){}
       return {
