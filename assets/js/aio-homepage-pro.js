@@ -1,16 +1,21 @@
-/* AIO Homepage PRO V1 — 2026-10-08 */
+/* AIO Homepage PRO V1.1 — polish */
 (function(){
   'use strict';
-  if(window.__AIO_HOMEPAGE_PRO_V1__) return;
-  window.__AIO_HOMEPAGE_PRO_V1__=true;
+  if(window.__AIO_HOMEPAGE_PRO_V11__) return;
+  window.__AIO_HOMEPAGE_PRO_V11__=true;
 
   const q=(s,c=document)=>c.querySelector(s);
   const qa=(s,c=document)=>Array.from(c.querySelectorAll(s));
   const fmt=n=>Number(n||0).toLocaleString('pl-PL');
 
+  function setDefaults(){
+    qa('[data-home-pro-stat],[data-community-home-stat]').forEach(el=>{
+      const t=(el.textContent||'').trim();
+      if(!t || t==='—') el.textContent='0';
+    });
+  }
+
   async function loadSiteStats(){
-    const root=q('[data-aio-site-stats]');
-    if(!root) return;
     try{
       const res=await fetch('/api/site-stats',{credentials:'same-origin',cache:'no-store'});
       if(!res.ok) return;
@@ -24,23 +29,46 @@
         chat_messages_7d:s.chat_messages_7d
       };
       Object.entries(map).forEach(([k,v])=>{
-        qa(`[data-home-pro-stat="${k}"]`,root).forEach(el=>el.textContent=fmt(v));
+        qa(`[data-home-pro-stat="${k}"]`).forEach(el=>el.textContent=fmt(v));
       });
     }catch(_){}
   }
 
   function bindSearch(){
-    qa('[data-home-pro-search]').forEach(btn=>btn.addEventListener('click',()=>{
-      const trigger=q('.site-search-trigger');
-      if(trigger) trigger.click();
-      else location.href='downloads.html';
-    }));
+    qa('[data-home-pro-search]').forEach(btn=>{
+      if(btn.dataset.bound==='1') return;
+      btn.dataset.bound='1';
+      btn.addEventListener('click',()=>{
+        const trigger=q('.site-search-trigger');
+        if(trigger) trigger.click();
+        else location.href='downloads.html';
+      });
+    });
+  }
+
+  function compactHeader(){
+    const apply=()=>document.body.classList.toggle('aio-header-compact',window.scrollY>90);
+    apply();
+    window.addEventListener('scroll',apply,{passive:true});
+  }
+
+  function cleanPublicCopy(){
+    qa('[data-public-copy]').forEach(el=>{
+      el.textContent=(el.textContent||'').replace(/\s+/g,' ').trim();
+    });
   }
 
   function boot(){
     document.body.classList.add('aio-home-pro');
+    setDefaults();
     loadSiteStats();
     bindSearch();
+    compactHeader();
+    cleanPublicCopy();
+
+    /* Dane Społeczności są ładowane osobnym modułem.
+       Po krótkim czasie zerujemy jedynie ewentualne puste placeholdery. */
+    window.setTimeout(setDefaults,1800);
   }
 
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});

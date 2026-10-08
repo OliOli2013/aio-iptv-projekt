@@ -181,3 +181,83 @@ body.aio-home-pro{
   .aio-home-pro .home-pro-feature-copy{padding:24px 20px}
   .aio-home-pro .home-pro-footer-note{display:grid}
 }
+
+/* AIO Homepage PRO V1.1 — polish */
+body.aio-home-pro .home-pro-hero{
+  padding:clamp(24px,4vw,54px);
+}
+body.aio-home-pro .home-pro-title{
+  font-size:clamp(2.35rem,4.55vw,5.1rem);
+}
+body.aio-home-pro .home-pro-trust{
+  grid-template-columns:160px minmax(250px,1.2fr) repeat(3,minmax(180px,1fr));
+  gap:0;
+}
+body.aio-home-pro .home-pro-trust>*{
+  min-height:108px;
+  padding:18px 20px;
+  border-right:1px solid rgba(255,255,255,.06);
+}
+body.aio-home-pro .home-pro-trust>*:last-child{border-right:0}
+body.aio-home-pro .home-pro-trust-logo{justify-content:center}
+body.aio-home-pro .home-pro-trust-logo img{width:124px}
+body.aio-home-pro .home-pro-trust-copy,
+body.aio-home-pro .home-pro-trust>div:not(.home-pro-trust-logo){
+  display:block;
+}
+body.aio-home-pro .home-pro-trust-copy strong,
+body.aio-home-pro .home-pro-trust>div strong{
+  line-height:1.35;
+  margin-bottom:6px;
+}
+body.aio-home-pro .home-pro-trust-copy span,
+body.aio-home-pro .home-pro-trust>div span{
+  line-height:1.55;
+}
+body.aio-home-pro .home-pro-feature::after{
+  background:linear-gradient(90deg,rgba(3,19,27,.985) 0%,rgba(3,19,27,.93) 48%,rgba(3,19,27,.34) 74%,rgba(3,19,27,.10) 100%);
+}
+body.aio-home-pro .home-pro-feature-copy{max-width:590px}
+body.aio-home-pro .home-pro-footer-note{
+  background:linear-gradient(180deg,#0a3040,#082735);
+}
+body.aio-home-pro .site-header{
+  transition:padding .18s ease,background .18s ease,box-shadow .18s ease;
+}
+body.aio-home-pro.aio-header-compact .site-header{
+  box-shadow:0 12px 28px rgba(0,0,0,.24);
+}
+body.aio-home-pro.aio-header-compact .brand-row{
+  min-height:52px;
+  padding-top:6px;
+  padding-bottom:6px;
+}
+body.aio-home-pro.aio-header-compact .brand img{
+  width:38px;
+  height:38px;
+}
+body.aio-home-pro.aio-header-compact .brand small{
+  display:none;
+}
+body.aio-home-pro .home-pro-status-grid strong,
+body.aio-home-pro .home-pro-stats strong,
+body.aio-home-pro .home-pro-community-aside [data-community-home-stat]{
+  min-width:1ch;
+}
+@media(max-width:1180px){
+  body.aio-home-pro .home-pro-trust{
+    grid-template-columns:160px 1fr 1fr;
+  }
+  body.aio-home-pro .home-pro-trust>*{
+    border-bottom:1px solid rgba(255,255,255,.06);
+  }
+}
+@media(max-width:760px){
+  body.aio-home-pro .home-pro-hero{padding:22px 18px}
+  body.aio-home-pro .home-pro-title{font-size:clamp(2.4rem,14vw,4.2rem)}
+  body.aio-home-pro .home-pro-trust{grid-template-columns:1fr}
+  body.aio-home-pro .home-pro-trust>*{
+    min-height:auto;
+    border-right:0;
+  }
+}
