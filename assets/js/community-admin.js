@@ -438,6 +438,114 @@
     }
   }
 
+  function openResetDeliveryDialog({code,email,displayName,expiresAt}){
+    const safeCode=String(code||'').trim();
+    const safeEmail=String(email||'').trim();
+    const safeName=String(displayName||'Użytkownik').trim()||'Użytkownik';
+
+    if(!safeCode){
+      AIOCommunity.showToast('Brak kodu resetu.','error');
+      return;
+    }
+
+    const subject='Kod resetu hasła — AIO-IPTV.pl';
+    const message=[
+      `Dzień dobry${safeName&&safeName!=='Użytkownik'?', '+safeName:''},`,
+      '',
+      'otrzymaliśmy prośbę o zresetowanie hasła do Społeczności AIO-IPTV.pl.',
+      '',
+      'Twój jednorazowy kod resetu:',
+      safeCode,
+      '',
+      'Kod jest ważny przez 24 godziny i może zostać użyty tylko jeden raz.',
+      'Na stronie AIO-IPTV.pl wybierz „Mam kod resetu”, wpisz powyższy kod i ustaw nowe hasło.',
+      '',
+      'Jeżeli nie prosiłeś o zmianę hasła, zignoruj tę wiadomość.',
+      '',
+      'Pozdrawiam',
+      'Paweł Pawełek',
+      'Administrator strony AIO-IPTV.pl'
+    ].join('\n');
+
+    const dialog=document.createElement('dialog');
+    dialog.className='community-dialog community-reset-delivery-dialog';
+    dialog.innerHTML=`
+      <div class="community-dialog-card community-form">
+        <button class="community-dialog-close" type="button" aria-label="Zamknij">✕</button>
+        <p class="eyebrow">Reset hasła</p>
+        <h2>Kod został wygenerowany</h2>
+        <p class="community-side-note">
+          Możesz skopiować sam kod, skopiować gotową wiadomość albo przygotować e-mail
+          do użytkownika w domyślnym programie pocztowym.
+        </p>
+        <div class="community-field">
+          <label>Odbiorca</label>
+          <input type="text" value="${AIOCommunity.escapeAttr(safeEmail)}" readonly>
+        </div>
+        <div class="community-field">
+          <label>Jednorazowy kod resetu</label>
+          <input type="text" value="${AIOCommunity.escapeAttr(safeCode)}" data-reset-delivery-code readonly>
+          <small>${expiresAt?'Kod ważny do: '+AIOCommunity.escape(AIOCommunity.formatDate(expiresAt)):'Kod jest ważny 24 godziny.'}</small>
+        </div>
+        <div class="community-field">
+          <label>Treść wiadomości</label>
+          <textarea rows="14" data-reset-delivery-message readonly>${AIOCommunity.escape(message)}</textarea>
+        </div>
+        <div class="community-form-actions">
+          <button class="button" type="button" data-reset-copy-code>Kopiuj kod</button>
+          <button class="button" type="button" data-reset-copy-message>Kopiuj wiadomość</button>
+          <button class="button primary" type="button" data-reset-open-email ${safeEmail?'':'disabled'}>Przygotuj e-mail</button>
+          <button class="button" type="button" data-reset-close>Zamknij</button>
+        </div>
+      </div>`;
+
+    document.body.appendChild(dialog);
+
+    const close=()=>{
+      try{dialog.close();}catch(_){}
+      dialog.remove();
+    };
+
+    dialog.querySelector('.community-dialog-close').onclick=close;
+    dialog.querySelector('[data-reset-close]').onclick=close;
+    dialog.addEventListener('cancel',e=>{e.preventDefault();close();});
+
+    dialog.querySelector('[data-reset-copy-code]').onclick=async()=>{
+      try{
+        await navigator.clipboard.writeText(safeCode);
+        AIOCommunity.showToast('Kod został skopiowany.','success');
+      }catch(_){
+        const input=dialog.querySelector('[data-reset-delivery-code]');
+        input.select();
+        document.execCommand('copy');
+        AIOCommunity.showToast('Kod został skopiowany.','success');
+      }
+    };
+
+    dialog.querySelector('[data-reset-copy-message]').onclick=async()=>{
+      try{
+        await navigator.clipboard.writeText(message);
+        AIOCommunity.showToast('Wiadomość została skopiowana.','success');
+      }catch(_){
+        const area=dialog.querySelector('[data-reset-delivery-message]');
+        area.select();
+        document.execCommand('copy');
+        AIOCommunity.showToast('Wiadomość została skopiowana.','success');
+      }
+    };
+
+    const emailButton=dialog.querySelector('[data-reset-open-email]');
+    if(emailButton&&!emailButton.disabled){
+      emailButton.onclick=()=>{
+        const mailto=`mailto:${encodeURIComponent(safeEmail)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+        window.location.href=mailto;
+      };
+    }
+
+    if(typeof dialog.showModal==='function')dialog.showModal();
+    else dialog.setAttribute('open','');
+  }
+
   async function call(payload){
     try{
       await AIOCommunity.api('admin_action',payload);
@@ -524,16 +632,18 @@
 
       if(op==='approve'){
         try{
+          const requestRow=rows.find(x=>x.id===id)||{};
           const d=await AIOCommunity.api('admin_action',{target:'password_reset',op:'approve',id});
           const code=d.resetCode||'';
           if(!code)throw new Error('Serwer nie zwrócił kodu resetu.');
-          let copied=false;
-          try{await navigator.clipboard.writeText(code);copied=true;}catch(_){}
-          alert(
-            'JEDNORAZOWY KOD RESETU HASŁA:\n\n'+code+
-            '\n\nKod jest ważny 24 godziny i działa tylko raz.'+
-            (copied?'\n\nKod został skopiowany do schowka.':'\n\nSkopiuj kod i przekaż go użytkownikowi.')
-          );
+
+          openResetDeliveryDialog({
+            code,
+            email:requestRow.email_snapshot||'',
+            displayName:requestRow.display_name||'Użytkownik',
+            expiresAt:d.expiresAt||null
+          });
+
           await load();
         }catch(err){
           AIOCommunity.showToast(AIOCommunity.friendlyError(err),'error');
