@@ -72,6 +72,8 @@
         this.ready=true;
         this.initGlobalUi();
         this.renderAccountBars();
+        const resetToken=new URLSearchParams(location.search).get('reset');
+        if(resetToken)setTimeout(()=>this.openPasswordResetConfirm(resetToken),0);
         document.dispatchEvent(new CustomEvent('aio-community-ready',{detail:this}));
       }catch(error){
         console.error(error);
@@ -183,6 +185,7 @@
             <p data-aio-auth-message class="community-side-note">Konto działa już na Cloudflare. Hasło musi mieć co najmniej 10 znaków.</p>
             <div class="community-field"><label>E-mail</label><input type="email" name="email" required autocomplete="email"></div>
             <div class="community-field"><label>Hasło</label><input type="password" name="password" required minlength="10" autocomplete="current-password"></div>
+            <button class="community-auth-forgot" type="button" data-forgot-password>Nie pamiętam hasła</button>
             <div class="community-field" data-register-name hidden><label>Nazwa wyświetlana</label><input type="text" name="displayName" minlength="2" maxlength="60"></div>
             <div class="community-form-actions">
               <button class="button primary" type="submit" data-login-submit>Zaloguj</button>
@@ -203,6 +206,7 @@
           form.querySelector('[name="displayName"]').required=register;
         });
         dialog.querySelector('.community-dialog-close').addEventListener('click',()=>dialog.close());
+        dialog.querySelector('[data-forgot-password]').addEventListener('click',()=>{const email=form.email.value.trim();dialog.close();this.openPasswordReset(email);});
         form.addEventListener('submit',async e=>{
           e.preventDefault();
           const button=submit;button.disabled=true;
@@ -222,6 +226,32 @@
       const msg=dialog.querySelector('[data-aio-auth-message]');
       if(msg&&message)msg.textContent=message;
       if(typeof dialog.showModal==='function')dialog.showModal();else dialog.setAttribute('open','');
+    },
+
+    openPasswordReset(prefill=''){
+      let dialog=document.querySelector('[data-aio-reset-request-dialog]');
+      if(!dialog){
+        dialog=document.createElement('dialog');dialog.setAttribute('data-aio-reset-request-dialog','');dialog.className='community-dialog';
+        dialog.innerHTML=`<form class="community-dialog-card" data-aio-reset-request-form><button class="community-dialog-close" type="button" aria-label="Zamknij">✕</button><p class="eyebrow">Społeczność AIO</p><h2>Nie pamiętam hasła</h2><p class="community-side-note">Podaj adres e-mail użyty przy rejestracji. Jeżeli konto istnieje, wyślemy jednorazowy link do ustawienia nowego hasła.</p><div class="community-field"><label>E-mail</label><input type="email" name="email" required autocomplete="email"></div><div class="community-form-actions"><button class="button" type="button" data-reset-back>Wróć do logowania</button><button class="button primary" type="submit">Wyślij link</button></div></form>`;
+        document.body.appendChild(dialog);
+        const form=dialog.querySelector('[data-aio-reset-request-form]');
+        dialog.querySelector('.community-dialog-close').onclick=()=>dialog.close();
+        dialog.querySelector('[data-reset-back]').onclick=()=>{dialog.close();this.openAuth();};
+        form.addEventListener('submit',async e=>{e.preventDefault();const button=form.querySelector('[type="submit"]');button.disabled=true;button.textContent='Wysyłam…';try{await this.auth('request_reset',{email:form.email.value.trim()});dialog.close();this.showToast('Jeżeli konto istnieje, wiadomość z linkiem została wysłana.','success');}catch(err){this.showToast(this.friendlyError(err),'error');}finally{button.disabled=false;button.textContent='Wyślij link';}});
+      }
+      const input=dialog.querySelector('input[name="email"]');input.value=prefill||'';if(typeof dialog.showModal==='function')dialog.showModal();else dialog.setAttribute('open','');setTimeout(()=>input.focus(),0);
+    },
+
+    openPasswordResetConfirm(token){
+      if(!token)return;let dialog=document.querySelector('[data-aio-reset-confirm-dialog]');
+      if(!dialog){
+        dialog=document.createElement('dialog');dialog.setAttribute('data-aio-reset-confirm-dialog','');dialog.className='community-dialog';
+        dialog.innerHTML=`<form class="community-dialog-card" data-aio-reset-confirm-form><button class="community-dialog-close" type="button" aria-label="Zamknij">✕</button><p class="eyebrow">Społeczność AIO</p><h2>Ustaw nowe hasło</h2><p class="community-side-note">Nowe hasło musi mieć co najmniej 10 znaków.</p><div class="community-field"><label>Nowe hasło</label><input type="password" name="password" required minlength="10" autocomplete="new-password"></div><div class="community-field"><label>Powtórz nowe hasło</label><input type="password" name="password2" required minlength="10" autocomplete="new-password"></div><div class="community-form-actions"><button class="button primary" type="submit">Zmień hasło</button></div></form>`;
+        document.body.appendChild(dialog);dialog.querySelector('.community-dialog-close').onclick=()=>dialog.close();
+        const form=dialog.querySelector('[data-aio-reset-confirm-form]');
+        form.addEventListener('submit',async e=>{e.preventDefault();if(form.password.value!==form.password2.value){this.showToast('Podane hasła nie są identyczne.','error');return;}const button=form.querySelector('[type="submit"]');button.disabled=true;button.textContent='Zmieniam…';try{await this.auth('reset_password',{token:dialog.dataset.resetToken||'',password:form.password.value});dialog.close();form.reset();const url=new URL(location.href);url.searchParams.delete('reset');history.replaceState({},'',url.pathname+url.search+url.hash);this.showToast('Hasło zostało zmienione. Zaloguj się nowym hasłem.','success');this.openAuth('Hasło zostało zmienione. Możesz się teraz zalogować.');}catch(err){this.showToast(this.friendlyError(err),'error');}finally{button.disabled=false;button.textContent='Zmień hasło';}});
+      }
+      dialog.dataset.resetToken=token;if(typeof dialog.showModal==='function')dialog.showModal();else dialog.setAttribute('open','');
     },
 
     renderAccountBars(error){

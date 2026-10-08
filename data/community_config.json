@@ -1,5 +1,5 @@
 {
-  "version": "2026.10.08-cloudflare-clean1",
+  "version": "20261008-authreset2",
   "enabled": true,
   "siteName": "Społeczność AIO",
   "siteUrl": "https://aio-iptv-projekt.pages.dev/",
@@ -44,6 +44,6 @@
   ],
   "moderationFeatures": {
     "editPosts": true,
-    "editReasonRequired": true
+    "editReasonRequired": false
   }
 }

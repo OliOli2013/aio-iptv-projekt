@@ -69,3 +69,15 @@
 .community-admin-edit-form [data-edit-count]{display:block;text-align:right;color:var(--muted,#9eb6c0);margin-top:5px}
 .community-image-preview{grid-template-columns:repeat(4,minmax(0,1fr))}
 @media(max-width:720px){.community-image-preview{grid-template-columns:repeat(2,minmax(0,1fr))}.community-admin-edit-form textarea{min-height:230px}}
+
+
+/* AIO Community edit modal viewport fix v2 */
+.community-dialog.community-admin-edit-dialog{width:min(960px,calc(100vw - 32px));max-width:min(960px,calc(100vw - 32px));max-height:calc(100vh - 32px);overflow:hidden}
+.community-admin-edit-dialog .community-dialog-card{box-sizing:border-box;width:100%;max-width:none;max-height:calc(100vh - 32px);overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain}
+.community-admin-edit-form,.community-admin-edit-form>*,.community-admin-edit-form .community-field{min-width:0;max-width:100%}
+.community-admin-edit-form input,.community-admin-edit-form textarea,.community-admin-edit-form select{box-sizing:border-box;width:100%;max-width:100%}
+.community-admin-edit-form [data-edit-existing-images]{max-width:100%;min-width:0;overflow:hidden}
+.community-admin-edit-form [data-edit-existing-images]>div{grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr))!important}
+@media(max-width:680px){.community-dialog.community-admin-edit-dialog{width:calc(100vw - 16px);max-width:calc(100vw - 16px);max-height:calc(100vh - 16px)}.community-admin-edit-dialog .community-dialog-card{max-height:calc(100vh - 16px);padding:18px 14px}}
+.community-auth-forgot{justify-self:start;margin-top:-5px;padding:2px 0;border:0;background:transparent;color:#82e4f8;font:inherit;font-size:.78rem;font-weight:800;cursor:pointer}
+.community-auth-forgot:hover,.community-auth-forgot:focus-visible{color:#fff;text-decoration:underline}

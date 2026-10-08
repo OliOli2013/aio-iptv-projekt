@@ -44,7 +44,17 @@ export async function ensureSchema(env) {
       first_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
       last_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
       blocked_until TEXT
-    )`
+    )`,
+    `CREATE TABLE IF NOT EXISTS community_password_resets (
+      token_hash TEXT PRIMARY KEY,
+      user_id TEXT NOT NULL,
+      expires_at TEXT NOT NULL,
+      used_at TEXT,
+      created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      requested_ip TEXT,
+      FOREIGN KEY(user_id) REFERENCES community_profiles(id) ON DELETE CASCADE
+    )`,
+    `CREATE INDEX IF NOT EXISTS idx_password_resets_user ON community_password_resets(user_id, expires_at)`
   ];
   await db.batch(sql.map(q => db.prepare(q)));
 }

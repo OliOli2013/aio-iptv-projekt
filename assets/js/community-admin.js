@@ -150,8 +150,7 @@
     dialog.setAttribute('data-admin-edit-dialog','');
 
     dialog.innerHTML=`
-      <form class="community-dialog-card community-form community-admin-edit-form" data-admin-edit-form
-            style="max-width:920px;width:min(96vw,920px);max-height:92vh;overflow:auto">
+      <form class="community-dialog-card community-form community-admin-edit-form" data-admin-edit-form>
         <button class="community-dialog-close" type="button" aria-label="Zamknij">✕</button>
 
         <p class="eyebrow">Moderacja treści</p>
@@ -202,13 +201,6 @@
           <small>Po zapisaniu wpis może mieć maksymalnie 4 zdjęcia.</small>
           <div class="community-image-preview" data-edit-image-preview></div>
         </div>
-
-        <div class="community-field">
-          <label>Powód edycji</label>
-          <input type="text" maxlength="500" data-edit-reason
-                 placeholder="Np. uzupełnienie informacji i zdjęć">
-        </div>
-
         <div class="community-form-actions">
           <button class="button" type="button" data-edit-cancel>Anuluj</button>
           <button class="button primary" type="submit" data-edit-save>Zapisz zmiany</button>
@@ -249,7 +241,6 @@
     dialog.querySelector('[data-edit-content]').value=item.content||'';
     dialog.querySelector('[data-edit-category]').value=item.category||'inne';
     dialog.querySelector('[data-edit-post-type]').value=item.post_type||'problem';
-    dialog.querySelector('[data-edit-reason]').value='';
     dialog.querySelector('[data-edit-count]').textContent=
       AIOCommunity.characterLabel(String(item.content||'').length,50000);
 
@@ -388,7 +379,6 @@
           category:form.querySelector('[data-edit-category]').value,
           postType:form.querySelector('[data-edit-post-type]').value,
           official:Boolean(form.querySelector('[data-edit-official]')?.checked),
-          reason:form.querySelector('[data-edit-reason]').value.trim(),
           attachments
         })
       });
