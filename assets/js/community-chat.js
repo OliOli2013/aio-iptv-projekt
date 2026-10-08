@@ -1,4 +1,4 @@
-/* Społeczność AIO — Czat V4.0 */
+/* Społeczność AIO — Czat V4.1 */
 (function(){
   'use strict';
   const q=(s,c=document)=>c.querySelector(s);
@@ -14,7 +14,7 @@
     document.addEventListener('visibilitychange',()=>{if(document.hidden)stopPolling();else{loadMessages(false);startPolling();}});
     document.addEventListener('aio-community-auth',()=>{if(!AIOCommunity.user){stopPolling();if(gate)gate.hidden=false;if(app)app.hidden=true;}});
   }
-  function startPolling(){stopPolling();pollTimer=setInterval(()=>loadMessages(false),10000);}
+  function startPolling(){stopPolling();pollTimer=setInterval(()=>loadMessages(false),15000);}
   function stopPolling(){if(pollTimer){clearInterval(pollTimer);pollTimer=null;}}
 
   function setupComposer(){
@@ -47,20 +47,21 @@
   async function loadMessages(scrollToBottom=false){
     if(busy||!AIOCommunity.user)return;
     const status=q('[data-chat-status]');
-    try{status.textContent='Aktualizuję…';const d=await AIOCommunity.apiGet('chat');rows=d.rows||[];render();status.textContent='Czat aktywny • odświeżanie co 10 s';if(scrollToBottom)scrollBottom();}
+    try{status.textContent='Aktualizuję…';const d=await AIOCommunity.apiGet('chat');rows=d.rows||[];render();status.textContent='Czat aktywny • odświeżanie co 15 s';if(scrollToBottom)scrollBottom();}
     catch(err){status.textContent=AIOCommunity.friendlyError(err);}
   }
 
   function render(){
     const root=q('[data-chat-messages]');
     if(!rows.length){root.innerHTML='<div class="community-empty"><strong>Czat jest jeszcze pusty.</strong><p>Napisz pierwszą wiadomość.</p></div>';return;}
+    root.dataset.messageCount=String(rows.filter(m=>m.status!=='deleted').length);
     root.innerHTML=rows.map(m=>{
       if(m.status==='deleted')return `<article class="aio-chat-message is-deleted" data-chat-message="${AIOCommunity.escapeAttr(m.id)}"><div class="aio-chat-bubble"><em>Wiadomość została usunięta.</em></div></article>`;
       const mine=AIOCommunity.user?.id===m.author?.id,canDelete=mine||AIOCommunity.isAdmin(),reactions=m.reactions||{},reply=m.reply_preview;
       return `<article class="aio-chat-message ${mine?'is-mine':''}" data-chat-message="${AIOCommunity.escapeAttr(m.id)}">
         <div class="aio-chat-avatar">${AIOCommunity.avatarHtml(m.author,m.author?.display_name||'Użytkownik')}</div>
         <div class="aio-chat-body">
-          <div class="aio-chat-meta"><strong>${AIOCommunity.escape(m.author?.display_name||'Użytkownik')}</strong><small>${AIOCommunity.escape(AIOCommunity.formatDate(m.created_at))}</small></div>
+          <div class="aio-chat-meta"><strong>${AIOCommunity.escape(m.author?.display_name||'Użytkownik')}</strong>${m.author?.role==='admin'?'<span class="aio-chat-role is-admin">Administrator</span>':m.author?.role==='moderator'?'<span class="aio-chat-role is-moderator">Moderator</span>':''}<small>${AIOCommunity.escape(AIOCommunity.formatDate(m.created_at))}</small></div>
           ${reply?`<button class="aio-chat-reply-preview" type="button" data-chat-jump="${AIOCommunity.escapeAttr(reply.id)}"><strong>${AIOCommunity.escape(reply.author_name||'Użytkownik')}</strong><span>${AIOCommunity.escape(reply.status==='deleted'?'Wiadomość usunięta':(reply.content||'Zdjęcie'))}</span></button>`:''}
           <div class="aio-chat-bubble">${AIOCommunity.formatText(m.content||'')}</div>
           ${(m.attachments||[]).length?`<div class="aio-chat-images">${m.attachments.map(a=>`<button type="button" class="aio-chat-image-button"><img src="${AIOCommunity.escapeAttr(a.url)}" alt="${AIOCommunity.escapeAttr(a.name||'Zdjęcie')}" loading="lazy" data-community-image></button>`).join('')}</div>`:''}

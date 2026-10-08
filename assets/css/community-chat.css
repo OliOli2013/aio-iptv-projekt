@@ -1,9 +1,9 @@
-/* Społeczność AIO — Czat V4.0 */
+/* Społeczność AIO — Czat V4.1 */
 .aio-chat-shell{display:grid;gap:16px}
 .aio-chat-topbar{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
 .aio-chat-status{font-size:.9rem;color:#9db7c2}
 .aio-chat-window{border:1px solid #315d70;border-radius:18px;background:#06151f;overflow:hidden}
-.aio-chat-messages{height:min(64vh,720px);min-height:420px;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:14px;scroll-behavior:smooth}
+.aio-chat-messages{height:auto;max-height:min(62vh,680px);min-height:240px;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:14px;scroll-behavior:smooth}
 .aio-chat-message{display:flex;gap:10px;align-items:flex-start;transition:.2s}
 .aio-chat-message.is-mine{flex-direction:row-reverse}
 .aio-chat-message.is-highlighted{transform:scale(1.01);filter:brightness(1.18)}
@@ -25,7 +25,7 @@
 .aio-chat-actions button{border:1px solid rgba(115,223,246,.18);background:rgba(255,255,255,.03);color:#bdd3dc;border-radius:999px;padding:4px 8px;font-size:.78rem;cursor:pointer}
 .aio-chat-actions button.active{border-color:#73dff6;background:rgba(115,223,246,.12)}
 .aio-chat-actions button.danger{color:#ff9d9d}
-.aio-chat-composer{padding:14px;border-top:1px solid #244b5d;background:#071b26;display:grid;gap:10px}
+.aio-chat-composer{position:sticky;bottom:0;z-index:4;padding:14px;border-top:1px solid #244b5d;background:#071b26;display:grid;gap:10px;box-shadow:0 -10px 28px rgba(0,0,0,.18)}
 .aio-chat-reply-bar{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 10px;border-left:3px solid #73dff6;background:rgba(115,223,246,.08);border-radius:8px;font-size:.88rem}
 .aio-chat-reply-bar button{border:0;background:none;color:#fff;cursor:pointer;font-size:1.1rem}
 .aio-chat-compose-row{display:flex;gap:8px;align-items:flex-end}
@@ -40,9 +40,14 @@
 .aio-chat-preview img{width:90px;height:70px;object-fit:cover;border-radius:10px}
 .aio-chat-rules{font-size:.82rem;color:#8ea7b1}
 @media(max-width:720px){
-  .aio-chat-messages{height:58vh;min-height:360px;padding:12px}
+  .aio-chat-messages{max-height:56vh;min-height:220px;padding:12px}
   .aio-chat-body{max-width:88%}
   .aio-chat-images{grid-template-columns:1fr}
   .aio-chat-compose-row{align-items:stretch}
   .aio-chat-compose-row .button.primary{align-self:stretch}
 }
+
+.aio-chat-role{display:inline-flex;align-items:center;padding:2px 7px;border-radius:999px;font-size:.66rem;font-weight:800;letter-spacing:.03em;text-transform:uppercase}
+.aio-chat-role.is-admin{background:rgba(115,223,246,.14);border:1px solid rgba(115,223,246,.38);color:#a7efff}
+.aio-chat-role.is-moderator{background:rgba(240,189,49,.12);border:1px solid rgba(240,189,49,.32);color:#f4d77b}
+.aio-chat-messages[data-message-count="0"],.aio-chat-messages[data-message-count="1"],.aio-chat-messages[data-message-count="2"]{min-height:260px}

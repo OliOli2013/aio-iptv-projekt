@@ -475,7 +475,7 @@
   };
 
   const DOWNLOAD_POLICY = { freePerDay: 1 };
-  const DOWNLOAD_EXTENSIONS = /\.(?:ipk|apk|exe|msi|zip|7z|rar|deb|rpm|pdf|tar|tgz|gz|xz|img|bin|iso|m3u|m3u8|xml|conf|cfg|backup)(?:$|[?#])/i;
+  const DOWNLOAD_EXTENSIONS = /\.(?:ipk|apk|exe|msi|zip|7z|rar|deb|rpm|pdf|tar|tgz|gz|xz|img|bin|iso|m3u|m3u8|xml|conf|cfg|backup|sh|py|json|txt|list|tv|radio|bouquet)(?:$|[?#])/i;
   const IMAGE_EXTENSIONS = /\.(?:png|jpe?g|webp|gif|svg|avif)(?:$|[?#])/i;
   const SUPPORT_HOSTS = /(?:^|\.)(?:ko-fi\.com|revolut\.me|buycoffee\.to)$/i;
 
@@ -522,6 +522,18 @@
     observeDownloadLinks();
     document.addEventListener('click', interceptCommunityLink, true);
     document.addEventListener('click', interceptDownload, true);
+    const directTarget=new URLSearchParams(location.search).get('aio_direct');
+    if(directTarget){
+      const cleanTarget=String(directTarget).trim();
+      if(cleanTarget.startsWith('/pliki/')){
+        window.setTimeout(()=>openSupportModal({
+          href:new URL(cleanTarget,location.origin).href,
+          target:'',
+          download:'',
+          label:fileNameFromUrl(cleanTarget)
+        },'limit'),60);
+      }
+    }
   }
 
   function protectDownloadLinks(root) {
@@ -556,13 +568,16 @@
 
     downloadLinkObserver = new MutationObserver(records => {
       records.forEach(record => {
+        if(record.type==='attributes' && record.target && record.target.nodeType===1){
+          protectDownloadLinks(record.target);
+        }
         record.addedNodes.forEach(node => {
           if (node && node.nodeType === 1) protectDownloadLinks(node);
         });
       });
     });
 
-    downloadLinkObserver.observe(target, { childList: true, subtree: true });
+    downloadLinkObserver.observe(target, { childList: true, subtree: true, attributes: true, attributeFilter: ['href','download','class'] });
   }
 
   function getDownloadHref(anchor) {
@@ -871,9 +886,11 @@
     const isInternalHtml = url.origin === window.location.origin && /\.html(?:$|[?#])/i.test(decoded);
     if (isInternalHtml) return false;
 
-    const looksLikeDownloadButton = /\b(?:pobierz|pobieranie|download|ściągnij|instaluj|plik\s+ipk|plik\s+apk|wersja\s+x64|wersja\s+x86)\b/i.test(text);
     const pointsToFiles = /(?:^|\/)pliki\//i.test(decoded) || /(?:^|\/)archives?\//i.test(decoded);
-    return looksLikeDownloadButton && pointsToFiles;
+    if(pointsToFiles) return true;
+
+    const looksLikeDownloadButton = /\b(?:pobierz|pobieranie|download|ściągnij|instaluj|plik\s+ipk|plik\s+apk|wersja\s+x64|wersja\s+x86)\b/i.test(text);
+    return looksLikeDownloadButton && !isInternalHtml;
   }
 
   function getDownloadLabel(anchor) {
