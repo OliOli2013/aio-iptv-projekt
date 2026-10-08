@@ -71,7 +71,32 @@ export async function ensureSchema(env) {
       FOREIGN KEY(user_id) REFERENCES community_profiles(id) ON DELETE CASCADE
     )`,
     `CREATE INDEX IF NOT EXISTS idx_password_reset_requests_status ON community_password_reset_requests(status, created_at)`,
-    `CREATE INDEX IF NOT EXISTS idx_password_reset_requests_user ON community_password_reset_requests(user_id, created_at)`
+    `CREATE INDEX IF NOT EXISTS idx_password_reset_requests_user ON community_password_reset_requests(user_id, created_at)`,
+    `CREATE TABLE IF NOT EXISTS community_chat_messages (
+      id TEXT PRIMARY KEY,
+      author_id TEXT NOT NULL,
+      content TEXT NOT NULL DEFAULT '',
+      attachments TEXT NOT NULL DEFAULT '[]',
+      reply_to TEXT,
+      status TEXT NOT NULL DEFAULT 'published',
+      created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      edited_at TEXT,
+      deleted_at TEXT,
+      deleted_by TEXT,
+      FOREIGN KEY(author_id) REFERENCES community_profiles(id) ON DELETE CASCADE
+    )`,
+    `CREATE INDEX IF NOT EXISTS idx_chat_messages_created ON community_chat_messages(created_at)`,
+    `CREATE INDEX IF NOT EXISTS idx_chat_messages_author ON community_chat_messages(author_id, created_at)`,
+    `CREATE TABLE IF NOT EXISTS community_chat_reactions (
+      message_id TEXT NOT NULL,
+      user_id TEXT NOT NULL,
+      type TEXT NOT NULL,
+      created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      PRIMARY KEY(message_id,user_id,type),
+      FOREIGN KEY(message_id) REFERENCES community_chat_messages(id) ON DELETE CASCADE,
+      FOREIGN KEY(user_id) REFERENCES community_profiles(id) ON DELETE CASCADE
+    )`,
+    `CREATE INDEX IF NOT EXISTS idx_chat_reactions_message ON community_chat_reactions(message_id)`
   ];
   await db.batch(sql.map(q => db.prepare(q)));
 }

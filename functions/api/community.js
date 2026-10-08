@@ -83,6 +83,41 @@ async function deletePostMedia(env,row) {
   }
 }
 
+async function decorateChatRows(env, rows, userId) {
+  if (!rows.length) return [];
+  const ids=rows.map(x=>x.id);
+  const ph=ids.map(()=>"?").join(",");
+  const reactionRows=await env.COMMUNITY_DB.prepare(`
+    SELECT message_id,type,COUNT(*) AS n FROM community_chat_reactions
+    WHERE message_id IN (${ph}) GROUP BY message_id,type
+  `).bind(...ids).all();
+  const myRows=userId ? await env.COMMUNITY_DB.prepare(`
+    SELECT message_id,type FROM community_chat_reactions
+    WHERE user_id=? AND message_id IN (${ph})
+  `).bind(userId,...ids).all() : {results:[]};
+  const reactions={};
+  for(const id of ids) reactions[id]={"👍":0,"❤️":0,"😂":0,"💡":0,mine:[]};
+  for(const r of reactionRows.results||[]) if(reactions[r.message_id]) reactions[r.message_id][r.type]=Number(r.n||0);
+  for(const r of myRows.results||[]) if(reactions[r.message_id]) reactions[r.message_id].mine.push(r.type);
+  return rows.map(row=>({
+    id:row.id,content:row.status==="deleted"?"":row.content,status:row.status,created_at:row.created_at,
+    attachments:row.status==="deleted"?[]:parseAttachments(row.attachments).map(a=>({
+      key:String(a?.key||a?.path||""),name:cleanText(a?.name||"Zdjęcie",180),type:cleanText(a?.type||"image/jpeg",80),size:Number(a?.size||0),
+      url:`/api/community-media?key=${encodeURIComponent(String(a?.key||a?.path||""))}`
+    })).filter(a=>a.key),
+    author:{id:row.author_id,display_name:row.author_display_name||"Użytkownik",avatar_url:row.author_avatar_key?`/api/community-media?key=${encodeURIComponent(row.author_avatar_key)}`:(row.author_avatar_url||""),role:row.author_role||"user"},
+    reply_preview:row.reply_id?{id:row.reply_id,content:cleanText(row.reply_content||"",180),status:row.reply_status||"published",author_name:row.reply_author_name||"Użytkownik"}:null,
+    reactions:reactions[row.id]||{"👍":0,"❤️":0,"😂":0,"💡":0,mine:[]}
+  }));
+}
+
+async function deleteChatMedia(env,row){
+  for(const a of parseAttachments(row?.attachments)){
+    const key=String(a?.key||a?.path||"");
+    if(key) await env.COMMUNITY_MEDIA.delete(key).catch(()=>{});
+  }
+}
+
 export async function onRequestGet({request, env}) {
   try {
     await ensureSchema(env);
@@ -182,6 +217,22 @@ export async function onRequestGet({request, env}) {
       }
       post.following=following;
       return json({ok:true,post,comments});
+    }
+
+    if (action === "chat") {
+      const s=await requireUser(request,env);
+      const limit=Math.min(100,Math.max(20,Number(url.searchParams.get("limit")||80)));
+      const rr=await db.prepare(`
+        SELECT m.*,p.display_name AS author_display_name,p.avatar_url AS author_avatar_url,p.avatar_key AS author_avatar_key,p.role AS author_role,
+               r.id AS reply_id,r.content AS reply_content,r.status AS reply_status,rp.display_name AS reply_author_name
+        FROM community_chat_messages m
+        LEFT JOIN community_profiles p ON p.id=m.author_id
+        LEFT JOIN community_chat_messages r ON r.id=m.reply_to
+        LEFT JOIN community_profiles rp ON rp.id=r.author_id
+        ORDER BY m.created_at DESC LIMIT ?
+      `).bind(limit).all();
+      const ordered=(rr.results||[]).reverse();
+      return json({ok:true,rows:await decorateChatRows(env,ordered,s.user.id)});
     }
 
     if (action === "profile") {
@@ -285,6 +336,46 @@ export async function onRequestPost({request,env}) {
     const body=await bodyJson(request);
     const action=String(body.action||"");
     const db=env.COMMUNITY_DB;
+
+    if(action==="chat_send"){
+      const s=await requireUser(request,env);
+      const content=cleanText(body.content||"",2000);
+      const attachments=Array.isArray(body.attachments)?body.attachments.slice(0,2):[];
+      const replyTo=cleanText(body.replyTo||"",120)||null;
+      if(!content&&!attachments.length) return json({ok:false,error:"Napisz wiadomość lub dodaj zdjęcie."},400);
+      for(const a of attachments){const key=String(a?.key||"");if(!key.startsWith(`${s.user.id}/chat/`)) return json({ok:false,error:"Nieprawidłowy załącznik czatu."},400);}
+      if(replyTo){const parent=await db.prepare(`SELECT id FROM community_chat_messages WHERE id=? LIMIT 1`).bind(replyTo).first();if(!parent) return json({ok:false,error:"Wiadomość, na którą odpowiadasz, już nie istnieje."},400);}
+      const last=await db.prepare(`SELECT created_at FROM community_chat_messages WHERE author_id=? ORDER BY created_at DESC LIMIT 1`).bind(s.user.id).first();
+      if(last?.created_at && Date.now()-Date.parse(last.created_at)<3000) return json({ok:false,error:"Odczekaj chwilę przed wysłaniem kolejnej wiadomości."},429);
+      const id=crypto.randomUUID();
+      await db.prepare(`INSERT INTO community_chat_messages (id,author_id,content,attachments,reply_to,status,created_at) VALUES(?,?,?,?,?,'published',?)`).bind(id,s.user.id,content,JSON.stringify(attachments),replyTo,isoNow()).run();
+      await recordIp(env,s.user.id,clientIp(request),"chat");
+      return json({ok:true,id},201);
+    }
+
+    if(action==="chat_reaction"){
+      const s=await requireUser(request,env),id=cleanText(body.id||"",120),type=String(body.type||"");
+      if(!["👍","❤️","😂","💡"].includes(type)) return json({ok:false,error:"Nieprawidłowa reakcja."},400);
+      const msg=await db.prepare(`SELECT id,status FROM community_chat_messages WHERE id=? LIMIT 1`).bind(id).first();
+      if(!msg||msg.status!=="published") return json({ok:false,error:"Nie znaleziono wiadomości."},404);
+      const current=await db.prepare(`SELECT 1 AS x FROM community_chat_reactions WHERE message_id=? AND user_id=? AND type=?`).bind(id,s.user.id,type).first();
+      if(current) await db.prepare(`DELETE FROM community_chat_reactions WHERE message_id=? AND user_id=? AND type=?`).bind(id,s.user.id,type).run();
+      else await db.prepare(`INSERT INTO community_chat_reactions(message_id,user_id,type,created_at) VALUES(?,?,?,?)`).bind(id,s.user.id,type,isoNow()).run();
+      return json({ok:true,active:!current});
+    }
+
+    if(action==="chat_delete"){
+      const s=await requireUser(request,env),id=cleanText(body.id||"",120);
+      const msg=await db.prepare(`SELECT * FROM community_chat_messages WHERE id=? LIMIT 1`).bind(id).first();
+      if(!msg) return json({ok:false,error:"Nie znaleziono wiadomości."},404);
+      if(msg.author_id!==s.user.id&&!isAdmin(s)) return json({ok:false,error:"Brak uprawnień."},403);
+      await deleteChatMedia(env,msg);
+      await db.batch([
+        db.prepare(`DELETE FROM community_chat_reactions WHERE message_id=?`).bind(id),
+        db.prepare(`UPDATE community_chat_messages SET content='',attachments='[]',status='deleted',deleted_at=?,deleted_by=? WHERE id=?`).bind(isoNow(),s.user.id,id)
+      ]);
+      return json({ok:true});
+    }
 
     if(action==="create_post"){
       const s=await requireUser(request,env);

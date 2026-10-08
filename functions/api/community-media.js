@@ -89,7 +89,7 @@ export async function onRequestPost({request,env}) {
     if(file.size>max) return json({ok:false,error:"Plik jest większy niż 5 MB."},413);
 
     const ext=extFor(file.type,file.name);
-    const safeKind=kind==="avatar"?"avatar":"post";
+    const safeKind=kind==="avatar"?"avatar":kind==="chat"?"chat":"post";
     const key=`${s.user.id}/${safeKind}/${crypto.randomUUID()}.${ext}`;
 
     await env.COMMUNITY_MEDIA.put(key,file.stream(),{
