@@ -1,89 +1,25 @@
 {
-  "version": "2026.10.07-community13-egress1",
+  "version": "2026.10.08-cloudflare-clean1",
   "enabled": true,
   "siteName": "Społeczność AIO",
-  "siteUrl": "https://olioli2013.github.io/aio-iptv-projekt/",
-  "supabase": {
-    "url": "https://pynjjeobqzxbrvmqofcw.supabase.co",
-    "anonKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB5bmpqZW9icXp4YnJ2bXFvZmN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU3NDA5MDYsImV4cCI6MjA4MTMxNjkwNn0.XSBB0DJw27Wrn41nranqFyj8YI0-YjLzX52dkdrgkrg"
-  },
+  "siteUrl": "https://aio-iptv-projekt.pages.dev/",
   "mediaBucket": "community-media",
   "maxImageSizeMb": 5,
   "maxImagesPerPost": 4,
   "postsPerPage": 12,
   "firstPostRequiresApproval": true,
-  "egress": {
-    "signedUrlTtlSeconds": 21600,
-    "signedUrlCacheSeconds": 19800,
-    "previewSignedUrlTtlSeconds": 43200,
-    "previewSignedUrlCacheSeconds": 39600,
-    "feedFullImageMaxBytes": 320000,
-    "signedCacheMaxEntries": 260,
-    "homeLatestCacheMinutes": 15,
-    "homeStatsCacheMinutes": 30,
-    "uploadMaxLongEdge": 1600,
-    "uploadQuality": 0.82,
-    "previewMaxLongEdge": 640,
-    "previewQuality": 0.68,
-    "avatarMaxLongEdge": 512,
-    "avatarQuality": 0.8
-  },
   "categories": [
-    {
-      "id": "pomoc",
-      "label": "Pomoc techniczna",
-      "icon": "🛠️"
-    },
-    {
-      "id": "aio-panel",
-      "label": "AIO Panel",
-      "icon": "🧩"
-    },
-    {
-      "id": "iptv",
-      "label": "IPTV i listy M3U",
-      "icon": "📺"
-    },
-    {
-      "id": "kanaly",
-      "label": "Listy kanałów",
-      "icon": "📡"
-    },
-    {
-      "id": "picony",
-      "label": "Picony i EPG",
-      "icon": "🖼️"
-    },
-    {
-      "id": "oscam",
-      "label": "OSCam i softcam",
-      "icon": "🔐"
-    },
-    {
-      "id": "systemy",
-      "label": "Systemy Enigma2",
-      "icon": "💿"
-    },
-    {
-      "id": "wtyczki",
-      "label": "Wtyczki",
-      "icon": "🔌"
-    },
-    {
-      "id": "aplikacje",
-      "label": "Aplikacje",
-      "icon": "📱"
-    },
-    {
-      "id": "testy",
-      "label": "Testy i opinie",
-      "icon": "✅"
-    },
-    {
-      "id": "inne",
-      "label": "Inne",
-      "icon": "💬"
-    }
+    {"id":"pomoc","label":"Pomoc techniczna","icon":"🛠️"},
+    {"id":"aio-panel","label":"AIO Panel","icon":"🧩"},
+    {"id":"iptv","label":"IPTV i listy M3U","icon":"📺"},
+    {"id":"kanaly","label":"Listy kanałów","icon":"📡"},
+    {"id":"picony","label":"Picony i EPG","icon":"🖼️"},
+    {"id":"oscam","label":"OSCam i softcam","icon":"🔐"},
+    {"id":"systemy","label":"Systemy Enigma2","icon":"💿"},
+    {"id":"wtyczki","label":"Wtyczki","icon":"🔌"},
+    {"id":"aplikacje","label":"Aplikacje","icon":"📱"},
+    {"id":"testy","label":"Testy i opinie","icon":"✅"},
+    {"id":"inne","label":"Inne","icon":"💬"}
   ],
   "privacyMode": "authenticated-community-public-official",
   "maxPostLength": 50000,
@@ -91,11 +27,6 @@
   "postPreviewLength": 1400,
   "officialPreviewLength": 3200,
   "secureWriteEnabled": true,
-  "edgeFunctions": {
-    "write": "community-write",
-    "admin": "community-admin-action",
-    "aioConnectReport": "aio-connect-report"
-  },
   "ipHistoryRetentionDays": 90,
   "engagementFeatures": {
     "solvedTopics": true,
@@ -105,31 +36,11 @@
     "contactAdminUrl": "contact.html"
   },
   "postTypes": [
-    {
-      "id": "problem",
-      "label": "Problem / pytanie",
-      "icon": "❓"
-    },
-    {
-      "id": "information",
-      "label": "Informacja / komunikat",
-      "icon": "ℹ️"
-    },
-    {
-      "id": "update",
-      "label": "Aktualizacja / nowość",
-      "icon": "📢"
-    },
-    {
-      "id": "guide",
-      "label": "Poradnik / rozwiązanie",
-      "icon": "💡"
-    },
-    {
-      "id": "discussion",
-      "label": "Dyskusja / opinia",
-      "icon": "💬"
-    }
+    {"id":"problem","label":"Problem / pytanie","icon":"❓"},
+    {"id":"information","label":"Informacja / komunikat","icon":"ℹ️"},
+    {"id":"update","label":"Aktualizacja / nowość","icon":"📢"},
+    {"id":"guide","label":"Poradnik / rozwiązanie","icon":"💡"},
+    {"id":"discussion","label":"Dyskusja / opinia","icon":"💬"}
   ],
   "moderationFeatures": {
     "editPosts": true,
