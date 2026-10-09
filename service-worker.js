@@ -1,5 +1,5 @@
 /* AIO-IPTV.pl PWA — Cloudflare cleanup 2026-10-08 */
-const CACHE='aio-iptv-pro-20261009-simple-epg-310r1';
+const CACHE='aio-iptv-pro-20261009-multiclick-801';
 const CORE=[
   './assets/css/content-protection.css?v=20261009-protect1','./assets/js/content-protection.js?v=20261009-protect1',
   './plugin-e2-security.html','./assets/css/e2-security.css?v=20261005','./pliki/e2-security-interface-1.1.0.jpg',
