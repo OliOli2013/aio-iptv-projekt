@@ -22,6 +22,21 @@ W jednym miejscu znajdziesz wtyczki, skin, listy kanałów, narzędzia systemowe
 
 ## ⭐ Najnowsze aktualizacje
 
+### 🧹 09.10.2026 — porządkowanie i optymalizacja AIO-IPTV.pl
+
+Przeprowadzono techniczne porządki strony i repozytorium bez usuwania bieżącej zawartości ani Społeczności AIO.
+
+- ujednolicono aktywne adresy strony pod Cloudflare Pages;
+- ograniczono zbędne zapisy do Cloudflare D1 i liczbę niepotrzebnych wywołań backendu;
+- dodano jawne trasy Pages Functions oraz podstawowe nagłówki bezpieczeństwa;
+- wzmocniono ochronę rejestracji i resetu hasła przed nadużyciami;
+- usunięto stare kopie robocze, zbędne pliki pomocnicze i nieużywane paczki instalacyjne;
+- zachowano aktualne wydania, pliki wymagane przez stronę oraz potrzebne elementy archiwalne.
+
+Repozytorium jest porządkowane etapami, z kontrolą odwołań przed każdym usunięciem, aby nie uszkodzić działającej strony.
+
+
+
 ### 🔐 E2 Security 1.1.1 — nowy projekt
 
 Ochrona sieciowa tunera Enigma2: zapora IPv4/IPv6, profile DOM, ZAUFANE i LOCKDOWN, audyt oraz ochrona logowania SSH. Python 2/3, interfejs PL/EN.
