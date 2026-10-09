@@ -236,6 +236,7 @@ export async function onRequestGet({request, env}) {
         INSERT INTO community_chat_presence(user_id,last_seen_at)
         VALUES(?,?)
         ON CONFLICT(user_id) DO UPDATE SET last_seen_at=excluded.last_seen_at
+        WHERE datetime(community_chat_presence.last_seen_at) <= datetime('now','-60 seconds')
       `).bind(s.user.id,presenceNow).run();
 
       const limit=Math.min(100,Math.max(20,Number(url.searchParams.get("limit")||80)));

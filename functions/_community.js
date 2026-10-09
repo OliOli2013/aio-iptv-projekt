@@ -1,5 +1,6 @@
 
 const enc = new TextEncoder();
+let schemaReadyPromise = null;
 
 export function json(data, status = 200, extraHeaders = {}) {
   return new Response(JSON.stringify(data), {
@@ -126,7 +127,13 @@ export async function ensureSchema(env) {
     `CREATE INDEX IF NOT EXISTS idx_access_events_created ON aio_access_events(created_at)`,
     `CREATE INDEX IF NOT EXISTS idx_access_events_target ON aio_access_events(target)`
   ];
-  await db.batch(sql.map(q => db.prepare(q)));
+  if (!schemaReadyPromise) {
+    schemaReadyPromise = db.batch(sql.map(q => db.prepare(q))).catch(error => {
+      schemaReadyPromise = null;
+      throw error;
+    });
+  }
+  await schemaReadyPromise;
 }
 
 function b64(bytes) {
@@ -212,6 +219,7 @@ export async function getSession(request, env, {touch=true} = {}) {
   const tokenHash = await sha256(token);
   const row = await env.COMMUNITY_DB.prepare(`
     SELECT s.token_hash, s.user_id, s.expires_at,
+           s.last_seen_at AS session_last_seen_at,
            p.id, p.display_name, p.avatar_url, p.avatar_key,
            p.tuner_model, p.system_name, p.system_version, p.python_version,
            p.bio, p.role, p.trusted, p.banned_until, p.ban_reason,
@@ -239,9 +247,15 @@ export async function getSession(request, env, {touch=true} = {}) {
   }
 
   if (touch) {
-    env.COMMUNITY_DB.prepare(`UPDATE community_sessions SET last_seen_at=CURRENT_TIMESTAMP WHERE token_hash=?`)
-      .bind(tokenHash).run().catch(()=>{});
-    recordIp(env, row.user_id, ip, "access").catch(()=>{});
+    const lastSeen = Date.parse(row.session_last_seen_at || "");
+    const shouldTouch = !Number.isFinite(lastSeen) || (Date.now() - lastSeen >= 5 * 60 * 1000);
+    if (shouldTouch) {
+      await Promise.allSettled([
+        env.COMMUNITY_DB.prepare(`UPDATE community_sessions SET last_seen_at=CURRENT_TIMESTAMP WHERE token_hash=?`)
+          .bind(tokenHash).run(),
+        recordIp(env, row.user_id, ip, "access")
+      ]);
+    }
   }
   return { tokenHash, user: publicProfile(row) };
 }

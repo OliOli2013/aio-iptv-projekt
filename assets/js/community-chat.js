@@ -14,7 +14,7 @@
     document.addEventListener('visibilitychange',()=>{if(document.hidden)stopPolling();else{loadMessages(false);startPolling();}});
     document.addEventListener('aio-community-auth',()=>{if(!AIOCommunity.user){stopPolling();if(gate)gate.hidden=false;if(app)app.hidden=true;}});
   }
-  function startPolling(){stopPolling();pollTimer=setInterval(()=>loadMessages(false),15000);}
+  function startPolling(){stopPolling();pollTimer=setInterval(()=>loadMessages(false),30000);}
   function stopPolling(){if(pollTimer){clearInterval(pollTimer);pollTimer=null;}}
 
   function setupComposer(){
@@ -47,7 +47,7 @@
   async function loadMessages(scrollToBottom=false){
     if(busy||!AIOCommunity.user)return;
     const status=q('[data-chat-status]');
-    try{status.textContent='Aktualizuję…';const d=await AIOCommunity.apiGet('chat');rows=d.rows||[];render();const online=Number(d.online?.count||0);const names=(d.online?.users||[]).map(x=>x.display_name).filter(Boolean);status.textContent=`Czat aktywny • ${online} online • odświeżanie co 15 s`;status.title=names.length?`Online: ${names.join(', ')}`:'';if(scrollToBottom)scrollBottom();}
+    try{status.textContent='Aktualizuję…';const d=await AIOCommunity.apiGet('chat');rows=d.rows||[];render();const online=Number(d.online?.count||0);const names=(d.online?.users||[]).map(x=>x.display_name).filter(Boolean);status.textContent=`Czat aktywny • ${online} online • odświeżanie co 30 s`;status.title=names.length?`Online: ${names.join(', ')}`:'';if(scrollToBottom)scrollBottom();}
     catch(err){status.textContent=AIOCommunity.friendlyError(err);}
   }
 

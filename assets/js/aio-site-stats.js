@@ -5,7 +5,7 @@
   window.__AIO_SITE_STATS_V1__=true;
 
   const VISITOR_KEY='aio_site_visitor_v1';
-  const DEDUPE_MS=30000;
+  const DEDUPE_MS=5*60*1000;
 
   function visitorId(){
     try{
