@@ -1,5 +1,29 @@
 [
   {
+    "date": "2026-10-09",
+    "ts": 1791504000000,
+    "type": "release",
+    "title": "Simple IPTV EPG 3.1.0 r1 — lepsze mapowanie EPG i BouquetMakerXtream",
+    "desc": "Nowa wersja poprawia import EPG dla list IPTV, wykorzystanie mapowań BouquetMakerXtream/XMLTV, obsługę eEPGCache, GZIP i diagnostykę. Aktualizacja jest dostępna z poziomu wtyczki oraz w AIO Panel.",
+    "details": "🔄 Simple IPTV EPG 3.1.0 r1 — aktualizacja dla Enigma2\n\nNajważniejsze zmiany:\n• poprawione wywołanie eEPGCache.importEvents i stabilniejsze wstrzykiwanie EPG\n• automatyczne wykrywanie źródeł BouquetMakerXtream z /etc/epgimport\n• odczyt mapowania XMLTV ID → rzeczywista referencja kanału IPTV\n• zgodność referencji usług 4097 / 5001 / 5002\n• mapowanie BMX ma pierwszeństwo przed dopasowaniem po nazwie\n• lepsza obsługa XMLTV/XMLTV.GZ i kompresji GZIP z endpointów PHP\n• ograniczone zużycie pamięci przy dużych XMLTV\n• rozbudowana diagnostyka, raport dopasowań i kontrola widoczności EPG\n• maskowanie danych dostawcy w logach i ochrona aktualizatora przed cofnięciem wersji\n\nAktualizację można wykonać bezpośrednio z poziomu wtyczki albo zainstalować / zaktualizować przez AIO Panel.",
+    "url": "plugin-simple-iptv-epg.html",
+    "tags": [
+      "Simple IPTV EPG",
+      "3.1.0",
+      "r1",
+      "Enigma2",
+      "IPTV",
+      "EPG",
+      "BouquetMakerXtream",
+      "BMX",
+      "XMLTV",
+      "eEPGCache",
+      "GZIP",
+      "AIO Panel",
+      "aktualizacja"
+    ]
+  },
+  {
     "date": "2026-10-05",
     "ts": 1791158400000,
     "type": "release",

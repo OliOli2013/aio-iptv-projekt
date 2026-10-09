@@ -22,6 +22,21 @@ W jednym miejscu znajdziesz wtyczki, skin, listy kanałów, narzędzia systemowe
 
 ## ⭐ Najnowsze aktualizacje
 
+
+### 🔄 09.10.2026 — Simple IPTV EPG 3.1.0 r1
+
+Nowa wersja poprawia obsługę EPG dla list IPTV i dokładność mapowania kanałów.
+
+- automatyczne wykrywanie źródeł **BouquetMakerXtream** i mapowania XMLTV ID;
+- poprawione `eEPGCache.importEvents` oraz obsługa referencji IPTV `4097 / 5001 / 5002`;
+- lepsza obsługa XMLTV / XMLTV.GZ i kompresji GZIP;
+- mniejsze zużycie pamięci przy dużych źródłach;
+- rozszerzona diagnostyka i kontrola widoczności EPG;
+- aktualizacja dostępna bezpośrednio z poziomu wtyczki oraz przez **AIO Panel**.
+
+[Pobierz IPK 3.1.0 r1](pliki/enigma2-plugin-extensions-simpleiptvepg_3.1.0-r1_all.ipk) • [Opis i instrukcja](plugin-simple-iptv-epg.html)
+
+
 ### 🧹 09.10.2026 — porządkowanie i optymalizacja AIO-IPTV.pl
 
 Przeprowadzono techniczne porządki strony i repozytorium bez usuwania bieżącej zawartości ani Społeczności AIO.

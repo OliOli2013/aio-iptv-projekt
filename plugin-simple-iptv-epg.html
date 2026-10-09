@@ -4,8 +4,8 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <meta name="theme-color" content="#0d2633"/>
-<title>Simple IPTV EPG 3.0.0 r1 | AIO-IPTV.pl</title>
-<meta name="description" content="Simple IPTV EPG 3.0.0 r1 dla Enigma2 — gruntownie przebudowany importer i automatyczne mapowanie EPG dla IPTV: nowy AutoMapper, XMLTV, SAT→IPTV, cache, scheduler, diagnostyka i stabilniejsza integracja z eEPGCache."/>
+<title>Simple IPTV EPG 3.1.0 r1 | AIO-IPTV.pl</title>
+<meta name="description" content="Simple IPTV EPG 3.1.0 r1 dla Enigma2 — poprawiony import EPG dla IPTV, automatyczne mapowanie BouquetMakerXtream/XMLTV, stabilniejsze eEPGCache, obsługa GZIP i rozbudowana diagnostyka."/>
 <link href="pliki/logo.png" rel="icon"/>
 <link href="manifest.json" rel="manifest"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -15,11 +15,11 @@
 <link href="assets/css/pro-suite.css?v=20260815-news1" rel="stylesheet"/>
 <meta name="color-scheme" content="dark"/>
 <link href="https://aio-iptv-projekt.pages.dev/plugin-simple-iptv-epg.html" rel="canonical"/>
-<meta property="og:title" content="Simple IPTV EPG 3.0.0 r1 | AIO-IPTV.pl"/>
-<meta property="og:description" content="Nowa baza Simple IPTV EPG: przebudowany AutoMapper, XMLTV, SAT→IPTV, cache, automatyczne importy, diagnostyka i poprawka interfejsu r1."/>
+<meta property="og:title" content="Simple IPTV EPG 3.1.0 r1 | AIO-IPTV.pl"/>
+<meta property="og:description" content="Simple IPTV EPG 3.1.0 r1: lepsze mapowanie IPTV, BouquetMakerXtream, XMLTV/GZIP, poprawione importEvents i diagnostyka."/>
 <meta property="og:type" content="website"/>
 <meta property="og:url" content="https://aio-iptv-projekt.pages.dev/plugin-simple-iptv-epg.html"/>
-<meta property="og:image" content="https://aio-iptv-projekt.pages.dev/pliki/simple-iptv-epg-3.0.0-r1.png"/>
+<meta property="og:image" content="https://aio-iptv-projekt.pages.dev/pliki/simple-iptv-epg-3.1.0-r1.png"/>
 <script src="assets/js/auto-language.js?v=20260729-auto-en1"></script>
 <link rel="stylesheet" href="assets/css/aio-2026.css?v=20260816-community-first"/>
 <link rel="stylesheet" href="assets/css/content-protection.css?v=20261009-protect1"/>
@@ -65,33 +65,35 @@
 <section class="hero-compact">
 <div>
 <p class="script-line">Witam na mojej stronie <span>Paweł Pawełek</span></p>
-<p class="eyebrow">EPG dla IPTV • pełny audyt i przebudowa</p>
-<h1>Simple IPTV EPG 3.0.0 r1</h1>
-<p class="lead">Gruntownie przebudowane narzędzie dla Enigma2 do pobierania, mapowania i importowania EPG dla kanałów IPTV. Nowa wersja analizuje playlisty, dopasowuje kanały do XMLTV, może wykorzystywać EPG satelitarne jako źródło pomocnicze i importuje wydarzenia bezpośrednio do systemowego EPG Enigma2.</p>
-<div class="action-row"><a class="button primary" href="pliki/enigma2-plugin-extensions-simpleiptvepg_3.0.0-r1_all.ipk">Pobierz Simple IPTV EPG 3.0.0 r1</a><a class="button" href="updates.html">🔥 Zobacz Nowości</a><a class="button" href="plugins.html">Wróć do wtyczek</a></div>
+<p class="eyebrow">EPG dla IPTV • BouquetMakerXtream • XMLTV • diagnostyka</p>
+<h1>Simple IPTV EPG 3.1.0 r1</h1>
+<p class="lead">Simple IPTV EPG 3.1.0 r1 rozwija obsługę EPG dla list IPTV: poprawia import wydarzeń do Enigma2, lepiej wykorzystuje mapowania BouquetMakerXtream i XMLTV, obsługuje różne referencje usług IPTV oraz rozbudowuje diagnostykę i bezpieczeństwo pracy ze źródłami EPG.</p>
+<div class="action-row"><a class="button primary" href="pliki/enigma2-plugin-extensions-simpleiptvepg_3.1.0-r1_all.ipk">Pobierz Simple IPTV EPG 3.1.0 r1</a><a class="button" href="updates.html">🔥 Zobacz Nowości</a><a class="button" href="plugins.html">Wróć do wtyczek</a></div>
 </div>
-<figure><img alt="Simple IPTV EPG 3.0.0 r1 — nowy interfejs" src="pliki/simple-iptv-epg-3.0.0-r1.png"/><figcaption>Simple IPTV EPG 3.0.0 r1 • nowy interfejs AIO</figcaption></figure>
+<figure><img alt="Simple IPTV EPG 3.1.0 r1 — nowy interfejs" src="pliki/simple-iptv-epg-3.1.0-r1.png"/><figcaption>Simple IPTV EPG 3.1.0 r1 • nowy interfejs AIO</figcaption></figure>
 </section>
 
 <div class="detail-grid">
 <section class="module"><h2>Najważniejsze informacje</h2>
-<p><strong>Wersja:</strong> 3.0.0 r1</p>
-<p><strong>Pakiet:</strong> <a href="pliki/enigma2-plugin-extensions-simpleiptvepg_3.0.0-r1_all.ipk">enigma2-plugin-extensions-simpleiptvepg_3.0.0-r1_all.ipk</a></p>
-<p><strong>Rozmiar:</strong> 46.2 KB</p>
-<p><strong>Wydanie:</strong> 15.08.2026</p>
+<p><strong>Wersja:</strong> 3.1.0 r1</p>
+<p><strong>Pakiet:</strong> <a href="pliki/enigma2-plugin-extensions-simpleiptvepg_3.1.0-r1_all.ipk">enigma2-plugin-extensions-simpleiptvepg_3.1.0-r1_all.ipk</a></p>
+<p><strong>Rozmiar:</strong> 51.3 KB</p>
+<p><strong>Wydanie:</strong> 09.10.2026</p>
 <p><strong>Platforma:</strong> Enigma2 • kod uporządkowany pod Python 2 / Python 3</p>
 <p><strong>Pakiet deklaruje:</strong> <code>Depends: enigma2</code></p>
 <p><strong>Autor:</strong> Paweł Pawełek / AIO IPTV PL</p>
-<p><strong>SHA-256:</strong> <code>3cfec80899c0ea4e5e2a5eabad5d3304bc7f661a90d5fa96ed7da489564ead82</code></p>
+<p><strong>SHA-256:</strong> <code>1a09ee01b7fa296615ca4133f6b4f357328fa39b73a0bb23677277735c8a17ff</code></p>
 </section>
-<section class="module"><h2>Co zmienia 3.0.0 r1?</h2><ul class="clean-list">
-<li>pełny audyt architektury, pobierania EPG, mapowania, XMLTV, cache i integracji Enigma2</li>
-<li>całkowicie nowy interfejs w spójnej stylistyce projektów AIO</li>
-<li>nowy AutoMapper z priorytetem dla <code>tvg-id</code> i trzema poziomami dokładności</li>
-<li>przebudowana współpraca SAT → IPTV oraz system cache zależny od rzeczywistego źródła</li>
-<li>pełniejszy parser i walidacja XMLTV, test źródła, scheduler i diagnostyka</li>
-<li>operacje Enigma2 przekazywane do głównego wątku GUI</li>
-<li>build r1 naprawia kolejność warstw <code>zPosition</code> na ekranach</li>
+<section class="module"><h2>Co zmienia 3.1.0 r1?</h2><ul class="clean-list">
+<li>poprawione wywołanie <code>eEPGCache.importEvents</code> i stabilniejsze wstrzykiwanie wydarzeń do EPG Enigma2</li>
+<li>automatyczne wykrywanie źródeł BouquetMakerXtream z <code>/etc/epgimport</code></li>
+<li>odczyt oryginalnego mapowania XMLTV ID → rzeczywista referencja kanału IPTV</li>
+<li>zgodność z referencjami usług IPTV m.in. <code>4097</code>, <code>5001</code> i <code>5002</code></li>
+<li>mapowanie BouquetMakerXtream ma pierwszeństwo przed dopasowaniem kanału po nazwie</li>
+<li>lepsza obsługa XMLTV / XMLTV.GZ, również gdy skompresowane dane zwraca adres typu <code>xmltv.php</code></li>
+<li>mniejsze zużycie pamięci przy analizie dużych plików XMLTV</li>
+<li>rozbudowana diagnostyka BMX, raport dopasowań i próbna kontrola widoczności EPG</li>
+<li>maskowanie danych dostawcy w logach oraz ochrona aktualizatora przed niezamierzonym cofnięciem wersji</li>
 </ul></section>
 </div>
 
@@ -100,6 +102,8 @@
 <section class="module"><h2>🎨 Nowy interfejs</h2><p>Główne funkcje są dostępne bez przeszukiwania wielu ekranów. Interfejs został ujednolicony z rodziną AIO i zachowuje czytelny podział na źródło, import, test i narzędzia.</p><ul class="clean-list"><li>🔴 Czerwony — wyjście</li><li>🟢 Zielony — import EPG</li><li>🟡 Żółty — test źródła</li><li>🔵 Niebieski / MENU — narzędzia</li><li>ℹ️ INFO — informacje</li><li>✅ OK — zapis ustawień</li></ul></section>
 
 <section class="module"><h2>📺 Do czego służy Simple IPTV EPG?</h2><ul class="clean-list"><li>pobiera i analizuje dane XMLTV</li><li>analizuje dostępne kanały IPTV</li><li>automatycznie dopasowuje kanały IPTV do danych EPG</li><li>wykorzystuje <code>tvg-id</code>, <code>epg_id</code> i <code>xmltv_id</code>, jeśli są dostępne</li><li>dopasowuje kanały również po nazwach</li><li>importuje wydarzenia do systemowego EPG Enigma2</li><li>może wykorzystać EPG kanałów satelitarnych jako źródło pomocnicze</li><li>automatycznie odnawia EPG i przechowuje cache mapowania</li><li>udostępnia narzędzia diagnostyczne do analizy problemów z importem</li></ul></section>
+
+<section class="module"><h2>🔗 BouquetMakerXtream — mapowanie EPG dostawcy</h2><p>Wersja 3.1.0 r1 potrafi odczytać pliki <code>bouquetmakerxtream*.sources.xml</code> oraz odpowiadające im <code>*.channels.xml</code> z katalogu <code>/etc/epgimport</code>. Dzięki temu może wykorzystać oryginalne XMLTV ID dostawcy i przypisać je do rzeczywistych referencji kanałów IPTV zapisanych na tunerze.</p><p>Istniejące mapowanie BMX ma pierwszeństwo przed dopasowaniem po nazwie. Zmniejsza to ryzyko przypisania programu do niewłaściwego kanału, szczególnie przy podobnych nazwach stacji.</p></section>
 
 <section class="module"><h2>🧠 Nowy AutoMapper</h2><p>Najpierw wyszukiwany jest dokładny identyfikator kanału: <code>tvg-id</code>, <code>epg_id</code> lub <code>xmltv_id</code>. Dopiero gdy identyfikatora nie ma, mechanizm przechodzi do dopasowania nazw.</p><div class="detail-grid"><div class="mini-card"><strong>Strict</strong><p>Najbardziej restrykcyjne dopasowanie. Minimalizuje ryzyko błędnego przypisania.</p></div><div class="mini-card"><strong>Balanced</strong><p>Tryb domyślny — kompromis między dokładnością a skutecznością.</p></div><div class="mini-card"><strong>Flexible</strong><p>Bardziej elastyczne dopasowanie nazw dla trudniejszych list IPTV.</p></div></div><p>Poprawiony fuzzy matching nie wybiera kanału „na siłę”, gdy dwa wyniki są niemal identyczne. W takiej sytuacji lepiej pozostawić kanał bez EPG niż przypisać program niewłaściwej stacji.</p></section>
 
@@ -112,7 +116,7 @@
 <section class="module"><h2>⚡ Stabilniejsza praca</h2><p>Pobieranie XMLTV, parsowanie, analiza kanałów i budowanie mapowania może odbywać się w tle. Operacje bezpośrednio związane z <code>eEPGCache</code>, <code>eServiceCenter</code>, <code>importEvents()</code> i usługami Enigma2 są przekazywane do głównego wątku GUI.</p></section>
 </div>
 
-<section class="module"><h2>🗂 Lepszy parser XMLTV</h2><ul class="clean-list"><li>obsługa XML namespace</li><li>różne formaty czasu i strefy czasowe</li><li>kategorie oraz opisy wydarzeń</li><li>pliki GZIP i duże dokumenty XMLTV</li><li>pełna walidacja root <code>&lt;tv&gt;</code>, kanałów, wydarzeń, poprawności XML i kompletności strumienia</li></ul><p>Uszkodzony lub niedokończony dokument nie powinien być uznawany za prawidłowe źródło EPG.</p></section>
+<section class="module"><h2>🗂 Lepszy parser XMLTV</h2><ul class="clean-list"><li>obsługa XML namespace</li><li>różne formaty czasu i strefy czasowe</li><li>kategorie oraz opisy wydarzeń</li><li>pliki GZIP i duże dokumenty XMLTV, także gdy kompresję zwraca endpoint bez rozszerzenia <code>.gz</code></li><li>pełna walidacja root <code>&lt;tv&gt;</code>, kanałów, wydarzeń, poprawności XML i kompletności strumienia</li></ul><p>Uszkodzony lub niedokończony dokument nie powinien być uznawany za prawidłowe źródło EPG.</p></section>
 
 <section class="module"><h2>🧪 Test źródła przed importem</h2><p>Żółty przycisk umożliwia sprawdzenie źródła bez wykonywania pełnego importu. Test weryfikuje odpowiedź serwera, obecność XMLTV, liczbę kanałów, występowanie wydarzeń i integralność danych.</p></section>
 
@@ -129,17 +133,17 @@
 <section class="module"><h2>🐍 Python 2 / Python 3</h2><p>Kod został uporządkowany pod kątem starszych i nowszych środowisk Enigma2: ograniczono konstrukcje utrudniające zgodność i wydzielono warstwę kompatybilności. Faktyczna zgodność nadal zależy od konkretnego image i dostępnych komponentów Enigma2.</p></section>
 </div>
 
-<section class="module"><h2>🔧 Co poprawia build r1?</h2><p><strong>3.0.0 r1</strong> zawiera dodatkową poprawkę kolejności warstw <code>zPosition</code>. W pierwszym buildzie 3.0.0 część elementów dynamicznych mogła zostać przykryta tłem, przez co widoczne były panele i kolorowe przyciski, ale brakowało tekstu. W buildzie r1 kolejność warstw została poprawiona na ekranach wtyczki.</p></section>
+<section class="module"><h2>🔧 Co poprawia 3.1.0 r1?</h2><p>Build <strong>3.1.0 r1</strong> skupia się na rzeczywistym dopasowaniu EPG do kanałów IPTV. Poprawiono sposób przekazywania referencji usług do <code>eEPGCache</code>, dodano automatyczne mapowanie BouquetMakerXtream, obsługę różnych typów referencji IPTV oraz dokładniejszą kontrolę tego, czy EPG po imporcie jest faktycznie widoczne na tunerze.</p></section>
 
-<section class="module"><h2>🖼️ Podgląd 3.0.0 r1</h2><div class="guide-gallery"><figure><a href="pliki/simple-iptv-epg-3.0.0-r1.png" rel="noopener" target="_blank"><img alt="Simple IPTV EPG 3.0.0 r1 — ekran główny" loading="lazy" src="pliki/simple-iptv-epg-3.0.0-r1.png"/></a><figcaption>Ekran główny 3.0.0 r1: źródło EPG, harmonogram, ustawienia AutoMappera oraz szybkie akcje importu, testu i narzędzi.</figcaption></figure></div></section>
+<section class="module"><h2>🖼️ Podgląd 3.1.0 r1</h2><div class="guide-gallery"><figure><a href="pliki/simple-iptv-epg-3.1.0-r1.png" rel="noopener" target="_blank"><img alt="Simple IPTV EPG 3.1.0 r1 — ekran główny" loading="lazy" src="pliki/simple-iptv-epg-3.1.0-r1.png"/></a><figcaption>Ekran główny 3.1.0 r1: źródło EPG, harmonogram, ustawienia AutoMappera oraz szybkie akcje importu, testu i narzędzi.</figcaption></figure></div></section>
 
-<section class="module"><h2>📌 Najważniejsze zmiany w Simple IPTV EPG 3.0.0 r1</h2><ul class="clean-list">
+<section class="module"><h2>📌 Najważniejsze zmiany w Simple IPTV EPG 3.1.0 r1</h2><ul class="clean-list">
 <li>kompletny audyt poprzedniej wersji i całkowicie nowy interfejs</li><li>nowy AutoMapper z priorytetem dla identyfikatorów i trzema poziomami dokładności</li><li>wykrywanie niejednoznacznych dopasowań i poprawiony fuzzy matching</li><li>przebudowany cache zależny od faktycznego źródła XMLTV</li><li>lepszy fallback źródeł oraz SAT → IPTV</li><li>stabilniejsza integracja z <code>eEPGCache</code> i głównym wątkiem GUI</li><li>rozbudowany parser XMLTV, namespace, strefy czasowe i pełna walidacja</li><li>test źródła, scheduler, diagnostyka, logi i ręczna przebudowa mapowania</li><li>brak wyłączania weryfikacji TLS</li><li>import 0 wydarzeń jest traktowany jako błąd</li><li>r1: poprawka warstw <code>zPosition</code> na ekranach</li>
 </ul></section>
 
-<section class="module"><h2>📥 Instalacja</h2><p>Możesz użyć instalatora online albo pobrać IPK i wgrać go do <code>/tmp</code>.</p><div class="command"><div><strong>Instalator online</strong><button data-copy="wget -qO - https://raw.githubusercontent.com/OliOli2013/SimpleIPTV_EPG/main/installer.sh | /bin/sh" type="button">Kopiuj</button></div><pre><code>wget -qO - https://raw.githubusercontent.com/OliOli2013/SimpleIPTV_EPG/main/installer.sh | /bin/sh</code></pre></div><div class="command"><div><strong>Instalacja pobranego IPK z /tmp</strong><button data-copy="opkg install /tmp/enigma2-plugin-extensions-simpleiptvepg_3.0.0-r1_all.ipk" type="button">Kopiuj</button></div><pre><code>opkg install /tmp/enigma2-plugin-extensions-simpleiptvepg_3.0.0-r1_all.ipk</code></pre></div><p>Po instalacji zalecany jest restart GUI Enigma2.</p></section>
+<section class="module"><h2>📥 Instalacja</h2><p>Możesz użyć instalatora online albo pobrać IPK i wgrać go do <code>/tmp</code>.</p><div class="command"><div><strong>Instalator online</strong><button data-copy="wget -qO - https://raw.githubusercontent.com/OliOli2013/SimpleIPTV_EPG/main/installer.sh | /bin/sh" type="button">Kopiuj</button></div><pre><code>wget -qO - https://raw.githubusercontent.com/OliOli2013/SimpleIPTV_EPG/main/installer.sh | /bin/sh</code></pre></div><div class="command"><div><strong>Instalacja pobranego IPK z /tmp</strong><button data-copy="opkg install /tmp/enigma2-plugin-extensions-simpleiptvepg_3.1.0-r1_all.ipk" type="button">Kopiuj</button></div><pre><code>opkg install /tmp/enigma2-plugin-extensions-simpleiptvepg_3.1.0-r1_all.ipk</code></pre></div><p>Po instalacji zalecany jest restart GUI Enigma2.</p></section>
 
-<section class="module"><h2>Simple IPTV EPG 3.0.0 r1</h2><p>To praktycznie nowa baza wtyczki — nastawiona nie tylko na automatyczny import EPG, lecz przede wszystkim na poprawne mapowanie, możliwość szybkiej diagnostyki i stabilniejszą pracę na różnych odbiornikach Enigma2.</p><p><strong>Paweł Pawełek • AIO IPTV PL • <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></strong></p></section>
+<section class="module"><h2>Simple IPTV EPG 3.1.0 r1</h2><p>Wersja 3.1.0 r1 rozwija przebudowaną bazę 3.x i koncentruje się na dokładniejszym mapowaniu kanałów IPTV, integracji z BouquetMakerXtream, stabilnym imporcie XMLTV oraz łatwiejszej diagnostyce rzeczywistych problemów z EPG.</p><p><strong>Paweł Pawełek • AIO IPTV PL • <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></strong></p></section>
 </main>
 </div>
 <footer class="site-footer"><div><strong>AIO‑IPTV.pl</strong><span>Wtyczki, poradniki, listy kanałów, Multi‑Click, One‑Liner i AI Chat.</span></div><nav><a href="updates.html">🔥 Nowości</a><a href="downloads.html">Pobieranie</a><a href="plugins.html">Wtyczki</a><a href="guides.html">Poradniki</a><a href="systems.html">Systemy</a><a href="contact.html">Kontakt</a></nav><p>© <span id="year"></span> Paweł Pawełek • <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></p></footer>

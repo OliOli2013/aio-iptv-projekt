@@ -1,5 +1,5 @@
 /* AIO-IPTV.pl PWA — Cloudflare cleanup 2026-10-08 */
-const CACHE='aio-iptv-pro-20261009-content-protection1';
+const CACHE='aio-iptv-pro-20261009-simple-epg-310r1';
 const CORE=[
   './assets/css/content-protection.css?v=20261009-protect1','./assets/js/content-protection.js?v=20261009-protect1',
   './plugin-e2-security.html','./assets/css/e2-security.css?v=20261005','./pliki/e2-security-interface-1.1.0.jpg',
@@ -13,7 +13,7 @@ const CORE=[
   './assets/js/community-core.js?v=20261008-authreset2','./assets/js/community-chat.js?v=20261008-chat41',
   'assets/js/community-chat-promo.js?v=20261008-chatpromo1','./assets/js/community-feed.js?v=20261008-cloudflare1','./assets/js/community-post.js?v=20261008-cloudflare-edit2','./assets/js/community-profile.js?v=20261008-cloudflare1','./assets/js/community-admin.js?v=20261008-accessadmin1','./assets/js/community-home.js?v=20261008-cloudflare1','./assets/js/community-home-latest.js?v=20261008-cloudflare1',
   './assets/js/aio-site-stats.js?v=20261008-stats1','./assets/css/aio-site-stats.css?v=20261008-stats1','./assets/js/aio-homepage-pro.js?v=20261008-homepro12','./assets/css/aio-homepage-pro.css?v=20261008-homepro12','./assets/css/aio-access-admin.css?v=20261008-accessadmin1','./data/community_config.json?v=20261008-authreset2','./data/updates.json','./data/projects.json','./data/downloads.json','./data/search-index.json',
-  './pliki/logo.png','./pliki/aio-panel-17.0.0.png','./pliki/aio-channel-editor-portal-promo.png'
+  './plugin-simple-iptv-epg.html','./pliki/simple-iptv-epg-3.1.0-r1.png','./pliki/logo.png','./pliki/aio-panel-17.0.0.png','./pliki/aio-channel-editor-portal-promo.png'
 ];
 
 self.addEventListener('install',event=>event.waitUntil(

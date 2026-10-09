@@ -195,18 +195,18 @@
     "official": "Plik na AIO-IPTV.pl"
   },
   {
-    "title": "enigma2-plugin-extensions-simpleiptvepg_3.0.0-r1_all.ipk",
-    "href": "pliki/enigma2-plugin-extensions-simpleiptvepg_3.0.0-r1_all.ipk",
+    "title": "enigma2-plugin-extensions-simpleiptvepg_3.1.0-r1_all.ipk",
+    "href": "pliki/enigma2-plugin-extensions-simpleiptvepg_3.1.0-r1_all.ipk",
     "category": "Wtyczki",
     "platform": "Enigma2",
-    "version": "3.0.0-r1",
-    "date": "15.08.2026",
+    "version": "3.1.0-r1",
+    "date": "09.10.2026",
     "status": "Aktualna",
     "sourcePage": "plugin-simple-iptv-epg.html",
-    "sourceTitle": "Simple IPTV EPG 3.0.0 r1",
+    "sourceTitle": "3.1.0 r1",
     "kind": "IPK",
-    "size": "46.2 KB",
-    "sha256": "3cfec80899c0ea4e5e2a5eabad5d3304bc7f661a90d5fa96ed7da489564ead82",
+    "size": "51.3 KB",
+    "sha256": "1a09ee01b7fa296615ca4133f6b4f357328fa39b73a0bb23677277735c8a17ff",
     "official": "Plik na AIO-IPTV.pl"
   },
   {
