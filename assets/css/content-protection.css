@@ -1,0 +1,132 @@
+/* AIO-IPTV.pl — ochrona treści / watermark
+   Wersja 2026-10-09
+   Utrudnia kopiowanie i ponowne publikowanie treści.
+   Nie jest technicznie możliwe całkowite zablokowanie zrzutów ekranu w WWW.
+*/
+.aio-protected-content {
+  position: relative;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+.aio-protected-content input,
+.aio-protected-content textarea,
+.aio-protected-content select,
+.aio-protected-content option,
+.aio-protected-content pre,
+.aio-protected-content code,
+.aio-protected-content kbd,
+.aio-protected-content samp,
+.aio-protected-content [contenteditable="true"],
+.aio-protected-content [data-copy],
+.aio-protected-content .command,
+.aio-protected-content .command *,
+.aio-allow-copy,
+.aio-allow-copy * {
+  -webkit-user-select: text !important;
+  user-select: text !important;
+  -webkit-touch-callout: default !important;
+}
+#aio-content-watermark {
+  position: fixed;
+  inset: 0;
+  z-index: 2147482000;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: .12;
+  contain: strict;
+  color: rgba(255,255,255,.78);
+}
+#aio-content-watermark .aio-watermark-grid {
+  position: absolute;
+  inset: -18vh -18vw;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(260px, 1fr));
+  grid-auto-rows: 190px;
+  gap: 34px 54px;
+  transform: rotate(-18deg) scale(1.08);
+  transform-origin: center;
+}
+#aio-content-watermark .aio-watermark-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 260px;
+  color: currentColor;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  line-height: 1.45;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0,0,0,.12);
+}
+#aio-protection-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 26px;
+  z-index: 2147483000;
+  transform: translate(-50%, 18px);
+  max-width: min(92vw, 620px);
+  padding: 12px 16px;
+  border: 1px solid rgba(77,205,255,.45);
+  border-radius: 14px;
+  background: rgba(4,18,27,.94);
+  color: #eefbff;
+  box-shadow: 0 18px 50px rgba(0,0,0,.28);
+  font: 600 14px/1.45 Inter, system-ui, sans-serif;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .18s ease, transform .18s ease;
+}
+#aio-protection-toast.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+html.aio-screen-guard .aio-protected-content {
+  filter: blur(18px) brightness(.55) !important;
+  transition: filter .08s linear;
+}
+html.aio-screen-guard::after {
+  content: "AIO-IPTV.pl • treść chroniona";
+  position: fixed;
+  inset: 0;
+  z-index: 2147482500;
+  display: grid;
+  place-items: center;
+  background: rgba(3,12,18,.74);
+  color: #fff;
+  font: 800 clamp(20px,4vw,44px)/1.2 Inter,system-ui,sans-serif;
+  letter-spacing: .04em;
+  pointer-events: none;
+}
+@media print {
+  body * { visibility: hidden !important; }
+  body::before {
+    content: "Treść chroniona AIO-IPTV.pl — wydruk został wyłączony.";
+    visibility: visible !important;
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 40px;
+    font: 700 18pt/1.4 sans-serif;
+    text-align: center;
+    color: #111;
+    background: #fff;
+  }
+}
+@media (max-width: 720px) {
+  #aio-content-watermark { opacity: .09; }
+  #aio-content-watermark .aio-watermark-grid {
+    grid-template-columns: repeat(3, minmax(220px, 1fr));
+    grid-auto-rows: 160px;
+  }
+  #aio-content-watermark .aio-watermark-item { font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #aio-protection-toast { transition: none; }
+}

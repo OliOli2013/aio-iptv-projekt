@@ -1,6 +1,7 @@
 /* AIO-IPTV.pl PWA — Cloudflare cleanup 2026-10-08 */
-const CACHE='aio-iptv-pro-20261008-homepro12';
+const CACHE='aio-iptv-pro-20261009-content-protection1';
 const CORE=[
+  './assets/css/content-protection.css?v=20261009-protect1','./assets/js/content-protection.js?v=20261009-protect1',
   './plugin-e2-security.html','./assets/css/e2-security.css?v=20261005','./pliki/e2-security-interface-1.1.0.jpg',
   './','./index.html','./access.html','./start-here.html','./ecosystem.html','./pro.html','./app-aio-channel-editor.html','./android-apps.html','./community.html','./support.html','./downloads.html','./guides.html','./news.html','./plugins.html','./skin-aiohd-next.html','./plugin-aio-panel.html','./systems.html','./updates.html',
   './post.html','./profile.html','./community-admin.html','./community-chat.html','./community-rules.html','./privacy-community.html','./aio-connect-report.html','./studio.html','./ai-chat.html','./offline.html',
