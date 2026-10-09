@@ -34,6 +34,40 @@ async function clearAttempt(env, key) {
   await env.COMMUNITY_DB.prepare(`DELETE FROM community_login_attempts WHERE key=?`).bind(key).run();
 }
 
+async function consumeWindowLimit(env, key, limit, windowMs) {
+  const nowMs = Date.now();
+  const now = new Date(nowMs).toISOString();
+  const row = await env.COMMUNITY_DB.prepare(
+    `SELECT attempts, first_at, blocked_until FROM community_login_attempts WHERE key=?`
+  ).bind(key).first();
+
+  if (row?.blocked_until && Date.parse(row.blocked_until) > nowMs) {
+    throw Object.assign(new Error("Za dużo prób. Spróbuj ponownie później."), {status:429});
+  }
+
+  const firstMs = Date.parse(row?.first_at || "");
+  const expired = !Number.isFinite(firstMs) || (nowMs - firstMs >= windowMs);
+  const attempts = expired ? 1 : Number(row?.attempts || 0) + 1;
+  const firstAt = expired ? now : row.first_at;
+  const blockedUntil = attempts > limit
+    ? new Date(nowMs + windowMs).toISOString()
+    : null;
+
+  await env.COMMUNITY_DB.prepare(`
+    INSERT INTO community_login_attempts(key,attempts,first_at,last_at,blocked_until)
+    VALUES(?,?,?,?,?)
+    ON CONFLICT(key) DO UPDATE SET
+      attempts=excluded.attempts,
+      first_at=excluded.first_at,
+      last_at=excluded.last_at,
+      blocked_until=excluded.blocked_until
+  `).bind(key, attempts, firstAt, now, blockedUntil).run();
+
+  if (blockedUntil) {
+    throw Object.assign(new Error("Za dużo prób. Spróbuj ponownie później."), {status:429});
+  }
+}
+
 
 export async function onRequestGet({request, env}) {
   try {
@@ -67,6 +101,9 @@ export async function onRequestPost({request, env}) {
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         return json({ok:false,error:"Podaj poprawny adres e-mail."},400);
       }
+
+      const resetIpKey = `reset-ip:${ip || "noip"}`;
+      await consumeWindowLimit(env, resetIpKey, 8, 15 * 60 * 1000);
 
       const resetThrottleKey = `reset:${ip || "noip"}:${email}`;
       await throttle(env, resetThrottleKey);
@@ -164,6 +201,9 @@ export async function onRequestPost({request, env}) {
     await throttle(env, throttleKey);
 
     if (action === "register") {
+      const registerIpKey = `register-ip:${ip || "noip"}`;
+      await consumeWindowLimit(env, registerIpKey, 5, 30 * 60 * 1000);
+
       const exists = await db.prepare(`SELECT user_id FROM community_auth WHERE email=?`).bind(email).first();
       if (exists) return json({ok:false,error:"Konto z tym adresem już istnieje."}, 409);
 
