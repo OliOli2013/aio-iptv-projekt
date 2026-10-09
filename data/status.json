@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-08T12:04:39.113487+00:00",
+  "generatedAt": "2026-10-09T11:56:19.852298+00:00",
   "items": [
     {
       "id": "e2-security-ipk",
@@ -8,7 +8,7 @@
       "category": "Pliki",
       "status": "offline",
       "httpStatus": 404,
-      "checkedAt": "2026-10-08T12:04:28.188776+00:00",
+      "checkedAt": "2026-10-09T11:56:10.830165+00:00",
       "message": "Błąd HTTP 404: Not Found."
     },
     {
@@ -18,7 +18,7 @@
       "category": "Strona",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-08T12:04:28.395839+00:00",
+      "checkedAt": "2026-10-09T11:56:10.916237+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html • 975 B."
     },
     {
@@ -28,7 +28,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-08T12:04:28.524757+00:00",
+      "checkedAt": "2026-10-09T11:56:11.053255+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 8648 B."
     },
     {
@@ -38,7 +38,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-08T12:04:28.857223+00:00",
+      "checkedAt": "2026-10-09T11:56:11.263973+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 7770 B."
     },
     {
@@ -48,7 +48,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-08T12:04:29.040398+00:00",
+      "checkedAt": "2026-10-09T11:56:11.390734+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 2469 B."
     },
     {
@@ -58,7 +58,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-08T12:04:29.241743+00:00",
+      "checkedAt": "2026-10-09T11:56:11.514157+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 11971 B."
     },
     {
@@ -68,7 +68,7 @@
       "category": "Listy kanałów",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-08T12:04:29.417314+00:00",
+      "checkedAt": "2026-10-09T11:56:11.662341+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 7361 B."
     },
     {
@@ -78,7 +78,7 @@
       "category": "Pliki",
       "status": "offline",
       "httpStatus": 404,
-      "checkedAt": "2026-10-08T12:04:29.550007+00:00",
+      "checkedAt": "2026-10-09T11:56:11.806862+00:00",
       "message": "Błąd HTTP 404: Not Found."
     },
     {
@@ -88,7 +88,7 @@
       "category": "Pliki",
       "status": "offline",
       "httpStatus": 404,
-      "checkedAt": "2026-10-08T12:04:29.678610+00:00",
+      "checkedAt": "2026-10-09T11:56:11.860030+00:00",
       "message": "Błąd HTTP 404: Not Found."
     },
     {
@@ -98,7 +98,7 @@
       "category": "Pliki",
       "status": "offline",
       "httpStatus": 404,
-      "checkedAt": "2026-10-08T12:04:29.800893+00:00",
+      "checkedAt": "2026-10-09T11:56:11.912853+00:00",
       "message": "Błąd HTTP 404: Not Found."
     },
     {
@@ -108,7 +108,7 @@
       "category": "Pliki",
       "status": "offline",
       "httpStatus": 404,
-      "checkedAt": "2026-10-08T12:04:29.906187+00:00",
+      "checkedAt": "2026-10-09T11:56:11.968492+00:00",
       "message": "Błąd HTTP 404: Not Found."
     },
     {
@@ -118,7 +118,7 @@
       "category": "Systemy Multi-Click",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-08T12:04:30.005437+00:00",
+      "checkedAt": "2026-10-09T11:56:12.024156+00:00",
       "message": "Usługa odpowiada prawidłowo • application/zip • 214085499 B."
     },
     {
@@ -128,7 +128,7 @@
       "category": "Systemy Multi-Click",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-08T12:04:34.527253+00:00",
+      "checkedAt": "2026-10-09T11:56:14.487839+00:00",
       "message": "Usługa odpowiada prawidłowo • application/zip • 299143104 B."
     },
     {
@@ -138,7 +138,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-08T12:04:37.966769+00:00",
+      "checkedAt": "2026-10-09T11:56:18.827330+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     },
     {
@@ -148,7 +148,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-08T12:04:38.595356+00:00",
+      "checkedAt": "2026-10-09T11:56:19.297766+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     },
     {
@@ -158,7 +158,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-08T12:04:38.835316+00:00",
+      "checkedAt": "2026-10-09T11:56:19.566142+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     }
   ]
