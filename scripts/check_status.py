@@ -12,7 +12,7 @@ import urllib.request
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 TARGETS = ROOT / "data" / "status-targets.json"
 OUTPUT = ROOT / "data" / "status.json"
-USER_AGENT = "AIO-IPTV-Status/1.0 (+https://olioli2013.github.io/aio-iptv-projekt/)"
+USER_AGENT = "AIO-IPTV-Status/1.0 (+https://aio-iptv-projekt.pages.dev/)"
 
 
 def check(target: dict) -> dict:

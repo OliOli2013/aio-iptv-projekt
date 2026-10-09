@@ -4,7 +4,7 @@
     {
       "id": "e2-security-ipk",
       "name": "E2 Security 1.1.1 — plik IPK",
-      "url": "https://olioli2013.github.io/aio-iptv-projekt/pliki/E2-Security_1.1.1_all.ipk",
+      "url": "https://aio-iptv-projekt.pages.dev/pliki/E2-Security_1.1.1_all.ipk",
       "category": "Pliki",
       "status": "offline",
       "httpStatus": 404,
@@ -14,7 +14,7 @@
     {
       "id": "site-home",
       "name": "Strona główna AIO-IPTV.pl",
-      "url": "https://olioli2013.github.io/aio-iptv-projekt/",
+      "url": "https://aio-iptv-projekt.pages.dev/",
       "category": "Strona",
       "status": "online",
       "httpStatus": 200,
@@ -74,7 +74,7 @@
     {
       "id": "aio-ipk",
       "name": "AIO Panel 17.0.0 — plik IPK",
-      "url": "https://olioli2013.github.io/aio-iptv-projekt/pliki/enigma2-plugin-extensions-panelaio_17.0.0_all.ipk",
+      "url": "https://aio-iptv-projekt.pages.dev/pliki/enigma2-plugin-extensions-panelaio_17.0.0_all.ipk",
       "category": "Pliki",
       "status": "offline",
       "httpStatus": 404,
@@ -84,7 +84,7 @@
     {
       "id": "aiohd-next-ipk",
       "name": "AIOHD NEXT 3.2.1-r3 — plik IPK",
-      "url": "https://olioli2013.github.io/aio-iptv-projekt/pliki/enigma2-plugin-skins-aiohd-next_3.2.1-r3_all.ipk",
+      "url": "https://aio-iptv-projekt.pages.dev/pliki/enigma2-plugin-skins-aiohd-next_3.2.1-r3_all.ipk",
       "category": "Pliki",
       "status": "offline",
       "httpStatus": 404,
@@ -94,7 +94,7 @@
     {
       "id": "iptv-ipk",
       "name": "IPTV Dream 8.0.1 — plik IPK",
-      "url": "https://olioli2013.github.io/aio-iptv-projekt/pliki/enigma2-plugin-extensions-iptvdream_8.0.1_all.ipk",
+      "url": "https://aio-iptv-projekt.pages.dev/pliki/enigma2-plugin-extensions-iptvdream_8.0.1_all.ipk",
       "category": "Pliki",
       "status": "offline",
       "httpStatus": 404,
@@ -104,7 +104,7 @@
     {
       "id": "remote-apk",
       "name": "AIO Panel Remote 1.4.6 — APK",
-      "url": "https://olioli2013.github.io/aio-iptv-projekt/pliki/AIO_Panel_Remote_1.4.6_FREE_PRO.apk",
+      "url": "https://aio-iptv-projekt.pages.dev/pliki/AIO_Panel_Remote_1.4.6_FREE_PRO.apk",
       "category": "Pliki",
       "status": "offline",
       "httpStatus": 404,
