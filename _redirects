@@ -1,0 +1,30 @@
+# AIO-IPTV.pl — stare aliasy -> aktualne sekcje, 2026-10-10
+# Cloudflare Pages _redirects
+/config-builder.html /one-liner 301
+/config-builder /one-liner 301
+/error-scan.html /guide-diagnostyka-enigma2 301
+/error-scan /guide-diagnostyka-enigma2 301
+/tuner-compare.html /systems 301
+/tuner-compare /systems 301
+/image-installation.html /guide-instalacja-image 301
+/image-installation /guide-instalacja-image 301
+/tools.html /studio 301
+/tools /studio 301
+/knowledge.html /guides 301
+/knowledge /guides 301
+/kreator.html /one-liner 301
+/kreator /one-liner 301
+/multi-click.html /systems#multi-click 301
+/multi-click /systems#multi-click 301
+/stats.html /contact 301
+/stats /contact 301
+/future-lab.html /guides 301
+/future-lab /guides 301
+/nowe-projekty.html /plugins 301
+/nowe-projekty /plugins 301
+/poradniki-praktyczne.html /guides 301
+/poradniki-praktyczne /guides 301
+/porownywarka.html /systems 301
+/porownywarka /systems 301
+/porownywarka_legacy.html /systems 301
+/porownywarka_legacy /systems 301

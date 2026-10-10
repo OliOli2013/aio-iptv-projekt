@@ -1,7 +1,7 @@
 {
   "name": "AIO-IPTV.pl — Enigma2, IPTV i pomoc",
   "short_name": "AIO-IPTV",
-  "start_url": "./index.html",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "background_color": "#06141c",
@@ -23,7 +23,7 @@
     {
       "name": "Społeczność AIO",
       "short_name": "Społeczność",
-      "url": "./community.html",
+      "url": "./community",
       "icons": [
         {
           "src": "assets/icons/icon-192.png",
@@ -35,7 +35,7 @@
     {
       "name": "Aktualności AIO-IPTV.pl",
       "short_name": "Aktualności",
-      "url": "./news.html",
+      "url": "./news",
       "icons": [
         {
           "src": "assets/icons/icon-192.png",
@@ -47,7 +47,7 @@
     {
       "name": "Studio AIO-IPTV.pl",
       "short_name": "Studio",
-      "url": "./studio.html",
+      "url": "./studio",
       "icons": [
         {
           "src": "assets/icons/icon-192.png",
@@ -59,7 +59,7 @@
     {
       "name": "Asystent doboru",
       "short_name": "Asystent",
-      "url": "./assistant.html",
+      "url": "./assistant",
       "icons": [
         {
           "src": "assets/icons/icon-192.png",
@@ -71,7 +71,7 @@
     {
       "name": "Status usług",
       "short_name": "Status",
-      "url": "./status.html",
+      "url": "./status",
       "icons": [
         {
           "src": "assets/icons/icon-192.png",
@@ -83,7 +83,7 @@
     {
       "name": "Analizator logów",
       "short_name": "Logi",
-      "url": "./log-analyzer.html",
+      "url": "./log-analyzer",
       "icons": [
         {
           "src": "assets/icons/icon-192.png",

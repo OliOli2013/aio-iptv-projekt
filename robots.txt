@@ -1,4 +1,11 @@
 User-agent: *
 Allow: /
+Disallow: /community-admin
 Disallow: /community-admin.html
+Disallow: /access
+Disallow: /access.html
+Disallow: /aio-connect-report
+Disallow: /aio-connect-report.html
+Disallow: /publisher
+Disallow: /publisher.html
 Sitemap: https://aio-iptv-projekt.pages.dev/sitemap.xml

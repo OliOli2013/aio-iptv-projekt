@@ -17,14 +17,15 @@
 <link href="assets/css/content-protection.css?v=20261009-protect1" rel="stylesheet"/>
 <link href="assets/css/aio-header-v2.css?v=20261010-headerv4" rel="stylesheet"/>
 <link href="assets/css/channel-lists-v2.css?v=20261010-listsv2" rel="stylesheet"/>
-<link href="https://aio-iptv-projekt.pages.dev/channel-lists.html" rel="canonical"/>
 <meta content="Listy kanałów V2 | AIO-IPTV.pl" property="og:title"/>
 <meta content="Aktualne listy kanałów Enigma2 i bukiety IPTV z manifestu AIO Panel Lists." property="og:description"/>
 <meta content="website" property="og:type"/>
-<meta content="https://aio-iptv-projekt.pages.dev/channel-lists.html" property="og:url"/>
+<meta property="og:url" content="https://aio-iptv-projekt.pages.dev/channel-lists">
 <script src="assets/js/auto-language.js?v=20260729-auto-en1"></script>
+<link rel="canonical" href="https://aio-iptv-projekt.pages.dev/channel-lists">
+<link rel="stylesheet" href="assets/css/site-final.css?v=20261010-final1">
 </head>
-<body class="aio-header-v2 aio-header-v3 aio-header-v4 channel-lists-v2-page">
+<body class="aio-header-v2 aio-header-v3 aio-header-v4 channel-lists-v2-page site-final-v1">
 <a class="skip-link" href="#main-content">Przejdź do treści</a>
 <div class="page-shell">
 <header class="site-header">
@@ -52,7 +53,7 @@
 <div class="lists-v2-meta"><span><strong id="listsV2Count">0</strong> wyników</span><span id="listsV2Status">Ładowanie manifestu…</span></div>
 </section>
 <section class="lists-v2-featured" id="listsV2Featured" hidden><div class="lists-v2-section-head"><div><p class="eyebrow">Polecane na start</p><h2>Listy AIO Team</h2></div><p>Paczki przygotowane i aktualizowane w ramach projektu AIO.</p></div><div class="lists-v2-grid" id="listsV2FeaturedGrid"></div></section>
-<section class="lists-v2-catalog"><div class="lists-v2-section-head"><div><p class="eyebrow">Manifest online</p><h2>Wszystkie dostępne pozycje</h2></div><a href="https://github.com/OliOli2013/PanelAIO-Lists" rel="noopener" target="_blank">Repozytorium list ↗</a></div><div class="lists-v2-grid" id="listsV2Output"></div><div class="lists-v2-empty" id="listsV2Empty" hidden>Brak pozycji pasujących do wybranego filtra. Wyczyść wyszukiwanie albo wybierz „Wszystkie”.</div></section>
+<section class="lists-v2-catalog"><div class="lists-v2-section-head"><div><p class="eyebrow">Manifest online</p><h2>Wszystkie dostępne pozycje</h2></div><a href="https://github.com/OliOli2013/PanelAIO-Lists" rel="noopener noreferrer" target="_blank">Repozytorium list ↗</a></div><div class="lists-v2-grid" id="listsV2Output"></div><div class="lists-v2-empty" id="listsV2Empty" hidden>Brak pozycji pasujących do wybranego filtra. Wyczyść wyszukiwanie albo wybierz „Wszystkie”.</div></section>
 <section class="lists-v2-safety" id="bezpieczenstwo"><div><p class="eyebrow">Przed instalacją</p><h2>Najpierw backup. Dopiero potem podmiana list.</h2><p>Lista kanałów modyfikuje pliki w <code>/etc/enigma2/</code>. Kopia obecnych bukietów pozwala szybko wrócić do poprzedniego układu.</p></div><div class="lists-v2-command"><div><strong>Backup list kanałów</strong><button data-copy="tar -czf /tmp/backup-list-kanalow.tar.gz /etc/enigma2/lamedb* /etc/enigma2/bouquets.* /etc/enigma2/userbouquet.*" type="button">Kopiuj</button></div><code>tar -czf /tmp/backup-list-kanalow.tar.gz /etc/enigma2/lamedb* /etc/enigma2/bouquets.* /etc/enigma2/userbouquet.*</code></div></section>
 <section class="lists-v2-after" id="po-instalacji"><div><p class="eyebrow">Po instalacji</p><h2>Odśwież Enigma2</h2><p>Po wgraniu listy wykonaj restart GUI, aby Enigma2 ponownie wczytała lamedb i bukiety.</p></div><div class="lists-v2-command"><div><strong>Restart GUI</strong><button data-copy="init 4 && sleep 2 && init 3" type="button">Kopiuj</button></div><code>init 4 &amp;&amp; sleep 2 &amp;&amp; init 3</code></div></section>
 <section class="lists-v2-note"><strong>Ważne</strong><p>Pozycje autorów zewnętrznych są prezentowane zgodnie z manifestem. AIO-IPTV.pl nie zmienia ich zawartości. Dostępność i aktualność paczek zależy od źródła wskazanego w manifeście.</p></section>

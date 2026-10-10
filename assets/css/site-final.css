@@ -1,0 +1,32 @@
+/* AIO-IPTV.pl — finalny polish całego serwisu, 2026-10-10 */
+.site-final-v1 :where(section[id],article[id],div[id]){scroll-margin-top:96px}
+.site-final-v1 :where(img,video,canvas,svg){max-width:100%}
+.site-final-v1 img{height:auto}
+.site-final-v1 :where(pre,code){max-width:100%}
+.site-final-v1 pre{overflow:auto;-webkit-overflow-scrolling:touch}
+.site-final-v1 :where(.module,.hero-compact,.pro-hero,.privacy-card,.info-box){
+  overflow-wrap:anywhere
+}
+.site-final-v1 :where(a,button,input,select,textarea,summary):focus-visible{
+  outline:3px solid rgba(103,220,246,.48);
+  outline-offset:3px
+}
+.site-final-v1 :where(button,.button,[role="button"]){touch-action:manipulation}
+.site-final-v1 .command pre{margin-bottom:0}
+.site-final-v1 .command code{white-space:pre-wrap;overflow-wrap:anywhere}
+.site-final-v1 table{max-width:100%}
+.site-final-v1 .guide-gallery img{width:100%;object-fit:cover}
+.site-final-v1 .content-main>section,.site-final-v1 .standalone-main>section{min-width:0}
+.site-final-v1 .side-panel{align-self:start}
+@media(max-width:900px){
+  .site-final-v1 .action-row{gap:8px}
+  .site-final-v1 .action-row .button{min-height:42px}
+}
+@media(max-width:640px){
+  .site-final-v1 .command>div{align-items:flex-start;gap:8px}
+  .site-final-v1 .command button{flex:0 0 auto}
+  .site-final-v1 :where(.hero-compact,.pro-hero) h1{overflow-wrap:anywhere}
+}
+@media(prefers-reduced-motion:reduce){
+  .site-final-v1 *{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}

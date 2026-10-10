@@ -14,18 +14,19 @@
 <link href="assets/css/user-premium.css?v=20260724-v14" rel="stylesheet"/>
 <link href="assets/css/pro-suite.css?v=20260815-news1" rel="stylesheet"/>
 <meta name="color-scheme" content="dark"/>
-<link href="https://aio-iptv-projekt.pages.dev/plugin-simple-iptv-epg.html" rel="canonical"/>
 <meta property="og:title" content="Simple IPTV EPG 3.1.0 r1 | AIO-IPTV.pl"/>
 <meta property="og:description" content="Simple IPTV EPG 3.1.0 r1: lepsze mapowanie IPTV, BouquetMakerXtream, XMLTV/GZIP, poprawione importEvents i diagnostyka."/>
 <meta property="og:type" content="website"/>
-<meta property="og:url" content="https://aio-iptv-projekt.pages.dev/plugin-simple-iptv-epg.html"/>
+<meta property="og:url" content="https://aio-iptv-projekt.pages.dev/plugin-simple-iptv-epg">
 <meta property="og:image" content="https://aio-iptv-projekt.pages.dev/pliki/simple-iptv-epg-3.1.0-r1.png"/>
 <script src="assets/js/auto-language.js?v=20260729-auto-en1"></script>
 <link rel="stylesheet" href="assets/css/aio-2026.css?v=20260816-community-first"/>
 <link rel="stylesheet" href="assets/css/content-protection.css?v=20261009-protect1"/>
 <link rel="stylesheet" href="assets/css/aio-header-v2.css?v=20261010-headerv4">
+<link rel="canonical" href="https://aio-iptv-projekt.pages.dev/plugin-simple-iptv-epg">
+<link rel="stylesheet" href="assets/css/site-final.css?v=20261010-final1">
 </head>
-<body class="aio-header-v2 aio-header-v3 aio-header-v4">
+<body class="aio-header-v2 aio-header-v3 aio-header-v4 site-final-v1">
 <a class="skip-link" href="#main-content">Przejdź do treści</a>
 <div class="page-shell">
 <header class="site-header">
@@ -136,7 +137,7 @@
 
 <section class="module"><h2>🔧 Co poprawia 3.1.0 r1?</h2><p>Build <strong>3.1.0 r1</strong> skupia się na rzeczywistym dopasowaniu EPG do kanałów IPTV. Poprawiono sposób przekazywania referencji usług do <code>eEPGCache</code>, dodano automatyczne mapowanie BouquetMakerXtream, obsługę różnych typów referencji IPTV oraz dokładniejszą kontrolę tego, czy EPG po imporcie jest faktycznie widoczne na tunerze.</p></section>
 
-<section class="module"><h2>🖼️ Podgląd 3.1.0 r1</h2><div class="guide-gallery"><figure><a href="pliki/simple-iptv-epg-3.1.0-r1.png" rel="noopener" target="_blank"><img alt="Simple IPTV EPG 3.1.0 r1 — ekran główny" loading="lazy" src="pliki/simple-iptv-epg-3.1.0-r1.png"/></a><figcaption>Ekran główny 3.1.0 r1: źródło EPG, harmonogram, ustawienia AutoMappera oraz szybkie akcje importu, testu i narzędzi.</figcaption></figure></div></section>
+<section class="module"><h2>🖼️ Podgląd 3.1.0 r1</h2><div class="guide-gallery"><figure><a href="pliki/simple-iptv-epg-3.1.0-r1.png" rel="noopener noreferrer" target="_blank"><img alt="Simple IPTV EPG 3.1.0 r1 — ekran główny" loading="lazy" src="pliki/simple-iptv-epg-3.1.0-r1.png"/></a><figcaption>Ekran główny 3.1.0 r1: źródło EPG, harmonogram, ustawienia AutoMappera oraz szybkie akcje importu, testu i narzędzi.</figcaption></figure></div></section>
 
 <section class="module"><h2>📌 Najważniejsze zmiany w Simple IPTV EPG 3.1.0 r1</h2><ul class="clean-list">
 <li>kompletny audyt poprzedniej wersji i całkowicie nowy interfejs</li><li>nowy AutoMapper z priorytetem dla identyfikatorów i trzema poziomami dokładności</li><li>wykrywanie niejednoznacznych dopasowań i poprawiony fuzzy matching</li><li>przebudowany cache zależny od faktycznego źródła XMLTV</li><li>lepszy fallback źródeł oraz SAT → IPTV</li><li>stabilniejsza integracja z <code>eEPGCache</code> i głównym wątkiem GUI</li><li>rozbudowany parser XMLTV, namespace, strefy czasowe i pełna walidacja</li><li>test źródła, scheduler, diagnostyka, logi i ręczna przebudowa mapowania</li><li>brak wyłączania weryfikacji TLS</li><li>import 0 wydarzeń jest traktowany jako błąd</li><li>r1: poprawka warstw <code>zPosition</code> na ekranach</li>
