@@ -1,0 +1,53 @@
+/* AIO My Tuner V2 — 2026-10-10 */
+body.my-tuner-v2 .standalone-main{display:grid;gap:18px}
+.my-tuner-v2-hero{
+  position:relative;overflow:hidden;border:1px solid #315f72;border-radius:24px;padding:34px;
+  background:
+    radial-gradient(circle at 88% 8%,rgba(89,220,244,.20),transparent 32%),
+    radial-gradient(circle at 14% 100%,rgba(58,195,145,.14),transparent 30%),
+    linear-gradient(145deg,rgba(14,53,69,.98),rgba(5,20,29,.99));
+  box-shadow:0 26px 76px rgba(0,0,0,.34)
+}
+.my-tuner-v2-kicker{margin:0 0 8px;color:#7eddf2;font-size:.72rem;font-weight:900;letter-spacing:.12em}
+.my-tuner-v2-hero h1{margin:.15rem 0 .75rem;font-size:clamp(2.2rem,4.8vw,4.2rem);line-height:1;letter-spacing:-.05em}
+.my-tuner-v2-hero .lead{max-width:920px;margin:0;color:#c3d9e2;line-height:1.7}
+.my-tuner-v2-badges{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px}
+.my-tuner-v2-badge{display:inline-flex;align-items:center;gap:7px;border:1px solid #315e70;border-radius:999px;padding:7px 11px;background:rgba(5,27,36,.72);color:#c8dce3;font-size:.74rem;font-weight:850}
+.my-tuner-v2-badge.green{border-color:#356d5b;color:#8ce5ba;background:rgba(12,53,43,.72)}
+.my-tuner-v2-layout{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(300px,.65fr);gap:18px}
+.my-tuner-v2-panel{border:1px solid #315d70;border-radius:18px;padding:20px;background:linear-gradient(145deg,rgba(11,43,56,.96),rgba(5,23,31,.98));box-shadow:0 18px 55px rgba(0,0,0,.22)}
+.my-tuner-v2-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:15px}
+.my-tuner-v2-heading h2{margin:.15rem 0}.my-tuner-v2-heading p{margin:4px 0 0;color:#99b5bf;font-size:.78rem}
+.my-tuner-v2-form{display:grid;gap:15px}
+.my-tuner-v2-form .smart-form-grid{gap:12px}
+.my-tuner-v2-field-note{display:inline-flex;width:max-content;margin-bottom:2px;border-radius:999px;padding:3px 7px;background:#123c4c;color:#8cdff2;font-size:.58rem;font-weight:900;letter-spacing:.05em}
+.my-tuner-v2-actions{display:flex;flex-wrap:wrap;gap:9px}
+.my-tuner-v2-actions .button.primary{min-width:150px}
+.my-tuner-v2-live{display:grid;gap:8px;margin-top:4px}
+.my-tuner-v2-live div{display:grid;grid-template-columns:92px 1fr;gap:9px;border:1px solid #2e596b;border-radius:10px;padding:9px 10px;background:#082733}
+.my-tuner-v2-live span{color:#7ea4b1;font-size:.64rem;font-weight:900;text-transform:uppercase}
+.my-tuner-v2-live strong{font-size:.77rem;overflow-wrap:anywhere}
+.my-tuner-v2-side{display:grid;gap:14px;align-content:start}
+.my-tuner-v2-hardware .hardware-summary{display:grid;gap:8px}
+.my-tuner-v2-hardware .hardware-summary>div{grid-template-columns:88px 1fr}
+.my-tuner-v2-privacy{border:1px solid #376778;border-radius:14px;padding:14px;background:linear-gradient(145deg,rgba(17,54,68,.82),rgba(6,26,35,.94))}
+.my-tuner-v2-privacy strong{display:block;color:#8ce5f7;margin-bottom:5px}.my-tuner-v2-privacy p{margin:0;color:#a9c1ca;font-size:.76rem;line-height:1.55}
+.my-tuner-v2-status{min-height:1.2em;color:#82e3b7;font-size:.75rem;font-weight:850}
+.my-tuner-v2-next{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.my-tuner-v2-next a{display:grid;grid-template-columns:38px 1fr;gap:9px;align-items:center;border:1px solid #315b6c;border-radius:12px;padding:11px;background:#082733}
+.my-tuner-v2-next a:hover{border-color:#6eddf7;transform:translateY(-1px)}
+.my-tuner-v2-next span{font-size:1.1rem}.my-tuner-v2-next strong{font-size:.76rem}.my-tuner-v2-next small{display:block;margin-top:2px;color:#89a8b4;font-size:.64rem}
+.my-tuner-v2-info{border:1px solid #6c5b2d;border-radius:14px;padding:14px 16px;background:linear-gradient(145deg,rgba(78,64,20,.47),rgba(6,27,36,.94))}
+.my-tuner-v2-info strong{color:#ffe181}.my-tuner-v2-info p{margin:.3rem 0 0;color:#c9d9df;font-size:.78rem;line-height:1.55}
+@media(max-width:980px){
+  .my-tuner-v2-layout{grid-template-columns:1fr}
+  .my-tuner-v2-side{grid-template-columns:1fr 1fr}
+  .my-tuner-v2-next{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:700px){
+  .my-tuner-v2-hero{padding:25px 18px}
+  .my-tuner-v2-panel{padding:15px}
+  .my-tuner-v2-heading{flex-direction:column}
+  .my-tuner-v2-side{grid-template-columns:1fr}
+  .my-tuner-v2-next{grid-template-columns:1fr}
+}
