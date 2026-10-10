@@ -109,12 +109,13 @@ function annotate(){
     }
 
     if(!$('.plugin-v2-summary',card)){
-      const summary=document.createElement('div');
-      summary.className='plugin-v2-summary';
-      summary.textContent=info.desc;
-      const ref=titleNode.closest('header')||titleNode.parentElement||card.firstChild;
-      if(ref && ref.nextSibling) ref.parentNode.insertBefore(summary,ref.nextSibling);
-      else card.appendChild(summary);
+      const existingDescription=$('p',card);
+      if(!existingDescription || (existingDescription.textContent||'').trim().length<20){
+        const summary=document.createElement('div');
+        summary.className='plugin-v2-summary';
+        summary.textContent=info.desc;
+        card.appendChild(summary);
+      }
     }
 
     if(!$('.plugin-v2-tags',card)){
@@ -125,9 +126,7 @@ function annotate(){
       if(/python\s*3|py3/i.test(card.textContent)) items.push({cls:'py',label:'Python 3'});
       if(/python\s*2|py2/i.test(card.textContent)) items.push({cls:'py',label:'Python 2'});
       tags.innerHTML=items.map(t=>`<span class="plugin-v2-tag ${t.cls}">${t.label}</span>`).join('');
-      const sum=$('.plugin-v2-summary',card);
-      if(sum && sum.nextSibling) sum.parentNode.insertBefore(tags,sum.nextSibling);
-      else card.appendChild(tags);
+      card.appendChild(tags);
     }
   });
 }
