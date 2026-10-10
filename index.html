@@ -16,7 +16,7 @@
 <link rel="stylesheet" href="assets/css/community.css?v=20260815-aio2026">
 <link rel="stylesheet" href="assets/css/aio-2026.css?v=20260911-homeux4">
 <link rel="stylesheet" href="assets/css/linuxsat-award.css?v=20261003">
-<link rel="stylesheet" href="assets/css/aio-home-v2.css?v=20261010-homev2ai1">
+<link rel="stylesheet" href="assets/css/aio-home-v2.css?v=20261010-homev2robot1">
 <link rel="stylesheet" href="assets/css/content-protection.css?v=20261009-protect1">
 <meta property="og:title" content="AIO-IPTV.pl — Enigma2 prościej">
 <meta property="og:description" content="Systemy, wtyczki, listy kanałów, aplikacje, poradniki i Społeczność AIO.">
@@ -64,12 +64,52 @@
   <a href="android-apps.html"><span>▣</span><strong>Aplikacje</strong><small>Android, Windows i narzędzia</small><i>→</i></a>
   <a href="guides.html"><span>?</span><strong>Poradniki</strong><small>Instrukcje krok po kroku</small><i>→</i></a>
 </section>
-<section class="aio-v2-ai-help" aria-labelledby="aio-ai-help-title">
+<section class="aio-v2-ai-help aio-v2-ai-help--robot" aria-labelledby="aio-ai-help-title">
   <div class="aio-v2-ai-help-icon" aria-hidden="true"><span>AI</span></div>
   <div class="aio-v2-ai-help-copy">
     <p class="aio-v2-kicker">POMOC AI • ENIGMA2</p>
     <h2 id="aio-ai-help-title">Masz problem z tunerem? Zapytaj AI Chat.</h2>
     <p>Opisz model tunera, system i objaw. AI Chat pomoże Ci przejść przez problem krok po kroku — od OSCam i EPG po IPTV, wtyczki, listy kanałów i konfigurację.</p>
+  </div>
+  <div class="aio-v2-ai-help-robot" aria-hidden="true">
+    <div class="aio-v2-ai-help-robot-glow"></div>
+    <svg viewBox="0 0 240 240" role="img" focusable="false">
+      <defs>
+        <linearGradient id="aioRobotStroke" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#6fe0ff"/>
+          <stop offset="55%" stop-color="#55ddb4"/>
+          <stop offset="100%" stop-color="#7a5cff"/>
+        </linearGradient>
+        <linearGradient id="aioRobotFill" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#0b3950"/>
+          <stop offset="100%" stop-color="#071f2b"/>
+        </linearGradient>
+        <filter id="aioGlow" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="5" result="blur"/>
+          <feMerge>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+      <g fill="none" stroke="url(#aioRobotStroke)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" filter="url(#aioGlow)">
+        <path d="M120 28v22"/>
+        <path d="M96 30h48"/>
+        <path d="M65 98c0-23 18-41 41-41h28c23 0 41 18 41 41v32c0 26-21 47-47 47h-16c-26 0-47-21-47-47V98z" fill="url(#aioRobotFill)"/>
+        <path d="M86 89h68"/>
+        <circle cx="99" cy="111" r="10" fill="#70ddff" stroke="none"/>
+        <circle cx="141" cy="111" r="10" fill="#70ddff" stroke="none"/>
+        <path d="M97 140c11 9 35 9 46 0"/>
+        <path d="M71 98l-12-9"/>
+        <path d="M169 98l12-9"/>
+        <path d="M90 177v20"/>
+        <path d="M150 177v20"/>
+        <path d="M88 197h22"/>
+        <path d="M130 197h22"/>
+        <rect x="81" y="202" width="78" height="16" rx="8" fill="#0d3345"/>
+        <circle cx="120" cy="210" r="3" fill="#70ddff" stroke="none"/>
+      </g>
+    </svg>
   </div>
   <a class="aio-v2-ai-help-cta" href="ai-chat.html" aria-label="Uruchom AI Chat AIO">
     <span><small>ASYSTENT AIO</small><strong>Uruchom AI Chat</strong></span><b aria-hidden="true">→</b>

@@ -208,3 +208,55 @@
   .aio-v2-ai-help-icon{display:none}
   .aio-v2-ai-help-copy>p:last-child{font-size:.9rem}
 }
+
+/* Homepage V2 — AI Chat banner z robotem, 2026-10-10 */
+.aio-v2-ai-help--robot{
+  grid-template-columns:74px minmax(0,1fr) 170px auto;
+}
+.aio-v2-ai-help-robot{
+  position:relative;
+  width:156px;
+  height:156px;
+  display:grid;
+  place-items:center;
+  margin-inline:auto;
+}
+.aio-v2-ai-help-robot svg{
+  width:100%;
+  height:100%;
+  display:block;
+  position:relative;
+  z-index:2;
+}
+.aio-v2-ai-help-robot-glow{
+  position:absolute;
+  inset:16% 8%;
+  border-radius:50%;
+  background:
+    radial-gradient(circle, rgba(111,224,255,.26), transparent 55%),
+    radial-gradient(circle at 70% 65%, rgba(122,92,255,.22), transparent 45%),
+    radial-gradient(circle at 30% 75%, rgba(87,225,177,.17), transparent 40%);
+  filter:blur(8px);
+  z-index:1;
+}
+@media(max-width:1020px){
+  .aio-v2-ai-help--robot{
+    grid-template-columns:60px minmax(0,1fr) auto;
+  }
+  .aio-v2-ai-help-robot{
+    grid-column:1/-1;
+    order:4;
+    width:128px;
+    height:128px;
+    margin-top:6px;
+  }
+  .aio-v2-ai-help-cta{
+    order:3;
+  }
+}
+@media(max-width:520px){
+  .aio-v2-ai-help-robot{
+    width:112px;
+    height:112px;
+  }
+}
