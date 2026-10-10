@@ -1,0 +1,72 @@
+/* AIO Project Status V2 — 2026-10-10 */
+body.project-status-v2 .standalone-main{display:grid;gap:18px}
+.project-status-v2-hero{
+  position:relative;overflow:hidden;border:1px solid #315f72;border-radius:24px;padding:34px;
+  background:
+    radial-gradient(circle at 88% 8%,rgba(89,220,244,.19),transparent 32%),
+    radial-gradient(circle at 14% 100%,rgba(63,205,151,.14),transparent 30%),
+    linear-gradient(145deg,rgba(14,53,69,.98),rgba(5,20,29,.99));
+  box-shadow:0 26px 76px rgba(0,0,0,.34)
+}
+.project-status-v2-kicker{margin:0 0 8px;color:#7eddf2;font-size:.72rem;font-weight:900;letter-spacing:.12em}
+.project-status-v2-hero h1{margin:.15rem 0 .75rem;font-size:clamp(2.2rem,4.8vw,4.2rem);line-height:1;letter-spacing:-.05em}
+.project-status-v2-hero .lead{max-width:960px;margin:0;color:#c3d9e2;line-height:1.7}
+.project-status-v2-badges{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px}
+.project-status-v2-badge{display:inline-flex;align-items:center;gap:7px;border:1px solid #315e70;border-radius:999px;padding:7px 11px;background:rgba(5,27,36,.72);color:#c8dce3;font-size:.74rem;font-weight:850}
+.project-status-v2-panel{border:1px solid #315d70;border-radius:18px;padding:20px;background:linear-gradient(145deg,rgba(11,43,56,.96),rgba(5,23,31,.98));box-shadow:0 18px 55px rgba(0,0,0,.22)}
+.project-status-v2-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:15px}
+.project-status-v2-heading h2{margin:.15rem 0}.project-status-v2-heading p{margin:4px 0 0;color:#99b5bf;font-size:.78rem}
+.project-status-v2-controls .project-status-controls{margin:0}
+.project-status-v2-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.project-status-v2-chip{
+  border:1px solid #315c6e;border-radius:999px;padding:7px 10px;background:#0a2b39;color:#cce5ec;
+  cursor:pointer;font:inherit;font-size:.7rem;font-weight:850
+}
+.project-status-v2-chip:hover,.project-status-v2-chip.is-active{border-color:#6eddf7;background:#103848;color:#e9fbff}
+.project-status-v2-chip[data-project-status="active"].is-active{border-color:#67dfad;background:#123e32;color:#a8f4d0}
+.project-status-v2-chip[data-project-status="stable"].is-active{border-color:#71d5f1;background:#113848;color:#b9effc}
+.project-status-v2-chip[data-project-status="maintained"].is-active{border-color:#b9c9d0;background:#263942;color:#e5f2f6}
+.project-status-v2-chip[data-project-status="paused"].is-active{border-color:#ffd067;background:#4b3917;color:#ffe6a2}
+.project-status-v2-tools{display:flex;flex-wrap:wrap;gap:8px}
+.project-status-v2-tools button{border:1px solid #35667a;border-radius:8px;padding:7px 9px;background:#0b3040;color:#c9edf5;cursor:pointer;font:inherit;font-size:.7rem;font-weight:850}
+.project-status-v2-tools button:hover{border-color:#73dff6}
+.project-status-v2-summary .status-summary-grid{margin:0}
+.project-status-v2-count{display:inline-flex;align-items:center;gap:6px;border:1px solid #315d70;border-radius:999px;padding:6px 10px;background:#092936;color:#a9c3cc;font-size:.7rem}
+.project-status-v2-grid .project-status-card{
+  border:1px solid #315d70;border-radius:16px;padding:16px;
+  background:linear-gradient(145deg,rgba(10,39,51,.96),rgba(5,22,30,.98));
+  box-shadow:0 14px 38px rgba(0,0,0,.18)
+}
+.project-status-v2-grid .project-status-card.status-active{border-color:#376f5c}
+.project-status-v2-grid .project-status-card.status-stable{border-color:#3c6678}
+.project-status-v2-grid .project-status-card.status-paused{border-color:#79612e}
+.project-status-v2-grid .project-status-card:hover{transform:translateY(-1px)}
+.project-status-v2-grid .project-status-card header{gap:14px}
+.project-status-v2-grid .project-status-card p{color:#b7ccd4;line-height:1.55}
+.project-status-v2-grid .project-status-meta{gap:10px}
+.project-status-v2-grid .project-status-meta>div{border-radius:11px;background:#082733}
+.project-status-v2-grid .privacy-card{margin-top:12px}
+.project-status-v2-legend{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.project-status-v2-legend article{border:1px solid #315b6c;border-radius:12px;padding:13px;background:#082733}
+.project-status-v2-legend strong{display:block;margin-bottom:5px}
+.project-status-v2-legend p{margin:0;color:#94b1bc;font-size:.72rem;line-height:1.5}
+.project-status-v2-legend .status-active{border-color:#376f5c}
+.project-status-v2-legend .status-stable{border-color:#3c6678}
+.project-status-v2-legend .status-maintained{border-color:#566b74}
+.project-status-v2-legend .status-paused{border-color:#79612e}
+.project-status-v2-next{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.project-status-v2-next a{display:grid;grid-template-columns:38px 1fr;gap:9px;align-items:center;border:1px solid #315b6c;border-radius:12px;padding:11px;background:#082733}
+.project-status-v2-next a:hover{border-color:#6eddf7;transform:translateY(-1px)}
+.project-status-v2-next span{font-size:1.1rem}.project-status-v2-next strong{font-size:.76rem}.project-status-v2-next small{display:block;margin-top:2px;color:#89a8b4;font-size:.64rem}
+.project-status-v2-note{border:1px solid #376778;border-radius:14px;padding:14px 16px;background:linear-gradient(145deg,rgba(17,54,68,.82),rgba(6,26,35,.94))}
+.project-status-v2-note strong{color:#8ce5f7}.project-status-v2-note p{margin:.3rem 0 0;color:#b4cbd3;font-size:.78rem;line-height:1.55}
+@media(max-width:980px){
+  .project-status-v2-legend{grid-template-columns:repeat(2,1fr)}
+  .project-status-v2-next{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:720px){
+  .project-status-v2-hero{padding:25px 18px}
+  .project-status-v2-panel{padding:15px}
+  .project-status-v2-heading{flex-direction:column}
+  .project-status-v2-legend,.project-status-v2-next{grid-template-columns:1fr}
+}
