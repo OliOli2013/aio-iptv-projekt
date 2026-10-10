@@ -6,3 +6,75 @@
 .aio-v2-trust{display:grid;grid-template-columns:150px 1.2fr 1fr 1fr;overflow:hidden}.aio-v2-trust>div{padding:20px;border-right:1px solid rgba(255,255,255,.06)}.aio-v2-trust img{width:118px}.aio-v2-trust strong{display:block;color:#f0fbff;margin-bottom:6px}.aio-v2-trust span{display:block;color:#7e9da8;font-size:.76rem}.aio-v2-install{padding:24px;display:grid;grid-template-columns:.75fr 1.25fr;gap:22px;align-items:center}.aio-v2-command{display:grid;grid-template-columns:1fr auto;gap:8px;padding:10px;border-radius:11px;background:#031820;border:1px solid rgba(104,219,255,.16)}.aio-v2-command code{padding:10px;overflow-x:auto;color:#bdefff;white-space:nowrap}.aio-v2-command button{border:0;border-radius:8px;padding:0 15px;background:#71dcf7;color:#05232c;font-weight:900}.aio-v2-small-stats{min-height:72px;padding:12px 16px;border-block:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:22px;color:#6f8e99}.aio-v2-small-stats>div{display:flex;gap:6px;align-items:baseline}.aio-v2-small-stats>a{margin-left:auto;color:var(--a);text-decoration:none}.aio-v2-skeleton{min-height:176px;border-radius:13px;background:linear-gradient(100deg,#082833 30%,#0c3442 48%,#082833 66%);background-size:220% 100%;animation:load 1.4s linear infinite}.aio-v2-skeleton.tall{min-height:220px}@keyframes load{to{background-position:-220% 0}}
 .aio-v2-search-modal[hidden]{display:none!important}.aio-v2-search-modal{position:fixed;inset:0;z-index:99999;display:grid;place-items:start center;padding:8vh 15px 20px}.aio-v2-search-backdrop{position:absolute;inset:0;background:rgba(0,8,12,.8);backdrop-filter:blur(8px)}.aio-v2-search-dialog{position:relative;width:min(860px,100%);max-height:82vh;overflow:hidden;border:1px solid rgba(105,221,255,.28);border-radius:17px;background:#061c25;box-shadow:0 40px 100px rgba(0,0,0,.55)}.aio-v2-search-dialog-top{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:13px 15px;border-bottom:1px solid rgba(255,255,255,.08)}.aio-v2-search-dialog-top input{width:100%;border:0;outline:0;background:transparent;color:#f1fbff;font:700 1rem Inter}.aio-v2-search-dialog-top button{width:38px;height:38px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:#0a2c38;color:#a7c2cc}.aio-v2-search-hints{padding:15px 17px}.aio-v2-search-hints>strong{display:block;color:#75949f;font-size:.7rem;margin-bottom:9px}.aio-v2-search-hints div{display:flex;gap:7px;flex-wrap:wrap}.aio-v2-search-hints a{padding:7px 10px;border-radius:999px;background:#092c38;color:#bfeefa;text-decoration:none;font-size:.76rem}.aio-v2-search-results{max-height:55vh;overflow:auto;padding:9px}.aio-v2-result-group-title{padding:9px 8px 5px;color:#648895;font-size:.68rem;font-weight:900}.aio-v2-result{display:grid;grid-template-columns:1fr auto;gap:10px;padding:12px;border-radius:9px;text-decoration:none}.aio-v2-result:hover{background:#0a2b37}.aio-v2-result strong{display:block;color:#effaff}.aio-v2-result small{display:block;color:#6f909c}.aio-v2-result>span{color:#58d8fa}.aio-v2-empty{padding:30px 16px;text-align:center;color:#7899a5}.aio-v2-search-footer{padding:11px 16px;border-top:1px solid rgba(255,255,255,.06);color:#617e89;font-size:.68rem}
 @media(max-width:1100px){.aio-v2-hero{grid-template-columns:1fr}.aio-v2-destinations{grid-template-columns:repeat(3,1fr)}.aio-v2-grid4{grid-template-columns:repeat(2,1fr)}.aio-v2-projects{grid-template-columns:repeat(2,1fr)}.aio-v2-trust{grid-template-columns:150px 1fr 1fr}}@media(max-width:760px){.aio-v2-main{width:calc(100% - 12px);gap:11px}.aio-v2-search-trigger span{display:none}.aio-v2-hero{padding:23px 16px;border-radius:15px}.aio-v2-hero h1{font-size:clamp(2.5rem,14vw,4rem)}.aio-v2-searchbox kbd{display:none}.aio-v2-hero-actions{display:grid}.aio-v2-btn{width:100%}.aio-v2-destinations{grid-template-columns:1fr 1fr}.aio-v2-block,.aio-v2-community-section{padding:17px 14px}.aio-v2-heading{display:block}.aio-v2-heading>a{display:inline-block;margin-top:12px}.aio-v2-grid4,.aio-v2-projects,.aio-v2-help-grid{grid-template-columns:1fr}.aio-v2-linklist{grid-template-columns:1fr}.aio-v2-trust{grid-template-columns:1fr}.aio-v2-install{grid-template-columns:1fr;padding:18px}.aio-v2-command{grid-template-columns:1fr}.aio-v2-command button{min-height:44px}.aio-v2-small-stats{display:grid;grid-template-columns:1fr 1fr}.aio-v2-small-stats>a{margin-left:0}.aio-v2-search-modal{padding:10px}}@media(max-width:480px){.aio-v2-destinations{grid-template-columns:1fr}}
+
+
+/* Homepage V2 — miniatury najnowszych treści, 2026-10-10 */
+.aio-v2-file-card,
+.aio-v2-post{
+  overflow:hidden;
+}
+.aio-v2-file-preview,
+.aio-v2-post-preview{
+  position:relative;
+  height:100px;
+  flex:0 0 100px;
+  margin:-17px -17px 14px;
+  overflow:hidden;
+  display:grid;
+  place-items:center;
+  border-bottom:1px solid rgba(255,255,255,.07);
+  background:
+    radial-gradient(circle at 22% 18%,rgba(112,221,255,.17),transparent 44%),
+    linear-gradient(135deg,#0b3442,#061e28);
+}
+.aio-v2-post-preview{
+  height:112px;
+  flex-basis:112px;
+  background:
+    radial-gradient(circle at 22% 18%,rgba(87,225,177,.16),transparent 44%),
+    linear-gradient(135deg,#0a3838,#061f2a);
+}
+.aio-v2-file-preview>span,
+.aio-v2-post-preview>span{
+  color:rgba(187,232,244,.55);
+  font-size:.68rem;
+  font-weight:900;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+}
+.aio-v2-file-preview img,
+.aio-v2-post-preview img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  object-position:center;
+  opacity:.92;
+  transform:scale(1.001);
+  transition:transform .28s ease,opacity .28s ease;
+}
+.aio-v2-file-card:hover .aio-v2-file-preview img,
+.aio-v2-post:hover .aio-v2-post-preview img{
+  transform:scale(1.035);
+  opacity:1;
+}
+.aio-v2-file-preview.has-image::after,
+.aio-v2-post-preview.has-image::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(180deg,transparent 45%,rgba(4,20,27,.25));
+}
+.aio-v2-file-card{
+  min-height:260px;
+}
+.aio-v2-post{
+  min-height:300px;
+}
+@media(max-width:760px){
+  .aio-v2-file-preview{height:116px;flex-basis:116px}
+  .aio-v2-post-preview{height:132px;flex-basis:132px}
+  .aio-v2-file-card{min-height:250px}
+  .aio-v2-post{min-height:280px}
+}
