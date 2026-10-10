@@ -711,8 +711,7 @@ export async function onRequestPost({request,env}) {
             .bind(until,reason||"Naruszenie zasad społeczności",s.user.id,now,now,id).run();
           await db.prepare(`DELETE FROM community_sessions WHERE user_id=?`).bind(id).run();
         } else if(op==="moderator"){
-          if(!isFullAdmin(s)) return json({ok:false,error:"Tylko administrator może nadawać rolę moderatora."},403);
-          await db.prepare(`UPDATE community_profiles SET role=CASE role WHEN 'moderator' THEN 'user' ELSE 'moderator' END,updated_at=? WHERE id=? AND role<>'admin'`).bind(now,id).run();
+          return json({ok:false,error:"Rola moderatora jest wyłączona. Panel administracyjny jest prywatnym panelem właściciela."},403);
         } else if(op==="hide_content"){
           await db.prepare(`UPDATE community_posts SET status='hidden',updated_at=? WHERE author_id=?`).bind(now,id).run();
           await db.prepare(`UPDATE community_comments SET status='hidden',updated_at=? WHERE author_id=?`).bind(now,id).run();

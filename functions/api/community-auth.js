@@ -2,7 +2,7 @@
 import {
   json, ensureSchema, hashPassword, safeEqual, randomToken, sha256,
   cleanEmail, cleanText, sessionCookie, clearSessionCookie,
-  clientIp, isoNow, addDays, getSession, publicProfile, errorResponse, recordIp
+  clientIp, isoNow, addDays, getSession, publicProfile, errorResponse, recordIp, isOwnerId
 } from "../_community.js";
 
 function validPassword(p) {
@@ -209,6 +209,8 @@ export async function onRequestPost({request, env}) {
 
       const profiles = await db.prepare(`SELECT COUNT(*) AS n FROM community_profiles`).first();
       const firstAccount = Number(profiles?.n || 0) === 0;
+      const configuredOwnerEmail = cleanEmail(env.COMMUNITY_OWNER_EMAIL || "");
+      const ownerAccount = configuredOwnerEmail ? email === configuredOwnerEmail : firstAccount;
       const id = crypto.randomUUID();
       const displayName = cleanText(body.displayName || email.split("@")[0], 60);
       if (displayName.length < 2) return json({ok:false,error:"Nazwa użytkownika jest za krótka."}, 400);
@@ -219,7 +221,7 @@ export async function onRequestPost({request, env}) {
           INSERT INTO community_profiles
           (id,email,display_name,role,trusted,created_at,updated_at)
           VALUES(?,?,?,?,?,?,?)
-        `).bind(id,email,displayName,firstAccount ? "admin" : "user", firstAccount ? 1 : 0, isoNow(), isoNow()),
+        `).bind(id,email,displayName,ownerAccount ? "admin" : "user", ownerAccount ? 1 : 0, isoNow(), isoNow()),
         db.prepare(`
           INSERT INTO community_auth
           (user_id,email,password_hash,password_salt,password_iterations,created_at)
@@ -236,8 +238,10 @@ export async function onRequestPost({request, env}) {
       `).bind(tokenHash,id,expires,isoNow(),isoNow(),ip,request.headers.get("user-agent")||"").run();
       await recordIp(env,id,ip,"access");
       const profile = await db.prepare(`SELECT * FROM community_profiles WHERE id=?`).bind(id).first();
+      const publicUser = publicProfile(profile);
+      publicUser.is_owner = await isOwnerId(env, publicUser.id, publicUser.role);
       return json(
-        {ok:true,authenticated:true,user:publicProfile(profile),firstAccount},
+        {ok:true,authenticated:true,user:publicUser,firstAccount,ownerAccount},
         201,
         {"Set-Cookie":sessionCookie(token)}
       );
@@ -275,8 +279,10 @@ export async function onRequestPost({request, env}) {
       db.prepare(`DELETE FROM community_sessions WHERE datetime(expires_at) <= datetime('now')`)
     ]);
     await recordIp(env,auth.user_id,ip,"access");
+    const loginUser = publicProfile(auth);
+    loginUser.is_owner = await isOwnerId(env, loginUser.id, loginUser.role);
     return json(
-      {ok:true,authenticated:true,user:publicProfile(auth)},
+      {ok:true,authenticated:true,user:loginUser},
       200,
       {"Set-Cookie":sessionCookie(token)}
     );

@@ -223,7 +223,7 @@
             this.user=d.user;this.profile=d.user;dialog.close();form.reset();
             this.renderAccountBars();
             document.dispatchEvent(new CustomEvent('aio-community-auth',{detail:{user:this.user,profile:this.profile}}));
-            this.showToast(d.firstAccount?'Konto utworzone. To pierwsze konto otrzymało uprawnienia administratora.':'Zalogowano.','success');
+            this.showToast(d.user?.is_owner?'Zalogowano jako właściciel / administrator AIO.':'Zalogowano.','success');
           }catch(err){this.showToast(this.friendlyError(err),'error');}
           finally{button.disabled=false;}
         });
@@ -360,7 +360,7 @@
           main.innerHTML=this.avatarHtml(this.profile,this.profile?.display_name,false)+
             `<div class="community-account-copy"><strong>${this.escape(this.profile?.display_name||'Użytkownik')}</strong><small>${this.escape(this.roleLabel(this.profile?.role||'user'))}</small></div>`;
           actions.innerHTML=`<a class="button" href="profile.html?id=${this.escapeAttr(this.user.id)}">Profil</a>`+
-            (this.isAdmin()?'<a class="button" href="community-admin.html">Moderacja</a>':'')+
+            (this.isAdmin()?'<a class="button" href="community-admin.html">Panel właściciela</a>':'')+
             '<button class="button" type="button" data-community-logout>Wyloguj</button>';
         }else{
           main.innerHTML='<span class="community-avatar">AIO</span><div class="community-account-copy"><strong>Społeczność AIO</strong><small>'+
@@ -375,7 +375,7 @@
       this.openAuth(message||'Zaloguj się, aby skorzystać z tej funkcji.');
       return false;
     },
-    isAdmin(){return Boolean(this.profile&&['admin','moderator'].includes(this.profile.role));},
+    isAdmin(){return Boolean(this.profile&&this.profile.is_owner===true);},
     isOwner(id){return Boolean(this.user&&id&&this.user.id===id);},
     isBanned(){return Boolean(this.profile?.banned_until&&Date.parse(this.profile.banned_until)>Date.now());},
 

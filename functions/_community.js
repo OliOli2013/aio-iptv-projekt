@@ -231,6 +231,9 @@ export async function getSession(request, env, {touch=true} = {}) {
   `).bind(tokenHash).first();
   if (!row) return null;
 
+  const profile = publicProfile(row);
+  profile.is_owner = await isOwnerId(env, profile.id, profile.role);
+
   const ip = clientIp(request);
   if (ip) {
     const block = await env.COMMUNITY_DB.prepare(`
@@ -240,10 +243,10 @@ export async function getSession(request, env, {touch=true} = {}) {
         AND (permanent = 1 OR expires_at IS NULL OR datetime(expires_at) > datetime('now'))
       LIMIT 1
     `).bind(ip).first();
-    if (block) return { blocked: true, block, tokenHash, user: publicProfile(row) };
+    if (block) return { blocked: true, block, tokenHash, user: profile };
   }
   if (row.banned_until && Date.parse(row.banned_until) > Date.now()) {
-    return { banned: true, tokenHash, user: publicProfile(row) };
+    return { banned: true, tokenHash, user: profile };
   }
 
   if (touch) {
@@ -257,7 +260,7 @@ export async function getSession(request, env, {touch=true} = {}) {
       ]);
     }
   }
-  return { tokenHash, user: publicProfile(row) };
+  return { tokenHash, user: profile };
 }
 
 export function publicProfile(row) {
@@ -280,11 +283,27 @@ export function publicProfile(row) {
     updated_at: row.updated_at || null
   };
 }
+export async function getOwnerId(env) {
+  const configured = String(env?.COMMUNITY_OWNER_USER_ID || "").trim();
+  if (configured) return configured;
+  const row = await env.COMMUNITY_DB.prepare(`
+    SELECT id FROM community_profiles
+    WHERE role='admin'
+    ORDER BY datetime(created_at) ASC
+    LIMIT 1
+  `).first();
+  return String(row?.id || "");
+}
+export async function isOwnerId(env, userId, role = "") {
+  if (!userId || String(role || "") !== "admin") return false;
+  const ownerId = await getOwnerId(env);
+  return Boolean(ownerId && ownerId === String(userId));
+}
 export function isAdmin(session) {
-  return Boolean(session && session.user && ["admin","moderator"].includes(session.user.role));
+  return Boolean(session && session.user && session.user.is_owner === true);
 }
 export function isFullAdmin(session) {
-  return Boolean(session && session.user && session.user.role === "admin");
+  return isAdmin(session);
 }
 export async function requireUser(request, env) {
   const session = await getSession(request, env);
@@ -295,8 +314,8 @@ export async function requireUser(request, env) {
 }
 export async function requireAdmin(request, env, full = false) {
   const s = await requireUser(request, env);
-  if (full ? !isFullAdmin(s) : !isAdmin(s)) {
-    throw Object.assign(new Error("Brak uprawnień administratora."), {status:403});
+  if (!isAdmin(s)) {
+    throw Object.assign(new Error("Panel właściciela jest dostępny wyłącznie dla właściciela AIO."), {status:403});
   }
   return s;
 }

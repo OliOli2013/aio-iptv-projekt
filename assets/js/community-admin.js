@@ -6,6 +6,19 @@
   const qa=(s,c=document)=>Array.from(c.querySelectorAll(s));
   let tab='pending',rows=[],role='user';
 
+  async function ownerGet(tabName){
+    const r=await fetch('/api/owner-admin?tab='+encodeURIComponent(tabName),{credentials:'include',cache:'no-store'});
+    const d=await r.json().catch(()=>({ok:false,error:'Nieprawidłowa odpowiedź panelu właściciela.'}));
+    if(!r.ok||d.ok===false)throw new Error(d.error||('HTTP '+r.status));
+    return d;
+  }
+  async function ownerPost(payload){
+    const r=await fetch('/api/owner-admin',{method:'POST',credentials:'include',cache:'no-store',headers:{'content-type':'application/json'},body:JSON.stringify(payload)});
+    const d=await r.json().catch(()=>({ok:false,error:'Nieprawidłowa odpowiedź panelu właściciela.'}));
+    if(!r.ok||d.ok===false)throw new Error(d.error||('HTTP '+r.status));
+    return d;
+  }
+
   function boot(){
     if(!window.AIOCommunity)return;
     if(AIOCommunity.ready)init();
@@ -35,6 +48,18 @@
       b.innerHTML='Reset hasła <span data-admin-reset-badge></span>';
       tabs.appendChild(b);
     }
+    if(tabs){
+      [
+        ['security','Bezpieczeństwo'],
+        ['sessions','Sesje'],
+        ['comments','Komentarze'],
+        ['chat','Czat']
+      ].forEach(([id,label])=>{
+        if(q(`[data-admin-tab="${id}"]`,tabs))return;
+        const b=document.createElement('button');
+        b.className='community-tab';b.type='button';b.dataset.adminTab=id;b.textContent=label;tabs.appendChild(b);
+      });
+    }
     qa('[data-admin-tab]').forEach(b=>b.onclick=()=>{
       tab=b.dataset.adminTab;
       qa('[data-admin-tab]').forEach(x=>x.classList.toggle('active',x===b));
@@ -51,15 +76,17 @@
     if(!root)return;
 
     if(!AIOCommunity.user||!AIOCommunity.isAdmin()){
-      root.innerHTML='<div class="community-empty"><strong>Zaloguj się jako administrator lub moderator.</strong><p>Panel moderacji nie jest dostępny publicznie.</p><button class="button primary" data-community-login>Zaloguj się</button></div>';
+      root.innerHTML='<div class="community-empty"><strong>Zaloguj się jako właściciel AIO.</strong><p>Ten panel jest prywatny i nie jest dostępny dla moderatorów ani zwykłych użytkowników.</p><button class="button primary" data-community-login>Zaloguj się</button></div>';
       return;
     }
 
     root.innerHTML='<div class="community-loading">Ładuję dane…</div>';
 
     try{
+      const ownerTabs=['security','sessions','comments','chat'];
       const d=tab==='access-activity'
-        ? await (async()=>{const r=await fetch('/api/access-activity',{credentials:'include',cache:'no-store'});const x=await r.json();if(!r.ok||!x.ok)throw new Error(x.error||'Nie udało się pobrać danych AIO Access.');return {rows:[x],role:AIOCommunity.user?.role||'user',stats:{}};})()
+        ? await (async()=>{const r=await fetch('/api/access-activity',{credentials:'include',cache:'no-store'});const x=await r.json();if(!r.ok||!x.ok)throw new Error(x.error||'Nie udało się pobrać danych AIO Access.');return {rows:[x],role:'admin',stats:{}};})()
+        : ownerTabs.includes(tab) ? await ownerGet(tab)
         : await AIOCommunity.apiGet('admin',{tab});
       rows=d.rows||[];
       role=d.role||'user';
@@ -144,8 +171,8 @@
             ${u.banned_until&&Date.parse(u.banned_until)>Date.now()
               ? '<button class="button primary" data-user-action="unban">Odblokuj konto</button>'
               : '<button class="button danger" data-user-action="ban">Zablokuj konto</button>'}
-            ${role==='admin'&&u.role!=='admin'
-              ? `<button class="button" data-user-action="moderator">${u.role==='moderator'?'Odbierz moderatora':'Nadaj moderatora'}</button><button class="button danger" data-user-action="delete">Usuń konto</button>`
+            ${role==='admin'&&u.id!==AIOCommunity.user?.id
+              ? `<button class="button danger" data-user-action="delete">Usuń konto</button>`
               : ''}
           </div>
         </article>`).join('')+'</div>'
@@ -221,6 +248,44 @@
       const methodName=m=>({revolut:'Revolut',buycoffee:'BuyCoffee',kofi:'Ko-fi'})[m]||m||'—';
       const eventName=e=>({free_access:'darmowy dostęp',direct_free:'darmowe wejście bezpośrednie',unlocked_access:'pobranie po odblokowaniu',limit_reached:'osiągnięty limit',direct_limit:'limit wejścia bezpośredniego',access_gate_shown:'wyświetlono AIO Access',support_method_selected:'wybrano metodę',support_provider_opened:'otwarto stronę wsparcia',access_unlocked:'odblokowano dostęp po zakończeniu ścieżki'})[e]||e;
       root.innerHTML=`<div class="aio-access-admin"><div class="aio-access-note"><strong>Ważne:</strong> panel pokazuje aktywność AIO Access, a nie potwierdzone płatności. „Odblokowano dostęp” oznacza zakończenie obecnej ścieżki AIO Access.</div><div class="aio-access-kpis"><div class="aio-access-kpi"><strong>${num(t.free_today)}</strong><span>darmowych dostępów dzisiaj</span></div><div class="aio-access-kpi"><strong>${num(t.unlocked_today)}</strong><span>pobrań po odblokowaniu</span></div><div class="aio-access-kpi"><strong>${num(t.limits_today)}</strong><span>osiągnięć limitu</span></div><div class="aio-access-kpi"><strong>${num(t.gates_today)}</strong><span>wyświetleń AIO Access</span></div><div class="aio-access-kpi"><strong>${num(t.providers_today)}</strong><span>otwarć operatorów</span></div><div class="aio-access-kpi"><strong>${num(t.unlocks_today)}</strong><span>odblokowań dzisiaj</span></div><div class="aio-access-kpi"><strong>${num(t.free_7d)}</strong><span>darmowych / 7 dni</span></div><div class="aio-access-kpi"><strong>${num(t.unlocks_7d)}</strong><span>odblokowań / 7 dni</span></div><div class="aio-access-kpi"><strong>${num(t.free_30d)}</strong><span>darmowych / 30 dni</span></div><div class="aio-access-kpi"><strong>${num(t.limits_30d)}</strong><span>limitów / 30 dni</span></div><div class="aio-access-kpi"><strong>${num(t.providers_30d)}</strong><span>operatorów / 30 dni</span></div><div class="aio-access-kpi"><strong>${num(t.unlocks_30d)}</strong><span>odblokowań / 30 dni</span></div></div><section class="aio-access-panel"><h3>Metody wsparcia — 30 dni</h3><div class="aio-access-table">${methods.length?methods.map(x=>`<div class="aio-access-row"><span>${AIOCommunity.escape(methodName(x.method))}</span><strong>${num(x.n)}</strong></div>`).join(''):'<small>Brak danych.</small>'}</div></section><section class="aio-access-panel"><h3>Najczęściej otwierane pliki / elementy — 30 dni</h3><div class="aio-access-table">${top.length?top.map(x=>`<div class="aio-access-row"><span>${AIOCommunity.escape(x.target||'Nieznany element')}<small> • ${x.kind==='community'?'link społeczności':'pobranie'}</small></span><strong>${num(x.n)}</strong></div>`).join(''):'<small>Brak danych.</small>'}</div></section><section class="aio-access-panel"><h3>Aktywność dzienna — 30 dni</h3><div class="aio-access-table">${daily.length?daily.map(x=>`<div class="aio-access-row"><span><strong>${AIOCommunity.escape(x.day||'')}</strong><small> • darmowe ${num(x.free)} • limity ${num(x.limits)} • operatorzy ${num(x.providers)}</small></span><strong>${num(x.unlocks)} odblok.</strong></div>`).join(''):'<small>Brak danych.</small>'}</div></section><section class="aio-access-panel"><h3>Ostatnia aktywność</h3><div class="aio-access-table">${recent.length?recent.map(x=>`<div class="aio-access-row"><div class="aio-access-event"><strong>${AIOCommunity.escape(eventName(x.event_type))}</strong><code>${AIOCommunity.escape(x.target||x.path||'')}</code><small>${AIOCommunity.escape((x.user_name?x.user_name+' • ':'')+AIOCommunity.formatDate(x.created_at)+(x.method?' • '+methodName(x.method):''))}</small></div></div>`).join(''):'<small>Brak danych.</small>'}</div></section></div>`;
+      return;
+    }
+
+    if(tab==='security'){
+      const x=rows[0]||{},priv=Array.isArray(x.privileged_accounts)?x.privileged_accounts:[];
+      root.innerHTML=`
+        <p class="owner-admin-tabs-note">Najważniejsza sekcja bezpieczeństwa. Uprawnienia administracyjne są sprawdzane po stronie Cloudflare, nie tylko w przeglądarce.</p>
+        <div class="owner-admin-lock">
+          <div class="owner-admin-card ${x.lock_configured?'ok':'warn'}"><strong>${x.lock_configured?'Twarda blokada aktywna':'Tryb zgodności'}</strong><span>COMMUNITY_OWNER_USER_ID</span></div>
+          <div class="owner-admin-card ok"><strong>${Number(x.active_sessions||0).toLocaleString('pl-PL')}</strong><span>aktywnych sesji</span></div>
+          <div class="owner-admin-card ${Number(x.other_privileged_count||0)?'danger':'ok'}"><strong>${Number(x.other_privileged_count||0)}</strong><span>innych kont z rolą admin/moderator</span></div>
+          <div class="owner-admin-card ${x.owner_email_configured?'ok':'warn'}"><strong>${x.owner_email_configured?'Ustawiony':'Opcjonalny'}</strong><span>COMMUNITY_OWNER_EMAIL</span></div>
+        </div>
+        <div class="owner-admin-security-note"><strong>ID właściciela:</strong> <code data-owner-id>${AIOCommunity.escape(x.owner_id||'')}</code></div>
+        <div class="owner-admin-security-actions">
+          <button class="button" data-owner-copy-id>Kopiuj ID właściciela</button>
+          <button class="button danger" data-owner-action="cleanup_privileged_roles">Usuń role innych admin/moderator</button>
+          <button class="button danger" data-owner-action="revoke_other_sessions">Wyloguj wszystkie pozostałe sesje</button>
+          <button class="button primary" data-owner-backup>Pobierz backup JSON</button>
+        </div>
+        <div class="owner-admin-list">
+          ${priv.length?priv.map(u=>`<div class="owner-admin-row"><div class="owner-admin-row-main"><strong>${AIOCommunity.escape(u.display_name||'Użytkownik')} <span class="owner-admin-badge ${u.id===x.owner_id?'current':'alert'}">${u.id===x.owner_id?'właściciel':AIOCommunity.escape(u.role||'')}</span></strong><small>${AIOCommunity.escape(u.id||'')}</small></div></div>`).join(''):'<div class="owner-admin-empty">Brak kont uprzywilejowanych.</div>'}
+        </div>`;
+      return;
+    }
+
+    if(tab==='sessions'){
+      root.innerHTML=rows.length?'<div class="owner-admin-list">'+rows.map(x=>`<div class="owner-admin-row" data-owner-session="${AIOCommunity.escapeAttr(x.id)}"><div class="owner-admin-row-main"><strong>${AIOCommunity.escape(x.display_name||'Użytkownik')}${x.current?'<span class="owner-admin-badge current">bieżąca</span>':''}${x.owner?'<span class="owner-admin-badge">właściciel</span>':''}</strong><small>${AIOCommunity.escape((x.ip_address||'brak IP')+' • ostatnio '+AIOCommunity.formatDate(x.last_seen_at))}</small><p>${AIOCommunity.escape(x.user_agent||'Brak User-Agent')}<br>Wygasa: ${AIOCommunity.escape(AIOCommunity.formatDate(x.expires_at))}</p></div>${x.current?'':`<button class="button danger" data-owner-session-revoke>Zakończ sesję</button>`}</div>`).join('')+'</div>':'<div class="owner-admin-empty">Brak aktywnych sesji.</div>';
+      return;
+    }
+
+    if(tab==='comments'){
+      root.innerHTML=rows.length?'<div class="owner-admin-list">'+rows.map(x=>`<div class="owner-admin-row" data-owner-comment="${AIOCommunity.escapeAttr(x.id)}"><div class="owner-admin-row-main"><strong>${AIOCommunity.escape(x.author_name||'Użytkownik')} <span class="owner-admin-badge">${AIOCommunity.escape(x.status||'')}</span></strong><small>${AIOCommunity.escape(AIOCommunity.formatDate(x.created_at))} • ${AIOCommunity.escape(x.post_title||'Wpis')}</small><p>${AIOCommunity.formatText(x.content||'',700)}</p><a class="button" href="post.html?id=${AIOCommunity.escapeAttr(x.post_id)}">Otwórz wpis</a></div><button class="button danger" data-owner-comment-delete>Usuń komentarz</button></div>`).join('')+'</div>':'<div class="owner-admin-empty">Brak komentarzy.</div>';
+      return;
+    }
+
+    if(tab==='chat'){
+      root.innerHTML=rows.length?'<div class="owner-admin-list">'+rows.map(x=>`<div class="owner-admin-row" data-owner-chat="${AIOCommunity.escapeAttr(x.id)}"><div class="owner-admin-row-main"><strong>${AIOCommunity.escape(x.author_name||'Użytkownik')} <span class="owner-admin-badge">${AIOCommunity.escape(x.status||'')}</span></strong><small>${AIOCommunity.escape(AIOCommunity.formatDate(x.created_at))}</small><p>${x.status==='deleted'?'<em>Wiadomość usunięta</em>':AIOCommunity.formatText(x.content||'',700)}</p></div>${x.status==='deleted'?'':`<button class="button danger" data-owner-chat-delete>Usuń wiadomość</button>`}</div>`).join('')+'</div>':'<div class="owner-admin-empty">Brak wiadomości czatu.</div>';
       return;
     }
 
@@ -613,6 +678,25 @@
     else dialog.setAttribute('open','');
   }
 
+  async function ownerCall(payload){
+    try{
+      await ownerPost(payload);
+      AIOCommunity.showToast('Zapisano zmianę w panelu właściciela.','success');
+      await load();
+    }catch(e){AIOCommunity.showToast(AIOCommunity.friendlyError(e),'error');}
+  }
+
+  async function downloadOwnerBackup(){
+    try{
+      const d=await ownerGet('export');
+      const blob=new Blob([JSON.stringify(d.export||{},null,2)],{type:'application/json'});
+      const url=URL.createObjectURL(blob),a=document.createElement('a');
+      a.href=url;a.download='aio-owner-backup-'+new Date().toISOString().slice(0,10)+'.json';
+      document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+      AIOCommunity.showToast('Backup JSON został przygotowany.','success');
+    }catch(e){AIOCommunity.showToast(AIOCommunity.friendlyError(e),'error');}
+  }
+
   async function call(payload){
     try{
       await AIOCommunity.api('admin_action',payload);
@@ -684,6 +768,36 @@
         duration
       });
     }
+
+    const copyOwner=e.target.closest('[data-owner-copy-id]');
+    if(copyOwner){
+      const id=q('[data-owner-id]')?.textContent?.trim()||'';
+      if(id){try{await navigator.clipboard.writeText(id);AIOCommunity.showToast('ID właściciela skopiowany.','success');}catch(_){}}
+      return;
+    }
+
+    const backup=e.target.closest('[data-owner-backup]');
+    if(backup){await downloadOwnerBackup();return;}
+
+    const ownerAction=e.target.closest('[data-owner-action]');
+    if(ownerAction){
+      const action=ownerAction.dataset.ownerAction;
+      const message=action==='cleanup_privileged_roles'?'Usunąć role admin/moderator ze wszystkich innych kont?':'Wylogować wszystkie inne aktywne sesje?';
+      if(confirm(message))await ownerCall({action});
+      return;
+    }
+
+    const sessionCard=e.target.closest('[data-owner-session]');
+    const sessionKill=e.target.closest('[data-owner-session-revoke]');
+    if(sessionCard&&sessionKill){if(confirm('Zakończyć tę sesję?'))await ownerCall({action:'revoke_session',id:sessionCard.dataset.ownerSession});return;}
+
+    const commentCard=e.target.closest('[data-owner-comment]');
+    const commentDelete=e.target.closest('[data-owner-comment-delete]');
+    if(commentCard&&commentDelete){if(confirm('Trwale usunąć ten komentarz?'))await ownerCall({action:'delete_comment',id:commentCard.dataset.ownerComment});return;}
+
+    const chatCard=e.target.closest('[data-owner-chat]');
+    const chatDelete=e.target.closest('[data-owner-chat-delete]');
+    if(chatCard&&chatDelete){if(confirm('Usunąć tę wiadomość czatu?'))await ownerCall({action:'delete_chat',id:chatCard.dataset.ownerChat});return;}
 
     const resetCard=e.target.closest('[data-password-reset]');
     const resetAction=e.target.closest('[data-password-reset-action]');
