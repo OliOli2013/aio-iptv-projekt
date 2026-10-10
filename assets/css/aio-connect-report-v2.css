@@ -1,0 +1,62 @@
+/* AIO Connect Report V2 — 2026-10-10 */
+body.aio-connect-v2 .aio-report-page{max-width:1180px;margin:0 auto;display:grid;gap:18px}
+.aio-connect-v2-hero{
+  position:relative;overflow:hidden;border:1px solid #315f72;border-radius:24px;padding:34px;
+  background:
+    radial-gradient(circle at 88% 8%,rgba(89,220,244,.20),transparent 32%),
+    radial-gradient(circle at 14% 100%,rgba(60,198,146,.14),transparent 30%),
+    linear-gradient(145deg,rgba(14,53,69,.98),rgba(5,20,29,.99));
+  box-shadow:0 26px 76px rgba(0,0,0,.34)
+}
+.aio-connect-v2-kicker{margin:0 0 8px;color:#7eddf2;font-size:.72rem;font-weight:900;letter-spacing:.12em}
+.aio-connect-v2-hero h1{margin:.15rem 0 .75rem;font-size:clamp(2.2rem,4.8vw,4.2rem);line-height:1;letter-spacing:-.05em}
+.aio-connect-v2-hero .lead{max-width:930px;margin:0;color:#c3d9e2;line-height:1.7}
+.aio-connect-v2-badges{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px}
+.aio-connect-v2-badge{display:inline-flex;align-items:center;gap:7px;border:1px solid #315e70;border-radius:999px;padding:7px 11px;background:rgba(5,27,36,.72);color:#c8dce3;font-size:.74rem;font-weight:850}
+.aio-connect-v2-badge.green{border-color:#356d5b;color:#8ce5ba;background:rgba(12,53,43,.72)}
+.aio-connect-v2-panel{border:1px solid #315d70;border-radius:18px;padding:20px;background:linear-gradient(145deg,rgba(11,43,56,.96),rgba(5,23,31,.98));box-shadow:0 18px 55px rgba(0,0,0,.22)}
+.aio-connect-v2-status .aio-report-loading{min-height:110px}
+.aio-connect-v2-status-note{margin-top:10px;color:#8faeba;font-size:.72rem}
+.aio-connect-v2-account.community-account{margin:0}
+.aio-connect-v2-layout{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(300px,.7fr);gap:18px}
+.aio-connect-v2-editor{display:grid;gap:14px}
+.aio-connect-v2-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+.aio-connect-v2-heading h2{margin:.15rem 0}.aio-connect-v2-heading p{margin:4px 0 0;color:#99b5bf;font-size:.78rem}
+.aio-connect-v2 .aio-report-summary{grid-template-columns:repeat(5,minmax(0,1fr));margin:0}
+.aio-connect-v2 .aio-report-summary div{min-width:0}
+.aio-connect-v2-meta{display:flex;flex-wrap:wrap;gap:8px}
+.aio-connect-v2-meta span{display:inline-flex;align-items:center;gap:6px;border:1px solid #315b6c;border-radius:999px;padding:5px 9px;background:#082733;color:#91aeb8;font-size:.66rem}
+.aio-connect-v2-meta strong{color:#dceef3}
+.aio-connect-v2 .aio-field{margin:0}
+.aio-connect-v2 .aio-field textarea{min-height:150px}
+.aio-connect-v2 .aio-field textarea#technical-report{min-height:360px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.76rem;line-height:1.5}
+.aio-connect-v2-actions{display:flex;flex-wrap:wrap;gap:9px}
+.aio-connect-v2-side{display:grid;gap:14px;align-content:start}
+.aio-connect-v2-checks{display:grid;gap:8px}
+.aio-connect-v2-check{display:grid;grid-template-columns:32px 1fr;gap:9px;align-items:start;border:1px solid #315b6c;border-radius:11px;padding:10px;background:#082733}
+.aio-connect-v2-check span{display:grid;width:30px;height:30px;place-items:center;border-radius:9px;background:#103a49}
+.aio-connect-v2-check strong{font-size:.74rem}.aio-connect-v2-check small{display:block;margin-top:3px;color:#8ba9b4;font-size:.64rem;line-height:1.4}
+.aio-connect-v2-expiry{border:1px solid #79612e;border-radius:12px;padding:12px;background:#352a12;color:#f2d680}
+.aio-connect-v2-expiry strong{display:block;margin-bottom:4px}.aio-connect-v2-expiry span{font-size:.72rem;line-height:1.45}
+.aio-connect-v2-privacy{border:1px solid #376778;border-radius:14px;padding:14px;background:linear-gradient(145deg,rgba(17,54,68,.82),rgba(6,26,35,.94))}
+.aio-connect-v2-privacy strong{display:block;color:#8ce5f7;margin-bottom:5px}.aio-connect-v2-privacy p{margin:0;color:#b4cbd3;font-size:.74rem;line-height:1.55}
+.aio-connect-v2-manual{display:grid;gap:10px}
+.aio-connect-v2-manual code{overflow-wrap:anywhere}
+.aio-connect-v2 .aio-report-success{margin-bottom:14px}
+.aio-connect-v2 .aio-report-error{margin:0}
+.aio-connect-v2-note{border:1px solid #6c5b2d;border-radius:14px;padding:14px 16px;background:linear-gradient(145deg,rgba(78,64,20,.47),rgba(6,27,36,.94))}
+.aio-connect-v2-note strong{color:#ffe181}.aio-connect-v2-note p{margin:.3rem 0 0;color:#c9d9df;font-size:.78rem;line-height:1.55}
+@media(max-width:980px){
+  .aio-connect-v2-layout{grid-template-columns:1fr}
+  .aio-connect-v2-side{grid-template-columns:1fr 1fr}
+  .aio-connect-v2 .aio-report-summary{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:700px){
+  .aio-connect-v2-hero{padding:25px 18px}
+  .aio-connect-v2-panel{padding:15px}
+  .aio-connect-v2-heading{flex-direction:column}
+  .aio-connect-v2-side{grid-template-columns:1fr}
+  .aio-connect-v2 .aio-report-summary{grid-template-columns:repeat(2,1fr)}
+  .aio-connect-v2-actions .button{width:100%;text-align:center}
+  .aio-connect-v2 .aio-field textarea#technical-report{min-height:290px}
+}
