@@ -15,8 +15,9 @@
 <link href="assets/css/aio-2026.css?v=20260816-community-first" rel="stylesheet"/>
 <link rel="stylesheet" href="assets/css/content-protection.css?v=20261009-protect1"/>
 <link rel="stylesheet" href="assets/css/aio-header-v2.css?v=20261010-headerv4">
+<link rel="stylesheet" href="assets/css/updates-v2.css?v=20261010-updatesv2">
 </head>
-<body class="aio-header-v2 aio-header-v3 aio-header-v4">
+<body class="aio-header-v2 aio-header-v3 aio-header-v4 aio-updates-v2">
 <a class="skip-link" href="#main-content">Przejdź do treści</a><div class="page-shell">
 <header class="site-header"><div class="brand-row"><a class="brand" href="index.html"><img alt="AIO-IPTV.pl" src="pliki/logo.png"/><span><strong>AIO‑IPTV.pl</strong><small>Enigma2 • IPTV • pomoc</small></span></a><a aria-label="Otwórz Społeczność AIO" class="header-download header-community" href="community.html">Społeczność AIO</a></div><nav aria-label="Główna nawigacja" class="main-nav" data-menu="">
 <a href="index.html">Start</a>
@@ -44,25 +45,117 @@
 </details>
 </nav><button class="mobile-menu" data-menu-toggle="" type="button">Menu</button></header>
 <main class="standalone-main" id="main-content">
-<section class="news-hub-hero"><p class="eyebrow">🔥 NOWOŚCI • AIO IPTV PL</p><h1>Najnowsze aktualizacje projektów</h1><p class="lead">W jednym miejscu znajdziesz nowe wydania wtyczek i aplikacji AIO, najważniejsze zmiany oraz bezpośrednie przejście do pełnego opisu i pobierania.</p><div class="action-row"><a class="button primary" href="skin-aiohd-next.html">AIOHD NEXT 3.2.1</a><a class="button" href="plugin-aio-panel.html">AIO Panel 17.0.0</a><a class="button" href="downloads.html">Centrum pobierania</a></div></section>
-<section class="module"><div class="section-heading"><div><p class="eyebrow">Ostatnie duże wydania</p><h2>Aktualnie wyróżnione projekty</h2></div><a href="#historia">Pełna historia ↓</a></div><div class="news-feature-grid"><a class="news-feature-card latest" href="plugin-simple-iptv-epg.html"><img alt="Simple IPTV EPG 3.1.0 r1" src="pliki/simple-iptv-epg-3.1.0-r1.png"/><div><span class="news-kicker">AKTUALIZACJA • 09.10.2026</span><h2>Simple IPTV EPG 3.1.0 r1</h2><p>Lepszy import EPG dla IPTV, mapowanie BouquetMakerXtream/XMLTV, poprawione eEPGCache, GZIP i diagnostyka.</p><span class="news-date">Zobacz aktualizację →</span></div></a><a class="news-feature-card" href="plugin-e2-security.html"><img src="pliki/e2-security-interface-1.1.0.jpg" alt="E2 Security — podgląd interfejsu"/><div><span class="news-kicker">NOWY PROJEKT • 05.10.2026</span><h2>E2 Security 1.1.1</h2><p>Ochrona sieciowa tunera Enigma2: zapora IPv4/IPv6, profile DOM, ZAUFANE i LOCKDOWN, audyt oraz ochrona logowania SSH. Python 2/3, interfejs PL/EN.</p><span class="news-date">Poznaj wtyczkę i pobierz IPK →</span></div></a><a class="news-feature-card" href="plugin-aio-panel.html"><img alt="AIO Panel 17.0.0" src="pliki/aio-panel-17.0.0.png"/><div><span class="news-kicker">04.10.2026</span><h2>AIO Panel 17.0.0</h2><p>Nowe wtyczki, dodatki i skórki, weryfikacja list kanałów oraz usprawnione aktualizacje i instalatory. Interfejs PL/EN, Python 2.7 i Python 3.</p><span class="news-date">Zobacz aktualizację →</span></div></a>
-<a class="news-feature-card" href="skin-aiohd-next.html"><img alt="AIOHD NEXT 3.2.1" src="pliki/aiohd-next-3.2.1-channel-list.jpg"/><div><span class="news-kicker">NOWY PROJEKT • 14.09.2026</span><h3>AIOHD NEXT 3.2.1</h3><p>MiniTV, 3 rozmiary listy kanałów, pogoda inline, palety Aurora / Amber / Violet, rozbudowany InfoBar i EPG z czterema kolejnymi audycjami.</p><span class="news-date">Zobacz projekt i pobierz IPK →</span></div></a>
-<a class="news-feature-card" href="plugin-iptv-dream.html"><img alt="IPTV Dream 8.0.1" src="pliki/iptv-dream-8.0.1.png"/><div><span class="news-kicker">07.09.2026</span><h3>IPTV Dream 8.0.1</h3><p>Poprawiony eksport kanałów bez N/A, M3U/Xtream/MAC i MAC/Stalker, WebIF, EPG i instalator.</p><span class="news-date">Zobacz aktualizację →</span></div></a>
-</div></section>
-<section class="module" id="historia"><div class="section-heading"><div><p class="eyebrow">Historia wydań</p><h2>Wszystkie aktualizacje</h2></div><span class="news-date" id="newsCount">Ładowanie…</span></div><div class="news-timeline" id="newsTimeline"><div class="news-empty">Ładowanie historii aktualizacji…</div></div><noscript><p class="news-empty">Do automatycznego wyświetlenia historii wymagany jest JavaScript. Najnowsze wydania są dostępne powyżej.</p></noscript></section>
+
+<section class="updates-v2-hero">
+  <div class="updates-v2-hero-copy">
+    <p class="updates-v2-kicker">HISTORIA WYDAŃ • AIO IPTV PL</p>
+    <h1>Aktualizacje bez zgadywania.</h1>
+    <p>Jedna uporządkowana historia nowych wersji wtyczek, aplikacji, skinów i narzędzi AIO. Najnowsze wydania są na górze, a starsze możesz szybko wyszukać lub przefiltrować.</p>
+    <div class="updates-v2-actions">
+      <a class="updates-v2-btn primary" href="#najnowsze">Najnowsze wydania</a>
+      <a class="updates-v2-btn" href="#historia">Pełna historia</a>
+      <a class="updates-v2-btn" href="downloads.html">Centrum pobierania</a>
+    </div>
+  </div>
+
+  <div class="updates-v2-summary">
+    <div><b>40</b><strong>wpisów w historii</strong><span>Dane pobierane z data/updates.json.</span></div>
+    <div><b>09.10</b><strong>najnowsze wydanie</strong><span>Simple IPTV EPG 3.1.0 r1.</span></div>
+    <div><b>3</b><strong>wyróżnione projekty</strong><span>Najnowsze aktualizacje na pierwszym ekranie.</span></div>
+    <div><b>1</b><strong>spójna historia</strong><span>Wyszukiwanie i filtry bez przekopywania strony.</span></div>
+  </div>
+</section>
+
+<section class="updates-v2-featured" id="najnowsze">
+  <div class="updates-v2-section-head">
+    <div>
+      <p class="updates-v2-kicker">ZWERYFIKOWANE NAJNOWSZE WYDANIA</p>
+      <h2>Ostatnie duże aktualizacje</h2>
+      <p>Kolejność zgodna z historią projektu i aktualnymi wpisami w repozytoriach.</p>
+    </div>
+    <a href="#historia">Pełna historia ↓</a>
+  </div>
+
+  <div class="updates-v2-feature-grid">
+    <a class="updates-v2-feature lead" href="plugin-simple-iptv-epg.html">
+      <div class="updates-v2-feature-media">
+        <span class="updates-v2-badge">Najnowsza aktualizacja</span>
+        <img src="pliki/simple-iptv-epg-3.1.0-r1.png" alt="Simple IPTV EPG 3.1.0 r1" loading="lazy">
+      </div>
+      <div class="updates-v2-feature-body">
+        <span class="updates-v2-meta">09.10.2026 • EPG / IPTV</span>
+        <h3>Simple IPTV EPG 3.1.0 r1</h3>
+        <p>Lepsze mapowanie BouquetMakerXtream/XMLTV, stabilniejsze eEPGCache, GZIP i rozbudowana diagnostyka.</p>
+        <span class="updates-v2-feature-cta">Zobacz aktualizację →</span>
+      </div>
+    </a>
+
+    <a class="updates-v2-feature" href="plugin-e2-security.html">
+      <div class="updates-v2-feature-media">
+        <span class="updates-v2-badge">Nowy projekt</span>
+        <img src="pliki/e2-security-interface-1.1.0.jpg" alt="E2 Security 1.1.1" loading="lazy">
+      </div>
+      <div class="updates-v2-feature-body">
+        <span class="updates-v2-meta">05.10.2026 • Bezpieczeństwo</span>
+        <h3>E2 Security 1.1.1</h3>
+        <p>Zapora IPv4/IPv6, profile ochrony, audyt tunera i ochrona logowania SSH.</p>
+        <span class="updates-v2-feature-cta">Poznaj projekt →</span>
+      </div>
+    </a>
+
+    <a class="updates-v2-feature" href="plugin-aio-panel.html">
+      <div class="updates-v2-feature-media">
+        <span class="updates-v2-badge">Aktualizacja</span>
+        <img src="pliki/aio-panel-17.0.0.png" alt="AIO Panel 17.0.0" loading="lazy">
+      </div>
+      <div class="updates-v2-feature-body">
+        <span class="updates-v2-meta">04.10.2026 • AIO Panel</span>
+        <h3>AIO Panel 17.0.0</h3>
+        <p>Nowe dodatki i skórki, weryfikacja list kanałów oraz poprawione aktualizacje i instalatory.</p>
+        <span class="updates-v2-feature-cta">Zobacz zmiany →</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<section class="updates-v2-history" id="historia">
+  <div class="updates-v2-section-head">
+    <div>
+      <p class="updates-v2-kicker">PEŁNA HISTORIA</p>
+      <h2>Znajdź konkretną wersję</h2>
+      <p>Wyszukiwanie obejmuje nazwę projektu, wersję, opis zmian i tagi.</p>
+    </div>
+  </div>
+
+  <div class="updates-v2-controls">
+    <div class="updates-v2-search">
+      <span>⌕</span>
+      <input id="updatesV2Search" type="search" autocomplete="off" placeholder="Np. AIO Panel 17, EPG, IPTV Dream, Android…">
+      <button id="updatesV2Reset" type="button">Wyczyść</button>
+    </div>
+    <div class="updates-v2-count"><strong id="updatesV2Count">0</strong> pasujących wpisów</div>
+  </div>
+
+  <div class="updates-v2-filters" aria-label="Filtr aktualizacji">
+    <button class="updates-v2-filter active" type="button" data-updates-v2-filter="all">Wszystkie</button>
+    <button class="updates-v2-filter" type="button" data-updates-v2-filter="aio">AIO Panel</button>
+    <button class="updates-v2-filter" type="button" data-updates-v2-filter="iptv">IPTV / EPG</button>
+    <button class="updates-v2-filter" type="button" data-updates-v2-filter="skin">Skiny</button>
+    <button class="updates-v2-filter" type="button" data-updates-v2-filter="apps">Aplikacje</button>
+    <button class="updates-v2-filter" type="button" data-updates-v2-filter="tools">Narzędzia</button>
+  </div>
+
+  <div class="updates-v2-list" id="updatesV2List">
+    <div class="updates-v2-empty">Ładowanie historii aktualizacji…</div>
+  </div>
+  <noscript><p class="updates-v2-empty">Do automatycznego wyświetlenia historii wymagany jest JavaScript.</p></noscript>
+</section>
+
 </main>
 <footer class="site-footer"><div><strong>AIO‑IPTV.pl</strong><span>Profesjonalne centrum projektów Enigma2 by Paweł Pawełek.</span></div><nav><a href="updates.html">🔥 Nowości</a><a href="news.html">Aktualności</a><a href="community.html">Społeczność</a><a href="plugins.html">Wtyczki</a><a href="downloads.html">Pobieranie</a><a href="contact.html">Kontakt</a></nav><p>© <span id="year"></span> Paweł Pawełek • <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></p></footer></div>
-<script>
-(function(){
- const routes=[['simple iptv epg','plugin-simple-iptv-epg.html'],['nagrania on demand','plugin-nagrania-on-demand.html'],['neoradio','plugin-neoradio.html'],['iptv dream','plugin-iptv-dream.html'],['aio panel remote','app-aio-panel-remote.html'],['aio panel','plugin-aio-panel.html'],['pp channel sync','plugin-pp-channel-sync.html'],['e2 doctor','plugin-e2-doctor.html'],['picon updater','plugin-picon-updater.html'],['myupdater','plugin-myupdater.html'],['cambridge pl','android-apps.html']];
- function route(item){if(item.url)return item.url;const t=(item.title||'').toLowerCase();for(const r of routes)if(t.includes(r[0]))return r[1];return 'plugins.html';}
- function fmtDate(s){if(!s)return '';const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s);return m?`${m[3]}.${m[2]}.${m[1]}`:s;}
- function render(items){const root=document.getElementById('newsTimeline'),count=document.getElementById('newsCount');root.textContent='';count.textContent=items.length+' wpisów';items.forEach((item,i)=>{const card=document.createElement('article');card.className='news-update-card';const head=document.createElement('div');head.className='news-update-head';const h=document.createElement('h3');h.textContent=(i===0?'🔥 ':'')+(item.title||'Aktualizacja');const tm=document.createElement('time');tm.dateTime=item.date||'';tm.textContent=fmtDate(item.date);head.append(h,tm);card.appendChild(head);const details=document.createElement('details');if(i<2)details.open=true;const summary=document.createElement('summary');summary.textContent='Najważniejsze zmiany';const p=document.createElement('p');p.className='news-update-details';p.textContent=item.details||'Brak dodatkowego opisu.';details.append(summary,p);card.appendChild(details);const actions=document.createElement('div');actions.className='news-update-actions';const a=document.createElement('a');a.className='button';a.href=route(item);a.textContent='Zobacz projekt / aktualizację';actions.appendChild(a);const d=document.createElement('a');d.className='button';d.href='downloads.html';d.textContent='Pobieranie';actions.appendChild(d);card.appendChild(actions);root.appendChild(card);});}
- fetch('data/updates.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}).then(render).catch(()=>{document.getElementById('newsTimeline').innerHTML='<div class="news-empty">Nie udało się wczytać historii. Skorzystaj z wyróżnionych projektów powyżej lub odśwież stronę.</div>';document.getElementById('newsCount').textContent='';});
-})();
-</script>
 <script defer="" src="assets/js/user-premium.js?v=20260816-community-first"></script><script defer="" src="assets/js/pro-suite.js?v=20260815-news1"></script>
 <script defer="" src="assets/js/aio-experience.js?v=20261008-cloudflare-clean1"></script>
 <script defer src="assets/js/content-protection.js?v=20261009-protect1"></script>
 <script defer src="assets/js/aio-header-v2.js?v=20261010-headerv4"></script>
+<script defer src="assets/js/updates-v2.js?v=20261010-updatesv2"></script>
 </body></html>
