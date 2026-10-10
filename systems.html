@@ -13,9 +13,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/user-premium.css?v=20260714-v7">
 <script src="assets/js/auto-language.js?v=20260729-auto-en1"></script><link rel="stylesheet" href="assets/css/aio-2026.css?v=20260816-community-first"/>
+<link rel="stylesheet" href="assets/css/aio-systems-v2.css?v=20261010-systemsv2"/>
 <link rel="stylesheet" href="assets/css/content-protection.css?v=20261009-protect1"/>
 </head>
-<body>
+<body class="aio-systems-v2">
   <a class="skip-link" href="#main-content">Przejdź do treści</a>
   <div class="page-shell">
     <header class="site-header">
@@ -59,6 +60,60 @@
       </aside>
 
       <main class="content-main" id="main-content">
+<section class="systems-v2-hero">
+  <p class="systems-v2-kicker">SYSTEMY ENIGMA2 • AIO-IPTV.PL</p>
+  <h1>Wybierz właściwy system dla swojego tunera.</h1>
+  <p class="systems-v2-lead">Najpierw wybierz markę i model albo wpisz nazwę tunera. Zobaczysz tylko pasujące gotowe paczki Multi‑Click wraz z właściwą instrukcją instalacji.</p>
+
+  <div class="systems-v2-search">
+    <span>⌕</span>
+    <input id="systemsV2Search" type="search" autocomplete="off" placeholder="Np. H7S, H9 Twin, SF8008, Ustym…">
+    <button id="systemsV2Reset" type="button">Wyczyść</button>
+  </div>
+
+  <div class="systems-v2-picker">
+    <div class="systems-v2-picker-box">
+      <strong>1. Producent</strong>
+      <div class="systems-v2-chips">
+        <button class="systems-v2-chip" type="button" data-sv2-brand="Zgemma">Zgemma</button>
+        <button class="systems-v2-chip" type="button" data-sv2-brand="Octagon">Octagon</button>
+        <button class="systems-v2-chip" type="button" data-sv2-brand="Ustym">Ustym</button>
+      </div>
+    </div>
+
+    <div class="systems-v2-picker-box">
+      <strong>2. Model / seria</strong>
+      <div class="systems-v2-chips">
+        <button class="systems-v2-chip" type="button" data-sv2-model="H7">H7</button>
+        <button class="systems-v2-chip" type="button" data-sv2-model="H8">H8</button>
+        <button class="systems-v2-chip" type="button" data-sv2-model="H9">H9</button>
+        <button class="systems-v2-chip" type="button" data-sv2-model="H11">H11</button>
+        <button class="systems-v2-chip" type="button" data-sv2-model="H17">H17</button>
+        <button class="systems-v2-chip" type="button" data-sv2-model="SF8008">SF8008</button>
+        <button class="systems-v2-chip" type="button" data-sv2-model="SX V2">SX V2</button>
+        <button class="systems-v2-chip" type="button" data-sv2-model="4K Pro">4K Pro</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="systems-v2-actions">
+    <button class="systems-v2-action primary" id="systemsV2Show" type="button">Pokaż pasujące systemy</button>
+    <button class="systems-v2-action" id="systemsV2OpenVisible" type="button">Rozwiń instrukcje pasujących</button>
+    <button class="systems-v2-action" id="systemsV2CloseAll" type="button">Zwiń instrukcje</button>
+    <a class="systems-v2-action" href="#czyste-systemy">Nie ma mojego modelu? Czyste image ↓</a>
+  </div>
+
+  <div class="systems-v2-result">
+    <span>Pasujące gotowe paczki:</span><strong id="systemsV2Count">12</strong>
+    <em>Każda karta prowadzi do pliku i instrukcji dla konkretnego modelu.</em>
+  </div>
+
+  <div class="systems-v2-no-results" id="systemsV2NoResults">
+    Nie ma gotowej paczki Multi‑Click odpowiadającej temu wyszukiwaniu.
+    Sprawdź <a href="#czyste-systemy">czyste systemy image</a> albo usuń część filtrów.
+  </div>
+</section>
+
         <section class="hero-compact">
           <div>
             <p class="script-line">Witam na mojej stronie <span>Paweł Pawełek</span></p>
@@ -152,7 +207,14 @@
         </section>
 
         <section class="module" id="czyste-systemy">
-          <h2>Czyste systemy image</h2>
+          <div class="systems-v2-clean-head"><h2>Czyste systemy image</h2><div class="systems-v2-clean-links" aria-label="Szybki wybór czystego image">
+  <button class="systems-v2-clean-pick" type="button" data-sv2-clean="OpenATV">OpenATV</button>
+  <button class="systems-v2-clean-pick" type="button" data-sv2-clean="OpenPLi">OpenPLi</button>
+  <button class="systems-v2-clean-pick" type="button" data-sv2-clean="OpenViX">OpenViX</button>
+  <button class="systems-v2-clean-pick" type="button" data-sv2-clean="OpenBH">OpenBH</button>
+  <button class="systems-v2-clean-pick" type="button" data-sv2-clean="VTI">VTi</button>
+  <button class="systems-v2-clean-pick" type="button" data-sv2-clean="Egami">Egami</button>
+</div></div>
           <p>W tej sekcji znajdują się odnośniki do stron pobierania czystych obrazów. Przed pobraniem wybierz dokładny model tunera.</p>
           <div class="choice-grid three">
             <a class="choice-card" href="https://www.opena.tv/app.php/atv_images" target="_blank" rel="noopener"><span class="card-icon">🌍</span><strong>OpenATV</strong><p>Bardzo rozbudowany system z częstymi aktualizacjami i szeroką obsługą tunerów.</p><em>Oficjalne obrazy</em></a>
@@ -185,6 +247,7 @@
   </div>
   <script src="assets/js/user-premium.js?v=20260816-community-first" defer></script>
 <script defer src="assets/js/aio-experience.js?v=20261008-cloudflare-clean1"></script>
+<script defer src="assets/js/aio-systems-v2.js?v=20261010-systemsv2"></script>
 <script defer src="assets/js/content-protection.js?v=20261009-protect1"></script>
 </body>
 </html>
