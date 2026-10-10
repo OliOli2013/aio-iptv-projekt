@@ -25,16 +25,16 @@ const DESC=[
   {re:/opencamview/i, kind:'Kamery IP', icon:'CV', image:'pliki/1.png', desc:'Podgląd kamer IP / RTSP bezpośrednio na tunerze Enigma2.'},
   {re:/dreamosatx\s*signal/i, kind:'Sygnał SAT', icon:'DS', image:'pliki/dreamosatx-signal-2.0-pl.jpg', desc:'Narzędzie do monitorowania sygnału, transponderów i ustawiania anteny / obrotnicy.'},
   {re:/nagrania\s*on\s*demand/i, kind:'Multimedia / VOD', icon:'ND', image:'pliki/nagrania-on-demand-3.0.0-main.png', desc:'Obsługa biblioteki nagrań i materiałów na HDD/USB, EPG, timerów i plików Enigma2.', aio:true},
-  {re:/picon\s*updater/i, kind:'Picony / grafika', icon:'PI', image:'pliki/logo.png', logo:true, desc:'Pobieranie i aktualizacja piconów oraz szybkie wdrożenie ich do Enigma2.'},
-  {re:/myupdater/i, kind:'Updater', icon:'MU', image:'pliki/logo.png', logo:true, desc:'Updater list kanałów, piconów, softcamów i podstawowych narzędzi serwisowych.'},
+  {re:/picon\s*updater/i, kind:'Picony / grafika', icon:'PI', image:'pliki/logo.png?v=20261010-logo2', logo:true, desc:'Pobieranie i aktualizacja piconów oraz szybkie wdrożenie ich do Enigma2.'},
+  {re:/myupdater/i, kind:'Updater', icon:'MU', image:'pliki/logo.png?v=20261010-logo2', logo:true, desc:'Updater list kanałów, piconów, softcamów i podstawowych narzędzi serwisowych.'},
   {re:/skin|glass|jihad|aiohd|full\s*hd/i, kind:'Skins / wygląd', icon:'SK', image:'pliki/aiohd-next-3.2.1-channel-list.jpg', desc:'Skin lub motyw graficzny zmieniający wygląd Enigma2 — listy kanałów, InfoBar, EPG i ogólną czytelność interfejsu.', aio:true},
-  {re:/dodatki\s*systemowe/i, kind:'Dodatki systemowe', icon:'DS', image:'pliki/logo.png', logo:true, desc:'Pakiet dodatkowych narzędzi systemowych, m.in. StreamlinkProxy, ServiceApp i SoftCam Feed.'},
-  {re:/tv\s*garden/i, kind:'TV / Webcams', icon:'TV', image:'pliki/logo.png', logo:true, desc:'Kanały telewizyjne i kamery internetowe z różnych krajów i kategorii w jednej wtyczce.'},
-  {re:/xstreamity|xstremity/i, kind:'IPTV Xtream', icon:'XT', image:'pliki/logo.png', logo:true, desc:'Obsługa usług opartych o Xtream Codes / XUI z kategoriami LIVE, VOD i seriali.'},
-  {re:/e2iplayer|iptvplayer/i, kind:'Multimedia / VOD', icon:'VO', image:'pliki/logo.png', logo:true, desc:'Dostęp do serwisów VOD i materiałów online bezpośrednio z poziomu tunera Enigma2.'},
-  {re:/cccam|icam|oscam|softcam/i, kind:'Cam / narzędzia', icon:'CA', image:'pliki/logo.png', logo:true, desc:'Narzędzie związane z CAM, iCAM, OSCam lub dodatkowymi funkcjami środowiska tunera.'},
-  {re:/picon/i, kind:'Picony / grafika', icon:'PI', image:'pliki/logo.png', logo:true, desc:'Pakiet lub narzędzie związane z piconami, czyli ikonami kanałów.'},
-  {re:/bouquet|lista|channel\s*editor|channel/i, kind:'Listy kanałów', icon:'LI', image:'pliki/logo.png', logo:true, desc:'Narzędzie związane z listami kanałów, bukietami i ich aktualizacją.'}
+  {re:/dodatki\s*systemowe/i, kind:'Dodatki systemowe', icon:'DS', image:'pliki/logo.png?v=20261010-logo2', logo:true, desc:'Pakiet dodatkowych narzędzi systemowych, m.in. StreamlinkProxy, ServiceApp i SoftCam Feed.'},
+  {re:/tv\s*garden/i, kind:'TV / Webcams', icon:'TV', image:'pliki/logo.png?v=20261010-logo2', logo:true, desc:'Kanały telewizyjne i kamery internetowe z różnych krajów i kategorii w jednej wtyczce.'},
+  {re:/xstreamity|xstremity/i, kind:'IPTV Xtream', icon:'XT', image:'pliki/logo.png?v=20261010-logo2', logo:true, desc:'Obsługa usług opartych o Xtream Codes / XUI z kategoriami LIVE, VOD i seriali.'},
+  {re:/e2iplayer|iptvplayer/i, kind:'Multimedia / VOD', icon:'VO', image:'pliki/logo.png?v=20261010-logo2', logo:true, desc:'Dostęp do serwisów VOD i materiałów online bezpośrednio z poziomu tunera Enigma2.'},
+  {re:/cccam|icam|oscam|softcam/i, kind:'Cam / narzędzia', icon:'CA', image:'pliki/logo.png?v=20261010-logo2', logo:true, desc:'Narzędzie związane z CAM, iCAM, OSCam lub dodatkowymi funkcjami środowiska tunera.'},
+  {re:/picon/i, kind:'Picony / grafika', icon:'PI', image:'pliki/logo.png?v=20261010-logo2', logo:true, desc:'Pakiet lub narzędzie związane z piconami, czyli ikonami kanałów.'},
+  {re:/bouquet|lista|channel\s*editor|channel/i, kind:'Listy kanałów', icon:'LI', image:'pliki/logo.png?v=20261010-logo2', logo:true, desc:'Narzędzie związane z listami kanałów, bukietami i ich aktualizacją.'}
 ];
 
 function infer(title,text){
@@ -43,7 +43,7 @@ function infer(title,text){
   return {
     kind:'Wtyczka Enigma2',
     icon:'PL',
-    image:'pliki/logo.png',
+    image:'pliki/logo.png?v=20261010-logo2',
     logo:true,
     desc:'Wtyczka dla Enigma2. Otwórz kartę, aby sprawdzić szczegóły działania, zgodność i sposób instalacji.',
     aio:/aio/i.test(title)
@@ -94,7 +94,7 @@ function annotate(){
       img.decoding='async';
       img.addEventListener('error',()=>{
         thumb.classList.add('is-logo');
-        if(img.src.indexOf('/pliki/logo.png')===-1) img.src='pliki/logo.png';
+        if(img.src.indexOf('/pliki/logo.png?v=20261010-logo2')===-1) img.src='pliki/logo.png?v=20261010-logo2';
       },{once:true});
       thumb.appendChild(img);
       card.insertBefore(thumb,card.firstChild);

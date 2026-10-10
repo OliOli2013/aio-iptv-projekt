@@ -15,7 +15,7 @@
     sidebar.innerHTML = `
       <div class="logo-block">
         <a class="brand" href="index.html" aria-label="AIO‑IPTV.pl">
-          <img src="pliki/logo.png" alt="AIO‑IPTV.pl" />
+          <img src="pliki/logo.png?v=20261010-logo2" alt="AIO‑IPTV.pl" />
           <div>
             <div class="t1">AIO‑IPTV.pl</div>
             <div class="t2">Enigma2 • IPTV • Tools</div>
