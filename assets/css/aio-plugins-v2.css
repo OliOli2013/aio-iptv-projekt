@@ -22,3 +22,54 @@ body.aio-plugins-v2{
 .aio-plugins-v2 .plugin-v2-mini{display:flex;align-items:center;gap:12px;margin:0 0 12px}.aio-plugins-v2 .plugin-v2-icon{width:54px;height:54px;flex:0 0 54px;display:grid;place-items:center;border:1px solid rgba(109,220,255,.18);border-radius:14px;background:linear-gradient(135deg,#0b3341,#071f29);color:#70ddff;font-size:1.35rem;font-weight:900}.aio-plugins-v2 .plugin-v2-mini-text strong{display:block;color:#eefaff;font-size:.76rem;line-height:1.2}.aio-plugins-v2 .plugin-v2-mini-text span{display:block;color:#6fdcff;font-size:.64rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase;margin-top:4px}
 .aio-plugins-v2 .plugin-v2-summary{margin:10px 0 0;padding:10px 12px;border-left:3px solid rgba(109,220,255,.35);border-radius:10px;background:rgba(255,255,255,.028);color:#94b0bb;font-size:.82rem;line-height:1.55}.aio-plugins-v2 .plugin-v2-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.aio-plugins-v2 .plugin-v2-tag{display:inline-flex;min-height:24px;padding:0 8px;border-radius:999px;border:1px solid rgba(255,255,255,.08);background:#092c38;color:#afc8d1;font-size:.65rem;font-weight:800;align-items:center}.aio-plugins-v2 .plugin-v2-tag.aio{border-color:rgba(87,225,177,.22);background:rgba(56,181,140,.12);color:#b8f1de}.aio-plugins-v2 .plugin-v2-tag.kind{border-color:rgba(112,221,255,.20);color:#b8eefd}.aio-plugins-v2 .plugin-v2-tag.py{border-color:rgba(255,215,91,.18);color:#ffe39a}
 @media(max-width:900px){.plugins-v2-legend{grid-template-columns:1fr}}@media(max-width:700px){.aio-plugins-v2 .standalone-main,.aio-plugins-v2 .content-layout{width:calc(100% - 12px)}.plugins-v2-hero{padding:22px 15px;border-radius:15px}.plugins-v2-search{min-height:59px;padding-inline:12px;grid-template-columns:auto 1fr}.plugins-v2-search button{display:none}.plugins-v2-actions{display:grid}.plugins-v2-action{width:100%}.plugins-v2-result{flex-wrap:wrap}.plugins-v2-result em{width:100%;margin-left:0}.plugins-v2-helpbar .plugins-v2-result{width:100%;margin-left:0}}
+
+/* AIO Plugins V2.1 — real thumbnails + scoped card styling */
+body.aio-plugins-v2 .plugin-v2-thumb{
+  position:relative;
+  overflow:hidden;
+  width:100%;
+  aspect-ratio:16/9;
+  margin:0 0 12px;
+  border:1px solid rgba(109,220,255,.15);
+  border-radius:12px;
+  background:#041821;
+}
+body.aio-plugins-v2 .plugin-v2-thumb img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+}
+body.aio-plugins-v2 .plugin-v2-thumb.is-logo img{
+  object-fit:contain;
+  padding:16px;
+  background:linear-gradient(135deg,#062631,#0a3341);
+}
+body.aio-plugins-v2 .plugin-v2-thumb::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(180deg,transparent 60%,rgba(3,20,28,.26));
+}
+body.aio-plugins-v2 .plugin-v2-mini{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:0 0 10px;
+}
+body.aio-plugins-v2 .plugin-v2-icon{
+  width:42px;
+  height:42px;
+  flex:0 0 42px;
+  font-size:.82rem;
+  border-radius:11px;
+}
+body.aio-plugins-v2 .choice-grid .choice-card{
+  align-content:start;
+}
+@media(max-width:700px){
+  body.aio-plugins-v2 .plugin-v2-thumb{
+    aspect-ratio:16/8.5;
+  }
+}
