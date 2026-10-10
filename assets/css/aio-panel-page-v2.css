@@ -1,0 +1,93 @@
+/* AIO Panel project page V2 — 2026-10-10 */
+body.aio-panel-page-v2 .content-main{display:grid;gap:18px}
+.aio-panel-v2-hero{
+  position:relative;overflow:hidden;border:1px solid #315f72;border-radius:24px;padding:30px;
+  background:
+    radial-gradient(circle at 88% 8%,rgba(89,220,244,.20),transparent 32%),
+    radial-gradient(circle at 12% 100%,rgba(60,198,146,.13),transparent 30%),
+    linear-gradient(145deg,rgba(14,53,69,.98),rgba(5,20,29,.99));
+  box-shadow:0 26px 76px rgba(0,0,0,.34)
+}
+.aio-panel-v2-hero-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(320px,.92fr);gap:26px;align-items:center}
+.aio-panel-v2-kicker{margin:0 0 8px;color:#7eddf2;font-size:.72rem;font-weight:900;letter-spacing:.12em}
+.aio-panel-v2-hero h1{margin:.15rem 0 .75rem;font-size:clamp(2.35rem,5vw,4.5rem);line-height:.98;letter-spacing:-.055em}
+.aio-panel-v2-hero .lead{margin:0;color:#c3d9e2;line-height:1.7;max-width:780px}
+.aio-panel-v2-badges{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}
+.aio-panel-v2-badge{display:inline-flex;align-items:center;gap:6px;border:1px solid #315e70;border-radius:999px;padding:7px 10px;background:rgba(5,27,36,.72);color:#c8dce3;font-size:.7rem;font-weight:850}
+.aio-panel-v2-badge.green{border-color:#356d5b;color:#8ce5ba;background:rgba(12,53,43,.72)}
+.aio-panel-v2-actions{display:flex;flex-wrap:wrap;gap:9px}
+.aio-panel-v2-visual{position:relative}
+.aio-panel-v2-visual a{display:block}
+.aio-panel-v2-visual img{display:block;width:100%;border-radius:18px;border:1px solid #3c6d80;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.aio-panel-v2-visual figcaption{margin-top:7px;color:#86a7b4;font-size:.68rem;text-align:center}
+.aio-panel-v2-release{
+  position:absolute;right:12px;top:12px;border:1px solid #4a7a8f;border-radius:12px;padding:8px 10px;
+  background:rgba(4,22,30,.88);backdrop-filter:blur(8px);color:#d9edf3;font-size:.68rem;font-weight:900
+}
+.aio-panel-v2-nav{
+  display:flex;gap:8px;overflow:auto;padding:4px 1px 2px;scrollbar-width:thin
+}
+.aio-panel-v2-nav a{
+  flex:0 0 auto;border:1px solid #315c6e;border-radius:999px;padding:7px 10px;background:#0a2b39;color:#cce5ec;
+  font-size:.7rem;font-weight:850
+}
+.aio-panel-v2-nav a:hover,.aio-panel-v2-nav a.is-active{border-color:#6eddf7;background:#103848;color:#e9fbff}
+.aio-panel-v2-panel{border:1px solid #315d70;border-radius:18px;padding:20px;background:linear-gradient(145deg,rgba(11,43,56,.96),rgba(5,23,31,.98));box-shadow:0 18px 55px rgba(0,0,0,.22)}
+.aio-panel-v2-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:14px}
+.aio-panel-v2-heading h2{margin:.15rem 0}.aio-panel-v2-heading p{margin:4px 0 0;color:#99b5bf;font-size:.78rem}
+.aio-panel-v2-highlight{
+  border-color:#376f5c;background:
+    radial-gradient(circle at 95% 0,rgba(93,220,169,.11),transparent 35%),
+    linear-gradient(145deg,rgba(10,48,40,.95),rgba(5,24,31,.98))
+}
+.aio-panel-v2-highlight-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,.55fr);gap:16px;align-items:start}
+.aio-panel-v2-highlight .big-number{font-size:clamp(2.5rem,6vw,5rem);font-weight:900;line-height:1;color:#8de2ba;letter-spacing:-.06em}
+.aio-panel-v2-highlight ul{margin:.7rem 0 0;padding-left:1.2rem;color:#bfd2d8}
+.aio-panel-v2-highlight li{margin:.45rem 0;line-height:1.5}
+.aio-panel-v2-feature-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.aio-panel-v2-feature{border:1px solid #315b6c;border-radius:13px;padding:13px;background:#082733}
+.aio-panel-v2-feature span{display:grid;width:38px;height:38px;place-items:center;border-radius:11px;background:#103947;font-size:1.15rem;margin-bottom:9px}
+.aio-panel-v2-feature h3{margin:0 0 5px;font-size:.82rem}
+.aio-panel-v2-feature p{margin:0;color:#95b0ba;font-size:.72rem;line-height:1.5}
+.aio-panel-v2-changes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.aio-panel-v2-change{display:grid;grid-template-columns:24px 1fr;gap:8px;border:1px solid #2f5969;border-radius:11px;padding:11px;background:#082733;color:#b8cdd5;font-size:.74rem;line-height:1.5}
+.aio-panel-v2-change b{display:grid;width:22px;height:22px;place-items:center;border-radius:50%;background:#123e32;color:#8de2ba;font-size:.7rem}
+.aio-panel-v2-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.aio-panel-v2-fact{border:1px solid #315b6c;border-radius:11px;padding:11px;background:#082733}
+.aio-panel-v2-fact span{display:block;color:#7fa4b1;font-size:.62rem;font-weight:900;text-transform:uppercase;margin-bottom:4px}
+.aio-panel-v2-fact strong,.aio-panel-v2-fact code{display:block;color:#dceef3;font-size:.75rem;overflow-wrap:anywhere}
+.aio-panel-v2-sha{grid-column:1/-1}
+.aio-panel-v2-copy-row{display:flex;gap:8px;align-items:flex-start}
+.aio-panel-v2-copy-row code{flex:1}
+.aio-panel-v2-copy-row button{flex:0 0 auto}
+.aio-panel-v2-install-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.aio-panel-v2-tab{border:1px solid #315c6e;border-radius:999px;padding:7px 10px;background:#0a2b39;color:#cce5ec;cursor:pointer;font:inherit;font-size:.7rem;font-weight:850}
+.aio-panel-v2-tab.is-active{border-color:#6eddf7;background:#103848;color:#e9fbff}
+.aio-panel-v2-install-panel[hidden]{display:none!important}
+.aio-panel-v2-install-panel .command{margin:0}
+.aio-panel-v2-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-top:12px}
+.aio-panel-v2-step{border:1px solid #315b6c;border-radius:11px;padding:11px;background:#082733}
+.aio-panel-v2-step b{display:grid;width:28px;height:28px;place-items:center;border-radius:9px;background:#103b4b;color:#91e3f4;margin-bottom:7px}
+.aio-panel-v2-step strong{display:block;font-size:.73rem;margin-bottom:3px}.aio-panel-v2-step small{color:#8eaab5;font-size:.64rem;line-height:1.4}
+.aio-panel-v2-related{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.aio-panel-v2-related a{display:grid;grid-template-columns:36px 1fr;gap:9px;align-items:center;border:1px solid #315b6c;border-radius:12px;padding:11px;background:#082733}
+.aio-panel-v2-related a:hover{border-color:#6eddf7;transform:translateY(-1px)}
+.aio-panel-v2-related span{font-size:1.05rem}.aio-panel-v2-related strong{font-size:.74rem}.aio-panel-v2-related small{display:block;margin-top:2px;color:#89a8b4;font-size:.62rem}
+.aio-panel-v2-note{border:1px solid #6c5b2d;border-radius:14px;padding:14px 16px;background:linear-gradient(145deg,rgba(78,64,20,.47),rgba(6,27,36,.94))}
+.aio-panel-v2-note strong{color:#ffe181}.aio-panel-v2-note p{margin:.3rem 0 0;color:#c9d9df;font-size:.76rem;line-height:1.55}
+@media(max-width:1050px){
+  .aio-panel-v2-hero-grid{grid-template-columns:1fr}
+  .aio-panel-v2-highlight-grid{grid-template-columns:1fr}
+  .aio-panel-v2-feature-grid{grid-template-columns:repeat(2,1fr)}
+  .aio-panel-v2-facts{grid-template-columns:repeat(2,1fr)}
+  .aio-panel-v2-related{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:700px){
+  .aio-panel-v2-hero{padding:22px 16px}
+  .aio-panel-v2-panel{padding:15px}
+  .aio-panel-v2-heading{flex-direction:column}
+  .aio-panel-v2-feature-grid,.aio-panel-v2-changes,.aio-panel-v2-facts,.aio-panel-v2-related,.aio-panel-v2-steps{grid-template-columns:1fr}
+  .aio-panel-v2-sha{grid-column:auto}
+  .aio-panel-v2-copy-row{flex-direction:column}
+  .aio-panel-v2-actions .button{width:100%;text-align:center}
+}
