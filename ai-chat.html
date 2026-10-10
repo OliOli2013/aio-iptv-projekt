@@ -16,8 +16,9 @@
 <link href="assets/css/pro-suite.css?v=20260724-pro1" rel="stylesheet"/><meta content="dark" name="color-scheme"/><link href="https://aio-iptv-projekt.pages.dev/ai-chat.html" rel="canonical"/><meta content="Asystent AIO Panel | AIO-IPTV.pl" property="og:title"/><meta content="Asystent AIO Panel — pomoc w pytaniach o Enigma2, wtyczki, OSCam, IPTV i konfigurację tunera." property="og:description"/><meta content="website" property="og:type"/><meta content="https://aio-iptv-projekt.pages.dev/ai-chat.html" property="og:url"/><script src="assets/js/auto-language.js?v=20260729-auto-en1"></script><link rel="stylesheet" href="assets/css/aio-2026.css?v=20260816-community-first"/>
 <link rel="stylesheet" href="assets/css/content-protection.css?v=20261009-protect1"/>
 <link rel="stylesheet" href="assets/css/aio-header-v2.css?v=20261010-headerv4">
+<link rel="stylesheet" href="assets/css/ai-chat-v2.css?v=20261010-aichatv2">
 </head>
-<body class="chat-page aio-header-v2 aio-header-v3 aio-header-v4">
+<body class="chat-page aio-header-v2 aio-header-v3 aio-header-v4 ai-chat-v2">
 <a class="skip-link" href="#main-content">Przejdź do treści</a>
 <div class="page-shell">
 <header class="site-header">
@@ -54,7 +55,75 @@
 </header>
 <div class="content-layout">
 <aside class="side-panel"><h2>Pomoc użytkownika</h2><nav><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Aplikacje Android</a><a href="guides.html">Poradniki</a><a href="one-liner.html">One‑Liner / FTP</a><a href="channel-lists.html">Listy kanałów</a><a href="systems.html">Multi‑Click i systemy</a><a href="ai-chat.html">AI Chat</a><a href="contact.html">Kontakt i wsparcie</a></nav><div class="side-help"><strong>Szybka pomoc</strong><a href="guide-terminal-openwebif.html">Terminal / OpenWebif</a><a href="guide-oscam.html">Dane do OSCam</a><a href="guide-xstremity.html">IPTV do Xstremity</a><a href="help-softcam-feed.html">SoftCam feed</a><a href="help-picons-serviceref.html">Picony / ServiceRef</a><a href="help-restart-gui.html">Restart GUI</a></div></aside>
-<main class="content-main" id="main-content"><section class="hero-compact"><div><p class="script-line">Witam na mojej stronie <span>Paweł Pawełek</span></p><p class="eyebrow">Asystent AIO Panel</p><h1>Szybka pomoc do Enigma2</h1><p class="lead">Wpisz pytanie o tuner, wtyczkę, picony, OSCam, listy kanałów albo instalację IPK.</p><div class="action-row"><a class="button primary" href="guides.html">Poradniki</a><a class="button" href="one-liner.html">One‑Liner / FTP</a></div></div><figure><img alt="Logo Paweł Pawełek" src="pliki/pp-logo.jpg"/><figcaption>Pomoc techniczna dla Enigma2</figcaption></figure></section><section class="module"><h2>Zadaj pytanie</h2><div class="chat-box"><div class="chat-messages" id="chatMessages"><p class="bot">Napisz krótko, co nie działa. Przykład: „Nie działa OSCam na OpenATV 7.6” albo „Gdzie wgrać picony?”</p></div><form class="chat-form" id="inlineAiForm"><input id="inlineAiInput" placeholder="Wpisz pytanie…" type="text"/><button class="button primary" type="submit">Wyślij</button></form><p class="mini-text" id="aiChatStatus" aria-live="polite">Uruchamianie Asystenta AIO Panel…</p></div></section><section class="module"><h2>Szybkie tematy</h2><div class="choice-grid three"><a class="choice-card" href="help-softcam-feed.html"><span class="card-icon">🛠️</span><strong>SoftCam feed — instalacja</strong><p>Instalacja feeda i podstawowe kroki po dodaniu softcama.</p></a><a class="choice-card" href="help-oscam-check.html"><span class="card-icon">🛠️</span><strong>OSCam — sprawdzenie działania</strong><p>Proces, logi i port WebIF OSCam.</p></a><a class="choice-card" href="help-picons-serviceref.html"><span class="card-icon">🛠️</span><strong>Picony — ServiceRef i katalogi</strong><p>Nazwy plików piconów i najczęstsze katalogi.</p></a><a class="choice-card" href="help-restart-gui.html"><span class="card-icon">🛠️</span><strong>Restart GUI bez restartu tunera</strong><p>Odświeżenie Enigma2 po instalacji wtyczek, list i piconów.</p></a><a class="choice-card" href="help-satellites-xml.html"><span class="card-icon">🛠️</span><strong>satellites.xml — aktualizacja</strong><p>Gdzie jest plik i co zrobić po podmianie.</p></a><a class="choice-card" href="help-root-password.html"><span class="card-icon">🛠️</span><strong>Hasło roota — ustawienie / usunięcie</strong><p>Podstawowe komendy dla SSH/Telnet.</p></a></div></section></main>
+<main class="content-main" id="main-content">
+<section class="ai-chat-v2-hero">
+  <p class="ai-chat-v2-kicker">ASYSTENT AIO • ENIGMA2 • IPTV • KONFIGURACJA</p>
+  <h1>Opisz problem. Asystent pomoże znaleźć właściwy kierunek.</h1>
+  <p class="ai-chat-v2-lead">Pytaj o Enigma2, AIO Panel, instalację IPK, EPG, picony, listy kanałów, OSCam, IPTV i typowe problemy z tunerem. Im konkretniej opiszesz model, system i objaw, tym lepsza będzie odpowiedź.</p>
+  <div class="ai-chat-v2-state-row">
+    <div class="ai-chat-v2-state" id="aiChatV2State" data-state="loading"><span class="ai-chat-v2-dot"></span><span data-status-label>Sprawdzanie asystenta</span></div>
+    <div class="ai-chat-v2-state">🔒 prywatny klucz AI pozostaje po stronie backendu</div>
+    <div class="ai-chat-v2-state">🛟 lokalna baza wiedzy przy awarii</div>
+  </div>
+</section>
+
+<div class="ai-chat-v2-grid">
+  <section class="ai-chat-v2-panel ai-chat-v2-chat">
+    <div class="ai-chat-v2-head">
+      <div>
+        <h2>Rozmowa z Asystentem AIO</h2>
+        <p>Podaj model tunera, image i wersję systemu, jeśli je znasz.</p>
+      </div>
+      <div class="ai-chat-v2-tools">
+        <button class="ai-chat-v2-mini" id="aiChatV2Clear" type="button">Wyczyść rozmowę</button>
+        <a class="ai-chat-v2-mini" href="report-error.html">Zgłoś błąd</a>
+      </div>
+    </div>
+
+    <div class="chat-messages" id="chatMessages">
+      <p class="bot">Napisz krótko, co nie działa. Przykład: „Zgemma H9S, OpenATV 8.0 — po instalacji wtyczki nie startuje GUI” albo „Jak dodać EPG do kanałów IPTV?”</p>
+    </div>
+
+    <form class="ai-chat-v2-form" id="inlineAiForm">
+      <textarea id="inlineAiInput" rows="2" placeholder="Opisz problem lub zadaj pytanie…"></textarea>
+      <button class="button primary" type="submit">Wyślij</button>
+    </form>
+    <p class="ai-chat-v2-hint">Enter — wyślij • Shift+Enter — nowa linia</p>
+    <p class="ai-chat-v2-status" id="aiChatStatus" aria-live="polite">Uruchamianie Asystenta AIO Panel…</p>
+  </section>
+
+  <aside class="ai-chat-v2-side">
+    <section class="ai-chat-v2-panel ai-chat-v2-side-card">
+      <h3>Szybkie pytania</h3>
+      <p>Gotowe przykłady pomagają rozpocząć rozmowę bez zastanawiania się, jak sformułować problem.</p>
+      <div class="ai-chat-v2-prompts">
+        <button class="ai-chat-v2-prompt" type="button" data-ai-prompt="Jak sprawdzić, dlaczego OSCam nie działa na Enigma2?">OSCam nie działa</button>
+        <button class="ai-chat-v2-prompt" type="button" data-ai-prompt="Jak poprawnie zainstalować plik IPK na tunerze Enigma2?">Instalacja IPK</button>
+        <button class="ai-chat-v2-prompt" type="button" data-ai-prompt="Jak dodać EPG do kanałów IPTV w Enigma2?">EPG dla IPTV</button>
+        <button class="ai-chat-v2-prompt" type="button" data-ai-prompt="Gdzie wgrać picony i jak sprawdzić ServiceRef kanału?">Picony / ServiceRef</button>
+        <button class="ai-chat-v2-prompt" type="button" data-ai-prompt="Jak zrobić kopię list kanałów przed aktualizacją?">Backup list kanałów</button>
+      </div>
+    </section>
+
+    <section class="ai-chat-v2-panel ai-chat-v2-side-card">
+      <h3>Inne narzędzia AIO</h3>
+      <p>Jeżeli wiesz już, czego potrzebujesz, często szybciej będzie przejść bezpośrednio do odpowiedniego modułu.</p>
+      <div class="ai-chat-v2-links">
+        <a href="assistant.html"><strong>Asystent doboru</strong><span>co pobrać →</span></a>
+        <a href="compatibility.html"><strong>Zgodność</strong><span>system / Python →</span></a>
+        <a href="guides.html"><strong>Poradniki</strong><span>krok po kroku →</span></a>
+        <a href="one-liner.html"><strong>One-Liner / FTP</strong><span>komendy →</span></a>
+        <a href="community.html"><strong>Społeczność AIO</strong><span>zapytaj ludzi →</span></a>
+      </div>
+    </section>
+  </aside>
+</div>
+
+<section class="ai-chat-v2-note">
+  <strong>Ważne:</strong>
+  <p>Asystent może pomóc w diagnostyce i konfiguracji, ale przed zmianą systemu, list kanałów lub plików konfiguracyjnych warto zrobić kopię bezpieczeństwa. Przy nietypowym błędzie dołącz dokładny komunikat albo fragment logu.</p>
+</section>
+</main>
 </div>
 <footer class="site-footer">
 <div><strong>AIO‑IPTV.pl</strong><span>Wtyczki, poradniki, listy kanałów, Multi‑Click, One‑Liner i AI Chat.</span></div>
@@ -65,7 +134,8 @@
 <script defer="" src="assets/js/user-premium.js?v=20260816-community-first"></script>
 <script defer="True" src="assets/js/pro-suite.js?v=20260724-pro1"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.95.0/dist/umd/supabase.min.js" crossorigin="anonymous"></script>
-<script defer src="assets/js/ai-chat.js?v=20260725-aio5"></script><script defer src="assets/js/aio-experience.js?v=20261008-cloudflare-clean1"></script>
+<script defer src="assets/js/ai-chat.js?v=20260725-aio5"></script><script defer src="assets/js/ai-chat-v2.js?v=20261010-aichatv2"></script>
+<script defer src="assets/js/aio-experience.js?v=20261008-cloudflare-clean1"></script>
 <script defer src="assets/js/content-protection.js?v=20261009-protect1"></script>
 <script defer src="assets/js/aio-header-v2.js?v=20261010-headerv4"></script>
 </body>
