@@ -71,6 +71,21 @@
     return {title, text:`${title} — ${SITE_NAME}`, url};
   }
 
+  function externalShareText(payload){
+    let text = cleanText(payload?.text || payload?.title || SITE_NAME);
+    // Messenger/Android potrafi potraktować sam napis "AIO-IPTV.pl"
+    // jako osobny adres http://aio-iptv.pl/. W treści udostępnienia
+    // używamy więc nazwy marki bez końcówki domenowej.
+    text = text.replace(/\bAIO-IPTV\.pl\b/gi,'AIO IPTV');
+    return text;
+  }
+
+  function nativeShareText(payload){
+    const text = externalShareText(payload);
+    const url = cleanText(payload?.url || currentUrl());
+    return `${text}\n${url}`;
+  }
+
   function copyFallback(value){
     const ta = document.createElement('textarea');
     ta.value = value;
@@ -117,8 +132,8 @@
 
   function shareProvider(provider,payload){
     const url=encodeURIComponent(payload.url);
-    const title=encodeURIComponent(payload.title);
-    const text=encodeURIComponent(payload.text || payload.title);
+    const title=encodeURIComponent(externalShareText({text:payload.title}));
+    const text=encodeURIComponent(externalShareText(payload));
 
     if(provider==='copy') return copyLink(payload.url);
     if(provider==='facebook') return popup(`https://www.facebook.com/sharer/sharer.php?u=${url}`);
@@ -191,7 +206,8 @@
   async function share(payload){
     if(navigator.share){
       try{
-        await navigator.share({title:payload.title,text:payload.text,url:payload.url});
+        const text = nativeShareText(payload);
+        await navigator.share({text});
         return;
       }catch(err){
         if(err && err.name==='AbortError') return;
