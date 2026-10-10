@@ -95,16 +95,13 @@ async function latestDownloads(){
     }));
 
     box.innerHTML=items.map((x,i)=>`<a class="aio-v2-file-card" href="${esc(x.href)}">
-      <div class="aio-v2-file-preview" data-aio-preview-index="${i}"><span>${esc(x.cat)}</span></div>
       <div class="aio-v2-file-card-top"><span class="aio-v2-badge">${esc(x.cat)}</span><span class="aio-v2-file-kind">${esc(x.kind)}</span></div>
       <h3>${esc(short(x.title,95))}</h3>
       <p>${esc(x.source)}</p>
       <footer>Otwórz / pobierz →</footer>
     </a>`).join('');
-
-    hydrateDownloadPreviews(items);
   }catch(_){
-    box.innerHTML='<a class="aio-v2-file-card" href="downloads.html"><div class="aio-v2-file-preview"><span>AIO-IPTV</span></div><h3>Centrum pobierania</h3><p>Przejdź do pełnego katalogu plików.</p><footer>Otwórz →</footer></a>';
+    box.innerHTML='<a class="aio-v2-file-card" href="downloads.html"><h3>Centrum pobierania</h3><p>Przejdź do pełnego katalogu plików.</p><footer>Otwórz →</footer></a>';
   }
 }
 

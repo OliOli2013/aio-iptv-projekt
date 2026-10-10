@@ -78,3 +78,17 @@
   .aio-v2-file-card{min-height:250px}
   .aio-v2-post{min-height:280px}
 }
+
+
+/* Homepage V2 - kolejność i miniatury 2026-10-10 */
+.aio-v2-file-preview{
+  display:none!important;
+}
+.aio-v2-file-card{
+  min-height:176px;
+}
+@media(max-width:760px){
+  .aio-v2-file-card{
+    min-height:145px;
+  }
+}
