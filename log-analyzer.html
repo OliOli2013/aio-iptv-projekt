@@ -1,7 +1,8 @@
 <!doctype html><html lang="pl"><head><title>Analizator crashlogów i błędów Enigma2 | AIO-IPTV.pl</title><meta name="description" content="Lokalnie analizuj logi Enigma2, tracebacki Pythona, błędy OPKG, sieci, lamedb, skina, pamięci i instalacji wtyczek."><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#071a24"><link rel="icon" href="pliki/logo.png"><link rel="manifest" href="manifest.json"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@700&display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/css/user-premium.css?v=20260724-v14"><link rel="stylesheet" href="assets/css/pro-suite.css?v=20260724-pro3"><link rel="stylesheet" href="assets/css/smart-tools.css?v=20260724-smart2"><link rel="canonical" href="https://aio-iptv-projekt.pages.dev/log-analyzer.html"><meta property="og:title" content="Analizator crashlogów i błędów Enigma2 | AIO-IPTV.pl"><meta property="og:description" content="Lokalnie analizuj logi Enigma2, tracebacki Pythona, błędy OPKG, sieci, lamedb, skina, pamięci i instalacji wtyczek."><meta property="og:image" content="https://aio-iptv-projekt.pages.dev/pliki/aio-panel-15.0.0-main.jpg"><script src="assets/js/auto-language.js?v=20260729-auto-en1"></script><link rel="stylesheet" href="assets/css/aio-2026.css?v=20260816-community-first"/>
 <link rel="stylesheet" href="assets/css/content-protection.css?v=20261009-protect1"/>
 <link rel="stylesheet" href="assets/css/aio-header-v2.css?v=20261010-headerv4">
-</head><body class="aio-header-v2 aio-header-v3 aio-header-v4"><a class="skip-link" href="#main-content">Przejdź do treści</a><div class="page-shell"><header class="site-header"><div class="brand-row"><a class="brand" href="index.html"><img src="pliki/logo.png" alt="AIO-IPTV.pl"><span><strong>AIO‑IPTV.pl</strong><small>Enigma2 • IPTV • pomoc</small></span></a><a class="header-download header-community" href="community.html" aria-label="Otwórz Społeczność AIO">Społeczność AIO</a></div><nav class="main-nav" data-menu="" aria-label="Główna nawigacja">
+<link rel="stylesheet" href="assets/css/log-analyzer-v2.css?v=20261010-logv2">
+</head><body class="aio-header-v2 aio-header-v3 aio-header-v4 log-analyzer-v2"><a class="skip-link" href="#main-content">Przejdź do treści</a><div class="page-shell"><header class="site-header"><div class="brand-row"><a class="brand" href="index.html"><img src="pliki/logo.png" alt="AIO-IPTV.pl"><span><strong>AIO‑IPTV.pl</strong><small>Enigma2 • IPTV • pomoc</small></span></a><a class="header-download header-community" href="community.html" aria-label="Otwórz Społeczność AIO">Społeczność AIO</a></div><nav class="main-nav" data-menu="" aria-label="Główna nawigacja">
   <a href="index.html">Start</a>
   <a class="nav-community" href="community.html">Społeczność</a>
   <a href="downloads.html">Pobieranie</a>
@@ -26,8 +27,102 @@
     </div>
   </details>
 </nav><button class="mobile-menu" type="button" data-menu-toggle>Menu</button></header><main class="standalone-main" id="main-content">
-<section class="smart-hero"><p class="eyebrow">Analiza wykonywana lokalnie</p><h1>Analizator logów i crashlogów</h1><p class="lead">Wklej komunikat albo wczytaj plik TXT/LOG. Narzędzie rozpoznaje typowe problemy Enigma2, Pythona, OPKG, sieci, lamedb, skina i braku miejsca.</p><div class="smart-intro-grid"><a href="assistant.html"><span>🧭</span><strong>Asystent doboru</strong></a><a href="my-tuner.html"><span>📡</span><strong>Mój tuner</strong></a><a href="status.html"><span>🟢</span><strong>Status usług</strong></a><a href="qr-install.html"><span>▦</span><strong>QR instalacji</strong></a><a href="log-analyzer.html"><span>🔎</span><strong>Analizator logów</strong></a></div></section>
-<section class="module"><form id="logAnalyzerForm" class="smart-form"><div class="log-upload-row"><label>Wczytaj plik TXT lub LOG<input id="logFile" type="file" accept=".txt,.log,text/plain"><span class="form-help">Maksymalnie 2 MB. Analiza odbywa się w przeglądarce.</span></label><button class="button" id="logSanitize" type="button">Maskuj dane wrażliwe</button></div><label>Treść logu<textarea id="logInput" placeholder="Wklej traceback, crashlog, wynik instalacji OPKG albo komunikat błędu…"></textarea></label><div class="log-privacy"><span>🔒</span><div><strong>Treść nie jest wysyłana na serwer.</strong><br>Przed publikacją zgłoszenia sprawdź, czy usunięto hasła, linie C:, tokeny, adresy prywatnych serwerów i inne poufne dane.</div></div><div class="action-row"><button class="button primary" type="submit">Przeanalizuj log</button><a class="button" href="errors.html">Baza błędów</a><a class="button" href="report-error.html">Generator zgłoszenia</a></div></form></section><section class="module" id="logResults" hidden></section></main><footer class="site-footer"><div><strong>AIO‑IPTV.pl</strong><span>Profesjonalne centrum projektów Enigma2 by Paweł Pawełek.</span></div><nav><a href="assistant.html">Asystent</a><a href="my-tuner.html">Mój tuner</a><a href="status.html">Status</a><a href="qr-install.html">QR</a><a href="log-analyzer.html">Analizator logów</a><a href="contact.html">Kontakt</a></nav><p>© <span id="year"></span> Paweł Pawełek • <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></p></footer></div><script src="assets/js/user-premium.js?v=20260816-community-first" defer></script><script src="assets/js/pro-suite.js?v=20260724-pro3" defer></script><script src="assets/js/smart-tools.js?v=20260724-smart2" defer></script><script defer src="assets/js/aio-experience.js?v=20261008-cloudflare-clean1"></script>
+<section class="log-v2-hero">
+  <p class="log-v2-kicker">ANALIZA LOKALNA • ENIGMA2 • CRASHLOG • OPKG • PYTHON</p>
+  <h1>Wklej log. Zobacz, co naprawdę może być przyczyną błędu.</h1>
+  <p class="lead">Analizator rozpoznaje typowe problemy Enigma2: brak miejsca, pamięć RAM, brakujące moduły Pythona, błędy OPKG, sieć i DNS, SSL, lamedb, skin, segmentation fault oraz inne częste awarie.</p>
+  <div class="log-v2-badges">
+    <span class="log-v2-badge green">🔒 analiza wykonywana w przeglądarce</span>
+    <span class="log-v2-badge">📄 TXT / LOG do 2 MB</span>
+    <span class="log-v2-badge">🧹 maskowanie danych wrażliwych</span>
+    <span class="log-v2-badge">🛠 sugestie komend diagnostycznych</span>
+  </div>
+</section>
+
+<div class="log-v2-layout">
+  <section class="log-v2-panel">
+    <div class="log-v2-heading">
+      <div><p class="eyebrow">Analiza</p><h2>Wczytaj albo wklej log</h2><p>Najlepiej użyć pełnego tracebacku lub fragmentu zawierającego pierwszą przyczynę błędu.</p></div>
+    </div>
+
+    <form id="logAnalyzerForm" class="smart-form log-v2-form">
+      <div class="log-v2-upload">
+        <label>Wczytaj plik TXT lub LOG
+          <input id="logFile" type="file" accept=".txt,.log,text/plain">
+          <span class="form-help">Maksymalnie 2 MB.</span>
+        </label>
+        <button class="button" id="logSanitize" type="button">Maskuj dane wrażliwe</button>
+      </div>
+
+      <div class="log-v2-meta">
+        <span>Plik: <strong id="logV2FileName">brak</strong></span>
+        <span>Znaki: <strong id="logV2Chars">0</strong></span>
+        <span>Linie: <strong id="logV2Lines">0</strong></span>
+        <span>Typ: <strong id="logV2Type">Brak danych</strong></span>
+      </div>
+
+      <label>Treść logu
+        <textarea id="logInput" placeholder="Wklej traceback, crashlog, wynik instalacji OPKG albo komunikat błędu…"></textarea>
+      </label>
+
+      <div class="log-v2-actions">
+        <button class="button primary" type="submit">Przeanalizuj log</button>
+        <button class="button" id="logV2Clear" type="button">Wyczyść</button>
+        <a class="button" href="errors.html">Baza błędów</a>
+        <a class="button" href="report-error.html">Generator zgłoszenia</a>
+      </div>
+    </form>
+  </section>
+
+  <aside class="log-v2-side">
+    <section class="log-v2-panel">
+      <p class="eyebrow">Co analizator sprawdza</p>
+      <h2>Najczęstsze klasy błędów</h2>
+      <div class="log-v2-checks">
+        <div class="log-v2-check"><span>💾</span><div><strong>Pamięć i miejsce</strong><small>No space left, OOM, system tylko do odczytu.</small></div></div>
+        <div class="log-v2-check"><span>🐍</span><div><strong>Python</strong><small>ImportError, ModuleNotFoundError, SyntaxError, AttributeError.</small></div></div>
+        <div class="log-v2-check"><span>📦</span><div><strong>OPKG</strong><small>Zależności, architektura pakietu, błędy instalacji.</small></div></div>
+        <div class="log-v2-check"><span>🌐</span><div><strong>Sieć</strong><small>DNS, timeout, SSL, HTTP 401/403/404/5xx.</small></div></div>
+        <div class="log-v2-check"><span>📡</span><div><strong>Enigma2</strong><small>lamedb, ServiceRef, skin, Twisted i segmentation fault.</small></div></div>
+      </div>
+    </section>
+
+    <section class="log-v2-panel">
+      <p class="eyebrow">Przykłady</p>
+      <h2>Sprawdź działanie</h2>
+      <div class="log-v2-samples">
+        <button class="log-v2-sample" type="button" data-log-sample="ModuleNotFoundError: No module named 'requests'">Brak modułu Pythona</button>
+        <button class="log-v2-sample" type="button" data-log-sample="Collected errors: * pkg_hash_check_unresolved: cannot satisfy the following dependencies">Błąd OPKG</button>
+        <button class="log-v2-sample" type="button" data-log-sample="OSError: [Errno 28] No space left on device">Brak miejsca we flashu</button>
+        <button class="log-v2-sample" type="button" data-log-sample="Temporary failure in name resolution github.com">Problem DNS / sieć</button>
+      </div>
+    </section>
+
+    <div class="log-v2-privacy">
+      <strong>🔒 Prywatność</strong>
+      <p>Analiza jest wykonywana lokalnie. Przed publikacją logu w zgłoszeniu użyj funkcji maskowania i sprawdź, czy nie pozostały hasła, tokeny, linie C: albo adresy prywatnych serwerów.</p>
+    </div>
+  </aside>
+</div>
+
+<section class="log-v2-panel log-v2-results" id="logResults" hidden></section>
+
+<section class="log-v2-panel">
+  <div class="log-v2-heading"><div><p class="eyebrow">Po analizie</p><h2>Co możesz zrobić dalej</h2></div></div>
+  <div class="log-v2-next">
+    <a href="errors.html"><span>📚</span><div><strong>Baza błędów</strong><small>typowe problemy i rozwiązania</small></div></a>
+    <a href="report-error.html"><span>⚠</span><div><strong>Zgłoś błąd</strong><small>przygotuj kompletne zgłoszenie</small></div></a>
+    <a href="ai-chat.html"><span>🤖</span><div><strong>AI Chat</strong><small>omów wynik analizy</small></div></a>
+    <a href="community.html"><span>👥</span><div><strong>Społeczność</strong><small>zapytaj innych użytkowników</small></div></a>
+  </div>
+</section>
+
+<section class="log-v2-note">
+  <strong>Ważne:</strong>
+  <p>Automatyczne rozpoznanie wzorca nie zastępuje pełnej diagnostyki. Jeden crashlog może zawierać kilka skutków tego samego problemu. Najbardziej wartościowy jest pełny fragment od początku tracebacku do końcowego typu błędu.</p>
+</section>
+</main><footer class="site-footer"><div><strong>AIO‑IPTV.pl</strong><span>Profesjonalne centrum projektów Enigma2 by Paweł Pawełek.</span></div><nav><a href="assistant.html">Asystent</a><a href="my-tuner.html">Mój tuner</a><a href="status.html">Status</a><a href="qr-install.html">QR</a><a href="log-analyzer.html">Analizator logów</a><a href="contact.html">Kontakt</a></nav><p>© <span id="year"></span> Paweł Pawełek • <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></p></footer></div><script src="assets/js/user-premium.js?v=20260816-community-first" defer></script><script src="assets/js/pro-suite.js?v=20260724-pro3" defer></script><script src="assets/js/smart-tools.js?v=20260724-smart2" defer></script><script defer src="assets/js/log-analyzer-v2.js?v=20261010-logv2"></script>
+<script defer src="assets/js/aio-experience.js?v=20261008-cloudflare-clean1"></script>
 <script defer src="assets/js/content-protection.js?v=20261009-protect1"></script>
 <script defer src="assets/js/aio-header-v2.js?v=20261010-headerv4"></script>
 </body></html>
