@@ -16,8 +16,9 @@
 <link href="assets/css/pro-suite.css?v=20260724-pro3" rel="stylesheet"/><meta content="dark" name="color-scheme"/><link href="https://aio-iptv-projekt.pages.dev/skin-aiohd-next.html" rel="canonical"/><meta content="AIOHD NEXT 3.2.1 | AIO-IPTV.pl" property="og:title"/><meta content="Nowy skin Full HD dla OpenATV: MiniTV, EPG, trzy rozmiary listy, pogoda inline i palety Aurora / Amber / Violet." property="og:description"/><meta content="https://aio-iptv-projekt.pages.dev/pliki/aiohd-next-3.2.1-channel-list.jpg" property="og:image"/><meta content="website" property="og:type"/><meta content="https://aio-iptv-projekt.pages.dev/skin-aiohd-next.html" property="og:url"/><script src="assets/js/auto-language.js?v=20260729-auto-en1"></script><link href="assets/css/aio-2026.css?v=20260816-community-first" rel="stylesheet"/>
 <link rel="stylesheet" href="assets/css/content-protection.css?v=20261009-protect1"/>
 <link rel="stylesheet" href="assets/css/aio-header-v2.css?v=20261010-headerv4">
+<link rel="stylesheet" href="assets/css/aiohd-next-page-v2.css?v=20261010-aiohdv2">
 </head>
-<body class="aio-header-v2 aio-header-v3 aio-header-v4">
+<body class="aio-header-v2 aio-header-v3 aio-header-v4 aiohd-next-v2">
 <a class="skip-link" href="#main-content">Przejdź do treści</a>
 <div class="page-shell">
 <header class="site-header">
@@ -55,23 +56,170 @@
 <div class="content-layout">
 <aside class="side-panel"><h2>Pomoc użytkownika</h2><nav><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Aplikacje Android</a><a href="windows-apps.html">Aplikacje Windows</a><a href="guides.html">Poradniki</a><a href="one-liner.html">One‑Liner / FTP</a><a href="channel-lists.html">Listy kanałów</a><a href="systems.html">Multi‑Click i systemy</a><a href="ai-chat.html">AI Chat</a><a href="contact.html">Kontakt i wsparcie</a></nav><div class="side-help"><strong>Szybka pomoc</strong><a href="guide-terminal-openwebif.html">Terminal / OpenWebif</a><a href="guide-oscam.html">Dane do OSCam</a><a href="guide-xstremity.html">IPTV do Xstremity</a><a href="help-softcam-feed.html">SoftCam feed</a><a href="help-picons-serviceref.html">Picony / ServiceRef</a><a href="help-restart-gui.html">Restart GUI</a></div></aside>
 <main class="content-main" id="main-content">
-<section class="hero-compact"><div><p class="script-line">Nowy projekt <span>Paweł Pawełek</span></p><p class="eyebrow">NOWOŚĆ • Skin Full HD • 14.09.2026</p><h1>🎨 AIOHD NEXT 3.2.1</h1><p class="lead">Nowoczesny skin dla OpenATV / Enigma2 Python 3. Czytelna lista kanałów z MiniTV, rozbudowane EPG, opis audycji w InfoBarze, pogoda bezpośrednio w skinie oraz trzy warianty kolorystyczne.</p><div class="action-row"><a class="button primary" href="pliki/enigma2-plugin-skins-aiohd-next_3.2.1-r3_all.ipk">Pobierz IPK 3.2.1-r3</a><a class="button" href="#instalacja">Instalacja</a><a class="button" href="plugin-aio-panel.html">Zainstaluj z AIO Panel</a></div></div><figure><img alt="AIOHD NEXT 3.2.1 — lista kanałów z MiniTV i EPG" loading="eager" src="pliki/aiohd-next-3.2.1-channel-list.jpg"/><figcaption>AIOHD NEXT 3.2.1 — Standard 18 kanałów, MiniTV, EPG i pogoda.</figcaption></figure></section>
-<section class="module"><div class="info-box"><strong>Nowy projekt AIO-IPTV.pl.</strong> AIOHD NEXT można zainstalować bezpośrednio z <a href="plugin-aio-panel.html">AIO Panel 17.0.0</a> albo z pliku IPK dostępnego na tej stronie.</div></section>
-<section class="module"><h2>Najważniejsze możliwości AIOHD NEXT</h2><ul class="clean-list"><li>nowoczesny interfejs Full HD 1920×1080</li><li>podgląd TV <strong>MiniTV</strong> na liście kanałów</li><li>prawy panel z nazwą kanału, bieżącą audycją, czasem, paskiem postępu, wielowierszowym opisem EPG i <strong>4 następnymi audycjami</strong></li><li>kompaktowy InfoBar z tytułem, opisem trwającej audycji, postępem i następnym programem</li><li>pełny opis w przewijanym <strong>Event Information</strong></li><li>rozbudowany ekran programu TV / EPG</li><li>pogoda bezpośrednio w skinie</li><li>trzy warianty kolorystyczne: <strong>Aurora, Amber, Violet</strong></li></ul></section>
-<div class="detail-grid"><section class="module"><h2>🔤 3 rozmiary listy kanałów</h2><ul class="clean-list"><li><strong>Standard</strong> — 32 px / około 18 kanałów</li><li><strong>Duża</strong> — 38 px / około 15 kanałów</li><li><strong>Bardzo duża</strong> — 42 px / około 14 kanałów</li></ul><p>W trybie dwuliniowym skin dopasowuje liczbę pozycji odpowiednio do wybranego rozmiaru.</p></section><section class="module"><h2>🎨 3 warianty kolorystyczne</h2><p>Kolor przewodni można zmienić bez instalowania osobnej paczki:</p><ul class="clean-list"><li><strong>Aurora</strong> — chłodny turkus</li><li><strong>Amber</strong> — bursztynowe akcenty</li><li><strong>Violet</strong> — fioletowy wariant</li></ul></section></div>
-<div class="detail-grid"><section class="module"><h2>🌤 Pogoda w skinie</h2><p>Na ekranie mogą być widoczne: <strong>ikona pogody, miejscowość, temperatura i aktualne warunki</strong>. Tryb <strong>Automatycznie (OpenATV)</strong> korzysta z kompatybilnych źródeł danych OpenATV / MetrixWeather, a w razie potrzeby z Weather Plugin.</p><p>Osobno można wybrać zainstalowaną w systemie wtyczkę pogodową jako skrót do jej pełnego ekranu. Nie każda wtyczka pogodowa udostępnia wspólne API danych inline, dlatego źródło danych i launcher są rozdzielone.</p></section><section class="module"><h2>📺 EPG i InfoBar</h2><p>Skin pokazuje więcej informacji bez zasłaniania obrazu: aktualny program, opis, czas i postęp, kolejny program oraz cztery kolejne pozycje na liście kanałów.</p><p>Ekran EPG zachowuje czytelny układ godzinowy i picony kanałów.</p></section></div>
-<section class="module"><h2>Ustawienia AIOHD NEXT</h2><p>Otwórz <strong>Wtyczki → AIOHD NEXT — Style</strong>. Dostępne są m.in.:</p><ul class="clean-list"><li>Kolor przewodni</li><li>Czcionka listy kanałów</li><li>Pogoda bezpośrednio w skinie</li><li>Źródło danych pogody</li><li>Skrót do pełnej wtyczki pogody</li><li>Wybór zainstalowanej wtyczki pogodowej</li></ul></section>
-<section class="module"><h2>Galeria</h2><div class="guide-gallery">
-<figure><a href="pliki/aiohd-next-3.2.1-settings.png" rel="noopener" target="_blank"><img alt="AIOHD NEXT 3.2.1 — ustawienia wyglądu i pogody" loading="lazy" src="pliki/aiohd-next-3.2.1-settings.png"/></a><figcaption>Ustawienia: kolory, rozmiar listy i pogoda.</figcaption></figure>
-<figure><a href="pliki/aiohd-next-3.2.1-infobar.jpg" rel="noopener" target="_blank"><img alt="AIOHD NEXT 3.2.1 — InfoBar i pogoda" loading="lazy" src="pliki/aiohd-next-3.2.1-infobar.jpg"/></a><figcaption>InfoBar z opisem audycji i pogodą.</figcaption></figure>
-<figure><a href="pliki/aiohd-next-3.2.1-channel-list.jpg" rel="noopener" target="_blank"><img alt="AIOHD NEXT — lista kanałów z MiniTV i EPG" loading="lazy" src="pliki/aiohd-next-3.2.1-channel-list.jpg"/></a><figcaption>Lista kanałów Standard — 18 pozycji, MiniTV i prawy panel EPG.</figcaption></figure>
-<figure><a href="pliki/aiohd-next-3.2.1-main-menu.jpg" rel="noopener" target="_blank"><img alt="AIOHD NEXT — menu główne" loading="lazy" src="pliki/aiohd-next-3.2.1-main-menu.jpg"/></a><figcaption>Menu główne AIOHD NEXT.</figcaption></figure>
-<figure><a href="pliki/aiohd-next-3.2.1-epg-grid.jpg" rel="noopener" target="_blank"><img alt="AIOHD NEXT — program TV EPG" loading="lazy" src="pliki/aiohd-next-3.2.1-epg-grid.jpg"/></a><figcaption>Program TV / Multi EPG.</figcaption></figure>
-<figure><a href="pliki/aio-panel-17.0.0.png" rel="noopener" target="_blank"><img alt="AIO Panel 17.0.0 — ekran główny" loading="lazy" src="pliki/aio-panel-17.0.0.png"/></a><figcaption>AIO Panel 17.0.0 — centrum instalacji wtyczek, dodatków i skórek.</figcaption></figure>
-</div></section>
-<section class="module"><h2>Plik i wymagania</h2><p><strong>Wersja widoczna:</strong> 3.2.1</p><p><strong>Rewizja IPK:</strong> r3</p><p><strong>Data:</strong> 14.09.2026</p><p><strong>Plik:</strong> <a href="pliki/enigma2-plugin-skins-aiohd-next_3.2.1-r3_all.ipk">enigma2-plugin-skins-aiohd-next_3.2.1-r3_all.ipk</a> — 7.38 MB</p><p><strong>SHA-256:</strong> <code>b2c4ed0d4e8d69e745e60019639a852e2175ce8a179239c3202609791f03ea15</code></p><p><strong>Wymagania:</strong> Enigma2, Python 3, <code>enigma2-plugin-skins-metrix-atv</code>.</p><p><strong>Autor modyfikacji:</strong> Paweł Pawełek. Baza: MetrixHD.</p></section>
-<section class="module" id="instalacja"><h2>Instalacja</h2><p><strong>Najprościej:</strong> AIO Panel 17.0.0 → Skórki → AIOHD NEXT - Instalator.</p><div class="command"><div><strong>Bezpośrednio z GitHuba</strong><button data-copy='wget -q --no-check-certificate "https://github.com/OliOli2013/AIOHD-NEXT-Skin/releases/download/3.2.1-r3/enigma2-plugin-skins-aiohd-next_3.2.1-r3_all.ipk" -O /tmp/aiohd-next.ipk &amp;&amp; opkg install /tmp/aiohd-next.ipk &amp;&amp; rm -f /tmp/aiohd-next.ipk' type="button">Kopiuj</button></div><pre><code>wget -q --no-check-certificate "https://github.com/OliOli2013/AIOHD-NEXT-Skin/releases/download/3.2.1-r3/enigma2-plugin-skins-aiohd-next_3.2.1-r3_all.ipk" -O /tmp/aiohd-next.ipk &amp;&amp; opkg install /tmp/aiohd-next.ipk &amp;&amp; rm -f /tmp/aiohd-next.ipk</code></pre></div><p>Po instalacji wybierz <strong>AIOHD</strong> w ustawieniach skina i wykonaj Restart GUI.</p></section>
-<section class="module"><div class="action-row"><a class="button primary" href="pliki/enigma2-plugin-skins-aiohd-next_3.2.1-r3_all.ipk">Pobierz AIOHD NEXT 3.2.1-r3</a><a class="button" href="https://github.com/OliOli2013/AIOHD-NEXT-Skin" rel="noopener" target="_blank">Repozytorium GitHub</a></div></section>
+<section class="aiohd-v2-hero">
+  <div class="aiohd-v2-hero-grid">
+    <div>
+      <p class="aiohd-v2-kicker">AIO TEAM • SKIN FULL HD • OPENATV / ENIGMA2</p>
+      <h1>AIOHD NEXT 3.2.1</h1>
+      <p class="lead">Nowoczesny skin Full HD z MiniTV, rozbudowanym EPG, opisem audycji, trzema rozmiarami listy kanałów, pogodą inline i trzema wariantami kolorystycznymi.</p>
+      <div class="aiohd-v2-badges">
+        <span class="aiohd-v2-badge green">● aktywnie rozwijany</span>
+        <span class="aiohd-v2-badge">Full HD 1920×1080</span>
+        <span class="aiohd-v2-badge">Python 3</span>
+        <span class="aiohd-v2-badge">OpenATV / Enigma2</span>
+      </div>
+      <div class="aiohd-v2-actions">
+        <a class="button primary" download href="pliki/enigma2-plugin-skins-aiohd-next_3.2.1-r3_all.ipk">Pobierz IPK 3.2.1-r3</a>
+        <a class="button" href="#instalacja">Instalacja</a>
+        <a class="button" href="plugin-aio-panel.html">Zainstaluj z AIO Panel</a>
+      </div>
+    </div>
+    <figure class="aiohd-v2-visual">
+      <a href="pliki/aiohd-next-3.2.1-channel-list.jpg" target="_blank" rel="noopener">
+        <img src="pliki/aiohd-next-3.2.1-channel-list.jpg" alt="AIOHD NEXT 3.2.1 — lista kanałów z MiniTV i EPG" loading="eager">
+      </a>
+      <span class="aiohd-v2-release">3.2.1-r3 • 14.09.2026</span>
+      <figcaption>Standard — około 18 kanałów, MiniTV, EPG i pogoda.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<nav class="aiohd-v2-nav" aria-label="Sekcje AIOHD NEXT">
+  <a href="#mozliwosci">Możliwości</a>
+  <a href="#warianty">Lista i kolory</a>
+  <a href="#pogoda">Pogoda i EPG</a>
+  <a href="#galeria">Galeria</a>
+  <a href="#informacje">Plik i wymagania</a>
+  <a href="#instalacja">Instalacja</a>
+</nav>
+
+<section class="aiohd-v2-panel" id="mozliwosci">
+  <div class="aiohd-v2-heading"><div><p class="eyebrow">Najważniejsze</p><h2>Skin zaprojektowany pod czytelność i szybki dostęp do EPG</h2></div></div>
+  <div class="aiohd-v2-feature-grid">
+    <article class="aiohd-v2-feature"><span>📺</span><h3>MiniTV</h3><p>Podgląd obrazu TV bez opuszczania listy kanałów.</p></article>
+    <article class="aiohd-v2-feature"><span>🗓</span><h3>4 następne audycje</h3><p>Prawy panel pokazuje bieżący program oraz cztery kolejne pozycje EPG.</p></article>
+    <article class="aiohd-v2-feature"><span>ℹ</span><h3>InfoBar</h3><p>Kompaktowy ekran z tytułem, opisem, postępem i następną audycją.</p></article>
+    <article class="aiohd-v2-feature"><span>📖</span><h3>Event Information</h3><p>Pełny opis wydarzenia w przewijanym ekranie informacji.</p></article>
+    <article class="aiohd-v2-feature"><span>🌤</span><h3>Pogoda inline</h3><p>Ikona, miejscowość, temperatura i aktualne warunki bezpośrednio w skinie.</p></article>
+    <article class="aiohd-v2-feature"><span>🎨</span><h3>3 palety</h3><p>Aurora, Amber i Violet bez instalowania osobnych paczek skina.</p></article>
+  </div>
+</section>
+
+<section class="aiohd-v2-panel" id="warianty">
+  <div class="aiohd-v2-heading"><div><p class="eyebrow">Personalizacja</p><h2>Rozmiar listy i kolorystyka</h2></div></div>
+  <div class="aiohd-v2-options">
+    <article class="aiohd-v2-option">
+      <h3>🔤 Trzy rozmiary listy kanałów</h3>
+      <div class="aiohd-v2-list">
+        <div><strong>Standard</strong><span>32 px • około 18 kanałów</span></div>
+        <div><strong>Duża</strong><span>38 px • około 15 kanałów</span></div>
+        <div><strong>Bardzo duża</strong><span>42 px • około 14 kanałów</span></div>
+      </div>
+      <p>W trybie dwuliniowym liczba pozycji automatycznie dopasowuje się do wybranego rozmiaru.</p>
+    </article>
+    <article class="aiohd-v2-option">
+      <h3>🎨 Trzy warianty kolorystyczne</h3>
+      <div class="aiohd-v2-palette">
+        <button class="is-active" type="button" data-palette="aurora"><i></i>Aurora</button>
+        <button type="button" data-palette="amber"><i></i>Amber</button>
+        <button type="button" data-palette="violet"><i></i>Violet</button>
+      </div>
+      <div class="aiohd-v2-palette-preview" id="aiohdPaletteText"></div>
+    </article>
+  </div>
+</section>
+
+<section class="aiohd-v2-panel" id="pogoda">
+  <div class="aiohd-v2-heading"><div><p class="eyebrow">Pogoda • EPG • InfoBar</p><h2>Więcej informacji bez zasłaniania obrazu</h2></div></div>
+  <div class="aiohd-v2-options">
+    <article class="aiohd-v2-option">
+      <h3>🌤 Pogoda w skinie</h3>
+      <p>Może pokazywać ikonę pogody, miejscowość, temperaturę i aktualne warunki. Tryb <strong>Automatycznie (OpenATV)</strong> korzysta z kompatybilnych źródeł OpenATV / MetrixWeather, a w razie potrzeby z Weather Plugin.</p>
+      <p>Źródło danych pogody i skrót do pełnej wtyczki pogodowej są rozdzielone, ponieważ nie każda wtyczka udostępnia wspólne API danych inline.</p>
+    </article>
+    <article class="aiohd-v2-option">
+      <h3>📺 EPG i InfoBar</h3>
+      <p>Na liście kanałów widoczny jest aktualny program, opis, czas, pasek postępu oraz cztery następne audycje. Ekran programu TV zachowuje czytelny układ godzinowy i picony.</p>
+      <p>Pełny opis trwającej audycji jest dostępny również w ekranie Event Information.</p>
+    </article>
+  </div>
+</section>
+
+<section class="aiohd-v2-panel" id="galeria">
+  <div class="aiohd-v2-heading"><div><p class="eyebrow">Galeria</p><h2>AIOHD NEXT w praktyce</h2></div></div>
+  <div class="aiohd-v2-gallery">
+    <figure><a href="pliki/aiohd-next-3.2.1-settings.png" target="_blank" rel="noopener"><img src="pliki/aiohd-next-3.2.1-settings.png" alt="AIOHD NEXT — ustawienia" loading="lazy"></a><figcaption>Ustawienia wyglądu, listy i pogody.</figcaption></figure>
+    <figure><a href="pliki/aiohd-next-3.2.1-infobar.jpg" target="_blank" rel="noopener"><img src="pliki/aiohd-next-3.2.1-infobar.jpg" alt="AIOHD NEXT — InfoBar" loading="lazy"></a><figcaption>InfoBar z opisem audycji i pogodą.</figcaption></figure>
+    <figure><a href="pliki/aiohd-next-3.2.1-channel-list.jpg" target="_blank" rel="noopener"><img src="pliki/aiohd-next-3.2.1-channel-list.jpg" alt="AIOHD NEXT — lista kanałów" loading="lazy"></a><figcaption>Lista kanałów z MiniTV i panelem EPG.</figcaption></figure>
+    <figure><a href="pliki/aiohd-next-3.2.1-main-menu.jpg" target="_blank" rel="noopener"><img src="pliki/aiohd-next-3.2.1-main-menu.jpg" alt="AIOHD NEXT — menu główne" loading="lazy"></a><figcaption>Menu główne AIOHD NEXT.</figcaption></figure>
+    <figure><a href="pliki/aiohd-next-3.2.1-epg-grid.jpg" target="_blank" rel="noopener"><img src="pliki/aiohd-next-3.2.1-epg-grid.jpg" alt="AIOHD NEXT — EPG" loading="lazy"></a><figcaption>Program TV / Multi EPG.</figcaption></figure>
+    <figure><a href="pliki/aio-panel-17.0.0.png" target="_blank" rel="noopener"><img src="pliki/aio-panel-17.0.0.png" alt="AIO Panel 17.0.0" loading="lazy"></a><figcaption>Instalacja AIOHD NEXT również przez AIO Panel.</figcaption></figure>
+  </div>
+</section>
+
+<section class="aiohd-v2-panel" id="informacje">
+  <div class="aiohd-v2-heading"><div><p class="eyebrow">Wydanie</p><h2>Plik i wymagania</h2></div></div>
+  <div class="aiohd-v2-facts">
+    <div class="aiohd-v2-fact"><span>Wersja</span><strong>3.2.1</strong></div>
+    <div class="aiohd-v2-fact"><span>Rewizja IPK</span><strong>r3</strong></div>
+    <div class="aiohd-v2-fact"><span>Data</span><strong>14.09.2026</strong></div>
+    <div class="aiohd-v2-fact"><span>Rozmiar</span><strong>7.38 MB</strong></div>
+    <div class="aiohd-v2-fact"><span>Wymagania</span><strong>Enigma2 • Python 3 • MetrixHD</strong></div>
+    <div class="aiohd-v2-fact"><span>Autor modyfikacji</span><strong>Paweł Pawełek • baza MetrixHD</strong></div>
+    <div class="aiohd-v2-fact aiohd-v2-sha">
+      <span>SHA-256</span>
+      <div class="aiohd-v2-copy-row">
+        <code>b2c4ed0d4e8d69e745e60019639a852e2175ce8a179239c3202609791f03ea15</code>
+        <button type="button" data-copy="b2c4ed0d4e8d69e745e60019639a852e2175ce8a179239c3202609791f03ea15">Kopiuj SHA</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="aiohd-v2-panel" id="instalacja">
+  <div class="aiohd-v2-heading"><div><p class="eyebrow">Instalacja</p><h2>Wybierz sposób instalacji</h2><p>Po instalacji wybierz <strong>AIOHD</strong> w ustawieniach skina i wykonaj Restart GUI.</p></div></div>
+  <div class="aiohd-v2-install-tabs">
+    <button class="aiohd-v2-tab is-active" type="button" data-aiohd-install-tab="panel">AIO Panel</button>
+    <button class="aiohd-v2-tab" type="button" data-aiohd-install-tab="github">GitHub / terminal</button>
+    <button class="aiohd-v2-tab" type="button" data-aiohd-install-tab="ipk">Pobrany IPK</button>
+  </div>
+
+  <div class="aiohd-v2-install-panel" data-aiohd-install-panel="panel">
+    <p><strong>Najprościej:</strong> otwórz <strong>AIO Panel 17.0.0 → Skórki → AIOHD NEXT - Instalator</strong>.</p>
+    <a class="button" href="plugin-aio-panel.html">Otwórz stronę AIO Panel</a>
+  </div>
+
+  <div class="aiohd-v2-install-panel" data-aiohd-install-panel="github" hidden>
+    <div class="command">
+      <div><strong>Bezpośrednio z GitHuba</strong><button data-copy='wget -q --no-check-certificate "https://github.com/OliOli2013/AIOHD-NEXT-Skin/releases/download/3.2.1-r3/enigma2-plugin-skins-aiohd-next_3.2.1-r3_all.ipk" -O /tmp/aiohd-next.ipk && opkg install /tmp/aiohd-next.ipk && rm -f /tmp/aiohd-next.ipk' type="button">Kopiuj</button></div>
+      <pre><code>wget -q --no-check-certificate "https://github.com/OliOli2013/AIOHD-NEXT-Skin/releases/download/3.2.1-r3/enigma2-plugin-skins-aiohd-next_3.2.1-r3_all.ipk" -O /tmp/aiohd-next.ipk && opkg install /tmp/aiohd-next.ipk && rm -f /tmp/aiohd-next.ipk</code></pre>
+    </div>
+  </div>
+
+  <div class="aiohd-v2-install-panel" data-aiohd-install-panel="ipk" hidden>
+    <div class="aiohd-v2-steps">
+      <article class="aiohd-v2-step"><b>1</b><strong>Pobierz IPK</strong><small>Pobierz 3.2.1-r3 z tej strony.</small></article>
+      <article class="aiohd-v2-step"><b>2</b><strong>Wgraj do /tmp</strong><small>Przenieś plik przez FTP/SFTP.</small></article>
+      <article class="aiohd-v2-step"><b>3</b><strong>Zainstaluj</strong><small>Użyj menedżera pakietów systemu.</small></article>
+      <article class="aiohd-v2-step"><b>4</b><strong>Wybierz skin</strong><small>Ustaw AIOHD i wykonaj Restart GUI.</small></article>
+    </div>
+  </div>
+</section>
+
+<section class="aiohd-v2-panel">
+  <div class="aiohd-v2-heading"><div><p class="eyebrow">Powiązane</p><h2>Przejdź dalej</h2></div></div>
+  <div class="aiohd-v2-related">
+    <a href="plugin-aio-panel.html"><span>⚙</span><div><strong>AIO Panel</strong><small>instalacja AIOHD NEXT</small></div></a>
+    <a href="plugins.html"><span>🧩</span><div><strong>Projekty AIO</strong><small>pozostałe wtyczki i dodatki</small></div></a>
+    <a href="compatibility.html"><span>✓</span><div><strong>Zgodność</strong><small>sprawdź system i Python</small></div></a>
+    <a href="report-error.html"><span>⚠</span><div><strong>Zgłoś błąd</strong><small>problem ze skinem</small></div></a>
+  </div>
+</section>
+
+<section class="aiohd-v2-note">
+  <strong>Wymagana zależność:</strong>
+  <p>AIOHD NEXT jest przeznaczony dla Enigma2 Python 3 i wymaga pakietu <code>enigma2-plugin-skins-metrix-atv</code>. Rzeczywista zgodność może zależeć od image oraz dostępnych komponentów systemu.</p>
+</section>
 </main>
 </div>
 <footer class="site-footer">
@@ -81,7 +229,8 @@
 </footer>
 </div>
 <script defer="" src="assets/js/user-premium.js?v=20260816-community-first"></script>
-<script defer="True" src="assets/js/pro-suite.js?v=20260724-pro3"></script><script defer="" src="assets/js/aio-experience.js?v=20261008-cloudflare-clean1"></script>
+<script defer="True" src="assets/js/pro-suite.js?v=20260724-pro3"></script><script defer src="assets/js/aiohd-next-page-v2.js?v=20261010-aiohdv2"></script>
+<script defer="" src="assets/js/aio-experience.js?v=20261008-cloudflare-clean1"></script>
 <script defer src="assets/js/content-protection.js?v=20261009-protect1"></script>
 <script defer src="assets/js/aio-header-v2.js?v=20261010-headerv4"></script>
 </body>
