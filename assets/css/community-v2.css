@@ -1,0 +1,546 @@
+
+/* AIO Community V2 — feed-first UX — 2026-10-10 */
+/* Additive layer only: no auth/backend/feed logic is changed. */
+
+body.aio-community-v2 .community-shell{
+  width:min(1460px,calc(100% - 24px));
+  margin:0 auto;
+  gap:13px;
+}
+
+/* ---------- hero ---------- */
+body.aio-community-v2 .community-hero{
+  position:relative;
+  overflow:hidden;
+  grid-template-columns:minmax(0,1.35fr) minmax(270px,.65fr);
+  gap:22px;
+  padding:clamp(24px,3.5vw,42px);
+  border:1px solid rgba(95,220,255,.18);
+  border-radius:22px;
+  background:
+    radial-gradient(circle at 88% 8%,rgba(83,111,255,.14),transparent 30rem),
+    radial-gradient(circle at 10% 90%,rgba(55,220,184,.08),transparent 25rem),
+    linear-gradient(135deg,rgba(8,42,57,.98),rgba(5,24,36,.98));
+  box-shadow:0 24px 58px rgba(0,0,0,.22);
+}
+body.aio-community-v2 .community-hero .eyebrow{
+  margin:0 0 7px;
+  color:#6bdfff;
+  font-size:.7rem;
+  font-weight:900;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+}
+body.aio-community-v2 .community-hero h1{
+  margin:0;
+  color:#f7fcff;
+  font-size:clamp(2.7rem,5vw,5rem);
+  line-height:.95;
+  letter-spacing:-.055em;
+}
+body.aio-community-v2 .community-hero .lead{
+  max-width:760px;
+  margin:15px 0 0;
+  color:#9fbdc8;
+  font-size:.98rem;
+  line-height:1.68;
+}
+body.aio-community-v2 .community-hero-actions{
+  gap:8px;
+  margin-top:19px;
+}
+body.aio-community-v2 .community-hero-actions .button{
+  min-height:43px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:0 13px;
+  border-radius:11px;
+  font-size:.77rem;
+  font-weight:850;
+}
+body.aio-community-v2 .community-hero-actions .button.primary{
+  min-height:47px;
+  padding:0 17px;
+  border-color:rgba(113,229,255,.64);
+  background:linear-gradient(135deg,#54ddff,#3288ff 53%,#7445ed);
+  box-shadow:0 10px 28px rgba(56,126,255,.20);
+}
+body.aio-community-v2 .community-hero-card{
+  padding:17px;
+  border:1px solid rgba(105,219,255,.15);
+  border-radius:15px;
+  background:rgba(4,25,36,.68);
+}
+body.aio-community-v2 .community-hero-card strong{
+  color:#eefbff;
+  font-size:.94rem;
+}
+body.aio-community-v2 .community-hero-card ul{
+  margin:10px 0 0;
+  padding-left:18px;
+  color:#8baab6;
+  font-size:.77rem;
+  line-height:1.5;
+}
+body.aio-community-v2 .community-hero-card li{margin:5px 0}
+
+/* ---------- account/status ---------- */
+body.aio-community-v2 .community-account{
+  min-height:62px;
+  padding:9px 12px;
+  border:1px solid rgba(92,202,235,.14);
+  border-radius:14px;
+  background:linear-gradient(180deg,rgba(7,34,46,.96),rgba(5,27,38,.96));
+}
+body.aio-community-v2 .community-account-copy strong{color:#f2fbff}
+body.aio-community-v2 .community-account-copy small{color:#7899a5}
+body.aio-community-v2 .community-account .community-avatar{
+  width:40px;
+  height:40px;
+  border-color:#4ed6f5;
+  background:#082b39;
+}
+
+/* ---------- private gate ---------- */
+body.aio-community-v2 .community-access-gate{
+  margin:0;
+  padding:clamp(28px,5vw,52px);
+  border:1px solid rgba(91,218,255,.18);
+  border-radius:20px;
+  background:
+    radial-gradient(circle at 50% 0,rgba(56,188,235,.11),transparent 45%),
+    linear-gradient(145deg,#0a3040,#061a24);
+}
+body.aio-community-v2 .community-access-gate h2{
+  color:#f6fcff;
+  font-size:clamp(1.8rem,3.4vw,2.9rem);
+  letter-spacing:-.035em;
+}
+body.aio-community-v2 .community-access-gate p{
+  color:#91aebb;
+}
+body.aio-community-v2 .community-access-benefits{
+  max-width:900px;
+  margin:20px auto 0;
+  gap:8px;
+}
+body.aio-community-v2 .community-access-benefits span{
+  padding:10px;
+  border-color:rgba(101,216,247,.12);
+  background:#082a38;
+  color:#bed5dd;
+  font-size:.74rem;
+}
+
+/* ---------- main layout ---------- */
+body.aio-community-v2 .community-layout{
+  grid-template-columns:minmax(0,1fr) 286px;
+  gap:13px;
+}
+body.aio-community-v2 .community-main,
+body.aio-community-v2 .community-sidebar{
+  gap:12px;
+}
+
+/* ---------- filter/search bar ---------- */
+body.aio-community-v2 .community-main>.community-panel:first-child{
+  position:sticky;
+  top:112px;
+  z-index:25;
+  overflow:hidden;
+  border:1px solid rgba(95,211,244,.15);
+  border-radius:15px;
+  background:rgba(5,29,40,.96);
+  backdrop-filter:blur(12px);
+  box-shadow:0 14px 34px rgba(0,0,0,.20);
+}
+body.aio-community-v2 .community-toolbar{
+  display:grid;
+  grid-template-columns:minmax(220px,1fr) 180px auto;
+  gap:8px;
+  padding:10px;
+}
+body.aio-community-v2 .community-toolbar input,
+body.aio-community-v2 .community-toolbar select{
+  min-height:44px;
+  border:1px solid rgba(93,204,235,.18);
+  border-radius:11px;
+  background:#061d28;
+  color:#f0fbff;
+}
+body.aio-community-v2 .community-toolbar input{
+  min-width:0;
+}
+body.aio-community-v2 .community-toolbar .button{
+  margin-left:0;
+  min-height:44px;
+  border-radius:11px;
+  white-space:nowrap;
+}
+body.aio-community-v2 .community-tabs{
+  gap:6px;
+  padding:0 10px 10px;
+}
+body.aio-community-v2 .community-tab{
+  min-height:34px;
+  padding:6px 10px;
+  border-color:rgba(92,199,231,.14);
+  background:#082b39;
+  color:#9fbdc8;
+  font-size:.69rem;
+}
+body.aio-community-v2 .community-tab.active,
+body.aio-community-v2 .community-tab:hover{
+  border-color:rgba(98,220,255,.38);
+  background:#0d4053;
+  color:#fff;
+}
+
+/* ---------- feed cards ---------- */
+body.aio-community-v2 .community-feed{
+  gap:10px;
+}
+body.aio-community-v2 .community-post-card{
+  border:1px solid rgba(97,203,234,.13);
+  border-radius:15px;
+  background:linear-gradient(180deg,#092f3d,#072531);
+  box-shadow:0 12px 28px rgba(0,0,0,.16);
+}
+body.aio-community-v2 .community-post-card:hover{
+  border-color:rgba(95,219,255,.23);
+}
+body.aio-community-v2 .community-post-card.pinned{
+  border-color:rgba(224,179,84,.46);
+}
+body.aio-community-v2 .community-post-card.official{
+  border-color:rgba(66,205,169,.43);
+}
+body.aio-community-v2 .community-post-head{
+  gap:9px;
+  padding:13px 14px 8px;
+}
+body.aio-community-v2 .community-post-head .community-avatar{
+  width:38px;
+  height:38px;
+}
+body.aio-community-v2 .community-post-author strong{
+  color:#eefbff;
+  font-size:.82rem;
+}
+body.aio-community-v2 .community-post-author small{
+  color:#7697a3;
+  font-size:.66rem;
+}
+body.aio-community-v2 .community-post-meta{
+  color:#6f8d98;
+  font-size:.62rem;
+}
+body.aio-community-v2 .community-post-content{
+  padding:0 14px 13px;
+}
+body.aio-community-v2 .community-post-content h2,
+body.aio-community-v2 .community-post-content h3{
+  margin:4px 0 8px;
+  font-size:clamp(1rem,1.8vw,1.25rem);
+  line-height:1.25;
+  letter-spacing:-.015em;
+}
+body.aio-community-v2 .community-post-text{
+  color:#a9c1ca;
+  font-size:.84rem;
+  line-height:1.62;
+}
+body.aio-community-v2 .community-post-tags{
+  gap:5px;
+  margin:9px 0;
+}
+body.aio-community-v2 .community-category,
+body.aio-community-v2 .community-status-pill{
+  padding:4px 7px;
+  border-color:rgba(97,201,232,.16);
+  background:#0a3444;
+  color:#b8dce7;
+  font-size:.60rem;
+}
+body.aio-community-v2 .community-media-grid{
+  gap:7px;
+  margin-top:10px;
+}
+body.aio-community-v2 .community-media-grid img{
+  height:245px;
+  border-color:rgba(93,191,222,.14);
+  border-radius:10px;
+}
+body.aio-community-v2 .community-post-footer{
+  gap:6px;
+  padding:8px 10px;
+  border-top-color:rgba(93,145,164,.16);
+  background:rgba(3,17,24,.30);
+}
+body.aio-community-v2 .community-reaction,
+body.aio-community-v2 .community-action{
+  min-height:33px;
+  padding:0 9px;
+  border-color:rgba(91,190,220,.14);
+  border-radius:8px;
+  background:#082a37;
+  color:#adc5ce;
+  font-size:.66rem;
+}
+body.aio-community-v2 .community-reaction.active,
+body.aio-community-v2 .community-reaction:hover,
+body.aio-community-v2 .community-action:hover{
+  border-color:rgba(83,215,245,.32);
+  background:#0d4254;
+}
+
+/* ---------- sidebar ---------- */
+body.aio-community-v2 .community-sidebar .community-panel{
+  border:1px solid rgba(91,198,229,.12);
+  border-radius:14px;
+  background:linear-gradient(180deg,#082b39,#072531);
+  box-shadow:none;
+}
+body.aio-community-v2 .community-panel-pad{
+  padding:14px;
+}
+body.aio-community-v2 .community-sidebar h2,
+body.aio-community-v2 .community-sidebar h3{
+  margin:0 0 10px;
+  color:#eefbff;
+  font-size:.92rem;
+}
+body.aio-community-v2 .community-stat-grid{
+  gap:6px;
+}
+body.aio-community-v2 .community-stat{
+  padding:10px 5px;
+  border-color:rgba(94,197,226,.12);
+  background:#062532;
+}
+body.aio-community-v2 .community-stat strong{
+  color:#68dcfb;
+  font-size:1.15rem;
+}
+body.aio-community-v2 .community-stat span{
+  color:#708e99;
+  font-size:.62rem;
+}
+body.aio-community-v2 .community-side-links{
+  gap:5px;
+}
+body.aio-community-v2 .community-side-links a{
+  min-height:39px;
+  padding:8px 9px;
+  border-radius:9px;
+  background:#072935;
+  color:#b9d0d9;
+  font-size:.72rem;
+}
+body.aio-community-v2 .community-side-links a:hover{
+  border-color:rgba(91,219,249,.28);
+  background:#0b3545;
+}
+body.aio-community-v2 .community-side-note{
+  color:#7998a3;
+  font-size:.71rem;
+}
+
+/* ---------- compose ---------- */
+body.aio-community-v2 .community-compose{
+  padding:16px;
+  border-color:rgba(96,205,235,.14);
+  border-radius:15px;
+}
+body.aio-community-v2 .community-compose h2{
+  color:#f2fbff;
+  letter-spacing:-.025em;
+}
+body.aio-community-v2 .community-post-wizard{
+  gap:10px;
+  padding:13px;
+  border-color:rgba(96,206,237,.15);
+  border-radius:12px;
+  background:#082d3b;
+}
+body.aio-community-v2 .community-wizard-grid{
+  gap:7px;
+}
+body.aio-community-v2 .community-wizard-grid button{
+  min-height:44px;
+  border-color:rgba(97,201,231,.13);
+  border-radius:9px;
+  background:#062631;
+  color:#b9d2da;
+  font-size:.72rem;
+}
+body.aio-community-v2 .community-wizard-grid button:hover{
+  border-color:rgba(94,220,251,.30);
+  background:#0c3d4d;
+}
+body.aio-community-v2 .community-field input,
+body.aio-community-v2 .community-field textarea,
+body.aio-community-v2 .community-field select{
+  border-color:rgba(95,202,232,.16);
+  border-radius:10px;
+  background:#061d27;
+}
+body.aio-community-v2 .community-field label{
+  color:#b3d6df;
+  font-size:.71rem;
+}
+body.aio-community-v2 .community-field small{
+  color:#6f909b;
+  font-size:.68rem;
+}
+
+/* ---------- loading/empty states ---------- */
+body.aio-community-v2 .community-empty,
+body.aio-community-v2 .community-loading,
+body.aio-community-v2 .community-error{
+  padding:24px 16px;
+  border-color:rgba(95,205,235,.14);
+  background:#072733;
+  color:#91aeb8;
+}
+
+/* ---------- tablet ---------- */
+@media(max-width:1050px){
+  body.aio-community-v2 .community-layout{
+    grid-template-columns:1fr;
+  }
+  body.aio-community-v2 .community-sidebar{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+  body.aio-community-v2 .community-main>.community-panel:first-child{
+    top:94px;
+  }
+}
+
+/* ---------- phone ---------- */
+@media(max-width:760px){
+  body.aio-community-v2 .community-shell{
+    width:calc(100% - 12px);
+    gap:9px;
+  }
+  body.aio-community-v2 .community-hero{
+    grid-template-columns:1fr;
+    gap:16px;
+    padding:22px 15px;
+    border-radius:16px;
+  }
+  body.aio-community-v2 .community-hero h1{
+    font-size:clamp(2.35rem,13vw,3.8rem);
+  }
+  body.aio-community-v2 .community-hero .lead{
+    font-size:.88rem;
+  }
+  body.aio-community-v2 .community-hero-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+  }
+  body.aio-community-v2 .community-hero-actions .button{
+    width:100%;
+    min-height:42px;
+    padding:0 8px;
+    font-size:.69rem;
+  }
+  body.aio-community-v2 .community-hero-actions .button.primary{
+    grid-column:1/-1;
+  }
+  body.aio-community-v2 .community-hero-card{
+    display:none;
+  }
+
+  body.aio-community-v2 .community-account{
+    min-height:56px;
+  }
+
+  body.aio-community-v2 .community-main>.community-panel:first-child{
+    position:static;
+  }
+  body.aio-community-v2 .community-toolbar{
+    grid-template-columns:1fr;
+    padding:9px;
+  }
+  body.aio-community-v2 .community-toolbar>*{
+    width:100%;
+  }
+  body.aio-community-v2 .community-tabs{
+    flex-wrap:nowrap;
+    overflow-x:auto;
+    padding:0 9px 9px;
+    scrollbar-width:none;
+    overscroll-behavior-x:contain;
+    -webkit-overflow-scrolling:touch;
+  }
+  body.aio-community-v2 .community-tabs::-webkit-scrollbar{display:none}
+  body.aio-community-v2 .community-tab{
+    flex:0 0 auto;
+    white-space:nowrap;
+  }
+
+  body.aio-community-v2 .community-sidebar{
+    grid-template-columns:1fr;
+  }
+  body.aio-community-v2 .community-sidebar .community-panel:nth-child(2){
+    order:-1;
+  }
+
+  body.aio-community-v2 .community-post-head{
+    padding:11px 11px 7px;
+  }
+  body.aio-community-v2 .community-post-content{
+    padding:0 11px 11px;
+  }
+  body.aio-community-v2 .community-post-text{
+    font-size:.81rem;
+  }
+  body.aio-community-v2 .community-post-meta{
+    max-width:90px;
+    font-size:.58rem;
+  }
+  body.aio-community-v2 .community-media-grid{
+    grid-template-columns:1fr;
+  }
+  body.aio-community-v2 .community-media-grid img{
+    height:auto;
+    max-height:430px;
+  }
+  body.aio-community-v2 .community-post-footer{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  body.aio-community-v2 .community-post-footer .community-open{
+    margin-left:0;
+  }
+  body.aio-community-v2 .community-reaction,
+  body.aio-community-v2 .community-action{
+    width:100%;
+    justify-content:center;
+  }
+
+  body.aio-community-v2 .community-compose{
+    padding:13px;
+  }
+  body.aio-community-v2 .community-wizard-grid{
+    grid-template-columns:1fr 1fr;
+  }
+  body.aio-community-v2 .community-access-benefits{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:440px){
+  body.aio-community-v2 .community-hero-actions{
+    grid-template-columns:1fr;
+  }
+  body.aio-community-v2 .community-hero-actions .button.primary{
+    grid-column:auto;
+  }
+  body.aio-community-v2 .community-wizard-grid,
+  body.aio-community-v2 .community-access-benefits{
+    grid-template-columns:1fr;
+  }
+}
