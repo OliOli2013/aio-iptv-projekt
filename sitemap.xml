@@ -289,12 +289,6 @@
 <priority>0.8</priority>
 </url>
 <url>
-<loc>https://aio-iptv-projekt.pages.dev/post</loc>
-<lastmod>2026-10-10</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.7</priority>
-</url>
-<url>
 <loc>https://aio-iptv-projekt.pages.dev/privacy-community</loc>
 <lastmod>2026-10-10</lastmod>
 <changefreq>monthly</changefreq>
@@ -302,12 +296,6 @@
 </url>
 <url>
 <loc>https://aio-iptv-projekt.pages.dev/pro</loc>
-<lastmod>2026-10-10</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.7</priority>
-</url>
-<url>
-<loc>https://aio-iptv-projekt.pages.dev/profile</loc>
 <lastmod>2026-10-10</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
