@@ -1,142 +1,158 @@
+/* AIO AI GPT V2 — light, interactive page guide (NO remote calls) */
 (function(){
   'use strict';
-
   if (window.__aioMascotWidgetLoaded) return;
   window.__aioMascotWidgetLoaded = true;
 
-  const storageKey = 'aio_mascot_widget_hidden_v1';
-  const collapsedKey = 'aio_mascot_widget_collapsed_v1';
+  const SEEN = 'aio_mascot_v2_intro_seen';
+  const CHAT_DRAFT = 'aio_mascot_v2_chat_draft';
+  const qs = (s,root=document) => root.querySelector(s);
+  const page = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+  if (['community-admin.html','publisher.html','access.html','aio-connect-report.html','ai-chat.html','404.html'].includes(page)) return;
+  if (document.body && document.body.dataset.aioMascot === 'off') return;
 
-  const config = {
-    image: 'assets/mascot/aio-mascot-20261011.png',
-    title: 'AIO AI GPT',
-    messages: [
-      'Cześć 👋 Czego szukasz? Mogę pomóc Ci szybciej znaleźć to, czego potrzebujesz na stronie.',
-      'Szukasz wtyczki, poradnika albo list kanałów? Kliknij poniżej, a pokieruję Cię dalej.',
-      'Masz problem z tunerem? Otwórz AI Chat lub Asystenta AIO i opisz, co nie działa.',
-      'Jeśli chcesz, mogę skierować Cię od razu do pobierania, wsparcia albo społeczności AIO.'
-    ],
-    actions: [
-      { label: 'AI Chat', href: 'assistant.html', primary: true },
-      { label: 'Pobieranie', href: 'downloads.html' },
-      { label: 'Poradniki', href: 'guides.html' },
-      { label: 'Społeczność', href: 'community.html' }
-    ],
-    footer: 'Kliknij robota, aby zwinąć lub rozwinąć pomoc.',
-    rotateEveryMs: 6500,
-    autoShowDelayMs: 900,
-    hideOnPages: ['community-admin.html']
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const intro = [
+    'Cześć! 👋 Jestem AIO. Czego szukasz? W czym mogę pomóc?',
+    'Szukasz wtyczek, list kanałów albo poradnika dla Enigma2?',
+    'Opisz krótko problem — przeniosę pytanie do AI Chat.'
+  ];
+  const shortcuts = [
+    ['Wtyczki', 'plugins.html'],
+    ['Listy kanałów', 'channel-lists.html'],
+    ['Poradniki', 'guides.html'],
+    ['AI Chat', 'ai-chat.html']
+  ];
+  const safeStore = {
+    get(k){try{return sessionStorage.getItem(k)}catch(_){return null}},
+    set(k,v){try{sessionStorage.setItem(k,v)}catch(_){}}
   };
 
-  const path = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
-  if (config.hideOnPages.includes(path)) return;
-
-  try {
-    if (localStorage.getItem(storageKey) === '1') return;
-  } catch (e) {}
-
-  function el(tag, className, text){
-    const node = document.createElement(tag);
-    if (className) node.className = className;
-    if (typeof text === 'string') node.textContent = text;
-    return node;
-  }
-
-  function create(){
-    const root = el('div', 'aio-mascot-widget is-collapsed');
-    root.setAttribute('aria-live', 'polite');
-    root.setAttribute('role', 'complementary');
-
-    const bubble = el('div', 'aio-mascot-bubble');
-    const headline = el('div', 'aio-mascot-headline');
-    const title = el('div', 'aio-mascot-title', config.title);
-    const close = el('button', 'aio-mascot-close');
-    close.type = 'button';
-    close.setAttribute('aria-label', 'Zamknij podpowiedź');
-    close.innerHTML = '&times;';
-    headline.append(title, close);
-
-    const text = el('div', 'aio-mascot-text', config.messages[0]);
-    const actions = el('div', 'aio-mascot-actions');
-    config.actions.forEach(function(item){
-      const a = el('a', 'aio-mascot-btn' + (item.primary ? ' is-primary' : ''), item.label);
-      a.href = item.href;
-      a.setAttribute('data-action', item.label);
-      actions.appendChild(a);
-    });
-    const sub = el('div', 'aio-mascot-sub', config.footer);
-    bubble.append(headline, text, actions, sub);
-
-    const avatarWrap = el('div', 'aio-mascot-avatar-wrap');
-    avatarWrap.innerHTML = '<div class="aio-mascot-pulse"></div><div class="aio-mascot-orbit"></div>';
-    const avatar = el('button', 'aio-mascot-avatar');
-    avatar.type = 'button';
-    avatar.setAttribute('aria-label', 'AIO AI GPT - pokaż pomoc');
-    const img = document.createElement('img');
-    img.src = config.image;
-    img.alt = 'AIO AI GPT';
-    img.loading = 'eager';
-    avatar.appendChild(img);
-    const toggle = el('button', 'aio-mascot-toggle', '?');
-    toggle.type = 'button';
-    toggle.setAttribute('aria-label', 'Rozwiń pomoc AIO');
-    avatarWrap.append(avatar, toggle);
-
-    root.append(bubble, avatarWrap);
+  function start(){
+    if (qs('[data-aio-mascot-v2]')) return;
+    const root = document.createElement('aside');
+    root.className = 'aio-mascot-widget';
+    root.setAttribute('data-aio-mascot-v2','');
+    root.setAttribute('aria-label','Asystent nawigacji AIO');
+    // Markup is constant. User input is never injected as HTML.
+    root.innerHTML = `
+      <button class="aio-mascot-avatar" type="button" aria-label="AIO: otwórz pomoc" aria-expanded="false" aria-controls="aio-mascot-panel-v2">
+        <span class="aio-mascot-aura" aria-hidden="true"></span>
+        <img src="assets/mascot/aio-mascot-20261011-v2.webp" alt="" width="112" height="139" decoding="async">
+        <span class="aio-mascot-dot" aria-hidden="true"></span>
+        <span class="aio-mascot-label" aria-hidden="true">AIO AI GPT</span>
+      </button>
+      <div class="aio-mascot-panel" id="aio-mascot-panel-v2" aria-hidden="true">
+        <div class="aio-mascot-panel-head">
+          <div><strong>AIO AI GPT</strong><span>Twój przewodnik po AIO-IPTV.pl</span></div>
+          <button class="aio-mascot-x" type="button" aria-label="Zwiń pomoc">×</button>
+        </div>
+        <p class="aio-mascot-message"><span data-aio-mascot-typed></span><span class="aio-mascot-cursor" aria-hidden="true"></span></p>
+        <div class="aio-mascot-chips" data-aio-mascot-shortcuts></div>
+        <form class="aio-mascot-form">
+          <label for="aio-mascot-question">Masz pytanie?</label>
+          <textarea id="aio-mascot-question" maxlength="800" rows="2" placeholder="Np. jak dodać EPG do IPTV?"></textarea>
+          <button class="aio-mascot-send" type="submit">Przejdź z pytaniem do AI Chat <span aria-hidden="true">→</span></button>
+        </form>
+        <p class="aio-mascot-foot">Pytanie zostanie tylko wpisane w AI Chat — sam zdecydujesz, czy je wysłać.</p>
+      </div>
+      <span class="aio-mascot-sr-only" aria-live="polite" data-aio-mascot-live></span>
+    `;
     document.body.appendChild(root);
 
-    let idx = 0;
-    let timer = null;
+    const avatar = qs('.aio-mascot-avatar',root);
+    const panel = qs('.aio-mascot-panel',root);
+    const typed = qs('[data-aio-mascot-typed]',root);
+    const live = qs('[data-aio-mascot-live]',root);
+    const form = qs('.aio-mascot-form',root);
+    const question = qs('#aio-mascot-question',root);
+    const chips = qs('[data-aio-mascot-shortcuts]',root);
+    const close = qs('.aio-mascot-x',root);
 
-    function updateMessage(){
-      idx = (idx + 1) % config.messages.length;
-      text.textContent = config.messages[idx];
+    for (const [label,href] of shortcuts) {
+      const a = document.createElement('a');
+      a.href = href;
+      a.className = 'aio-mascot-chip';
+      a.textContent = label;
+      chips.appendChild(a);
     }
 
-    function start(){
-      stop();
-      timer = window.setInterval(updateMessage, config.rotateEveryMs);
+    let msgIndex=0, typeTimer=null, cycleTimer=null, closeTimer=null, openingTimer=null;
+    const clear = (id,kind='timeout') => {
+      if(id!==null) { if(kind==='interval') clearInterval(id); else clearTimeout(id); }
+    };
+    function stopTimers(){
+      clear(typeTimer,'interval');clear(cycleTimer);clear(closeTimer);clear(openingTimer);
+      typeTimer=cycleTimer=closeTimer=openingTimer=null;
     }
-    function stop(){
-      if (timer) window.clearInterval(timer);
-      timer = null;
+    function typeMessage(message){
+      clear(typeTimer,'interval'); typeTimer=null;
+      typed.textContent='';live.textContent='';
+      if(reduceMotion){typed.textContent=message;live.textContent=message;return;}
+      let i=0;
+      typeTimer=setInterval(()=>{
+        if(!root.classList.contains('is-open')){clear(typeTimer,'interval');typeTimer=null;return;}
+        i=Math.min(i+2,message.length);
+        typed.textContent=message.slice(0,i);
+        if(i>=message.length){clear(typeTimer,'interval');typeTimer=null;live.textContent=message;}
+      },39);
     }
+    function isEditing(){return document.activeElement===question || question.value.trim().length>0;}
+    function scheduleMessage(){
+      clear(cycleTimer);
+      cycleTimer=setTimeout(()=>{
+        if(root.classList.contains('is-open') && !isEditing()){
+          msgIndex=(msgIndex+1)%intro.length;
+          typeMessage(intro[msgIndex]);
+          scheduleMessage();
+        }
+      },7700);
+    }
+    function scheduleClose(){
+      clear(closeTimer);
+      closeTimer=setTimeout(()=>{
+        if(root.classList.contains('is-open') && !isEditing() && !root.matches(':hover') && !root.contains(document.activeElement)) closePanel();
+      },21000);
+    }
+    function openPanel(auto=false){
+      if(root.classList.contains('is-open')) return;
+      stopTimers();
+      root.classList.add('is-open');
+      avatar.setAttribute('aria-expanded','true');
+      avatar.setAttribute('aria-label','AIO: zwiń pomoc');
+      panel.setAttribute('aria-hidden','false');
+      typeMessage(intro[msgIndex]);
+      if(auto){scheduleMessage();scheduleClose();}
+    }
+    function closePanel(){
+      if(!root.classList.contains('is-open')) return;
+      stopTimers();
+      root.classList.remove('is-open');
+      avatar.setAttribute('aria-expanded','false');
+      avatar.setAttribute('aria-label','AIO: otwórz pomoc');
+      panel.setAttribute('aria-hidden','true');
+      if(panel.contains(document.activeElement)) avatar.focus();
+    }
+    avatar.addEventListener('click',()=>root.classList.contains('is-open')?closePanel():openPanel());
+    close.addEventListener('click',closePanel);
+    document.addEventListener('keydown',e=>{if(e.key==='Escape') closePanel()});
 
-    function setCollapsed(value){
-      root.classList.toggle('is-collapsed', value);
-      try { localStorage.setItem(collapsedKey, value ? '1' : '0'); } catch (e) {}
-      if (value) stop(); else start();
-    }
-
-    function hideAll(){
-      root.classList.add('is-hidden');
-      stop();
-      try { localStorage.setItem(storageKey, '1'); } catch (e) {}
-    }
-
-    close.addEventListener('click', hideAll);
-    avatar.addEventListener('click', function(){
-      setCollapsed(!root.classList.contains('is-collapsed'));
+    form.addEventListener('submit',e=>{
+      e.preventDefault();
+      const draft=question.value.trim();
+      if(!draft){question.focus();return;}
+      safeStore.set(CHAT_DRAFT,draft);
+      location.assign('ai-chat.html');
     });
-    toggle.addEventListener('click', function(){
-      setCollapsed(!root.classList.contains('is-collapsed'));
-    });
+    question.addEventListener('input',()=>{clear(cycleTimer);clear(closeTimer);});
+    question.addEventListener('focus',()=>{clear(cycleTimer);clear(closeTimer);});
 
-    try {
-      if (localStorage.getItem(collapsedKey) === '0') {
-        root.classList.remove('is-collapsed');
-        start();
-      } else {
-        window.setTimeout(function(){ setCollapsed(false); }, config.autoShowDelayMs);
-      }
-    } catch (e) {
-      window.setTimeout(function(){ setCollapsed(false); }, config.autoShowDelayMs);
+    // Show one welcome per browser tab/session. On other pages avatar stays reachable.
+    if(!safeStore.get(SEEN)){
+      safeStore.set(SEEN,'1');
+      openingTimer=setTimeout(()=>{openingTimer=null;openPanel(true);},1100);
     }
   }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', create, { once: true });
-  } else {
-    create();
-  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',start,{once:true});
+  else start();
 })();
