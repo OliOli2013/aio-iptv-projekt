@@ -6,6 +6,8 @@
 
   const SEEN = 'aio_mascot_v2_intro_seen';
   const CHAT_DRAFT = 'aio_mascot_v2_chat_draft';
+  const MOBILE_NUDGE_SEEN = 'aio_mascot_v3_mobile_nudge_seen';
+  const isMobile = window.matchMedia && window.matchMedia('(max-width: 740px)').matches;
   const qs = (s,root=document) => root.querySelector(s);
   const page = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
   if (['community-admin.html','publisher.html','access.html','aio-connect-report.html','ai-chat.html','404.html'].includes(page)) return;
@@ -56,6 +58,9 @@
         </form>
         <p class="aio-mascot-foot">Pytanie zostanie tylko wpisane w AI Chat — sam zdecydujesz, czy je wysłać.</p>
       </div>
+      <button class="aio-mascot-mobile-nudge" type="button" aria-label="Cześć. Jestem tu, żeby pomóc. Dotknij, aby zacząć.">
+        <strong>Cześć! 👋</strong><span>Jestem tu, żeby pomóc. Dotknij, aby zacząć.</span>
+      </button>
       <span class="aio-mascot-sr-only" aria-live="polite" data-aio-mascot-live></span>
     `;
     document.body.appendChild(root);
@@ -68,6 +73,7 @@
     const question = qs('#aio-mascot-question',root);
     const chips = qs('[data-aio-mascot-shortcuts]',root);
     const close = qs('.aio-mascot-x',root);
+    const nudge = qs('.aio-mascot-mobile-nudge',root);
 
     for (const [label,href] of shortcuts) {
       const a = document.createElement('a');
@@ -77,13 +83,26 @@
       chips.appendChild(a);
     }
 
-    let msgIndex=0, typeTimer=null, cycleTimer=null, closeTimer=null, openingTimer=null;
+    let msgIndex=0, typeTimer=null, cycleTimer=null, closeTimer=null, openingTimer=null, nudgeTimer=null;
     const clear = (id,kind='timeout') => {
       if(id!==null) { if(kind==='interval') clearInterval(id); else clearTimeout(id); }
     };
     function stopTimers(){
       clear(typeTimer,'interval');clear(cycleTimer);clear(closeTimer);clear(openingTimer);
       typeTimer=cycleTimer=closeTimer=openingTimer=null;
+    }
+    function hideNudge(){
+      root.classList.remove('has-nudge');
+      if(nudgeTimer!==null){clearTimeout(nudgeTimer);nudgeTimer=null;}
+    }
+    function showNudge(){
+      if(!isMobile || root.classList.contains('is-open')) return;
+      root.classList.add('has-nudge');
+      hideNudgeTimerOnly();
+      nudgeTimer=setTimeout(hideNudge,12000);
+    }
+    function hideNudgeTimerOnly(){
+      if(nudgeTimer!==null){clearTimeout(nudgeTimer);nudgeTimer=null;}
     }
     function typeMessage(message){
       clear(typeTimer,'interval'); typeTimer=null;
@@ -116,13 +135,14 @@
     }
     function openPanel(auto=false){
       if(root.classList.contains('is-open')) return;
+      hideNudge();
       stopTimers();
       root.classList.add('is-open');
       avatar.setAttribute('aria-expanded','true');
       avatar.setAttribute('aria-label','AIO: zwiń pomoc');
       panel.setAttribute('aria-hidden','false');
-      typeMessage(intro[msgIndex]);
-      if(auto){scheduleMessage();scheduleClose();}
+      typeMessage(isMobile ? 'Jak mogę Ci pomóc? Wybierz dział lub wpisz pytanie poniżej.' : intro[msgIndex]);
+      if(auto && !isMobile){scheduleMessage();scheduleClose();}
     }
     function closePanel(){
       if(!root.classList.contains('is-open')) return;
@@ -135,6 +155,7 @@
     }
     avatar.addEventListener('click',()=>root.classList.contains('is-open')?closePanel():openPanel());
     close.addEventListener('click',closePanel);
+    nudge.addEventListener('click',()=>openPanel());
     document.addEventListener('keydown',e=>{if(e.key==='Escape') closePanel()});
 
     form.addEventListener('submit',e=>{
@@ -147,8 +168,14 @@
     question.addEventListener('input',()=>{clear(cycleTimer);clear(closeTimer);});
     question.addEventListener('focus',()=>{clear(cycleTimer);clear(closeTimer);});
 
-    // Show one welcome per browser tab/session. On other pages avatar stays reachable.
-    if(!safeStore.get(SEEN)){
+    // Desktop: V2 behaviour is intentionally preserved, with the full welcome panel.
+    // Mobile: only a small, dismissing teaser; the full panel opens after a tap.
+    if(isMobile){
+      if(!safeStore.get(MOBILE_NUDGE_SEEN)){
+        safeStore.set(MOBILE_NUDGE_SEEN,'1');
+        openingTimer=setTimeout(()=>{openingTimer=null;showNudge();},900);
+      }
+    } else if(!safeStore.get(SEEN)){
       safeStore.set(SEEN,'1');
       openingTimer=setTimeout(()=>{openingTimer=null;openPanel(true);},1100);
     }

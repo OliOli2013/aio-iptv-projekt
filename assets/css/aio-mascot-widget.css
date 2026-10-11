@@ -183,3 +183,62 @@
   }
 }
 @media print { .aio-mascot-widget{display:none!important;} }
+
+/* AIO Mascot V3: only mobile teaser, desktop V2 untouched. */
+.aio-mascot-mobile-nudge { display:none; }
+@media (max-width: 740px) {
+  .aio-mascot-widget.has-nudge:not(.is-open) .aio-mascot-mobile-nudge {
+    position: absolute;
+    display:block;
+    left: calc(var(--aio-m2-size) + 9px);
+    bottom: 25px;
+    width: min(194px, calc(100vw - 168px));
+    min-width: 0;
+    padding: 10px 12px;
+    border-radius: 14px;
+    border: 1px solid rgba(104,220,255,.56);
+    color: #f1fbff;
+    background: linear-gradient(145deg,rgba(9,44,61,.98),rgba(5,25,37,.98));
+    box-shadow: 0 12px 30px rgba(0,0,0,.34),0 0 18px rgba(56,174,255,.12);
+    text-align: left;
+    pointer-events: auto;
+    cursor:pointer;
+    -webkit-tap-highlight-color: transparent;
+    animation:aioM3NudgeIn .25s ease-out both;
+    z-index:1;
+  }
+  .aio-mascot-mobile-nudge strong {
+    display:block;color:#7ce8ff;
+    font-size:12px;line-height:1.25;font-weight:850;margin-bottom:3px;
+  }
+  .aio-mascot-mobile-nudge span {
+    display:block;
+    font-size:12px;line-height:1.34;font-weight:600;
+    overflow-wrap:break-word;
+  }
+  .aio-mascot-mobile-nudge::before {
+    content:'';position:absolute;left:-6px;bottom:19px;
+    width:11px;height:11px;transform:rotate(45deg);
+    border-left:1px solid rgba(104,220,255,.56);
+    border-bottom:1px solid rgba(104,220,255,.56);
+    background:#0a3042;
+  }
+  .aio-mascot-mobile-nudge:focus-visible {outline:2px solid #a4ecff;outline-offset:3px;}
+  .aio-mascot-widget.is-open .aio-mascot-panel {
+    max-height: min(58dvh, 410px);
+    overscroll-behavior:contain;
+  }
+}
+@media (max-width: 360px) {
+  .aio-mascot-widget.has-nudge:not(.is-open) .aio-mascot-mobile-nudge {
+    width: calc(100vw - 171px);
+    padding: 8px 10px;
+  }
+}
+@keyframes aioM3NudgeIn {
+  from { opacity:0; transform:translateY(5px); }
+  to { opacity:1; transform:translateY(0); }
+}
+@media(prefers-reduced-motion:reduce){
+  .aio-mascot-widget .aio-mascot-mobile-nudge {animation:none!important;}
+}
