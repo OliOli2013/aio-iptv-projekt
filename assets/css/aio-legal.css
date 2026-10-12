@@ -1,0 +1,35 @@
+/* AIO legal content — scoped. Does not touch Header V6 or mascot. */
+.aio-legal-main { max-width: 1180px; }
+.aio-legal-main .aio-legal-hero { margin-bottom: 16px; }
+.aio-legal-main .aio-legal-card { margin: 13px 0; }
+.aio-legal-main .aio-legal-card h2 { color: #dbf8ff; font-size: clamp(1.12rem,2vw,1.5rem); margin: 0 0 15px; }
+.aio-legal-main .aio-legal-card p,
+.aio-legal-main .aio-legal-card li { color:#b8cfda; line-height:1.72; overflow-wrap:anywhere; }
+.aio-legal-main .aio-legal-card a { color: #82dfff; }
+.aio-legal-main .aio-legal-note { border-left:3px solid #53cfd0; background:rgba(65,176,193,.06); padding:12px 15px; border-radius:0 8px 8px 0; }
+.aio-legal-main .aio-legal-scroll { overflow-x:auto; width:100%; }
+.aio-legal-main .aio-legal-table { width:100%;border-collapse:collapse; min-width:660px; font-size:.91rem; }
+.aio-legal-main .aio-legal-table th,
+.aio-legal-main .aio-legal-table td { vertical-align:top; padding:12px; text-align:left; border-bottom:1px solid rgba(125,209,236,.16); color:#c8dce6; }
+.aio-legal-main .aio-legal-table th { color:#97eaff; background:rgba(15,81,103,.23); }
+.aio-legal-main .aio-legal-cta { display:inline-flex; align-items:center; padding:12px 16px; border:1px solid rgba(95,212,240,.5); border-radius:11px; text-decoration:none; font-weight:750; background:rgba(7,68,90,.55); }
+.aio-legal-main .aio-legal-actions { display:flex; flex-wrap:wrap; gap:9px; margin:12px 0; }
+.aio-legal-main .aio-legal-actions button { min-height:44px; border-radius:10px; border:1px solid rgba(121,218,245,.4); background:#123b50; color:#edfcff; padding:10px 16px; cursor:pointer; font-weight:700; }
+.aio-legal-main .aio-legal-actions button:hover { background:#1a536a; }
+.aio-legal-main .aio-legal-consent-status { padding:11px 13px; border-radius:9px; background:rgba(47,148,168,.12); color:#a8e9ef; }
+.aio-legal-mini { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:7px 15px; font-size:12px; margin:16px auto 8px; }
+.aio-legal-mini a { color:#a6d6e5; text-decoration:underline; text-underline-offset:3px; }
+/* Consent prompt is an in-flow card, NOT a floating overlay obscuring AIO robot/share. */
+.aio-privacy-choice { max-width:1160px; margin:8px auto 12px; width:calc(100% - 20px); padding:12px 16px; display:flex; gap:12px; justify-content:space-between; align-items:center; border:1px solid rgba(118,215,233,.35); border-radius:12px; background:#102f43; color:#e5f9ff; box-sizing:border-box; }
+.aio-privacy-choice p { margin:4px 0 0; font-size:12px; line-height:1.45; color:#bad3df; }
+.aio-privacy-choice strong { font-size:13px; }
+.aio-privacy-choice a { color:#86dffc; }
+.aio-privacy-choice-actions { display:flex; flex-wrap:wrap; gap:7px; }
+.aio-privacy-choice button { min-height:40px; border:1px solid rgba(131,224,239,.4); border-radius:9px; color:#e7faff; background:#1a5369; padding:8px 11px; font-size:12px; cursor:pointer; white-space:nowrap; }
+.aio-privacy-choice button[data-aio-choice='reject'] { background:rgba(255,255,255,.06); }
+.aio-privacy-choice button:focus-visible { outline:2px solid #9fe6ff; outline-offset:2px; }
+@media(max-width:700px) { .aio-privacy-choice { flex-direction:column; align-items:stretch; } .aio-privacy-choice-actions{justify-content:flex-start;} .aio-legal-main .aio-legal-card {margin:10px 0;} }
+.aio-legal-main .aio-legal-linkbutton { margin:6px 0; padding:8px 13px; border:1px solid rgba(102,207,237,.4); border-radius:9px; background:#17475c; color:#e6faff; cursor:pointer; }
+
+.aio-rodo-ai-disclosure { max-width:1160px; margin:12px auto; padding:12px 15px; border-left:3px solid #4bd6db; border-radius:0 10px 10px 0; background:rgba(7,59,81,.78); color:#d2eaf2; font-size:13px; line-height:1.6; }
+.aio-rodo-ai-disclosure a { color:#84e6fa; }

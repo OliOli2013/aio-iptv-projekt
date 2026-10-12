@@ -192,6 +192,7 @@
               <button class="button primary" type="submit" data-login-submit>Zaloguj</button>
               <button class="button" type="button" data-register-toggle>Utwórz konto</button>
             </div>
+            <p class="community-muted" data-aio-privacy-registration>Informacja o danych konta: <a href="privacy-community.html" target="_blank" rel="noopener noreferrer">polityka prywatności</a> i <a href="community-rules.html" target="_blank" rel="noopener noreferrer">regulamin</a>. Utworzenie konta wymaga podania e-maila i hasła, nie wymaga zgody na statystyki.</p>
             <small class="community-muted">Stare konta Supabase nie przenoszą haseł. Przy pierwszym wejściu do nowej Społeczności utwórz nowe konto.</small>
           </form>`;
         document.body.appendChild(dialog);

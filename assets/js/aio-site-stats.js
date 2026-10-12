@@ -67,7 +67,7 @@
       box.className='aio-site-stats-card portal-panel';
       box.setAttribute('data-aio-site-stats','');
       box.innerHTML=`
-        <div class="aio-site-stats-head"><div><p class="aio-kicker">AIO-IPTV.PL W LICZBACH</p><h2>Aktywność strony i Społeczności</h2><p>Liczby aktualizowane automatycznie. „Unikalni” oznacza unikalne przeglądarki, nie dane osobowe.</p></div></div>
+        <div class="aio-site-stats-head"><div><p class="aio-kicker">AIO-IPTV.PL W LICZBACH</p><h2>Aktywność strony i Społeczności</h2><p>Liczby aktualizowane automatycznie. Unikalne przeglądarki liczymy na podstawie losowego identyfikatora, wyłącznie po zgodzie na statystyki.</p></div></div>
         <div class="aio-site-stats-grid">
           <div><strong>${fmt(s.pageviews_today)}</strong><span>odsłon dzisiaj</span></div>
           <div><strong>${fmt(s.visitors_today)}</strong><span>unikalnych przeglądarek dzisiaj</span></div>

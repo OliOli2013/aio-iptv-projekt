@@ -1019,13 +1019,108 @@
 (function(){
   if(window.__AIO_SITE_STATS_LOADER_V1__)return;
   window.__AIO_SITE_STATS_LOADER_V1__=true;
+  const statsAllowed=()=>{
+    try {const obj=JSON.parse(localStorage.getItem('aio_privacy_stats_consent_v1')||'null');
+      return !!(obj && obj.value==='yes' && Number(obj.until)>Date.now());}catch(_){return false;}
+  };
   const load=()=>{
+    if(!statsAllowed())return;
     if(document.querySelector('script[data-aio-site-stats-loader]'))return;
     const css=document.createElement('link');
     css.rel='stylesheet';css.href='/assets/css/aio-site-stats.css?v=20261008-stats1';css.setAttribute('data-aio-site-stats-loader','');document.head.appendChild(css);
     const js=document.createElement('script');
-    js.src='/assets/js/aio-site-stats.js?v=20261008-stats1';js.defer=true;js.setAttribute('data-aio-site-stats-loader','');document.head.appendChild(js);
+    js.src='/assets/js/aio-site-stats.js?v=20261012-rodo1';js.defer=true;js.setAttribute('data-aio-site-stats-loader','');document.head.appendChild(js);
   };
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',load,{once:true});
   else load();
+  window.addEventListener('aio-privacy-choice-changed',load);
+})();
+
+
+/* AIO Privacy Choices 2026-10-12: optional statistics, no forced consent. */
+(function () {
+  'use strict';
+  if (window.__aioPrivacyChoicesV1) return;
+  window.__aioPrivacyChoicesV1=true;
+  const KEY='aio_privacy_stats_consent_v1';
+  const VISITOR_KEY='aio_site_visitor_v1';
+  const MAX_AGE=180*86400000;
+  function readChoice(){
+    try {
+      const obj=JSON.parse(localStorage.getItem(KEY)||'null');
+      if(obj && ['yes','no'].includes(obj.value) && Number(obj.until)>Date.now()) return obj.value;
+    } catch (_) {}
+    return '';
+  }
+  function revokeVisitor(){
+    try { localStorage.removeItem(VISITOR_KEY); } catch(_) {}
+  }
+  function setChoice(value){
+    if(value!=='yes' && value!=='no') return;
+    try{localStorage.setItem(KEY,JSON.stringify({value,until:Date.now()+MAX_AGE}));}catch(_){}
+    if(value==='no') revokeVisitor();
+    const ui=document.querySelector('[data-aio-privacy-choice-banner]');
+    if(ui) ui.remove();
+    updateStatus();
+    window.dispatchEvent(new Event('aio-privacy-choice-changed'));
+  }
+  function updateStatus(){
+    const status=document.querySelector('#aio-consent-status');
+    if(status){
+      const choice=readChoice();
+      status.textContent=choice==='yes'?'Statystyki: włączone — możesz wycofać zgodę.':choice==='no'?'Statystyki: wyłączone.':'Statystyki: brak decyzji (domyślnie wyłączone).';
+    }
+  }
+  function init(){
+    // Light legal styling and universal links; no change to the existing main navigation.
+    if(!document.querySelector('link[href*="aio-legal.css"]')){
+      const css=document.createElement('link');css.rel='stylesheet';
+      css.href='assets/css/aio-legal.css?v=20261012-rodo1';document.head.appendChild(css);
+    }
+    const footer=document.querySelector('footer.site-footer');
+    if(footer && !footer.querySelector('.aio-legal-mini')){
+      const nav=document.createElement('div');nav.className='aio-legal-mini';
+      nav.setAttribute('aria-label','Informacje prawne');
+      [['Prywatność i RODO','privacy-community.html'],['Cookies','cookies.html'],['Twoje prawa','rodo-rights.html']]
+        .forEach(item=>{const a=document.createElement('a');a.href=item[1];a.textContent=item[0];nav.appendChild(a)});
+      footer.appendChild(nav);
+    }
+    // Shared entrypoint: cookie policy buttons are simple native controls.
+    document.querySelectorAll('[data-aio-consent-choice]').forEach(button=>{
+      button.addEventListener('click',()=>setChoice(button.getAttribute('data-aio-consent-choice')==='accept'?'yes':'no'));
+    });
+    document.querySelectorAll('[data-aio-disable-translation]').forEach(button=>{
+      button.addEventListener('click',()=>{
+        try{
+          localStorage.removeItem('aio_privacy_translate_yes_v1');
+          localStorage.setItem('aio_lang','pl');
+        }catch(_){}
+        if(typeof window.AIOSetLanguage==='function')window.AIOSetLanguage('pl');
+        else location.reload();
+      });
+    });
+    updateStatus();
+    if(!document.querySelector('.site-header') || readChoice()) return;
+    const banner=document.createElement('aside');
+    banner.className='aio-privacy-choice';
+    banner.setAttribute('data-aio-privacy-choice-banner','');
+    banner.setAttribute('aria-label','Dobrowolny wybór statystyk odwiedzin');
+    const copy=document.createElement('div');
+    const title=document.createElement('strong');
+    title.textContent='Prywatność na AIO-IPTV.pl';
+    const desc=document.createElement('p');
+    desc.append('Czy możemy zapisywać anonimowo prezentowane statystyki wizyt z identyfikatorem przeglądarki? Bez zgody nie prowadzimy tych pomiarów. ');
+    const link=document.createElement('a');link.href='cookies.html';link.textContent='Szczegóły i ustawienia';
+    desc.appendChild(link);copy.append(title,desc);
+    const actions=document.createElement('div');actions.className='aio-privacy-choice-actions';
+    const reject=document.createElement('button');reject.type='button';reject.dataset.aioChoice='reject';reject.textContent='Bez statystyk';
+    const accept=document.createElement('button');accept.type='button';accept.dataset.aioChoice='accept';accept.textContent='Zgadzam się';
+    reject.addEventListener('click',()=>setChoice('no'));
+    accept.addEventListener('click',()=>setChoice('yes'));
+    actions.append(reject,accept);banner.append(copy,actions);
+    document.querySelector('.site-header').insertAdjacentElement('afterend',banner);
+  }
+  window.AIOPrivacy={readChoice,setChoice};
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
+  else init();
 })();

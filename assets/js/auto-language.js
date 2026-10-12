@@ -73,9 +73,46 @@
     var next = String(language || '').toLowerCase() === 'pl' ? 'pl' : 'en';
     storeLanguage(next);
     if (next === 'pl') clearTranslationCookie();
-    else setTranslationCookie('/pl/en');
+    else {
+      try { if(localStorage.getItem('aio_privacy_translate_yes_v1')==='yes') setTranslationCookie('/pl/en'); }
+      catch (_) {}
+    }
     window.location.reload();
   };
+
+  /* Privacy V1: Google Translate is a third-party service; ask before loading. */
+  var translationAllowed=false;
+  try { translationAllowed=localStorage.getItem('aio_privacy_translate_yes_v1')==='yes'; } catch (_) {}
+  if(target==='en' && !translationAllowed){
+    clearTranslationCookie();
+    document.documentElement.setAttribute('lang','pl');
+    window.AIO_LANGUAGE='pl';
+    document.addEventListener('DOMContentLoaded',function(){
+      if(!document.body) return;
+      var el=document.createElement('aside');
+      el.className='aio-privacy-choice aio-translation-choice';
+      el.setAttribute('aria-label','Zgoda na tłumaczenie zewnętrzne');
+      var message=document.createElement('div');
+      var strong=document.createElement('strong');strong.textContent='English translation / Tłumaczenie na angielski';
+      var p=document.createElement('p');p.textContent='Google Translate jest usługą zewnętrzną. Włączenie przekazuje treść strony do Google. / This loads an external translation service.';
+      message.append(strong,p);
+      var actions=document.createElement('div');actions.className='aio-privacy-choice-actions';
+      var yes=document.createElement('button');yes.type='button';yes.textContent='Translate to English';
+      var no=document.createElement('button');no.type='button';no.textContent='Zostań po polsku';
+      yes.addEventListener('click',function(){
+        try {localStorage.setItem('aio_privacy_translate_yes_v1','yes');}catch(_){}
+        setTranslationCookie('/pl/en');location.reload();
+      });
+      no.addEventListener('click',function(){
+        try {localStorage.setItem('aio_lang','pl');}catch(_){}
+        clearTranslationCookie();location.reload();
+      });
+      actions.append(no,yes);el.append(message,actions);
+      var header=document.querySelector('.site-header');
+      if(header)header.insertAdjacentElement('afterend',el);else document.body.insertBefore(el,document.body.firstChild);
+    },{once:true});
+    return;
+  }
 
   if (target === 'pl') {
     clearTranslationCookie();

@@ -1,0 +1,36 @@
+name: AIO RODO static checks
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "privacy-community.html"
+      - "cookies.html"
+      - "rodo-rights.html"
+      - "assets/js/user-premium.js"
+      - "assets/js/auto-language.js"
+      - "assets/js/community-core.js"
+      - "scripts/aio_rodo_validate.py"
+      - ".github/workflows/aio-rodo-checks.yml"
+  pull_request:
+    paths:
+      - "privacy-community.html"
+      - "cookies.html"
+      - "rodo-rights.html"
+      - "assets/js/user-premium.js"
+      - "assets/js/auto-language.js"
+      - "assets/js/community-core.js"
+      - "scripts/aio_rodo_validate.py"
+permissions:
+  contents: read
+jobs:
+  rodo-static:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate legal documents and consent guards
+        run: python scripts/aio_rodo_validate.py
