@@ -5,6 +5,8 @@
   if(window.__aioDailyTipLoaded) return;
   window.__aioDailyTipLoaded=true;
 
+  if(window.matchMedia && window.matchMedia('(max-width:760px)').matches) return;
+
   const row=document.querySelector('.site-header .brand-row');
   const support=row?.querySelector('.aio-h4-support');
   if(!row || !support || row.querySelector('.aio-h4-daily-tip')) return;

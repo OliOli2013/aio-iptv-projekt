@@ -511,3 +511,227 @@ body.aio-home-v2.aio-header-v4 .aio-h4-tip-next:focus-visible{
 @media print{
   body.aio-home-v2.aio-header-v4 .aio-h4-daily-tip{display:none!important}
 }
+
+/* AIO HEADER V6: split accent palette, prominent daily tip, compact support (2026-10-12) */
+
+/* Desktop: enough breathing room for brand, tip and one compact CTA. */
+@media (min-width: 761px) {
+  body.aio-home-v2.aio-header-v4 .site-header .brand-row {
+    grid-template-columns: minmax(244px, 300px) minmax(220px, 1fr) max-content !important;
+    gap: clamp(11px, 1.5vw, 22px) !important;
+  }
+
+  /* In contrast with the blue/teal site, donation has a violet identity. */
+  body.aio-header-v4 .site-header .aio-h4-support {
+    width: auto !important;
+    min-width: 0 !important;
+    min-height: 44px !important;
+    justify-self: end !important;
+    padding: 0 14px !important;
+    gap: 8px !important;
+    white-space: nowrap !important;
+    border-radius: 12px !important;
+    border: 1px solid rgba(201, 174, 255, .55) !important;
+    background: linear-gradient(125deg, #6751be 0%, #7544c9 55%, #6e3fba 100%) !important;
+    box-shadow: inset 0 1px rgba(255,255,255,.16), 0 8px 22px rgba(88, 45, 170, .22) !important;
+    color: #ffffff !important;
+    font-size: 12px !important;
+    font-weight: 850 !important;
+    letter-spacing: .003em !important;
+    transition: background .2s ease, transform .2s ease, box-shadow .2s ease !important;
+  }
+  body.aio-header-v4 .site-header .aio-h4-support:hover {
+    transform: translateY(-1px) !important;
+    background: linear-gradient(125deg, #7b63d5, #8a4de4 70%, #7a49ce) !important;
+    border-color: rgba(231, 205, 255, .8) !important;
+    box-shadow: 0 9px 24px rgba(109, 55, 210, .32) !important;
+  }
+  body.aio-header-v4 .site-header .aio-h4-support span[aria-hidden="true"] {
+    display: inline-grid !important;
+    place-items: center !important;
+    width: 23px !important;
+    height: 23px !important;
+    border-radius: 7px !important;
+    background: rgba(255,255,255,.16) !important;
+    color: #ffffff !important;
+    font-size: 12px !important;
+  }
+  body.aio-header-v4 .site-header .aio-h4-support b { color: #f1dfff !important; }
+
+  /* A more distinct high-contrast blue glass panel instead of navy-on-navy. */
+  body.aio-home-v2.aio-header-v4 .site-header .aio-h4-daily-tip {
+    position: relative !important;
+    display: grid !important;
+    grid-template-columns: 37px minmax(0,1fr) 32px !important;
+    gap: 12px !important;
+    align-items: center !important;
+    width: 100% !important;
+    min-height: 72px !important;
+    padding: 10px 12px 10px 13px !important;
+    border: 1px solid rgba(108, 206, 249, .62) !important;
+    border-radius: 16px !important;
+    background:
+      radial-gradient(ellipse at 0 10%, rgba(20,180,203,.18), transparent 42%),
+      radial-gradient(ellipse at 100% 95%, rgba(60,95,200,.23),transparent 48%),
+      linear-gradient(115deg, #11465d 0%, #123d64 58%, #152e56 100%) !important;
+    box-shadow: 0 9px 25px rgba(0,11,32,.24), inset 0 1px rgba(197,244,255,.12) !important;
+    overflow: hidden !important;
+    isolation: isolate;
+  }
+  body.aio-home-v2.aio-header-v4 .site-header .aio-h4-daily-tip::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 12px;
+    bottom: 12px;
+    width: 3px;
+    border-radius: 0 4px 4px 0;
+    background: linear-gradient(#66f0cf, #4abefa);
+    box-shadow: 0 0 17px rgba(88,230,235,.66);
+    pointer-events: none;
+  }
+  body.aio-home-v2.aio-header-v4 .site-header .aio-h4-daily-tip::after {
+    content: "";
+    position: absolute;
+    top: -24px;
+    right: 68px;
+    width: 160px;
+    height: 65px;
+    transform: rotate(-22deg);
+    background: linear-gradient(90deg,transparent,rgba(255,255,255,.065),transparent);
+    pointer-events: none;
+    z-index: -1;
+  }
+  body.aio-home-v2.aio-header-v4 .site-header .aio-h4-daily-tip:hover {
+    border-color: rgba(124,240,242,.85) !important;
+  }
+  body.aio-home-v2.aio-header-v4 .aio-h4-tip-icon {
+    width: 37px !important;
+    height: 37px !important;
+    border-radius: 12px !important;
+    background: linear-gradient(135deg, #0bd7b4, #38b6f9) !important;
+    border: 1px solid rgba(188,252,246,.48) !important;
+    color: #063344 !important;
+    font-size: 20px !important;
+    font-weight: 900 !important;
+    box-shadow: 0 5px 20px rgba(20,197,204,.28) !important;
+  }
+  body.aio-home-v2.aio-header-v4 .aio-h4-tip-head {
+    gap: 8px !important;
+    align-items: center !important;
+    margin-bottom: 5px !important;
+  }
+  body.aio-home-v2.aio-header-v4 .aio-h4-tip-head strong {
+    border: 1px solid rgba(135,242,210,.40);
+    border-radius: 5px;
+    background: rgba(88,235,194,.13);
+    color: #a5ffe3 !important;
+    padding: 3px 6px;
+    font-size: 9px !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+    letter-spacing: .09em !important;
+  }
+  body.aio-home-v2.aio-header-v4 .aio-h4-tip-date {
+    color: #a3d3ee !important;
+    font-size: 10px !important;
+    opacity: .95;
+  }
+  body.aio-home-v2.aio-header-v4 .aio-h4-tip-link {
+    gap: 8px !important;
+    min-width: 0 !important;
+    color: #f4fcff !important;
+  }
+  body.aio-home-v2.aio-header-v4 .aio-h4-tip-category {
+    display: inline-block !important;
+    flex: 0 0 auto;
+    border-radius: 6px;
+    padding: 3px 6px;
+    border: 1px solid rgba(153,190,255,.34);
+    background: rgba(96,120,212,.20);
+    color: #c5dcff;
+    font-size: 10px;
+    font-weight: 750;
+  }
+  body.aio-home-v2.aio-header-v4 .aio-h4-tip-text {
+    font-size: 12px !important;
+    font-weight: 740 !important;
+    color: #f4fdff !important;
+    line-height: 1.4 !important;
+    -webkit-line-clamp: 2 !important;
+  }
+  body.aio-home-v2.aio-header-v4 .aio-h4-tip-arrow {
+    color: #9bfbe5 !important;
+    font-size: 18px !important;
+    font-weight: 900;
+  }
+  body.aio-home-v2.aio-header-v4 .aio-h4-tip-next {
+    display: grid !important;
+    place-items: center !important;
+    width: 32px !important;
+    height: 32px !important;
+    border: 1px solid rgba(181,229,255,.32) !important;
+    border-radius: 10px !important;
+    background: rgba(18,83,125,.40) !important;
+    color: #d4f9ff !important;
+    font-size: 19px !important;
+  }
+  body.aio-home-v2.aio-header-v4 .aio-h4-tip-next:hover {
+    background: rgba(83,194,224,.24) !important;
+    border-color: rgba(169,236,255,.75) !important;
+  }
+}
+@media (min-width:761px) and (max-width:1120px) {
+  body.aio-home-v2.aio-header-v4 .site-header .brand-row {
+    grid-template-columns: minmax(218px,250px) minmax(0,1fr) max-content !important;
+    gap: 12px !important;
+  }
+  body.aio-home-v2.aio-header-v4 .site-header .aio-h4-daily-tip {
+    grid-template-columns: 29px minmax(0,1fr) 29px !important;
+    gap: 7px !important;
+    padding: 8px 8px 8px 10px !important;
+    min-height: 67px !important;
+  }
+  body.aio-home-v2.aio-header-v4 .aio-h4-tip-icon {
+    width: 29px !important;
+    height: 29px !important;
+  }
+  body.aio-home-v2.aio-header-v4 .aio-h4-tip-category { display: none !important; }
+  body.aio-header-v4 .site-header .aio-h4-support {
+    min-height: 42px !important;
+    padding: 0 10px !important;
+    font-size: 11px !important;
+  }
+}
+
+/* Mobile: no tips, restore exactly the established Header V4 grid. */
+@media (max-width: 760px) {
+  body.aio-home-v2.aio-header-v4 .site-header .aio-h4-daily-tip {
+    display: none !important;
+  }
+  body.aio-home-v2.aio-header-v4 .site-header .brand-row {
+    display: grid !important;
+    grid-template-columns: minmax(0,1fr) 44px 54px !important;
+    grid-template-rows: auto !important;
+    min-height: 68px !important;
+    align-items: center !important;
+    gap: 7px !important;
+  }
+  body.aio-home-v2.aio-header-v4 .site-header .brand-row > .brand {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+  }
+  body.aio-home-v2.aio-header-v4 .site-header .brand-row > .site-search-trigger {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+  }
+  body.aio-home-v2.aio-header-v4 .site-header .brand-row > .aio-header-menu-toggle {
+    grid-column: 3 !important;
+    grid-row: 1 !important;
+  }
+}
+@media (max-width: 420px) {
+  body.aio-home-v2.aio-header-v4 .site-header .brand-row {
+    grid-template-columns: minmax(0,1fr) 41px 51px !important;
+  }
+}
