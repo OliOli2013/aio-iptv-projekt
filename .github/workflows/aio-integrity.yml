@@ -1,0 +1,33 @@
+name: AIO integrity checks
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "**/*.html"
+      - "assets/**"
+      - "pliki/**"
+      - "data/downloads.json"
+      - "scripts/aio_integrity_audit.py"
+      - ".github/workflows/aio-integrity.yml"
+  pull_request:
+    paths:
+      - "**/*.html"
+      - "data/downloads.json"
+      - "assets/**"
+      - "scripts/aio_integrity_audit.py"
+permissions:
+  contents: read
+jobs:
+  integrity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Local references and catalog
+        run: python scripts/aio_integrity_audit.py --strict-links
+      - name: SHA-256 metadata report (legacy mismatches are warnings)
+        run: python scripts/aio_integrity_audit.py --sha

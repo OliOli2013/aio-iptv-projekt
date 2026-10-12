@@ -1,3 +1,13 @@
+/* aioSameOriginWrite: reject cross-site browser mutation requests. */
+function aioSameOriginWrite(request) {
+  const origin=request.headers.get('Origin');
+  if (origin) {
+    try { if (origin !== new URL(request.url).origin) return false; }
+    catch (_) { return false; }
+  }
+  const site=request.headers.get('Sec-Fetch-Site');
+  return site!=='cross-site';
+}
 import { json, ensureSchema, sha256, countRows } from "../_community.js";
 
 function warsawDayKey(date = new Date()) {
@@ -28,6 +38,8 @@ async function bodyJson(request) {
 }
 
 export async function onRequestPost({ request, env }) {
+  if (!aioSameOriginWrite(request)) return new Response(JSON.stringify({ok:false,error:"Niedozwolone źródło żądania."}),
+    {status:403,headers:{"content-type":"application/json; charset=utf-8","cache-control":"no-store"}});
   try {
     await ensureSchema(env);
     const body = await bodyJson(request);

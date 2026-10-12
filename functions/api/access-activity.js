@@ -1,3 +1,13 @@
+/* aioSameOriginWrite: reject cross-site browser mutation requests. */
+function aioSameOriginWrite(request) {
+  const origin=request.headers.get('Origin');
+  if (origin) {
+    try { if (origin !== new URL(request.url).origin) return false; }
+    catch (_) { return false; }
+  }
+  const site=request.headers.get('Sec-Fetch-Site');
+  return site!=='cross-site';
+}
 import { json, ensureSchema, getSession, requireAdmin, sha256, cleanText, countRows } from "../_community.js";
 
 function warsawDayKey(date = new Date()) {
@@ -14,6 +24,8 @@ function safePath(v){ let x=cleanText(v||"/",220); if(!x.startsWith("/"))x="/"+x
 async function optionalUser(request,env){ try{ const s=await getSession(request,env,{touch:false}); return s&&!s.blocked&&!s.banned?s.user:null; }catch(_){ return null; } }
 
 export async function onRequestPost({request,env}){
+  if (!aioSameOriginWrite(request)) return new Response(JSON.stringify({ok:false,error:"Niedozwolone źródło żądania."}),
+    {status:403,headers:{"content-type":"application/json; charset=utf-8","cache-control":"no-store"}});
   try{
     await ensureSchema(env);
     const body=await request.json().catch(()=>({}));

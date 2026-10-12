@@ -1,3 +1,13 @@
+/* aioSameOriginWrite: reject cross-site browser mutation requests. */
+function aioSameOriginWrite(request) {
+  const origin=request.headers.get('Origin');
+  if (origin) {
+    try { if (origin !== new URL(request.url).origin) return false; }
+    catch (_) { return false; }
+  }
+  const site=request.headers.get('Sec-Fetch-Site');
+  return site!=='cross-site';
+}
 import {
   json, ensureSchema, requireUser, getSession, isAdmin, errorResponse, cleanText
 } from "../_community.js";
@@ -71,6 +81,8 @@ export async function onRequestGet({request,env}) {
 }
 
 export async function onRequestPost({request,env}) {
+  if (!aioSameOriginWrite(request)) return new Response(JSON.stringify({ok:false,error:"Niedozwolone źródło żądania."}),
+    {status:403,headers:{"content-type":"application/json; charset=utf-8","cache-control":"no-store"}});
   try{
     await ensureSchema(env);
     const s=await requireUser(request,env);
@@ -119,6 +131,8 @@ export async function onRequestPost({request,env}) {
 }
 
 export async function onRequestDelete({request,env}) {
+  if (!aioSameOriginWrite(request)) return new Response(JSON.stringify({ok:false,error:"Niedozwolone źródło żądania."}),
+    {status:403,headers:{"content-type":"application/json; charset=utf-8","cache-control":"no-store"}});
   try{
     await ensureSchema(env);
     const s=await requireUser(request,env);

@@ -1,5 +1,16 @@
+import { ensureSchema, requireAdmin } from "../_community.js";
 export async function onRequestGet(context) {
-  const { env } = context;
+  const { env, request } = context;
+  // Diagnostics contain internal metadata. Owner-only access.
+  try {
+    await ensureSchema(env);
+    await requireAdmin(request, env, true);
+  } catch (e) {
+    const status = e?.status === 401 ? 401 : 403;
+    return new Response(JSON.stringify({ok:false,error:"Dostęp tylko dla właściciela."}), {
+      status,headers:{"content-type":"application/json; charset=utf-8","cache-control":"no-store"}
+    });
+  }
 
   const headers = {
     "content-type": "application/json; charset=utf-8",

@@ -1,3 +1,13 @@
+/* aioSameOriginWrite: reject cross-site browser mutation requests. */
+function aioSameOriginWrite(request) {
+  const origin=request.headers.get('Origin');
+  if (origin) {
+    try { if (origin !== new URL(request.url).origin) return false; }
+    catch (_) { return false; }
+  }
+  const site=request.headers.get('Sec-Fetch-Site');
+  return site!=='cross-site';
+}
 import {
   json, ensureSchema, requireAdmin, cleanText, bodyJson, errorResponse,
   isoNow, clientIp, moderationLog, getOwnerId, parseAttachments, countRows
@@ -133,6 +143,8 @@ export async function onRequestGet({request, env}) {
 }
 
 export async function onRequestPost({request, env}) {
+  if (!aioSameOriginWrite(request)) return new Response(JSON.stringify({ok:false,error:"Niedozwolone źródło żądania."}),
+    {status:403,headers:{"content-type":"application/json; charset=utf-8","cache-control":"no-store"}});
   try {
     await ensureSchema(env);
     const s = await requireAdmin(request, env, true);
@@ -155,6 +167,21 @@ export async function onRequestPost({request, env}) {
       await db.prepare(`DELETE FROM community_sessions WHERE token_hash<>?`).bind(s.tokenHash).run();
       await moderationLog(env,s.user.id,{targetType:"user",targetId:ownerId,action:"all_other_sessions_revoked",reason:"Właściciel zakończył wszystkie pozostałe sesje.",ip:clientIp(request)});
       return json({ok:true});
+    }
+
+    // aio-security-retention-v1: owner can explicitly clean data older than configured 90 days.
+    if (action === "cleanup_expired_security_data") {
+      const check = await db.prepare(`SELECT COUNT(*) AS n FROM community_user_ips
+        WHERE datetime(last_seen_at) < datetime('now','-90 days')`).first();
+      const expired = Number(check?.n || 0);
+      // Requires separate confirmation. Never delete on a normal page view.
+      if (body.confirm !== 'USUN_STARE_DANE_IP') return json({ok:true,preview:true,expired_ip_rows:expired});
+      await db.prepare(`DELETE FROM community_user_ips
+        WHERE datetime(last_seen_at) < datetime('now','-90 days')`).run();
+      await moderationLog(env,s.user.id,{targetType:"user",targetId:ownerId,
+        action:"security_ip_retention_cleanup",reason:"Usunięto historię IP starszą niż 90 dni.",ip:clientIp(request),
+        metadata:{deleted:expired}});
+      return json({ok:true,deleted_ip_rows:expired});
     }
 
     if (action === "cleanup_privileged_roles") {

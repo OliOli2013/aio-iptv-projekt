@@ -9,6 +9,17 @@ const short=(v,n=145)=>{v=String(v||'').replace(/\s+/g,' ').trim();return v.leng
 const datePL=v=>{try{return new Date(v).toLocaleDateString('pl-PL')}catch(_){return''}};
 
 const previewCache=new Map();
+// aio-downloads-document-cache: one reusable request for catalog/search during a visit.
+let downloadDocumentPromise=null;
+async function loadDownloadDocument(){
+  if(!downloadDocumentPromise){
+    downloadDocumentPromise=fetch('downloads.html',{cache:'default'})
+      .then(r=>{if(!r.ok)throw new Error('downloads '+r.status);return r.text()})
+      .then(html=>new DOMParser().parseFromString(html,'text/html'))
+      .catch(error=>{downloadDocumentPromise=null;throw error});
+  }
+  return downloadDocumentPromise;
+}
 
 function absoluteUrl(src,base){
   try{return new URL(src,new URL(base,location.href)).href}catch(_){return''}
@@ -81,8 +92,7 @@ async function latestDownloads(){
   const box=$('[data-aio-latest-downloads]');
   if(!box)return;
   try{
-    const r=await fetch('downloads.html',{cache:'no-store'});
-    const doc=new DOMParser().parseFromString(await r.text(),'text/html');
+    const doc=await loadDownloadDocument();
     const cards=$$('[data-download-card]',doc).slice(0,4);
     if(!cards.length)throw 0;
 
@@ -136,8 +146,7 @@ let idx=null;
 async function getIndex(){
   if(idx)return idx;
   try{
-    const r=await fetch('downloads.html',{cache:'force-cache'});
-    const doc=new DOMParser().parseFromString(await r.text(),'text/html');
+    const doc=await loadDownloadDocument();
     idx=$$('[data-download-card]',doc).map(c=>({
       title:c.dataset.aioTitle||txt($('h3',c)),
       search:(c.dataset.search||'')+' '+txt(c),

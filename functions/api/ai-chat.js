@@ -18,6 +18,43 @@ Nie proś użytkownika o publikowanie haseł, tokenów, kluczy API ani pełnych 
 const WINDOW_MS = 10 * 60 * 1000;
 const MAX_PER_WINDOW = 24;
 const buckets = new Map();
+/* aio-ai-ratelimit-v1: shared D1 rate limiting with memory fallback for binding outages.
+   No API keys, plain IPs or prompt content are written to D1. */
+async function allowSharedRequest(request, env) {
+  // Reuse established auth limits table; isolated keys per 10-minute window.
+  if (!env?.COMMUNITY_DB) return allowRequest(request);
+  const ip = clientKey(request);
+  const salt = String(env.OPENAI_API_KEY || env.DEEPSEEK_API_KEY || env.AI_API_KEY ||
+                      env.COMMUNITY_OWNER_USER_ID || 'aio-server');
+  try {
+    const windowId = Math.floor(Date.now() / WINDOW_MS);
+    const value = new TextEncoder().encode(`${salt}:${ip}`);
+    const digest = await crypto.subtle.digest('SHA-256', value);
+    const hash = Array.from(new Uint8Array(digest)).map(x=>x.toString(16).padStart(2,'0')).join('');
+    const key = `ai-v1:${windowId}:${hash}`;
+    const db = env.COMMUNITY_DB;
+    const row = await db.prepare(`
+      INSERT INTO community_login_attempts(key,attempts,first_at,last_at,blocked_until)
+      VALUES (?,1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,NULL)
+      ON CONFLICT(key) DO UPDATE SET attempts=attempts+1,last_at=CURRENT_TIMESTAMP
+      RETURNING attempts
+    `).bind(key).first();
+    const count = Number(row?.attempts || 0);
+    if (!count) throw new Error('Missing D1 counter');
+    // Amortized removal of old AI-only limit keys, never touching login records.
+    if (count === 1 && Math.random() < 0.015) {
+      try { await db.prepare(`DELETE FROM community_login_attempts
+        WHERE key LIKE 'ai-v1:%' AND datetime(last_at) < datetime('now','-2 days')`).run(); }
+      catch (_) {}
+    }
+    return {ok:count<=MAX_PER_WINDOW,remaining:Math.max(0,MAX_PER_WINDOW-count),
+      retryAfter:Math.max(1,Math.ceil((WINDOW_MS-(Date.now()%WINDOW_MS))/1000))};
+  } catch (e) {
+    console.warn('[AIO ai-chat] Rate-limit D1 fallback:', e?.message || e);
+    return allowRequest(request); // Never break existing AI when the DB is unavailable.
+  }
+}
+
 
 function json(data, status = 200, extra = {}) {
   return new Response(JSON.stringify(data), {
@@ -188,7 +225,7 @@ export async function onRequestOptions() {
 export async function onRequestPost({ request, env }) {
   if (!sameOrigin(request)) return json({ ok: false, error: "Niedozwolone źródło żądania." }, 403);
 
-  const limit = allowRequest(request);
+  const limit = await allowSharedRequest(request, env);
   if (!limit.ok) {
     return json(
       { ok: false, error: "Zbyt wiele pytań w krótkim czasie. Spróbuj ponownie za kilka minut.", code: "RATE_LIMIT" },

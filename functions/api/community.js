@@ -1,3 +1,13 @@
+/* aioSameOriginWrite: reject cross-site browser mutation requests. */
+function aioSameOriginWrite(request) {
+  const origin=request.headers.get('Origin');
+  if (origin) {
+    try { if (origin !== new URL(request.url).origin) return false; }
+    catch (_) { return false; }
+  }
+  const site=request.headers.get('Sec-Fetch-Site');
+  return site!=='cross-site';
+}
 
 import {
   json, ensureSchema, getSession, requireUser, requireAdmin, isAdmin, isFullAdmin,
@@ -141,8 +151,8 @@ export async function onRequestGet({request, env}) {
     const db = env.COMMUNITY_DB;
 
     if (action === "health") {
-      const tables = await db.prepare(`SELECT name FROM sqlite_master WHERE type='table' AND name LIKE 'community_%' ORDER BY name`).all();
-      return json({ok:true,backend:"cloudflare",authenticated:Boolean(user),tables:(tables.results||[]).map(x=>x.name)});
+      // Public monitoring: no database table names or internal structure.
+      return json({ok:true,backend:"cloudflare",authenticated:Boolean(user)});
     }
 
     if (action === "stats") return json({ok:true,stats:await stats(env)});
@@ -151,14 +161,12 @@ export async function onRequestGet({request, env}) {
       const row = await db.prepare(`
         SELECT p.id,p.kind,p.post_type,p.category,p.title,p.content,p.attachments,p.created_at,p.published_at
         FROM community_posts p
-        WHERE p.status='published'
+        WHERE p.status='published' AND (p.kind='official' OR ?=1)
         ORDER BY COALESCE(p.published_at,p.created_at) DESC LIMIT 1
-      `).first();
+      `).bind(user?1:0).first();
       if (!row) return json({ok:true,post:null});
-      const post = decoratePost(row);
-      // Dla wpisu społecznościowego nie publikujemy zdjęć anonimowo.
-      if (!user && post.kind !== "official") post.attachments = [];
-      return json({ok:true,post});
+      // Guests only see published official posts; ordinary community content is private.
+      return json({ok:true,post:decoratePost(row)});
     }
 
     if (action === "feed") {
@@ -404,6 +412,8 @@ export async function onRequestGet({request, env}) {
 }
 
 export async function onRequestPost({request,env}) {
+  if (!aioSameOriginWrite(request)) return new Response(JSON.stringify({ok:false,error:"Niedozwolone źródło żądania."}),
+    {status:403,headers:{"content-type":"application/json; charset=utf-8","cache-control":"no-store"}});
   try {
     await ensureSchema(env);
     const body=await bodyJson(request);

@@ -385,8 +385,12 @@ export async function bodyJson(request) {
 
 export function errorResponse(error) {
   const status = Number(error && error.status || 500);
-  const message = error && error.message ? error.message : "Wystąpił błąd serwera.";
-  return json({ok:false,error:message}, status >= 400 && status <= 599 ? status : 500);
+  // Avoid exposing stack traces, SQL details and Cloudflare binding names to visitors.
+  const safeStatus = status >= 400 && status <= 599 ? status : 500;
+  const message = safeStatus >= 500 ? "Wystąpił błąd serwera. Spróbuj ponownie później." :
+    (error && error.message ? error.message : "Nie można wykonać operacji.");
+  if (safeStatus >= 500) console.error('[AIO community] Internal error:',error);
+  return json({ok:false,error:message}, safeStatus);
 }
 
 export function allowedCategory(v) {
