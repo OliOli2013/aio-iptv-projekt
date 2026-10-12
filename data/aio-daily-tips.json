@@ -1,0 +1,160 @@
+{
+  "version": "2026-10-12",
+  "tips": [
+    {
+      "text": "Przed aktualizacją list kanałów wykonaj kopię ustawień i bukietów.",
+      "href": "channel-lists.html",
+      "category": "Listy kanałów"
+    },
+    {
+      "text": "Instaluj pliki IPK zgodne z systemem i wersją Pythona na tunerze.",
+      "href": "compatibility.html",
+      "category": "Wtyczki"
+    },
+    {
+      "text": "Po instalacji wtyczki zwykle wystarczy restart interfejsu Enigma2 (GUI).",
+      "href": "help-restart-gui.html",
+      "category": "Enigma2"
+    },
+    {
+      "text": "Nie działa EPG w IPTV? Sprawdź adres XMLTV i mapowanie kanałów.",
+      "href": "plugin-simple-iptv-epg.html",
+      "category": "EPG"
+    },
+    {
+      "text": "Przed wgrywaniem nowego image zrób pełny backup konfiguracji tunera.",
+      "href": "guide-instalacja-image.html",
+      "category": "Systemy"
+    },
+    {
+      "text": "Picony muszą pasować do identyfikatora ServiceRef kanału.",
+      "href": "help-picons-serviceref.html",
+      "category": "Picony"
+    },
+    {
+      "text": "Problemy z instalacją? Sprawdź dostępne miejsce w pamięci tunera.",
+      "href": "guide-pamiec-zgemma.html",
+      "category": "Diagnostyka"
+    },
+    {
+      "text": "Gdy kanały IPTV nie mają opisów, sprawdź ustawienia EPG i czas systemowy.",
+      "href": "guides.html",
+      "category": "IPTV"
+    },
+    {
+      "text": "Zapisz model tunera i wersję image przed zgłoszeniem problemu.",
+      "href": "report-error.html",
+      "category": "Pomoc"
+    },
+    {
+      "text": "AIO Panel pozwala instalować i aktualizować dodatki z poziomu tunera.",
+      "href": "plugin-aio-panel.html",
+      "category": "AIO Panel"
+    },
+    {
+      "text": "Przed zmianą bukietów sprawdź kolejność i wersję listy kanałów.",
+      "href": "channel-lists.html",
+      "category": "Listy kanałów"
+    },
+    {
+      "text": "Nie udostępniaj w internecie hasła roota ani zrzutów z poufnymi danymi.",
+      "href": "guide-terminal-openwebif.html",
+      "category": "Bezpieczeństwo"
+    },
+    {
+      "text": "Jeśli OSCam nie działa, rozpocznij od sprawdzenia procesu i logów.",
+      "href": "help-oscam-check.html",
+      "category": "OSCam"
+    },
+    {
+      "text": "Po większych zmianach sieci sprawdź adres IP i bramę tunera.",
+      "href": "guides.html",
+      "category": "Sieć"
+    },
+    {
+      "text": "Kiedy instalator zgłasza błąd, zapisz dokładny komunikat zamiast go pomijać.",
+      "href": "errors.html",
+      "category": "Diagnostyka"
+    },
+    {
+      "text": "Wtyczkę instaluj ze sprawdzonego źródła — unikniesz uszkodzonych paczek.",
+      "href": "plugins.html",
+      "category": "Wtyczki"
+    },
+    {
+      "text": "Zmieniając system, upewnij się, że obraz jest przeznaczony dla Twojego modelu.",
+      "href": "systems.html",
+      "category": "Systemy"
+    },
+    {
+      "text": "Nie widzisz piconów? Sprawdź ich katalog i zgodność nazw plików.",
+      "href": "help-picons-serviceref.html",
+      "category": "Picony"
+    },
+    {
+      "text": "Przed konfiguracją One-Liner / FTP zapoznaj się z przeznaczeniem komendy.",
+      "href": "one-liner.html",
+      "category": "Terminal"
+    },
+    {
+      "text": "Kiedy tuner wolno reaguje, sprawdź uruchomione procesy i wolną pamięć.",
+      "href": "guide-diagnostyka-enigma2.html",
+      "category": "Diagnostyka"
+    },
+    {
+      "text": "Szukasz dodatku? Zacznij od katalogu wtyczek, a potem sprawdź zgodność.",
+      "href": "plugins.html",
+      "category": "Wtyczki"
+    },
+    {
+      "text": "Nie wiesz, co pobrać? Asystent doboru wskaże odpowiedni dział.",
+      "href": "assistant.html",
+      "category": "Asystent"
+    },
+    {
+      "text": "Aktualizację AIO Panel przeprowadzaj dopiero po zapisaniu ważnych ustawień.",
+      "href": "plugin-aio-panel.html",
+      "category": "AIO Panel"
+    },
+    {
+      "text": "Sprawdź jakość sygnału transpondera przed zmianami konfiguracji satelity.",
+      "href": "guides.html",
+      "category": "Satelita"
+    },
+    {
+      "text": "Przy braku obrazu najpierw ustal, czy problem dotyczy jednego kanału czy całej listy.",
+      "href": "errors.html",
+      "category": "Diagnostyka"
+    },
+    {
+      "text": "Po awarii Enigma2 log z błędu pomoże znaleźć przyczynę.",
+      "href": "log-analyzer.html",
+      "category": "Logi"
+    },
+    {
+      "text": "Ustaw czas systemowy poprawnie — błędna data może utrudnić działanie EPG.",
+      "href": "guides.html",
+      "category": "EPG"
+    },
+    {
+      "text": "Planujesz zmianę tunera? Porównaj zgodność systemów i aplikacji.",
+      "href": "compatibility.html",
+      "category": "Zgodność"
+    },
+    {
+      "text": "Aplikacje na Android i Windows znajdziesz w osobnych działach pobierania.",
+      "href": "downloads.html",
+      "category": "Aplikacje"
+    },
+    {
+      "text": "Masz nietypowy problem? Opisz objaw i sprawdź sugestie AI Chat.",
+      "href": "ai-chat.html",
+      "category": "AI Chat"
+    },
+    {
+      "text": "Po zmianie list kanałów sprawdź, czy zachowano własne bukiety i ulubione.",
+      "href": "channel-lists.html",
+      "category": "Listy kanałów"
+    }
+  ]
+}

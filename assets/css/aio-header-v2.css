@@ -323,3 +323,191 @@ body.aio-header-v4 .nav-more-menu a:hover{background:rgba(91,220,255,.08)!import
   body.aio-header-v4 .site-search-trigger{width:41px!important;height:41px!important;min-width:41px!important;min-height:41px!important}
   body.aio-header-v4 .aio-header-menu-toggle{width:51px!important;min-width:51px!important;height:41px!important;font-size:10px!important}
 }
+
+
+/* ==============================================================
+   AIO Header – compact support CTA + "Porada dnia", 2026-10-12
+   Scope is deliberately limited to the premium header.
+   ============================================================== */
+@media (min-width:761px){
+  body.aio-header-v4 .site-header .brand-row{
+    grid-template-columns:minmax(235px,auto) minmax(0,1fr) max-content!important;
+    column-gap:clamp(11px,1.5vw,20px)!important;
+  }
+  body.aio-header-v4 .site-header .aio-h4-support{
+    justify-self:end!important;
+    width:auto!important;
+    min-width:0!important;
+    min-height:43px!important;
+    padding:0 14px!important;
+    gap:7px!important;
+    border-radius:12px!important;
+    border-color:rgba(98,208,255,.27)!important;
+    background:linear-gradient(145deg,rgba(13,55,74,.96),rgba(11,40,59,.96))!important;
+    color:#d7f8ff!important;
+    box-shadow:0 6px 18px rgba(0,0,0,.15)!important;
+    font-size:12px!important;
+    font-weight:800!important;
+    letter-spacing:.005em!important;
+  }
+  body.aio-header-v4 .site-header .aio-h4-support:hover{
+    border-color:rgba(99,215,255,.52)!important;
+    background:linear-gradient(145deg,rgba(14,74,96,.97),rgba(12,51,72,.97))!important;
+  }
+  body.aio-header-v4 .site-header .aio-h4-support span[aria-hidden="true"]{
+    color:#69dff8!important;
+    font-size:15px!important;
+  }
+  body.aio-header-v4 .site-header .aio-h4-support b{
+    color:#8edfff!important;
+    font-size:17px!important;
+  }
+  body.aio-home-v2.aio-header-v4 .site-header .brand-row{
+    grid-template-columns:minmax(220px,285px) minmax(0,1fr) max-content!important;
+  }
+}
+body.aio-home-v2.aio-header-v4 .site-header .aio-h4-daily-tip{
+  display:grid!important;
+  box-sizing:border-box!important;
+  grid-template-columns:32px minmax(0,1fr) 28px!important;
+  gap:10px!important;
+  align-items:center!important;
+  min-width:0!important;
+  max-width:100%!important;
+  width:100%!important;
+  min-height:63px!important;
+  padding:8px 9px 8px 12px!important;
+  border-radius:14px!important;
+  border:1px solid rgba(98,208,255,.23)!important;
+  background:radial-gradient(circle at 5% 50%,rgba(22,98,110,.20),transparent 42%),linear-gradient(145deg,rgba(8,49,63,.94),rgba(6,34,49,.96))!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.03)!important;
+  color:#e5faff!important;
+  overflow:hidden!important;
+}
+body.aio-home-v2.aio-header-v4 .aio-h4-tip-icon{
+  display:grid;
+  place-items:center;
+  width:31px;height:31px;
+  border-radius:10px;
+  color:#89f3dc;
+  background:linear-gradient(145deg,rgba(42,199,183,.13),rgba(56,165,226,.08));
+  border:1px solid rgba(91,223,210,.21);
+  font-size:18px;
+}
+body.aio-home-v2.aio-header-v4 .aio-h4-tip-content{min-width:0;}
+body.aio-home-v2.aio-header-v4 .aio-h4-tip-head{
+  display:flex;
+  align-items:baseline;
+  gap:9px;
+  line-height:1.2;
+  margin-bottom:5px;
+}
+body.aio-home-v2.aio-header-v4 .aio-h4-tip-head strong{
+  color:#69dfc8;font-size:9px;font-weight:900;letter-spacing:.12em;
+}
+body.aio-home-v2.aio-header-v4 .aio-h4-tip-date{
+  color:#729dab;font-size:10px;
+}
+body.aio-home-v2.aio-header-v4 .aio-h4-tip-link{
+  display:flex!important;
+  align-items:center;
+  gap:7px;
+  min-width:0;
+  color:#dfedf4!important;
+  text-decoration:none!important;
+  line-height:1.45;
+}
+body.aio-home-v2.aio-header-v4 .aio-h4-tip-link:hover{color:#fff!important}
+body.aio-home-v2.aio-header-v4 .aio-h4-tip-category{
+  display:none;
+}
+body.aio-home-v2.aio-header-v4 .aio-h4-tip-text{
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+  overflow:hidden;
+  font-size:12px;
+  font-weight:700;
+  min-width:0;
+}
+body.aio-home-v2.aio-header-v4 .aio-h4-tip-arrow{
+  margin-left:auto;
+  color:#71e5ec;
+  font-size:15px;
+  flex:0 0 auto;
+}
+body.aio-home-v2.aio-header-v4 .aio-h4-tip-next{
+  display:grid!important;
+  place-items:center!important;
+  width:28px!important;height:28px!important;
+  min-height:0!important;
+  padding:0!important;
+  border:1px solid rgba(102,212,245,.16)!important;
+  border-radius:9px!important;
+  color:#8fdce9!important;
+  background:rgba(255,255,255,.035)!important;
+  font:700 17px/1 Inter,Arial,sans-serif!important;
+  cursor:pointer!important;
+}
+body.aio-home-v2.aio-header-v4 .aio-h4-tip-next:hover{
+  background:rgba(102,212,245,.12)!important;
+  color:#fff!important;
+}
+body.aio-home-v2.aio-header-v4 .aio-h4-tip-link:focus-visible,
+body.aio-home-v2.aio-header-v4 .aio-h4-tip-next:focus-visible{
+  outline:2px solid #69d9fb;outline-offset:3px;
+}
+/* Keep a generous tip but avoid squeezing the logo at laptop widths. */
+@media (min-width:761px) and (max-width:1040px){
+  body.aio-home-v2.aio-header-v4 .site-header .brand-row{
+    grid-template-columns:minmax(210px,240px) minmax(0,1fr) max-content!important;
+  }
+  body.aio-home-v2.aio-header-v4 .site-header .aio-h4-daily-tip{
+    grid-template-columns:24px minmax(0,1fr) 25px!important;
+    gap:7px!important;
+    padding:7px!important;
+  }
+  body.aio-home-v2.aio-header-v4 .aio-h4-tip-icon{width:24px;height:24px}
+  body.aio-home-v2.aio-header-v4 .aio-h4-tip-text{font-size:11px}
+  body.aio-header-v4 .site-header .aio-h4-support{padding:0 10px!important;font-size:11px!important}
+}
+/* Mobile: one contained horizontal hint below the brand; main menu is preserved. */
+@media(max-width:760px){
+  body.aio-home-v2.aio-header-v4 .site-header .brand-row{
+    grid-template-columns:minmax(0,1fr) 54px!important;
+    gap:9px!important;
+    grid-template-rows:auto auto!important;
+  }
+  body.aio-home-v2.aio-header-v4 .site-header .brand-row>.brand{
+    grid-column:1!important;grid-row:1!important;
+  }
+  body.aio-home-v2.aio-header-v4 .site-header .brand-row>.aio-header-menu-toggle{
+    grid-column:2!important;grid-row:1!important;
+  }
+  body.aio-home-v2.aio-header-v4 .site-header .aio-h4-daily-tip{
+    grid-column:1 / -1!important;
+    grid-row:2!important;
+    min-height:51px!important;
+    border-radius:11px!important;
+    grid-template-columns:24px minmax(0,1fr) 28px!important;
+    gap:7px!important;
+    padding:7px 8px!important;
+  }
+  body.aio-home-v2.aio-header-v4 .aio-h4-tip-icon{
+    width:24px;height:24px;border-radius:7px;font-size:14px;
+  }
+  body.aio-home-v2.aio-header-v4 .aio-h4-tip-head{margin-bottom:2px}
+  body.aio-home-v2.aio-header-v4 .aio-h4-tip-text{
+    font-size:11px!important;
+    -webkit-line-clamp:1;
+  }
+  body.aio-home-v2.aio-header-v4 .aio-h4-tip-next{width:28px;height:28px}
+}
+@media(max-width:420px){
+  body.aio-home-v2.aio-header-v4 .site-header .brand-row{
+    grid-template-columns:minmax(0,1fr) 51px!important;
+  }
+}
+@media print{
+  body.aio-home-v2.aio-header-v4 .aio-h4-daily-tip{display:none!important}
+}
