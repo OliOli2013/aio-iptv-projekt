@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Konserwacja AIO — panel właściciela</title><meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="description" content="Prywatny panel kontroli konserwacji i retencji AIO.">
+<link rel="icon" href="pliki/logo.png"><link rel="stylesheet" href="assets/css/user-premium.css?v=20260911-access21">
+<link rel="stylesheet" href="assets/css/aio-maintenance-panel.css?v=20261013-maint1">
+</head><body class="aio-maint-page">
+<a class="aio-maint-skip" href="#main-content">Przejdź do treści</a>
+<header class="aio-maint-header"><a href="community-admin.html">← Panel Właściciela</a><strong>AIO-IPTV.pl</strong><a href="index.html">Strona główna</a></header>
+<main id="main-content" class="aio-maint-wrapper">
+ <p class="aio-maint-eyebrow">NARZĘDZIA TYLKO DLA WŁAŚCICIELA</p>
+ <h1>Konserwacja i bezpieczeństwo AIO</h1>
+ <p>Podgląd retencji danych, ręczne porządkowanie wygasłych rekordów i kontrola próbek plików w Cloudflare R2.</p>
+ <section class="aio-maint-card" aria-live="polite"><h2>Uprawnienia i połączenie</h2><p id="aioMaintStatus">Sprawdzam sesję właściciela...</p><p>Panel nie wykonuje zmian automatycznie. Dostęp do danych wymaga sesji właściciela po stronie API.</p></section>
+ <div id="aioMaintPrivate" hidden>
+  <section class="aio-maint-card"><h2>Dane kwalifikujące się do usunięcia</h2><p>To wyłącznie liczby rekordów. Konta, posty, komentarze i zdjęcia nie są objęte czyszczeniem.</p>
+  <div class="aio-maint-grid">
+    <div><span>Wygasłe sesje (2 dni)</span><strong id="aioExpiredSessions">—</strong></div>
+    <div><span>Przeterminowane tokeny resetu (1 dzień)</span><strong id="aioExpiredReset">—</strong></div>
+    <div><span>Stare liczniki logowań (30 dni)</span><strong id="aioExpiredLogin">—</strong></div>
+    <div><span>Historia IP starsza niż 90 dni</span><strong id="aioExpiredIp">—</strong></div>
+  </div>
+  <div class="aio-maint-actions"><button type="button" id="aioRefresh" class="aio-maint-btn">Odśwież podgląd</button><button type="button" id="aioCleanup" class="aio-maint-btn danger">Usuń wygasłe sesje i tokeny</button><button type="button" id="aioCleanupIp" class="aio-maint-btn danger">Usuń stare IP (90 dni)</button></div>
+  <p class="aio-maint-warning">Przed trwałym usunięciem wykonaj kopię bazy D1. Każda operacja wymaga wpisania osobnego hasła potwierdzającego.</p>
+  </section>
+  <section class="aio-maint-card"><h2>Zdjęcia Społeczności — próbka R2</h2>
+    <p>Kontrola maksymalnie 12 kluczy załączników z ostatnich opublikowanych postów. Nie usuwa ani nie przenosi zdjęć. Nie stanowi pełnego audytu R2.</p>
+    <button type="button" id="aioMediaCheck" class="aio-maint-btn">Sprawdź próbkę mediów</button>
+    <output id="aioMediaResult" aria-live="polite"></output>
+  </section>
+  <section class="aio-maint-card"><h2>Kopie bezpieczeństwa i prywatność</h2>
+    <p><strong>Cloudflare D1/R2:</strong> eksporty uruchamiaj na swoim Linux Mint, narzędziem <code>scripts/aio_maintenance_backup.sh</code>. Ten panel nie ma dostępu do Twoich lokalnych kopii ani kluczy Cloudflare i nie udaje, że backup istnieje.</p>
+    <p><strong>Optymalizacja grafik:</strong> <code>scripts/aio_optimize_images.py</code> pozwala przygotować mniejsze obrazy WebP z pozostawieniem oryginałów. Zmiana wymaga świadomego uruchomienia <code>--apply</code>.</p>
+    <p>Tożsamość administratora pozostaje w dotychczasowym brzmieniu dokumentów RODO. Ten moduł nie zmienia żadnych danych identyfikacyjnych.</p>
+    <p><a href="privacy-community.html">Polityka prywatności</a> · <a href="rodo-rights.html">Prawa użytkownika</a> · <a href="cookies.html">Cookies</a></p>
+  </section>
+ </div>
+</main><script defer src="assets/js/aio-maintenance-panel.js?v=20261013-maint1"></script></body></html>

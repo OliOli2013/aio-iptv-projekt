@@ -41,8 +41,13 @@
     return true;
   }
 
+  // aio-maint-stats-revocation-v1: consent can be revoked after script loads.
+  function statsAllowed(){
+    try{const x=JSON.parse(localStorage.getItem('aio_privacy_stats_consent_v1')||'null');
+      return !!(x&&x.value==='yes'&&Number(x.until)>Date.now());}catch(_){return false;}
+  }
   async function track(){
-    if(!shouldTrack()) return;
+    if(!statsAllowed() || !shouldTrack()) return;
     try{
       await fetch('/api/site-stats',{
         method:'POST',credentials:'same-origin',cache:'no-store',keepalive:true,

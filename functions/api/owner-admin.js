@@ -31,6 +31,39 @@ export async function onRequestGet({request, env}) {
     const tab = String(url.searchParams.get("tab") || "security");
     const ownerId = await getOwnerId(env);
 
+    /* aio-maintenance-owner-v1: only verified owner can read these counts. */
+    if (tab === "maintenance") {
+      const counts = {
+        sessions_expired: await countRows(env,`SELECT COUNT(*) AS n FROM community_sessions WHERE datetime(expires_at) < datetime('now','-2 days')`),
+        reset_tokens_expired: await countRows(env,`SELECT COUNT(*) AS n FROM community_password_resets WHERE datetime(expires_at) < datetime('now','-1 day')`),
+        login_history_old: await countRows(env,`SELECT COUNT(*) AS n FROM community_login_attempts WHERE datetime(last_at) < datetime('now','-30 days') AND (blocked_until IS NULL OR datetime(blocked_until)<datetime('now'))`),
+        user_ip_history_old: await countRows(env,`SELECT COUNT(*) AS n FROM community_user_ips WHERE datetime(last_seen_at) < datetime('now','-90 days')`)
+      };
+      return json({ok:true,counts,cleanup_automatic:false,backup_verified:false,
+        message:"Podgląd bez zmian w danych. Czyszczenie wymaga jawnego potwierdzenia."});
+    }
+
+    if (tab === "media_audit") {
+      if(!env.COMMUNITY_MEDIA) return json({ok:false,error:"Brak magazynu COMMUNITY_MEDIA."},503);
+      const rr=await db.prepare(`SELECT attachments FROM community_posts
+        WHERE status='published' AND attachments IS NOT NULL AND attachments<>'[]'
+        ORDER BY datetime(created_at) DESC LIMIT 40`).all();
+      const keys=new Set();
+      for(const post of (rr.results||[])){
+        for(const item of parseAttachments(post.attachments)){
+          const key=String(item?.key||item?.path||'');
+          if(key && !key.includes('..') && key.length<=500) keys.add(key);
+        }
+      }
+      const sampled=Array.from(keys).slice(0,12),missing=[];
+      for(const key of sampled){
+        const obj=await env.COMMUNITY_MEDIA.head(key);
+        if(!obj) missing.push(key);
+      }
+      return json({ok:true,checked:sampled.length,missing,
+        info:"Próbka maksymalnie 12 załączników opublikowanych wpisów, bez usuwania danych."});
+    }
+
     if (tab === "security") {
       const privileged = await db.prepare(`
         SELECT id,display_name,role,trusted,created_at,updated_at
@@ -182,6 +215,25 @@ export async function onRequestPost({request, env}) {
         action:"security_ip_retention_cleanup",reason:"Usunięto historię IP starszą niż 90 dni.",ip:clientIp(request),
         metadata:{deleted:expired}});
       return json({ok:true,deleted_ip_rows:expired});
+    }
+
+    if (action === "maintenance_cleanup_expired") {
+      const expired={
+        sessions:await countRows(env,`SELECT COUNT(*) AS n FROM community_sessions WHERE datetime(expires_at)<datetime('now','-2 days')`),
+        reset_tokens:await countRows(env,`SELECT COUNT(*) AS n FROM community_password_resets WHERE datetime(expires_at)<datetime('now','-1 day')`),
+        login_history:await countRows(env,`SELECT COUNT(*) AS n FROM community_login_attempts WHERE datetime(last_at)<datetime('now','-30 days') AND (blocked_until IS NULL OR datetime(blocked_until)<datetime('now'))`)
+      };
+      if(body.confirm!=='USUN_WYGASLE_REKORDY_AIO') return json({ok:true,preview:true,counts:expired});
+      /* Expired records only, never accounts, published media or posts. */
+      await db.batch([
+        db.prepare(`DELETE FROM community_sessions WHERE datetime(expires_at)<datetime('now','-2 days')`),
+        db.prepare(`DELETE FROM community_password_resets WHERE datetime(expires_at)<datetime('now','-1 day')`),
+        db.prepare(`DELETE FROM community_login_attempts WHERE datetime(last_at)<datetime('now','-30 days') AND (blocked_until IS NULL OR datetime(blocked_until)<datetime('now'))`)
+      ]);
+      await moderationLog(env,s.user.id,{targetType:"user",targetId:ownerId,
+        action:"maintenance_expired_cleanup",reason:"Ręczne usunięcie wygasłych rekordów technicznych.",
+        ip:clientIp(request),metadata:{counts:expired}});
+      return json({ok:true,deleted:expired});
     }
 
     if (action === "cleanup_privileged_roles") {

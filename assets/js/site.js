@@ -179,7 +179,14 @@
   // -------------------------
   // Analytics
   // -------------------------
+  // aio-maint-analytics-consent-v1: legacy GA4 must respect the current consent.
+  function aioLegacyStatsAllowed(){
+    try {const x=JSON.parse(localStorage.getItem('aio_privacy_stats_consent_v1')||'null');
+      return !!(x&&x.value==='yes'&&Number(x.until)>Date.now());}catch(_){return false;}
+  }
+  window.addEventListener('aio-privacy-choice-changed',()=>{if(aioLegacyStatsAllowed())initAnalytics();});
   async function initAnalytics() {
+    if(!aioLegacyStatsAllowed()) return;
     try {
       const cfg = await safeFetchJSON(relUrl('data/analytics_config.json'));
       const mid = (cfg && cfg.measurement_id) ? String(cfg.measurement_id).trim() : '';

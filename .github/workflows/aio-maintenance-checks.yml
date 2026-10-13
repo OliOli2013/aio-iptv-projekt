@@ -1,0 +1,40 @@
+name: AIO maintenance checks
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "functions/api/community-media.js"
+      - "functions/api/owner-admin.js"
+      - "assets/js/aio-maintenance-panel.js"
+      - "assets/js/site.js"
+      - "assets/js/stats-nav.js"
+      - "assets/js/content-protection.js"
+      - "scripts/aio_maintenance_verify.py"
+      - ".github/workflows/aio-maintenance-checks.yml"
+  pull_request:
+    paths:
+      - "functions/api/community-media.js"
+      - "functions/api/owner-admin.js"
+      - "assets/js/aio-maintenance-panel.js"
+      - "scripts/aio_maintenance_verify.py"
+permissions:
+  contents: read
+jobs:
+  static:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Maintenance integrity
+        run: python scripts/aio_maintenance_verify.py
+      - name: Verify JS module syntax
+        run: |
+          for f in functions/api/community-media.js functions/api/owner-admin.js assets/js/aio-maintenance-panel.js assets/js/site.js assets/js/stats-nav.js assets/js/aio-site-stats.js assets/js/content-protection.js; do
+            node --input-type=module --check < "$f"
+          done
+      - name: Run active-page links check
+        run: python scripts/aio_integrity_audit.py --strict-links

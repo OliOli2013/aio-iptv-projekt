@@ -37,6 +37,19 @@ async function canReadPublic(env,key){
   return Boolean(row);
 }
 
+/* aio-maint-media-check-v1: member may access only own or actually published media. */
+async function canReadMember(env,key){
+  const db=env.COMMUNITY_DB;
+  const posts=await db.prepare(`SELECT 1 FROM community_posts
+    WHERE status='published' AND instr(COALESCE(attachments,''),?)>0 LIMIT 1`).bind(key).first();
+  if(posts) return true;
+  const chat=await db.prepare(`SELECT 1 FROM community_chat_messages
+    WHERE status='published' AND instr(COALESCE(attachments,''),?)>0 LIMIT 1`).bind(key).first();
+  if(chat) return true;
+  const avatar=await db.prepare(`SELECT 1 FROM community_profiles WHERE avatar_key=? LIMIT 1`).bind(key).first();
+  return !!avatar;
+}
+
 export async function onRequestGet({request,env}) {
   try{
     await ensureSchema(env);
@@ -58,6 +71,10 @@ export async function onRequestGet({request,env}) {
      * Dla gościa sprawdzamy, czy plik należy do publicznego wpisu oficjalnego.
      */
     let publicAllowed=false;
+    if(session && !key.startsWith(`${session.user.id}/`) && !isAdmin(session)) {
+      const allowed=await canReadMember(env,key);
+      if(!allowed) return json({ok:false,error:"Nie masz dostępu do tego pliku."},403);
+    }
     if(!session){
       publicAllowed=await canReadPublic(env,key);
       if(!publicAllowed){

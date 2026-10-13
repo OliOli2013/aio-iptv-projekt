@@ -23,8 +23,13 @@
     }
   }
 
+  // aio-maint-analytics-consent-v1: do not initialize Google before agreement.
+  function aioLegacyStatsAllowed(){
+    try {const x=JSON.parse(localStorage.getItem('aio_privacy_stats_consent_v1')||'null');
+      return !!(x&&x.value==='yes'&&Number(x.until)>Date.now());}catch(_){return false;}
+  }
   function ensureGtag(measurementId) {
-    if (!measurementId) return;
+    if (!measurementId || !aioLegacyStatsAllowed()) return;
 
     // Guard: avoid duplicate config calls (e.g., if tag already embedded in <head>)
     if (window.__aio_ga4_configured === measurementId) return;
@@ -90,6 +95,11 @@
     if (statsLink) statsLink.textContent = label;
   }
 
+  window.addEventListener('aio-privacy-choice-changed',async()=>{
+    if(!aioLegacyStatsAllowed()) return;
+    const cfg=await loadAnalyticsConfig();
+    ensureGtag((cfg&&cfg.measurement_id)||DEFAULT_MEASUREMENT_ID);
+  });
   document.addEventListener('DOMContentLoaded', async () => {
     const lang = detectLang();
     appendStatsLinkToNav(lang);

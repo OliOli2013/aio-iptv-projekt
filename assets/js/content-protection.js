@@ -22,7 +22,13 @@
   let toastTimer = null;
   let guardTimer = null;
 
+  /* aio-maint-accessibility-v1: legal/rights documents must be readable and
+     selectable. Core content protection remains on other pages. */
+  function legalAccessiblePage(){
+    return /\/(?:privacy-community|cookies|rodo-rights|community-rules)(?:\.html)?$/.test(location.pathname);
+  }
   function closestProtected(target){
+    if(legalAccessiblePage()) return null;
     if (!target || !target.closest) return null;
     if (target.closest(CONFIG.allowSelector)) return null;
     return target.closest('.aio-protected-content');
@@ -129,6 +135,7 @@
     },true);
 
     document.addEventListener('dragstart',e=>{
+      if(legalAccessiblePage())return;
       if (!CONFIG.blockDragImages) return;
       const img=e.target && e.target.closest ? e.target.closest('img') : null;
       if (!img || !img.closest('.aio-protected-content')) return;
@@ -136,6 +143,7 @@
     },true);
 
     document.addEventListener('keydown',e=>{
+      if(legalAccessiblePage())return;
       const key=String(e.key||'').toLowerCase();
       const mod=e.ctrlKey||e.metaKey;
       const active=document.activeElement;
