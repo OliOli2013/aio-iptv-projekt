@@ -137,12 +137,45 @@ export async function onRequestPost({request, env}) {
         ORDER BY created_at DESC LIMIT 1
       `).bind(auth.user_id).first();
 
+      /* aio-reset-optional-mail-v1 */
       if (!existing) {
+        const requestId = crypto.randomUUID();
         await db.prepare(`
           INSERT INTO community_password_reset_requests
             (id,user_id,email_snapshot,requested_ip,status,created_at)
           VALUES(?,?,?,?, 'pending', ?)
-        `).bind(crypto.randomUUID(),auth.user_id,auth.email,ip,isoNow()).run();
+        `).bind(requestId,auth.user_id,auth.email,ip,isoNow()).run();
+
+        // Optional: Resend API (verified sender domain required).
+        // Without configured secrets the existing owner-approved reset remains active.
+        // Never expose the token in an HTTP response or a log.
+        const apiKey=String(env.RESEND_API_KEY||'').trim();
+        const from=String(env.AIO_RESET_FROM_EMAIL||'').trim();
+        if(apiKey && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(from)) {
+          const token=randomToken();
+          const codeHash=await sha256(token);
+          const expiresAt=new Date(Date.now()+60*60*1000).toISOString();
+          try {
+            const response=await fetch('https://api.resend.com/emails',{
+              method:'POST',
+              headers:{'Authorization':'Bearer '+apiKey,'Content-Type':'application/json'},
+              body:JSON.stringify({
+                from,
+                to:[auth.email],
+                subject:'AIO-IPTV.pl — jednorazowy kod resetowania hasla',
+                text:'Otrzymalismy prosbe o reset hasla. Jezeli to Ty, otworz https://aio-iptv-projekt.pages.dev/community.html i wybierz „Mam kod resetu”.\n\nKod: '+token+'\n\nKod wygasa za 60 minut. Jezeli nie skladales prosby, zignoruj wiadomosc.'
+              })
+            });
+            if(response.ok) {
+              await db.prepare(`
+                UPDATE community_password_reset_requests
+                SET status='approved', code_hash=?, expires_at=?, approved_at=?
+                WHERE id=? AND status='pending'
+              `).bind(codeHash,expiresAt,isoNow(),requestId).run();
+            }
+            // On mail failure leave the pending request for owner approval.
+          } catch(_) { /* Keep pending request; never leak email credentials. */ }
+        }
       }
 
       return json({ok:true,message:"Jeżeli konto istnieje, prośba o reset została przekazana administratorowi."});

@@ -246,8 +246,8 @@
             <p class="eyebrow">Społeczność AIO</p>
             <h2>Nie pamiętam hasła</h2>
             <p class="community-side-note">
-              Podaj adres e-mail użyty przy rejestracji. Prośba trafi do administratora.
-              Po weryfikacji otrzymasz od administratora jednorazowy kod resetu.
+              Podaj e-mail użyty przy rejestracji. Jeżeli w serwisie włączono automatyczną wysyłkę,
+              otrzymasz jednorazowy kod e-mailem. W innym przypadku prośba trafi do administratora.
             </p>
             <div class="community-field">
               <label>E-mail</label>
@@ -273,7 +273,7 @@
           try{
             await this.auth('request_reset',{email:form.email.value.trim()});
             dialog.close();
-            this.showToast('Prośba została przyjęta. Skontaktuj się z administratorem AIO, aby otrzymać jednorazowy kod resetu.','success');
+            this.showToast('Jeśli konto istnieje, otrzymasz kod e-mailem (gdy wysyłka jest aktywna) albo możesz otrzymać go od administratora AIO.','success');
           }catch(err){
             this.showToast(this.friendlyError(err),'error');
           }finally{
@@ -300,7 +300,7 @@
             <p class="eyebrow">Społeczność AIO</p>
             <h2>Ustaw nowe hasło</h2>
             <p class="community-side-note">
-              Wpisz jednorazowy kod otrzymany od administratora. Kod jest ważny 24 godziny i działa tylko raz.
+              Wpisz jednorazowy kod otrzymany e-mailem lub od administratora. Kod jest jednorazowy; sprawdź czas ważności w wiadomości.
             </p>
             <div class="community-field">
               <label>Kod resetu</label>

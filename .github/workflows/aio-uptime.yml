@@ -1,0 +1,22 @@
+name: AIO uptime checks
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  public-readiness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Public pages and D1/R2 readiness (no paid AI calls)
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          base='https://aio-iptv-projekt.pages.dev'
+          for url in / /downloads.html /community.html /ai-chat.html /api/aio-health; do
+            echo "Checking ${url}"
+            curl -fsSL --max-time 25 --retry 2 --retry-delay 2 --output /dev/null "${base}${url}"
+          done
+          echo 'AIO public readiness: OK'

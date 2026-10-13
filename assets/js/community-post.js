@@ -96,7 +96,7 @@
     if(dialog)return dialog;
 
     dialog=document.createElement('dialog');
-    dialog.className='community-dialog';
+    dialog.className='community-dialog aio-edit-dialog-v1';
     dialog.setAttribute('data-community-edit-dialog','');
     dialog.innerHTML=`
       <form class="community-dialog-card community-form" data-community-edit-form style="max-width:860px;width:min(94vw,860px);max-height:90vh;overflow:auto">
@@ -143,10 +143,6 @@
           <input type="checkbox" data-edit-official> Oficjalny wpis AIO-IPTV.pl
         </label>
 
-        <div class="community-field" data-edit-reason-wrap hidden>
-          <label>Powód edycji administracyjnej</label>
-          <input data-edit-reason maxlength="500" placeholder="Np. aktualizacja linku, uzupełnienie zdjęć">
-        </div>
 
         <div class="community-form-actions">
           <button class="button primary" type="submit" data-edit-save>Zapisz zmiany</button>
@@ -189,9 +185,6 @@
     officialWrap.hidden=!AIOCommunity.isAdmin();
     officialInput.checked=post.kind==='official';
 
-    const reasonWrap=dialog.querySelector('[data-edit-reason-wrap]');
-    reasonWrap.hidden=!(AIOCommunity.isAdmin()&&!AIOCommunity.isOwner(post.author_id));
-    dialog.querySelector('[data-edit-reason]').value='';
 
     const existing=dialog.querySelector('[data-edit-existing-images]');
     const attachments=Array.isArray(post.attachments)?post.attachments:[];
@@ -287,7 +280,7 @@
           category:form.querySelector('[data-edit-category]').value,
           postType:form.querySelector('[data-edit-post-type]').value,
           official:Boolean(form.querySelector('[data-edit-official]')?.checked),
-          reason:form.querySelector('[data-edit-reason]')?.value.trim()||'',
+          reason:'',
           attachments:kept.concat(uploaded).map(x=>({
             key:x.key||x.path||'',
             path:x.key||x.path||'',
