@@ -130,3 +130,11 @@ html.aio-screen-guard::after {
 @media (prefers-reduced-motion: reduce) {
   #aio-protection-toast { transition: none; }
 }
+
+/* AIO UX PERFORMANCE V1 — chat text links */
+.aio-protected-content .aio-chat-messages,
+.aio-protected-content .aio-chat-messages * {
+  -webkit-user-select: text !important;
+  user-select: text !important;
+  -webkit-touch-callout: default !important;
+}

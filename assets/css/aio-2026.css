@@ -426,3 +426,21 @@ input:focus,select:focus,textarea:focus{border-color:rgba(79,226,255,.48)!import
 .home-more-hub{position:relative;overflow:hidden;border-color:rgba(91,218,255,.26)!important;background:linear-gradient(145deg,rgba(8,29,41,.94),rgba(4,16,24,.96))!important}
 .home-more-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:center}.home-more-head h2{margin:.2rem 0 .45rem;font-size:clamp(1.55rem,2.8vw,2.35rem)}.home-more-head p:not(.aio-kicker){max-width:800px;margin:0;color:var(--aio-muted);line-height:1.55}.home-more-toggle{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:46px;border:1px solid rgba(111,226,255,.42);border-radius:13px;padding:11px 15px;color:#06131a;background:linear-gradient(135deg,#8deeff,#6bbaff);font:inherit;font-weight:950;cursor:pointer;white-space:nowrap;box-shadow:0 10px 26px rgba(60,160,230,.16)}.home-more-toggle:hover{filter:brightness(1.05);transform:translateY(-1px)}.home-more-toggle b{font-size:1rem}.home-more-summary{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}.home-more-summary span{border:1px solid rgba(112,203,236,.15);border-radius:999px;padding:5px 9px;color:#9fbdc8;background:rgba(6,27,38,.62);font-size:.68rem;font-weight:760}.home-more-content{margin-top:22px}.home-more-content>*:first-child{margin-top:0!important}.home-more-content>*:last-child{margin-bottom:0!important}.home-more-hub.is-expanded{border-color:rgba(89,225,255,.38)!important;box-shadow:0 20px 55px rgba(0,0,0,.22)}
 @media(max-width:760px){.home-more-head{grid-template-columns:1fr}.home-more-toggle{width:100%}.home-more-summary{margin-top:12px}.home-more-content{margin-top:16px}}
+
+/* AIO UX PERFORMANCE V1 — secondary page headings */
+html body:not(.aio-portal-home) .hero-compact h2.aio-ux-secondary-title,
+html body:not(.aio-portal-home) .pro-hero h2.aio-ux-secondary-title {
+  max-width:900px!important;
+  margin:6px 0 13px!important;
+  color:inherit;
+  font-size:clamp(2.25rem,4.7vw,4.55rem)!important;
+  line-height:.98!important;
+  letter-spacing:-.06em!important;
+  text-wrap:balance!important;
+}
+@media(max-width:720px){
+  html body:not(.aio-portal-home) .hero-compact h2.aio-ux-secondary-title,
+  html body:not(.aio-portal-home) .pro-hero h2.aio-ux-secondary-title {
+    font-size:clamp(2rem,11vw,3.1rem)!important;
+  }
+}

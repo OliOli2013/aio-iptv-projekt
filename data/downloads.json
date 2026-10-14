@@ -480,16 +480,16 @@
     "official": "Link zewnętrzny"
   },
   {
-    "title": "Multi‑Click i czyste systemy image — pobierz",
-    "href": "https://multi-click.pl/index.php?controller=attachment&id_attachment=141",
+    "title": "Zgemma H9 Twin SE — OpenATV 8.0.1",
+    "href": "https://multi-click.pl/index.php?controller=attachment&id_attachment=156",
     "category": "Systemy",
     "platform": "Enigma2",
-    "version": "",
+    "version": "8.0.1",
     "date": "",
     "status": "Stabilna",
     "sourcePage": "systems.html",
-    "sourceTitle": "Multi‑Click i czyste systemy image",
-    "kind": "PHP",
+    "sourceTitle": "Zgemma H9 Twin SE — OpenATV 8.0.1",
+    "kind": "SYSTEM",
     "size": "zewnętrzny link",
     "sha256": "",
     "official": "Link zewnętrzny"
@@ -510,16 +510,16 @@
     "official": "Link zewnętrzny"
   },
   {
-    "title": "Multi‑Click i czyste systemy image — pobierz",
-    "href": "https://multi-click.pl/index.php?controller=attachment&id_attachment=138",
+    "title": "Zgemma H17 Combo — OpenATV 7.6",
+    "href": "https://multi-click.pl/index.php?controller=attachment&id_attachment=147",
     "category": "Systemy",
     "platform": "Enigma2",
-    "version": "",
+    "version": "7.6",
     "date": "",
     "status": "Stabilna",
     "sourcePage": "systems.html",
-    "sourceTitle": "Multi‑Click i czyste systemy image",
-    "kind": "PHP",
+    "sourceTitle": "Zgemma H17 Combo — OpenATV 7.6",
+    "kind": "SYSTEM",
     "size": "zewnętrzny link",
     "sha256": "",
     "official": "Link zewnętrzny"

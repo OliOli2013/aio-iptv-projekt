@@ -433,7 +433,7 @@
         // Inne sekcje zachowuja swoj dotychczasowy mechanizm.
         if(publicLinks){
           html+='<a class="community-link" href="'+this.escapeAttr(href)+'" '+
-            'target="_blank" rel="noopener noreferrer nofollow ugc">'+
+            'data-support-bypass="true" target="_blank" rel="noopener noreferrer nofollow ugc">'+
             this.escape(shown)+'</a>'+this.escape(trailing);
           last=match.index+match[0].length;
           continue;

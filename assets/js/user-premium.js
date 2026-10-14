@@ -800,7 +800,7 @@
 
   function interceptCommunityLink(event) {
     const anchor = event.target.closest && event.target.closest('a.community-link');
-    if (!anchor || !isCommunityContentLink(anchor)) return;
+    if (!anchor || anchor.closest('[data-chat-messages]') || !isCommunityContentLink(anchor)) return;
 
     event.preventDefault(); event.stopPropagation();
     if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
@@ -815,7 +815,7 @@
 
   function isCommunityContentLink(anchor) {
     if (!anchor || !anchor.classList.contains('community-link')) return false;
-    if (anchor.dataset.supportBypass === 'true' || anchor.closest('.support-gate-modal')) return false;
+    if (anchor.closest('[data-chat-messages]') || anchor.dataset.supportBypass === 'true' || anchor.closest('.support-gate-modal')) return false;
     const rawHref = (anchor.getAttribute('href') || '').trim();
     if (!rawHref || /^(?:#|javascript:|mailto:|tel:)/i.test(rawHref)) return false;
     try { const url = new URL(rawHref, window.location.href); if (SUPPORT_HOSTS.test(url.hostname)) return false; }
@@ -875,7 +875,7 @@
   }
 
   function isDownloadHref(anchor, rawHref) {
-    if (!anchor || anchor.dataset.supportBypass === 'true' || anchor.closest('.support-gate-modal')) return false;
+    if (!anchor || anchor.closest('[data-chat-messages]') || anchor.dataset.supportBypass === 'true' || anchor.closest('.support-gate-modal')) return false;
     rawHref = String(rawHref || '').trim();
     if (!rawHref || /^(?:#|javascript:|mailto:|tel:)/i.test(rawHref)) return false;
 

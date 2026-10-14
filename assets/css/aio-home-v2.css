@@ -370,3 +370,18 @@
     padding:8px 12px;
   }
 }
+
+/* AIO UX PERFORMANCE V1 — dated file cards */
+.aio-v2-file-actions { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+.aio-v2-file-card .aio-v2-file-actions a {
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:7px 10px; border-radius:8px; border:1px solid rgba(101,217,255,.32);
+  color:#b9ebff; font-size:.78rem; font-weight:800; text-decoration:none;
+}
+.aio-v2-file-card .aio-v2-file-actions a:last-child {
+  background:rgba(101,217,255,.14); color:#72deff;
+}
+.aio-v2-file-card .aio-v2-file-actions a:hover,
+.aio-v2-file-card .aio-v2-file-actions a:focus-visible {
+  background:rgba(101,217,255,.22); outline:2px solid rgba(101,217,255,.55); outline-offset:2px;
+}

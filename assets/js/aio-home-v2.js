@@ -8,108 +8,64 @@ const txt=e=>e?e.textContent.trim():'';
 const short=(v,n=145)=>{v=String(v||'').replace(/\s+/g,' ').trim();return v.length>n?v.slice(0,n-1)+'…':v};
 const datePL=v=>{try{return new Date(v).toLocaleDateString('pl-PL')}catch(_){return''}};
 
-const previewCache=new Map();
-// aio-downloads-document-cache: one reusable request for catalog/search during a visit.
-let downloadDocumentPromise=null;
-async function loadDownloadDocument(){
-  if(!downloadDocumentPromise){
-    downloadDocumentPromise=fetch('downloads.html',{cache:'default'})
-      .then(r=>{if(!r.ok)throw new Error('downloads '+r.status);return r.text()})
-      .then(html=>new DOMParser().parseFromString(html,'text/html'))
-      .catch(error=>{downloadDocumentPromise=null;throw error});
+/* AIO UX PERFORMANCE V1: lightweight JSON catalog shared by latest cards & search. */
+let downloadCatalogPromise = null;
+async function loadDownloadCatalog(){
+  if(!downloadCatalogPromise){
+    downloadCatalogPromise = fetch('data/downloads.json', {cache:'default'})
+      .then(r=>{if(!r.ok)throw new Error('catalog '+r.status);return r.json()})
+      .then(rows=>{if(!Array.isArray(rows))throw new Error('invalid download catalog');return rows})
+      .catch(err=>{downloadCatalogPromise=null;throw err});
   }
-  return downloadDocumentPromise;
+  return downloadCatalogPromise;
 }
-
-function absoluteUrl(src,base){
-  try{return new URL(src,new URL(base,location.href)).href}catch(_){return''}
-}
-
-function firstContentImage(doc,pageUrl){
-  const blocked=/(?:^|\/)(?:logo|favicon)(?:[-_.]|$)|linuxsat|avatar|badge/i;
-  const selectors=[
-    'main img[src]',
-    'article img[src]',
-    '.module img[src]',
-    '.content img[src]',
-    '.standalone-main img[src]',
-    'body img[src]'
-  ];
-  const seen=new Set();
-  for(const selector of selectors){
-    for(const img of $$(selector,doc)){
-      const src=img.getAttribute('src')||'';
-      if(!src||seen.has(src)||blocked.test(src))continue;
-      seen.add(src);
-      if(img.closest('header,.site-header,.portal-topbar,footer,.site-footer,nav'))continue;
-      const out=absoluteUrl(src,pageUrl);
-      if(out)return out;
-    }
+function catalogDate(value){
+  const date=String(value||'').trim();
+  let m=date.match(/^(\d{2})\.(\d{2})\.(\d{4})$/);
+  if(m){
+    const n=Date.UTC(Number(m[3]),Number(m[2])-1,Number(m[1]));
+    const d=new Date(n);
+    return d.getUTCFullYear()===Number(m[3])&&d.getUTCMonth()===Number(m[2])-1&&d.getUTCDate()===Number(m[1])?n:0;
   }
-  const og=$('meta[property="og:image"]',doc)?.getAttribute('content')||'';
-  if(og&&!blocked.test(og))return absoluteUrl(og,pageUrl);
-  return '';
+  m=date.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if(m){
+    const n=Date.UTC(Number(m[1]),Number(m[2])-1,Number(m[3]));
+    const d=new Date(n);
+    return d.getUTCFullYear()===Number(m[1])&&d.getUTCMonth()===Number(m[2])-1&&d.getUTCDate()===Number(m[3])?n:0;
+  }
+  return 0; // Unknown dates are not silently treated as new releases.
 }
-
-async function previewForPage(href){
-  if(!href)return'';
-  let page;
-  try{page=new URL(href,location.href)}catch(_){return''}
-  if(page.origin!==location.origin)return'';
-  const key=page.href;
-  if(previewCache.has(key))return previewCache.get(key);
-  const promise=(async()=>{
-    try{
-      const r=await fetch(page.href,{cache:'force-cache'});
-      if(!r.ok)return'';
-      const doc=new DOMParser().parseFromString(await r.text(),'text/html');
-      return firstContentImage(doc,page.href);
-    }catch(_){return''}
-  })();
-  previewCache.set(key,promise);
-  return promise;
+function safeCatalogLink(value){
+  const url=String(value||'').trim();
+  if(!url || /^\/\//.test(url) || /[\\\u0000-\u001f]/.test(url))return '';
+  try{const parsed=new URL(url,location.href);return /^https?:$/.test(parsed.protocol)?url:''}catch(_){return ''}
 }
-
-async function hydrateDownloadPreviews(items){
-  await Promise.all(items.map(async(item,i)=>{
-    const holder=$(`[data-aio-preview-index="${i}"]`);
-    if(!holder)return;
-    const src=await previewForPage(item.href);
-    if(!src)return;
-    const img=document.createElement('img');
-    img.src=src;
-    img.alt='';
-    img.loading='lazy';
-    img.decoding='async';
-    img.addEventListener('error',()=>holder.classList.remove('has-image'),{once:true});
-    holder.textContent='';
-    holder.appendChild(img);
-    holder.classList.add('has-image');
-  }));
-}
-
 async function latestDownloads(){
   const box=$('[data-aio-latest-downloads]');
   if(!box)return;
   try{
-    const doc=await loadDownloadDocument();
-    const cards=$$('[data-download-card]',doc).slice(0,4);
-    if(!cards.length)throw 0;
-
-    const items=cards.map(c=>({
-      title:c.dataset.aioTitle||txt($('h3',c)),
-      cat:c.dataset.category||'Pobieranie',
-      kind:txt($('.file-kind',c))||'PLIK',
-      href:c.dataset.aioUrl||$('.download-actions a',c)?.getAttribute('href')||'downloads.html',
-      source:short(txt($('.download-source',c)).replace(/^Z działu:\s*/i,''),90)
-    }));
-
-    box.innerHTML=items.map((x,i)=>`<a class="aio-v2-file-card" href="${esc(x.href)}">
-      <div class="aio-v2-file-card-top"><span class="aio-v2-badge">${esc(x.cat)}</span><span class="aio-v2-file-kind">${esc(x.kind)}</span></div>
-      <h3>${esc(short(x.title,95))}</h3>
-      <p>${esc(x.source)}</p>
-      <footer>Otwórz / pobierz →</footer>
-    </a>`).join('');
+    const rows=await loadDownloadCatalog();
+    // Downloads with a verified catalog date, newest first. Never infer missing dates.
+    const items=rows.map((x,i)=>({...x,dateValue:catalogDate(x.date),catalogOrder:i}))
+      .filter(x=>x.dateValue && x.kind!=='LIVE' && safeCatalogLink(x.href))
+      .sort((a,b)=>b.dateValue-a.dateValue||a.catalogOrder-b.catalogOrder)
+      .slice(0,4);
+    if(!items.length)throw new Error('no dated downloads');
+    box.innerHTML=items.map(x=>{
+      const title=short(x.title||x.sourceTitle||'Plik AIO',95);
+      const detail=safeCatalogLink(x.sourcePage)||'downloads.html';
+      const download=safeCatalogLink(x.href);
+      const external=/^https?:\/\//i.test(download);
+      return `<article class="aio-v2-file-card">
+        <div class="aio-v2-file-card-top"><span class="aio-v2-badge">${esc(x.category||'Pobieranie')}</span><span class="aio-v2-file-kind">${esc(x.kind||'PLIK')}</span></div>
+        <h3>${esc(title)}</h3>
+        <p>Wydanie: ${esc(x.date||'Data nieznana')} · ${esc(x.platform||'AIO')}</p>
+        <footer class="aio-v2-file-actions">
+          <a href="${esc(detail)}" aria-label="Szczegóły: ${esc(title)}">Szczegóły</a>
+          <a href="${esc(download)}" ${external?'target="_blank" rel="noopener noreferrer"':''} aria-label="Pobierz: ${esc(title)}">Pobierz ↗</a>
+        </footer>
+      </article>`;
+    }).join('');
   }catch(_){
     box.innerHTML='<a class="aio-v2-file-card" href="downloads.html"><h3>Centrum pobierania</h3><p>Przejdź do pełnego katalogu plików.</p><footer>Otwórz →</footer></a>';
   }
@@ -142,18 +98,33 @@ async function latestCommunity(){
   }
 }
 
+/* Shared JSON catalog for quick search; no extra download of downloads.html. */
 let idx=null;
 async function getIndex(){
   if(idx)return idx;
-  try{
-    const doc=await loadDownloadDocument();
-    idx=$$('[data-download-card]',doc).map(c=>({
-      title:c.dataset.aioTitle||txt($('h3',c)),
-      search:(c.dataset.search||'')+' '+txt(c),
-      cat:c.dataset.category||'Pobieranie',
-      href:c.dataset.aioUrl||$('.download-actions a',c)?.getAttribute('href')||'downloads.html'
-    }));
-  }catch(_){idx=[]}
+  const [downloads, pages]=await Promise.all([
+    loadDownloadCatalog().catch(()=>[]),
+    fetch('data/search-index.json',{cache:'default'})
+      .then(r=>r.ok?r.json():[]).catch(()=>[])
+  ]);
+  const files=downloads.map(x=>({
+    title:String(x.title||''),
+    search:[x.title,x.sourceTitle,x.category,x.platform,x.version,x.kind,x.status,x.href].join(' '),
+    cat:x.category||'Pobieranie',
+    href:safeCatalogLink(x.sourcePage)||safeCatalogLink(x.href)||'downloads.html'
+  }));
+  const sections=(Array.isArray(pages)?pages:[]).map(x=>({
+    title:String(x.title||''),
+    search:[x.title,x.desc, ...(Array.isArray(x.tags)?x.tags:[])].join(' '),
+    cat:'Poradnik lub strona',
+    href:safeCatalogLink(x.url)||'guides.html'
+  }));
+  const seen=new Set();
+  idx=[...files,...sections].filter(x=>{
+    const key=x.href+'|'+x.title;
+    if(seen.has(key))return false;
+    seen.add(key);return true;
+  });
   return idx;
 }
 

@@ -27,8 +27,17 @@
   function legalAccessiblePage(){
     return /\/(?:privacy-community|cookies|rodo-rights|community-rules)(?:\.html)?$/.test(location.pathname);
   }
+  function chatSelection(){
+    const root = document.querySelector('.aio-chat-messages');
+    if (!root || !window.getSelection) return false;
+    const sel = window.getSelection();
+    return !!(sel && !sel.isCollapsed && sel.anchorNode && sel.focusNode &&
+      root.contains(sel.anchorNode) && root.contains(sel.focusNode));
+  }
   function closestProtected(target){
     if(legalAccessiblePage()) return null;
+    // AIO UX PERF V1: on public community chat, selection and URLs are unrestricted.
+    if (chatSelection() || (target && target.closest && target.closest('.aio-chat-messages'))) return null;
     if (!target || !target.closest) return null;
     if (target.closest(CONFIG.allowSelector)) return null;
     return target.closest('.aio-protected-content');
@@ -149,6 +158,9 @@
       const active=document.activeElement;
       const inAllowed=active && active.closest && active.closest(CONFIG.allowSelector);
 
+      // Ctrl+C must not block selecting or copying ordinary chat messages/links.
+      if (mod && ['c','x'].includes(key) &&
+          (chatSelection() || (active && active.closest && active.closest('.aio-chat-messages')))) return;
       if (!inAllowed && mod && ['c','x','s','p','u'].includes(key)) {
         if (document.querySelector('.aio-protected-content')) {
           e.preventDefault();
