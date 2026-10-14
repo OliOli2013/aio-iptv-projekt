@@ -4,6 +4,8 @@ const PROTECTED = /\.(?:ipk|apk|exe|msi|zip|7z|rar|deb|rpm|pdf|tar|tgz|gz|xz|img
 const IMAGE = /\.(?:png|jpe?g|webp|gif|svg|avif)(?:$|[?#])/i;
 const USAGE_COOKIE = "aio_dl_usage_v21";
 const UNLOCK_COOKIE = "aio_support_unlock_v21";
+/* AIO ACCESS 7D V1 — 168-hour unlock, previous day cookie compatible */
+const SUPPORT_UNLOCK_MS = 7 * 24 * 60 * 60 * 1000;
 
 function cookie(request,name){
   const raw=request.headers.get("cookie")||"";
@@ -43,12 +45,21 @@ function protectedRequest(request){
   return PROTECTED.test(path);
 }
 
+function hasActiveSupportUnlock(request,today){
+  const raw=cookie(request,UNLOCK_COOKIE);
+  if(raw===today) return true; // Old one-day unlock: keep through that day only.
+  if(!/^t7:\d{13}$/.test(raw)) return false;
+  const start=Number(raw.slice(3));
+  const now=Date.now();
+  return Number.isSafeInteger(start) && start<=now && now-start<SUPPORT_UNLOCK_MS;
+}
+
 async function handle(context){
   const {request}=context;
   if(!protectedRequest(request)) return context.next();
 
   const today=dayKey();
-  if(cookie(request,UNLOCK_COOKIE)===today) return context.next();
+  if(hasActiveSupportUnlock(request,today)) return context.next();
 
   const count=usageCount(request,today);
   if(count<1){

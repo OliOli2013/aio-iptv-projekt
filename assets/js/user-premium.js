@@ -487,6 +487,8 @@
   const DAILY_UNLOCK_COOKIE = 'aio_support_unlock_v21';
   const FLOW_PREFIX = 'aio_access_flow_v21_';
   const FLOW_TTL_MS = 15 * 60 * 1000;
+  /* AIO ACCESS 7D V1 — preserve old one-day tokens until midnight */
+  const SUPPORT_UNLOCK_MS = 7 * 24 * 60 * 60 * 1000;
 
   let modal = null;
   let pendingDownload = null;
@@ -654,10 +656,28 @@
     saveUsage(LEGACY_COMMUNITY_LINK_USAGE_KEY, LEGACY_COMMUNITY_COOKIE, value);
   }
 
+  function unlockEndOf(raw, now) {
+    // Previous-version YYYY-MM-DD grants are never automatically extended.
+    if (raw === localDateKey(new Date(now))) {
+      const end = new Date(now);
+      end.setHours(24, 0, 0, 0);
+      return end.getTime();
+    }
+    if (!/^t7:\d{13}$/.test(raw || '')) return 0;
+    const start = Number(raw.slice(3));
+    return Number.isSafeInteger(start) && start <= now && now - start < SUPPORT_UNLOCK_MS
+      ? start + SUPPORT_UNLOCK_MS : 0;
+  }
+
+  function supportUnlockUntil() {
+    const now = Date.now();
+    let fromLocal = '';
+    try { fromLocal = localStorage.getItem(DAILY_UNLOCK_KEY) || ''; } catch (error) {}
+    return Math.max(unlockEndOf(fromLocal, now), unlockEndOf(readCookie(DAILY_UNLOCK_COOKIE), now));
+  }
+
   function isUnlockedToday() {
-    const today = localDateKey();
-    try { if (localStorage.getItem(DAILY_UNLOCK_KEY) === today) return true; } catch (error) {}
-    return readCookie(DAILY_UNLOCK_COOKIE) === today;
+    return supportUnlockUntil() > Date.now();
   }
 
   function registerFreeDownload() {
@@ -714,13 +734,14 @@
     const usage = readDailyUsage();
     if (isUnlockedToday()) {
       accessIndicator.className = 'aio-access-indicator is-unlocked';
-      accessIndicator.innerHTML = '<span class="aio-access-dot">✓</span><div><strong>AIO Access 2.1 • dostęp aktywny</strong><small>Kolejne pobrania są odblokowane do końca dzisiejszego dnia w tej przeglądarce.</small></div><a href="support.html">Wsparcie projektu</a>';
+      const until = new Intl.DateTimeFormat('pl-PL', {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(supportUnlockUntil()));
+      accessIndicator.innerHTML = '<span class="aio-access-dot">✓</span><div><strong>AIO Access 2.1 • dostęp aktywny</strong><small>Dostęp do kolejnych pobrań aktywny do ' + until + ' w tej przeglądarce.</small></div><a href="support.html">Wsparcie projektu</a>';
     } else if (usage.count < DOWNLOAD_POLICY.freePerDay) {
       accessIndicator.className = 'aio-access-indicator is-free';
-      accessIndicator.innerHTML = '<span class="aio-access-dot">1</span><div><strong>AIO Access 2.1 • bezpłatne pobranie dostępne</strong><small>Dzisiaj możesz pobrać pierwszy plik bez wsparcia. Kolejne wymagają przejścia pełnej ścieżki wsparcia.</small></div><a href="support.html">Zasady</a>';
+      accessIndicator.innerHTML = '<span class="aio-access-dot">1</span><div><strong>AIO Access 2.1 • bezpłatne pobranie dostępne</strong><small>Pierwsze pobranie dziennie jest bezpłatne. Po ukończeniu ścieżki wsparcia kolejne pobrania są dostępne przez 7 dni.</small></div><a href="support.html">Zasady</a>';
     } else {
       accessIndicator.className = 'aio-access-indicator is-locked';
-      accessIndicator.innerHTML = '<span class="aio-access-dot">!</span><div><strong>AIO Access 2.1 • darmowy limit wykorzystany</strong><small>Samo otwarcie linku darowizny nie odblokowuje kolejnych plików. Wymagane jest przejście procesu wsparcia.</small></div><a href="support.html">Dlaczego?</a>';
+      accessIndicator.innerHTML = '<span class="aio-access-dot">!</span><div><strong>AIO Access 2.1 • darmowy limit wykorzystany</strong><small>Samo otwarcie linku wsparcia nie odblokowuje plików. Po ukończeniu ścieżki AIO Access dostęp działa przez 7 dni.</small></div><a href="support.html">Dlaczego?</a>';
     }
   }
 
@@ -736,7 +757,7 @@
         <div class="support-gate-icon" aria-hidden="true">♥</div>
         <p class="support-gate-eyebrow">AIO ACCESS 2.1 • WSPARCIE PROJEKTÓW</p>
         <h2 id="support-gate-title">Pomóż rozwijać projekty dla Enigma2</h2>
-        <p id="support-gate-description">Pierwsze pobranie każdego dnia jest bezpłatne. Kolejne pliki wymagają przejścia samodzielnej ścieżki wsparcia.</p>
+        <p id="support-gate-description">Pierwsze pobranie każdego dnia jest bezpłatne. Po ukończeniu ścieżki wsparcia kolejne pobrania będą dostępne przez 7 dni.</p>
         <div class="support-gate-file" hidden><span>Wybrany plik:</span><strong class="support-gate-filename"></strong></div>
         <p class="support-gate-note">AIO Access sprawdza aktywną sesję pobierania i poprawne przejście ścieżki wsparcia przed odblokowaniem kolejnego pliku.</p>
         <div class="support-gate-methods" aria-label="Metody wsparcia">
@@ -749,7 +770,7 @@
           <button class="support-gate-continue" type="button">Kontynuuj</button>
           <button class="support-gate-cancel" type="button" data-support-close>Nie teraz</button>
         </div>
-        <p class="support-gate-privacy">Weryfikacja AIO Access obejmuje aktywną sesję pobierania, wybraną metodę wsparcia oraz poprawny powrót do rozpoczętego procesu. Po pozytywnej weryfikacji dostęp zostaje odblokowany do końca dnia.</p>
+        <p class="support-gate-privacy">Weryfikacja AIO Access obejmuje aktywną sesję pobierania, wybraną metodę wsparcia oraz poprawny powrót do rozpoczętego procesu. Po pozytywnej weryfikacji dostęp jest aktywny przez 7 dni od chwili odblokowania w tej przeglądarce.</p>
       </section>`;
 
     document.body.appendChild(modal);
@@ -930,7 +951,7 @@
 
     if (modalMode === 'community-link-limit' && download) {
       title.textContent = 'Dzisiejszy bezpłatny dostęp został wykorzystany';
-      description.textContent = 'Pierwszy plik lub chroniony link w danym dniu jest bezpłatny. Aby otworzyć kolejny link ze Społeczności AIO, przejdź ścieżkę wsparcia. Po jej zakończeniu wszystkie pobrania i chronione linki będą odblokowane do końca dnia.';
+      description.textContent = 'Pierwszy plik lub chroniony link w danym dniu jest bezpłatny. Aby otworzyć kolejny link ze Społeczności AIO, przejdź ścieżkę wsparcia. Po jej zakończeniu dotychczas chronione pobrania i linki będą odblokowane na 7 dni od chwili odblokowania.';
       note.textContent = 'Wybierz metodę. AIO Access utworzy jednorazową sesję dla tego konkretnego linku.';
       fileBox.hidden = false; methods.hidden = false;
       fileBox.querySelector('span').textContent = 'Wybrany link:';
@@ -939,7 +960,7 @@
       continueButton.textContent = 'Wybierz metodę wsparcia'; continueButton.disabled = true;
     } else if (modalMode === 'limit' && download) {
       title.textContent = 'Dzisiejsze bezpłatne pobranie zostało wykorzystane';
-      description.textContent = 'Kolejny plik możesz pobrać po przejściu samodzielnej ścieżki wsparcia. Samo otwarcie Revolut, BuyCoffee lub Ko-fi niczego nie odblokowuje.';
+      description.textContent = 'Kolejny plik możesz pobrać po ukończeniu ścieżki wsparcia, co odblokowuje pobrania na 7 dni. Samo otwarcie Revolut, BuyCoffee lub Ko-fi niczego nie odblokowuje.';
       note.textContent = 'Wybierz metodę. AIO Access utworzy jednorazową sesję przypisaną do wybranego pliku.';
       fileBox.hidden = false; methods.hidden = false;
       fileBox.querySelector('span').textContent = 'Wybrany plik:';
@@ -948,7 +969,7 @@
       continueButton.textContent = 'Wybierz metodę wsparcia'; continueButton.disabled = true;
     } else {
       title.textContent = 'Jak działa AIO Access 2.1?';
-      description.textContent = 'Pierwszy plik lub chroniony link każdego dnia jest bezpłatny. Przy kolejnym elemencie AIO Access tworzy jednorazową sesję, prowadzi do wybranej metody wsparcia i wymaga powrotu z procesu płatności.';
+      description.textContent = 'Pierwszy plik lub chroniony link każdego dnia jest bezpłatny. Przy kolejnym elemencie AIO Access prowadzi przez ścieżkę wsparcia. Po jej ukończeniu dostęp jest aktywny przez 7 dni od odblokowania.';
       note.textContent = 'To ogranicza proste obejście „klikam link i od razu wracam”. Pełne bankowe potwierdzenie transakcji wymagałoby integracji API lub webhooka operatora płatności.';
       fileBox.hidden = true; methods.hidden = true;
       fileNameElement.textContent = '';

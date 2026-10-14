@@ -10,6 +10,8 @@
   const DAILY_UNLOCK_KEY = 'aio_download_support_unlock_v1';
   const DAILY_UNLOCK_COOKIE = 'aio_support_unlock_v21';
   const MIN_EXTERNAL_MS = 35 * 1000;
+  /* AIO ACCESS 7D V1 — rolling 168-hour unlock, legacy day kept */
+  const SUPPORT_UNLOCK_MS = 7 * 24 * 60 * 60 * 1000;
 
   const $ = id => document.getElementById(id);
   const title = $('accessTitle');
@@ -175,7 +177,7 @@
     progressText.textContent = 'Pełna ścieżka i powrót zostały wykryte.';
     confirmWrap.hidden = false;
     unlock.disabled = !confirm.checked;
-    status.textContent = confirm.checked ? 'Możesz teraz odblokować wybrany element do końca dzisiejszego dnia.' : 'Zaznacz potwierdzenie, aby kontynuować.';
+    status.textContent = confirm.checked ? 'Możesz teraz odblokować wybrany element na 7 dni od chwili odblokowania.' : 'Zaznacz potwierdzenie, aby kontynuować.';
     status.classList.remove('is-error');
   }
 
@@ -185,14 +187,17 @@
       status.classList.add('is-error');
       return;
     }
-    const today = localDateKey();
-    try { localStorage.setItem(DAILY_UNLOCK_KEY, today); } catch (error) {}
-    document.cookie = `${DAILY_UNLOCK_COOKIE}=${encodeURIComponent(today)}; Path=/; Max-Age=${60*60*24*3}; SameSite=Lax`;
-    flow.completed = true; flow.completedAt = Date.now(); saveFlow();
+    // Record the start once. The browser and the Cloudflare file gate use
+    // the same token and exactly seven rolling 24-hour periods.
+    const unlockedAt = Date.now();
+    const unlockToken = `t7:${unlockedAt}`;
+    try { localStorage.setItem(DAILY_UNLOCK_KEY, unlockToken); } catch (error) {}
+    document.cookie = `${DAILY_UNLOCK_COOKIE}=${encodeURIComponent(unlockToken)}; Path=/; Max-Age=${Math.floor(SUPPORT_UNLOCK_MS / 1000)}; SameSite=Lax; Secure`;
+    flow.completed = true; flow.completedAt = unlockedAt; saveFlow();
     accessTrack('access_unlocked');
     setStep(3, 'done');
     title.textContent = 'Dostęp aktywny';
-    lead.textContent = 'AIO Access odblokował kolejne pobrania do końca dzisiejszego dnia w tej przeglądarce.';
+    lead.textContent = 'AIO Access odblokował dotychczas dozwolone pobrania na 7 dni od tej chwili w tej przeglądarce.';
     status.textContent = flow.kind === 'community' ? 'Otwieram wybrany link…' : 'Uruchamiam pobieranie…';
     unlock.disabled = true; unlock.textContent = 'Dostęp aktywny ✓';
     openTarget();
