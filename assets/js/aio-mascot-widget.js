@@ -9,7 +9,10 @@
   const MOBILE_NUDGE_SEEN = 'aio_mascot_v3_mobile_nudge_seen';
   const isMobile = window.matchMedia && window.matchMedia('(max-width: 740px)').matches;
   const qs = (s,root=document) => root.querySelector(s);
-  const page = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+  // AIO Mascot V2.1 routing & coverage fix: Cloudflare uses extensionless routes.
+  const routeParts = location.pathname.toLowerCase().split('/').filter(Boolean);
+  const routeSlug = routeParts.length ? routeParts[routeParts.length - 1] : 'index.html';
+  const page = routeSlug.endsWith('.html') ? routeSlug : routeSlug + '.html';
   if (['community-admin.html','publisher.html','access.html','aio-connect-report.html','ai-chat.html','404.html'].includes(page)) return;
   if (document.body && document.body.dataset.aioMascot === 'off') return;
 
@@ -59,7 +62,30 @@
       links: [['Systemy','systems.html'], ['Wtyczki','plugins.html'], ['Poradniki','guides.html']]
     }
   };
-  const guide = pageGuides[page] || pageGuides.default;
+  // Extra guidance for active public sections; specific pages take precedence.
+  const sectionGuides = {
+    'updates.html': {greeting:'Sprawdź aktualizacje projektów AIO i daty wydań.', links:[['Najnowsze pliki','downloads.html'],['Wtyczki','plugins.html'],['Systemy','systems.html']]},
+    'news.html': {greeting:'Tutaj znajdziesz informacje i nowości AIO.', links:[['Aktualizacje','updates.html'],['Pobieranie','downloads.html'],['Społeczność','community.html']]},
+    'studio.html': {greeting:'Wybierz narzędzie AIO Studio albo przejdź do poradników.', links:[['Smart Tuner','smart-tuner.html'],['Poradniki','guides.html'],['Diagnostyka','errors.html']]},
+    'one-liner.html': {greeting:'Przed uruchomieniem polecenia sprawdź jego przeznaczenie oraz system.', links:[['Poradniki','guides.html'],['Pobieranie','downloads.html'],['Wtyczki','plugins.html']]},
+    'log-analyzer.html': {greeting:'Analizujesz logi? Sprawdź diagnostykę i usuń dane wrażliwe przed publikacją.', links:[['Diagnostyka','errors.html'],['Poradniki','guides.html'],['Społeczność','community.html']]},
+    'my-tuner.html': {greeting:'Zapisz model odbiornika, aby szybciej dobierać rozwiązania w AIO.', links:[['Smart Tuner','smart-tuner.html'],['Systemy','systems.html'],['Wtyczki','plugins.html']]},
+    'start-here.html': {greeting:'Nie wiesz, od czego zacząć? Wybierz system, poradnik albo Smart Tuner.', links:[['Smart Tuner','smart-tuner.html'],['Systemy','systems.html'],['Poradniki','guides.html']]},
+    'android-apps.html': {greeting:'Poznaj aplikacje Android i sprawdź instrukcje instalacji.', links:[['Pobieranie','downloads.html'],['Wtyczki','plugins.html'],['Poradniki','guides.html']]},
+    'windows-apps.html': {greeting:'Sprawdź, czy wybierasz wersję Windows x64 lub x86 odpowiednią dla komputera.', links:[['Pobieranie','downloads.html'],['Poradniki','guides.html'],['Smart Tuner','smart-tuner.html']]},
+    'contact.html': {greeting:'Potrzebujesz kontaktu? Możesz też sprawdzić poradniki i Społeczność AIO.', links:[['Społeczność','community.html'],['Poradniki','guides.html'],['AI Chat','ai-chat.html']]},
+    'qr-install.html': {greeting:'Skorzystaj z kodów QR i sprawdź, czy polecenie lub adres są poprawne.', links:[['Poradniki','guides.html'],['Systemy','systems.html'],['Wtyczki','plugins.html']]},
+    'compatibility.html': {greeting:'Zgodność zależy od tunera, systemu i wersji Pythona.', links:[['Smart Tuner','smart-tuner.html'],['Wtyczki','plugins.html'],['Systemy','systems.html']]},
+    'status.html': {greeting:'Sprawdź stan usług i plików AIO; w razie problemu zgłoś błąd.', links:[['Zgłoś błąd','report-error.html'],['Pobieranie','downloads.html'],['Poradniki','guides.html']]},
+    'report-error.html': {greeting:'Opisz problem, model tunera i wersję systemu — to ułatwi pomoc.', links:[['Poradniki','guides.html'],['Diagnostyka','errors.html'],['Społeczność','community.html']]},
+    'post.html': {greeting:'Czytasz wpis społeczności? Sprawdź też poradniki i inne aktualizacje.', links:[['Społeczność','community.html'],['Aktualizacje','updates.html'],['Poradniki','guides.html']]}
+  };
+  const familyGuide = /^(?:plugin-|skin-)/.test(page) ? pageGuides['plugins.html']
+    : /^(?:guide-|help-)/.test(page) ? pageGuides['guides.html']
+    : /^(?:app-)/.test(page) ? pageGuides['downloads.html']
+    : /^(?:aio-|qr-|remote-|project-|error-)/.test(page) ? pageGuides['errors.html']
+    : null;
+  const guide = pageGuides[page] || sectionGuides[page] || familyGuide || pageGuides.default;
   const intro = [
     guide.greeting,
     'Użyj skrótów, aby przejść do odpowiedniego działu bez szukania po menu.',
@@ -96,7 +122,7 @@
       </button>
       <div class="aio-mascot-panel" id="aio-mascot-panel-v2" aria-hidden="true">
         <div class="aio-mascot-panel-head">
-          <div><strong>AIO AI GPT</strong><span>Twój przewodnik po AIO-IPTV.pl</span></div>
+          <div><strong>AIO AI GPT</strong><span data-aio-mascot-context>Twój przewodnik po AIO-IPTV.pl</span></div>
           <button class="aio-mascot-x" type="button" aria-label="Zwiń pomoc">×</button>
         </div>
         <p class="aio-mascot-message"><span data-aio-mascot-typed></span><span class="aio-mascot-cursor" aria-hidden="true"></span></p>
@@ -130,6 +156,24 @@
     const chips = qs('[data-aio-mascot-shortcuts]',root);
     const close = qs('.aio-mascot-x',root);
     const nudge = qs('.aio-mascot-mobile-nudge',root);
+    const contextLine = qs('[data-aio-mascot-context]',root);
+    if (contextLine) {
+      const titles = {
+        'index.html':'Strona główna', 'systems.html':'Systemy Enigma2',
+        'downloads.html':'Centrum pobierania', 'plugins.html':'Wtyczki',
+        'guides.html':'Poradniki', 'smart-tuner.html':'Smart Tuner',
+        'channel-lists.html':'Listy kanałów', 'errors.html':'Diagnostyka',
+        'community.html':'Społeczność AIO', 'updates.html':'Aktualizacje',
+        'news.html':'Nowości', 'studio.html':'AIO Studio',
+        'one-liner.html':'One-Liner', 'log-analyzer.html':'Analiza logów',
+        'my-tuner.html':'Mój tuner', 'start-here.html':'Pierwsze kroki'
+      };
+      let area = titles[page] || '';
+      if (!area && /^(?:plugin-|skin-)/.test(page)) area = 'Wtyczki i skórki';
+      if (!area && /^(?:guide-|help-)/.test(page)) area = 'Poradniki Enigma2';
+      if (!area && /^(?:app-)/.test(page)) area = 'Aplikacje AIO';
+      contextLine.textContent = area ? 'Przewodnik • ' + area : 'Twój przewodnik po AIO-IPTV.pl';
+    }
 
     // V2: make the safety note visible only on pages where a wrong file matters.
     const advice = qs('[data-aio-mascot-advice]',root);

@@ -272,3 +272,9 @@
   .aio-mascot-widget .aio-mascot-advice { padding: 8px 9px; }
   .aio-mascot-widget .aio-mascot-advice p { font-size: 11px; }
 }
+
+/* AIO Mascot V2.1 routing & coverage fix. Existing visual style is untouched.
+   Keep links, buttons and text readable within the mascot panel. */
+.aio-mascot-widget .aio-mascot-panel [data-aio-mascot-context] {
+  overflow-wrap: anywhere;
+}
