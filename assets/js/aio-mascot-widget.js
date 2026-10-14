@@ -14,17 +14,67 @@
   if (document.body && document.body.dataset.aioMascot === 'off') return;
 
   const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* AIO Mascot Guide V2 (2026-10-14): context depends only on local page path. */
+  const pageGuides = {
+    'index.html': {
+      greeting: 'Cześć! 👋 Pomogę Ci szybko znaleźć właściwy dział AIO.',
+      links: [['Systemy','systems.html'], ['Wtyczki','plugins.html'], ['Listy kanałów','channel-lists.html']]
+    },
+    'systems.html': {
+      greeting: 'Wybierasz system Enigma2? Sprawdź dokładny model tunera i instrukcję instalacji.',
+      links: [['Pobieranie','downloads.html'], ['Instalacja image','guide-instalacja-image.html'], ['Poradniki','guides.html']],
+      advice: ['Ważne przed instalacją', 'Obraz systemu musi być przeznaczony dokładnie dla modelu odbiornika. Smart Tuner pomaga dobrać rozwiązania, ale nie potwierdza zgodności obrazu.', 'Sprawdź model', 'smart-tuner.html']
+    },
+    'downloads.html': {
+      greeting: 'Szukasz pliku? Najpierw sprawdź jego opis, przeznaczenie i wersję.',
+      links: [['Systemy','systems.html'], ['Wtyczki','plugins.html'], ['Poradniki','guides.html']],
+      advice: ['Wskazówka pobierania', 'Przed instalacją porównaj model odbiornika, wersję systemu i wymagania pliku. W razie wątpliwości zajrzyj do Smart Tunera.', 'Dobierz do tunera', 'smart-tuner.html']
+    },
+    'plugins.html': {
+      greeting: 'Szukasz wtyczki? Sprawdź zgodność z wersją Pythona i swoim systemem.',
+      links: [['Pobieranie','downloads.html'], ['Listy kanałów','channel-lists.html'], ['Poradniki','guides.html']]
+    },
+    'smart-tuner.html': {
+      greeting: 'Wybierz model tunera, system i Python. Wynik pokaże, co wymaga potwierdzenia.',
+      links: [['Wtyczki','plugins.html'], ['Systemy','systems.html'], ['Listy kanałów','channel-lists.html']]
+    },
+    'channel-lists.html': {
+      greeting: 'Wybierasz listę kanałów? Sprawdź satelity, format bukietów i wykonaj backup.',
+      links: [['Systemy','systems.html'], ['Wtyczki','plugins.html'], ['Poradniki','guides.html']]
+    },
+    'guides.html': {
+      greeting: 'Tutaj znajdziesz poradniki Enigma2. Wybierz zadanie lub opisz problem.',
+      links: [['Diagnostyka','errors.html'], ['Systemy','systems.html'], ['Pobieranie','downloads.html']]
+    },
+    'errors.html': {
+      greeting: 'Co nie działa w tunerze? Zacznij od diagnostyki i najprostszych kroków.',
+      links: [['Diagnostyka','guide-diagnostyka-enigma2.html'], ['Poradniki','guides.html'], ['Wtyczki','plugins.html']]
+    },
+    'community.html': {
+      greeting: 'Potrzebujesz pomocy innych użytkowników? Zobacz wpisy lub zadaj pytanie.',
+      links: [['Czat AIO','community-chat.html'], ['Poradniki','guides.html'], ['Pobieranie','downloads.html']]
+    },
+    'default': {
+      greeting: 'Cześć! 👋 Jestem AIO. Wybierz dział lub wpisz pytanie do AI Chat.',
+      links: [['Systemy','systems.html'], ['Wtyczki','plugins.html'], ['Poradniki','guides.html']]
+    }
+  };
+  const guide = pageGuides[page] || pageGuides.default;
   const intro = [
-    'Cześć! 👋 Jestem AIO. Czego szukasz? W czym mogę pomóc?',
-    'Szukasz wtyczek, list kanałów albo poradnika dla Enigma2?',
-    'Opisz krótko problem — przeniosę pytanie do AI Chat.'
+    guide.greeting,
+    'Użyj skrótów, aby przejść do odpowiedniego działu bez szukania po menu.',
+    'Możesz też wpisać pytanie. Przeniosę je do AI Chat bez automatycznego wysyłania.'
   ];
-  const shortcuts = [
-    ['Wtyczki', 'plugins.html'],
-    ['Listy kanałów', 'channel-lists.html'],
-    ['Poradniki', 'guides.html'],
-    ['AI Chat', 'ai-chat.html']
-  ];
+  const shortcutSeen = new Set();
+  const shortcuts = [...guide.links,
+    ['Smart Tuner', 'smart-tuner.html'],
+    ['AI Chat', 'ai-chat.html'],
+    ['Społeczność', 'community.html']
+  ].filter(([label,href]) => {
+    if (shortcutSeen.has(href)) return false;
+    shortcutSeen.add(href);
+    return true;
+  }).slice(0,6);
   const safeStore = {
     get(k){try{return sessionStorage.getItem(k)}catch(_){return null}},
     set(k,v){try{sessionStorage.setItem(k,v)}catch(_){}}
@@ -50,6 +100,12 @@
           <button class="aio-mascot-x" type="button" aria-label="Zwiń pomoc">×</button>
         </div>
         <p class="aio-mascot-message"><span data-aio-mascot-typed></span><span class="aio-mascot-cursor" aria-hidden="true"></span></p>
+        <div class="aio-mascot-advice" data-aio-mascot-advice hidden>
+          <strong data-aio-mascot-advice-title></strong>
+          <p data-aio-mascot-advice-body></p>
+          <a data-aio-mascot-advice-link></a>
+        </div>
+        <p class="aio-mascot-menu-label">Szybkie przejścia</p>
         <div class="aio-mascot-chips" data-aio-mascot-shortcuts></div>
         <form class="aio-mascot-form">
           <label for="aio-mascot-question">Masz pytanie?</label>
@@ -74,6 +130,18 @@
     const chips = qs('[data-aio-mascot-shortcuts]',root);
     const close = qs('.aio-mascot-x',root);
     const nudge = qs('.aio-mascot-mobile-nudge',root);
+
+    // V2: make the safety note visible only on pages where a wrong file matters.
+    const advice = qs('[data-aio-mascot-advice]',root);
+    if (guide.advice && advice) {
+      const [title,body,label,href] = guide.advice;
+      qs('[data-aio-mascot-advice-title]',advice).textContent = title;
+      qs('[data-aio-mascot-advice-body]',advice).textContent = body;
+      const link = qs('[data-aio-mascot-advice-link]',advice);
+      link.textContent = label + ' →';
+      link.href = href; // Static, local links defined in pageGuides above.
+      advice.hidden = false;
+    }
 
     for (const [label,href] of shortcuts) {
       const a = document.createElement('a');
@@ -141,8 +209,8 @@
       avatar.setAttribute('aria-expanded','true');
       avatar.setAttribute('aria-label','AIO: zwiń pomoc');
       panel.setAttribute('aria-hidden','false');
-      typeMessage(isMobile ? 'Jak mogę Ci pomóc? Wybierz dział lub wpisz pytanie poniżej.' : intro[msgIndex]);
-      if(auto && !isMobile){scheduleMessage();scheduleClose();}
+      typeMessage(intro[msgIndex]);
+      if(!isMobile){scheduleMessage();if(auto)scheduleClose();}
     }
     function closePanel(){
       if(!root.classList.contains('is-open')) return;
@@ -175,7 +243,7 @@
         safeStore.set(MOBILE_NUDGE_SEEN,'1');
         openingTimer=setTimeout(()=>{openingTimer=null;showNudge();},900);
       }
-    } else if(!safeStore.get(SEEN)){
+    } else if(page==='index.html' && !safeStore.get(SEEN)){
       safeStore.set(SEEN,'1');
       openingTimer=setTimeout(()=>{openingTimer=null;openPanel(true);},1100);
     }
