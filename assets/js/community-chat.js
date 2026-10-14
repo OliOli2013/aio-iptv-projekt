@@ -63,7 +63,7 @@
         <div class="aio-chat-body">
           <div class="aio-chat-meta"><strong>${AIOCommunity.escape(m.author?.display_name||'Użytkownik')}</strong>${m.author?.role==='admin'?'<span class="aio-chat-role is-admin">Administrator</span>':m.author?.role==='moderator'?'<span class="aio-chat-role is-moderator">Moderator</span>':''}<small>${AIOCommunity.escape(AIOCommunity.formatDate(m.created_at))}</small></div>
           ${reply?`<button class="aio-chat-reply-preview" type="button" data-chat-jump="${AIOCommunity.escapeAttr(reply.id)}"><strong>${AIOCommunity.escape(reply.author_name||'Użytkownik')}</strong><span>${AIOCommunity.escape(reply.status==='deleted'?'Wiadomość usunięta':(reply.content||'Zdjęcie'))}</span></button>`:''}
-          <div class="aio-chat-bubble">${AIOCommunity.formatText(m.content||'')}</div>
+          <div class="aio-chat-bubble">${AIOCommunity.formatText(m.content||'',null,true)}</div>
           ${(m.attachments||[]).length?`<div class="aio-chat-images">${m.attachments.map(a=>`<button type="button" class="aio-chat-image-button"><img src="${AIOCommunity.escapeAttr(a.url)}" alt="${AIOCommunity.escapeAttr(a.name||'Zdjęcie')}" loading="lazy" data-community-image></button>`).join('')}</div>`:''}
           <div class="aio-chat-actions"><button type="button" data-chat-reply>↩ Odpowiedz</button>${['👍','❤️','😂','💡'].map(e=>`<button type="button" class="${reactions.mine?.includes(e)?'active':''}" data-chat-reaction="${e}">${e} ${Number(reactions[e]||0)||''}</button>`).join('')}${canDelete?'<button type="button" class="danger" data-chat-delete>Usuń</button>':''}</div>
         </div></article>`;

@@ -409,7 +409,7 @@
     escape(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));},
     escapeAttr(value){return this.escape(value);},
 
-    formatText(text,limit){
+    formatText(text,limit,publicLinks=false){
       let value=String(text||'');
       if(limit&&value.length>limit)value=value.slice(0,limit).trimEnd()+'…';
 
@@ -429,6 +429,15 @@
         }
 
         const href=/^https?:\/\//i.test(shown)?shown:'https://'+shown;
+        // Na czacie: jawne linki bez platnosci i bez AIO Access.
+        // Inne sekcje zachowuja swoj dotychczasowy mechanizm.
+        if(publicLinks){
+          html+='<a class="community-link" href="'+this.escapeAttr(href)+'" '+
+            'target="_blank" rel="noopener noreferrer nofollow ugc">'+
+            this.escape(shown)+'</a>'+this.escape(trailing);
+          last=match.index+match[0].length;
+          continue;
+        }
         const token=storeProtectedCommunityLink(href);
         const masked=maskCommunityLink(href);
 
