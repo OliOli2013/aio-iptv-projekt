@@ -1,0 +1,37 @@
+name: AIO Catalog Sync & Search V2
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "systems.html"
+      - "downloads.html"
+      - "data/downloads.json"
+      - "data/search-index.json"
+      - "data/tuners.json"
+      - "sitemap.xml"
+      - "scripts/aio_catalog_sync_verify.py"
+      - ".github/workflows/aio-catalog-sync.yml"
+  pull_request:
+    paths:
+      - "systems.html"
+      - "downloads.html"
+      - "data/downloads.json"
+      - "data/search-index.json"
+      - "data/tuners.json"
+      - "sitemap.xml"
+      - "scripts/aio_catalog_sync_verify.py"
+      - ".github/workflows/aio-catalog-sync.yml"
+permissions:
+  contents: read
+jobs:
+  sync-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify Multi-Click, search and tuner catalogs
+        run: python scripts/aio_catalog_sync_verify.py

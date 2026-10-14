@@ -1,6 +1,6 @@
 {
   "version": "2025-12-15-ENCYCLOPEDIA",
-  "count": 178,
+  "count": 67,
   "tuners": [
     {
       "id": "vuplus-solo-4k",
@@ -17,7 +17,10 @@
       "slots": "1x Czytnik kart, 1x CI+, slot na HDD 2.5\"",
       "ports": "2x USB 2.0, HDMI 2.0",
       "price": "ok. 700 zł",
-      "tags": ["VU+", "4K"]
+      "tags": [
+        "VU+",
+        "4K"
+      ]
     },
     {
       "id": "vuplus-uno-4k",
@@ -34,7 +37,10 @@
       "slots": "1x Czytnik kart, 1x CI+, slot na HDD 2.5\"",
       "ports": "2x USB 2.0, HDMI 2.0",
       "price": "ok. 800 zł",
-      "tags": ["VU+", "4K"]
+      "tags": [
+        "VU+",
+        "4K"
+      ]
     },
     {
       "id": "vuplus-duo-4k",
@@ -51,7 +57,11 @@
       "slots": "2x Czytnik kart, 2x CI+, slot na HDD 2.5\"",
       "ports": "2x USB 2.0, 1x USB 3.0, HDMI 2.0",
       "price": "ok. 1100 zł",
-      "tags": ["VU+", "4K", "High-End"]
+      "tags": [
+        "VU+",
+        "4K",
+        "High-End"
+      ]
     },
     {
       "id": "vuplus-ultimo",
@@ -68,7 +78,11 @@
       "slots": "2x Czytnik kart, 2x CI+, slot na HDD 2.5\"",
       "ports": "4x USB 2.0, HDMI 1.4",
       "price": "Wycofany (dawniej ok. 1200 zł)",
-      "tags": ["VU+", "FHD", "Retro"]
+      "tags": [
+        "VU+",
+        "FHD",
+        "Retro"
+      ]
     },
     {
       "id": "vuplus-solo-se-v2",
@@ -85,7 +99,10 @@
       "slots": "1x Czytnik kart, 1x CI+",
       "ports": "2x USB 2.0, HDMI",
       "price": "ok. 350 zł",
-      "tags": ["VU+", "FHD"]
+      "tags": [
+        "VU+",
+        "FHD"
+      ]
     },
     {
       "id": "octagon-sf4008-4k",
@@ -102,7 +119,10 @@
       "slots": "1x Czytnik kart, 1x CI+, slot na HDD 2.5\"",
       "ports": "2x USB 2.0, 1x USB 3.0, HDMI 2.0",
       "price": "ok. 500 zł",
-      "tags": ["Octagon", "4K"]
+      "tags": [
+        "Octagon",
+        "4K"
+      ]
     },
     {
       "id": "octagon-sf1008p",
@@ -119,7 +139,10 @@
       "slots": "1x Czytnik kart, 1x CI+",
       "ports": "2x USB 2.0, HDMI",
       "price": "ok. 250 zł",
-      "tags": ["Octagon", "FHD"]
+      "tags": [
+        "Octagon",
+        "FHD"
+      ]
     },
     {
       "id": "miraclebox-premium-twin",
@@ -136,7 +159,10 @@
       "slots": "2x Czytnik kart, 2x CI+, slot na HDD 2.5\"",
       "ports": "2x USB 2.0, HDMI",
       "price": "Wycofany (dawniej ok. 400 zł)",
-      "tags": ["Miraclebox", "FHD"]
+      "tags": [
+        "Miraclebox",
+        "FHD"
+      ]
     },
     {
       "id": "spycat-mini",
@@ -153,7 +179,10 @@
       "slots": "1x Czytnik kart",
       "ports": "2x USB 2.0, HDMI",
       "price": "ok. 200 zł",
-      "tags": ["Spycat", "FHD"]
+      "tags": [
+        "Spycat",
+        "FHD"
+      ]
     },
     {
       "id": "technomate-tm-twin-oe",
@@ -170,7 +199,10 @@
       "slots": "2x Czytnik kart, 2x CI+, slot na HDD 2.5\"",
       "ports": "2x USB 2.0, HDMI",
       "price": "Wycofany (dawniej ok. 400 zł)",
-      "tags": ["Technomate", "FHD"]
+      "tags": [
+        "Technomate",
+        "FHD"
+      ]
     },
     {
       "id": "ax-ax-hd60",
@@ -187,7 +219,10 @@
       "slots": "2x Czytnik kart, 2x CI+, slot na HDD 2.5\"",
       "ports": "2x USB 2.0, HDMI",
       "price": "Wycofany (dawniej ok. 400 zł)",
-      "tags": ["AX", "FHD"]
+      "tags": [
+        "AX",
+        "FHD"
+      ]
     },
     {
       "id": "ax-ax-hd51",
@@ -204,7 +239,10 @@
       "slots": "2x Czytnik kart, 2x CI+, slot na HDD 2.5\"",
       "ports": "2x USB 2.0, 1x USB 3.0, HDMI 2.0",
       "price": "ok. 600 zł",
-      "tags": ["AX", "4K"]
+      "tags": [
+        "AX",
+        "4K"
+      ]
     },
     {
       "id": "edision-os-mini",
@@ -221,7 +259,10 @@
       "slots": "1x Czytnik kart, 1x CI+",
       "ports": "2x USB 2.0, HDMI",
       "price": "ok. 250 zł",
-      "tags": ["Edision", "FHD"]
+      "tags": [
+        "Edision",
+        "FHD"
+      ]
     },
     {
       "id": "amiko-viper-4k-v20",
@@ -238,7 +279,10 @@
       "slots": "1x Czytnik kart, 1x CI+",
       "ports": "2x USB 2.0, HDMI 2.0",
       "price": "ok. 300 zł",
-      "tags": ["Amiko", "4K"]
+      "tags": [
+        "Amiko",
+        "4K"
+      ]
     },
     {
       "id": "amiko-alien-2",
@@ -255,7 +299,10 @@
       "slots": "1x Czytnik kart, 1x CI+",
       "ports": "2x USB 2.0, HDMI",
       "price": "Wycofany (dawniej ok. 200 zł)",
-      "tags": ["Amiko", "FHD"]
+      "tags": [
+        "Amiko",
+        "FHD"
+      ]
     },
     {
       "id": "xtrend-et8500",
@@ -272,7 +319,10 @@
       "slots": "2x Czytnik kart, 2x CI+, slot na HDD 2.5\"",
       "ports": "2x USB 2.0, HDMI",
       "price": "Wycofany (dawniej ok. 400 zł)",
-      "tags": ["Xtrend", "FHD"]
+      "tags": [
+        "Xtrend",
+        "FHD"
+      ]
     },
     {
       "id": "xtrend-et8000",
@@ -289,7 +339,10 @@
       "slots": "2x Czytnik kart, 2x CI+, slot na HDD 2.5\"",
       "ports": "2x USB 2.0, HDMI",
       "price": "Wycofany (dawniej ok. 400 zł)",
-      "tags": ["Xtrend", "FHD"]
+      "tags": [
+        "Xtrend",
+        "FHD"
+      ]
     },
     {
       "id": "mutant-hd60",
@@ -306,7 +359,10 @@
       "slots": "2x Czytnik kart, 2x CI+, slot na HDD 2.5\"",
       "ports": "2x USB 2.0, HDMI",
       "price": "Wycofany (dawniej ok. 400 zł)",
-      "tags": ["Mutant", "FHD"]
+      "tags": [
+        "Mutant",
+        "FHD"
+      ]
     },
     {
       "id": "gigablue-uhd-quad-4k",
@@ -323,7 +379,11 @@
       "slots": "2x Czytnik kart, 2x CI+, slot na HDD 2.5\"",
       "ports": "2x USB 2.0, 1x USB 3.0, HDMI 2.0",
       "price": "ok. 800 zł",
-      "tags": ["GigaBlue", "4K", "FBC"]
+      "tags": [
+        "GigaBlue",
+        "4K",
+        "FBC"
+      ]
     },
     {
       "id": "gigablue-uhd-x3",
@@ -340,7 +400,11 @@
       "slots": "2x Czytnik kart, 2x CI+, slot na HDD 2.5\"",
       "ports": "2x USB 2.0, 1x USB 3.0, HDMI 2.0",
       "price": "ok. 900 zł",
-      "tags": ["GigaBlue", "4K", "FBC"]
+      "tags": [
+        "GigaBlue",
+        "4K",
+        "FBC"
+      ]
     },
     {
       "id": "gigablue-hd-x3",
@@ -357,7 +421,10 @@
       "slots": "2x Czytnik kart, 2x CI+, slot na HDD 2.5\"",
       "ports": "2x USB 2.0, HDMI",
       "price": "Wycofany (dawniej ok. 400 zł)",
-      "tags": ["GigaBlue", "FHD"]
+      "tags": [
+        "GigaBlue",
+        "FHD"
+      ]
     },
     {
       "id": "dreambox-dm525",
@@ -374,7 +441,10 @@
       "slots": "1x Czytnik kart, 1x CI+",
       "ports": "2x USB 2.0, HDMI",
       "price": "ok. 350 zł",
-      "tags": ["Dreambox", "FHD"]
+      "tags": [
+        "Dreambox",
+        "FHD"
+      ]
     },
     {
       "id": "dreambox-dm7080-hd",
@@ -391,7 +461,11 @@
       "slots": "2x Czytnik kart, 2x CI+, slot na HDD 2.5\"",
       "ports": "2x USB 2.0, HDMI",
       "price": "Wycofany (dawniej ok. 600 zł)",
-      "tags": ["Dreambox", "FHD", "Premium"]
+      "tags": [
+        "Dreambox",
+        "FHD",
+        "Premium"
+      ]
     },
     {
       "id": "dreambox-dm7020-hd",
@@ -408,7 +482,10 @@
       "slots": "1x Czytnik kart, 1x CI+",
       "ports": "2x USB 2.0, HDMI",
       "price": "Wycofany (dawniej ok. 300 zł)",
-      "tags": ["Dreambox", "FHD"]
+      "tags": [
+        "Dreambox",
+        "FHD"
+      ]
     },
     {
       "id": "zgemma-h11s",
@@ -425,7 +502,12 @@
       "slots": "1x Czytnik kart, Slot MicroSD (do 128GB)",
       "ports": "USB 2.0, HDMI 2.0",
       "price": "ok. 290 zł",
-      "tags": ["Zgemma", "4K", "Nowość", "16GB"]
+      "tags": [
+        "Zgemma",
+        "4K",
+        "Nowość",
+        "16GB"
+      ]
     },
     {
       "id": "zgemma-h9-twin-se",
@@ -442,7 +524,13 @@
       "slots": "1x Czytnik, 1x CI+, Kieszeń HDD 2.5\"",
       "ports": "USB 2.0, HDMI",
       "price": "ok. 580 zł",
-      "tags": ["Zgemma", "4K", "Twin", "WiFi", "HDD"]
+      "tags": [
+        "Zgemma",
+        "4K",
+        "Twin",
+        "WiFi",
+        "HDD"
+      ]
     },
     {
       "id": "zgemma-h17-combo",
@@ -459,7 +547,12 @@
       "slots": "1x Czytnik, 1x CI+, Slot HDD 2.5\"",
       "ports": "1x USB 3.0, 2x USB 2.0",
       "price": "ok. 690 zł",
-      "tags": ["Zgemma", "4K", "Combo", "Broadcom"]
+      "tags": [
+        "Zgemma",
+        "4K",
+        "Combo",
+        "Broadcom"
+      ]
     },
     {
       "id": "zgemma-h7s",
@@ -476,7 +569,13 @@
       "slots": "1x Czytnik, 1x CI+, Slot HDD 2.5\"",
       "ports": "1x USB 3.0, 2x USB 2.0",
       "price": "ok. 650 zł",
-      "tags": ["Zgemma", "4K", "HDD", "CI+", "Triple"]
+      "tags": [
+        "Zgemma",
+        "4K",
+        "HDD",
+        "CI+",
+        "Triple"
+      ]
     },
     {
       "id": "zgemma-h7c",
@@ -491,7 +590,11 @@
       "lan": "Gigabit",
       "slots": "1x Czytnik, 1x CI+, Slot HDD",
       "price": "ok. 650 zł",
-      "tags": ["Zgemma", "4K", "Combo"]
+      "tags": [
+        "Zgemma",
+        "4K",
+        "Combo"
+      ]
     },
     {
       "id": "zgemma-h9s",
@@ -507,7 +610,11 @@
       "wifi": "Brak",
       "slots": "1x Czytnik, 1x MicroSD",
       "price": "ok. 250 zł",
-      "tags": ["Zgemma", "4K", "Tani"]
+      "tags": [
+        "Zgemma",
+        "4K",
+        "Tani"
+      ]
     },
     {
       "id": "zgemma-h9-2s",
@@ -523,7 +630,10 @@
       "wifi": "Brak",
       "slots": "1x Czytnik, 1x MicroSD",
       "price": "ok. 270 zł",
-      "tags": ["Zgemma", "4K"]
+      "tags": [
+        "Zgemma",
+        "4K"
+      ]
     },
     {
       "id": "octagon-sf8008-supreme-twin",
@@ -540,7 +650,12 @@
       "slots": "Slot M.2 (SSD NVMe), 1x Czytnik",
       "ports": "1x USB 3.0, BT 5.0",
       "price": "ok. 530 zł",
-      "tags": ["Octagon", "4K", "SSD", "WiFi"]
+      "tags": [
+        "Octagon",
+        "4K",
+        "SSD",
+        "WiFi"
+      ]
     },
     {
       "id": "octagon-sf8008-supreme-combo",
@@ -557,7 +672,12 @@
       "slots": "Slot M.2 (SSD NVMe), 1x Czytnik",
       "ports": "1x USB 3.0, BT 5.0",
       "price": "ok. 540 zł",
-      "tags": ["Octagon", "4K", "SSD", "Combo"]
+      "tags": [
+        "Octagon",
+        "4K",
+        "SSD",
+        "Combo"
+      ]
     },
     {
       "id": "octagon-sf8008-4k",
@@ -573,7 +693,10 @@
       "wifi": "Tak (2.4GHz)",
       "slots": "1x Czytnik, 1x MicroSD",
       "price": "ok. 480 zł",
-      "tags": ["Octagon", "4K"]
+      "tags": [
+        "Octagon",
+        "4K"
+      ]
     },
     {
       "id": "octagon-sx88-v2-4k",
@@ -589,7 +712,10 @@
       "wifi": "Opcjonalne",
       "slots": "1x Czytnik",
       "price": "ok. 300 zł",
-      "tags": ["Octagon", "Prosty"]
+      "tags": [
+        "Octagon",
+        "Prosty"
+      ]
     },
     {
       "id": "ustym-4k-pro",
@@ -606,7 +732,11 @@
       "slots": "1x Czytnik, 1x MicroSD",
       "ports": "1x USB 3.0, 1x USB 2.0",
       "price": "ok. 440 zł",
-      "tags": ["Ustym", "4K", "Twin"]
+      "tags": [
+        "Ustym",
+        "4K",
+        "Twin"
+      ]
     },
     {
       "id": "ustym-4k-s2-ott",
@@ -623,7 +753,11 @@
       "slots": "1x Czytnik",
       "ports": "2x USB 2.0",
       "price": "ok. 290 zł",
-      "tags": ["Ustym", "4K", "Budżetowy"]
+      "tags": [
+        "Ustym",
+        "4K",
+        "Budżetowy"
+      ]
     },
     {
       "id": "zgemma-h8-2h",
@@ -639,7 +773,11 @@
       "wifi": "Brak",
       "slots": "1x Czytnik",
       "price": "ok. 190 zł",
-      "tags": ["Zgemma", "FHD", "Tani"]
+      "tags": [
+        "Zgemma",
+        "FHD",
+        "Tani"
+      ]
     },
     {
       "id": "zgemma-h9-combo",
@@ -655,7 +793,11 @@
       "wifi": "Tak (Wbudowane)",
       "slots": "1x Czytnik, 1x CI+",
       "price": "Wycofany",
-      "tags": ["Zgemma", "4K", "Combo"]
+      "tags": [
+        "Zgemma",
+        "4K",
+        "Combo"
+      ]
     },
     {
       "id": "zgemma-h9-2h",
@@ -670,7 +812,11 @@
       "lan": "100 Mbit",
       "wifi": "Brak",
       "price": "ok. 280 zł",
-      "tags": ["Zgemma", "4K", "Combo"]
+      "tags": [
+        "Zgemma",
+        "4K",
+        "Combo"
+      ]
     },
     {
       "id": "ab-pulse-4k-mini",
@@ -687,7 +833,11 @@
       "slots": "1x Czytnik, 1x CI+",
       "ports": "1x USB 3.0",
       "price": "ok. 430 zł",
-      "tags": ["AB", "4K", "CI+"]
+      "tags": [
+        "AB",
+        "4K",
+        "CI+"
+      ]
     },
     {
       "id": "ab-pulse-4k",
@@ -702,7 +852,11 @@
       "lan": "100 Mbit",
       "slots": "2x Czytnik, 1x CI+, HDD",
       "price": "ok. 650 zł",
-      "tags": ["AB", "4K", "HDD"]
+      "tags": [
+        "AB",
+        "4K",
+        "HDD"
+      ]
     },
     {
       "id": "vuplus-zero-4k",
@@ -718,7 +872,11 @@
       "wifi": "Brak",
       "slots": "1x Czytnik, 1x CI+",
       "price": "ok. 640 zł",
-      "tags": ["VU+", "4K", "Premium"]
+      "tags": [
+        "VU+",
+        "4K",
+        "Premium"
+      ]
     },
     {
       "id": "vuplus-uno-4k-se",
@@ -734,7 +892,11 @@
       "wifi": "Brak",
       "slots": "1x Czytnik, 1x CI+, LCD",
       "price": "ok. 1150 zł",
-      "tags": ["VU+", "4K", "FBC"]
+      "tags": [
+        "VU+",
+        "4K",
+        "FBC"
+      ]
     },
     {
       "id": "vuplus-duo-4k-se",
@@ -750,7 +912,11 @@
       "wifi": "Tak (Wbudowane)",
       "slots": "1x Czytnik, 2x CI+, HDD",
       "price": "ok. 1700 zł",
-      "tags": ["VU+", "4K", "High-End"]
+      "tags": [
+        "VU+",
+        "4K",
+        "High-End"
+      ]
     },
     {
       "id": "vuplus-zero",
@@ -764,7 +930,10 @@
       "resolution": "Full HD",
       "lan": "100 Mbit",
       "price": "ok. 400 zł",
-      "tags": ["VU+", "FHD"]
+      "tags": [
+        "VU+",
+        "FHD"
+      ]
     },
     {
       "id": "vuplus-solo-2",
@@ -778,7 +947,10 @@
       "resolution": "Full HD",
       "lan": "Gigabit",
       "price": "Rynek wtórny",
-      "tags": ["VU+", "FHD"]
+      "tags": [
+        "VU+",
+        "FHD"
+      ]
     },
     {
       "id": "vuplus-duo-2",
@@ -793,7 +965,10 @@
       "lan": "Gigabit",
       "slots": "2x CI, 2x Czytnik",
       "price": "Rynek wtórny",
-      "tags": ["VU+", "FHD"]
+      "tags": [
+        "VU+",
+        "FHD"
+      ]
     },
     {
       "id": "gigablue-trio-4k-pro",
@@ -808,7 +983,10 @@
       "lan": "Gigabit",
       "wifi": "Tak (1200Mbps)",
       "price": "ok. 560 zł",
-      "tags": ["GigaBlue", "4K"]
+      "tags": [
+        "GigaBlue",
+        "4K"
+      ]
     },
     {
       "id": "gigablue-uhd-ue-4k",
@@ -823,7 +1001,10 @@
       "lan": "Gigabit",
       "slots": "1x CI+, 1x Czytnik, LCD",
       "price": "ok. 950 zł",
-      "tags": ["GigaBlue", "4K"]
+      "tags": [
+        "GigaBlue",
+        "4K"
+      ]
     },
     {
       "id": "dreambox-two",
@@ -839,7 +1020,10 @@
       "wifi": "Tak",
       "slots": "1x CI, 1x Czytnik, LCD",
       "price": "ok. 1450 zł",
-      "tags": ["Dreambox", "Premium"]
+      "tags": [
+        "Dreambox",
+        "Premium"
+      ]
     },
     {
       "id": "dreambox-one",
@@ -855,7 +1039,9 @@
       "wifi": "Tak",
       "slots": "1x Czytnik (Brak CI)",
       "price": "ok. 1150 zł",
-      "tags": ["Dreambox"]
+      "tags": [
+        "Dreambox"
+      ]
     },
     {
       "id": "dreambox-dm920-uhd",
@@ -870,7 +1056,10 @@
       "lan": "Gigabit",
       "slots": "2x CI, 1x Czytnik",
       "price": "ok. 1400 zł",
-      "tags": ["Dreambox", "Premium"]
+      "tags": [
+        "Dreambox",
+        "Premium"
+      ]
     },
     {
       "id": "qviart-dual-4k",
@@ -885,7 +1074,11 @@
       "lan": "Gigabit",
       "wifi": "Tak",
       "price": "ok. 690 zł",
-      "tags": ["Qviart", "4K", "Android"]
+      "tags": [
+        "Qviart",
+        "4K",
+        "Android"
+      ]
     },
     {
       "id": "ax-ax-hd61",
@@ -900,7 +1093,11 @@
       "lan": "100 Mbit",
       "slots": "2x CI+",
       "price": "ok. 600 zł (Rzadki)",
-      "tags": ["AX", "4K", "CI+"]
+      "tags": [
+        "AX",
+        "4K",
+        "CI+"
+      ]
     },
     {
       "id": "mutant-hd66-se",
@@ -914,7 +1111,10 @@
       "resolution": "4K UHD",
       "lan": "100 Mbit",
       "price": "ok. 500 zł",
-      "tags": ["Mutant", "4K"]
+      "tags": [
+        "Mutant",
+        "4K"
+      ]
     },
     {
       "id": "zgemma-h5",
@@ -928,7 +1128,10 @@
       "resolution": "Full HD (H.265)",
       "lan": "100 Mbit",
       "price": "Rynek wtórny",
-      "tags": ["Zgemma", "FHD"]
+      "tags": [
+        "Zgemma",
+        "FHD"
+      ]
     },
     {
       "id": "zgemma-h2h",
@@ -942,7 +1145,11 @@
       "resolution": "Full HD",
       "lan": "100 Mbit",
       "price": "Rynek wtórny",
-      "tags": ["Zgemma", "FHD", "Retro"]
+      "tags": [
+        "Zgemma",
+        "FHD",
+        "Retro"
+      ]
     },
     {
       "id": "zgemma-h2s",
@@ -956,7 +1163,11 @@
       "resolution": "Full HD",
       "lan": "100 Mbit",
       "price": "Rynek wtórny",
-      "tags": ["Zgemma", "FHD", "Retro"]
+      "tags": [
+        "Zgemma",
+        "FHD",
+        "Retro"
+      ]
     },
     {
       "id": "xtrend-et10000",
@@ -970,7 +1181,10 @@
       "resolution": "FHD",
       "lan": "Gigabit",
       "price": "Wycofany",
-      "tags": ["Xtrend", "Retro"]
+      "tags": [
+        "Xtrend",
+        "Retro"
+      ]
     },
     {
       "id": "mutant-hd51",
@@ -984,7 +1198,10 @@
       "resolution": "4K UHD",
       "lan": "Gigabit",
       "price": "Wycofany",
-      "tags": ["Mutant", "4K"]
+      "tags": [
+        "Mutant",
+        "4K"
+      ]
     },
     {
       "id": "edision-os-mini-4k",
@@ -998,7 +1215,10 @@
       "resolution": "4K UHD",
       "lan": "100 Mbit",
       "price": "ok. 450 zł",
-      "tags": ["Edision", "4K"]
+      "tags": [
+        "Edision",
+        "4K"
+      ]
     },
     {
       "id": "edision-os-mio-4k",
@@ -1013,7 +1233,10 @@
       "lan": "100 Mbit",
       "wifi": "Tak",
       "price": "ok. 650 zł",
-      "tags": ["Edision", "4K"]
+      "tags": [
+        "Edision",
+        "4K"
+      ]
     },
     {
       "id": "amiko-viper-4k-v40",
@@ -1027,7 +1250,10 @@
       "resolution": "4K UHD",
       "lan": "100 Mbit",
       "price": "ok. 300 zł",
-      "tags": ["Amiko", "4K"]
+      "tags": [
+        "Amiko",
+        "4K"
+      ]
     },
     {
       "id": "dinobot-4k-se",
@@ -1042,7 +1268,10 @@
       "lan": "100 Mbit",
       "wifi": "Tak",
       "price": "ok. 450 zł",
-      "tags": ["Dinobot", "4K"]
+      "tags": [
+        "Dinobot",
+        "4K"
+      ]
     },
     {
       "id": "ustym-4k-ott",
@@ -1055,7 +1284,10 @@
       "tuners": "Brak (IPTV)",
       "resolution": "4K UHD",
       "price": "ok. 280 zł",
-      "tags": ["Ustym", "IPTV"]
+      "tags": [
+        "Ustym",
+        "IPTV"
+      ]
     },
     {
       "id": "octagon-sx88-v2-4k",
@@ -1068,175 +1300,10 @@
       "tuners": "S2",
       "resolution": "4K UHD",
       "price": "ok. 300 zł",
-      "tags": ["Octagon", "Prosty"]
-    },
-    {
-      "id": "vuplus-solo-4k",
-      "brand": "VU+",
-      "model": "Solo 4K",
-      "os": "Enigma2",
-      "tags": ["VU+", "4K"]
-    },
-    {
-      "id": "vuplus-uno-4k",
-      "brand": "VU+",
-      "model": "Uno 4K",
-      "os": "Enigma2",
-      "tags": ["VU+", "4K"]
-    },
-    {
-      "id": "vuplus-duo-4k",
-      "brand": "VU+",
-      "model": "Duo 4K",
-      "os": "Enigma2",
-      "tags": ["VU+", "4K"]
-    },
-    {
-      "id": "vuplus-ultimo",
-      "brand": "VU+",
-      "model": "Ultimo",
-      "os": "Enigma2",
-      "tags": ["VU+"]
-    },
-    {
-      "id": "vuplus-solo-se-v2",
-      "brand": "VU+",
-      "model": "Solo SE V2",
-      "os": "Enigma2",
-      "tags": ["VU+"]
-    },
-    {
-      "id": "octagon-sf4008-4k",
-      "brand": "Octagon",
-      "model": "SF4008 4K",
-      "os": "Enigma2",
-      "tags": ["Octagon"]
-    },
-    {
-      "id": "octagon-sf1008p",
-      "brand": "Octagon",
-      "model": "SF1008P",
-      "os": "Enigma2",
-      "tags": ["Octagon"]
-    },
-    {
-      "id": "miraclebox-premium-twin",
-      "brand": "Miraclebox",
-      "model": "Premium Twin",
-      "os": "Enigma2",
-      "tags": ["Miraclebox"]
-    },
-    {
-      "id": "spycat-mini",
-      "brand": "Spycat",
-      "model": "Mini",
-      "os": "Enigma2",
-      "tags": ["Spycat"]
-    },
-    {
-      "id": "technomate-tm-twin-oe",
-      "brand": "Technomate",
-      "model": "TM-Twin OE",
-      "os": "Enigma2",
-      "tags": ["Technomate"]
-    },
-    {
-      "id": "ax-ax-hd60",
-      "brand": "AX",
-      "model": "AX HD60",
-      "os": "Enigma2",
-      "tags": ["AX"]
-    },
-    {
-      "id": "ax-ax-hd51",
-      "brand": "AX",
-      "model": "AX HD51",
-      "os": "Enigma2",
-      "tags": ["AX"]
-    },
-    {
-      "id": "edision-os-mini",
-      "brand": "Edision",
-      "model": "OS mini",
-      "os": "Enigma2",
-      "tags": ["Edision"]
-    },
-    {
-      "id": "amiko-viper-4k-v20",
-      "brand": "Amiko",
-      "model": "Viper 4K V20",
-      "os": "Enigma2",
-      "tags": ["Amiko"]
-    },
-    {
-      "id": "amiko-alien-2",
-      "brand": "Amiko",
-      "model": "Alien 2",
-      "os": "Enigma2",
-      "tags": ["Amiko"]
-    },
-    {
-      "id": "xtrend-et8500",
-      "brand": "Xtrend",
-      "model": "ET8500",
-      "os": "Enigma2",
-      "tags": ["Xtrend"]
-    },
-    {
-      "id": "xtrend-et8000",
-      "brand": "Xtrend",
-      "model": "ET8000",
-      "os": "Enigma2",
-      "tags": ["Xtrend"]
-    },
-    {
-      "id": "mutant-hd60",
-      "brand": "Mutant",
-      "model": "HD60",
-      "os": "Enigma2",
-      "tags": ["Mutant"]
-    },
-    {
-      "id": "gigablue-uhd-quad-4k",
-      "brand": "GigaBlue",
-      "model": "UHD Quad 4K",
-      "os": "Enigma2",
-      "tags": ["GigaBlue"]
-    },
-    {
-      "id": "gigablue-uhd-x3",
-      "brand": "GigaBlue",
-      "model": "UHD X3",
-      "os": "Enigma2",
-      "tags": ["GigaBlue"]
-    },
-    {
-      "id": "gigablue-hd-x3",
-      "brand": "GigaBlue",
-      "model": "HD X3",
-      "os": "Enigma2",
-      "tags": ["GigaBlue"]
-    },
-    {
-      "id": "dreambox-dm525",
-      "brand": "Dreambox",
-      "model": "DM525",
-      "os": "Enigma2",
-      "tags": ["Dreambox"]
-    },
-    {
-      "id": "dreambox-dm7080-hd",
-      "brand": "Dreambox",
-      "model": "DM7080 HD",
-      "os": "Enigma2",
-      "tags": ["Dreambox"]
-    },
-    {
-      "id": "dreambox-dm7020-hd",
-      "brand": "Dreambox",
-      "model": "DM7020 HD",
-      "os": "Enigma2",
-      "tags": ["Dreambox"]
+      "tags": [
+        "Octagon",
+        "Prosty"
+      ]
     }
   ]
 }

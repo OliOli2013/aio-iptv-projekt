@@ -693,5 +693,390 @@
       "Moje AIO",
       "gwiazdka"
     ]
+  },
+  {
+    "title": "Asystent AIO Panel",
+    "desc": "Asystent AIO Panel — pomoc w pytaniach o Enigma2, wtyczki, OSCam, IPTV i konfigurację tunera.",
+    "url": "ai-chat.html",
+    "tags": [
+      "ai",
+      "chat",
+      "Opisz problem. Asystent pomoże znaleźć właściwy kierunek."
+    ]
+  },
+  {
+    "title": "AIO Panel Remote 1.4.6 Free / Pro | Aplikacje Android",
+    "desc": "AIO Panel Remote 1.4.6 Free / Pro dla Androida: pilot Enigma2, listy kanałów, EPG, picony, streaming SAT i IPTV oraz dostęp przez ZeroTier lub VPN.",
+    "url": "app-aio-panel-remote.html",
+    "tags": [
+      "app",
+      "aio",
+      "panel",
+      "remote",
+      "📱 AIO Panel Remote 1.4.6"
+    ]
+  },
+  {
+    "title": "Asystent doboru — co pobrać dla Enigma2",
+    "desc": "Interaktywny asystent dobiera wtyczki, aplikacje, listy i systemy do modelu tunera, obrazu Enigma2 oraz wersji Pythona.",
+    "url": "assistant.html",
+    "tags": [
+      "assistant",
+      "Powiedz, co chcesz zrobić. Resztę dobierzemy krok po kroku."
+    ]
+  },
+  {
+    "title": "Czat Społeczności AIO",
+    "desc": "Prywatny czat dla zarejestrowanych użytkowników Społeczności AIO.",
+    "url": "community-chat.html",
+    "tags": [
+      "community",
+      "chat",
+      "💬 Czat Społeczności AIO"
+    ]
+  },
+  {
+    "title": "Regulamin Społeczności AIO",
+    "desc": "Zasady publikowania, komentowania i bezpiecznej pomocy technicznej w Społeczności AIO.",
+    "url": "community-rules.html",
+    "tags": [
+      "community",
+      "rules"
+    ]
+  },
+  {
+    "title": "Zgodność projektów",
+    "desc": "Sprawdź wymagania i zgodność AIO Panel, PP Channel Sync, IPTV Dream, E2 Doctor, AIO Panel Remote i CamBridge PL.",
+    "url": "compatibility.html",
+    "tags": [
+      "compatibility",
+      "Sprawdź zgodność przed instalacją."
+    ]
+  },
+  {
+    "title": "Cookies i ustawienia prywatności",
+    "desc": "Zarządzaj dobrowolnymi statystykami i poznaj techniczne cookies AIO-IPTV.pl.",
+    "url": "cookies.html",
+    "tags": [
+      "cookies",
+      "Cookies i pamięć przeglądarki"
+    ]
+  },
+  {
+    "title": "Centrum pobierania",
+    "desc": "Wszystkie aktualne wtyczki i skiny Enigma2, aplikacje Android i Windows, systemy Multi-Click, listy kanałów, poradniki i dodatki w jednym katalogu.",
+    "url": "downloads.html",
+    "tags": [
+      "downloads",
+      "Czego szukasz?"
+    ]
+  },
+  {
+    "title": "Baza błędów Enigma2",
+    "desc": "Wyszukiwarka błędów Enigma2: Python, OPKG, sieć, HTTP, lamedb, picony, skin, pamięć i bezpieczne komendy diagnostyczne.",
+    "url": "errors.html",
+    "tags": [
+      "errors",
+      "Znajdź komunikat. Sprawdź przyczynę. Działaj w bezpiecznej kolejności."
+    ]
+  },
+  {
+    "title": "Diagnostyka Enigma2 — komendy i objawy",
+    "desc": "Logi, sieć, miejsce w pamięci, procesy i restart GUI.",
+    "url": "guide-diagnostyka-enigma2.html",
+    "tags": [
+      "guide",
+      "diagnostyka",
+      "enigma2"
+    ]
+  },
+  {
+    "title": "Instalacja image na tunerze",
+    "desc": "Pendrive, struktura plików i typowy przebieg instalacji systemu Enigma2.",
+    "url": "guide-instalacja-image.html",
+    "tags": [
+      "guide",
+      "instalacja",
+      "image"
+    ]
+  },
+  {
+    "title": "OpenATV 7.6 — konfiguracja krok po kroku",
+    "desc": "Pierwsze uruchomienie, podstawowe ustawienia i konfiguracja po wgraniu systemu.",
+    "url": "guide-openatv-76.html",
+    "tags": [
+      "guide",
+      "openatv",
+      "76"
+    ]
+  },
+  {
+    "title": "OSCam — dodawanie własnych danych",
+    "desc": "Gdzie wejść w WebIF OSCam i jak bezpiecznie wprowadzić własne dane.",
+    "url": "guide-oscam.html",
+    "tags": [
+      "guide",
+      "oscam",
+      "Jak dodać własne dane do OSCam"
+    ]
+  },
+  {
+    "title": "Powiększenie pamięci ZGEMMA H9.S / H9.2S",
+    "desc": "Materiały dotyczące powiększenia pamięci w wybranych modelach Zgemma.",
+    "url": "guide-pamiec-zgemma.html",
+    "tags": [
+      "guide",
+      "pamiec",
+      "zgemma"
+    ]
+  },
+  {
+    "title": "Terminal / OpenWebif — instalacja poleceniami",
+    "desc": "Jak wejść w terminal przez OpenWebif i wykonać komendy instalacyjne.",
+    "url": "guide-terminal-openwebif.html",
+    "tags": [
+      "guide",
+      "terminal",
+      "openwebif",
+      "Instalacja poleceniami przez Terminal"
+    ]
+  },
+  {
+    "title": "Xstremity — dane IPTV bez wpisywania pilotem",
+    "desc": "Dodawanie danych IPTV do Xstremity wygodniej niż z pilota.",
+    "url": "guide-xstremity.html",
+    "tags": [
+      "guide",
+      "xstremity",
+      "Dane IPTV do Xstremity bez wpisywania pilotem"
+    ]
+  },
+  {
+    "title": "OSCam — sprawdzenie działania",
+    "desc": "Proces, logi i port WebIF OSCam.",
+    "url": "help-oscam-check.html",
+    "tags": [
+      "help",
+      "oscam",
+      "check"
+    ]
+  },
+  {
+    "title": "Picony — ServiceRef i katalogi",
+    "desc": "Nazwy plików piconów i najczęstsze katalogi.",
+    "url": "help-picons-serviceref.html",
+    "tags": [
+      "help",
+      "picons",
+      "serviceref"
+    ]
+  },
+  {
+    "title": "Restart GUI bez restartu tunera",
+    "desc": "Odświeżenie Enigma2 po instalacji wtyczek, list i piconów.",
+    "url": "help-restart-gui.html",
+    "tags": [
+      "help",
+      "restart",
+      "gui",
+      "Restart GUI bez restartu całego tunera"
+    ]
+  },
+  {
+    "title": "Hasło roota — ustawienie / usunięcie",
+    "desc": "Podstawowe komendy dla SSH/Telnet.",
+    "url": "help-root-password.html",
+    "tags": [
+      "help",
+      "root",
+      "password",
+      "Hasło root — ustawienie lub usunięcie"
+    ]
+  },
+  {
+    "title": "satellites.xml — aktualizacja",
+    "desc": "Gdzie jest plik i co zrobić po podmianie.",
+    "url": "help-satellites-xml.html",
+    "tags": [
+      "help",
+      "satellites",
+      "xml"
+    ]
+  },
+  {
+    "title": "SoftCam feed — instalacja",
+    "desc": "Instalacja feeda i podstawowe kroki po dodaniu softcama.",
+    "url": "help-softcam-feed.html",
+    "tags": [
+      "help",
+      "softcam",
+      "feed",
+      "SoftCam feed OpenATV / OpenPLi"
+    ]
+  },
+  {
+    "title": "Analizator crashlogów i błędów Enigma2",
+    "desc": "Lokalnie analizuj logi Enigma2, tracebacki Pythona, błędy OPKG, sieci, lamedb, skina, pamięci i instalacji wtyczek.",
+    "url": "log-analyzer.html",
+    "tags": [
+      "log",
+      "analyzer",
+      "Wklej log. Zobacz, co naprawdę może być przyczyną błędu."
+    ]
+  },
+  {
+    "title": "Mój tuner — profil urządzenia Enigma2",
+    "desc": "Zapisz lokalnie model tunera, system, Python i satelity, aby otrzymywać trafniejsze rekomendacje plików i projektów.",
+    "url": "my-tuner.html",
+    "tags": [
+      "my",
+      "tuner",
+      "Mój tuner"
+    ]
+  },
+  {
+    "title": "Aktualności AIO-IPTV.pl — oficjalne komunikaty",
+    "desc": "Oficjalne aktualizacje wtyczek, aplikacji, list kanałów i systemów AIO-IPTV.pl.",
+    "url": "news.html",
+    "tags": [
+      "news",
+      "Co nowego w AIO?"
+    ]
+  },
+  {
+    "title": "Dodatki systemowe",
+    "desc": "StreamlinkProxy, ServiceApp i SoftCam Feed w jednym miejscu.",
+    "url": "plugin-dodatki-systemowe.html",
+    "tags": [
+      "plugin",
+      "dodatki",
+      "systemowe"
+    ]
+  },
+  {
+    "title": "DreamosatX Signal PL 2.0",
+    "desc": "Polskie wydanie narzędzia do monitorowania sygnału satelitarnego.",
+    "url": "plugin-dreamosatx-signal.html",
+    "tags": [
+      "plugin",
+      "dreamosatx",
+      "signal",
+      "DreamosatX Signal 2.0 — wydanie PL"
+    ]
+  },
+  {
+    "title": "MyUpdater 5.1",
+    "desc": "Narzędzie aktualizacyjne dla list, piconów i dodatków.",
+    "url": "plugin-myupdater.html",
+    "tags": [
+      "plugin",
+      "myupdater"
+    ]
+  },
+  {
+    "title": "OpenCamView 1.3",
+    "desc": "Podgląd kamer IP / RTSP bez ręcznego tworzenia list kanałów.",
+    "url": "plugin-opencamview.html",
+    "tags": [
+      "plugin",
+      "opencamview"
+    ]
+  },
+  {
+    "title": "Picon Updater 1.2",
+    "desc": "Pobieranie i aktualizacja piconów dla Enigma2.",
+    "url": "plugin-picon-updater.html",
+    "tags": [
+      "plugin",
+      "picon",
+      "updater"
+    ]
+  },
+  {
+    "title": "Polityka prywatności i RODO",
+    "desc": "Zasady przetwarzania danych osobowych w AIO-IPTV.pl.",
+    "url": "privacy-community.html",
+    "tags": [
+      "privacy",
+      "community",
+      "Polityka prywatności AIO-IPTV.pl"
+    ]
+  },
+  {
+    "title": "Status projektów AIO-IPTV.pl",
+    "desc": "Stan rozwoju wtyczek, aplikacji, list kanałów i systemów: aktywnie rozwijane, stabilne, utrzymywane, wstrzymane i archiwalne.",
+    "url": "project-status.html",
+    "tags": [
+      "project",
+      "status",
+      "Sprawdź, co jest aktywnie rozwijane, stabilne i utrzymywane."
+    ]
+  },
+  {
+    "title": "Generator QR dla instalacji Enigma2",
+    "desc": "Twórz lokalne kody QR dla linków do wtyczek, aplikacji, systemów, poradników i komend instalacyjnych.",
+    "url": "qr-install.html",
+    "tags": [
+      "qr",
+      "install",
+      "Przenieś link lub komendę na telefon jednym skanem."
+    ]
+  },
+  {
+    "title": "Interaktywny symulator pilota Enigma2",
+    "desc": "Klikalny pilot Enigma2 z opisem przycisków podczas oglądania TV, listy kanałów, EPG, odtwarzania i ustawień.",
+    "url": "remote-simulator.html",
+    "tags": [
+      "remote",
+      "simulator",
+      "Sprawdź, co robi każdy przycisk pilota w konkretnym ekranie."
+    ]
+  },
+  {
+    "title": "Generator zgłoszenia błędu",
+    "desc": "Wygeneruj kompletne zgłoszenie błędu wtyczki Enigma2, aplikacji Android lub programu Windows wraz z modelem, systemem, Pythonem i logiem.",
+    "url": "report-error.html",
+    "tags": [
+      "report",
+      "error",
+      "Im lepsze dane, tym szybsza diagnoza."
+    ]
+  },
+  {
+    "title": "Prawa użytkownika RODO",
+    "desc": "Jak zażądać dostępu, sprostowania lub usunięcia danych Społeczności AIO.",
+    "url": "rodo-rights.html",
+    "tags": [
+      "rodo",
+      "rights",
+      "Wgląd, poprawienie i usunięcie danych"
+    ]
+  },
+  {
+    "title": "AIO Smart Tuner — dobierz oprogramowanie",
+    "desc": "Dobierz wtyczki, skórki, listy kanałów i systemy do modelu odbiornika Enigma2, wersji systemu i Pythona.",
+    "url": "smart-tuner.html",
+    "tags": [
+      "smart",
+      "tuner",
+      "AIO Smart Tuner"
+    ]
+  },
+  {
+    "title": "Status usług, instalatorów i plików",
+    "desc": "Automatyczny status instalatorów, plików IPK i APK, manifestów list kanałów oraz linków systemów Multi-Click.",
+    "url": "status.html",
+    "tags": [
+      "status"
+    ]
+  },
+  {
+    "title": "Studio AIO-IPTV.pl — inteligentne narzędzia Enigma2",
+    "desc": "Lokalny publikator aktualizacji, interaktywny pilot, baza błędów, status projektów, analizator logów i pozostałe narzędzia AIO-IPTV.pl.",
+    "url": "studio.html",
+    "tags": [
+      "studio",
+      "Narzędzia AIO w jednym miejscu."
+    ]
   }
 ]
