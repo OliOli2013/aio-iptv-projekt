@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#08202d">
+<meta name="robots" content="index,follow">
+<title>AIO Team — internetowy edytor list Enigma2 | AIO-IPTV.pl</title>
+<meta name="description" content="Edytuj trzy oficjalne listy AIO Team w przeglądarce. Zapisz ZIP albo wyślij listę do tunera przez opcjonalny lokalny most FTP.">
+<link rel="icon" href="pliki/logo.png">
+<link rel="canonical" href="https://aio-iptv-projekt.pages.dev/aio-list-editor">
+<link rel="stylesheet" href="assets/css/aio-list-editor.css?v=20261015-listeditor1">
+<script src="assets/js/aio-jszip-3.10.1.min.js?v=3.10.1" defer></script>
+<script src="assets/js/aio-list-core.js?v=20261015-listeditor1" defer></script>
+<script src="assets/js/aio-list-editor.js?v=20261015-listeditor1" defer></script>
+</head>
+<body class="aio-le">
+<a class="skip" href="#main-content">Przejdź do edytora</a>
+<header class="le-header"><a class="le-brand" href="index.html"><img src="pliki/logo.png" alt="AIO-IPTV.pl"><span><strong>AIO-IPTV.pl</strong><small>Enigma2 • pliki • pomoc • społeczność</small></span></a>
+<nav aria-label="Nawigacja"><a href="index.html">Start</a><a href="channel-lists.html">Listy kanałów</a><a href="downloads.html">Pobieranie</a><a href="community.html">Społeczność</a></nav></header>
+<main class="le-wrap" id="main-content">
+<section class="le-hero"><p class="le-kicker">AIO TEAM • NOWE NARZĘDZIE ONLINE</p><h1>Edytor list kanałów Enigma2</h1><p>Wybierz jedną z trzech oficjalnych list AIO Team, zmieniaj bukiety i kanały, a potem pobierz własny ZIP. Opcjonalnie prześlij listę na tuner w sieci domowej przez program uruchomiony na Twoim komputerze.</p><div class="le-pillrow"><span>✓ Oryginalny ZIP bez zmian</span><span>✓ Edycja w przeglądarce</span><span>✓ Wysyłka lokalna</span></div></section>
+<section class="le-card le-select"><div class="le-title-row"><div><p class="le-kicker">KROK 1</p><h2>Wybierz bazową listę AIO Team</h2></div><span id="leVersion" class="le-muted">Baza GitHub • aktualizowana online</span></div>
+<div class="le-fields"><label>Oficjalna lista<select id="leList"><option value="polska_13e_aio_panel">Polska 13E (Hot Bird)</option><option value="polska_13e_19e_aio_panel">Polska 13E + 19.2E</option><option value="polska_13e_19e_16e_23e_aio_panel">Polska 13E + 19.2E + 16E + 23.5E</option></select></label><button type="button" id="leLoad" class="le-primary">Wczytaj do edytora</button></div>
+<p class="le-note">Paczka pochodzi z oficjalnego manifestu <a href="https://github.com/OliOli2013/PanelAIO-Lists" target="_blank" rel="noopener noreferrer">PanelAIO-Lists</a>. Edycja nie zmienia oryginału w repozytorium.</p></section>
+<div class="le-status" id="leStatus" role="status" aria-live="polite">Wybierz listę i kliknij „Wczytaj do edytora”.</div>
+<section id="leWorkspace" hidden>
+<div class="le-stats"><span id="leArchiveLabel">—</span><span id="leBouquetCount">—</span><span id="leChannelCount">—</span><span id="leChanges">Brak zmian</span></div>
+<div class="le-columns">
+<section class="le-card le-bouquets"><div class="le-title-row"><div><p class="le-kicker">KROK 2</p><h2>Bukiety</h2></div><button type="button" id="leAddBouquet">+ Nowy</button></div>
+<div class="le-tools"><label class="le-full">Nazwa wybranego bukietu<input id="leBouquetName" maxlength="120" placeholder="Nazwa bukietu"></label><button type="button" id="leRenameBouquet">Zmień nazwę</button><button type="button" id="leCloneBouquet">Duplikuj bukiet</button><button type="button" id="leDeleteBouquet" class="le-danger">Usuń bukiet</button></div>
+<div id="leBouquetList" class="le-bouquet-list" role="listbox" aria-label="Bukiety do edycji"></div></section>
+<section class="le-card le-channels"><div class="le-title-row"><div><p class="le-kicker">KROK 3</p><h2 id="leChannelsTitle">Kanały</h2></div><strong id="leChannelInfo" class="le-muted"></strong></div>
+<label class="le-full">Szukaj w wybranym bukiecie<input id="leSearch" type="search" placeholder="Nazwa kanału lub Service Reference"></label>
+<div class="le-channel-list" id="leChannelList" aria-label="Kanały w bukiecie"></div>
+<div class="le-paging"><button type="button" id="lePrev">← Poprzednie</button><span id="lePage">—</span><button type="button" id="leNext">Następne →</button></div>
+<div class="le-editbox"><h3>Edycja zaznaczonego kanału</h3><label>Opis kanału w bukiecie<input id="leChannelName" maxlength="120" placeholder="Nazwa/opis"></label><div class="le-buttonrow"><button type="button" id="leRenameChannel">Zapisz opis</button><button type="button" id="leCopyChannel">Kopiuj</button><button type="button" id="leDeleteChannel" class="le-danger">Usuń z bukietu</button></div>
+<label>Przenieś zaznaczony kanał do innego bukietu<select id="leTargetBouquet"></select></label><button type="button" id="leMoveChannel">Przenieś kanał</button>
+<h3>Dodaj kanał do bieżącego bukietu</h3><label>Service Reference (pełny identyfikator Enigma2)<textarea rows="3" id="leNewRef" placeholder="1:0:1:... (dla IPTV także pełny URL w Service Reference)"></textarea></label><label>Opis / nazwa<input id="leNewName" maxlength="120" placeholder="Nazwa kanału"></label><button type="button" id="leAddChannel">+ Dodaj kanał</button>
+<p class="le-note">Edycja opisu zmienia wpis <code>#DESCRIPTION</code> w bukiecie, a nie bazę transponderów <code>lamedb</code>. Oryginalne Service Reference zachowujemy, chyba że świadomie dodasz nowy wpis.</p></div></section>
+</div>
+<section class="le-card le-export"><div class="le-title-row"><div><p class="le-kicker">KROK 4</p><h2>Zapisz swoją listę</h2></div></div><p>Archiwum zawiera pełną bazową listę wraz z Twoimi zmianami. Inne pliki Enigma2 pozostają bez zmian.</p><button type="button" id="leDownload" class="le-primary">⬇ Pobierz edytowaną listę ZIP</button><p class="le-note">Zawsze zapisz ZIP także na komputerze jako swoją kopię przed wysyłką na tuner.</p></section>
+<section class="le-card le-transfer"><div class="le-title-row"><div><p class="le-kicker">KROK 5 • OPCJONALNIE</p><h2>Wyślij na tuner Enigma2</h2></div><span class="le-muted">Tylko sieć lokalna</span></div>
+<p>Ze względów bezpieczeństwa publiczna strona nie łączy się z tunerem przez FTP. Na swoim komputerze uruchom <strong>AIO List Bridge</strong>. Dane <code>root</code> i hasło są wtedy przesyłane wyłącznie do lokalnego programu, nigdy do serwera AIO-IPTV.pl.</p>
+<p><a class="le-bridge-link" href="pliki/AIO_List_Editor_Bridge.zip" download>⬇ Pobierz AIO List Bridge (Windows / Linux / macOS, Python 3)</a></p>
+<div class="le-transfer-fields"><label>Adres IP tunera<input id="leTunerIp" inputmode="decimal" placeholder="192.168.1.100" autocomplete="off"></label><label>Port FTP<input id="leFtpPort" type="number" min="1" max="65535" value="21"></label><label>Użytkownik<input id="leUsername" value="root" readonly></label><label>Hasło FTP (jeśli ustawione)<input id="lePassword" type="password" autocomplete="off" placeholder="Może pozostać puste"></label><label class="le-full">Kod mostu lokalnego (pokazany po uruchomieniu programu)<input id="leBridgeToken" type="password" autocomplete="off" placeholder="Wklej kod z terminala"></label></div>
+<label class="le-consent"><input type="checkbox" id="leFtpConsent"> <span>Rozumiem, że protokół FTP nie szyfruje hasła ani plików. Korzystam wyłącznie z zaufanej sieci lokalnej i wcześniej wykonuję kopię ustawień tunera.</span></label>
+<div class="le-buttonrow"><button type="button" id="leCheckBridge">Sprawdź lokalne połączenie</button><button type="button" id="leSend" class="le-primary">Wyślij listę na tuner</button></div><p class="le-note">Program automatycznie tworzy kopię nadpisywanych plików z <code>/etc/enigma2</code> na Twoim komputerze, a dopiero potem wysyła listę. Nie usuwa innych plików tunera. Po wysłaniu wykonaj restart GUI Enigma2, aby wczytać listę.</p><p class="le-note">Jeśli przeglądarka blokuje połączenia z <code>127.0.0.1</code>, pobierz ZIP i prześlij go ręcznie. Nie otwieraj FTP tunera na internet.</p></section>
+</section>
+<section class="le-card le-help"><h2>Jakie zmiany można wykonać?</h2><p>Zmiana kolejności bukietów i kanałów, tworzenie i usuwanie bukietów, duplikowanie, kopiowanie i przenoszenie pozycji między bukietami, wyszukiwanie, edycja opisów i dodawanie kanałów przez Service Reference. Wszystko dzieje się lokalnie w przeglądarce; oryginalna lista AIO Team pozostaje nienaruszona.</p><p><strong>Ważne:</strong> przed wysłaniem ustaw tuner na właściwe satelity, zrób backup, a w przypadku niepowodzenia przywróć poprzednią listę. Nie wpisuj publicznego adresu IP ani hasła do strony innej niż oryginalny AIO-IPTV.pl.</p></section>
+</main>
+<footer class="le-footer">© Paweł Pawełek • <a href="index.html">AIO-IPTV.pl</a> • <a href="channel-lists.html">Listy kanałów</a></footer>
+</body></html>
