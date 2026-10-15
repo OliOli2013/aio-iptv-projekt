@@ -1,7 +1,7 @@
 /* AIO List Upload — zachowuje sesję społeczności, nigdy nie uzyskuje tokenu GitHub. */
 (()=>{
   'use strict';
-  const $=id=>document.getElementById(id), stat={pending:'Oczekuje na akceptację',publishing:'Publikowanie',published:'Opublikowana',rejected:'Odrzucona',publish_failed:'Błąd publikacji — ponów',removed:'Usunięta'};
+  const $=id=>document.getElementById(id), stat={pending:'Oczekuje na akceptację',publishing:'Publikowanie',published:'Opublikowana',applied:'Aktualizacja wdrożona',cancelled:'Wycofane przez autora',removing:'Usuwanie',rejected:'Odrzucona',publish_failed:'Błąd publikacji — ponów',removed:'Usunięta'};
   let me=null,busy=false;
   function node(tag,text,cls){const x=document.createElement(tag);if(cls)x.className=cls;if(text!==undefined)x.textContent=String(text);return x;}
   function box(parent,txt,cls='alu-warning'){const x=node('div',txt,cls);parent.appendChild(x);return x;}
@@ -14,6 +14,17 @@
     const report=item.report||{};
     if(report.stats) card.append(node('p',`Kontrola: ${report.stats.files} plików, ${report.stats.bouquets} bukietów, ${report.stats.services} wpisów #SERVICE.`));
     if((report.warnings||[]).length)box(card,'Ostrzeżenia: '+report.warnings.map(w=>w.detail).join(' • '),'alu-warning');
+    if(!admin && item.status==='published' && !item.update_of) {
+      const actions=node('div',undefined,'alu-actions');
+      const update=node('button','Zgłoś aktualizację','alu-button alu-primary');update.type='button';update.addEventListener('click',()=>startUpdate(item));
+      const remove=node('button','Usuń moją listę','alu-button');remove.type='button';remove.addEventListener('click',()=>removeOwn(item));
+      actions.append(update,remove);card.append(actions);
+    }
+    if(!admin && ['pending','publish_failed'].includes(item.status)) {
+      const cancel=node('button','Wycofaj moje zgłoszenie','alu-button');cancel.type='button';
+      cancel.addEventListener('click',()=>cancelOwn(item));card.append(cancel);
+    }
+    if(item.update_of)card.append(node('p','Aktualizacja dotychczasowej listy (nazwa pozostaje bez zmian).'));
     if(admin){const actions=node('div',undefined,'alu-actions');
       const add=(label,action,enabled)=>{if(!enabled)return;const b=node('button',label,'alu-button');b.type='button';b.addEventListener('click',()=>perform(action,item));actions.append(b);};
       add('Zatwierdź i opublikuj','approve',['pending','publish_failed'].includes(item.status));
@@ -23,6 +34,84 @@
       card.append(actions);
     }
     target.append(card);
+  }
+  async function cancelOwn(item){
+    if(busy)return;
+    if(!confirm('Wycofać własne zgłoszenie „'+item.name+'”? Nie będzie dostępne do zatwierdzenia.'))return;
+    busy=true;
+    try{const d=await call({method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({action:'cancel_own',id:item.id})});alert(d.message);await refresh();}
+    catch(e){alert('Błąd wycofania: '+e.message);await refresh();}
+    finally{busy=false;}
+  }
+  function startUpdate(item){
+    if(busy)return;
+    const form=$('aluForm');form.reset();
+    $('aluUpdateOf').value=item.id;
+    form.elements.name.value=item.name;
+    form.elements.name.readOnly=true;
+    form.elements.version.value=new Date().toISOString().slice(0,10);
+    form.elements.description.value=item.description||'';
+    $('aluMode').querySelector('strong').textContent='Aktualizacja: '+item.name;
+    $('aluNewMode').hidden=false;
+    $('aluSubmit').textContent='Sprawdź ZIP i zgłoś aktualizację';
+    $('aluUploadCard').scrollIntoView({behavior:'smooth',block:'start'});
+    $('aluZip').focus();
+  }
+  function newMode(){
+    const form=$('aluForm');form.reset();$('aluUpdateOf').value='';
+    form.elements.name.readOnly=false;
+    form.elements.version.value=new Date().toISOString().slice(0,10);
+    $('aluMode').querySelector('strong').textContent='Nowa lista';
+    $('aluNewMode').hidden=true;
+    $('aluSubmit').textContent='Sprawdź ZIP i zgłoś listę';
+  }
+  async function removeOwn(item){
+    if(busy)return;
+    const typed=prompt('Aby wycofać swoją listę z AIO Panel, wpisz DOKŁADNIE jej nazwę:', '');
+    if(typed===null)return;
+    if(typed!==item.name){alert('Nazwa różni się od nazwy Twojej listy. Niczego nie usunięto.');return;}
+    if(!confirm('Czy na pewno wycofać tę listę z publicznego manifestu GitHub? Użytkownicy nie pobiorą już aktualnej wersji z AIO Panel.'))return;
+    busy=true;
+    try{
+      const data=await call({method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({action:'delete_own',id:item.id,confirm_name:typed})});
+      alert(data.message||'Lista została wycofana.');await refresh();
+    }catch(e){alert('Błąd wycofywania: '+e.message);await refresh();}
+    finally{busy=false;}
+  }
+  function showLegacy(data){
+    const target=$('aluLegacyList');if(!target)return;target.replaceChildren();
+    const info=$('aluLegacyError');info.hidden=!data.manifest_error;info.textContent=data.manifest_error||'';
+    if(!(data.legacy||[]).length){box(target,'Brak starszych list albo katalog GitHub jest chwilowo niedostępny.');return;}
+    const filter=node('input');filter.type='search';filter.placeholder='Filtruj starsze listy po nazwie, autorze…';
+    filter.className='alu-legacy-search';target.append(filter);
+    const list=node('div',undefined,'alu-records');target.append(list);
+    for(const item of data.legacy){
+      const card=node('article',undefined,'alu-record');card.dataset.search=(item.name+' '+item.author).toLocaleLowerCase('pl');
+      const head=node('div',undefined,'alu-record-title');head.append(node('strong',item.name),node('span',item.version,'alu-status'));card.append(head);
+      card.append(node('p','Autor: '+(item.author||'nieokreślony')));
+      const btn=node('button','Wycofaj tę listę','alu-button');btn.type='button';btn.addEventListener('click',()=>removeLegacy(item));card.append(btn);list.append(card);
+    }
+    filter.addEventListener('input',()=>{
+      const term=filter.value.trim().toLocaleLowerCase('pl');
+      for(const card of list.children)card.hidden=!card.dataset.search.includes(term);
+    });
+  }
+  async function removeLegacy(item){
+    if(busy)return;
+    const name=prompt('Potwierdź wycofanie wpisu z manifestu. Wpisz dokładną nazwę listy:', '');
+    if(name===null)return;
+    if(name!==item.name){alert('Nieprawidłowa nazwa. Niczego nie zmieniono.');return;}
+    const reason=prompt('Podaj uzasadnienie wycofania (minimum 10 znaków):','Lista nieaktualna, wycofana z katalogu AIO Panel.');
+    if(reason===null)return;
+    if(reason.trim().length<10){alert('Podaj dokładniejszy powód.');return;}
+    const del=confirm('Opcjonalnie usunąć także plik ZIP z bieżącej gałęzi GitHub?\nOK = wycofaj manifest i usuń ZIP\nAnuluj = wycofaj tylko manifest (zalecane)');
+    if(!confirm('Ostatnie potwierdzenie: wycofać „'+item.name+'” z manifestu produkcyjnego AIO Panel?'))return;
+    busy=true;
+    try{
+      const data=await call({method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({action:'hide_legacy',manifest_id:item.id,confirm_name:name,reason,delete_archive:del})});
+      alert(data.message||'Wpis wycofany.');await refresh();
+    }catch(e){alert('Błąd wycofania: '+e.message);await refresh();}
+    finally{busy=false;}
   }
   async function call(options={}){
     const response=await fetch('/api/list-submissions',{cache:'no-store',credentials:'include',...options});
@@ -58,6 +147,7 @@
       const btn=node('button','Odblokuj','alu-button');btn.type='button';btn.addEventListener('click',()=>perform('unblock',{user_id:b.user_id,name:b.author}));line.append(btn);blocks.append(line);
     }
     if(!data.blocks.length)box(blocks,'Brak zablokowanych użytkowników.');
+    showLegacy(data);
   }
   async function perform(action,item){
     if(busy)return;
@@ -87,15 +177,16 @@
       const resp=await call({method:'POST',body:data});
       box(result,resp.message||'Lista trafiła do moderacji.','alu-success');
       if(resp.validation?.warnings?.length)box(result,'Uwagi: '+resp.validation.warnings.map(x=>x.detail).join('\n'),'alu-warning');
-      form.reset();await refresh();
+      newMode();await refresh();document.dispatchEvent(new Event('aio-list-updated'));
     }catch(e){
       box(result,e.message,'alu-error');
       if(e.result?.validation?.errors?.length)box(result,e.result.validation.errors.map(x=>`• ${x.detail}`).join('\n'),'alu-error');
       if(e.result?.validation?.warnings?.length)box(result,e.result.validation.warnings.map(x=>`• ${x.detail}`).join('\n'),'alu-warning');
-    }finally{busy=false;submitButton.disabled=false;submitButton.textContent='Sprawdź ZIP i zgłoś listę';}
+    }finally{busy=false;submitButton.disabled=false;submitButton.textContent=$('aluUpdateOf').value?'Sprawdź ZIP i zgłoś aktualizację':'Sprawdź ZIP i zgłoś listę';}
   }
   document.addEventListener('DOMContentLoaded',()=>{
     $('aluForm').addEventListener('submit',submit);
+    $('aluNewMode').addEventListener('click',newMode);
     $('aluRefresh').addEventListener('click',refresh);
     $('aluLogin').addEventListener('click',event=>{event.stopPropagation();if(window.AIOCommunity?.openAuth)window.AIOCommunity.openAuth();else location.href='community.html';});
     document.addEventListener('aio-community-auth',refresh);

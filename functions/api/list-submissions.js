@@ -1,10 +1,13 @@
 /* AIO Panel Lists — zgłoszenia od zalogowanych użytkowników, bez zmian w istniejącym API. */
 import {json, requireUser, requireAdmin, getSession, errorResponse, cleanText, isoNow, sha256} from '../_community.js';
 import {validateAioZip, prepareAioZip, AIO_ZIP_MAX_BYTES} from '../_aio_list_validation.js';
+import {createListNotice,ensureListInbox} from '../_aio_list_notice.js';
 
 const REPO = 'OliOli2013/PanelAIO-Lists';
 const BASE = `https://api.github.com/repos/${REPO}`;
 const LIMIT_PER_DAY = 3;
+const MAX_ACTIVE_LISTS = 2; // per authenticated account, independent of IP
+const MAX_NEW_LISTS_30_DAYS = 4; // cannot churn unlimited names by removing lists
 let tablePromise = null;
 function httpError(status, detail) {return Object.assign(new Error(detail),{status});}
 function sameOrigin(request) {
@@ -23,7 +26,7 @@ async function schema(env) {
         r2_key TEXT NOT NULL, file_size INTEGER NOT NULL, zip_sha256 TEXT NOT NULL,
         report_json TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'pending',
         review_reason TEXT, reviewer_id TEXT, archive_path TEXT, manifest_id TEXT,
-        created_at TEXT NOT NULL, reviewed_at TEXT, published_at TEXT,
+        created_at TEXT NOT NULL, reviewed_at TEXT, published_at TEXT, update_of TEXT,
         FOREIGN KEY(user_id) REFERENCES community_profiles(id) ON DELETE CASCADE
       )`),
       env.COMMUNITY_DB.prepare('CREATE INDEX IF NOT EXISTS idx_aio_lists_user ON aio_list_submissions(user_id,created_at)'),
@@ -33,6 +36,16 @@ async function schema(env) {
         FOREIGN KEY(user_id) REFERENCES community_profiles(id) ON DELETE CASCADE
       )`)
     ]);
+    // Existing production D1 tables date from V1.1. Migrate additively.
+    const cols=await env.COMMUNITY_DB.prepare('PRAGMA table_info(aio_list_submissions)').all();
+    if(!(cols.results||[]).some(c=>c.name==='update_of')) {
+      try {await env.COMMUNITY_DB.prepare('ALTER TABLE aio_list_submissions ADD COLUMN update_of TEXT').run();}
+      catch(e) {
+        const retry=await env.COMMUNITY_DB.prepare('PRAGMA table_info(aio_list_submissions)').all();
+        if(!(retry.results||[]).some(c=>c.name==='update_of')) throw e;
+      }
+    }
+    await env.COMMUNITY_DB.prepare('CREATE INDEX IF NOT EXISTS idx_aio_lists_update_of ON aio_list_submissions(update_of,status)').run();
   })().catch(e=>{tablePromise=null;throw e;});
   await tablePromise;
 }
@@ -42,6 +55,7 @@ function publicRow(row, owner=false) {
     version:row.version,file_name:row.file_name,file_size:row.file_size,
     status:row.status, created_at:row.created_at,review_reason:row.review_reason,
     reviewed_at:row.reviewed_at,published_at:row.published_at,
+    update_of:row.update_of||null,
     report:JSON.parse(row.report_json||'{}'),manifest_id:row.manifest_id};
 }
 async function ownList(env,userId) {
@@ -72,18 +86,33 @@ async function userGet(request,env) {
       ORDER BY CASE s.status WHEN 'pending' THEN 0 WHEN 'publish_failed' THEN 1 WHEN 'publishing' THEN 2 ELSE 3 END, s.created_at DESC LIMIT 150`).all();
     const bb=await env.COMMUNITY_DB.prepare(`SELECT b.*,p.display_name AS author FROM aio_list_upload_blocks b
       LEFT JOIN community_profiles p ON p.id=b.user_id ORDER BY b.created_at DESC LIMIT 150`).all();
-    return json({ok:true,authenticated:true,is_owner:true,items:(rr.results||[]).map(r=>publicRow(r,true)),blocks:bb.results||[]});
+    // Owner can unlist pre-existing channel archives that were never submitted via AIO.
+    // A GitHub outage must never disable the regular moderation panel.
+    let legacy=[],manifest_error=null;
+    try {
+      const snap=await repoSnapshot(env);
+      const rr=await env.COMMUNITY_DB.prepare("SELECT manifest_id FROM aio_list_submissions WHERE update_of IS NULL AND manifest_id IS NOT NULL AND status IN ('published','publishing','removing')").all();
+      const managed=new Set((rr.results||[]).map(x=>x.manifest_id));
+      legacy=snap.arr.filter(x=>x && x.type!=='BOUQUET' && typeof x.id==='string' && !managed.has(x.id))
+        .map(x=>({id:x.id,name:String(x.name||''),author:String(x.author||''),version:String(x.version||''),url:String(x.url||'')}));
+    } catch(e) {manifest_error='Nie można teraz pobrać katalogu GitHub. Zgłoszenia są dostępne.';}
+    return json({ok:true,authenticated:true,is_owner:true,items:(rr.results||[]).map(r=>publicRow(r,true)),blocks:bb.results||[],legacy,manifest_error,policy:{max_active:MAX_ACTIVE_LISTS,max_new_30d:MAX_NEW_LISTS_30_DAYS}});
   }
   return json({ok:true,authenticated:true,is_owner:!!session.user.is_owner,user:session.user,
-    blocked:blocked?.reason||null,items:await ownList(env,session.user.id)});
+    blocked:blocked?.reason||null,items:await ownList(env,session.user.id),
+    policy:{max_active:MAX_ACTIVE_LISTS,max_new_30d:MAX_NEW_LISTS_30_DAYS}});
 }
 async function upload(request,env) {
   const s=await requireUser(request,env);
+  // Nie przyjmuj nowych zgłoszeń, jeżeli nie można zapisać ich w skrzynce administratora.
+  await ensureListInbox(env);
   if(await isBlocked(env,s.user.id)) throw httpError(403,'Administrator cofnął możliwość dodawania list na tym koncie.');
   const n=Number(request.headers.get('content-length')||0);
   if(n && n>AIO_ZIP_MAX_BYTES+1024*128) throw httpError(413,'Przekroczono limit przesyłania 12 MB.');
   const form=await request.formData();
   const {name,description,version}=safeMetadata(form);
+  const updateOf=String(form.get('update_of')||'').trim();
+  if(updateOf && !idValid(updateOf)) throw httpError(400,'Nieprawidłowy identyfikator aktualizowanej listy.');
   const file=form.get('file');
   if(!(file instanceof File)) throw httpError(400,'Wybierz archiwum ZIP.');
   if(!/\.zip$/i.test(file.name) || file.size>AIO_ZIP_MAX_BYTES || file.size<22) throw httpError(413,'Obsługujemy wyłącznie pliki .zip do 12 MB.');
@@ -93,6 +122,13 @@ async function upload(request,env) {
   if(Number(limit?.n||0)>=LIMIT_PER_DAY) throw httpError(429,'Limit 3 nowych zgłoszeń dziennie. Spróbuj jutro.');
   const pending=await db.prepare("SELECT COUNT(*) AS n FROM aio_list_submissions WHERE user_id=? AND status IN ('pending','publish_failed','publishing')").bind(s.user.id).first();
   if(Number(pending?.n||0)>=3) throw httpError(429,'Masz już 3 nierozpatrzone zgłoszenia. Poczekaj na ocenę.');
+  let original=null;
+  if(updateOf) {
+    original=await db.prepare("SELECT * FROM aio_list_submissions WHERE id=? AND user_id=? AND update_of IS NULL AND status='published'").bind(updateOf,s.user.id).first();
+    if(!original) throw httpError(403,'Możesz aktualizować wyłącznie swoją opublikowaną listę.');
+    if(name!==original.name) throw httpError(400,`Nazwa aktualizacji musi być identyczna: „${original.name}”. Nazwa listy jest stała.`);
+    if(version<original.version) throw httpError(400,'Data aktualizacji nie może być starsza niż obecna wersja.');
+  }
   const source=await file.arrayBuffer();
   const {report,cleanedBytes}=await prepareAioZip(source);
   if(!report.ok) return json({ok:false,validation:report,error:'Popraw wskazane błędy archiwum i prześlij je ponownie.'},422);
@@ -103,11 +139,38 @@ async function upload(request,env) {
   const id=crypto.randomUUID(),r2Key=`aio-list-submissions/${s.user.id}/${id}.zip`, hash=await sha256(bytes);
   await env.COMMUNITY_MEDIA.put(r2Key,bytes,{httpMetadata:{contentType:'application/zip',cacheControl:'private, no-store'},customMetadata:{owner:s.user.id,kind:'aio-list-review'}});
   try{
-    await db.prepare(`INSERT INTO aio_list_submissions
-      (id,user_id,name,description,version,file_name,r2_key,file_size,zip_sha256,report_json,status,created_at)
-      VALUES (?,?,?,?,?,?,?,?,?,?,'pending',?)`).bind(id,s.user.id,name,description,version,cleanText(file.name,170),r2Key,bytes.byteLength,hash,JSON.stringify(report),isoNow()).run();
+    // All quotas/ownership checks happen atomically with INSERT to resist
+    // concurrent submissions from the same account or different IPs.
+    const since30=new Date(Date.now()-30*86400000).toISOString();
+    const result=await db.prepare(`INSERT INTO aio_list_submissions
+      (id,user_id,name,description,version,file_name,r2_key,file_size,zip_sha256,report_json,status,created_at,update_of)
+      SELECT ?,?,?,?,?,?,?,?,?,?,'pending',?,?
+      WHERE (SELECT COUNT(*) FROM aio_list_submissions WHERE user_id=? AND created_at>=?) < ?
+        AND (SELECT COUNT(*) FROM aio_list_submissions WHERE user_id=? AND status IN ('pending','publish_failed','publishing')) < 3
+        AND (
+          (? IS NOT NULL AND EXISTS(SELECT 1 FROM aio_list_submissions WHERE id=? AND user_id=? AND update_of IS NULL AND status='published')
+            AND NOT EXISTS(SELECT 1 FROM aio_list_submissions WHERE update_of=? AND status IN ('pending','publish_failed','publishing')))
+          OR
+          (? IS NULL AND (SELECT COUNT(*) FROM aio_list_submissions WHERE user_id=? AND update_of IS NULL AND status IN ('pending','publish_failed','publishing','published')) < ?
+            AND (SELECT COUNT(*) FROM aio_list_submissions WHERE user_id=? AND update_of IS NULL AND created_at>=?) < ?
+            AND NOT EXISTS(SELECT 1 FROM aio_list_submissions WHERE user_id=? AND update_of IS NULL AND name=? COLLATE NOCASE AND status IN ('pending','publish_failed','publishing','published'))
+            AND NOT EXISTS(SELECT 1 FROM aio_list_submissions WHERE zip_sha256=? AND user_id<>? AND status IN ('pending','published','publishing')))
+        )`).bind(id,s.user.id,name,description,version,cleanText(file.name,170),r2Key,bytes.byteLength,hash,JSON.stringify(report),isoNow(),updateOf||null,
+          s.user.id,day,LIMIT_PER_DAY,s.user.id,
+          updateOf||null,updateOf||null,s.user.id,updateOf||null,
+          updateOf||null,s.user.id,MAX_ACTIVE_LISTS,
+          s.user.id,since30,MAX_NEW_LISTS_30_DAYS,s.user.id,name,hash,s.user.id).run();
+    if(!result.meta?.changes) throw httpError(429,updateOf
+      ? 'Dla tej listy istnieje już aktualizacja oczekująca na rozpatrzenie albo zmienił się jej status.'
+      : `Limit: ${MAX_ACTIVE_LISTS} aktywne listy na konto i ${MAX_NEW_LISTS_30_DAYS} nowe tytuły w 30 dni. Nie przesyłaj identycznych archiwów pod innym kontem; aktualizuj istniejącą listę.`);
   }catch(e){await env.COMMUNITY_MEDIA.delete(r2Key).catch(()=>{});throw e;}
-  return json({ok:true,id,status:'pending',validation:report,message:'Lista poprawna technicznie. Bezpieczna kopia ZIP (bez plików dodatkowych) została przekazana do zatwierdzenia.'},201);
+  try {
+    await createListNotice(env,{senderId:s.user.id,kind:updateOf?'update':'submission',
+      subject:(updateOf?'Aktualizacja listy: ':'Nowa lista do zatwierdzenia: ')+name,
+      body:`Zgłoszenie od użytkownika ${s.user.display_name}. Wersja ${version}. Opis: ${description}. Przejdź do panelu właściciela, aby rozpatrzyć zgłoszenie.`,
+      listId:id});
+  } catch(e) { console.error('[AIO LISTS] Nie udało się zapisać powiadomienia o przesłanym ZIP.'); }
+  return json({ok:true,id,status:'pending',validation:report,message:updateOf?'Aktualizacja listy zapisana. Dotychczasowa wersja pozostaje dostępna do chwili akceptacji.':'Lista poprawna technicznie. Bezpieczna kopia ZIP przekazana do zatwierdzenia.'},201);
 }
 async function git(env,method,path,body) {
   if(!env.AIO_LISTS_GITHUB_TOKEN) throw httpError(503,'Brak sekretu AIO_LISTS_GITHUB_TOKEN. Dodaj go w Cloudflare Pages.');
@@ -155,9 +218,105 @@ async function publishTree(env,snapshot,arr,addPath,zipBytes=null,deletePath=nul
   await git(env,'PATCH','/git/refs/heads/main',{sha:commit.sha,force:false});
   return commit.sha;
 }
-async function adminPost(request,env,body) {
+// Author identity is the authenticated D1 user_id, never an IP address or display name.
+function managedPath(row) {
+  return row && row.update_of==null && /^community_[a-f0-9]{32}$/.test(row.manifest_id||'') &&
+    /^archives\/Community_[a-f0-9]{32}\.zip$/.test(row.archive_path||'') &&
+    row.manifest_id.slice(10)===row.archive_path.match(/^archives\/Community_([a-f0-9]{32})\.zip$/)?.[1];
+}
+function expectedUrl(path) {return `https://raw.githubusercontent.com/${REPO}/main/${path}`;}
+function safeArchivedUrl(url) {
+  // No external URLs, no query strings, no percent-encoded slashes/path traversal.
+  try {
+    const u=new URL(url);
+    if(u.search||u.hash||u.username||u.password)return null;
+    let path='';
+    if(u.origin==='https://raw.githubusercontent.com') {
+      const pre=`/${REPO}/main/archives/`;
+      if(!u.pathname.startsWith(pre))return null;
+      path=u.pathname.slice(pre.length);
+    } else if(u.origin==='https://github.com') {
+      const pre=`/${REPO}/raw/main/archives/`;
+      if(!u.pathname.startsWith(pre))return null;
+      path=u.pathname.slice(pre.length);
+    } else return null;
+    if(/%2f|%5c/i.test(path))return null;
+    const file=decodeURIComponent(path);
+    if(!/^[a-zA-Z0-9._@+\-]+\.zip$/.test(file) || file==='.' || file.includes('..'))return null;
+    return `archives/${file}`;
+  }catch(_){return null;}
+}
+async function removeManaged(env,row,reason,actorId) {
+  if(row.status!=='published' || !managedPath(row)) throw httpError(409,'Można usunąć wyłącznie opublikowaną listę utworzoną przez ten panel.');
+  const db=env.COMMUNITY_DB;
+  const lock=await db.prepare("UPDATE aio_list_submissions SET status='removing' WHERE id=? AND user_id=? AND status='published'").bind(row.id,row.user_id).run();
+  if(!lock.meta?.changes) throw httpError(409,'Lista jest już modyfikowana.');
+  try {
+    const snap=await repoSnapshot(env);
+    const target=snap.arr.find(x=>x?.id===row.manifest_id);
+    if(target) {
+      if(target.url!==expectedUrl(row.archive_path)) throw httpError(409,'Nieoczekiwany adres archiwum w manifeście. Zatrzymano usuwanie.');
+      const others=snap.arr.some(x=>x?.id!==row.manifest_id && x?.url===target.url);
+      await publishTree(env,snap,snap.arr.filter(x=>x?.id!==row.manifest_id),null,null,others?null:row.archive_path);
+    }
+    await db.prepare("UPDATE aio_list_submissions SET status='removed',review_reason=?,reviewed_at=?,reviewer_id=? WHERE id=? AND status='removing'")
+      .bind(reason,isoNow(),actorId,row.id).run();
+    const updates=await db.prepare("SELECT id,r2_key FROM aio_list_submissions WHERE update_of=? AND status IN ('pending','publish_failed')").bind(row.id).all();
+    await db.prepare("UPDATE aio_list_submissions SET status='rejected',review_reason='Lista bazowa została usunięta.' WHERE update_of=? AND status IN ('pending','publish_failed')").bind(row.id).run();
+    for(const x of updates.results||[])await env.COMMUNITY_MEDIA.delete(x.r2_key).catch(()=>{});
+    return json({ok:true,message:'Lista wycofana z manifestu i usunięta z aktualnej gałęzi, jeżeli ZIP nie jest współdzielony. Historia Git zachowuje starsze commity.'});
+  }catch(e){await db.prepare("UPDATE aio_list_submissions SET status='published' WHERE id=? AND status='removing'").bind(row.id).run().catch(()=>{});throw e;}
+}
+async function removeOwn(request,env,body) {
+  const s=await requireUser(request,env);
+  if(!idValid(body.id)) throw httpError(400,'Nieprawidłowe ID listy.');
+  const row=await env.COMMUNITY_DB.prepare("SELECT * FROM aio_list_submissions WHERE id=? AND user_id=? AND update_of IS NULL AND status='published'").bind(body.id,s.user.id).first();
+  if(!row) throw httpError(403,'Nie możesz usunąć cudzej lub nieopublikowanej listy.');
+  if(String(body.confirm_name||'')!==row.name)throw httpError(400,'Potwierdź dokładną nazwę swojej listy.');
+  return removeManaged(env,row,'Usunięta przez autora listy.',s.user.id);
+}
+async function hideLegacy(request,env,body) {
   const admin=await requireAdmin(request,env,true);
-  const action=String(body.action||''),db=env.COMMUNITY_DB;
+  const id=String(body.manifest_id||''),name=String(body.confirm_name||'');
+  const reason=cleanText(body.reason,350);
+  if(!id||id.length>120||reason.length<10) throw httpError(400,'Wskaż wpis i podaj powód wycofania (min. 10 znaków).');
+  const db=env.COMMUNITY_DB;
+  const snap=await repoSnapshot(env);
+  const target=snap.arr.find(x=>x?.id===id && x?.type!=='BOUQUET');
+  if(!target||target.name!==name) throw httpError(409,'Wpis zmienił się lub nie istnieje. Odśwież panel.');
+  const managed=await db.prepare("SELECT 1 FROM aio_list_submissions WHERE manifest_id=? AND update_of IS NULL AND status IN ('published','publishing','removing') LIMIT 1").bind(id).first();
+  if(managed) throw httpError(409,'To lista z panelu Społeczności. Użyj jej przycisku usuwania.');
+  let deletePath=null;
+  if(body.delete_archive===true) {
+    deletePath=safeArchivedUrl(target.url||'');
+    if(!deletePath) throw httpError(400,'Nie można bezpiecznie usunąć archiwum z tego URL. Wycofaj jedynie wpis manifestu.');
+    if(snap.arr.some(x=>x?.id!==id && x?.url===target.url)) throw httpError(409,'Inna lista używa tego samego ZIP. Usuń wyłącznie wpis manifestu.');
+    // If file was manually removed already, don't fail a manifest-only removal.
+    // publishTree base tree null deletion requires an existing path, so we stop with a clear error.
+    const encoded=deletePath.split('/').map(encodeURIComponent).join('/');
+    await git(env,'GET',`/contents/${encoded}?ref=main`);
+  }
+  await publishTree(env,snap,snap.arr.filter(x=>x?.id!==id),null,null,deletePath);
+  return json({ok:true,message:deletePath?'Usunięto wpis manifestu i archiwum z bieżącej gałęzi GitHub.':'Wycofano listę z manifestu. Archiwum ZIP pozostało w repozytorium dla kopii bezpieczeństwa.'});
+}
+
+async function adminPost(request,env,body) {
+  const action=String(body.action||'');
+  if(action==='delete_own') return removeOwn(request,env,body);
+  if(action==='cancel_own') {
+    const author=await requireUser(request,env);
+    if(!idValid(body.id)) throw httpError(400,'Nieprawidłowe ID zgłoszenia.');
+    const row=await env.COMMUNITY_DB.prepare("SELECT * FROM aio_list_submissions WHERE id=? AND user_id=? AND status IN ('pending','publish_failed')").bind(body.id,author.user.id).first();
+    if(!row) throw httpError(403,'Możesz wycofać tylko własne nierozpatrzone zgłoszenie.');
+    const result=await env.COMMUNITY_DB.prepare("UPDATE aio_list_submissions SET status='cancelled',review_reason='Zgłoszenie wycofane przez autora.',reviewed_at=? WHERE id=? AND user_id=? AND status IN ('pending','publish_failed')")
+      .bind(isoNow(),row.id,author.user.id).run();
+    if(!result.meta?.changes) throw httpError(409,'Zgłoszenie jest już przetwarzane.');
+    await env.COMMUNITY_MEDIA.delete(row.r2_key).catch(()=>{});
+    return json({ok:true,message:'Twoje zgłoszenie zostało wycofane, nie trafi do AIO Panel.'});
+  }
+  if(action==='hide_legacy') return hideLegacy(request,env,body);
+  const admin=await requireAdmin(request,env,true);
+  const db=env.COMMUNITY_DB;
   if(action==='block'||action==='unblock') {
     const target=String(body.user_id||'');
     if(!target || target===admin.user.id) throw httpError(400,'Nie można zablokować właściciela.');
@@ -188,8 +347,10 @@ async function adminPost(request,env,body) {
     if(await isBlocked(env,row.user_id)) throw httpError(403,'Użytkownik ma blokadę dodawania list.');
     const lock=await db.prepare("UPDATE aio_list_submissions SET status='publishing',reviewer_id=?,reviewed_at=?,review_reason=NULL WHERE id=? AND status IN ('pending','publish_failed')").bind(admin.user.id,now,row.id).run();
     if(!lock.meta?.changes) throw httpError(409,'Inny administrator już publikuje tę listę.');
-    const manifestId='community_'+row.id.replace(/-/g,''),archivePath='archives/Community_'+row.id.replace(/-/g,'')+'.zip';
+    const base=row.update_of?await db.prepare("SELECT * FROM aio_list_submissions WHERE id=? AND user_id=? AND update_of IS NULL AND status='published'").bind(row.update_of,row.user_id).first():null;
+    const manifestId=base?.manifest_id||'community_'+row.id.replace(/-/g,''),archivePath=base?.archive_path||'archives/Community_'+row.id.replace(/-/g,'')+'.zip';
     try {
+      if(row.update_of && (!base||!managedPath(base))) throw httpError(409,'Pierwotna lista została usunięta lub zmieniła status. Aktualizacja wstrzymana.');
       const stored=await env.COMMUNITY_MEDIA.get(row.r2_key);
       if(!stored) throw httpError(410,'Nie znaleziono zatwierdzanego ZIP w R2.');
       const bytes=await stored.arrayBuffer();
@@ -198,6 +359,18 @@ async function adminPost(request,env,body) {
       if(!valid.ok) throw httpError(422,'Archiwum nie przeszło ponownej walidacji.');
       const snap=await repoSnapshot(env);
       let already=snap.arr.find(x=>x?.id===manifestId);
+      if(row.update_of) {
+        if(!already || already.url!==expectedUrl(archivePath) || already.name!==base.name)
+          throw httpError(409,'Zmieniła się nazwa lub ścieżka listy bazowej. Aktualizacja wstrzymana.');
+        if(base.version>row.version) throw httpError(409,'Wersja listy bazowej jest już nowsza niż zgłoszenie.');
+        const next=snap.arr.map(x=>x?.id===manifestId?{...x,version:row.version,description:row.description}:x);
+        await publishTree(env,snap,next,archivePath,bytes); // same ZIP and manifest ID, one Git commit
+        await db.prepare("UPDATE aio_list_submissions SET version=?,description=?,file_name=?,file_size=?,zip_sha256=?,report_json=?,published_at=? WHERE id=? AND status='published'")
+          .bind(row.version,row.description,row.file_name,row.file_size,row.zip_sha256,row.report_json,isoNow(),base.id).run();
+        await db.prepare("UPDATE aio_list_submissions SET status='applied',published_at=?,archive_path=?,manifest_id=?,review_reason=NULL WHERE id=?").bind(isoNow(),archivePath,manifestId,row.id).run();
+        await env.COMMUNITY_MEDIA.delete(row.r2_key).catch(()=>{});
+        return json({ok:true,message:'Aktualizacja opublikowana pod dotychczasową nazwą i adresem ZIP. Nie dodano nowego wpisu manifestu.'});
+      }
       if(already) {
         if(already.url!==`https://raw.githubusercontent.com/${REPO}/main/${archivePath}`) throw httpError(409,'Konflikt identyfikatora manifestu.');
       } else {
@@ -217,22 +390,9 @@ async function adminPost(request,env,body) {
     }
   }
   if(action==='remove') {
-    if(row.status!=='published' || !row.manifest_id || !/^archives\/Community_[a-f0-9]{32}\.zip$/.test(row.archive_path||''))
-      throw httpError(409,'Usunąć można tylko listę opublikowaną przez ten panel.');
     const reason=cleanText(body.reason,500);
     if(reason.length<10) throw httpError(400,'Podaj powód usunięcia (min. 10 znaków).');
-    const lock=await db.prepare("UPDATE aio_list_submissions SET status='publishing' WHERE id=? AND status='published'").bind(row.id).run();
-    if(!lock.meta?.changes) throw httpError(409,'Zmiana jest już przetwarzana.');
-    try {
-      const snap=await repoSnapshot(env);
-      const target=snap.arr.find(x=>x?.id===row.manifest_id);
-      if(target) {
-        if(target.url!==`https://raw.githubusercontent.com/${REPO}/main/${row.archive_path}`) throw httpError(409,'Ścieżka archiwum w manifeście jest inna niż oczekiwana.');
-        await publishTree(env,snap,snap.arr.filter(x=>x?.id!==row.manifest_id),null,null,row.archive_path);
-      }
-      await db.prepare("UPDATE aio_list_submissions SET status='removed',review_reason=?,reviewed_at=?,reviewer_id=? WHERE id=?").bind(reason,isoNow(),admin.user.id,row.id).run();
-      return json({ok:true,message:'Lista usunięta z głównej gałęzi i manifestu. Historia Git nadal może zawierać archiwum.'});
-    }catch(e){await db.prepare("UPDATE aio_list_submissions SET status='published' WHERE id=? AND status='publishing'").bind(row.id).run().catch(()=>{});throw e;}
+    return removeManaged(env,row,reason,admin.user.id);
   }
   throw httpError(400,'Nieznana operacja administracyjna.');
 }

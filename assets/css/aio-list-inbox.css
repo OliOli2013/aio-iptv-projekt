@@ -1,0 +1,10 @@
+#aio-list-inbox{margin:1.4rem auto;max-width:1160px;padding:1.35rem;border:1px solid #315464;border-radius:18px;background:#0c2835;color:#ebf5f9}
+#aio-list-inbox[hidden]{display:none!important}
+.aio-list-inbox-header,.aio-list-inbox-head{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.aio-list-inbox-record{border:1px solid #335464;border-radius:12px;margin:12px 0;padding:1rem;background:#102f3c}
+.aio-list-inbox-record p{white-space:pre-wrap;overflow-wrap:anywhere;margin:9px 0}
+.aio-list-inbox-small{font-size:.85rem;color:#a6c7d1}.aio-list-inbox-warning{color:#e7b976}.aio-list-inbox-reply{border-left:3px solid #64d7c5;padding-left:9px}
+.aio-list-inbox-buttons{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:12px}
+.aio-list-inbox-message{font-size:.9rem;color:#a9cbd3;margin:10px 0}
+.alu-owner-reply{border-left:3px solid #3abfaf;padding:8px 12px;background:#15404b;white-space:pre-wrap}
+.alu-contact-area{margin-top:20px}.alu-contact-area label{display:block;margin:10px 0}.alu-contact-area input,.alu-contact-area textarea{display:block;width:100%;box-sizing:border-box;background:#0a2834;color:#e8f4fa;padding:12px;border:1px solid #376073;border-radius:7px}.alu-contact-area textarea{min-height:120px}
