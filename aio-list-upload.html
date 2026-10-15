@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071a24">
+<title>Dodaj listę kanałów | Społeczność AIO</title>
+<meta name="description" content="Prześlij własną listę Enigma2 do weryfikacji AIO Panel. Dodawanie tylko dla zalogowanych użytkowników Społeczności AIO.">
+<meta name="robots" content="index,follow">
+<link rel="icon" href="pliki/logo.png">
+<link rel="stylesheet" href="assets/css/user-premium.css?v=20260724-v14">
+<link rel="stylesheet" href="assets/css/site-final.css?v=20261010-final1">
+<link rel="stylesheet" href="assets/css/aio-list-upload.css?v=20261015-1">
+</head><body class="aio-list-upload-page">
+<a class="skip-link" href="#main">Przejdź do treści</a>
+<div class="alu-page">
+  <header class="alu-header">
+    <a class="alu-brand" href="index.html"><img alt="Logo AIO-IPTV.pl" src="pliki/logo.png"><span><strong>AIO-IPTV.pl</strong><small>Panel zgłaszania list kanałów</small></span></a>
+    <nav aria-label="Nawigacja strony"><a href="index.html">Start</a><a href="channel-lists.html">Listy kanałów</a><a href="aio-list-editor.html">Edytor list</a><a href="community.html">Społeczność</a></nav>
+  </header>
+  <main id="main">
+    <section class="alu-hero"><div><p class="alu-eyebrow">SPOŁECZNOŚĆ AIO • WSPÓŁTWORZENIE LIST</p><h1>Dodaj swoją listę kanałów Enigma2</h1><p>Twoja lista trafi najpierw do kontroli technicznej i kolejki moderacji. Dopiero po akceptacji właściciela pojawi się w repozytorium <strong>PanelAIO-Lists</strong>, a następnie w AIO Panel u odbiorców na całym świecie.</p></div><div class="alu-stepbox"><strong>Jak to działa?</strong><ol><li>Zaloguj się w Społeczności AIO.</li><li>Prześlij archiwum ZIP i opis.</li><li>Popraw błędy wykryte przez walidator.</li><li>Poczekaj na zatwierdzenie i publikację.</li></ol></div></section>
+    <section class="alu-alert" aria-labelledby="aluRulesHeading"><h2 id="aluRulesHeading">Zasady udostępniania list</h2><p><strong>Zabronione jest dodawanie nielegalnych treści</strong>, w tym list zawierających nieuprawnione źródła płatnych kanałów, skradzione dane dostępowe lub odnośniki do nielegalnych transmisji. Takie listy będą usuwane, a autor straci możliwość dodawania kolejnych list. Publikowane mogą być tylko treści, do których masz odpowiednie prawa.</p><p>Kontrola ZIP sprawdza jego strukturę i bezpieczeństwo techniczne, <strong>nie jest potwierdzeniem legalności transmisji ani poprawności odbioru każdego kanału</strong>. Ostateczna decyzja należy do administratora.</p></section>
+    <section class="alu-card" id="aluAccount"><div class="alu-section-title"><div><h2>1. Konto użytkownika</h2><p id="aluAccountStatus">Sprawdzanie sesji…</p></div><button type="button" id="aluLogin" class="alu-button alu-primary" data-community-login hidden>Zaloguj się / utwórz konto</button></div><div id="aluBlocked" class="alu-error" role="alert" hidden></div></section>
+    <section class="alu-card" id="aluUploadCard" hidden><div class="alu-section-title"><div><h2>2. Prześlij listę Enigma2</h2><p>ZIP do 12 MB; data wydania i krótki opis ułatwią innym wybór.</p></div></div>
+      <form id="aluForm" autocomplete="off">
+        <div class="alu-grid"><label>Nazwa listy <input name="name" required minlength="5" maxlength="90" placeholder="np. Polska Hot Bird 13E – Jan" /></label><label>Data aktualizacji <input name="version" type="date" required /></label></div>
+        <label>Opis listy <textarea name="description" required minlength="10" maxlength="500" rows="3" placeholder="Satelity, region, układ kanałów, najważniejsze zmiany..."></textarea></label>
+        <label>Archiwum ZIP z plikami Enigma2 <input id="aluZip" type="file" name="file" accept=".zip,application/zip" required /></label>
+        <label class="alu-check"><input name="legal" type="checkbox" value="1" required><span>Potwierdzam, że mam prawo udostępniać przesyłane materiały, nie umieszczam niedozwolonych transmisji ani cudzych haseł i akceptuję zasady moderacji.</span></label>
+        <button id="aluSubmit" type="submit" class="alu-button alu-primary">Sprawdź ZIP i zgłoś listę</button>
+        <p class="alu-small">Każdy plik jest kontrolowany na serwerze. Maksymalnie 3 zgłoszenia dziennie na konto. Żadne archiwum nie jest publikowane automatycznie.</p>
+      </form>
+      <div id="aluResult" aria-live="polite" hidden></div>
+    </section>
+    <section class="alu-card" id="aluHistory" hidden><h2>Moje zgłoszenia</h2><p>Śledź status zatwierdzenia oraz powód odmowy, jeśli lista wymaga poprawek.</p><div id="aluHistoryList" class="alu-records"></div></section>
+    <section class="alu-card alu-admin" id="aluAdmin" hidden><div class="alu-section-title"><div><p class="alu-eyebrow">WYŁĄCZNIE WŁAŚCICIEL STRONY</p><h2>Moderacja list kanałów</h2><p>Lista pojawia się w AIO Panel dopiero po ręcznym zatwierdzeniu.</p></div><button type="button" id="aluRefresh" class="alu-button">Odśwież</button></div><div id="aluAdminList" class="alu-records"></div><h3>Blokady publikowania</h3><div id="aluAdminBlocks" class="alu-records"></div></section>
+  </main>
+  <footer class="alu-footer">AIO-IPTV.pl · <a href="channel-lists.html">Pobierz listy</a> · <a href="community-rules.html">Regulamin społeczności</a> · <a href="privacy-community.html">Prywatność</a></footer>
+</div>
+<script defer src="assets/js/community-core.js?v=20261008-cloudflare-clean1"></script>
+<script defer src="assets/js/aio-list-upload.js?v=20261015-1"></script>
+</body></html>
