@@ -1,6 +1,6 @@
 /* AIO Panel Lists — zgłoszenia od zalogowanych użytkowników, bez zmian w istniejącym API. */
 import {json, requireUser, requireAdmin, getSession, errorResponse, cleanText, isoNow, sha256} from '../_community.js';
-import {validateAioZip, AIO_ZIP_MAX_BYTES} from '../_aio_list_validation.js';
+import {validateAioZip, prepareAioZip, AIO_ZIP_MAX_BYTES} from '../_aio_list_validation.js';
 
 const REPO = 'OliOli2013/PanelAIO-Lists';
 const BASE = `https://api.github.com/repos/${REPO}`;
@@ -93,17 +93,21 @@ async function upload(request,env) {
   if(Number(limit?.n||0)>=LIMIT_PER_DAY) throw httpError(429,'Limit 3 nowych zgłoszeń dziennie. Spróbuj jutro.');
   const pending=await db.prepare("SELECT COUNT(*) AS n FROM aio_list_submissions WHERE user_id=? AND status IN ('pending','publish_failed','publishing')").bind(s.user.id).first();
   if(Number(pending?.n||0)>=3) throw httpError(429,'Masz już 3 nierozpatrzone zgłoszenia. Poczekaj na ocenę.');
-  const bytes=await file.arrayBuffer();
-  const report=await validateAioZip(bytes);
+  const source=await file.arrayBuffer();
+  const {report,cleanedBytes}=await prepareAioZip(source);
   if(!report.ok) return json({ok:false,validation:report,error:'Popraw wskazane błędy archiwum i prześlij je ponownie.'},422);
+  // Drugi test po oczyszczeniu wyklucza publikację niezgodnego ZIP.
+  const cleanReport=await validateAioZip(cleanedBytes.buffer);
+  if(!cleanReport.ok) throw httpError(422,'Oczyszczone archiwum nie przeszło kontroli. Prześlij zgłoszenie administratorowi.');
+  const bytes=cleanedBytes;
   const id=crypto.randomUUID(),r2Key=`aio-list-submissions/${s.user.id}/${id}.zip`, hash=await sha256(bytes);
   await env.COMMUNITY_MEDIA.put(r2Key,bytes,{httpMetadata:{contentType:'application/zip',cacheControl:'private, no-store'},customMetadata:{owner:s.user.id,kind:'aio-list-review'}});
   try{
     await db.prepare(`INSERT INTO aio_list_submissions
       (id,user_id,name,description,version,file_name,r2_key,file_size,zip_sha256,report_json,status,created_at)
-      VALUES (?,?,?,?,?,?,?,?,?,?,'pending',?)`).bind(id,s.user.id,name,description,version,cleanText(file.name,170),r2Key,file.size,hash,JSON.stringify(report),isoNow()).run();
+      VALUES (?,?,?,?,?,?,?,?,?,?,'pending',?)`).bind(id,s.user.id,name,description,version,cleanText(file.name,170),r2Key,bytes.byteLength,hash,JSON.stringify(report),isoNow()).run();
   }catch(e){await env.COMMUNITY_MEDIA.delete(r2Key).catch(()=>{});throw e;}
-  return json({ok:true,id,status:'pending',validation:report,message:'Lista poprawna technicznie i przekazana do zatwierdzenia.'},201);
+  return json({ok:true,id,status:'pending',validation:report,message:'Lista poprawna technicznie. Bezpieczna kopia ZIP (bez plików dodatkowych) została przekazana do zatwierdzenia.'},201);
 }
 async function git(env,method,path,body) {
   if(!env.AIO_LISTS_GITHUB_TOKEN) throw httpError(503,'Brak sekretu AIO_LISTS_GITHUB_TOKEN. Dodaj go w Cloudflare Pages.');

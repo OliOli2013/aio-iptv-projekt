@@ -27,6 +27,7 @@
         <label>Archiwum ZIP z plikami Enigma2 <input id="aluZip" type="file" name="file" accept=".zip,application/zip" required /></label>
         <label class="alu-check"><input name="legal" type="checkbox" value="1" required><span>Potwierdzam, że mam prawo udostępniać przesyłane materiały, nie umieszczam niedozwolonych transmisji ani cudzych haseł i akceptuję zasady moderacji.</span></label>
         <button id="aluSubmit" type="submit" class="alu-button alu-primary">Sprawdź ZIP i zgłoś listę</button>
+        <p class="alu-small" data-aio-list-v11="AIO_LISTS_V11_CLEANUP"><strong>Uwaga:</strong> Jeśli ZIP zawiera dodatkowe pliki (np. <code>settings</code>, raporty JSON/TXT), serwer przygotuje do publikacji oczyszczoną kopię zawierającą wyłącznie listę kanałów i pliki obsługiwane przez AIO Panel. Zobaczysz ostrzeżenie i liczbę pominiętych plików. Oryginalne archiwum na Twoim komputerze pozostanie bez zmian. Publikacja następuje dopiero po ręcznej akceptacji administratora.</p>
         <p class="alu-small">Każdy plik jest kontrolowany na serwerze. Maksymalnie 3 zgłoszenia dziennie na konto. Żadne archiwum nie jest publikowane automatycznie.</p>
       </form>
       <div id="aluResult" aria-live="polite" hidden></div>

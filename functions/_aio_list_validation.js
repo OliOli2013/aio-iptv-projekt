@@ -1,9 +1,11 @@
-/* AIO List Upload V1 — walidator ZIP, zgodność z AIO Panel 17.x.
-   Fail-closed. Nie rozpakowuje archiwów na dysk, odrzuca linki/symlinki i inne pliki. */
+/* AIO List Upload V1.1 — kontrola ZIP i bezpieczna paczka publikacyjna.
+   Pliki pomocnicze (settings, JSON, TXT poza README) są wyłączane z kopii
+   publikacyjnej, bez naruszenia źródłowego pliku użytkownika. */
 const MAX_ZIP = 12 * 1024 * 1024;
 const MAX_UNPACKED = 64 * 1024 * 1024;
 const MAX_ENTRIES = 2500;
 const textDecoder = new TextDecoder('utf-8', {fatal:false});
+const textEncoder = new TextEncoder();
 const message = (code, detail) => ({code, detail});
 
 const crcTable = new Uint32Array(256);
@@ -53,9 +55,9 @@ async function inflated(method, compressed, size) {
   return out;
 }
 
-export async function validateAioZip(arrayBuffer) {
-  const errors=[], warnings=[], files=new Map();
-  const stats={files:0,compressed:0,unpacked:0,bouquets:0,services:0,iptv:0};
+async function inspectAioZip(arrayBuffer, prepare=false) {
+  const errors=[], warnings=[], files=new Map(), publishEntries=[];
+  const stats={files:0,compressed:0,unpacked:0,bouquets:0,services:0,iptv:0,published_files:0,omitted_files:0};
   try {
     const bytes = new Uint8Array(arrayBuffer);
     if (bytes.length<22 || bytes.length>MAX_ZIP) throw new Error('ZIP musi mieć od 22 bajtów do 12 MB.');
@@ -86,9 +88,16 @@ export async function validateAioZip(arrayBuffer) {
       if(kind && kind!==0x8000) throw new Error(`Niedozwolony typ wpisu (np. dowiązanie): ${path}`);
       const base=path.split('/').pop();
       const key=base.toLowerCase();
-      if(names.has(key)) throw new Error(`Powtarzająca się nazwa pliku: ${base}. AIO Panel może użyć niewłaściwej kopii.`);
-      names.add(key);
-      if(!isAllowed(base)) errors.push(message('FILE',`Usuń plik „${path}”. Lista AIO nie powinna zawierać ustawień tunera, skryptów, piconów ani innych dodatków.`));
+      const publishable=isAllowed(base);
+      if(publishable) {
+        if(names.has(key)) throw new Error(`Powtarzająca się nazwa pliku: ${base}. AIO Panel może użyć niewłaściwej kopii.`);
+        names.add(key);
+      } else {
+        // Zgodnie z install_archive_script.sh AIO Panel nie instaluje tych plików.
+        // Nie wolno kopiować cudzych settings/dokumentów do publicznego repozytorium.
+        stats.omitted_files++;
+        if(warnings.length<18) warnings.push(message('EXCLUDED',`Plik „${path}” nie jest częścią listy instalowanej przez AIO Panel — zostanie pominięty w paczce publikacyjnej. Oryginał pozostaje bez zmian.`));
+      }
       if(usize>MAX_UNPACKED || stats.unpacked+usize>MAX_UNPACKED) throw new Error('ZIP rozpakowuje się do ponad 64 MB (możliwy ZIP bomb).');
       stats.unpacked+=usize; stats.compressed+=csize; stats.files++;
       if(method!==0 && method!==8) throw new Error(`Nieobsługiwany algorytm kompresji: ${base}`);
@@ -103,6 +112,9 @@ export async function validateAioZip(arrayBuffer) {
       try {unpacked=await inflated(method,packed,usize);}
       catch(e){throw new Error(`${base}: ${e.message || 'Błąd dekompresji'}`);}
       if(unpacked.length!==usize || crc32(unpacked)!==crc) throw new Error(`Błędna suma CRC lub rozmiar: ${base}. Spakuj listę ponownie.`);
+      if(!publishable) continue;
+      stats.published_files++;
+      if(prepare) publishEntries.push({path,method,crc,csize,usize,packed});
       if(usize<=2*1024*1024) files.set(key,stripBOM(decode(unpacked)));
       else if(/^(lamedb|lamedb5|bouquets\.tv|bouquets\.radio)$/i.test(base)) errors.push(message('LARGE',`Plik ${base} jest za duży do kontroli strukturalnej (limit 2 MB).`));
       if(key==='lamedb' || key==='lamedb5') {
@@ -114,7 +126,7 @@ export async function validateAioZip(arrayBuffer) {
         const raw=decode(unpacked);
         if(!/^#SERVICE\s+/m.test(raw)) {
           if(/^userbouquet\.(?:favourites|lastscanned)\./i.test(base)) warnings.push(message('EMPTY',`${base}: pusty bukiet systemowy — może to być normalne.`));
-          else errors.push(message('BOUQUET',`${base}: brak wpisów #SERVICE (pusty/niepoprawny bukiet).`));
+          else warnings.push(message('EMPTY_BOUQUET',`${base}: pusty bukiet bez #SERVICE. AIO Panel może go zainstalować, ale sprawdź, czy pusty bukiet jest zamierzony.`));
         }
         else {hasContent=true;stats.services+=(raw.match(/^#SERVICE\s+/gm)||[]).length;}
         stats.iptv+=(raw.match(/(?:^#SERVICE\s+(?:4097|5001|5002|8193):|https?%3a|https?:\/\/)/gmi)||[]).length;
@@ -130,21 +142,77 @@ export async function validateAioZip(arrayBuffer) {
       if(!references.length) warnings.push(message('INDEX','bouquets.tv nie odwołuje się do nazwanych bukietów — sprawdź strukturę.'));
       for(const ref of references) {
         if(ref.includes('/') || ref.includes('\\') || ref.includes('..')) errors.push(message('INDEX',`Niedozwolona referencja w bouquets.tv: ${ref}`));
-        else if(!names.has(ref.toLowerCase())) errors.push(message('MISSING',`Brakuje pliku „${ref}” wskazanego przez bouquets.tv. Dołącz ten bukiet do ZIP.`));
+        else if(!names.has(ref.toLowerCase())) warnings.push(message('MISSING',`Brak „${ref}” wskazanego przez bouquets.tv. Instalator AIO Panel toleruje to, lecz bukiet może nie pojawić się na tunerze. Zalecane uzupełnienie.`));
       }
     }
     if(files.has('bouquets.radio')) {
       for(const [,ref] of files.get('bouquets.radio').matchAll(/FROM\s+BOUQUET\s+"([^"]+)"/gi)) {
-        if(ref.includes('/')||ref.includes('..')||!names.has(ref.toLowerCase())) errors.push(message('MISSING',`Brakuje bukietu radiowego „${ref}” wskazanego przez bouquets.radio.`));
+        if(ref.includes('/')||ref.includes('..')) errors.push(message('INDEX',`Niedozwolana referencja radiowa „${ref}”.`));
+        else if(!names.has(ref.toLowerCase())) warnings.push(message('MISSING',`Brakuje bukietu radiowego „${ref}” wskazanego przez bouquets.radio. Zalecane uzupełnienie.`));
       }
     }
     if(!files.has('lamedb')&&!files.has('lamedb5')) warnings.push(message('DB','Paczka nie zawiera lamedb. Wykorzysta bazę usług już obecną na tunerze, co może powodować braki kanałów.'));
     if(stats.iptv) warnings.push(message('IPTV',`Wykryto około ${stats.iptv} pozycji lub adresów IPTV. Administrator musi zweryfikować prawa do ich udostępniania.`));
     if(stats.bouquets===0) warnings.push(message('TV','Nie wykryto osobnych plików bukietów TV/radio.'));
-    return {ok:errors.length===0,errors:errors.slice(0,35),warnings:warnings.slice(0,35),stats};
+    if(stats.omitted_files>0) warnings.push(message('CLEAN',`Publikowana kopia ZIP pominie ${stats.omitted_files} plików dodatkowych; zostanie w niej ${stats.published_files} plików listy. Oryginalny ZIP na komputerze pozostanie bez zmian.`));
+    const report={ok:errors.length===0,errors:errors.slice(0,35),warnings:warnings.slice(0,35),stats};
+    const cleanedBytes=(prepare && report.ok) ? makeAioZip(publishEntries) : null;
+    return {report,cleanedBytes};
   } catch(error) {
     errors.push(message('ZIP',String(error?.message||error)));
-    return {ok:false,errors:errors.slice(0,35),warnings:warnings.slice(0,35),stats};
+    return {report:{ok:false,errors:errors.slice(0,35),warnings:warnings.slice(0,35),stats},cleanedBytes:null};
   }
+}
+// Tworzymy poprawny ZIP bez dekompresji/rekompresji danych. Dzięki temu ZIP jest
+// mniejszy niż oryginał, a CRC i oryginalne strumienie DEFLATE nie ulegają zmianie.
+// Reset flag ZIP usuwa zależność od opcjonalnych data-descriptor nagłówków.
+function makeAioZip(entries) {
+  if(!entries.length) throw new Error('Brak plików do archiwum publikacyjnego.');
+  const pieces=[], central=[];
+  let offset=0, directoryBytes=0;
+  const push=(chunk)=>{pieces.push(chunk);offset+=chunk.length;};
+  for(const file of entries) {
+    const filename=textEncoder.encode(file.path);
+    if(filename.length>65535) throw new Error('Zbyt długa ścieżka pliku w ZIP.');
+    const localOff=offset;
+    const local=new Uint8Array(30+filename.length), lh=new DataView(local.buffer);
+    lh.setUint32(0,0x04034b50,true);
+    lh.setUint16(4,20,true);lh.setUint16(6,0x0800,true);
+    lh.setUint16(8,file.method,true);lh.setUint16(10,0,true);
+    lh.setUint16(12,33,true);lh.setUint32(14,file.crc,true);
+    lh.setUint32(18,file.csize,true);lh.setUint32(22,file.usize,true);
+    lh.setUint16(26,filename.length,true);lh.setUint16(28,0,true);
+    local.set(filename,30);
+    push(local);push(file.packed);
+
+    const entry=new Uint8Array(46+filename.length), eh=new DataView(entry.buffer);
+    eh.setUint32(0,0x02014b50,true);eh.setUint16(4,20,true);
+    eh.setUint16(6,20,true);eh.setUint16(8,0x0800,true);
+    eh.setUint16(10,file.method,true);eh.setUint16(12,0,true);
+    eh.setUint16(14,33,true);eh.setUint32(16,file.crc,true);
+    eh.setUint32(20,file.csize,true);eh.setUint32(24,file.usize,true);
+    eh.setUint16(28,filename.length,true);eh.setUint16(30,0,true);
+    eh.setUint16(32,0,true);eh.setUint16(34,0,true);
+    eh.setUint16(36,0,true);eh.setUint32(38,0,true);
+    eh.setUint32(42,localOff,true);entry.set(filename,46);
+    central.push(entry);directoryBytes+=entry.length;
+  }
+  const directoryOff=offset;
+  for(const entry of central)push(entry);
+  const end=new Uint8Array(22),eh=new DataView(end.buffer);
+  eh.setUint32(0,0x06054b50,true);
+  eh.setUint16(8,entries.length,true);eh.setUint16(10,entries.length,true);
+  eh.setUint32(12,directoryBytes,true);eh.setUint32(16,directoryOff,true);
+  push(end);
+  if(offset>MAX_ZIP) throw new Error('Archiwum publikacyjne przekracza limit 12 MB.');
+  const out=new Uint8Array(offset);let at=0;
+  for(const piece of pieces){out.set(piece,at);at+=piece.length;}
+  return out;
+}
+export async function validateAioZip(arrayBuffer) {
+  return (await inspectAioZip(arrayBuffer,false)).report;
+}
+export async function prepareAioZip(arrayBuffer) {
+  return inspectAioZip(arrayBuffer,true);
 }
 export const AIO_ZIP_MAX_BYTES = MAX_ZIP;
