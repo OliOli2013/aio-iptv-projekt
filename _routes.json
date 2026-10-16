@@ -2,7 +2,8 @@
   "version": 1,
   "include": [
     "/api/*",
-    "/pliki/*"
+    "/pliki/*",
+    "/owner-hub"
   ],
   "exclude": []
 }

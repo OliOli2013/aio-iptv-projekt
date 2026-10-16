@@ -361,7 +361,7 @@
           main.innerHTML=this.avatarHtml(this.profile,this.profile?.display_name,false)+
             `<div class="community-account-copy"><strong>${this.escape(this.profile?.display_name||'Użytkownik')}</strong><small>${this.escape(this.roleLabel(this.profile?.role||'user'))}</small></div>`;
           actions.innerHTML=`<a class="button" href="profile.html?id=${this.escapeAttr(this.user.id)}">Profil</a>`+
-            (this.isAdmin()?'<a class="button" href="community-admin.html">Panel właściciela</a>':'')+
+            (this.isAdmin()?'<a class="button" href="/owner-hub">Centrum właściciela</a>':'')+
             '<button class="button" type="button" data-community-logout>Wyloguj</button>';
         }else{
           main.innerHTML='<span class="community-avatar">AIO</span><div class="community-account-copy"><strong>Społeczność AIO</strong><small>'+
