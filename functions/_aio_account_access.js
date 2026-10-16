@@ -24,7 +24,8 @@ export async function initAccess(env){
       email_hash TEXT NOT NULL, paid_at TEXT NOT NULL, expires_at TEXT NOT NULL,
       method TEXT NOT NULL DEFAULT 'buycoffee', reference TEXT NOT NULL,
       created_at TEXT NOT NULL, PRIMARY KEY(email_hash,paid_at))`),
-    env.COMMUNITY_DB.prepare(`CREATE INDEX IF NOT EXISTS idx_aio_access_flows_user ON aio_access_account_flows(user_id,created_ms)`)
+    env.COMMUNITY_DB.prepare(`CREATE INDEX IF NOT EXISTS idx_aio_access_flows_user ON aio_access_account_flows(user_id,created_ms)`),
+    env.COMMUNITY_DB.prepare(`CREATE TABLE IF NOT EXISTS aio_access_guest_trials (guest_hash TEXT PRIMARY KEY, created_at TEXT NOT NULL, used_at TEXT)`)
   ]))().catch(e=>{schemaInit=null;throw e;});
   await schemaInit;
 }
@@ -115,4 +116,43 @@ export async function registerReceipt(env,email,paidAt,reference){
   const user=await env.COMMUNITY_DB.prepare('SELECT user_id FROM community_auth WHERE lower(email)=? LIMIT 1').bind(value).first();
   if(user?.user_id)await putGrant(env,user.user_id,issued,'verified_receipt',reference||'BuyCoffee');
   return {ok:true,matched_account:!!user?.user_id,expires_at:expires};
+}
+
+/* AIO ACCESS GUEST V3 — one anonymous trial per persistent browser token, not IP.
+ * Guest browsers clearing cookies cannot be identified reliably. This is a convenience
+ * limitation, not a payment entitlement or identity/anti-fraud guarantee.
+ */
+const GUEST_COOKIE='aio_access_guest_v3';
+function readGuestToken(request){
+  const match=String(request.headers.get('cookie')||'').split(';').map(x=>x.trim()).find(x=>x.startsWith(GUEST_COOKIE+'='));
+  const value=match?match.slice(GUEST_COOKIE.length+1):'';
+  return /^[a-f0-9]{32}$/.test(value)?value:null;
+}
+function makeGuestCookie(token){
+  return `${GUEST_COOKIE}=${token}; Path=/; Max-Age=31536000; HttpOnly; Secure; SameSite=Lax`;
+}
+export async function guestState(env,request){
+  await initAccess(env);
+  let token=readGuestToken(request), cookie=null;
+  if(!token){token=crypto.randomUUID().replace(/-/g,'');cookie=makeGuestCookie(token);}
+  const hash=await sha256(token);
+  await env.COMMUNITY_DB.prepare('INSERT OR IGNORE INTO aio_access_guest_trials(guest_hash,created_at,used_at) VALUES(?,?,NULL)')
+    .bind(hash,new Date().toISOString()).run();
+  const state=await env.COMMUNITY_DB.prepare('SELECT used_at FROM aio_access_guest_trials WHERE guest_hash=?').bind(hash).first();
+  if(!state)throw fail(503,'Nie można odczytać próbnego pobrania.');
+  return {guest_hash:hash,guest_remaining:state.used_at?0:1,cookie};
+}
+export async function consumeGuest(env,request,knownState=null){
+  const state=knownState||await guestState(env,request);
+  if(!state.guest_remaining)return {allowed:false,guest_remaining:0,cookie:state.cookie};
+  const changed=await env.COMMUNITY_DB.prepare('UPDATE aio_access_guest_trials SET used_at=? WHERE guest_hash=? AND used_at IS NULL')
+    .bind(new Date().toISOString(),state.guest_hash).run();
+  const allowed=Number(changed.meta?.changes||0)===1;
+  return {allowed,guest_remaining:0,cookie:state.cookie};
+}
+export function applyGuestCookie(resp,cookie){
+  if(!cookie)return resp;
+  const headers=new Headers(resp.headers);headers.append('Set-Cookie',cookie);
+  headers.set('Cache-Control','private, no-store');
+  return new Response(resp.body,{status:resp.status,statusText:resp.statusText,headers});
 }

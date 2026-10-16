@@ -1,13 +1,13 @@
 /* Authenticated 7-day access and one free item per account/day. */
 import {requireAdmin} from '../_community.js';
-import {initAccess,sessionUser,getStatus,consumeFree,startFlow,flowOpened,flowComplete,registerReceipt,response,fail,ROLLOUT,LEGACY_END} from '../_aio_account_access.js';
+import {initAccess,sessionUser,getStatus,consumeFree,startFlow,flowOpened,flowComplete,registerReceipt,response,fail,ROLLOUT,LEGACY_END,guestState,consumeGuest,applyGuestCookie} from '../_aio_account_access.js';
 function sameOrigin(req){const origin=req.headers.get('Origin');if(origin && origin!==new URL(req.url).origin)return false;return req.headers.get('Sec-Fetch-Site')!=='cross-site';}
 function err(e){return response({ok:false,error:String(e.message||'Błąd serwera.')},Number(e.status)||500);}
 export async function onRequestGet({request,env}){
   try{
     await initAccess(env);
     const user=await sessionUser(request,env);
-    if(!user)return response({ok:true,authenticated:false,active:false,free_remaining:0});
+    if(!user){const guest=await guestState(env,request);return applyGuestCookie(response({ok:true,authenticated:false,active:false,free_remaining:0,guest_remaining:guest.guest_remaining}),guest.cookie);}
     return response({ok:true,...await getStatus(env,user.id)});
   }catch(e){return err(e);}
 }
@@ -16,8 +16,12 @@ export async function onRequestPost({request,env}){
   try{
     await initAccess(env);
     const user=await sessionUser(request,env);
-    if(!user)throw fail(401,'Zaloguj się na konto AIO, aby korzystać z pobierania.');
     const body=await request.json().catch(()=>({}));const action=String(body.action||'');
+    if(!user){
+      if(action!=='guest_consume')throw fail(401,'Zaloguj się lub zarejestruj, aby pobierać kolejne materiały.');
+      const result=await consumeGuest(env,request);
+      return applyGuestCookie(response({ok:result.allowed,allowed:result.allowed,guest_remaining:0,authentication_required:!result.allowed},result.allowed?200:429),result.cookie);
+    }
     if(action==='consume'){
       const r=await consumeFree(env,user.id);
       return response({ok:r.allowed,...r},r.allowed?200:429);

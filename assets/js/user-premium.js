@@ -735,7 +735,9 @@
       if(!accessIndicator)return;
       if(!info.authenticated){
         accessIndicator.className='aio-access-indicator is-locked';
-        accessIndicator.innerHTML='<span class="aio-access-dot">!</span><div><strong>AIO Access — logowanie wymagane</strong><small>Do pobierania potrzebne jest zarejestrowane konto Społeczności AIO.</small></div><a href="community.html">Zaloguj się</a>';
+        accessIndicator.innerHTML=Number(info.guest_remaining)>0
+          ?'<span class="aio-access-dot">1</span><div><strong>AIO Access — jeden plik próbny bez konta</strong><small>Przy pierwszym pobraniu pokażemy zasady. Większość materiałów i funkcji jest dla zalogowanych; wsparcie projektu może dać 7 dni dostępu na konto.</small></div><a href="community.html">Załóż konto</a>'
+          :'<span class="aio-access-dot">!</span><div><strong>AIO Access — pobranie próbne wykorzystane</strong><small>Zaloguj się lub zarejestruj, aby pobierać kolejne materiały. Dostęp 7-dniowy jest przypisany do konta.</small></div><a href="community.html">Dołącz do AIO</a>';
       }else if(info.active){
         accessIndicator.className='aio-access-indicator is-unlocked';
         const until=new Intl.DateTimeFormat('pl-PL',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(info.expires_at));
@@ -814,10 +816,40 @@
     if(window.AIOCommunity&&typeof window.AIOCommunity.openAuth==='function')window.AIOCommunity.openAuth();
     else { window.alert('Pobieranie wymaga konta AIO. Zaloguj się lub zarejestruj w Społeczności AIO.');window.location.href='community.html'; }
   }
-  async function accountDownload(item,kind){
+  /* AIO ACCESS GUEST V3: an honest preview before the only guest download.
+   Client UI helps explain the policy; the D1 backend enforces local limits. */
+  function guestDownloadDialog(item,kind,firstFree){
+    const previous=document.getElementById('aio-guest-access-dialog');if(previous)previous.remove();
+    const dlg=document.createElement('dialog');dlg.id='aio-guest-access-dialog';
+    dlg.setAttribute('aria-label','Zasady pobierania AIO-IPTV');
+    dlg.style.cssText='border:1px solid #36596b;border-radius:16px;background:#092633;color:#f0f9fd;padding:28px;width:min(94vw,540px);max-height:88vh;box-shadow:0 24px 75px #000b;font-family:inherit;';
+    const heading=document.createElement('h2');heading.textContent=firstFree?'Pierwsze pobranie bez rejestracji':'Pobranie próbne zostało wykorzystane';heading.style.margin='0 0 14px';
+    const info=document.createElement('p');info.textContent=firstFree?'Możesz teraz pobrać jeden plik bez konta. Aby korzystać z większej części materiałów AIO-IPTV, aktualizacji i społeczności, załóż darmowe konto.':'Jeden plik próbny został już pobrany w tej przeglądarce. Zarejestruj się albo zaloguj, aby uzyskać dalszy dostęp do materiałów.';info.style.lineHeight='1.6';
+    const details=document.createElement('p');details.textContent='Na zarejestrowanym koncie pozostaje jedno bezpłatne pobranie dziennie. Po wsparciu projektu i aktywacji AIO Access możesz otrzymać 7 dni dostępu przypisanego do swojego konta — niezależnie od IP.';details.style.cssText='font-size:.93rem;line-height:1.55;color:#bad0dc';
+    const buttons=document.createElement('div');buttons.style.cssText='display:flex;flex-wrap:wrap;gap:10px;margin-top:20px';
+    const addButton=(label,action,primary)=>{const b=document.createElement('button');b.type='button';b.textContent=label;b.style.cssText=`padding:12px 16px;border-radius:9px;cursor:pointer;font:inherit;font-weight:650;border:1px solid #346475;background:${primary?'#087e84':'#153845'};color:white;`;b.addEventListener('click',action);buttons.append(b);return b;};
+    addButton('Zaloguj się / załóż konto',()=>{dlg.close();dlg.remove();requireAccessLogin();},true);
+    if(firstFree){
+      addButton('Pobierz jeden plik bez konta',async()=>{
+        const b=buttons.querySelectorAll('button')[1];if(b)b.disabled=true;
+        try{
+          const target=new URL(item.href,location.href);
+          const local=target.origin===location.origin && /^\/pliki\//i.test(target.pathname);
+          // Hosted /pliki/ is counted atomically on GET by Cloudflare; external links here.
+          if(!local)await accountApi({action:'guest_consume'});
+          dlg.close();dlg.remove();
+          trackAccessActivity('free_access',item,{kind});openDownloadTarget(item);updateAccessIndicator();
+        }catch(error){alert('AIO Access: '+error.message);if(b)b.disabled=false;updateAccessIndicator();}
+      },false);
+    }
+    addButton('Nie teraz',()=>{dlg.close();dlg.remove();},false);
+    dlg.append(heading,info,details,buttons);document.body.append(dlg);dlg.addEventListener('close',()=>dlg.remove(),{once:true});dlg.showModal();
+  }
+  
+async function accountDownload(item,kind){
     try {
       const info=await accountApi();
-      if(!info.authenticated){requireAccessLogin();return;}
+      if(!info.authenticated){guestDownloadDialog(item,kind,Number(info.guest_remaining)>0);return;}
       const target=new URL(item.href,location.href);
       const localFile=target.origin===location.origin && /^\/pliki\//i.test(target.pathname);
       if(info.active){trackAccessActivity('unlocked_access',item,{kind});openDownloadTarget(item);return;}
