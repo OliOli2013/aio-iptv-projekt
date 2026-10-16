@@ -97,6 +97,7 @@
 
   openPayment?.addEventListener('click', () => {
     if (!flow) return;
+    if(flow.serverFlowId) fetch('/api/aio-account-access',{method:'POST',credentials:'include',headers:{'content-type':'application/json'},body:JSON.stringify({action:'opened',flow_id:flow.serverFlowId})}).catch(()=>{});
     flow.externalOpenedAt = Date.now();
     accessTrack('support_provider_opened');
     flow.hiddenAfterOpen = false;
@@ -181,14 +182,21 @@
     status.classList.remove('is-error');
   }
 
-  function finishFlow() {
+  async function finishFlow() {
     if (!flow || !eligible() || !confirm.checked) {
       status.textContent = 'Ścieżka nie została jeszcze zakończona.';
       status.classList.add('is-error');
       return;
     }
-    // Record the start once. The browser and the Cloudflare file gate use
-    // the same token and exactly seven rolling 24-hour periods.
+    // AIO ACCOUNT ACCESS API V2 — grant stored server-side for the logged-in user.
+    // This confirms completion of the support workflow, not a third-party payment.
+    try {
+      if(!flow.serverFlowId) throw new Error('Brak sesji serwera. Rozpocznij pobieranie ponownie.');
+      const r=await fetch('/api/aio-account-access',{method:'POST',credentials:'include',cache:'no-store',
+        headers:{'content-type':'application/json'},body:JSON.stringify({action:'complete',flow_id:flow.serverFlowId})});
+      const d=await r.json();
+      if(!r.ok||!d.ok)throw new Error(d.error||'Nie można przyznać 7-dniowego dostępu.');
+    }catch(e){status.textContent='AIO Access: '+e.message;status.classList.add('is-error');return;}
     const unlockedAt = Date.now();
     const unlockToken = `t7:${unlockedAt}`;
     try { localStorage.setItem(DAILY_UNLOCK_KEY, unlockToken); } catch (error) {}

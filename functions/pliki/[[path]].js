@@ -1,85 +1,25 @@
-import { ensureSchema } from "../_community.js";
-/* AIO Download Shield — Cloudflare Pages, 2026-10-08 */
-const PROTECTED = /\.(?:ipk|apk|exe|msi|zip|7z|rar|deb|rpm|pdf|tar|tgz|gz|xz|img|bin|iso|m3u|m3u8|xml|conf|cfg|backup|sh|py|json|txt|list|tv|radio|bouquet)(?:$|[?#])/i;
-const IMAGE = /\.(?:png|jpe?g|webp|gif|svg|avif)(?:$|[?#])/i;
-const USAGE_COOKIE = "aio_dl_usage_v21";
-const UNLOCK_COOKIE = "aio_support_unlock_v21";
-/* AIO ACCESS 7D V1 — 168-hour unlock, previous day cookie compatible */
-const SUPPORT_UNLOCK_MS = 7 * 24 * 60 * 60 * 1000;
-
-function cookie(request,name){
-  const raw=request.headers.get("cookie")||"";
-  for(const part of raw.split(";")){
-    const [k,...rest]=part.trim().split("=");
-    if(k===name) return decodeURIComponent(rest.join("=")||"");
-  }
-  return "";
+/* Account-based gate for locally hosted files. Zero IP-dependent entitlements. */
+import {initAccess,sessionUser,getStatus,consumeFree} from '../_aio_account_access.js';
+const FILE_EXT=/\.(?:ipk|apk|exe|msi|zip|7z|rar|deb|rpm|pdf|tar|tgz|gz|xz|img|bin|iso|m3u|m3u8|xml|conf|cfg|backup|sh|py|json|txt|list|tv|radio|bouquet)$/i;
+const IMG=/\.(?:png|jpe?g|webp|gif|svg|avif)$/i;
+function protectedFile(request){
+  let p;try{p=decodeURIComponent(new URL(request.url).pathname);}catch{return false;}
+  return !IMG.test(p)&&FILE_EXT.test(p);
 }
-
-function dayKey(){
-  const parts=new Intl.DateTimeFormat("en-CA",{
-    timeZone:"Europe/Warsaw",year:"numeric",month:"2-digit",day:"2-digit"
-  }).formatToParts(new Date());
-  const v=Object.fromEntries(parts.map(p=>[p.type,p.value]));
-  return `${v.year}-${v.month}-${v.day}`;
-}
-
-function usageCount(request,today){
-  const raw=cookie(request,USAGE_COOKIE);
-  const [day,countText]=raw.split("|");
-  const count=Number(countText);
-  return day===today&&Number.isFinite(count)?Math.max(0,count):0;
-}
-
-function setUsage(headers,today,count){
-  headers.append("Set-Cookie",
-    `${USAGE_COOKIE}=${encodeURIComponent(today+"|"+count)}; Path=/; Max-Age=${60*60*24*3}; SameSite=Lax`);
-}
-
-async function recordAccessEvent(context,eventType,target){try{await ensureSchema(context.env);await context.env.COMMUNITY_DB.prepare(`INSERT INTO aio_access_events(id,event_type,kind,target,path,method,visitor_hash,user_id,day,created_at) VALUES(?,?,?,?,?,?,?,?,?,?)`).bind(crypto.randomUUID(),eventType,"download",String(target||"").slice(0,180),new URL(context.request.url).pathname,"",null,null,dayKey(),new Date().toISOString()).run();}catch(_){}}
-
-function protectedRequest(request){
-  const url=new URL(request.url);
-  const path=decodeURIComponent(url.pathname);
-  if(IMAGE.test(path)) return false;
-  return PROTECTED.test(path);
-}
-
-function hasActiveSupportUnlock(request,today){
-  const raw=cookie(request,UNLOCK_COOKIE);
-  if(raw===today) return true; // Old one-day unlock: keep through that day only.
-  if(!/^t7:\d{13}$/.test(raw)) return false;
-  const start=Number(raw.slice(3));
-  const now=Date.now();
-  return Number.isSafeInteger(start) && start<=now && now-start<SUPPORT_UNLOCK_MS;
-}
-
+function deny(message,status=403){return new Response(message,{status,headers:{'content-type':'text/plain; charset=utf-8','cache-control':'no-store'}});}
 async function handle(context){
-  const {request}=context;
-  if(!protectedRequest(request)) return context.next();
-
-  const today=dayKey();
-  if(hasActiveSupportUnlock(request,today)) return context.next();
-
-  const count=usageCount(request,today);
-  if(count<1){
-    recordAccessEvent(context,"direct_free",new URL(request.url).pathname.split("/").pop()||"plik");
-    const response=await context.next();
-    const headers=new Headers(response.headers);
-    setUsage(headers,today,1);
-    return new Response(response.body,{
-      status:response.status,
-      statusText:response.statusText,
-      headers
-    });
-  }
-
-  const url=new URL(request.url);
-  recordAccessEvent(context,"direct_limit",url.pathname.split("/").pop()||"plik");
-  const gate=new URL("/downloads.html",url.origin);
-  gate.searchParams.set("aio_direct",url.pathname+url.search);
-  return Response.redirect(gate.toString(),302);
+  const {request,env}=context;if(!protectedFile(request))return context.next();
+  try{
+    await initAccess(env);
+    const user=await sessionUser(request,env);
+    if(!user)return deny('Pobieranie wymaga zalogowania na konto AIO-IPTV.pl.',401);
+    const state=await getStatus(env,user.id);
+    if(request.method==='HEAD')return (state.active||state.free_remaining>0)?context.next():deny('Dzienny limit wykorzystany.',429);
+    const permit=await consumeFree(env,user.id);
+    if(!permit.allowed)return deny('Dzienny limit pobierania wykorzystany. Zaloguj się i otwórz AIO Access.',429);
+    const result=await context.next();
+    return new Response(result.body,{status:result.status,statusText:result.statusText,headers:result.headers});
+  }catch(error){console.error('aio download account gate',error?.message);return deny('Nie można zweryfikować uprawnień do pobrania.',503);}
 }
-
 export const onRequestGet=handle;
 export const onRequestHead=handle;

@@ -528,12 +528,12 @@
     if(directTarget){
       const cleanTarget=String(directTarget).trim();
       if(cleanTarget.startsWith('/pliki/')){
-        window.setTimeout(()=>openSupportModal({
+        window.setTimeout(()=>accountDownload({
           href:new URL(cleanTarget,location.origin).href,
           target:'',
           download:'',
           label:fileNameFromUrl(cleanTarget)
-        },'limit'),60);
+        },'download'),60);
       }
     }
   }
@@ -730,19 +730,24 @@
   }
 
   function updateAccessIndicator() {
-    if (!accessIndicator) return;
-    const usage = readDailyUsage();
-    if (isUnlockedToday()) {
-      accessIndicator.className = 'aio-access-indicator is-unlocked';
-      const until = new Intl.DateTimeFormat('pl-PL', {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(supportUnlockUntil()));
-      accessIndicator.innerHTML = '<span class="aio-access-dot">✓</span><div><strong>AIO Access 2.1 • dostęp aktywny</strong><small>Dostęp do kolejnych pobrań aktywny do ' + until + ' w tej przeglądarce.</small></div><a href="support.html">Wsparcie projektu</a>';
-    } else if (usage.count < DOWNLOAD_POLICY.freePerDay) {
-      accessIndicator.className = 'aio-access-indicator is-free';
-      accessIndicator.innerHTML = '<span class="aio-access-dot">1</span><div><strong>AIO Access 2.1 • bezpłatne pobranie dostępne</strong><small>Pierwsze pobranie dziennie jest bezpłatne. Po ukończeniu ścieżki wsparcia kolejne pobrania są dostępne przez 7 dni.</small></div><a href="support.html">Zasady</a>';
-    } else {
-      accessIndicator.className = 'aio-access-indicator is-locked';
-      accessIndicator.innerHTML = '<span class="aio-access-dot">!</span><div><strong>AIO Access 2.1 • darmowy limit wykorzystany</strong><small>Samo otwarcie linku wsparcia nie odblokowuje plików. Po ukończeniu ścieżki AIO Access dostęp działa przez 7 dni.</small></div><a href="support.html">Dlaczego?</a>';
-    }
+    if(!accessIndicator)return;
+    accountApi().then(info=>{
+      if(!accessIndicator)return;
+      if(!info.authenticated){
+        accessIndicator.className='aio-access-indicator is-locked';
+        accessIndicator.innerHTML='<span class="aio-access-dot">!</span><div><strong>AIO Access — logowanie wymagane</strong><small>Do pobierania potrzebne jest zarejestrowane konto Społeczności AIO.</small></div><a href="community.html">Zaloguj się</a>';
+      }else if(info.active){
+        accessIndicator.className='aio-access-indicator is-unlocked';
+        const until=new Intl.DateTimeFormat('pl-PL',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(info.expires_at));
+        accessIndicator.innerHTML='<span class="aio-access-dot">✓</span><div><strong>AIO Access — dostęp aktywny</strong><small>7 dni liczone od odblokowania. Ważność: '+until+'. Uprawnienie przypisane do konta.</small></div><a href="support.html">Wsparcie projektu</a>';
+      }else if(info.free_remaining>0){
+        accessIndicator.className='aio-access-indicator is-free';
+        accessIndicator.innerHTML='<span class="aio-access-dot">1</span><div><strong>AIO Access — bezpłatne pobranie</strong><small>Jedno bezpłatne pobranie dziennie na konto, nie na adres IP.</small></div><a href="support.html">Zasady</a>';
+      }else{
+        accessIndicator.className='aio-access-indicator is-locked';
+        accessIndicator.innerHTML='<span class="aio-access-dot">!</span><div><strong>AIO Access — limit dzienny wykorzystany</strong><small>Po ukończeniu ścieżki wsparcia dostęp na 7 dni zostanie przypisany do konta.</small></div><a href="support.html">Wsparcie</a>';
+      }
+    }).catch(()=>{accessIndicator.textContent='AIO Access: chwilowo nie można sprawdzić uprawnień. Spróbuj ponownie później.';});
   }
 
   function createSupportModal() {
@@ -797,25 +802,39 @@
     return ({ revolut: 'Revolut', buycoffee: 'BuyCoffee', kofi: 'Ko-fi' })[method] || 'wybrana metoda';
   }
 
+/* AIO ACCESS KONTO 7D V2: login required; server-controlled grants and daily quota. */
+  async function accountApi(body) {
+    const options=body?{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)}:{};
+    const r=await fetch('/api/aio-account-access',{credentials:'include',cache:'no-store',...options});
+    const d=await r.json().catch(()=>({error:'Błąd odczytu uprawnień.'}));
+    if(!r.ok||d.ok===false)throw new Error(d.error||'Nie udało się sprawdzić dostępu.');
+    return d;
+  }
+  function requireAccessLogin(){
+    if(window.AIOCommunity&&typeof window.AIOCommunity.openAuth==='function')window.AIOCommunity.openAuth();
+    else { window.alert('Pobieranie wymaga konta AIO. Zaloguj się lub zarejestruj w Społeczności AIO.');window.location.href='community.html'; }
+  }
+  async function accountDownload(item,kind){
+    try {
+      const info=await accountApi();
+      if(!info.authenticated){requireAccessLogin();return;}
+      const target=new URL(item.href,location.href);
+      const localFile=target.origin===location.origin && /^\/pliki\//i.test(target.pathname);
+      if(info.active){trackAccessActivity('unlocked_access',item,{kind});openDownloadTarget(item);return;}
+      if(info.free_remaining>0){
+        // /pliki/ is accounted for atomically by the server when GET is served.
+        if(!localFile)await accountApi({action:'consume'});
+        trackAccessActivity('free_access',item,{kind});openDownloadTarget(item);
+        updateAccessIndicator();return;
+      }
+      trackAccessActivity('limit_reached',item,{kind});
+      openSupportModal(item,kind==='community'?'community-link-limit':'limit');
+    }catch(e){console.error('AIO Access',e);alert('AIO Access: '+e.message);}
+  }
+
   function handleCommunityLinkAccess(item) {
-    if (!item || !item.href) return false;
-
-    if (isUnlockedToday()) {
-      trackAccessActivity('unlocked_access',item,{kind:'community'});
-      openDownloadTarget(item);
-      return true;
-    }
-
-    const usage = readDailyUsage();
-    if (usage.count < DOWNLOAD_POLICY.freePerDay) {
-      registerFreeDownload();
-      trackAccessActivity('free_access',item,{kind:'community'});
-      openDownloadTarget(item);
-      return true;
-    }
-
-    trackAccessActivity('limit_reached',item,{kind:'community'});
-    openSupportModal(item, 'community-link-limit');
+    if(!item||!item.href)return false;
+    void accountDownload(item,'community');
     return true;
   }
 
@@ -852,42 +871,13 @@
   }
 
   function interceptDownload(event) {
-    const anchor = event.target.closest && event.target.closest('a');
-    if (!anchor || anchor.classList.contains('community-link') || !isDownloadLink(anchor)) return;
-
-    const href = getDownloadHref(anchor);
-    if (!href) return;
-
-    const item = {
-      href,
-      target: anchor.getAttribute('target') || '',
-      download: anchor.getAttribute('download') || '',
-      label: getDownloadLabel(anchor)
-    };
-
-    // Protected anchors intentionally point to a harmless local fragment.
-    // Handle every real download explicitly so copying the visible link cannot
-    // bypass the free-download/support counter.
-    event.preventDefault();
-    event.stopPropagation();
-    if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
-
-    if (isUnlockedToday()) {
-      trackAccessActivity('unlocked_access',item,{kind:'download'});
-      openDownloadTarget(item);
-      return;
-    }
-
-    const usage = readDailyUsage();
-    if (usage.count < DOWNLOAD_POLICY.freePerDay) {
-      registerFreeDownload();
-      trackAccessActivity('free_access',item,{kind:'download'});
-      openDownloadTarget(item);
-      return;
-    }
-
-    trackAccessActivity('limit_reached',item,{kind:'download'});
-    openSupportModal(item, 'limit');
+    const anchor=event.target.closest && event.target.closest('a');
+    if(!anchor || anchor.classList.contains('community-link') || !isDownloadLink(anchor))return;
+    const href=getDownloadHref(anchor);if(!href)return;
+    const item={href,target:anchor.getAttribute('target')||'',download:anchor.getAttribute('download')||'',label:getDownloadLabel(anchor)};
+    event.preventDefault();event.stopPropagation();
+    if(typeof event.stopImmediatePropagation==='function')event.stopImmediatePropagation();
+    void accountDownload(item,'download');
   }
 
   function isDownloadLink(anchor) {
@@ -994,18 +984,19 @@
     startAccessFlow(selectedMethod, pendingDownload, modalMode);
   }
 
-  function startAccessFlow(method, item, mode) {
-    const token = randomToken();
-    const flow = {
-      v: 21, token, method,
-      kind: mode === 'community-link-limit' ? 'community' : 'download',
-      href: item.href, target: item.target || '', download: item.download || '', label: item.label || '',
-      createdAt: Date.now(), expiresAt: Date.now() + FLOW_TTL_MS,
-      returnUrl: location.href, day: localDateKey()
-    };
-    try { sessionStorage.setItem(FLOW_PREFIX + token, JSON.stringify(flow)); }
-    catch (error) { statusMessage.textContent = 'Przeglądarka blokuje pamięć sesji. Włącz pamięć witryny i spróbuj ponownie.'; return; }
-    location.href = `access.html?flow=${encodeURIComponent(token)}&method=${encodeURIComponent(method)}`;
+  async function startAccessFlow(method, item, mode) {
+    let issued;
+    try{issued=await accountApi({action:'start',method});}
+    catch(e){statusMessage.textContent='Zaloguj się, aby rozpocząć wsparcie: '+e.message;return;}
+    const token=randomToken();
+    const flow={v:21,token,serverFlowId:issued.flow_id,method,
+      kind:mode==='community-link-limit'?'community':'download',
+      href:item.href,target:item.target||'',download:item.download||'',label:item.label||'',
+      createdAt:Date.now(),expiresAt:Date.now()+FLOW_TTL_MS,
+      returnUrl:location.href,day:localDateKey()};
+    try{sessionStorage.setItem(FLOW_PREFIX+token,JSON.stringify(flow));}
+    catch(e){statusMessage.textContent='Przeglądarka blokuje pamięć sesji.';return;}
+    location.href=`access.html?flow=${encodeURIComponent(token)}&method=${encodeURIComponent(method)}`;
   }
 
   function randomToken() {
