@@ -15,6 +15,7 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <link rel="stylesheet" href="assets/css/aio-list-inbox.css?v=20261015-4"/>
+<link rel="stylesheet" href="assets/css/aio-owner-center.css?v=20261016-ownercenter1">
 </head><body class="aio-header-v2 aio-header-v3 aio-header-v4 site-final-v1"><a class="skip-link" href="#main-content">Przejdź do treści</a><div class="page-shell"><header class="site-header"><div class="brand-row"><a class="brand" href="index.html"><img alt="AIO-IPTV.pl" src="pliki/logo.png?v=20261010-logo2"/><span><strong>AIO‑IPTV.pl</strong><small>Enigma2 • IPTV • pomoc</small></span></a><a class="header-download header-community" href="community.html" aria-label="Otwórz Społeczność AIO">Społeczność AIO</a></div><nav class="main-nav" data-menu="" aria-label="Główna nawigacja">
   <a href="index.html">Start</a>
   <a class="nav-community" href="community.html">Społeczność</a>
@@ -39,7 +40,53 @@
       <a href="contact.html">Kontakt</a>
     </div>
   </details>
-</nav><button class="mobile-menu" data-menu-toggle="" type="button">Menu</button></header><main class="standalone-main community-shell" id="main-content"><section class="community-account is-guest" data-community-account=""><div class="community-account-main" data-community-account-main=""><span class="community-avatar">AIO</span><div class="community-account-copy"><strong>Społeczność AIO</strong><small>Ładowanie konta…</small></div></div><div class="community-account-actions" data-community-account-actions=""></div></section><section class="community-hero"><div><p class="eyebrow">PRYWATNY PANEL WŁAŚCICIELA</p><h1>Administracja AIO</h1><p class="lead">Pełne zarządzanie Społecznością AIO: treści, użytkownicy, bezpieczeństwo, aktywne sesje, blokady, statystyki, reset haseł i dziennik działań. Dostęp wyłącznie dla właściciela.</p><p><a href="aio-maintenance.html" class="button">Konserwacja, prywatność i kopie D1/R2 →</a></p></div><aside class="community-hero-card"><div class="community-stat-grid"><div class="community-stat"><strong data-admin-stat="pending">0</strong><span>oczekuje</span></div><div class="community-stat"><strong data-admin-stat="reports">0</strong><span>zgłoszeń</span></div><div class="community-stat"><strong data-admin-stat="users">0</strong><span>użytkowników</span></div></div></aside></section><section class="community-panel community-panel-pad"><div class="community-admin-tabs"><button class="community-tab active" data-admin-tab="pending">Do zatwierdzenia</button><button class="community-tab" data-admin-tab="reports">Zgłoszenia</button><button class="community-tab" data-admin-tab="published">Opublikowane</button><button class="community-tab" data-admin-tab="users">Użytkownicy</button><button class="community-tab" data-admin-tab="ip">Blokady IP</button><button class="community-tab" data-admin-tab="logs">Dziennik</button></div><div data-community-admin=""><div class="community-loading">Sprawdzam uprawnienia…</div></div></section>
+</nav><button class="mobile-menu" data-menu-toggle="" type="button">Menu</button></header><main class="standalone-main community-shell" id="main-content"><section class="community-account is-guest" data-community-account=""><div class="community-account-main" data-community-account-main=""><span class="community-avatar">AIO</span><div class="community-account-copy"><strong>Społeczność AIO</strong><small>Ładowanie konta…</small></div></div><div class="community-account-actions" data-community-account-actions=""></div></section><section class="community-hero"><div><p class="eyebrow">PRYWATNY PANEL WŁAŚCICIELA</p><h1>Administracja AIO</h1><p class="lead">Pełne zarządzanie Społecznością AIO: treści, użytkownicy, bezpieczeństwo, aktywne sesje, blokady, statystyki, reset haseł i dziennik działań. Dostęp wyłącznie dla właściciela.</p><p><a href="aio-maintenance.html" class="button">Konserwacja, prywatność i kopie D1/R2 →</a></p></div><aside class="community-hero-card"><div class="community-stat-grid"><div class="community-stat"><strong data-admin-stat="pending">0</strong><span>oczekuje</span></div><div class="community-stat"><strong data-admin-stat="reports">0</strong><span>zgłoszeń</span></div><div class="community-stat"><strong data-admin-stat="users">0</strong><span>użytkowników</span></div></div></aside></section>
+<!-- AIO_OWNER_CENTER_V1 -->
+<section id="aio-owner-center" hidden aria-label="AIO Owner Center">
+  <p class="eyebrow">TYLKO DLA WŁAŚCICIELA</p>
+  <h2>AIO Owner Center</h2>
+  <p>Jedno miejsce do zarządzania kontami, listami, wiadomościami, dostępem 7 dni oraz pobieraniem. Nowy dziennik nie zmienia uprawnień użytkowników.</p>
+  <div class="aoc-kpis" aria-label="Podsumowanie pobrań">
+    <article><strong id="aoc-issued">—</strong><span>wydanych odpowiedzi plików / 7 dni</span></article>
+    <article><strong id="aoc-account">—</strong><span>wydania zalogowanym</span></article>
+    <article><strong id="aoc-guest">—</strong><span>wydania gościom</span></article>
+    <article><strong id="aoc-active">—</strong><span>aktywne uprawnienia 7 dni</span></article>
+  </div>
+  <nav class="aoc-menu" aria-label="Zarządzanie właściciela">
+    <a href="#aio-owner-downloads">Statystyki pobrań</a>
+    <button type="button" data-aoc-tab="users">Użytkownicy</button>
+    <button type="button" data-aoc-tab="pending">Moderacja treści</button>
+    <button type="button" data-aoc-tab="access-activity">AIO Access</button>
+    <a href="aio-list-upload.html#aluAdmin">Listy kanałów</a>
+    <a href="#aio-list-inbox">Skrzynka AIO</a>
+    <a href="#aio-access-owner-recovery">Dostępy 7 dni</a>
+    <button type="button" data-aoc-tab="statistics">Statystyki strony</button>
+    <button type="button" data-aoc-tab="security">Bezpieczeństwo</button>
+    <button type="button" data-aoc-tab="sessions">Aktywne sesje</button>
+    <button type="button" data-aoc-tab="password-resets">Reset haseł</button>
+    <a href="aio-maintenance.html">Konserwacja i backup</a>
+  </nav>
+</section>
+<section id="aio-owner-downloads" hidden aria-label="Statystyki wydanych plików">
+  <h2>Pobrania — historia i użytkownicy</h2>
+  <p id="aoc-summary">Ładowanie historii...</p>
+  <div class="aoc-filter">
+    <label>Zakres czasu<select id="aoc-days"><option value="1">24 godziny</option><option value="7" selected>7 dni</option><option value="30">30 dni</option><option value="90">90 dni</option></select></label>
+    <label>Nazwa pliku<input type="search" id="aoc-file" placeholder="np. AIO Panel" maxlength="80"></label>
+    <label>Nazwa użytkownika<input type="search" id="aoc-user" placeholder="nazwa konta" maxlength="80"></label>
+    <button type="button" id="aoc-refresh">Odśwież</button>
+    <button type="button" id="aoc-export">CSV (100 ostatnich)</button>
+  </div>
+  <p id="aoc-status" aria-live="polite"></p>
+  <div class="aoc-blocks">
+    <section class="aoc-block"><h3>Najczęściej wydawane pliki</h3><div id="aoc-top-files"></div></section>
+    <section class="aoc-block"><h3>Najaktywniejsze konta</h3><div id="aoc-top-users"></div></section>
+    <section class="aoc-block aoc-wide"><h3>Historia (do 100 najnowszych zdarzeń)</h3><div id="aoc-history"></div></section>
+    <section class="aoc-block aoc-wide"><h3>Wydania w poszczególnych dniach</h3><div id="aoc-days-table"></div></section>
+  </div>
+  <p class="aoc-footnote">Dane pochodzą z serwera Cloudflare wyłącznie dla plików /pliki/. Wydana odpowiedź HTTP 200/206 nie gwarantuje pełnego pobrania przez przeglądarkę. Zewnętrzne linki sprawdzisz w zakładce „AIO Access”. Nie zapisujemy IP ani adresów e-mail w tym dzienniku. Historia jest przechowywana maksymalnie 90 dni. Statystyki zaczynają się od wdrożenia Owner Center V1.</p>
+</section>
+<section class="community-panel community-panel-pad"><div class="community-admin-tabs"><button class="community-tab active" data-admin-tab="pending">Do zatwierdzenia</button><button class="community-tab" data-admin-tab="reports">Zgłoszenia</button><button class="community-tab" data-admin-tab="published">Opublikowane</button><button class="community-tab" data-admin-tab="users">Użytkownicy</button><button class="community-tab" data-admin-tab="ip">Blokady IP</button><button class="community-tab" data-admin-tab="logs">Dziennik</button></div><div data-community-admin=""><div class="community-loading">Sprawdzam uprawnienia…</div></div></section>
 <!-- AIO_LIST_INBOX_V1_4 -->
 <section id="aio-list-inbox" hidden aria-labelledby="aioListInboxTitle">
   <div class="aio-list-inbox-header"><div><p class="eyebrow">ZGŁOSZENIA LIST I KONTAKT OD UŻYTKOWNIKÓW</p>
@@ -54,4 +101,5 @@
 <script defer src="assets/js/aio-header-v2.js?v=20261010-headerv4"></script>
 <script defer src="assets/js/aio-list-owner-inbox.js?v=20261015-4"></script>
 <script defer src="assets/js/aio-access-owner-recovery.js?v=20261016-konto7d"></script>
+<script defer src="assets/js/aio-owner-center.js?v=20261016-ownercenter1"></script>
 </body></html>

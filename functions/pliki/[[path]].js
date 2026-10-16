@@ -1,5 +1,6 @@
 /* Account-based gate for locally hosted files. Zero IP-dependent entitlements. */
 import {initAccess,sessionUser,getStatus,consumeFree,guestState,consumeGuest,applyGuestCookie} from '../_aio_account_access.js';
+import {queueIssuedFileAudit} from '../_aio_owner_downloads.js';
 const FILE_EXT=/\.(?:ipk|apk|exe|msi|zip|7z|rar|deb|rpm|pdf|tar|tgz|gz|xz|img|bin|iso|m3u|m3u8|xml|conf|cfg|backup|sh|py|json|txt|list|tv|radio|bouquet)$/i;
 const IMG=/\.(?:png|jpe?g|webp|gif|svg|avif)$/i;
 function protectedFile(request){
@@ -30,13 +31,16 @@ async function handle(context){
         return applyGuestCookie(Response.redirect(dest.toString(),302),permit.cookie);
       }
       const headers=new Headers(asset.headers);headers.set('Cache-Control','private, no-store');
-      return applyGuestCookie(new Response(asset.body,{status:asset.status,statusText:asset.statusText,headers}),permit.cookie);
+      const issued=new Response(asset.body,{status:asset.status,statusText:asset.statusText,headers});
+      queueIssuedFileAudit(context,null,'guest',issued);
+      return applyGuestCookie(issued,permit.cookie);
     }
     const state=await getStatus(env,user.id);
     if(request.method==='HEAD')return (state.active||state.free_remaining>0)?context.next():deny('Dzienny limit wykorzystany.',429);
     const permit=await consumeFree(env,user.id);
     if(!permit.allowed)return deny('Dzienny limit pobierania wykorzystany. Zaloguj się i otwórz AIO Access.',429);
     const result=await context.next();
+    queueIssuedFileAudit(context,user.id,state.active?'account_7d':'account_free',result);
     return new Response(result.body,{status:result.status,statusText:result.statusText,headers:result.headers});
   }catch(error){console.error('aio download account gate',error?.message);return deny('Nie można zweryfikować uprawnień do pobrania.',503);}
 }
