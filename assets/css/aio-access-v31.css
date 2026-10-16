@@ -1,0 +1,38 @@
+/* AIO Access V3.1 — czytelne zasady logowania i pobierania. */
+#aio-guest-access-dialog.aio-guest-access-v31 {
+  color:#f0f8fc; border:1px solid #37657a; background:#092633;
+  border-radius:18px; padding:26px; width:min(94vw,560px);
+  max-height:min(86vh,760px); overflow-y:auto; box-shadow:0 24px 80px #000a;
+  font-family:inherit;
+}
+#aio-guest-access-dialog.aio-guest-access-v31::backdrop {background:rgba(0,9,17,.78);backdrop-filter:blur(6px)}
+#aio-guest-access-dialog.aio-guest-access-v31 h2 {font-size:clamp(1.4rem,4.5vw,1.85rem);line-height:1.15;color:#f5fbff}
+.aio-access-v31-guest-note,.aio-access-v31-support-note {
+  border:1px solid #5abfc7; border-left:5px solid #66d9e5; border-radius:11px;
+  background:#103c48; padding:15px 17px; margin:14px 0;
+  color:#eaffff; line-height:1.52;
+}
+.aio-access-v31-guest-note strong,.aio-access-v31-support-note strong {
+  display:block; font-size:1.04rem; font-weight:850; line-height:1.35; margin-bottom:5px;
+  color:#fff;
+}
+.aio-access-v31-guest-note span,.aio-access-v31-support-note span {display:block;font-size:.92rem;color:#d5ecf1}
+.aio-access-v31-support-note[hidden] {display:none!important}
+.aio-access-v31-guest-note.is-used {background:#422f19; border-color:#e3a94d;border-left-color:#ffca71}
+.aio-access-v31-guest-note.is-used strong {color:#fff1d2}
+#aio-guest-access-dialog .aio-access-v31-buttons {display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+#aio-guest-access-dialog .aio-access-v31-buttons button {
+  padding:13px 16px; border-radius:10px; cursor:pointer; font:inherit;
+  font-weight:750; border:1px solid #507a8c; background:#163f4e; color:#f3fbff;
+}
+#aio-guest-access-dialog .aio-access-v31-buttons button.is-primary {
+  background:#07828e; border-color:#34c6ce; color:#fff; font-weight:850;
+}
+#aio-guest-access-dialog .aio-access-v31-buttons button:hover {filter:brightness(1.12)}
+#aio-guest-access-dialog .aio-access-v31-buttons button:focus-visible {outline:3px solid #fff;outline-offset:3px}
+@media(max-width:600px) {
+  #aio-guest-access-dialog.aio-guest-access-v31 {padding:20px 16px;}
+  #aio-guest-access-dialog .aio-access-v31-buttons {flex-direction:column}
+  #aio-guest-access-dialog .aio-access-v31-buttons button {width:100%;}
+  .aio-access-v31-guest-note,.aio-access-v31-support-note {padding:13px 14px;}
+}

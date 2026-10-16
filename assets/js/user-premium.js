@@ -518,6 +518,11 @@
     if (document.documentElement.dataset.aioSupportGate === 'ready-v21') return;
     document.documentElement.dataset.aioSupportGate = 'ready-v21';
     createFundraiserRibbon();
+    if (!document.querySelector('link[data-aio-access-v31]')) {
+      const link=document.createElement('link');
+      link.rel='stylesheet';link.href='/assets/css/aio-access-v31.css?v=20261016-v31';
+      link.setAttribute('data-aio-access-v31','');document.head.append(link);
+    }
     createSupportModal();
     createAccessIndicator();
     protectDownloadLinks(document);
@@ -765,6 +770,10 @@
         <p class="support-gate-eyebrow">AIO ACCESS 2.1 • WSPARCIE PROJEKTÓW</p>
         <h2 id="support-gate-title">Pomóż rozwijać projekty dla Enigma2</h2>
         <p id="support-gate-description">Pierwsze pobranie każdego dnia jest bezpłatne. Po ukończeniu ścieżki wsparcia kolejne pobrania będą dostępne przez 7 dni.</p>
+        <div class="aio-access-v31-support-note" role="note" hidden>
+          <strong>KOLEJNE POBRANIA — TYLKO NA ZALOGOWANYM KONCIE AIO</strong>
+          <span>Jesteś już zalogowany. Po aktywacji AIO Access okres 7 dni zostanie zapisany na Twoim koncie, nie na adresie IP.</span>
+        </div>
         <div class="support-gate-file" hidden><span>Wybrany plik:</span><strong class="support-gate-filename"></strong></div>
         <p class="support-gate-note">AIO Access sprawdza aktywną sesję pobierania i poprawne przejście ścieżki wsparcia przed odblokowaniem kolejnego pliku.</p>
         <div class="support-gate-methods" aria-label="Metody wsparcia">
@@ -820,14 +829,17 @@
    Client UI helps explain the policy; the D1 backend enforces local limits. */
   function guestDownloadDialog(item,kind,firstFree){
     const previous=document.getElementById('aio-guest-access-dialog');if(previous)previous.remove();
-    const dlg=document.createElement('dialog');dlg.id='aio-guest-access-dialog';
+    const dlg=document.createElement('dialog');dlg.id='aio-guest-access-dialog';dlg.className='aio-guest-access-v31';
     dlg.setAttribute('aria-label','Zasady pobierania AIO-IPTV');
     dlg.style.cssText='border:1px solid #36596b;border-radius:16px;background:#092633;color:#f0f9fd;padding:28px;width:min(94vw,540px);max-height:88vh;box-shadow:0 24px 75px #000b;font-family:inherit;';
-    const heading=document.createElement('h2');heading.textContent=firstFree?'Pierwsze pobranie bez rejestracji':'Pobranie próbne zostało wykorzystane';heading.style.margin='0 0 14px';
-    const info=document.createElement('p');info.textContent=firstFree?'Możesz teraz pobrać jeden plik bez konta. Aby korzystać z większej części materiałów AIO-IPTV, aktualizacji i społeczności, załóż darmowe konto.':'Jeden plik próbny został już pobrany w tej przeglądarce. Zarejestruj się albo zaloguj, aby uzyskać dalszy dostęp do materiałów.';info.style.lineHeight='1.6';
-    const details=document.createElement('p');details.textContent='Na zarejestrowanym koncie pozostaje jedno bezpłatne pobranie dziennie. Po wsparciu projektu i aktywacji AIO Access możesz otrzymać 7 dni dostępu przypisanego do swojego konta — niezależnie od IP.';details.style.cssText='font-size:.93rem;line-height:1.55;color:#bad0dc';
-    const buttons=document.createElement('div');buttons.style.cssText='display:flex;flex-wrap:wrap;gap:10px;margin-top:20px';
-    const addButton=(label,action,primary)=>{const b=document.createElement('button');b.type='button';b.textContent=label;b.style.cssText=`padding:12px 16px;border-radius:9px;cursor:pointer;font:inherit;font-weight:650;border:1px solid #346475;background:${primary?'#087e84':'#153845'};color:white;`;b.addEventListener('click',action);buttons.append(b);return b;};
+    const heading=document.createElement('h2');heading.textContent=firstFree?'1 próbne pobranie bez konta':'Pobranie próbne już wykorzystane';heading.style.margin='0 0 14px';
+    const guestNotice=document.createElement('div');guestNotice.className='aio-access-v31-guest-note'+(firstFree?'':' is-used');guestNotice.setAttribute('role','note');
+    const guestStrong=document.createElement('strong');guestStrong.textContent=firstFree?'Kolejne pobrania wymagają zalogowania.':'Aby pobierać kolejne pliki, zaloguj się lub załóż konto AIO.';
+    const guestSecondary=document.createElement('span');guestSecondary.textContent='Większa część materiałów i funkcji AIO-IPTV.pl jest dostępna dla zarejestrowanych użytkowników.';guestNotice.append(guestStrong,guestSecondary);
+    const info=document.createElement('p');info.textContent=firstFree?'Bez zakładania konta możesz pobrać jeden wybrany plik. Rejestracja jest bezpłatna.':'Bezpłatny limit dla gościa został wykorzystany. Po zalogowaniu otrzymasz limit jednego darmowego pobrania dziennie na swoim koncie.';info.style.lineHeight='1.6';
+    const details=document.createElement('p');details.textContent='Po zalogowaniu dostępne jest jedno bezpłatne pobranie dziennie. Po aktywacji AIO Access możesz korzystać przez 7 dni z dostępu przypisanego do konta, niezależnie od adresu IP.';details.style.cssText='font-size:.93rem;line-height:1.55;color:#bad0dc';
+    const buttons=document.createElement('div');buttons.className='aio-access-v31-buttons';
+    const addButton=(label,action,primary)=>{const b=document.createElement('button');b.type='button';b.textContent=label;if(primary)b.className='is-primary';b.addEventListener('click',action);buttons.append(b);return b;};
     addButton('Zaloguj się / załóż konto',()=>{dlg.close();dlg.remove();requireAccessLogin();},true);
     if(firstFree){
       addButton('Pobierz jeden plik bez konta',async()=>{
@@ -843,7 +855,7 @@
       },false);
     }
     addButton('Nie teraz',()=>{dlg.close();dlg.remove();},false);
-    dlg.append(heading,info,details,buttons);document.body.append(dlg);dlg.addEventListener('close',()=>dlg.remove(),{once:true});dlg.showModal();
+    dlg.append(heading,guestNotice,info,details,buttons);document.body.append(dlg);dlg.addEventListener('close',()=>dlg.remove(),{once:true});dlg.showModal();
   }
   
 async function accountDownload(item,kind){
@@ -970,6 +982,8 @@ async function accountDownload(item,kind){
     const fileBox = modal.querySelector('.support-gate-file');
     const cancel = modal.querySelector('.support-gate-cancel');
     const methods = modal.querySelector('.support-gate-methods');
+    const accountNotice = modal.querySelector('.aio-access-v31-support-note');
+    if(accountNotice) accountNotice.hidden = !(modalMode === 'limit' || modalMode === 'community-link-limit');
 
     if (modalMode === 'community-link-limit' && download) {
       title.textContent = 'Dzisiejszy bezpłatny dostęp został wykorzystany';
@@ -982,7 +996,7 @@ async function accountDownload(item,kind){
       continueButton.textContent = 'Wybierz metodę wsparcia'; continueButton.disabled = true;
     } else if (modalMode === 'limit' && download) {
       title.textContent = 'Dzisiejsze bezpłatne pobranie zostało wykorzystane';
-      description.textContent = 'Kolejny plik możesz pobrać po ukończeniu ścieżki wsparcia, co odblokowuje pobrania na 7 dni. Samo otwarcie Revolut, BuyCoffee lub Ko-fi niczego nie odblokowuje.';
+      description.textContent = 'Wykorzystałeś bezpłatne pobranie na swoim koncie. Kolejne pobrania są dostępne po aktywacji 7-dniowego dostępu AIO Access. Samo otwarcie strony Revolut, BuyCoffee lub Ko-fi nie jest potwierdzeniem wpłaty.';
       note.textContent = 'Wybierz metodę. AIO Access utworzy jednorazową sesję przypisaną do wybranego pliku.';
       fileBox.hidden = false; methods.hidden = false;
       fileBox.querySelector('span').textContent = 'Wybrany plik:';
