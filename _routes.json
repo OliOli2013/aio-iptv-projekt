@@ -2,6 +2,7 @@
   "version": 1,
   "include": [
     "/api/*",
+    "/pliki/*",
     "/pliki/*.ipk",
     "/pliki/*.apk",
     "/pliki/*.exe",

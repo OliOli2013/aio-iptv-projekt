@@ -1,5 +1,6 @@
 /* AIO Access — server-side account entitlements. No entitlement is inferred from an IP or an unsigned browser cookie. */
 import {getSession,ensureSchema,sha256} from './_community.js';
+import {createListNotice} from './_aio_list_notice.js';
 export const SUPPORT_MS = 7 * 24 * 60 * 60 * 1000;
 export const ROLLOUT = '2026-10-14T21:42:50.000Z';
 /* Immutable upper boundary for historical browser-flow events. No future client-submitted event can manufacture a legacy grant. */
@@ -25,7 +26,16 @@ export async function initAccess(env){
       method TEXT NOT NULL DEFAULT 'buycoffee', reference TEXT NOT NULL,
       created_at TEXT NOT NULL, PRIMARY KEY(email_hash,paid_at))`),
     env.COMMUNITY_DB.prepare(`CREATE INDEX IF NOT EXISTS idx_aio_access_flows_user ON aio_access_account_flows(user_id,created_ms)`),
-    env.COMMUNITY_DB.prepare(`CREATE TABLE IF NOT EXISTS aio_access_guest_trials (guest_hash TEXT PRIMARY KEY, created_at TEXT NOT NULL, used_at TEXT)`)
+    env.COMMUNITY_DB.prepare(`CREATE TABLE IF NOT EXISTS aio_access_guest_trials (guest_hash TEXT PRIMARY KEY, created_at TEXT NOT NULL, used_at TEXT)`),
+    env.COMMUNITY_DB.prepare(`CREATE TABLE IF NOT EXISTS aio_access_approval_requests (
+      id TEXT PRIMARY KEY, user_id TEXT NOT NULL, method TEXT NOT NULL,
+      flow_id TEXT UNIQUE NOT NULL, status TEXT NOT NULL DEFAULT 'pending',
+      created_at TEXT NOT NULL, priority_message TEXT, priority_sent_at TEXT,
+      reviewed_by TEXT, reviewed_at TEXT, review_reason TEXT,
+      FOREIGN KEY(user_id) REFERENCES community_profiles(id) ON DELETE CASCADE
+    )`),
+    env.COMMUNITY_DB.prepare('CREATE INDEX IF NOT EXISTS idx_aio_access_approvals_queue ON aio_access_approval_requests(status,created_at)'),
+    env.COMMUNITY_DB.prepare('CREATE INDEX IF NOT EXISTS idx_aio_access_approvals_user ON aio_access_approval_requests(user_id,created_at)')
   ]))().catch(e=>{schemaInit=null;throw e;});
   await schemaInit;
 }
@@ -101,8 +111,28 @@ export async function flowComplete(env,userId,id){
     WHERE id=? AND user_id=? AND completed_ms=0 AND opened_ms>0 AND opened_ms<=? AND created_ms>=?`)
     .bind(now,id,userId,now-35000,now-900000).run();
   if(!r.meta?.changes)throw fail(409,'Nie zakończono 35-sekundowej ścieżki wsparcia albo sesja wygasła.');
-  const expiry=await putGrant(env,userId,new Date(now).toISOString(),'support_flow','aio-access-workflow');
-  return {ok:true,expires_at:expiry.expires_at};
+  // Sam powrót ze strony wsparcia NIE potwierdza przelewu.
+  // Twórz tylko jeden aktywny wniosek dla danego konta; nie zalewaj panelu spamem.
+  const flow=await env.COMMUNITY_DB.prepare('SELECT method FROM aio_access_account_flows WHERE id=? AND user_id=?').bind(id,userId).first();
+  const requestId=crypto.randomUUID();
+  const createdAt=new Date(now).toISOString();
+  const queued=await env.COMMUNITY_DB.prepare(`INSERT INTO aio_access_approval_requests
+    (id,user_id,method,flow_id,status,created_at)
+    SELECT ?,?,?,?,'pending',?
+    WHERE NOT EXISTS (SELECT 1 FROM aio_access_approval_requests WHERE user_id=? AND status='pending')`)
+    .bind(requestId,userId,flow?.method||'buycoffee',id,createdAt,userId).run();
+  let entryId=requestId;
+  if(Number(queued.meta?.changes||0)===1){
+    try { await createListNotice(env,{senderId:userId,kind:'contact',
+      subject:'Nowe zgłoszenie wsparcia — AIO Access',
+      body:'Użytkownik zakończył ścieżkę wsparcia. Do sprawdzenia faktyczna wpłata. Metoda: '+(flow?.method||'nieznana')+'. Numer zgłoszenia: '+requestId}); }
+    catch(e){ console.error('AIO Access: zgłoszenie zapisane, ale powiadomienie skrzynki niedostępne',String(e?.message||e)); }
+  }else{
+    const existing=await env.COMMUNITY_DB.prepare("SELECT id FROM aio_access_approval_requests WHERE user_id=? AND status='pending' ORDER BY created_at DESC LIMIT 1").bind(userId).first();
+    if(existing)entryId=existing.id;
+  }
+  return {ok:true,pending_confirmation:true,request_id:entryId,
+    message:'Zgłoszenie przekazano do weryfikacji. Standardowo rozpatrujemy wpłaty w 1–2 h, gdy administrator jest dostępny; nie jest to automatyczne odblokowanie.'};
 }
 export async function registerReceipt(env,email,paidAt,reference){
   const value=String(email||'').trim().toLowerCase();
@@ -114,7 +144,12 @@ export async function registerReceipt(env,email,paidAt,reference){
     VALUES(?,?,?,'buycoffee',?,?) ON CONFLICT(email_hash,paid_at) DO NOTHING`)
     .bind(h,issued,expires,String(reference||'Potwierdzenie BuyCoffee').slice(0,160),new Date().toISOString()).run();
   const user=await env.COMMUNITY_DB.prepare('SELECT user_id FROM community_auth WHERE lower(email)=? LIMIT 1').bind(value).first();
-  if(user?.user_id)await putGrant(env,user.user_id,issued,'verified_receipt',reference||'BuyCoffee');
+  if(user?.user_id){
+    await putGrant(env,user.user_id,issued,'verified_receipt',reference||'BuyCoffee');
+    await env.COMMUNITY_DB.prepare(`UPDATE aio_access_approval_requests
+      SET status='approved',reviewed_at=?,review_reason='Zweryfikowane potwierdzenie BuyCoffee'
+      WHERE user_id=? AND status='pending'`).bind(new Date().toISOString(),user.user_id).run();
+  }
   return {ok:true,matched_account:!!user?.user_id,expires_at:expires};
 }
 

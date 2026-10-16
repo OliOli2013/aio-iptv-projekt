@@ -1,0 +1,23 @@
+/* AIO Access V4.1. Inherits AIO site colors rather than changing the page. */
+.aio-approval-user-status {margin:18px auto;padding:18px 22px;max-width:1050px;border:1px solid #376579;border-left:4px solid #55c9d4;border-radius:12px;background:#102c3b;color:#e5f4fb;line-height:1.55}
+.aio-approval-user-status:empty{display:none}
+.aio-approval-user-status strong {display:block;font-size:1.07rem;margin-bottom:5px}
+.aio-approval-primary{background:#0d7d89;border:1px solid #40b7c4;color:#fff;border-radius:9px;cursor:pointer;padding:11px 16px;font-weight:750}
+.aio-approval-primary:hover{background:#0c919e}
+.aio-approval-primary:disabled{opacity:.55;cursor:wait}
+.aio-approval-dialog{border:1px solid #48778b;border-radius:16px;background:#092633;color:#f2fbff;width:min(94vw,590px);max-height:85vh;overflow:auto;padding:24px;box-shadow:0 25px 80px #000b}
+.aio-approval-dialog::backdrop{background:rgba(0,7,16,.8)}
+.aio-approval-dialog h2{color:#fff;margin:0 0 10px}
+.aio-approval-dialog label{display:block;font-weight:700;margin-top:16px}
+.aio-approval-dialog textarea{width:100%;min-height:125px;box-sizing:border-box;margin-top:8px;border:1px solid #638ca0;border-radius:9px;background:#0d3444;color:#fff;padding:12px;font:inherit;resize:vertical}
+.aio-approval-dialog textarea:focus-visible,.aio-approval-dialog button:focus-visible{outline:3px solid #9be4ed;outline-offset:2px}
+.aio-approval-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px;align-items:center}
+.aio-approval-actions button:not(.aio-approval-primary){background:#153949;border:1px solid #4c7489;color:#fff;padding:10px 14px;border-radius:9px;cursor:pointer}
+.aio-approval-owner{max-width:1200px;margin:20px auto;padding:20px}
+.aio-approval-owner-heading{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.aio-approval-owner-heading h2{margin:0}
+.aio-approval-owner-heading span{border:1px solid #5a96a9;border-radius:100px;padding:4px 10px}
+.aio-approval-owner-records{display:grid;gap:12px}
+.aio-approval-owner-card{border:1px solid #3c667a;border-radius:11px;padding:16px;background:rgba(8,35,51,.65);overflow-wrap:anywhere}
+.aio-approval-owner-card p{margin:7px 0}
+@media(max-width:600px){.aio-approval-dialog{padding:18px}.aio-approval-owner{padding:14px}}

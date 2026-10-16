@@ -178,7 +178,7 @@
     progressText.textContent = 'Pełna ścieżka i powrót zostały wykryte.';
     confirmWrap.hidden = false;
     unlock.disabled = !confirm.checked;
-    status.textContent = confirm.checked ? 'Możesz teraz odblokować wybrany element na 7 dni od chwili odblokowania.' : 'Zaznacz potwierdzenie, aby kontynuować.';
+    status.textContent = confirm.checked ? 'Możesz przesłać zgłoszenie wsparcia do potwierdzenia. Wpłata musi zostać zweryfikowana.' : 'Zaznacz potwierdzenie, aby kontynuować.';
     status.classList.remove('is-error');
   }
 
@@ -195,7 +195,19 @@
       const r=await fetch('/api/aio-account-access',{method:'POST',credentials:'include',cache:'no-store',
         headers:{'content-type':'application/json'},body:JSON.stringify({action:'complete',flow_id:flow.serverFlowId})});
       const d=await r.json();
-      if(!r.ok||!d.ok)throw new Error(d.error||'Nie można przyznać 7-dniowego dostępu.');
+      if(!r.ok||!d.ok)throw new Error(d.error||'Nie udało się zakończyć ścieżki wsparcia.');
+      if(d.pending_confirmation){
+        flow.completed=true;flow.completedAt=Date.now();saveFlow();
+        setStep(3,'done');
+        title.textContent='Dziękujemy za wsparcie projektów AIO!';
+        lead.textContent='Twoje konto zostało rozpoznane. Sam powrót ze strony płatności nie potwierdza wpłaty. Po jej zweryfikowaniu administrator przypisze do tego konta 7 dni dostępu do pobierania.';
+        status.textContent='Twoje zgłoszenie czeka na ręczną weryfikację. Standardowo staramy się rozpatrzyć je w ciągu 1–2 godzin, gdy administrator jest dostępny. Jeśli chcesz przyspieszyć, skorzystaj z okna poniżej.';
+        window.dispatchEvent(new CustomEvent('aio-access-pending-approval',{detail:{id:d.request_id||''}}));
+        status.classList.remove('is-error');
+        unlock.disabled=true;unlock.textContent='Oczekuje na weryfikację';
+        back.href='downloads.html';back.textContent='Wróć do pobierania';
+        return;
+      }
     }catch(e){status.textContent='AIO Access: '+e.message;status.classList.add('is-error');return;}
     const unlockedAt = Date.now();
     const unlockToken = `t7:${unlockedAt}`;
@@ -205,7 +217,7 @@
     accessTrack('access_unlocked');
     setStep(3, 'done');
     title.textContent = 'Dostęp aktywny';
-    lead.textContent = 'AIO Access odblokował dotychczas dozwolone pobrania na 7 dni od tej chwili w tej przeglądarce.';
+    lead.textContent = 'AIO Access odblokował dozwolone pobrania na 7 dni na Twoim koncie.';
     status.textContent = flow.kind === 'community' ? 'Otwieram wybrany link…' : 'Uruchamiam pobieranie…';
     unlock.disabled = true; unlock.textContent = 'Dostęp aktywny ✓';
     openTarget();
