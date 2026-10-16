@@ -37,3 +37,9 @@
 .aio-approval-messenger:hover{background:#15566d}
 .aio-approval-messenger:focus-visible{outline:3px solid #a4f0f1;outline-offset:2px}
 @media(max-width:650px){.aio-access-payer-fields{grid-template-columns:1fr}}
+
+/* V4.4: show high-priority approval actions immediately within the access card. */
+.access-card .aio-approval-user-status{max-width:none;margin:16px 0 18px;border:1px solid #39b9c9;border-left:5px solid #72e3df;background:linear-gradient(125deg,#0e3d4d,#0b2838);box-shadow:0 9px 24px rgba(0,0,0,.18)}
+.access-card .aio-approval-user-status .aio-approval-messenger{background:#17619b;border-color:#54b7fc;color:#fff!important;display:inline-flex;align-items:center;min-height:43px}
+.access-card .aio-approval-user-status .aio-approval-primary{min-height:43px}
+@media(max-width:600px){.access-card .aio-approval-user-status{padding:15px;margin:14px 0}.access-card .aio-approval-user-status .aio-approval-messenger{width:100%;justify-content:center}.access-card .aio-approval-user-status .aio-approval-primary{width:100%}}

@@ -3,6 +3,7 @@
   'use strict';
   const $ = id => document.getElementById(id);
   let latest = null;
+  let pageOffset=0;
   const txt = (name, value) => { const node = $(name); if(node) node.textContent = String(value); };
   const fmt = n => Number(n || 0).toLocaleString('pl-PL');
   const date = v => { const n = new Date(v); return Number.isNaN(n.getTime()) ? String(v || '') : n.toLocaleString('pl-PL'); };
@@ -30,6 +31,8 @@
   async function retrieve() {
     const opts = new URLSearchParams({
       days:$('aoc-days').value,
+      day:$('aoc-date').value,
+      offset:String(pageOffset),
       file:$('aoc-file').value.trim().slice(0,80),
       user:$('aoc-user').value.trim().slice(0,80)
     });
@@ -46,7 +49,7 @@
     txt('aoc-account',fmt(d.totals.accounts));
     txt('aoc-guest',fmt(d.totals.guests));
     txt('aoc-active',d.totals.active_grants == null ? '—' : fmt(d.totals.active_grants));
-    txt('aoc-summary','Wydane odpowiedzi serwera z ostatnich '+d.days+' dni: '+fmt(d.totals.issued)+
+    txt('aoc-summary','Wydane odpowiedzi serwera ('+(d.day?'dzień UTC: '+d.day:d.all?'cała zachowana historia — 90 dni':'ostatnie '+d.days+' dni')+'): '+fmt(d.totals.issued)+
       '. Konta: '+fmt(d.totals.accounts)+', goście: '+fmt(d.totals.guests)+'.');
     renderRows($('aoc-top-files'),d.files,[
       {title:'Plik',view:x=>x.file_name},
@@ -68,6 +71,11 @@
       {title:'Rodzaj',view:x=>audience[x.audience]||'—'},
       {title:'HTTP',view:x=>String(x.status_code)}
     ],'Nie odnotowano wydań plików dla wybranych filtrów.');
+    const from=d.totals.issued?d.offset+1:0;
+    const to=d.offset+d.events.length;
+    txt('aoc-page-info','Wyświetlono '+from+'–'+to+' z '+fmt(d.totals.issued));
+    $('aoc-prev').disabled=d.offset===0;
+    $('aoc-next').disabled=!d.has_more;
   }
   async function refresh() {
     const b=$('aoc-refresh'),s=$('aoc-status');
@@ -75,6 +83,22 @@
     try { render(await retrieve());s.textContent='Zaktualizowano: '+new Date().toLocaleString('pl-PL'); }
     catch(e) { s.textContent='Błąd: '+e.message; }
     finally {b.disabled=false;}
+  }
+  async function clearHistory(mode){
+    const day=$('aoc-date').value;
+    if(mode==='day' && !day){$('aoc-status').textContent='Najpierw wybierz konkretny dzień.';return;}
+    const scope=mode==='day'?'z dnia '+day+' (UTC)':'CAŁĄ zachowaną historię pobierania';
+    if(!confirm('Czy na pewno usunąć '+scope+'?\n\nNie będzie można przywrócić usuniętych wpisów. Zgłoszenia, decyzje i aktywne dostępy pozostaną bez zmian.'))return;
+    const answer=prompt('Aby trwale usunąć historię, wpisz dokładnie: USUN');
+    if(answer!=='USUN')return;
+    const b=$('aoc-clear-'+mode); b.disabled=true;
+    try{
+      const r=await fetch('/api/owner-downloads',{method:'POST',credentials:'include',cache:'no-store',headers:{'content-type':'application/json'},body:JSON.stringify({action:'clear_download_history',mode,day,confirm:'USUN'})});
+      const d=await r.json().catch(()=>({}));
+      if(!r.ok||!d.ok)throw Error(d.error||'Nie można wyczyścić historii.');
+      pageOffset=0; await refresh();$('aoc-status').textContent='Usunięto '+fmt(d.deleted)+' wpisów. Dostępy i zgłoszenia pozostały bez zmian.';
+    }catch(e){$('aoc-status').textContent='Błąd czyszczenia: '+e.message;}
+    finally{b.disabled=false;}
   }
   function exportCsv() {
     if(!latest) return;
@@ -96,9 +120,14 @@
     if (!$('aio-owner-center') || !$('aio-owner-downloads')) return;
     document.querySelectorAll('[data-aoc-tab]').forEach(b=>b.addEventListener('click',()=>goTab(b.dataset.aocTab)));
     $('aoc-refresh').addEventListener('click',refresh);
-    $('aoc-days').addEventListener('change',refresh);
-    $('aoc-file').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();refresh();}});
-    $('aoc-user').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();refresh();}});
+    $('aoc-days').addEventListener('change',()=>{pageOffset=0;$('aoc-date').value='';void refresh();});
+    $('aoc-date').addEventListener('change',()=>{pageOffset=0;if($('aoc-date').value)$('aoc-days').value='all';void refresh();});
+    $('aoc-prev').addEventListener('click',()=>{pageOffset=Math.max(0,pageOffset-100);void refresh();});
+    $('aoc-next').addEventListener('click',()=>{if(latest?.has_more){pageOffset+=100;void refresh();}});
+    $('aoc-clear-day').addEventListener('click',()=>void clearHistory('day'));
+    $('aoc-clear-all').addEventListener('click',()=>void clearHistory('all'));
+    $('aoc-file').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();pageOffset=0;refresh();}});
+    $('aoc-user').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();pageOffset=0;refresh();}});
     $('aoc-export').addEventListener('click',exportCsv);
     refresh(); // 401/403 leaves private sections hidden.
   }

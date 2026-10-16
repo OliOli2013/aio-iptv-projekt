@@ -77,11 +77,14 @@
 
   function renderFlow() {
     title.textContent = flow.kind === 'community' ? 'Dokończ ścieżkę wsparcia i otwórz link' : 'Dokończ ścieżkę wsparcia i pobierz plik';
-    lead.textContent = 'Sesja jest przypisana do konkretnego elementu. Otwórz wybraną metodę wsparcia w nowej karcie, dokończ proces, a następnie wróć tutaj.';
+    lead.textContent = 'Po dokonaniu wpłaty wpisz poniżej metodę oraz nazwę lub e-mail z płatności i wyślij zgłoszenie. Dostęp przez 7 dni zostanie przyznany dopiero po ręcznej akceptacji administratora.';
     fileBox.hidden = false; fileName.textContent = flow.label || safeFileName(flow.href);
     steps.hidden = false; provider.hidden = false; progress.hidden = false; unlock.hidden = false;
     providerName.textContent = methodLabel(flow.method);
     if(payerMethod)payerMethod.value=flow.method;
+    // The identification form is visible on the FIRST visit, not on a second payment click.
+    if(payerDetails)payerDetails.hidden=false;
+    if(confirmWrap)confirmWrap.hidden=false;
     back.href = flow.returnUrl || 'downloads.html';
     restoreState();
     updateUi();
@@ -154,20 +157,22 @@
 
   function updateUi() {
     if (!flow) return;
-    if(payerDetails)payerDetails.hidden=!flow.externalOpenedAt || flow.completed;
+    if(payerDetails)payerDetails.hidden=flow.completed;
     if(flow.completed){
       progressText.textContent='Twoje zgłoszenie czeka na ręczną weryfikację wpłaty.';
       confirmWrap.hidden=true;unlock.disabled=true;unlock.textContent='Oczekuje na akceptację';return;
     }
     if (!flow.externalOpenedAt) {
-      progressText.textContent = 'Otwórz stronę wsparcia, a po dokonaniu wpłaty wróć i wyślij zgłoszenie do administratora.';
-      confirmWrap.hidden = true;
+      progressText.textContent = '1. Wypełnij metodę i dane identyfikacyjne wpłaty. 2. Kliknij „Przejdź do płatności”. 3. Wróć tutaj i prześlij zgłoszenie.';
+      confirmWrap.hidden = false;
       unlock.disabled = true;
+      unlock.textContent = 'Wyślij zgłoszenie do weryfikacji';
+      status.textContent = 'Dostęp odblokuje dopiero administrator po sprawdzeniu faktycznej wpłaty.';
       return;
     }
     progressText.textContent = 'Jeżeli wpłata została wykonana, zaznacz potwierdzenie i wyślij prośbę o weryfikację. Samo zgłoszenie nie odblokowuje plików.';
     confirmWrap.hidden = false;
-    unlock.disabled = !confirm.checked || !payerMethod?.value || (payerIdentifier?.value.trim().length||0)<3;
+    unlock.disabled = !eligible() || !confirm.checked || !payerMethod?.value || (payerIdentifier?.value.trim().length||0)<3;
     unlock.textContent = 'Wyślij zgłoszenie do weryfikacji';
     status.textContent = flow.completed ? 'Zgłoszenie zapisane — oczekuje na administratora.' :
       'Po potwierdzeniu wpłaty przez właściciela otrzymasz 7 dni dostępu przypisane do konta.';

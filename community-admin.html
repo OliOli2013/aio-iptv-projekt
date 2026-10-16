@@ -15,8 +15,8 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <link rel="stylesheet" href="assets/css/aio-list-inbox.css?v=20261015-4"/>
-<link rel="stylesheet" href="assets/css/aio-owner-center.css?v=20261016-ownercenter1">
-<link rel="stylesheet" href="assets/css/aio-access-approvals.css?v=20261017-account-transparent-v43"/>
+<link rel="stylesheet" href="assets/css/aio-owner-center.css?v=20261017-aio-access-v44">
+<link rel="stylesheet" href="assets/css/aio-access-approvals.css?v=20261017-aio-access-v44"/>
 </head><body class="aio-header-v2 aio-header-v3 aio-header-v4 site-final-v1"><a class="skip-link" href="#main-content">Przejdź do treści</a><div class="page-shell"><header class="site-header"><div class="brand-row"><a class="brand" href="index.html"><img alt="AIO-IPTV.pl" src="pliki/logo.png?v=20261010-logo2"/><span><strong>AIO‑IPTV.pl</strong><small>Enigma2 • IPTV • pomoc</small></span></a><a class="header-download header-community" href="community.html" aria-label="Otwórz Społeczność AIO">Społeczność AIO</a></div><nav class="main-nav" data-menu="" aria-label="Główna nawigacja">
   <a href="index.html">Start</a>
   <a class="nav-community" href="community.html">Społeczność</a>
@@ -72,17 +72,23 @@
   <h2>Pobrania — historia i użytkownicy</h2>
   <p id="aoc-summary">Ładowanie historii...</p>
   <div class="aoc-filter">
-    <label>Zakres czasu<select id="aoc-days"><option value="1">24 godziny</option><option value="7" selected>7 dni</option><option value="30">30 dni</option><option value="90">90 dni</option></select></label>
+    <label>Zakres czasu<select id="aoc-days"><option value="1">24 godziny</option><option value="7" selected>7 dni</option><option value="30">30 dni</option><option value="90">90 dni</option><option value="all">Cała zachowana historia (90 dni)</option></select></label>
     <label>Nazwa pliku<input type="search" id="aoc-file" placeholder="np. AIO Panel" maxlength="80"></label>
     <label>Nazwa użytkownika<input type="search" id="aoc-user" placeholder="nazwa konta" maxlength="80"></label>
     <button type="button" id="aoc-refresh">Odśwież</button>
-    <button type="button" id="aoc-export">CSV (100 ostatnich)</button>
+    <button type="button" id="aoc-export">CSV (bieżąca strona)</button>
   </div>
+  <div class="aoc-history-tools">
+    <label>Konkretny dzień (UTC)<input type="date" id="aoc-date" aria-label="Wybierz dzień pobierania"></label>
+    <button type="button" id="aoc-clear-day">Usuń historię tego dnia</button>
+    <button type="button" id="aoc-clear-all">Wyczyść całą historię</button>
+  </div>
+  <p class="aoc-history-warning">Usuwanie obejmuje wyłącznie dziennik wydanych plików, nie cofa dostępu 7 dni, nie usuwa zgłoszeń ani decyzji. Operacja jest nieodwracalna.</p>
   <p id="aoc-status" aria-live="polite"></p>
   <div class="aoc-blocks">
     <section class="aoc-block"><h3>Najczęściej wydawane pliki</h3><div id="aoc-top-files"></div></section>
     <section class="aoc-block"><h3>Najaktywniejsze konta</h3><div id="aoc-top-users"></div></section>
-    <section class="aoc-block aoc-wide"><h3>Historia (do 100 najnowszych zdarzeń)</h3><div id="aoc-history"></div></section>
+    <section class="aoc-block aoc-wide"><h3>Historia pobrań — 100 wpisów na stronę</h3><div id="aoc-history"></div><div id="aoc-history-pager" class="aoc-history-pager"><button type="button" id="aoc-prev">← Poprzednie 100</button><span id="aoc-page-info" aria-live="polite"></span><button type="button" id="aoc-next">Następne 100 →</button></div></section>
     <section class="aoc-block aoc-wide"><h3>Wydania w poszczególnych dniach</h3><div id="aoc-days-table"></div></section>
   </div>
   <p class="aoc-footnote">Dane pochodzą z serwera Cloudflare wyłącznie dla plików /pliki/. Wydana odpowiedź HTTP 200/206 nie gwarantuje pełnego pobrania przez przeglądarkę. Zewnętrzne linki sprawdzisz w zakładce „AIO Access”. Nie zapisujemy IP ani adresów e-mail w tym dzienniku. Historia jest przechowywana maksymalnie 90 dni. Statystyki zaczynają się od wdrożenia Owner Center V1.</p>
@@ -102,6 +108,6 @@
 <script defer src="assets/js/aio-header-v2.js?v=20261010-headerv4"></script>
 <script defer src="assets/js/aio-list-owner-inbox.js?v=20261015-4"></script>
 <script defer src="assets/js/aio-access-owner-recovery.js?v=20261016-konto7d"></script>
-<script defer src="assets/js/aio-owner-center.js?v=20261016-ownercenter1"></script>
+<script defer src="assets/js/aio-owner-center.js?v=20261017-aio-access-v44"></script>
 <script defer src="assets/js/aio-access-owner-approvals.js?v=20261017-account-transparent-v43"></script>
 </body></html>

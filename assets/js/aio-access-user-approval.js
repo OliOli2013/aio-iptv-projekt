@@ -30,14 +30,14 @@
     root.replaceChildren();latest=(items||[]).find(x=>x.status==='pending')||null;
     if(!latest){
       const approved=(items||[]).find(x=>x.status==='approved');
-      if(approved)root.append(el('p','Twoje zgłoszenie wsparcia zostało zatwierdzone. Odśwież stronę, aby zobaczyć dostęp AIO Access.'));
+      if(approved)root.append(el('p','Twoje zgłoszenie wsparcia zostało zatwierdzone. Odśwież stronę, aby zobaczyć dostęp AIO Access.')); else { const rejected=(items||[]).find(x=>x.status==='rejected'); if(rejected)root.append(el('p','Zgłoszenie odrzucono: '+(rejected.review_reason||'Nie potwierdzono wpłaty. Skontaktuj się z administratorem.'))); }
       return;
     }
-    const heading=el('strong','Weryfikacja wsparcia w toku');root.append(heading);
+    const heading=el('strong','Wpłata oczekuje na akceptację — skontaktuj się z administratorem');root.append(heading);
     root.append(el('p','Zgłoszenie otrzymaliśmy '+fmt(latest.created_at)+'. Standardowo staramy się sprawdzać wpłaty w ciągu 1–2 godzin, gdy administrator jest dostępny. Nie jest to automatyczne odblokowanie ani gwarantowany termin.'));
     root.append(el('p','Twoje dane wpłaty są już zapisane w prywatnej kolejce administratora. Dodatkowa wiadomość jest opcjonalna.'));
     root.append(el('p','Numer zgłoszenia: '+latest.id));
-    const messenger=el('a','Przyspiesz kontakt przez Messenger');messenger.className='aio-approval-messenger';messenger.href='https://m.me/100064704540847';messenger.rel='noopener noreferrer';messenger.target='_blank';root.append(messenger);
+    const messenger=el('a','Napisz do administratora na Messengerze — przyspiesz kontakt');messenger.className='aio-approval-messenger';messenger.href='https://m.me/100064704540847';messenger.rel='noopener noreferrer';messenger.target='_blank';root.append(messenger);
     if(!latest.priority_sent_at){const b=el('button','Poproś o szybszą weryfikację');b.className='aio-approval-primary';b.type='button';b.addEventListener('click',()=>ensureDialog().showModal());root.append(b);}
     else root.append(el('p','Prośba o szybszą weryfikację została przesłana '+fmt(latest.priority_sent_at)+'.'));
   }
@@ -46,7 +46,11 @@
     const main=$('#main-content')||$('main');if(!main)return;
     const status=el('aside');status.id='aioAccessApprovalStatus';status.className='aio-approval-user-status';status.setAttribute('aria-live','polite');
     const access=$('#accessCard');
-    if(access)access.insertAdjacentElement('afterend',status);
+    const file=$('#accessFile');
+    // Important approval and Messenger actions must be visible INSIDE the main card,
+    // before the steps and payment button, rather than below the whole card.
+    if(access && file)file.insertAdjacentElement('afterend',status);
+    else if(access)access.insertBefore(status,access.firstChild);
     else main.insertBefore(status,main.firstChild);
     void refresh();
     window.addEventListener('aio-access-pending-approval',refresh);

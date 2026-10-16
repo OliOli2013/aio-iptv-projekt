@@ -9,6 +9,22 @@ function sameOrigin(req){
 function apiError(error){return response({ok:false,error:String(error?.message||'Błąd serwera')},Number(error?.status)||500);}
 function uuid(v){return /^[a-f0-9-]{36}$/i.test(String(v||''));}
 function textClean(v,max=1500){return String(v||'').trim().replace(/[\u0000-\u001f\u007f]/g,' ').slice(0,max);}
+// Remove ONLY notices linked to a resolved AIO Access request, never other user messages.
+// The request and its decision remain in aio_access_approval_requests for audit.
+async function cleanupResolvedAccessNotices(env,row){
+  try{
+    const result=await env.COMMUNITY_DB.prepare(`DELETE FROM aio_list_inbox
+      WHERE sender_id=? AND kind='contact'
+      AND (subject='Nowe zgłoszenie wsparcia — AIO Access'
+           OR subject=?)
+      AND instr(body,?)>0`)
+      .bind(row.user_id,'Pilna weryfikacja AIO Access — '+row.id.slice(0,8),row.id).run();
+    return {ok:true,deleted:Number(result.meta?.changes||0)};
+  }catch(e){
+    console.error('AIO Access: nie udało się usunąć powiadomień po rozpatrzeniu',e?.message);
+    return {ok:false,deleted:0};
+  }
+}
 export async function onRequestGet({request,env}){
   try{
     await initAccess(env);
@@ -22,6 +38,7 @@ export async function onRequestGet({request,env}){
           FROM aio_access_approval_requests r
           JOIN community_profiles p ON p.id=r.user_id
           LEFT JOIN community_auth a ON a.user_id=r.user_id
+          WHERE r.status='pending'
           ORDER BY CASE WHEN r.status='pending' THEN 0 ELSE 1 END,
                    CASE WHEN r.priority_sent_at IS NOT NULL THEN 0 ELSE 1 END,
                    r.created_at DESC LIMIT 150`).all();
@@ -73,7 +90,8 @@ export async function onRequestPost({request,env}){
         SET status='rejected',reviewed_at=?,reviewed_by=?,review_reason=? WHERE id=? AND status='pending'`)
         .bind(now,user.id,reason,id).run();
       if(Number(result.meta?.changes||0)!==1)throw fail(409,'Zgłoszenie zostało już rozpatrzone.');
-      return response({ok:true,message:'Zgłoszenie odrzucone. Autor zobaczy powód.'});
+      const cleanup=await cleanupResolvedAccessNotices(env,row);
+      return response({ok:true,message:'Zgłoszenie odrzucone. Autor zobaczy powód.'+(cleanup.ok?'':' Uwaga: nie udało się automatycznie wyczyścić powiadomienia ze skrzynki.'),inbox_deleted:cleanup.deleted});
     }
     if(action==='approve'){
       if(body.verified!==true)throw fail(400,'Musisz potwierdzić sprawdzenie wpłaty w systemie dostawcy.');
@@ -93,7 +111,8 @@ export async function onRequestPost({request,env}){
           .bind(now,expiry,'owner-approval:'+id,now,id,now)
       ]);
       if(Number(results?.[0]?.meta?.changes||0)!==1)throw fail(409,'Zgłoszenie zostało już rozpatrzone.');
-      return response({ok:true,expires_at:expiry,message:'Wpłata zatwierdzona. Konto ma aktywny dostęp przez 7 dni.'});
+      const cleanup=await cleanupResolvedAccessNotices(env,row);
+      return response({ok:true,expires_at:expiry,message:'Wpłata zatwierdzona. Konto ma aktywny dostęp przez 7 dni.'+(cleanup.ok?'':' Uwaga: nie udało się automatycznie wyczyścić powiadomienia ze skrzynki.'),inbox_deleted:cleanup.deleted});
     }
     throw fail(400,'Nieznana operacja.');
   }catch(e){return apiError(e);}

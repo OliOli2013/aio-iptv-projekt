@@ -28,3 +28,16 @@
 .aoc-footnote{font-size:.76rem!important;color:#a7bbc5!important;margin:13px 0 0!important}
 @media(max-width:900px){.aoc-kpis,.aoc-menu{grid-template-columns:repeat(2,minmax(0,1fr))}.aoc-filter{grid-template-columns:repeat(2,minmax(0,1fr))}.aoc-filter button{width:100%}}
 @media(max-width:590px){#aio-owner-center,#aio-owner-downloads{padding:15px}.aoc-blocks{grid-template-columns:1fr}.aoc-kpis strong{font-size:1.3rem}.aoc-menu a,.aoc-menu button{font-size:.76rem}.aoc-filter{grid-template-columns:1fr}}
+
+/* Owner Center V4.4: day selection, pagination and explicit destructive controls. */
+.aoc-history-tools{display:flex;flex-wrap:wrap;align-items:end;gap:12px;margin:12px 0}
+.aoc-history-tools label{display:grid;gap:6px;font-size:.84rem;color:#d1e5ef}
+.aoc-history-tools input{min-height:42px;padding:8px 12px;background:#071e2b;color:#fff;border:1px solid #47768a;border-radius:9px;font:inherit}
+.aoc-history-tools button,.aoc-history-pager button{padding:11px 13px;border-radius:9px;border:1px solid #5d9baa;background:#17475a;color:#fff;font:inherit;font-weight:750;cursor:pointer}
+.aoc-history-tools button#aoc-clear-day{border-color:#d39c69;background:#584022}
+.aoc-history-tools button#aoc-clear-all{border-color:#c87474;background:#6a2b33}
+.aoc-history-tools button:disabled,.aoc-history-pager button:disabled{opacity:.45;cursor:not-allowed}
+.aoc-history-warning{font-size:.82rem!important;color:#edcaa5!important}
+.aoc-history-pager{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:12px;margin:15px 0 4px}
+#aoc-page-info{font-size:.85rem;color:#d2e8ee}
+@media(max-width:600px){.aoc-history-tools{display:grid;grid-template-columns:1fr}.aoc-history-tools button{width:100%}}
