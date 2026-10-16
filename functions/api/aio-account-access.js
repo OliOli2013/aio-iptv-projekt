@@ -24,7 +24,7 @@ export async function onRequestPost({request,env}){
     }
     if(action==='start')return response({ok:true,...await startFlow(env,user.id,String(body.method||''))});
     if(action==='opened')return response(await flowOpened(env,user.id,String(body.flow_id||'')));
-    if(action==='complete')return response(await flowComplete(env,user.id,String(body.flow_id||'')));
+    if(action==='complete')return response(await flowComplete(env,user.id,String(body.flow_id||''),body.payer_method,body.payer_identifier));
     if(action==='receipt'){
       await requireAdmin(request,env,true);
       return response(await registerReceipt(env,body.email,body.paid_at,body.reference));

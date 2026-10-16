@@ -22,7 +22,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<link rel="stylesheet" href="assets/css/aio-access-approvals.css?v=20261016-account-v41-approvals"/>
+<link rel="stylesheet" href="assets/css/aio-access-approvals.css?v=20261017-account-transparent-v43"/>
 </head>
 <body class="access-page">
 <main class="access-shell" id="main-content">
@@ -50,13 +50,29 @@
       <button class="access-primary" id="accessOpenPayment" type="button">Przejdź do płatności</button>
     </div>
 
+    <section class="aio-access-payer-form" id="accessPayerDetails" hidden aria-label="Dane wpłaty do weryfikacji">
+      <h2>Po dokonaniu wpłaty — zgłoś ją do weryfikacji</h2>
+      <p>Administrator <strong>nie otrzymuje automatycznego potwierdzenia</strong> z Revolut, BuyCoffee ani Ko-fi. Podaj dane, którymi oznaczono wpłatę. Dopiero po sprawdzeniu otrzymasz 7 dni dostępu na konto.</p>
+      <div class="aio-access-payer-fields">
+        <label for="accessPayerMethod">Gdzie wykonano wpłatę?
+          <select id="accessPayerMethod" required>
+            <option value="revolut">Revolut</option><option value="buycoffee">BuyCoffee</option><option value="kofi">Ko-fi</option>
+          </select>
+        </label>
+        <label for="accessPayerIdentifier">E-mail lub nazwa podana przy wpłacie
+          <input id="accessPayerIdentifier" type="text" minlength="3" maxlength="160" autocomplete="off" required placeholder="Np. nazwa darczyńcy lub adres e-mail"/>
+        </label>
+      </div>
+      <small>Te informacje zobaczy wyłącznie administrator w panelu weryfikacji. Nie podawaj numerów kart, haseł ani danych logowania. Zgłoszenie nie jest dowodem wpłaty.</small>
+    </section>
+
     <div class="access-progress" id="accessProgress" hidden>
       <div class="access-progress-row"><span id="accessProgressText">Otwórz stronę wsparcia, a po wpłacie zgłoś ją do weryfikacji.</span></div>
     </div>
 
     <label class="access-confirm" id="accessConfirmWrap" hidden>
       <input id="accessConfirm" type="checkbox"/>
-      <span>Proszę o weryfikację mojego wsparcia. Rozumiem, że samo odwiedzenie strony płatności nie oznacza wpłaty ani automatycznego dostępu.</span>
+      <span>Potwierdzam, że dokonałem wpłaty, a podane dane są zgodne z informacjami użytymi przy płatności. Rozumiem, że dostęp wymaga akceptacji administratora.</span>
     </label>
 
     <p class="access-status" id="accessStatus" aria-live="polite"></p>
@@ -74,8 +90,8 @@
   </section>
   <footer>© <span id="accessYear"></span> Paweł Pawełek • AIO-IPTV.pl</footer>
 </main>
-<script defer src="assets/js/access-v21.js?v=20261016-access-v42-owner-review"></script>
-<script defer src="assets/js/aio-access-user-approval.js?v=20261016-account-v41-approvals"></script>
+<script defer src="assets/js/access-v21.js?v=20261017-account-transparent-v43"></script>
+<script defer src="assets/js/aio-access-user-approval.js?v=20261017-account-transparent-v43"></script>
 <script defer src="assets/js/content-protection.js?v=20261009-protect1"></script>
 </body>
 </html>

@@ -10,9 +10,11 @@
     let dlg=$('#aioApprovalDialog');if(dlg)return dlg;
     dlg=el('dialog');dlg.id='aioApprovalDialog';dlg.className='aio-approval-dialog';dlg.setAttribute('aria-labelledby','aioApprovalTitle');
     const title=el('h2','Poproś o szybszą weryfikację');title.id='aioApprovalTitle';
-    dlg.append(title,el('p','Jeśli postawiłeś kawę i chcesz przyspieszyć potwierdzenie dostępu, możesz wysłać administratorowi jedną wiadomość. Nie podawaj haseł ani danych karty.'));
+    dlg.append(title,el('p','Podczas zgłoszenia zapisano już metodę wpłaty i e-mail lub nazwę podaną przy płatności. Możesz dopisać administratorowi wiadomość, np. godzinę wpłaty (bez danych kart ani haseł).'));
     const form=el('form');form.method='dialog';
-    const label=el('label','Wiadomość dla administratora');const textarea=el('textarea');textarea.name='message';textarea.rows=5;textarea.minLength=20;textarea.maxLength=1200;textarea.required=true;textarea.placeholder='Np. Wspierałem projekt przez BuyCoffee. Podałem adres e-mail przypisany do mojego konta AIO. Proszę o weryfikację.';label.append(textarea);form.append(label);
+    const label=el('label','Wiadomość dla administratora');const textarea=el('textarea');textarea.name='message';textarea.rows=5;textarea.minLength=20;textarea.maxLength=1200;textarea.required=true;textarea.placeholder='Np. Wpłata przez BuyCoffee dzisiaj około 18:00. Proszę o szybszą weryfikację mojego zgłoszenia.';label.append(textarea);form.append(label);
+    const messenger=el('a','Napisz przez Messenger (alternatywnie)');messenger.href='https://m.me/100064704540847';messenger.target='_blank';messenger.rel='noopener noreferrer';messenger.className='aio-approval-messenger';dlg.append(messenger);
+    dlg.append(el('p','Na Messengerze podaj nazwę konta AIO, metodę wpłaty, e-mail lub nazwę z wpłaty oraz numer zgłoszenia. Wiadomość na Messengerze nie zastępuje zgłoszenia i nie odblokowuje dostępu automatycznie.'));
     const status=el('p');status.className='aio-approval-dialog-status';status.setAttribute('role','status');form.append(status);
     const actions=el('div');actions.className='aio-approval-actions';const send=el('button','Wyślij do administratora');send.className='aio-approval-primary';send.type='submit';const close=el('button','Zamknij');close.type='button';close.addEventListener('click',()=>dlg.close());actions.append(send,close);form.append(actions);dlg.append(form);
     form.addEventListener('submit',async e=>{
@@ -33,7 +35,9 @@
     }
     const heading=el('strong','Weryfikacja wsparcia w toku');root.append(heading);
     root.append(el('p','Zgłoszenie otrzymaliśmy '+fmt(latest.created_at)+'. Standardowo staramy się sprawdzać wpłaty w ciągu 1–2 godzin, gdy administrator jest dostępny. Nie jest to automatyczne odblokowanie ani gwarantowany termin.'));
-    root.append(el('p','Nie musisz pisać ponownie. Twoje zgłoszenie znajduje się już w panelu właściciela.'));
+    root.append(el('p','Twoje dane wpłaty są już zapisane w prywatnej kolejce administratora. Dodatkowa wiadomość jest opcjonalna.'));
+    root.append(el('p','Numer zgłoszenia: '+latest.id));
+    const messenger=el('a','Przyspiesz kontakt przez Messenger');messenger.className='aio-approval-messenger';messenger.href='https://m.me/100064704540847';messenger.rel='noopener noreferrer';messenger.target='_blank';root.append(messenger);
     if(!latest.priority_sent_at){const b=el('button','Poproś o szybszą weryfikację');b.className='aio-approval-primary';b.type='button';b.addEventListener('click',()=>ensureDialog().showModal());root.append(b);}
     else root.append(el('p','Prośba o szybszą weryfikację została przesłana '+fmt(latest.priority_sent_at)+'.'));
   }

@@ -10,7 +10,7 @@
        const title=el('strong',(m.display_name||'Użytkownik')+' — '+m.method+(m.priority_sent_at?' · PILNE':''));card.append(title);
        card.append(el('p','Konto: '+(m.email||'brak e-maila')+' · '+fmt(m.created_at)+' · '+m.status));
        card.append(el('p','ID: '+m.id));
-       if(m.priority_message)card.append(el('p','Prośba autora: '+m.priority_message));
+       if(m.priority_message){const p=el('p','Dane wpłaty / wiadomość od wspierającego:\n'+m.priority_message);p.className='aio-approval-owner-payment-note';card.append(p);}
        if(m.review_reason)card.append(el('p','Decyzja: '+m.review_reason));
        if(m.status==='pending'){
          const controls=el('div');controls.className='aio-approval-actions';

@@ -50,7 +50,7 @@ export async function onRequestPost({request,env}){
       if(message.length<20)throw fail(400,'Opisz sprawę w co najmniej 20 znakach.');
       const now=new Date().toISOString();
       const result=await db.prepare(`UPDATE aio_access_approval_requests
-        SET priority_message=?,priority_sent_at=?
+        SET priority_message=substr(COALESCE(priority_message,'') || char(10) || char(10) || 'PROŚBA O SZYBSZĄ WERYFIKACJĘ:' || char(10) || ?,1,3200),priority_sent_at=?
         WHERE id=? AND user_id=? AND status='pending' AND priority_sent_at IS NULL`)
         .bind(message,now,id,user.id).run();
       if(Number(result.meta?.changes||0)!==1)throw fail(409,'Wiadomość została już wysłana albo zgłoszenie rozpatrzono.');

@@ -21,3 +21,19 @@
 .aio-approval-owner-card{border:1px solid #3c667a;border-radius:11px;padding:16px;background:rgba(8,35,51,.65);overflow-wrap:anywhere}
 .aio-approval-owner-card p{margin:7px 0}
 @media(max-width:600px){.aio-approval-dialog{padding:18px}.aio-approval-owner{padding:14px}}
+
+/* AIO Access V4.3: concise payment identification and Messenger. */
+.aio-access-payer-form {border:1px solid #3c8795;border-left:4px solid #55c9d4;border-radius:12px;background:#092934;padding:17px;margin:14px 0;color:#e4f6fc}
+.aio-access-payer-form[hidden]{display:none!important}
+.aio-access-payer-form h2{margin:0 0 8px;font-size:1.15rem;color:#fff}
+.aio-access-payer-form p{margin:0 0 12px;font-size:.92rem;line-height:1.55}
+.aio-access-payer-fields{display:grid;grid-template-columns:1fr 1.4fr;gap:12px}
+.aio-access-payer-fields label{display:grid;gap:6px;font-weight:700;font-size:.85rem;color:#e8f9ff}
+.aio-access-payer-fields select,.aio-access-payer-fields input{width:100%;box-sizing:border-box;min-height:43px;padding:10px;background:#061c28;border:1px solid #578ca0;border-radius:9px;color:#fff;font:inherit}
+.aio-access-payer-fields select:focus-visible,.aio-access-payer-fields input:focus-visible{outline:3px solid #a4f0f1;outline-offset:2px}
+.aio-access-payer-form small{display:block;margin-top:10px;color:#b0d5df;line-height:1.5}
+.aio-approval-owner-payment-note{white-space:pre-line;background:#0b3544;padding:11px;border-radius:9px;border-left:3px solid #5ed0d9}
+.aio-approval-messenger{display:inline-block;max-width:100%;box-sizing:border-box;margin:12px 0;padding:11px 15px;border:1px solid #5794a7;border-radius:10px;background:#10465a;color:#fff!important;text-decoration:none;font-weight:750}
+.aio-approval-messenger:hover{background:#15566d}
+.aio-approval-messenger:focus-visible{outline:3px solid #a4f0f1;outline-offset:2px}
+@media(max-width:650px){.aio-access-payer-fields{grid-template-columns:1fr}}

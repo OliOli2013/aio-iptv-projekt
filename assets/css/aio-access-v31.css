@@ -36,3 +36,10 @@
   #aio-guest-access-dialog .aio-access-v31-buttons button {width:100%;}
   .aio-access-v31-guest-note,.aio-access-v31-support-note {padding:13px 14px;}
 }
+
+/* AIO Access V4.3: payment conditions visible before method selection. */
+.support-gate-dialog .aio-access-terms-v43{margin:12px 0 15px;padding:12px 14px;border:1px solid #527889;border-left:4px solid #5cc9d1;border-radius:11px;background:#0c3040;color:#e8f6fa;line-height:1.5}
+.support-gate-dialog .aio-access-terms-v43 strong{display:block;color:#fff;font-size:1rem;margin-bottom:7px}
+.support-gate-dialog .aio-access-terms-v43 ol{padding-left:21px;margin:6px 0}
+.support-gate-dialog .aio-access-terms-v43 li{margin:5px 0;font-size:.89rem}
+.support-gate-dialog .aio-access-terms-v43 p{font-size:.79rem;color:#b5dae2;margin:7px 0 0}

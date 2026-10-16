@@ -106,7 +106,15 @@ export async function flowOpened(env,userId,id){
   if(!r.meta?.changes)throw fail(409,'Ta sesja wsparcia nie istnieje lub wygasła.');
   return {ok:true};
 }
-export async function flowComplete(env,userId,id){
+export async function flowComplete(env,userId,id,payerMethod,payerIdentifier){
+  // Identyfikator przekazany przez wspierającego służy TYLKO do ręcznej weryfikacji.
+  // Nie jest potwierdzeniem wpłaty, a zakończenie procesu nie nadaje grantu.
+  const selected=String(payerMethod||'').trim().toLowerCase();
+  const identity=String(payerIdentifier||'').trim().replace(/[\u0000-\u001f\u007f]/g,' ').slice(0,160);
+  if(!['buycoffee','revolut','kofi'].includes(selected))throw fail(400,'Wybierz metodę faktycznie wykonanej wpłaty.');
+  if(identity.length<3)throw fail(400,'Podaj e-mail lub nazwę użyte przy wpłacie (minimum 3 znaki).');
+  if(/(?:\b\d[ -]?){13,19}\b/.test(identity))throw fail(400,'Nie wpisuj numerów kart ani danych finansowych. Podaj nazwę lub e-mail.');
+
   const now=Date.now();
   const r=await env.COMMUNITY_DB.prepare(`UPDATE aio_access_account_flows SET completed_ms=?
     WHERE id=? AND user_id=? AND completed_ms=0 AND opened_ms>0 AND opened_ms<=? AND created_ms>=?`)
@@ -117,11 +125,13 @@ export async function flowComplete(env,userId,id){
   const flow=await env.COMMUNITY_DB.prepare('SELECT method FROM aio_access_account_flows WHERE id=? AND user_id=?').bind(id,userId).first();
   const requestId=crypto.randomUUID();
   const createdAt=new Date(now).toISOString();
+  const paymentNote='DANE DO WERYFIKACJI WPŁATY\nMetoda: '+({buycoffee:'BuyCoffee',revolut:'Revolut',kofi:'Ko-fi'})[selected]
+    +'\nE-mail lub nazwa użyte przy wpłacie: '+identity+'\nŹródło: oświadczenie użytkownika; wpłata wymaga ręcznego potwierdzenia.';
   const queued=await env.COMMUNITY_DB.prepare(`INSERT INTO aio_access_approval_requests
-    (id,user_id,method,flow_id,status,created_at)
-    SELECT ?,?,?,?,'pending',?
+    (id,user_id,method,flow_id,status,created_at,priority_message)
+    SELECT ?,?,?,?,'pending',?,?
     WHERE NOT EXISTS (SELECT 1 FROM aio_access_approval_requests WHERE user_id=? AND status='pending')`)
-    .bind(requestId,userId,flow?.method||'buycoffee',id,createdAt,userId).run();
+    .bind(requestId,userId,selected,id,createdAt,paymentNote,userId).run();
   let entryId=requestId;
   if(Number(queued.meta?.changes||0)===1){
     try { await createListNotice(env,{senderId:userId,kind:'contact',

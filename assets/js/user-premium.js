@@ -520,7 +520,7 @@
     createFundraiserRibbon();
     if (!document.querySelector('link[data-aio-access-v31]')) {
       const link=document.createElement('link');
-      link.rel='stylesheet';link.href='/assets/css/aio-access-v31.css?v=20261016-v31';
+      link.rel='stylesheet';link.href='/assets/css/aio-access-v31.css?v=20261017-account-transparent-v43';
       link.setAttribute('data-aio-access-v31','');document.head.append(link);
     }
     createSupportModal();
@@ -790,8 +790,17 @@
           <strong>KOLEJNE POBRANIA — TYLKO NA ZALOGOWANYM KONCIE AIO</strong>
           <span>Dostęp 7 dni przyznajemy po potwierdzonym wsparciu projektu i przypisujemy do konta, nie do adresu IP.</span>
         </div>
+        <section class="aio-access-terms-v43" role="note" aria-label="Warunki dostępu po wsparciu">
+          <strong>Ważne — wpłata nie odblokowuje plików automatycznie</strong>
+          <ol>
+            <li>Wybierz Revolut, BuyCoffee lub Ko-fi i dokonaj wpłaty.</li>
+            <li>Wróć tutaj i zgłoś <b>metodę wpłaty oraz e-mail lub nazwę użyte przy wpłacie</b>.</li>
+            <li>Administrator potwierdzi wpłatę i dopiero wtedy przyzna <b>7 dni dostępu na Twoje konto</b>.</li>
+          </ol>
+          <p>Weryfikacja zwykle trwa 1–2 godziny, gdy administrator jest dostępny. To orientacyjny czas, a nie automatyczne odblokowanie ani gwarancja terminu.</p>
+        </section>
         <div class="support-gate-file" hidden><span>Wybrany plik:</span><strong class="support-gate-filename"></strong></div>
-        <p class="support-gate-note">AIO Access sprawdza aktywną sesję pobierania i poprawne przejście ścieżki wsparcia przed odblokowaniem kolejnego pliku.</p>
+        <p class="support-gate-note">Po dokonaniu wpłaty wróć i prześlij dane pomagające ją odnaleźć. Dostęp zostanie przyznany wyłącznie po ręcznej akceptacji administratora.</p>
         <div class="support-gate-methods" aria-label="Metody wsparcia">
           <button class="support-method support-method-revolut" type="button" data-access-method="revolut"><span>R</span><strong>Revolut</strong><small>Przejdź do płatności</small></button>
           <button class="support-method support-method-buycoffee" type="button" data-access-method="buycoffee"><span>☕</span><strong>BuyCoffee</strong><small>Zbiórka celowa</small></button>
@@ -802,7 +811,7 @@
           <button class="support-gate-continue" type="button">Kontynuuj</button>
           <button class="support-gate-cancel" type="button" data-support-close>Nie teraz</button>
         </div>
-        <p class="support-gate-privacy">Otwarcie strony BuyCoffee, Revolut lub Ko-fi nie potwierdza wpłaty. Po zakończeniu ścieżki Twoje zgłoszenie automatycznie trafia do panelu administratora. Weryfikacja zwykle zajmuje 1–2 godziny w godzinach jego dostępności, lecz nie jest automatyczna ani gwarantowana.</p>
+        <p class="support-gate-privacy">Wiadomość z metodą i identyfikatorem wpłaty zostanie zapisana w prywatnej kolejce administratora. Nie podawaj numeru karty, hasła ani danych logowania. Wsparcie pomaga utrzymywać stronę i darmowe projekty AIO.</p>
       </section>`;
 
     document.body.appendChild(modal);
@@ -816,9 +825,9 @@
         selectedMethod = button.dataset.accessMethod || '';
         trackAccessActivity('support_method_selected',pendingDownload,{kind:modalMode === 'community-link-limit'?'community':'download',method:selectedMethod});
         modal.querySelectorAll('[data-access-method]').forEach(item => item.classList.toggle('is-selected', item === button));
-        statusMessage.textContent = `Wybrano: ${methodLabel(selectedMethod)}. Naciśnij „Przejdź dalej”, aby rozpocząć bezpieczniejszą ścieżkę wsparcia.`;
+        statusMessage.textContent = `Wybrano ${methodLabel(selectedMethod)}. Po wpłacie podasz metodę i e-mail lub nazwę do ręcznej weryfikacji. Dostęp będzie aktywny dopiero po zatwierdzeniu przez administratora.`;
         continueButton.disabled = false;
-        continueButton.textContent = 'Przejdź dalej';
+        continueButton.textContent = 'Dalej — do wpłaty';
       });
     });
     continueButton.addEventListener('click', continueAfterPrompt);
@@ -1002,7 +1011,7 @@ async function accountDownload(item,kind){
 
     if (modalMode === 'community-link-limit' && download) {
       title.textContent = 'Dzisiejszy bezpłatny dostęp został wykorzystany';
-      description.textContent = 'Pierwszy plik lub chroniony link w danym dniu jest bezpłatny. Aby otworzyć kolejny link ze Społeczności AIO, przejdź ścieżkę wsparcia. Po potwierdzeniu wsparcia kawą dostęp 7-dniowy zostanie zapisany na Twoim koncie.';
+      description.textContent = 'Dzienny darmowy limit został wykorzystany. Dalszy dostęp przez 7 dni otrzymasz dopiero po dokonaniu wpłaty i jej zatwierdzeniu przez administratora. Po wpłacie podaj metodę oraz nazwę lub e-mail z płatności.';
       note.textContent = 'Wybierz metodę. AIO Access utworzy jednorazową sesję dla tego konkretnego linku.';
       fileBox.hidden = false; methods.hidden = false;
       fileBox.querySelector('span').textContent = 'Wybrany link:';
@@ -1011,7 +1020,7 @@ async function accountDownload(item,kind){
       continueButton.textContent = 'Wybierz metodę wsparcia'; continueButton.disabled = true;
     } else if (modalMode === 'limit' && download) {
       title.textContent = 'Dzisiejsze bezpłatne pobranie zostało wykorzystane';
-      description.textContent = 'Wykorzystałeś bezpłatne pobranie na swoim koncie. Postaw kawę i pomóż rozwijać stronę oraz projekty AIO. Po potwierdzeniu wpłaty otrzymasz 7 dni dostępu do pobierania.';
+      description.textContent = 'Dzienny darmowy limit został wykorzystany. Aby pobierać więcej przez 7 dni, dokonaj wpłaty, podaj metodę i nazwę lub e-mail z płatności, a następnie poczekaj na potwierdzenie przez administratora. Wsparcie rozwija stronę i darmowe projekty AIO.';
       note.textContent = 'Wybierz metodę. AIO Access utworzy jednorazową sesję przypisaną do wybranego pliku.';
       fileBox.hidden = false; methods.hidden = false;
       fileBox.querySelector('span').textContent = 'Wybrany plik:';

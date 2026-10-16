@@ -28,6 +28,9 @@
   const progressBar = $('accessProgressBar');
   const confirmWrap = $('accessConfirmWrap');
   const confirm = $('accessConfirm');
+  const payerDetails = $('accessPayerDetails');
+  const payerMethod = $('accessPayerMethod');
+  const payerIdentifier = $('accessPayerIdentifier');
   const unlock = $('accessUnlock');
   const back = $('accessBack');
   const status = $('accessStatus');
@@ -78,6 +81,7 @@
     fileBox.hidden = false; fileName.textContent = flow.label || safeFileName(flow.href);
     steps.hidden = false; provider.hidden = false; progress.hidden = false; unlock.hidden = false;
     providerName.textContent = methodLabel(flow.method);
+    if(payerMethod)payerMethod.value=flow.method;
     back.href = flow.returnUrl || 'downloads.html';
     restoreState();
     updateUi();
@@ -140,6 +144,8 @@
   });
 
   confirm?.addEventListener('change', updateUi);
+  payerMethod?.addEventListener('change', updateUi);
+  payerIdentifier?.addEventListener('input', updateUi);
   unlock?.addEventListener('click', finishFlow);
 
   function eligible() {
@@ -148,6 +154,11 @@
 
   function updateUi() {
     if (!flow) return;
+    if(payerDetails)payerDetails.hidden=!flow.externalOpenedAt || flow.completed;
+    if(flow.completed){
+      progressText.textContent='Twoje zgłoszenie czeka na ręczną weryfikację wpłaty.';
+      confirmWrap.hidden=true;unlock.disabled=true;unlock.textContent='Oczekuje na akceptację';return;
+    }
     if (!flow.externalOpenedAt) {
       progressText.textContent = 'Otwórz stronę wsparcia, a po dokonaniu wpłaty wróć i wyślij zgłoszenie do administratora.';
       confirmWrap.hidden = true;
@@ -156,7 +167,7 @@
     }
     progressText.textContent = 'Jeżeli wpłata została wykonana, zaznacz potwierdzenie i wyślij prośbę o weryfikację. Samo zgłoszenie nie odblokowuje plików.';
     confirmWrap.hidden = false;
-    unlock.disabled = flow.completed || !confirm.checked;
+    unlock.disabled = !confirm.checked || !payerMethod?.value || (payerIdentifier?.value.trim().length||0)<3;
     unlock.textContent = 'Wyślij zgłoszenie do weryfikacji';
     status.textContent = flow.completed ? 'Zgłoszenie zapisane — oczekuje na administratora.' :
       'Po potwierdzeniu wpłaty przez właściciela otrzymasz 7 dni dostępu przypisane do konta.';
@@ -165,7 +176,11 @@
 
   async function finishFlow() {
     if (!eligible() || !confirm.checked) {
-      status.textContent = 'Najpierw otwórz stronę wsparcia, a następnie zaznacz zgodę na weryfikację.';
+      status.textContent = 'Najpierw otwórz stronę wpłaty, podaj metodę oraz nazwę lub e-mail użyty przy płatności i zaznacz potwierdzenie.';
+      status.classList.add('is-error');return;
+    }
+    if(!payerMethod?.value || (payerIdentifier?.value.trim().length||0)<3){
+      status.textContent='Podaj metodę wpłaty i e-mail lub nazwę użyte przy płatności (minimum 3 znaki).';
       status.classList.add('is-error');return;
     }
     unlock.disabled = true;
@@ -174,7 +189,8 @@
       const r=await fetch('/api/aio-account-access',{
         method:'POST',credentials:'include',cache:'no-store',
         headers:{'content-type':'application/json'},
-        body:JSON.stringify({action:'complete',flow_id:flow.serverFlowId})
+        body:JSON.stringify({action:'complete',flow_id:flow.serverFlowId,
+          payer_method:payerMethod.value,payer_identifier:payerIdentifier.value.trim()})
       });
       const d=await r.json();
       if(!r.ok || d.ok!==true || d.pending_confirmation!==true || !d.request_id)
@@ -187,6 +203,7 @@
       lead.textContent='Dziękujemy za wsparcie strony i projektów AIO. Administrator sprawdzi wpłatę i podejmie decyzję. Samo wysłanie zgłoszenia nie odblokowuje pobierania.';
       progressText.textContent='Zgłoszenie zapisano. Standardowo staramy się je rozpatrywać w ciągu 1–2 godzin, gdy administrator jest dostępny. Termin jest orientacyjny.';
       confirmWrap.hidden=true;
+      if(payerDetails)payerDetails.hidden=true;
       status.textContent='Oczekuje na akceptację właściciela. Możesz poprosić o szybszą weryfikację w oknie poniżej.';
       status.classList.remove('is-error');
       unlock.disabled=true;
