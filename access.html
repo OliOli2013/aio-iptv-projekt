@@ -41,8 +41,8 @@
 
     <div class="access-steps" id="accessSteps" hidden>
       <article class="is-active" data-step="1"><b>1</b><div><strong>Przejdź do wsparcia</strong><span>Otwórz wybraną metodę w nowej karcie.</span></div></article>
-      <article data-step="2"><b>2</b><div><strong>Zakończ proces i wróć</strong><span>AIO Access rozpozna opuszczenie i powrót do tej karty.</span></div></article>
-      <article data-step="3"><b>3</b><div><strong>Odblokuj wybrany element</strong><span>Wyślij zgłoszenie, a administrator sprawdzi wpłatę i przyzna dostęp na konto.</span></div></article>
+      <article data-step="2"><b>2</b><div><strong>Wykonaj wpłatę i wróć</strong><span>AIO Access rozpozna opuszczenie i powrót do tej karty.</span></div></article>
+      <article data-step="3"><b>3</b><div><strong>Zgłoszenie do weryfikacji</strong><span>Wyślij zgłoszenie, a administrator sprawdzi wpłatę i przyzna dostęp na konto.</span></div></article>
     </div>
 
     <div class="access-provider" id="accessProvider" hidden>
@@ -51,31 +51,30 @@
     </div>
 
     <div class="access-progress" id="accessProgress" hidden>
-      <div class="access-progress-row"><span id="accessProgressText">Oczekiwanie na rozpoczęcie procesu…</span><strong id="accessTimer">00:00</strong></div>
-      <div class="access-progress-track"><i id="accessProgressBar"></i></div>
+      <div class="access-progress-row"><span id="accessProgressText">Otwórz stronę wsparcia, a po wpłacie zgłoś ją do weryfikacji.</span></div>
     </div>
 
     <label class="access-confirm" id="accessConfirmWrap" hidden>
       <input id="accessConfirm" type="checkbox"/>
-      <span>Potwierdzam powrót ze strony wsparcia. Rozumiem, że dostęp wymaga potwierdzenia wpłaty.</span>
+      <span>Proszę o weryfikację mojego wsparcia. Rozumiem, że samo odwiedzenie strony płatności nie oznacza wpłaty ani automatycznego dostępu.</span>
     </label>
 
     <p class="access-status" id="accessStatus" aria-live="polite"></p>
 
     <div class="access-actions">
-      <button class="access-primary" id="accessUnlock" type="button" disabled hidden>Odblokuj i kontynuuj</button>
+      <button class="access-primary" id="accessUnlock" type="button" disabled hidden>Wyślij zgłoszenie do weryfikacji</button>
       <a class="access-secondary" id="accessBack" href="index.html">Wróć do AIO-IPTV.pl</a>
     </div>
 
     <aside class="access-security">
       <strong>Weryfikacja AIO Access 2.1</strong>
-      <p>System automatycznie sprawdza aktywną sesję pobierania, przejście przez wybraną metodę wsparcia oraz prawidłowy powrót do tej sesji.</p>
+      <p>Zgłoszenie zostanie zapisane na Twoim koncie. Administrator sprawdzi faktyczną wpłatę przed przyznaniem dostępu.</p>
       <p><b>Status weryfikacji:</b> Samo otwarcie strony kawy i powrót nie potwierdzają wpłaty. Po jej weryfikacji 7 dni dostępu jest przypisywane do zalogowanego konta, niezależnie od adresu IP.</p>
     </aside>
   </section>
   <footer>© <span id="accessYear"></span> Paweł Pawełek • AIO-IPTV.pl</footer>
 </main>
-<script defer src="assets/js/access-v21.js?v=20261016-konto-v4"></script>
+<script defer src="assets/js/access-v21.js?v=20261016-access-v42-owner-review"></script>
 <script defer src="assets/js/aio-access-user-approval.js?v=20261016-account-v41-approvals"></script>
 <script defer src="assets/js/content-protection.js?v=20261009-protect1"></script>
 </body>

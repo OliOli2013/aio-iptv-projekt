@@ -81,7 +81,7 @@
     back.href = flow.returnUrl || 'downloads.html';
     restoreState();
     updateUi();
-    tickHandle = window.setInterval(updateUi, 500);
+    // Bez odliczania. Wysłanie zgłoszenia NIE przyznaje uprawnienia.
   }
 
   function restoreState() {
@@ -143,97 +143,61 @@
   unlock?.addEventListener('click', finishFlow);
 
   function eligible() {
-    if (!flow || !flow.externalOpenedAt || !flow.hiddenAfterOpen || !flow.returnedAfterOpen) return false;
-    return Date.now() - flow.externalOpenedAt >= MIN_EXTERNAL_MS;
+    return !!(flow && flow.serverFlowId && flow.externalOpenedAt && !flow.completed);
   }
 
   function updateUi() {
     if (!flow) return;
-    const elapsed = flow.externalOpenedAt ? Math.max(0, Date.now() - flow.externalOpenedAt) : 0;
-    const seconds = Math.floor(elapsed / 1000);
-    timer.textContent = `${String(Math.floor(seconds / 60)).padStart(2,'0')}:${String(seconds % 60).padStart(2,'0')}`;
-    progressBar.style.width = `${Math.min(100, Math.round(elapsed / MIN_EXTERNAL_MS * 100))}%`;
-
     if (!flow.externalOpenedAt) {
-      progressText.textContent = 'Oczekiwanie na rozpoczęcie procesu wsparcia.';
-      confirmWrap.hidden = true; unlock.disabled = true;
+      progressText.textContent = 'Otwórz stronę wsparcia, a po dokonaniu wpłaty wróć i wyślij zgłoszenie do administratora.';
+      confirmWrap.hidden = true;
+      unlock.disabled = true;
       return;
     }
-    if (!flow.hiddenAfterOpen) {
-      progressText.textContent = 'Otwarta została metoda wsparcia. Przejdź do nowej karty.';
-      confirmWrap.hidden = true; unlock.disabled = true;
-      return;
-    }
-    if (!flow.returnedAfterOpen) {
-      progressText.textContent = 'Proces trwa poza AIO-IPTV.pl. Wróć po jego zakończeniu.';
-      confirmWrap.hidden = true; unlock.disabled = true;
-      return;
-    }
-    const remaining = Math.max(0, Math.ceil((MIN_EXTERNAL_MS - elapsed) / 1000));
-    if (remaining > 0) {
-      progressText.textContent = `Powrót wykryty. Kontrola ścieżki potrwa jeszcze ${remaining} s.`;
-      confirmWrap.hidden = true; unlock.disabled = true;
-      return;
-    }
-    progressText.textContent = 'Pełna ścieżka i powrót zostały wykryte.';
+    progressText.textContent = 'Jeżeli wpłata została wykonana, zaznacz potwierdzenie i wyślij prośbę o weryfikację. Samo zgłoszenie nie odblokowuje plików.';
     confirmWrap.hidden = false;
-    unlock.disabled = !confirm.checked;
-    status.textContent = confirm.checked ? 'Możesz przesłać zgłoszenie wsparcia do potwierdzenia. Wpłata musi zostać zweryfikowana.' : 'Zaznacz potwierdzenie, aby kontynuować.';
+    unlock.disabled = flow.completed || !confirm.checked;
+    unlock.textContent = 'Wyślij zgłoszenie do weryfikacji';
+    status.textContent = flow.completed ? 'Zgłoszenie zapisane — oczekuje na administratora.' :
+      'Po potwierdzeniu wpłaty przez właściciela otrzymasz 7 dni dostępu przypisane do konta.';
     status.classList.remove('is-error');
   }
 
   async function finishFlow() {
-    if (!flow || !eligible() || !confirm.checked) {
-      status.textContent = 'Ścieżka nie została jeszcze zakończona.';
-      status.classList.add('is-error');
-      return;
+    if (!eligible() || !confirm.checked) {
+      status.textContent = 'Najpierw otwórz stronę wsparcia, a następnie zaznacz zgodę na weryfikację.';
+      status.classList.add('is-error');return;
     }
-    // AIO ACCOUNT ACCESS API V2 — grant stored server-side for the logged-in user.
-    // This confirms completion of the support workflow, not a third-party payment.
+    unlock.disabled = true;
     try {
-      if(!flow.serverFlowId) throw new Error('Brak sesji serwera. Rozpocznij pobieranie ponownie.');
-      const r=await fetch('/api/aio-account-access',{method:'POST',credentials:'include',cache:'no-store',
-        headers:{'content-type':'application/json'},body:JSON.stringify({action:'complete',flow_id:flow.serverFlowId})});
+      // This API MUST return pending_confirmation. Any other response fails closed.
+      const r=await fetch('/api/aio-account-access',{
+        method:'POST',credentials:'include',cache:'no-store',
+        headers:{'content-type':'application/json'},
+        body:JSON.stringify({action:'complete',flow_id:flow.serverFlowId})
+      });
       const d=await r.json();
-      if(!r.ok||!d.ok)throw new Error(d.error||'Nie udało się zakończyć ścieżki wsparcia.');
-      if(d.pending_confirmation){
-        flow.completed=true;flow.completedAt=Date.now();saveFlow();
-        setStep(3,'done');
-        title.textContent='Dziękujemy za wsparcie projektów AIO!';
-        lead.textContent='Twoje konto zostało rozpoznane. Sam powrót ze strony płatności nie potwierdza wpłaty. Po jej zweryfikowaniu administrator przypisze do tego konta 7 dni dostępu do pobierania.';
-        status.textContent='Twoje zgłoszenie czeka na ręczną weryfikację. Standardowo staramy się rozpatrzyć je w ciągu 1–2 godzin, gdy administrator jest dostępny. Jeśli chcesz przyspieszyć, skorzystaj z okna poniżej.';
-        window.dispatchEvent(new CustomEvent('aio-access-pending-approval',{detail:{id:d.request_id||''}}));
-        status.classList.remove('is-error');
-        unlock.disabled=true;unlock.textContent='Oczekuje na weryfikację';
-        back.href='downloads.html';back.textContent='Wróć do pobierania';
-        return;
-      }
-    }catch(e){status.textContent='AIO Access: '+e.message;status.classList.add('is-error');return;}
-    const unlockedAt = Date.now();
-    const unlockToken = `t7:${unlockedAt}`;
-    try { localStorage.setItem(DAILY_UNLOCK_KEY, unlockToken); } catch (error) {}
-    document.cookie = `${DAILY_UNLOCK_COOKIE}=${encodeURIComponent(unlockToken)}; Path=/; Max-Age=${Math.floor(SUPPORT_UNLOCK_MS / 1000)}; SameSite=Lax; Secure`;
-    flow.completed = true; flow.completedAt = unlockedAt; saveFlow();
-    accessTrack('access_unlocked');
-    setStep(3, 'done');
-    title.textContent = 'Dostęp aktywny';
-    lead.textContent = 'AIO Access odblokował dozwolone pobrania na 7 dni na Twoim koncie.';
-    status.textContent = flow.kind === 'community' ? 'Otwieram wybrany link…' : 'Uruchamiam pobieranie…';
-    unlock.disabled = true; unlock.textContent = 'Dostęp aktywny ✓';
-    openTarget();
-    window.setTimeout(() => { try { sessionStorage.removeItem(FLOW_PREFIX + token); } catch (error) {} }, 45000);
-  }
-
-  function openTarget() {
-    const a = document.createElement('a');
-    a.href = flow.href;
-    a.dataset.supportBypass = 'true';
-    if (flow.download) a.setAttribute('download', flow.download);
-    if (flow.kind === 'community') a.target = flow.target || '_blank';
-    else if (flow.target) a.target = flow.target;
-    if (a.target === '_blank') a.rel = 'noopener noreferrer';
-    a.style.display = 'none';
-    document.body.appendChild(a); a.click(); a.remove();
+      if(!r.ok || d.ok!==true || d.pending_confirmation!==true || !d.request_id)
+        throw new Error(d.error || 'Nie otrzymano potwierdzenia zapisania zgłoszenia do kolejki. Dostęp nie został odblokowany.');
+      flow.completed = true;
+      flow.completedAt = Date.now();
+      saveFlow();
+      setStep(3,'done');
+      title.textContent='Zgłoszenie oczekuje na weryfikację';
+      lead.textContent='Dziękujemy za wsparcie strony i projektów AIO. Administrator sprawdzi wpłatę i podejmie decyzję. Samo wysłanie zgłoszenia nie odblokowuje pobierania.';
+      progressText.textContent='Zgłoszenie zapisano. Standardowo staramy się je rozpatrywać w ciągu 1–2 godzin, gdy administrator jest dostępny. Termin jest orientacyjny.';
+      confirmWrap.hidden=true;
+      status.textContent='Oczekuje na akceptację właściciela. Możesz poprosić o szybszą weryfikację w oknie poniżej.';
+      status.classList.remove('is-error');
+      unlock.disabled=true;
+      unlock.textContent='Oczekuje na akceptację';
+      back.href='downloads.html';back.textContent='Wróć do pobierania';
+      window.dispatchEvent(new CustomEvent('aio-access-pending-approval',{detail:{id:d.request_id}}));
+    }catch(e){
+      status.textContent='AIO Access: '+String(e?.message||e);
+      status.classList.add('is-error');
+      unlock.disabled=false;
+    }
   }
 
   function setStep(number, state) {

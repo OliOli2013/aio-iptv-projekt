@@ -63,11 +63,9 @@ async function putGrant(env,userId,startedAt,source,reference=''){
   return {expires_at:expires};
 }
 export async function recoverForUser(env,userId){
-  // App event proves completion of the OLD AIO Access workflow, NOT a verified payment.
-  const hist=await env.COMMUNITY_DB.prepare(`SELECT MAX(created_at) AS ts FROM aio_access_events
-    WHERE user_id=? AND event_type='access_unlocked' AND created_at>=? AND created_at<=?`)
-    .bind(userId,ROLLOUT,LEGACY_END).first();
-  if(hist?.ts) await putGrant(env,userId,hist.ts,'legacy_workflow','historical access_unlocked');
+  // Only a verified BuyCoffee receipt imported by the OWNER may restore an entitlement.
+  // Historical browser events ('access_unlocked') are not proof of payment and must
+  // NEVER mint or renew a grant. Keep the events in D1 for owner's manual review.
   const h=await userEmailHash(env,userId);
   if(h){
     const receipt=await env.COMMUNITY_DB.prepare(`SELECT paid_at,reference FROM aio_access_receipts WHERE email_hash=? ORDER BY expires_at DESC LIMIT 1`).bind(h).first();
@@ -81,7 +79,10 @@ export async function getStatus(env,userId){
     env.COMMUNITY_DB.prepare('SELECT expires_at,source,issued_at FROM aio_access_account_grants WHERE user_id=?').bind(userId).first(),
     env.COMMUNITY_DB.prepare('SELECT used FROM aio_access_account_daily WHERE user_id=? AND day=?').bind(userId,day).first()
   ]);
-  const active=!!grant && Date.parse(grant.expires_at)>now;
+  // Fail closed for previously unverified browser-flow grants still stored in D1.
+  // Only verified receipts imported by the owner or explicit owner approval count.
+  const trustedSource=['verified_receipt','owner_verified_support'].includes(String(grant?.source||''));
+  const active=!!grant && trustedSource && Date.parse(grant.expires_at)>now;
   return {authenticated:true,active,expires_at:active?grant.expires_at:null,
     source:active?grant.source:null,free_remaining:active?1:Math.max(0,1-Number(used?.used||0)),day};
 }
@@ -109,8 +110,8 @@ export async function flowComplete(env,userId,id){
   const now=Date.now();
   const r=await env.COMMUNITY_DB.prepare(`UPDATE aio_access_account_flows SET completed_ms=?
     WHERE id=? AND user_id=? AND completed_ms=0 AND opened_ms>0 AND opened_ms<=? AND created_ms>=?`)
-    .bind(now,id,userId,now-35000,now-900000).run();
-  if(!r.meta?.changes)throw fail(409,'Nie zakończono 35-sekundowej ścieżki wsparcia albo sesja wygasła.');
+    .bind(now,id,userId,now,now-900000).run();
+  if(!r.meta?.changes)throw fail(409,'Nie otwarto strony wsparcia albo sesja wygasła. Rozpocznij ponownie.');
   // Sam powrót ze strony wsparcia NIE potwierdza przelewu.
   // Twórz tylko jeden aktywny wniosek dla danego konta; nie zalewaj panelu spamem.
   const flow=await env.COMMUNITY_DB.prepare('SELECT method FROM aio_access_account_flows WHERE id=? AND user_id=?').bind(id,userId).first();
