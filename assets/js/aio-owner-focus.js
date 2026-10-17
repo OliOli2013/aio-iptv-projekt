@@ -1,9 +1,9 @@
 /* Focus view of the existing admin panel. No permissions are granted here. */
 (()=>{'use strict';
- const allowed={approvals:'Akceptacja wpłat',grants:'Dostępy 7 dni',downloads:'Historia pobrań',inbox:'Skrzynka AIO',pending:'Posty do zatwierdzenia',reports:'Zgłoszenia',published:'Opublikowane treści',users:'Użytkownicy',ip:'Blokady IP',logs:'Dziennik administracyjny',statistics:'Statystyki strony','access-activity':'Aktywność AIO Access','password-resets':'Reset hasła',security:'Bezpieczeństwo',sessions:'Sesje',comments:'Komentarze',chat:'Czat'};
+ const allowed={vip:'Konta VIP — dostęp miesięczny',approvals:'Akceptacja wpłat',grants:'Dostępy 7 dni',downloads:'Historia pobrań',inbox:'Skrzynka AIO',pending:'Posty do zatwierdzenia',reports:'Zgłoszenia',published:'Opublikowane treści',users:'Użytkownicy',ip:'Blokady IP',logs:'Dziennik administracyjny',statistics:'Statystyki strony','access-activity':'Aktywność AIO Access','password-resets':'Reset hasła',security:'Bezpieczeństwo',sessions:'Sesje',comments:'Komentarze',chat:'Czat'};
  const target=new URLSearchParams(location.search).get('aio_section');if(!Object.hasOwn(allowed,target))return;
- const nativeTab=!['approvals','grants','downloads','inbox'].includes(target);
- const which=()=>({approvals:'#aio-access-owner-approvals',grants:'#aio-access-owner-recovery',downloads:'#aio-owner-downloads',inbox:'#aio-list-inbox'})[target]||'#aio-owner-legacy-workspace';
+ const nativeTab=!['vip','approvals','grants','downloads','inbox'].includes(target);
+ const which=()=>({vip:'#aio-owner-vip',approvals:'#aio-access-owner-approvals',grants:'#aio-access-owner-recovery',downloads:'#aio-owner-downloads',inbox:'#aio-list-inbox'})[target]||'#aio-owner-legacy-workspace';
  async function start(){let owner=false;try{const r=await fetch('/api/community-auth',{credentials:'include',cache:'no-store'});const d=await r.json();owner=r.ok&&d.authenticated===true&&d.user?.is_owner===true;}catch(_){}
   if(!owner)return;document.documentElement.dataset.aioOwnerMode='focus';document.documentElement.dataset.aioOwnerTarget=target;
   const main=document.querySelector('#main-content');if(!main)return;

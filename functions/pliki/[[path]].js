@@ -50,7 +50,7 @@ async function handle(context){
     if(!permit.allowed)return accessDenied('Limit pobierania wykorzystany. Po potwierdzonym wsparciu możesz otrzymać 7 dni dostępu.',429);
     const headers=new Headers(asset.headers);headers.set('Cache-Control','private, no-store');
     const issued=new Response(asset.body,{status:asset.status,statusText:asset.statusText,headers});
-    queueIssuedFileAudit(context,user.id,permit.reason==='grant'?'account_7d':'account_free',issued);
+    queueIssuedFileAudit(context,user.id,(permit.reason==='grant'||permit.reason==='vip')?'account_7d':'account_free',issued);
     return issued;
   }catch(error){
     console.error('AIO Access V4 download',error?.message);

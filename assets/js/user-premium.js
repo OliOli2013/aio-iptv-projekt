@@ -759,6 +759,10 @@
        if(!info.authenticated){
          accessIndicator.className='aio-access-indicator is-locked';
          accessIndicator.innerHTML='<span class="aio-access-dot">!</span><div><strong>Pobieranie tylko dla zalogowanych</strong><small>Rejestracja jest bezpłatna. Po zalogowaniu: 1 darmowy plik dziennie, a po potwierdzonym wsparciu kawą — 7 dni dostępu na konto.</small></div><a href="community.html">Zaloguj się / Dołącz</a>';
+      }else if(info.vip && info.active){
+        accessIndicator.className='aio-access-indicator is-unlocked';
+        const until=new Intl.DateTimeFormat('pl-PL',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(info.expires_at));
+        accessIndicator.innerHTML='<span class="aio-access-dot">★</span><div><strong>AIO VIP — nielimitowane pobieranie</strong><small>VIP aktywny do '+until+'. Wszystkie pliki dostępne na stronie bez limitu dziennego.</small></div><a href="contact.html">Kontakt z administratorem</a>';
       }else if(info.active){
         accessIndicator.className='aio-access-indicator is-unlocked';
         const until=new Intl.DateTimeFormat('pl-PL',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(info.expires_at));

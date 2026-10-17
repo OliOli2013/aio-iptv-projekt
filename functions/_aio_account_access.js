@@ -1,6 +1,7 @@
 /* AIO Access — server-side account entitlements. No entitlement is inferred from an IP or an unsigned browser cookie. */
 import {getSession,ensureSchema,sha256} from './_community.js';
 import {createListNotice} from './_aio_list_notice.js';
+import {getVipStatus} from './_aio_vip.js';
 export const SUPPORT_MS = 7 * 24 * 60 * 60 * 1000;
 export const ROLLOUT = '2026-10-14T21:42:50.000Z';
 /* Immutable upper boundary for historical browser-flow events. No future client-submitted event can manufacture a legacy grant. */
@@ -75,6 +76,9 @@ export async function recoverForUser(env,userId){
 export async function getStatus(env,userId){
   await initAccess(env);await recoverForUser(env,userId);
   const day=warsawDay(), now=Date.now();
+  const vip=await getVipStatus(env,userId);
+  if(vip.active)return {authenticated:true,active:true,vip:true,expires_at:vip.expires_at,
+    source:'owner_vip',free_remaining:1,day};
   const [grant,used]=await Promise.all([
     env.COMMUNITY_DB.prepare('SELECT expires_at,source,issued_at FROM aio_access_account_grants WHERE user_id=?').bind(userId).first(),
     env.COMMUNITY_DB.prepare('SELECT used FROM aio_access_account_daily WHERE user_id=? AND day=?').bind(userId,day).first()
@@ -87,7 +91,7 @@ export async function getStatus(env,userId){
     source:active?grant.source:null,free_remaining:active?1:Math.max(0,1-Number(used?.used||0)),day};
 }
 export async function consumeFree(env,userId){
-  const status=await getStatus(env,userId);if(status.active)return {...status,allowed:true,reason:'grant'};
+  const status=await getStatus(env,userId);if(status.active)return {...status,allowed:true,reason:status.vip?'vip':'grant'};
   const day=warsawDay();
   await env.COMMUNITY_DB.prepare('INSERT OR IGNORE INTO aio_access_account_daily(user_id,day,used) VALUES(?,?,0)').bind(userId,day).run();
   const changed=await env.COMMUNITY_DB.prepare('UPDATE aio_access_account_daily SET used=used+1 WHERE user_id=? AND day=? AND used<1').bind(userId,day).run();

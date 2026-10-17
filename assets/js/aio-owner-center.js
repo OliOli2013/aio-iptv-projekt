@@ -63,7 +63,7 @@
       {title:'Data (UTC)',view:x=>x.day},
       {title:'Wydania',view:x=>fmt(x.n)}
     ],'Brak danych dziennych.');
-    const audience={guest:'Gość',account_free:'Konto — bezpłatne',account_7d:'Konto — dostęp 7 dni'};
+    const audience={guest:'Gość',account_free:'Konto — bezpłatne',account_7d:'Konto — rozszerzony dostęp (7 dni lub VIP)'};
     renderRows($('aoc-history'),d.events,[
       {title:'Data',view:x=>date(x.created_at)},
       {title:'Użytkownik',view:x=>x.user_id ? (x.user_name||'Konto') : 'Gość bez konta'},

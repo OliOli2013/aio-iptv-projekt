@@ -1,0 +1,23 @@
+/* AIO VIP — compact public teaser and private owner tools. */
+.aio-vip-home{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:14px 0 18px;padding:15px 20px;border:1px solid #9c793b;border-radius:14px;background:linear-gradient(110deg,#182b39,#30281f);color:#f5f3e9}
+.aio-vip-home-copy{display:flex;align-items:center;gap:14px;min-width:0;flex:1}
+.aio-vip-home-mark{display:grid;place-items:center;background:#dfb65a;color:#18202a;font-size:.77rem;font-weight:950;letter-spacing:.09em;width:48px;height:42px;border-radius:10px;flex:none}
+.aio-vip-home strong{display:block;font-size:1rem;line-height:1.3}
+.aio-vip-home p{margin:3px 0 0;color:#d6d6cf;font-size:.82rem;line-height:1.45}
+.aio-vip-home a{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:8px 14px;border-radius:9px;border:1px solid #dbb866;color:#231b0f!important;background:#e5c57b;text-decoration:none;font-size:.82rem;font-weight:850;white-space:nowrap}
+.aio-vip-home a:hover{background:#f1d89f}
+.aio-owner-vip{max-width:1200px;margin:20px auto;padding:22px;color:#edf8fd;background:#0e2836;border:1px solid #315969;border-radius:16px}
+.aio-owner-vip h2{margin:0 0 8px;color:#f4fbff;font-size:1.4rem}
+.aio-owner-vip p{line-height:1.5;color:#bdd3dd}
+.aio-vip-form{display:flex;flex-wrap:wrap;gap:12px;align-items:end;margin:19px 0 10px}
+.aio-vip-form label{display:grid;gap:6px;flex:1 1 220px;color:#d9ecf3;font-size:.83rem;font-weight:800}
+.aio-vip-form input{width:100%;box-sizing:border-box;min-height:43px;padding:10px 12px;border:1px solid #4a7688;border-radius:9px;background:#071c28;color:#fff;font:inherit}
+.aio-vip-button{border-radius:9px;border:1px solid #5f8c9d;background:#174456;color:#fff;padding:11px 15px;font:inherit;font-size:.85rem;font-weight:780;cursor:pointer;min-height:43px}
+.aio-vip-button.is-primary{background:#156f77;border-color:#5ad5d0}
+.aio-vip-button.is-danger{background:#5b2830;border-color:#ac5660}
+.aio-vip-button:hover{filter:brightness(1.11)}.aio-vip-button:disabled{opacity:.55;cursor:wait}
+.aio-vip-hint{font-size:.76rem}.aio-vip-feedback{min-height:1.35em;color:#acf1ce!important;font-weight:750}
+.aio-vip-record-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:17px 0 9px}.aio-vip-records{display:grid;gap:10px}
+.aio-vip-record{background:#0a2430;border:1px solid #315369;border-radius:11px;padding:14px;overflow-wrap:anywhere}.aio-vip-record strong{font-size:.91rem}.aio-vip-record p{margin:7px 0;font-size:.79rem}
+.aio-vip-record-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.aio-vip-state{font-size:.74rem;font-weight:750;border-radius:20px;padding:4px 9px;background:#394654;color:#d9e5eb}.aio-vip-state.is-active{background:#18493c;color:#baf1d7}
+@media(max-width:650px){.aio-vip-home{padding:13px 14px}.aio-vip-home a{width:100%}.aio-owner-vip{padding:14px}.aio-vip-form{display:grid}.aio-vip-form label{min-width:0}}

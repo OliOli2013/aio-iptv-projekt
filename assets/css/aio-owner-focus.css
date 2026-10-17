@@ -7,3 +7,7 @@ html[data-aio-owner-target=pending] #aio-owner-legacy-workspace,html[data-aio-ow
 html[data-aio-owner-mode=focus] #aio-owner-legacy-workspace .community-admin-tabs .community-tab:not(.active){display:none!important}
 html[data-aio-owner-mode=focus] #aio-owner-legacy-workspace .community-admin-tabs{display:flex;flex-wrap:wrap;gap:8px}
 @media(max-width:620px){.aio-owner-focusbar{padding:12px;gap:9px}.aio-owner-focusbar strong{width:100%;order:-1}}
+
+/* AIO VIP V1 FOCUS — one panel visible at a time. */
+html[data-aio-owner-mode=focus] #aio-owner-vip{display:none!important}
+html[data-aio-owner-mode=focus][data-aio-owner-target=vip] #aio-owner-vip{display:block!important}

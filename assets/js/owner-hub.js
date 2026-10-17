@@ -5,6 +5,7 @@
   {id:'access',name:'Dostęp i płatności',icon:'♢',summary:'Wpłaty, akceptacje, dostępy i pobieranie',items:[
    {id:'approvals',name:'Akceptacja wpłat AIO Access',icon:'✓',description:'Nowe zgłoszenia, dane wpłaty, zatwierdzanie lub odrzucanie i kontakt ze wspierającym.',href:'/community-admin.html?aio_section=approvals',keywords:'kawa revolut buycoffee ko-fi 7 dni płatność' },
    {id:'grants',name:'Dostępy 7 dni i potwierdzenia',icon:'◈',description:'Historia uprawnień, ręczne potwierdzenia i przypisanie dostępu do konta.',href:'/community-admin.html?aio_section=grants',keywords:'granty ręczne odzyskanie wpłata' },
+   {id:'vip',name:'Konta VIP — miesiąc bez limitu',icon:'★',description:'Aktywacja, przedłużenie i wyłączenie VIP po e-mailu konta AIO.',href:'/community-admin.html?aio_section=vip',keywords:'vip miesiąc 30 dni nielimitowany email konto' },
    {id:'downloads',name:'Historia pobrań',icon:'⇩',description:'Pobrania lokalnych plików, zakres dni, wyszukiwarka, CSV i czyszczenie dziennika.',href:'/community-admin.html?aio_section=downloads',keywords:'pliki filtry dziennik csv data' },
    {id:'activity',name:'Aktywność AIO Access',icon:'◉',description:'Przejścia przez bramkę pobierania i działania przy linkach zewnętrznych.',href:'/community-admin.html?aio_section=access-activity',keywords:'zewnętrzne megawrzuta sesje linki' }
   ]},
