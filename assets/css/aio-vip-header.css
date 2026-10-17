@@ -1,0 +1,76 @@
+/* AIO VIP TOPBAR V1 FIX — only the homepage header; no permission changes. */
+body.aio-home-v2.aio-header-v4 .site-header .brand-row > .aio-h4-vip-banner {
+  position:relative;isolation:isolate;box-sizing:border-box;grid-column:2;grid-row:1;
+  display:flex!important;align-items:center;gap:10px;min-width:0;width:100%;height:auto;
+  min-height:64px!important;padding:9px 12px!important;border-radius:14px;
+  border:1px solid rgba(248,198,98,.66)!important;
+  background:linear-gradient(117deg,#11374d 0%,#172d48 44%,#49311e 100%)!important;
+  color:#fff!important;text-decoration:none!important;overflow:hidden!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.12),0 5px 20px rgba(214,146,57,.17)!important;
+  transition:border-color .2s,filter .2s,box-shadow .2s;
+}
+body.aio-home-v2.aio-header-v4 .site-header .aio-h4-vip-banner:before{
+  content:"";position:absolute;z-index:0;inset:0;pointer-events:none;
+  background:linear-gradient(110deg,transparent 10%,rgba(255,230,173,.22) 45%,transparent 65%);
+  transform:translateX(-120%);animation:aioVipHeaderSheen 6.5s ease-in-out infinite;
+}
+body.aio-home-v2.aio-header-v4 .site-header .aio-h4-vip-banner > span{position:relative;z-index:1}
+body.aio-home-v2.aio-header-v4 .site-header .aio-h4-vip-banner:hover,
+body.aio-home-v2.aio-header-v4 .site-header .aio-h4-vip-banner:focus-visible{
+  border-color:#ffdd8c!important;box-shadow:0 0 0 1px rgba(255,208,106,.28),0 6px 23px rgba(214,146,57,.26)!important;
+}
+body.aio-home-v2.aio-header-v4 .site-header .aio-h4-vip-badge{
+  flex:0 0 auto;display:grid;place-items:center;width:40px;height:39px;border-radius:11px;
+  background:linear-gradient(145deg,#ffe5a0,#e1ae48);color:#2b2010;font:950 11px/1 Inter,system-ui,sans-serif;
+  letter-spacing:.065em;box-shadow:0 0 20px rgba(255,187,72,.22);
+}
+body.aio-home-v2.aio-header-v4 .site-header .aio-h4-vip-copy{
+  display:flex;flex-direction:column;justify-content:center;gap:2px;min-width:0;flex:1;
+}
+body.aio-home-v2.aio-header-v4 .site-header .aio-h4-vip-kicker{
+  color:#ffd88d;font-size:9px;font-weight:900;letter-spacing:.1em;line-height:1.2;
+}
+body.aio-home-v2.aio-header-v4 .site-header .aio-h4-vip-copy strong{
+  color:#fff;font-size:12px;font-weight:850;line-height:1.24;
+}
+body.aio-home-v2.aio-header-v4 .site-header .aio-h4-vip-copy small{
+  color:#bad5e7;font-size:10px;line-height:1.25;
+}
+body.aio-home-v2.aio-header-v4 .site-header .aio-h4-vip-cta{
+  display:flex;flex:0 0 auto;align-items:center;justify-content:center;gap:4px;
+  min-height:33px;padding:7px 10px;border:1px solid rgba(239,212,255,.3);border-radius:10px;
+  background:linear-gradient(120deg,#7655dd,#a254ee);color:#fff;
+  font-size:10.5px;font-weight:900;white-space:nowrap;animation:aioVipHeaderPulse 2.8s ease-in-out infinite;
+}
+body.aio-home-v2.aio-header-v4 .site-header .aio-h4-vip-cta-short{display:none}
+@media(min-width:761px) and (max-width:1120px){
+  body.aio-home-v2.aio-header-v4 .site-header .aio-h4-vip-banner{gap:7px;padding:7px!important}
+  body.aio-home-v2.aio-header-v4 .site-header .aio-h4-vip-badge{width:32px;height:34px;font-size:10px}
+  body.aio-home-v2.aio-header-v4 .site-header .aio-h4-vip-cta{padding:7px 8px;font-size:10px}
+  body.aio-home-v2.aio-header-v4 .site-header .aio-h4-vip-copy small{display:none}
+  body.aio-home-v2.aio-header-v4 .site-header .aio-h4-vip-cta-full{display:none}
+  body.aio-home-v2.aio-header-v4 .site-header .aio-h4-vip-cta-short{display:inline}
+}
+@media(max-width:760px){
+  body.aio-home-v2.aio-header-v4 .site-header .brand-row > .aio-h4-vip-banner{
+    grid-column:1/-1!important;grid-row:2!important;min-height:60px!important;
+    gap:9px;padding:9px 11px!important;border-radius:11px;
+  }
+  body.aio-home-v2.aio-header-v4 .site-header .aio-h4-vip-copy strong{font-size:12px}
+  body.aio-home-v2.aio-header-v4 .site-header .aio-h4-vip-copy small{font-size:10px}
+  body.aio-home-v2.aio-header-v4 .site-header .aio-h4-vip-cta-full{display:none}
+  body.aio-home-v2.aio-header-v4 .site-header .aio-h4-vip-cta-short{display:inline}
+}
+@media(max-width:405px){
+  body.aio-home-v2.aio-header-v4 .site-header .aio-h4-vip-badge{width:31px;height:33px;font-size:10px}
+  body.aio-home-v2.aio-header-v4 .site-header .aio-h4-vip-kicker{font-size:8px}
+  body.aio-home-v2.aio-header-v4 .site-header .aio-h4-vip-copy strong{font-size:11px}
+  body.aio-home-v2.aio-header-v4 .site-header .aio-h4-vip-copy small{display:none}
+  body.aio-home-v2.aio-header-v4 .site-header .aio-h4-vip-cta{padding:7px;font-size:10px}
+}
+@keyframes aioVipHeaderSheen{0%,13%{transform:translateX(-120%)}40%,100%{transform:translateX(120%)}}
+@keyframes aioVipHeaderPulse{0%,100%{box-shadow:0 0 0 0 rgba(169,102,255,.0)}55%{box-shadow:0 0 0 5px rgba(169,102,255,.2)}}
+@media(prefers-reduced-motion:reduce){
+  body.aio-home-v2.aio-header-v4 .site-header .aio-h4-vip-banner:before,
+  body.aio-home-v2.aio-header-v4 .site-header .aio-h4-vip-cta{animation:none!important}
+}
