@@ -43,3 +43,49 @@
 .support-gate-dialog .aio-access-terms-v43 ol{padding-left:21px;margin:6px 0}
 .support-gate-dialog .aio-access-terms-v43 li{margin:5px 0;font-size:.89rem}
 .support-gate-dialog .aio-access-terms-v43 p{font-size:.79rem;color:#b5dae2;margin:7px 0 0}
+
+/* AIO ACCESS V4.5 COMPACT — modal-only typography and fit; no business logic. */
+.support-gate-modal .support-gate-dialog{
+  width:min(660px,100%);max-height:min(96vh,840px);
+  max-height:min(96dvh,840px);padding:19px 23px 14px;
+}
+.support-gate-dialog .support-gate-icon{width:43px;height:43px;font-size:1.35rem;border-radius:13px;margin-bottom:8px}
+.support-gate-dialog .support-gate-eyebrow{font-size:.65rem;margin-bottom:4px;letter-spacing:.1em}
+.support-gate-dialog h2{font-size:clamp(1.38rem,3.4vw,1.94rem);line-height:1.12;margin:0 35px 7px 0}
+.support-gate-dialog #support-gate-description{font-size:.89rem;line-height:1.43;margin:6px 0 9px}
+.support-gate-dialog .aio-access-v31-support-note{padding:10px 12px;margin:8px 0;line-height:1.37}
+.support-gate-dialog .aio-access-v31-support-note strong{font-size:.91rem;line-height:1.24;margin-bottom:3px}
+.support-gate-dialog .aio-access-v31-support-note span{font-size:.83rem}
+.support-gate-dialog .aio-access-terms-v43{padding:9px 11px;margin:9px 0;line-height:1.36}
+.support-gate-dialog .aio-access-terms-v43 strong{font-size:.92rem;margin-bottom:4px;line-height:1.32}
+.support-gate-dialog .aio-access-terms-v43 ol{padding-left:19px;margin:4px 0}
+.support-gate-dialog .aio-access-terms-v43 li{font-size:.82rem;line-height:1.35;margin:3px 0}
+.support-gate-dialog .aio-access-terms-v43 p{font-size:.78rem;line-height:1.37;margin:6px 0 0}
+.support-gate-dialog .support-gate-file{margin:9px 0;padding:8px 11px}
+.support-gate-dialog .support-gate-note{font-size:.82rem;line-height:1.36;margin:6px 0}
+.support-gate-dialog .support-gate-methods{gap:8px;margin:10px 0 8px}
+.support-gate-dialog .support-method{min-height:62px;padding:9px}
+.support-gate-dialog .support-gate-status{font-size:.8rem;min-height:0;margin:4px 0 5px}
+.support-gate-dialog .support-gate-privacy{font-size:.71rem;line-height:1.35;margin:8px 0 0}
+/* Actions remain accessible when very short viewports require internal scrolling. */
+.support-gate-dialog .support-gate-actions{position:sticky;bottom:-1px;z-index:2;
+  grid-template-columns:minmax(0,1fr) auto;gap:8px;
+  margin:7px -4px 0;padding:7px 4px 5px;
+  background:linear-gradient(to bottom,rgba(7,23,32,.9),#071720)}
+.support-gate-dialog .support-gate-continue,.support-gate-dialog .support-gate-cancel{padding:10px 12px;font-size:.88rem}
+@media(max-width:700px){
+ .support-gate-modal{padding:7px}
+ .support-gate-modal .support-gate-dialog{padding:15px 14px 11px;border-radius:15px;max-height:calc(100dvh - 14px)}
+ .support-gate-dialog h2{font-size:clamp(1.3rem,5vw,1.72rem);margin-right:34px}
+ .support-gate-dialog .support-gate-methods{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .support-gate-dialog .support-method{display:flex;flex-wrap:wrap;justify-content:center;gap:3px;
+   text-align:center;min-height:65px;padding:7px 3px;font-size:.75rem}
+ .support-gate-dialog .support-method>span{width:25px;height:25px;font-size:.86rem;flex:0 0 25px}
+ .support-gate-dialog .support-method strong{font-size:.77rem}
+ .support-gate-dialog .support-method small{font-size:.62rem;line-height:1.15}
+}
+@media(max-width:380px){
+ .support-gate-dialog .support-gate-methods{grid-template-columns:1fr}
+ .support-gate-dialog .support-method{justify-content:flex-start;min-height:46px;gap:8px;padding:7px 10px}
+ .support-gate-dialog .support-method small{margin-left:auto}
+}

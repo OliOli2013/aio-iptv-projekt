@@ -206,7 +206,7 @@
       setStep(3,'done');
       title.textContent='Zgłoszenie oczekuje na weryfikację';
       lead.textContent='Dziękujemy za wsparcie strony i projektów AIO. Administrator sprawdzi wpłatę i podejmie decyzję. Samo wysłanie zgłoszenia nie odblokowuje pobierania.';
-      progressText.textContent='Zgłoszenie zapisano. Standardowo staramy się je rozpatrywać w ciągu 1–2 godzin, gdy administrator jest dostępny. Termin jest orientacyjny.';
+      progressText.textContent='Zgłoszenie zapisano. Po potwierdzeniu wpłaty niezwłocznie aktywujemy dostęp. Możesz przyspieszyć kontakt, pisząc do administratora lub przez Messenger.';
       confirmWrap.hidden=true;
       if(payerDetails)payerDetails.hidden=true;
       status.textContent='Oczekuje na akceptację właściciela. Możesz poprosić o szybszą weryfikację w oknie poniżej.';

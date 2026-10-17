@@ -34,7 +34,7 @@
       return;
     }
     const heading=el('strong','Wpłata oczekuje na akceptację — skontaktuj się z administratorem');root.append(heading);
-    root.append(el('p','Zgłoszenie otrzymaliśmy '+fmt(latest.created_at)+'. Standardowo staramy się sprawdzać wpłaty w ciągu 1–2 godzin, gdy administrator jest dostępny. Nie jest to automatyczne odblokowanie ani gwarantowany termin.'));
+    root.append(el('p','Zgłoszenie otrzymaliśmy '+fmt(latest.created_at)+'. Wpłatę sprawdzimy możliwie szybko. Po jej potwierdzeniu niezwłocznie aktywujemy dostęp. Możesz przyspieszyć kontakt, pisząc do administratora poniżej lub przez Messenger.'));
     root.append(el('p','Twoje dane wpłaty są już zapisane w prywatnej kolejce administratora. Dodatkowa wiadomość jest opcjonalna.'));
     root.append(el('p','Numer zgłoszenia: '+latest.id));
     const messenger=el('a','Napisz do administratora na Messengerze — przyspiesz kontakt');messenger.className='aio-approval-messenger';messenger.href='https://m.me/100064704540847';messenger.rel='noopener noreferrer';messenger.target='_blank';root.append(messenger);

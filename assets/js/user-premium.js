@@ -520,7 +520,7 @@
     createFundraiserRibbon();
     if (!document.querySelector('link[data-aio-access-v31]')) {
       const link=document.createElement('link');
-      link.rel='stylesheet';link.href='/assets/css/aio-access-v31.css?v=20261017-account-transparent-v43';
+      link.rel='stylesheet';link.href='/assets/css/aio-access-v31.css?v=20261017-aio-access-v45-compact';
       link.setAttribute('data-aio-access-v31','');document.head.append(link);
     }
     createSupportModal();
@@ -787,20 +787,20 @@
         <h2 id="support-gate-title">Pomóż rozwijać projekty dla Enigma2</h2>
         <p id="support-gate-description">Pierwsze pobranie każdego dnia jest bezpłatne. Po potwierdzonym wsparciu kawą otrzymasz 7 dni dostępu przypisane do konta. Wsparcie pomaga rozwijać stronę oraz projekty AIO.</p>
         <div class="aio-access-v31-support-note" role="note" hidden>
-          <strong>KOLEJNE POBRANIA — TYLKO NA ZALOGOWANYM KONCIE AIO</strong>
-          <span>Dostęp 7 dni przyznajemy po potwierdzonym wsparciu projektu i przypisujemy do konta, nie do adresu IP.</span>
+          <strong>DODATKOWE POBRANIA PRZEZ 7 DNI</strong>
+          <span>Po potwierdzeniu wsparcia projektu przyznajemy dostęp do dodatkowych pobrań na 7 dni.</span>
         </div>
         <section class="aio-access-terms-v43" role="note" aria-label="Warunki dostępu po wsparciu">
           <strong>Ważne — wpłata nie odblokowuje plików automatycznie</strong>
           <ol>
             <li>Wybierz Revolut, BuyCoffee lub Ko-fi i dokonaj wpłaty.</li>
             <li>Wróć tutaj i zgłoś <b>metodę wpłaty oraz e-mail lub nazwę użyte przy wpłacie</b>.</li>
-            <li>Administrator potwierdzi wpłatę i dopiero wtedy przyzna <b>7 dni dostępu na Twoje konto</b>.</li>
+            <li>Administrator potwierdzi wpłatę i dopiero wtedy przyzna <b>7 dni dostępu</b>.</li>
           </ol>
-          <p>Weryfikacja zwykle trwa 1–2 godziny, gdy administrator jest dostępny. To orientacyjny czas, a nie automatyczne odblokowanie ani gwarancja terminu.</p>
+          <p>Po weryfikacji i zatwierdzeniu wpłaty niezwłocznie odblokujemy dostęp. Po wysłaniu zgłoszenia możesz przyspieszyć kontakt, pisząc do administratora lub przez Messenger.</p>
         </section>
         <div class="support-gate-file" hidden><span>Wybrany plik:</span><strong class="support-gate-filename"></strong></div>
-        <p class="support-gate-note">Po dokonaniu wpłaty wróć i prześlij dane pomagające ją odnaleźć. Dostęp zostanie przyznany wyłącznie po ręcznej akceptacji administratora.</p>
+        <p class="support-gate-note">Wybierz metodę wpłaty. Po wsparciu wróć i prześlij dane do weryfikacji.</p>
         <div class="support-gate-methods" aria-label="Metody wsparcia">
           <button class="support-method support-method-revolut" type="button" data-access-method="revolut"><span>R</span><strong>Revolut</strong><small>Przejdź do płatności</small></button>
           <button class="support-method support-method-buycoffee" type="button" data-access-method="buycoffee"><span>☕</span><strong>BuyCoffee</strong><small>Zbiórka celowa</small></button>
@@ -1011,8 +1011,8 @@ async function accountDownload(item,kind){
 
     if (modalMode === 'community-link-limit' && download) {
       title.textContent = 'Dzisiejszy bezpłatny dostęp został wykorzystany';
-      description.textContent = 'Dzienny darmowy limit został wykorzystany. Dalszy dostęp przez 7 dni otrzymasz dopiero po dokonaniu wpłaty i jej zatwierdzeniu przez administratora. Po wpłacie podaj metodę oraz nazwę lub e-mail z płatności.';
-      note.textContent = 'Wybierz metodę. AIO Access utworzy jednorazową sesję dla tego konkretnego linku.';
+      description.textContent = 'Dzisiejszy darmowy limit został wykorzystany. Dodatkowe linki będą dostępne po wpłacie i jej zatwierdzeniu przez administratora.';
+      note.textContent = 'Wybierz metodę wsparcia dla tego linku.';
       fileBox.hidden = false; methods.hidden = false;
       fileBox.querySelector('span').textContent = 'Wybrany link:';
       fileNameElement.textContent = download.label || 'Link ze Społeczności AIO';
@@ -1020,8 +1020,8 @@ async function accountDownload(item,kind){
       continueButton.textContent = 'Wybierz metodę wsparcia'; continueButton.disabled = true;
     } else if (modalMode === 'limit' && download) {
       title.textContent = 'Dzisiejsze bezpłatne pobranie zostało wykorzystane';
-      description.textContent = 'Dzienny darmowy limit został wykorzystany. Aby pobierać więcej przez 7 dni, dokonaj wpłaty, podaj metodę i nazwę lub e-mail z płatności, a następnie poczekaj na potwierdzenie przez administratora. Wsparcie rozwija stronę i darmowe projekty AIO.';
-      note.textContent = 'Wybierz metodę. AIO Access utworzy jednorazową sesję przypisaną do wybranego pliku.';
+      description.textContent = 'Dzisiejszy darmowy limit został wykorzystany. Dodatkowe pobierania przez 7 dni udostępnimy po wpłacie i jej zatwierdzeniu przez administratora.';
+      note.textContent = 'Wybierz metodę wsparcia dla tego pliku.';
       fileBox.hidden = false; methods.hidden = false;
       fileBox.querySelector('span').textContent = 'Wybrany plik:';
       fileNameElement.textContent = download.label || fileNameFromUrl(download.href);
@@ -1029,7 +1029,7 @@ async function accountDownload(item,kind){
       continueButton.textContent = 'Wybierz metodę wsparcia'; continueButton.disabled = true;
     } else {
       title.textContent = 'Jak działa AIO Access 2.1?';
-      description.textContent = 'Każde zalogowane konto ma jedno bezpłatne pobranie dziennie. Po potwierdzonym wsparciu kawą można otrzymać 7 dni dostępu do kolejnych plików.';
+      description.textContent = 'Jedno pobranie dziennie jest bezpłatne. Po potwierdzeniu wpłaty możesz korzystać z dodatkowych pobrań przez 7 dni.';
       note.textContent = 'Samo odwiedzenie strony płatności nie potwierdza wsparcia. Do czasu automatycznego połączenia z operatorem płatności wpłaty weryfikuje administrator.';
       fileBox.hidden = true; methods.hidden = true;
       fileNameElement.textContent = '';
