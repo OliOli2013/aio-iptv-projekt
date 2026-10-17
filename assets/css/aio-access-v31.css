@@ -89,3 +89,18 @@
  .support-gate-dialog .support-method{justify-content:flex-start;min-height:46px;gap:8px;padding:7px 10px}
  .support-gate-dialog .support-method small{margin-left:auto}
 }
+
+/* AIO Access V4.6 — highlighted voluntary amount without increasing the modal height. */
+.support-gate-dialog .aio-access-v31-support-note{
+  border-color:#e7ba63;border-left-color:#ffd36b;
+  background:linear-gradient(110deg,rgba(138,93,26,.32),#103c48 80%);
+  padding:8px 11px;margin:7px 0;line-height:1.33;
+}
+.support-gate-dialog .aio-access-v31-support-note strong{color:#ffedb3;font-size:.89rem;margin-bottom:3px}
+.support-gate-dialog .aio-access-v31-support-note span{font-size:.80rem;line-height:1.37}
+.aio-support-v2-funding .aio-support-amount-v46{
+  border:1px solid #bd9956;border-left:4px solid #ffcf69;border-radius:10px;
+  padding:11px 14px;margin:13px 0 16px;
+  background:rgba(120,81,18,.20);color:#f5f0e5;line-height:1.5;
+}
+.aio-support-v2-funding .aio-support-amount-v46 strong{color:#ffdf94}

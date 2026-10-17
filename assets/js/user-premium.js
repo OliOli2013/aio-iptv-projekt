@@ -520,7 +520,7 @@
     createFundraiserRibbon();
     if (!document.querySelector('link[data-aio-access-v31]')) {
       const link=document.createElement('link');
-      link.rel='stylesheet';link.href='/assets/css/aio-access-v31.css?v=20261017-aio-access-v45-compact';
+      link.rel='stylesheet';link.href='/assets/css/aio-access-v31.css?v=20261017-aio-access-v46-dowolna-kwota';
       link.setAttribute('data-aio-access-v31','');document.head.append(link);
     }
     createSupportModal();
@@ -787,8 +787,8 @@
         <h2 id="support-gate-title">Pomóż rozwijać projekty dla Enigma2</h2>
         <p id="support-gate-description">Pierwsze pobranie każdego dnia jest bezpłatne. Po potwierdzonym wsparciu kawą otrzymasz 7 dni dostępu przypisane do konta. Wsparcie pomaga rozwijać stronę oraz projekty AIO.</p>
         <div class="aio-access-v31-support-note" role="note" hidden>
-          <strong>DODATKOWE POBRANIA PRZEZ 7 DNI</strong>
-          <span>Po potwierdzeniu wsparcia projektu przyznajemy dostęp do dodatkowych pobrań na 7 dni.</span>
+          <strong>☕ DOWOLNA KWOTA WSPARCIA — TY DECYDUJESZ</strong>
+          <span>Nie ma ustalonej kwoty. Wpłać tyle, ile chcesz i na ile Cię stać — tak, jak doceniasz moją pracę. Po zatwierdzeniu wpłaty otrzymasz 7 dni dodatkowych pobrań.</span>
         </div>
         <section class="aio-access-terms-v43" role="note" aria-label="Warunki dostępu po wsparciu">
           <strong>Ważne — wpłata nie odblokowuje plików automatycznie</strong>
@@ -1029,7 +1029,7 @@ async function accountDownload(item,kind){
       continueButton.textContent = 'Wybierz metodę wsparcia'; continueButton.disabled = true;
     } else {
       title.textContent = 'Jak działa AIO Access 2.1?';
-      description.textContent = 'Jedno pobranie dziennie jest bezpłatne. Po potwierdzeniu wpłaty możesz korzystać z dodatkowych pobrań przez 7 dni.';
+      description.textContent = 'Jedno pobranie dziennie jest bezpłatne. Wysokość wsparcia wybierasz sam. Po zatwierdzeniu wpłaty uzyskasz 7 dni dodatkowych pobrań.';
       note.textContent = 'Samo odwiedzenie strony płatności nie potwierdza wsparcia. Do czasu automatycznego połączenia z operatorem płatności wpłaty weryfikuje administrator.';
       fileBox.hidden = true; methods.hidden = true;
       fileNameElement.textContent = '';
