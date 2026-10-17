@@ -1,15 +1,15 @@
 {
-  "generatedAt": "2026-10-16T09:53:40.019668+00:00",
+  "generatedAt": "2026-10-17T09:26:24.753785+00:00",
   "items": [
     {
       "id": "e2-security-ipk",
       "name": "E2 Security 1.1.1 — plik IPK",
       "url": "https://aio-iptv-projekt.pages.dev/pliki/E2-Security_1.1.1_all.ipk",
       "category": "Pliki",
-      "status": "online",
-      "httpStatus": 200,
-      "checkedAt": "2026-10-16T09:53:24.443532+00:00",
-      "message": "Usługa odpowiada prawidłowo • application/vnd.shana.informed.package."
+      "status": "warning",
+      "httpStatus": 401,
+      "checkedAt": "2026-10-17T09:26:12.810509+00:00",
+      "message": "Serwer działa, ale blokuje test automatyczny (HTTP 401)."
     },
     {
       "id": "site-home",
@@ -18,7 +18,7 @@
       "category": "Strona",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-16T09:53:25.450002+00:00",
+      "checkedAt": "2026-10-17T09:26:13.307142+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     },
     {
@@ -28,7 +28,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-16T09:53:25.648274+00:00",
+      "checkedAt": "2026-10-17T09:26:13.430841+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 8648 B."
     },
     {
@@ -38,7 +38,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-16T09:53:25.793796+00:00",
+      "checkedAt": "2026-10-17T09:26:13.543958+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 7770 B."
     },
     {
@@ -48,7 +48,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-16T09:53:25.979749+00:00",
+      "checkedAt": "2026-10-17T09:26:13.714948+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 2469 B."
     },
     {
@@ -58,7 +58,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-16T09:53:26.151425+00:00",
+      "checkedAt": "2026-10-17T09:26:13.867147+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 11971 B."
     },
     {
@@ -68,48 +68,48 @@
       "category": "Listy kanałów",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-16T09:53:26.310631+00:00",
-      "message": "Usługa odpowiada prawidłowo • text/plain • 8056 B."
+      "checkedAt": "2026-10-17T09:26:14.034202+00:00",
+      "message": "Usługa odpowiada prawidłowo • text/plain • 7677 B."
     },
     {
       "id": "aio-ipk",
       "name": "AIO Panel 17.0.0 — plik IPK",
       "url": "https://aio-iptv-projekt.pages.dev/pliki/enigma2-plugin-extensions-panelaio_17.0.0_all.ipk",
       "category": "Pliki",
-      "status": "online",
-      "httpStatus": 200,
-      "checkedAt": "2026-10-16T09:53:26.478132+00:00",
-      "message": "Usługa odpowiada prawidłowo • application/vnd.shana.informed.package."
+      "status": "warning",
+      "httpStatus": 401,
+      "checkedAt": "2026-10-17T09:26:14.209784+00:00",
+      "message": "Serwer działa, ale blokuje test automatyczny (HTTP 401)."
     },
     {
       "id": "aiohd-next-ipk",
       "name": "AIOHD NEXT 3.2.1-r3 — plik IPK",
       "url": "https://aio-iptv-projekt.pages.dev/pliki/enigma2-plugin-skins-aiohd-next_3.2.1-r3_all.ipk",
       "category": "Pliki",
-      "status": "online",
-      "httpStatus": 200,
-      "checkedAt": "2026-10-16T09:53:26.892891+00:00",
-      "message": "Usługa odpowiada prawidłowo • application/vnd.shana.informed.package."
+      "status": "warning",
+      "httpStatus": 401,
+      "checkedAt": "2026-10-17T09:26:14.289040+00:00",
+      "message": "Serwer działa, ale blokuje test automatyczny (HTTP 401)."
     },
     {
       "id": "iptv-ipk",
       "name": "IPTV Dream 8.0.1 — plik IPK",
       "url": "https://aio-iptv-projekt.pages.dev/pliki/enigma2-plugin-extensions-iptvdream_8.0.1_all.ipk",
       "category": "Pliki",
-      "status": "online",
-      "httpStatus": 200,
-      "checkedAt": "2026-10-16T09:53:27.472142+00:00",
-      "message": "Usługa odpowiada prawidłowo • application/vnd.shana.informed.package."
+      "status": "warning",
+      "httpStatus": 401,
+      "checkedAt": "2026-10-17T09:26:14.347269+00:00",
+      "message": "Serwer działa, ale blokuje test automatyczny (HTTP 401)."
     },
     {
       "id": "remote-apk",
       "name": "AIO Panel Remote 1.4.6 — APK",
       "url": "https://aio-iptv-projekt.pages.dev/pliki/AIO_Panel_Remote_1.4.6_FREE_PRO.apk",
       "category": "Pliki",
-      "status": "online",
-      "httpStatus": 200,
-      "checkedAt": "2026-10-16T09:53:27.890694+00:00",
-      "message": "Usługa odpowiada prawidłowo • application/vnd.android.package-archive."
+      "status": "warning",
+      "httpStatus": 401,
+      "checkedAt": "2026-10-17T09:26:14.415444+00:00",
+      "message": "Serwer działa, ale blokuje test automatyczny (HTTP 401)."
     },
     {
       "id": "h9sse-system",
@@ -118,7 +118,7 @@
       "category": "Systemy Multi-Click",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-16T09:53:28.303380+00:00",
+      "checkedAt": "2026-10-17T09:26:14.471080+00:00",
       "message": "Usługa odpowiada prawidłowo • application/zip • 214085499 B."
     },
     {
@@ -128,7 +128,7 @@
       "category": "Systemy Multi-Click",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-16T09:53:32.219314+00:00",
+      "checkedAt": "2026-10-17T09:26:20.233922+00:00",
       "message": "Usługa odpowiada prawidłowo • application/zip • 299143104 B."
     },
     {
@@ -138,7 +138,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-16T09:53:38.792600+00:00",
+      "checkedAt": "2026-10-17T09:26:23.622118+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     },
     {
@@ -148,7 +148,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-16T09:53:39.325367+00:00",
+      "checkedAt": "2026-10-17T09:26:24.184815+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     },
     {
@@ -158,7 +158,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-10-16T09:53:39.701064+00:00",
+      "checkedAt": "2026-10-17T09:26:24.503157+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     }
   ]
