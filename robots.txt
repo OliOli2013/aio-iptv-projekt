@@ -9,3 +9,4 @@ Disallow: /aio-connect-report.html
 Disallow: /publisher
 Disallow: /publisher.html
 Sitemap: https://aio-iptv-projekt.pages.dev/sitemap.xml
+Sitemap: https://aio-iptv-projekt.pages.dev/sitemap-posts

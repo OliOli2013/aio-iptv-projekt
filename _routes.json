@@ -3,7 +3,10 @@
   "include": [
     "/api/*",
     "/pliki/*",
-    "/owner-hub"
+    "/owner-hub",
+    "/post",
+    "/post.html",
+    "/sitemap-posts"
   ],
   "exclude": []
 }
