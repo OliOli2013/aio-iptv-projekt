@@ -9,16 +9,22 @@ const short=(v,n=145)=>{v=String(v||'').replace(/\s+/g,' ').trim();return v.leng
 const datePL=v=>{try{return new Date(v).toLocaleDateString('pl-PL')}catch(_){return''}};
 
 /* AIO UX PERFORMANCE V1: lightweight JSON catalog shared by latest cards & search. */
-let downloadCatalogPromise = null;
-async function loadDownloadCatalog(){
-  if(!downloadCatalogPromise){
-    downloadCatalogPromise = fetch('data/downloads.json', {cache:'default'})
-      .then(r=>{if(!r.ok)throw new Error('catalog '+r.status);return r.json()})
-      .then(rows=>{if(!Array.isArray(rows))throw new Error('invalid download catalog');return rows})
-      .catch(err=>{downloadCatalogPromise=null;throw err});
+/* AIO KATALOG V1: one generated catalog for files, projects and releases; legacy fallback. */
+let unifiedCatalogPromise = null;
+async function loadUnifiedCatalog(){
+  if(!unifiedCatalogPromise){
+    unifiedCatalogPromise=fetch('data/aio-catalog-v1.json',{cache:'default'})
+      .then(r=>{if(!r.ok)throw Error('aio catalog '+r.status);return r.json()})
+      .then(c=>{if(!c || !Array.isArray(c.files) || !Array.isArray(c.projects))throw Error('invalid aio catalog');return c})
+      .catch(()=>fetch('data/downloads.json',{cache:'default'}).then(r=>{
+        if(!r.ok)throw Error('legacy catalog '+r.status);return r.json();
+      }).then(files=>({files,projects:[],releases:[]})))
+      .catch(e=>{unifiedCatalogPromise=null;throw e});
   }
-  return downloadCatalogPromise;
+  return unifiedCatalogPromise;
 }
+async function loadDownloadCatalog(){return (await loadUnifiedCatalog()).files;}
+
 function catalogDate(value){
   const date=String(value||'').trim();
   let m=date.match(/^(\d{2})\.(\d{2})\.(\d{4})$/);
@@ -102,10 +108,11 @@ async function latestCommunity(){
 let idx=null;
 async function getIndex(){
   if(idx)return idx;
-  const [downloads, pages]=await Promise.all([
+  const [downloads, pages, unified]=await Promise.all([
     loadDownloadCatalog().catch(()=>[]),
     fetch('data/search-index.json',{cache:'default'})
-      .then(r=>r.ok?r.json():[]).catch(()=>[])
+      .then(r=>r.ok?r.json():[]).catch(()=>[]),
+    loadUnifiedCatalog().catch(()=>({projects:[]}))
   ]);
   const files=downloads.map(x=>({
     title:String(x.title||''),
@@ -119,8 +126,14 @@ async function getIndex(){
     cat:'Poradnik lub strona',
     href:safeCatalogLink(x.url)||'guides.html'
   }));
+  const indexedPages=new Set(sections.map(x=>x.href.split('#')[0]));
+  const extraProjects=(Array.isArray(unified.projects)?unified.projects:[])
+    .filter(p=>p && p.name && p.page && !indexedPages.has(p.page))
+    .map(p=>({title:String(p.name)+' '+String(p.version||''),
+      search:[p.name,p.version,p.summary,p.category].join(' '),
+      cat:p.category||'Projekt AIO',href:safeCatalogLink(p.page)||'downloads.html'}));
   const seen=new Set();
-  idx=[...files,...sections].filter(x=>{
+  idx=[...files,...sections,...extraProjects].filter(x=>{
     const key=x.href+'|'+x.title;
     if(seen.has(key))return false;
     seen.add(key);return true;

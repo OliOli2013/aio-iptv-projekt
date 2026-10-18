@@ -10,7 +10,7 @@ const status=$('#downloadStatus');
 const archive=$('#downloadArchive');
 const platform=$('#downloadPlatform');
 const license=$('#downloadLicense');
-const cards=$$('[data-download-card]');
+let cards=$$('[data-download-card]');
 const count=$('#downloadV2Count');
 const empty=$('#downloadV2Empty');
 const advanced=$('#downloadV2Advanced');
@@ -67,6 +67,7 @@ function setMode(next){
   scheduleRefresh();
 }
 function refresh(){
+  cards=$$('[data-download-card]');
   cards.forEach(c=>c.classList.remove('dv2-latest-hidden'));
 
   let visible=cards.filter(c=>!c.hidden);

@@ -1,0 +1,19 @@
+/* AIO Catalog V1 - restrained and accessible release highlights. */
+.aio-catalog-v1-featured{margin:22px 0 25px;padding:20px;border:1px solid rgba(100,208,227,.25);border-radius:17px;background:linear-gradient(135deg,rgba(8,38,53,.95),rgba(10,25,40,.95));color:#eaf7fa}
+.aio-catalog-v1-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:14px}
+.aio-catalog-v1-head small{display:block;color:#72dccd;font-size:11px;font-weight:800;letter-spacing:.1em}
+.aio-catalog-v1-head h2{font-size:clamp(20px,2.1vw,27px);line-height:1.2;color:#fff;margin:5px 0 3px}
+.aio-catalog-v1-head p{font-size:13px;line-height:1.5;color:#adc8d4;margin:0}
+.aio-catalog-v1-total{font-size:12px;color:#b2dbe2;border:1px solid rgba(120,190,211,.24);padding:7px 11px;border-radius:30px}
+.aio-catalog-v1-items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.aio-catalog-v1-item{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px;border:1px solid rgba(139,211,236,.16);border-radius:12px;background:rgba(255,255,255,.028);min-width:0}
+.aio-catalog-v1-item-main{min-width:0;display:grid;gap:5px}
+.aio-catalog-v1-item-main span,.aio-catalog-v1-item-main small{font-size:12px;line-height:1.4;color:#99bec9}
+.aio-catalog-v1-item-main strong{font-size:15px;line-height:1.32;overflow-wrap:anywhere;color:#f3feff}
+.aio-catalog-v1-actions{display:flex;flex-wrap:wrap;align-items:center;gap:7px;flex:none}
+.aio-catalog-v1-actions a{display:inline-flex;justify-content:center;align-items:center;padding:8px 11px;border:1px solid rgba(151,218,236,.38);border-radius:9px;color:#eaf6fa;text-decoration:none;font-size:12px;font-weight:750;min-height:39px}
+.aio-catalog-v1-actions .aio-catalog-v1-download{background:#2a94ae;color:#fff;border-color:#56bdd2}
+.aio-catalog-v1-actions a:hover{filter:brightness(1.15)}
+.aio-catalog-v1-actions a:focus-visible{outline:2px solid #ffce73;outline-offset:3px}
+@media(max-width:1100px){.aio-catalog-v1-items{grid-template-columns:1fr}}
+@media(max-width:600px){.aio-catalog-v1-featured{padding:14px}.aio-catalog-v1-item{flex-direction:column;align-items:stretch}.aio-catalog-v1-actions{justify-content:flex-start}}

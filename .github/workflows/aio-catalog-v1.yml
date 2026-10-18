@@ -1,0 +1,33 @@
+name: AIO Katalog V1 — zgodność wydań
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'data/aio-publications-v1.json'
+      - 'data/aio-catalog-v1.json'
+      - 'data/downloads.json'
+      - 'data/projects.json'
+      - 'scripts/aio_catalog_v1.py'
+      - '.github/workflows/aio-catalog-v1.yml'
+  pull_request:
+    paths:
+      - 'data/aio-publications-v1.json'
+      - 'data/aio-catalog-v1.json'
+      - 'data/downloads.json'
+      - 'data/projects.json'
+      - 'scripts/aio_catalog_v1.py'
+      - '.github/workflows/aio-catalog-v1.yml'
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Sprawdź źródła i katalog wydań
+        run: python3 scripts/aio_catalog_v1.py check

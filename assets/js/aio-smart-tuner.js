@@ -126,7 +126,10 @@
     wire();
     $('stResults').innerHTML='<div class="st-placeholder">Wczytywanie katalogów AIO…</div>';
     try {
-      const [t,p,c]=await Promise.all([loadJson('data/tuners.json'),loadJson('data/projects.json'),loadJson('data/smart-tuner-compat.json')]);
+      const [t,p,c]=await Promise.all([loadJson('data/tuners.json'),loadJson('data/aio-catalog-v1.json').then(c=>{
+        if(!c||!Array.isArray(c.projects))throw Error('Brak projektów');
+        return c.projects;
+      }).catch(()=>loadJson('data/projects.json')),loadJson('data/smart-tuner-compat.json')]);
       if(!Array.isArray(t.tuners)||!Array.isArray(p)||!c||!c.rules)throw Error('Nieprawidłowa struktura katalogu.');
       // The source catalog currently has repeated brand/model records.
       // Present each model once without modifying the shared tuner database.
