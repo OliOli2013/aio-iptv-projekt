@@ -143,6 +143,8 @@
   }
 
   function initSiteSearch() {
+    /* AIO STABILNOSC V2: homepage has its own richer search (files + community). */
+    if (document.body.classList.contains('aio-home-v2') && document.querySelector('[data-aio-search-modal]')) return;
     const brandRow = $('.brand-row');
     if (!brandRow || $('.site-search-trigger')) return;
 
@@ -988,9 +990,23 @@ async function accountDownload(item,kind){
     return looksLikeDownloadButton && !isInternalHtml;
   }
 
+  /* AIO STABILNOSC V2: prefer release identity over button text "Pobierz ↗". */
   function getDownloadLabel(anchor) {
-    const rawText = (anchor.textContent || '').replace(/\s+/g, ' ').trim();
-    if (rawText && rawText.length <= 90) return rawText;
+    const normalized=value=>String(value||'').replace(/\s+/g,' ').trim().slice(0,140);
+    // Explicit accessible label in homepage cards: "Pobierz: AIO Panel 17.0.0".
+    const aria=normalized(anchor.getAttribute('aria-label'));
+    const ariaMatch=aria.match(/^(?:pobierz|download|ściągnij)\s*[:–—-]\s*(.+)$/i);
+    if(ariaMatch && ariaMatch[1] && !/^(?:plik|pobierz|download)$/i.test(ariaMatch[1]))return ariaMatch[1];
+    const scope=anchor.closest('[data-aio-title],.aio-v2-file-card,.download-card,.product-card,.plugin-card,.file-card,article');
+    if(scope){
+      const direct=normalized(scope.getAttribute('data-aio-title'));
+      if(direct)return direct;
+      const heading=scope.querySelector('h2,h3,h4');
+      const title=normalized(heading?.textContent);
+      if(title && !/^(?:pobierz|download|plik)$/i.test(title))return title;
+    }
+    const rawText=normalized(anchor.textContent);
+    if(rawText && rawText.length<=90 && !/^(?:pobierz|ściągnij|download|otwórz|kliknij|instaluj|plik)(?:\s*[↗→↓»›.]*)?$/i.test(rawText))return rawText;
     return fileNameFromUrl(getDownloadHref(anchor));
   }
 
@@ -1029,7 +1045,7 @@ async function accountDownload(item,kind){
       note.textContent = 'Wybierz metodę wsparcia dla tego pliku.';
       fileBox.hidden = false; methods.hidden = false;
       fileBox.querySelector('span').textContent = 'Wybrany plik:';
-      fileNameElement.textContent = download.label || fileNameFromUrl(download.href);
+      fileNameElement.textContent = download.label && !/^(?:pobierz|download)(?:\s*[↗→↓»›.]*)?$/i.test(download.label.trim()) ? download.label : fileNameFromUrl(download.href);
       cancel.textContent = 'Anuluj';
       continueButton.textContent = 'Wybierz metodę wsparcia'; continueButton.disabled = true;
     } else {

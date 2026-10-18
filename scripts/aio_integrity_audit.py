@@ -19,6 +19,22 @@ class Parser(html.parser.HTMLParser):
    for x in attrs['srcset'].split(','):
     if x.strip():self.refs.append(('srcset',x.strip().split()[0]))
 
+# AIO STABILNOSC V2: Cloudflare Pages Functions are URLs, not static files.
+# Accept only exact, explicitly included routes backed by a matching handler.
+def declared_function_route(path):
+ if not path.startswith('/') or path.endswith('/') or Path(path).suffix:return False
+ rules_file=ROOT/'_routes.json'
+ if not rules_file.is_file():return False
+ try:
+  rules=json.loads(rules_file.read_text(encoding='utf-8'))
+  includes=rules.get('include',[])
+ except (ValueError,OSError,TypeError):return False
+ if not isinstance(includes,list) or path not in includes:return False
+ rel=Path(path.lstrip('/'))
+ if '..' in rel.parts:return False
+ handler=ROOT/'functions'/rel.with_suffix('.js')
+ return handler.is_file()
+
 def missing(source,ref):
  ref=ref.strip()
  if not ref or ref.startswith(('#','//','/api/')) or '${' in ref or '{{' in ref:return None
@@ -29,6 +45,7 @@ def missing(source,ref):
  dest=((ROOT/p.lstrip('/')) if p.startswith('/') else (source.parent/p)).resolve()
  if not dest.is_relative_to(ROOT.resolve()):return 'Zewnętrzna ścieżka względna: '+p
  if dest.is_file() or (not dest.suffix and dest.with_suffix('.html').is_file()):return None
+ if declared_function_route(p):return None
  return p
 
 def audit(sha,strict,include_archive=False):

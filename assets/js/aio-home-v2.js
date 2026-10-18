@@ -128,12 +128,12 @@ async function getIndex(){
   return idx;
 }
 
-async function doSearch(q){
+async function doSearch(q,signal){
   const terms=q.toLowerCase().split(/\s+/);
   const downloads=(await getIndex()).filter(x=>terms.every(t=>(x.title+' '+x.search).toLowerCase().includes(t))).slice(0,8);
   let posts=[];
   try{
-    const r=await fetch('/api/community?action=feed&mode=latest&pageSize=5&page=0&search='+encodeURIComponent(q),{cache:'no-store',credentials:'include'});
+    const r=await fetch('/api/community?action=feed&mode=latest&pageSize=5&page=0&search='+encodeURIComponent(q),{cache:'no-store',credentials:'include',signal});
     const d=await r.json();
     if(r.ok&&d.ok)posts=d.rows||[];
   }catch(_){}
@@ -153,25 +153,64 @@ function render(o){
   b.innerHTML=p.length?p.join(''):'<div class="aio-v2-empty">Brak wyników. Spróbuj innej nazwy.</div>';
 }
 
+/* AIO STABILNOSC V2: one home search, latest query wins, keyboard friendly. */
 function searchInit(){
   const m=$('[data-aio-search-modal]'),i=$('[data-aio-search-input]'),h=$('[data-aio-search-hints]');
   if(!m||!i)return;
-  const open=()=>{m.hidden=false;document.body.style.overflow='hidden';setTimeout(()=>i.focus(),30)};
-  const close=()=>{m.hidden=true;document.body.style.overflow=''};
+  const dialog=$('.aio-v2-search-dialog',m);
+  if(dialog){dialog.setAttribute('aria-label','Wyszukiwarka AIO-IPTV.pl');dialog.setAttribute('tabindex','-1');}
+  i.setAttribute('aria-label','Szukaj plików, systemów, wtyczek i poradników AIO');
+  let t,version=0,inFlight=null,focusBefore=null;
+  const invalidate=()=>{
+    version++;
+    clearTimeout(t);
+    if(inFlight){inFlight.abort();inFlight=null;}
+  };
+  const open=()=>{
+    if(!m.hidden){i.focus();return;}
+    focusBefore=document.activeElement;
+    m.hidden=false;document.body.style.overflow='hidden';
+    setTimeout(()=>{if(!m.hidden)i.focus();},30);
+  };
+  const close=()=>{
+    if(m.hidden)return;
+    invalidate();m.hidden=true;document.body.style.overflow='';
+    if(focusBefore&&focusBefore.isConnected&&typeof focusBefore.focus==='function')focusBefore.focus();
+  };
   $$('[data-aio-search-open]').forEach(x=>x.onclick=open);
   $$('[data-aio-search-close]',m).forEach(x=>x.onclick=close);
   document.addEventListener('keydown',e=>{
-    if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();open()}
-    if(e.key==='Escape'&&!m.hidden)close();
+    if((e.ctrlKey||e.metaKey)&&String(e.key).toLowerCase()==='k'){
+      e.preventDefault();m.hidden?open():i.focus();return;
+    }
+    if(m.hidden)return;
+    if(e.key==='Escape'){e.preventDefault();close();return;}
+    if(e.key!=='Tab')return;
+    const nodes=[...m.querySelectorAll('a[href],button:not([disabled]),input:not([disabled]),[tabindex]:not([tabindex="-1"])')]
+      .filter(el=>el.getClientRects().length>0);
+    if(!nodes.length){e.preventDefault();i.focus();return;}
+    const first=nodes[0],last=nodes[nodes.length-1];
+    if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+    else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
   });
-  let t;
   i.oninput=()=>{
-    clearTimeout(t);
+    invalidate();
     const q=i.value.trim();
-    if(q.length<2){$('[data-aio-search-results]').innerHTML='';h.hidden=false;return}
+    if(q.length<2){$('[data-aio-search-results]').innerHTML='';h.hidden=false;return;}
     h.hidden=true;
     $('[data-aio-search-results]').innerHTML='<div class="aio-v2-empty">Szukam…</div>';
-    t=setTimeout(async()=>render(await doSearch(q)),180);
+    const currentVersion=version;
+    t=setTimeout(async()=>{
+      if(currentVersion!==version||m.hidden)return;
+      const controller=new AbortController();inFlight=controller;
+      try{
+        const output=await doSearch(q,controller.signal);
+        if(currentVersion===version&&!m.hidden)render(output);
+      }catch(error){
+        if(error?.name!=='AbortError'&&currentVersion===version&&!m.hidden)
+          $('[data-aio-search-results]').textContent='Wyszukiwarka chwilowo niedostępna.';
+      }finally{if(inFlight===controller)inFlight=null;}
+    },180);
   };
 }
 
