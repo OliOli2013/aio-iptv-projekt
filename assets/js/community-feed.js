@@ -19,7 +19,7 @@
     state.mode=news?'official':(allowed.has(requested)?requested:'latest');
     fillCategories();syncTabs();bind();renderAccess();renderCompose();
     if(!AIOCommunity.backendReady){feed.innerHTML='<div class="community-error">Backend Społeczności jest niedostępny.</div>';return;}
-    if(news||AIOCommunity.user){await load(true);await loadStats();}
+    await load(true);await loadStats();
   }
   function fillCategories(){
     const select=q('[data-community-category]');
@@ -34,7 +34,7 @@
     if(cat)cat.onchange=()=>{state.category=cat.value;load(true);};
     qa('[data-community-mode]').forEach(b=>b.onclick=()=>{state.mode=b.dataset.communityMode;syncTabs();load(true);});
     if(more)more.onclick=()=>load(false);
-    document.addEventListener('aio-community-auth',async()=>{renderAccess();renderCompose();if(news||AIOCommunity.user){await load(true);await loadStats();}});
+    document.addEventListener('aio-community-auth',async()=>{renderAccess();renderCompose();await load(true);await loadStats();});
     document.addEventListener('click',handleAction);
     const form=q('[data-compose-form]');if(form)form.addEventListener('submit',submitPost);
     const images=q('[data-compose-images]');if(images)images.onchange=previewImages;
@@ -49,7 +49,9 @@
   function renderAccess(){
     const gate=q('[data-community-access-gate]'),content=q('[data-community-private-content]');
     const allowed=news||Boolean(AIOCommunity.user);
-    if(gate)gate.hidden=allowed;if(content)content.hidden=!allowed;
+    if(gate)gate.hidden=allowed;if(content)content.hidden=false;
+    qa('[data-community-mode="mine"]').forEach(b=>b.hidden=!AIOCommunity.user);
+    if(!AIOCommunity.user && state.mode==='mine'){state.mode='latest';syncTabs();}
   }
   function renderCompose(){
     const wrap=q('[data-community-compose]');if(!wrap)return;
@@ -60,7 +62,6 @@
   }
   async function load(reset){
     const feed=q('[data-community-feed]'),more=q('[data-community-more]');if(!feed||state.loading)return;
-    if(!news&&!AIOCommunity.user){feed.innerHTML='';return;}
     state.loading=true;if(reset){state.page=0;state.rows=[];feed.innerHTML='<div class="community-loading">Ładuję wpisy…</div>';}
     try{
       const d=await AIOCommunity.apiGet('feed',{mode:state.mode,category:state.category,search:state.search,page:state.page,pageSize:state.pageSize});
@@ -75,6 +76,19 @@
     feed.innerHTML=state.rows.map(card).join('');
   }
   function card(post){
+    if(post.teaser){
+      const image=post.attachments?.[0]?.url||'assets/branding/aio-iptv-share-20261010.png';
+      const photo=image?`<img src="${AIOCommunity.escapeAttr(image)}" alt="Grafika wpisu" loading="lazy" data-community-image>`:'';
+      return `<article class="community-post-card aio-community-teaser" data-post-id="${AIOCommunity.escapeAttr(post.id)}">
+        <div class="community-post-content"><span class="aio-teaser-eyebrow">PODGLĄD WPISU</span>
+        <h2><a href="post.html?id=${AIOCommunity.escapeAttr(post.id)}">${AIOCommunity.escape(post.title)}</a></h2>
+        ${photo?`<div class="aio-teaser-photo">${photo}</div>`:''}
+        <div class="aio-teaser-gate"><strong>🔒 Pozostała treść dla zarejestrowanych</strong>
+          <p>Zarejestruj się lub zaloguj, aby przeczytać cały wpis i odpowiedzi.</p>
+          <button class="button primary" type="button" data-community-login>Zarejestruj się / Zaloguj</button>
+          <a class="aio-teaser-link" href="post.html?id=${AIOCommunity.escapeAttr(post.id)}">Otwórz podgląd →</a>
+        </div></div></article>`;
+    }
     const a=post.author||{},cat=AIOCommunity.category(post.category),type=AIOCommunity.postType(post.post_type);
     const images=(post.attachments||[]).filter(x=>x?.url).slice(0,4);
     const canDelete=AIOCommunity.isOwner(post.author_id)||AIOCommunity.isAdmin();

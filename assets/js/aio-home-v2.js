@@ -87,7 +87,7 @@ async function latestCommunity(){
 
     box.innerHTML=d.rows.slice(0,4).map(p=>{
       const type=p.kind==='official'?'AKTUALIZACJA':'SPOŁECZNOŚĆ';
-      const image=p.attachments?.[0]?.url||'';
+      const image=p.attachments?.[0]?.url||(p.teaser?'assets/branding/aio-iptv-share-20261010.png':'');
       const preview=image
         ? `<div class="aio-v2-post-preview has-image"><img src="${esc(image)}" alt="" loading="lazy" decoding="async"></div>`
         : `<div class="aio-v2-post-preview"><span>${esc(type)}</span></div>`;
@@ -95,8 +95,8 @@ async function latestCommunity(){
         ${preview}
         <div class="meta"><span>${esc(type)}</span><time>${esc(datePL(p.published_at||p.created_at))}</time></div>
         <h3>${esc(p.title||'Wpis Społeczności AIO')}</h3>
-        <p>${esc(short(p.content,145))}</p>
-        <footer>${esc(p.author?.display_name||'AIO')} →</footer>
+        <p>${p.teaser?'🔒 Pełna treść po bezpłatnej rejestracji.':esc(short(p.content,145))}</p>
+        <footer>${p.teaser?'Zobacz podgląd →':esc(p.author?.display_name||'AIO')+' →'}</footer>
       </a>`;
     }).join('');
   }catch(_){

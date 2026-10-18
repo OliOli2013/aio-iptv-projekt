@@ -89,6 +89,22 @@ function canSeePost(row, session) {
   if (row.status === "published") return row.kind === "official" || Boolean(session?.user);
   return Boolean(session?.user && (session.user.id === row.author_id || isAdmin(session)));
 }
+/* AIO guest teaser V1: export only title and FIRST image for published community posts.
+ * Never return text, links, author profile, remaining images or comments to guests.
+ */
+function guestPostTeaser(row){
+  const image=parseAttachments(row.attachments).find(a=>{
+    const key=String(a?.key||a?.path||'');
+    return key.length>0 && key.length<=500 && /^(image\/jpeg|image\/png|image\/webp|image\/gif)$/i.test(String(a?.type||''));
+  });
+  const key=image?String(image.key||image.path):'';
+  return {
+    id:row.id,kind:'community',teaser:true,title:cleanText(row.title,140),
+    category:row.category,post_type:row.post_type,created_at:row.created_at,
+    attachments:key?[{url:'/api/community-media?key='+encodeURIComponent(key),type:String(image.type)}]:[]
+  };
+}
+
 async function insertNotification(env, userId, actorId, type, postId, commentId, message) {
   if (!userId || userId === actorId) return;
   await env.COMMUNITY_DB.prepare(`
@@ -178,7 +194,8 @@ export async function onRequestGet({request, env}) {
       const params=[];
       const where=[];
       if (!user) {
-        where.push(`p.status='published' AND p.kind='official'`);
+        where.push(`p.status='published'`);
+        if (mode === 'mine') where.push('1=0');
       } else if (mode === "official") {
         where.push(`p.status='published' AND p.kind='official'`);
       } else if (mode === "mine") {
@@ -190,7 +207,7 @@ export async function onRequestGet({request, env}) {
         if (mode === "solved") where.push(`p.post_type='problem' AND p.kind='community' AND p.solved=1`);
       }
       if (category) { where.push(`p.category=?`); params.push(allowedCategory(category)); }
-      if (search) { where.push(`(p.title LIKE ? OR p.content LIKE ?)`); params.push(`%${search}%`,`%${search}%`); }
+      if (search) { where.push(user ? `(p.title LIKE ? OR p.content LIKE ?)` : `(p.title LIKE ? OR (p.kind='official' AND p.content LIKE ?))`); params.push(`%${search}%`,`%${search}%`); }
       let order=`p.pinned DESC, p.created_at DESC`;
       if (mode==="popular") order=`p.pinned DESC,p.reaction_count DESC,p.comment_count DESC,p.created_at DESC`;
       const sql=`
@@ -202,13 +219,17 @@ export async function onRequestGet({request, env}) {
       `;
       params.push(pageSize,page*pageSize);
       const res=await db.prepare(sql).bind(...params).all();
-      const rows=await addReactions(env,res.results||[],user?.id);
+      const rawRows=res.results||[];
+      const decorated=await addReactions(env,rawRows,user?.id);
+      const rows=user?decorated:decorated.map((post,i)=>post.kind==='official'?post:guestPostTeaser(rawRows[i]));
       return json({ok:true,rows,hasMore:rows.length===pageSize,page,pageSize});
     }
 
     if (action === "post") {
       const id = cleanText(url.searchParams.get("id")||"",100);
       const row = await fetchPost(env,id);
+      if (!user && row?.status==='published' && row.kind==='community')
+        return json({ok:true,post:guestPostTeaser(row),comments:[]});
       if (!canSeePost(row,session)) return json({ok:false,error:user?"Nie znaleziono wpisu.":"Zaloguj się, aby przeczytać ten wpis."},user?404:401);
       const posts=await addReactions(env,[row],user?.id);
       const post=posts[0];

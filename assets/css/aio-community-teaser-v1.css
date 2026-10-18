@@ -1,0 +1,15 @@
+/* AIO post teasers: visual gate without exposing private body data. */
+.aio-community-teaser .community-post-content {overflow-wrap:anywhere}
+.aio-teaser-eyebrow {display:inline-block;margin-bottom:8px;font-size:.72rem;letter-spacing:.11em;font-weight:850;color:#64c8e5}
+.aio-community-teaser h1,.aio-community-teaser h2 {margin:8px 0 15px;line-height:1.2}
+.aio-community-teaser h2 a {color:inherit;text-decoration:none}
+.aio-teaser-photo {overflow:hidden;border-radius:14px;border:1px solid rgba(120,220,250,.16);margin:13px 0;max-width:100%}
+.aio-teaser-photo img {display:block;width:100%;max-height:440px;object-fit:contain;background:#062230}
+.aio-teaser-gate {padding:21px;margin:15px 0 0;border-radius:13px;border:1px solid rgba(114,217,242,.3);background:linear-gradient(125deg,#092e3d,#0a2735)}
+.aio-teaser-gate strong{display:block;font-size:1.05rem;color:#f3fbff}
+.aio-teaser-gate p{color:#bed6df;margin:8px 0 16px;line-height:1.55}
+.aio-teaser-gate button{min-height:44px;cursor:pointer}
+.aio-teaser-link{display:inline-block;margin:12px 0 0 16px;color:#80dcf9;text-decoration:none;font-weight:750}
+body.aio-community-v2 [data-community-access-gate] {text-align:left;margin-bottom:18px}
+body.aio-community-v2 [data-community-access-gate] .community-access-benefits {margin-top:14px}
+@media(max-width:680px){.aio-teaser-gate {padding:15px}.aio-teaser-link {display:block;margin:14px 0 0}.aio-teaser-photo img{max-height:310px}}

@@ -41,6 +41,17 @@
 
   function renderPost(){
     const root=q('[data-community-post]');if(!root||!post)return;
+    if(post.teaser){
+      const image=post.attachments?.[0]?.url||'assets/branding/aio-iptv-share-20261010.png';
+      root.innerHTML=`<article class="community-post-card aio-community-teaser"><div class="community-post-content">
+        <span class="aio-teaser-eyebrow">PODGLĄD WPISU SPOŁECZNOŚCI AIO</span><h1>${AIOCommunity.escape(post.title)}</h1>
+        ${image?`<div class="aio-teaser-photo"><img src="${AIOCommunity.escapeAttr(image)}" alt="Grafika wpisu" data-community-image></div>`:''}
+        <div class="aio-teaser-gate"><strong>🔒 Dalsza treść wymaga konta</strong>
+        <p>Zarejestruj się lub zaloguj, aby przeczytać cały wpis, zobaczyć pozostałe zdjęcia i komentarze.</p>
+        <button class="button primary" type="button" data-community-login>Zarejestruj się / Zaloguj</button>
+        <a class="aio-teaser-link" href="community.html">Zobacz inne wpisy →</a></div></div></article>`;
+      return;
+    }
     const a=post.author||{},cat=AIOCommunity.category(post.category),type=AIOCommunity.postType(post.post_type),imgs=(post.attachments||[]).filter(x=>x.url);
     const canManage=AIOCommunity.isOwner(post.author_id)||AIOCommunity.isAdmin();
     const canSolve=AIOCommunity.user&&canManage&&post.post_type==='problem';

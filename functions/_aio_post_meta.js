@@ -61,6 +61,37 @@ function substitute(html,row,id) {
   return html;
 }
 
+
+/* Published community posts expose only title and first image in server HTML.
+ * They remain NOINDEX and their body/attachments never appear in HTML or SEO data.
+ */
+function substituteTeaser(html,row,id){
+  const title=plain(row.title,140)||'Wpis Społeczności AIO';
+  const pageTitle=title+' — Społeczność AIO-IPTV.pl';
+  const description='Zarejestruj się lub zaloguj do Społeczności AIO, aby przeczytać pełną treść i komentarze.';
+  const canonical=SITE+'/post?id='+encodeURIComponent(id);
+  const photo=imageFor(row);
+  const replacements=[
+    [/<title>Wpis — Społeczność AIO<\/title>/,'<title>'+meta(pageTitle)+'</title>'],
+    [/<meta name="description" content="Wpis i odpowiedzi w Społeczności AIO dla użytkowników Enigma2\."\s*\/?\s*>/,'<meta name="description" content="'+meta(description)+'">'],
+    [/<meta property="og:title" content="Wpis — Społeczność AIO"\s*\/?\s*>/,'<meta property="og:title" content="'+meta(pageTitle)+'">'],
+    [/<meta property="og:description" content="Wpis i odpowiedzi w Społeczności AIO dla użytkowników Enigma2\."\s*\/?\s*>/,'<meta property="og:description" content="'+meta(description)+'">'],
+    [/<link rel="canonical" href="https:\/\/aio-iptv-projekt\.pages\.dev\/post"\s*\/?\s*>/,'<link rel="canonical" href="'+meta(canonical)+'">'],
+    [/<meta property="og:url" content="https:\/\/aio-iptv-projekt\.pages\.dev\/post"\s*\/?\s*>/,'<meta property="og:url" content="'+meta(canonical)+'">'],
+    [/<meta property="og:image" content="[^"]*"\s*\/?\s*>/,'<meta property="og:image" content="'+meta(photo)+'">'],
+    [/<meta property="og:image:secure_url" content="[^"]*"\s*\/?\s*>/,'<meta property="og:image:secure_url" content="'+meta(photo)+'">'],
+    [/<meta name="twitter:image" content="[^"]*"\s*\/?\s*>/,'<meta name="twitter:image" content="'+meta(photo)+'">'],
+    [/<meta itemprop="image" content="[^"]*"\s*\/?\s*>/,'<meta itemprop="image" content="'+meta(photo)+'">']
+  ];
+  if(!replacements.every(([p])=>p.test(html))||!html.includes('<section data-community-post></section>'))return null;
+  for(const [p,v] of replacements)html=html.replace(p,v);
+  const imageHtml='<img src="'+meta(photo)+'" alt="Grafika wpisu" loading="lazy" style="max-width:100%;height:auto;border-radius:12px">';
+  html=html.replace('<section data-community-post></section>',
+    '<section data-community-post><article class="community-post-card aio-community-teaser"><div class="community-post-content"><h1>'+escapeHtml(title)+'</h1>'+imageHtml+
+    '<p>🔒 Zarejestruj się lub zaloguj, aby przeczytać cały wpis.</p><a href="/community">Dołącz do Społeczności AIO →</a></div></article></section>');
+  return html;
+}
+
 export async function handleOfficialPost(context) {
   const {request,env} = context;
   const url = new URL(request.url);
@@ -77,8 +108,8 @@ export async function handleOfficialPost(context) {
   if (!ID_RE.test(id) || !env?.COMMUNITY_DB) return fallback();
   let row;
   try {
-    row = await env.COMMUNITY_DB.prepare(`SELECT title,content,attachments,published_at,updated_at
-      FROM community_posts WHERE id=? AND status='published' AND kind='official' LIMIT 1`).bind(id).first();
+    row = await env.COMMUNITY_DB.prepare(`SELECT title,content,attachments,published_at,updated_at,kind
+      FROM community_posts WHERE id=? AND status='published' AND kind IN ('official','community') LIMIT 1`).bind(id).first();
   }catch (error) {
     console.error('AIO SEO V1: D1 lookup failed:',error?.message);
     return fallback();
@@ -87,7 +118,7 @@ export async function handleOfficialPost(context) {
   const base = await context.next();
   if (base.status !== 200 || !String(base.headers.get('content-type')||'').toLowerCase().includes('text/html')) return base;
   let html = await base.text();
-  const updated = substitute(html,row,id);
+  const updated = row.kind==='official' ? substitute(html,row,id) : substituteTeaser(html,row,id);
   if (!updated) {
     console.error('AIO SEO V1: unexpected post.html template, keeping noindex.');
     return new Response(html,{status:base.status,headers:{'Content-Type':'text/html; charset=utf-8','X-Robots-Tag':'noindex, follow','Cache-Control':'private, no-store'}});
@@ -96,7 +127,7 @@ export async function handleOfficialPost(context) {
   headers.delete('Content-Length');headers.delete('ETag');headers.delete('Content-Encoding');
   headers.set('Content-Type','text/html; charset=utf-8');
   headers.set('Cache-Control','public, max-age=0, must-revalidate');
-  headers.set('X-Robots-Tag','index, follow');
+  headers.set('X-Robots-Tag',row.kind==='official'?'index, follow':'noindex, follow');
   headers.set('Vary','Accept-Encoding');
   return new Response(updated,{status:200,headers});
 }

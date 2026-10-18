@@ -26,15 +26,29 @@ function extFor(type,name){
  * przy wyszukiwaniu klucza R2 w polu JSON attachments.
  */
 async function canReadPublic(env,key){
-  const row=await env.COMMUNITY_DB.prepare(`
-    SELECT id
-    FROM community_posts
-    WHERE status='published'
-      AND kind='official'
-      AND instr(COALESCE(attachments,''), ?) > 0
-    LIMIT 1
+  // All attachments of official published posts retain their existing access.
+  const official=await env.COMMUNITY_DB.prepare(`
+    SELECT id FROM community_posts
+    WHERE status='published' AND kind='official'
+      AND instr(COALESCE(attachments,''), ?) > 0 LIMIT 1
   `).bind(key).first();
-  return Boolean(row);
+  if(official)return true;
+
+  // Only the first image of a published ordinary community post is public.
+  // Check the EXACT key inside parsed JSON; substring match alone is insufficient.
+  const rows=await env.COMMUNITY_DB.prepare(`
+    SELECT attachments FROM community_posts
+    WHERE status='published' AND kind='community'
+      AND instr(COALESCE(attachments,''), ?) > 0 LIMIT 30
+  `).bind(key).all();
+  for(const row of rows.results||[]){
+    let attachments;
+    try{attachments=JSON.parse(row.attachments||'[]');}catch(_){continue;}
+    if(!Array.isArray(attachments))continue;
+    const first=attachments.find(a=>a && /^(image\/jpeg|image\/png|image\/webp|image\/gif)$/i.test(String(a.type||'')));
+    if(first && String(first.key||first.path||'')===key)return true;
+  }
+  return false;
 }
 
 /* aio-maint-media-check-v1: member may access only own or actually published media. */
@@ -89,7 +103,7 @@ export async function onRequestGet({request,env}) {
     obj.writeHttpMetadata(headers);
     if(obj.httpEtag) headers.set("etag",obj.httpEtag);
     headers.set("x-content-type-options","nosniff");
-    headers.set("cache-control",publicAllowed?"public, max-age=86400":"private, max-age=3600");
+    headers.set("cache-control",publicAllowed?"public, max-age=300":"private, max-age=3600");
 
     return new Response(obj.body,{headers});
   }catch(e){
