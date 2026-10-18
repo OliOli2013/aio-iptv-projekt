@@ -1,7 +1,7 @@
 /* AIO Access V4 — lokalne pobieranie wyłącznie po zalogowaniu.
  * Uprawnienia 7D i limit dzienny pochodzą z D1, nie z IP ani cookies klienta.
  */
-import {initAccess,sessionUser,getStatus,consumeFree} from '../_aio_account_access.js';
+import {initAccess,sessionUser,getStatus,consumeFree,hasActiveFileRetry} from '../_aio_account_access.js';
 import {queueIssuedFileAudit} from '../_aio_owner_downloads.js';
 const IMG=/\.(?:png|jpe?g|webp|gif|svg|avif)$/i;
 const NO_CACHE={'Cache-Control':'private, no-store'};
@@ -36,7 +36,9 @@ async function handle(context){
       return redirectToInformation(request,'aio_login');
     }
     const state=await getStatus(env,user.id);
-    if(!state.active && state.free_remaining<=0){
+    const fileKey=new URL(request.url).pathname;
+    const retry=!state.active && await hasActiveFileRetry(env,user.id,fileKey);
+    if(!state.active && state.free_remaining<=0 && !retry){
       if(request.method==='HEAD')return accessDenied('Dzienny limit wykorzystany.',429);
       return redirectToInformation(request,'aio_limit');
     }
@@ -46,7 +48,7 @@ async function handle(context){
     if(asset.status!==200 && asset.status!==206)return asset;
     const contentType=String(asset.headers.get('content-type')||'').toLowerCase();
     if(contentType.startsWith('text/html'))return asset; // np. fallback strony, nie materiał
-    const permit=await consumeFree(env,user.id); // atomowy licznik D1
+    const permit=await consumeFree(env,user.id,fileKey); // atomowe pobranie lub wznowienie
     if(!permit.allowed)return accessDenied('Limit pobierania wykorzystany. Po potwierdzonym wsparciu możesz otrzymać 7 dni dostępu.',429);
     const headers=new Headers(asset.headers);headers.set('Cache-Control','private, no-store');
     const issued=new Response(asset.body,{status:asset.status,statusText:asset.statusText,headers});

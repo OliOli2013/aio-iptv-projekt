@@ -1,4 +1,4 @@
-/* Authenticated 7-day access and one free item per account/day. */
+/* Authenticated 7-day/VIP access and 3 free items per account/day. */
 import {requireAdmin} from '../_community.js';
 import {initAccess,sessionUser,getStatus,consumeFree,startFlow,flowOpened,flowComplete,registerReceipt,response,fail,ROLLOUT,LEGACY_END} from '../_aio_account_access.js';
 function sameOrigin(req){const origin=req.headers.get('Origin');if(origin && origin!==new URL(req.url).origin)return false;return req.headers.get('Sec-Fetch-Site')!=='cross-site';}

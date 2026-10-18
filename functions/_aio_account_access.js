@@ -36,7 +36,13 @@ export async function initAccess(env){
       FOREIGN KEY(user_id) REFERENCES community_profiles(id) ON DELETE CASCADE
     )`),
     env.COMMUNITY_DB.prepare('CREATE INDEX IF NOT EXISTS idx_aio_access_approvals_queue ON aio_access_approval_requests(status,created_at)'),
-    env.COMMUNITY_DB.prepare('CREATE INDEX IF NOT EXISTS idx_aio_access_approvals_user ON aio_access_approval_requests(user_id,created_at)')
+    env.COMMUNITY_DB.prepare('CREATE INDEX IF NOT EXISTS idx_aio_access_approvals_user ON aio_access_approval_requests(user_id,created_at)'),
+    env.COMMUNITY_DB.prepare(`CREATE TABLE IF NOT EXISTS aio_access_account_file_retries (
+      id TEXT PRIMARY KEY, user_id TEXT NOT NULL, day TEXT NOT NULL,
+      file_key TEXT NOT NULL, opened_ms INTEGER NOT NULL, expires_ms INTEGER NOT NULL
+    )`),
+    env.COMMUNITY_DB.prepare('CREATE INDEX IF NOT EXISTS idx_aio_free_retries_day ON aio_access_account_file_retries(user_id,day)'),
+    env.COMMUNITY_DB.prepare('CREATE INDEX IF NOT EXISTS idx_aio_free_retries_file ON aio_access_account_file_retries(user_id,file_key,expires_ms)')
   ]))().catch(e=>{schemaInit=null;throw e;});
   await schemaInit;
 }
@@ -73,28 +79,83 @@ export async function recoverForUser(env,userId){
     if(receipt) await putGrant(env,userId,receipt.paid_at,'verified_receipt',receipt.reference);
   }
 }
+export const FREE_DAILY_LIMIT = 3;
+export const FILE_RETRY_MS = 30 * 60 * 1000;
+
+/** Path keys are taken from URL.pathname, never from an unsigned browser token. */
+export function validLocalFileKey(value){
+  return typeof value==='string' && value.startsWith('/pliki/') && value.length<=800 &&
+    !/[\\\x00-\x1f\x7f]/.test(value) && !/\.(?:png|jpe?g|webp|gif|svg|avif)$/i.test(value);
+}
+
+export async function hasActiveFileRetry(env,userId,fileKey,now=Date.now()){
+  if(!validLocalFileKey(fileKey))return false;
+  const row=await env.COMMUNITY_DB.prepare(`SELECT 1 AS yes FROM aio_access_account_file_retries
+    WHERE user_id=? AND file_key=? AND expires_ms>? LIMIT 1`).bind(userId,fileKey,now).first();
+  return !!row;
+}
+
 export async function getStatus(env,userId){
   await initAccess(env);await recoverForUser(env,userId);
   const day=warsawDay(), now=Date.now();
   const vip=await getVipStatus(env,userId);
   if(vip.active)return {authenticated:true,active:true,vip:true,expires_at:vip.expires_at,
-    source:'owner_vip',free_remaining:1,day};
-  const [grant,used]=await Promise.all([
+    source:'owner_vip',free_remaining:FREE_DAILY_LIMIT,free_limit:FREE_DAILY_LIMIT,day};
+  const [grant,used,fileCount,retries]=await Promise.all([
     env.COMMUNITY_DB.prepare('SELECT expires_at,source,issued_at FROM aio_access_account_grants WHERE user_id=?').bind(userId).first(),
-    env.COMMUNITY_DB.prepare('SELECT used FROM aio_access_account_daily WHERE user_id=? AND day=?').bind(userId,day).first()
+    env.COMMUNITY_DB.prepare('SELECT used FROM aio_access_account_daily WHERE user_id=? AND day=?').bind(userId,day).first(),
+    env.COMMUNITY_DB.prepare('SELECT COUNT(*) AS n FROM aio_access_account_file_retries WHERE user_id=? AND day=?').bind(userId,day).first(),
+    env.COMMUNITY_DB.prepare(`SELECT file_key FROM aio_access_account_file_retries
+      WHERE user_id=? AND expires_ms>? ORDER BY opened_ms DESC LIMIT 8`).bind(userId,now).all()
   ]);
   // Fail closed for previously unverified browser-flow grants still stored in D1.
   // Only verified receipts imported by the owner or explicit owner approval count.
   const trustedSource=['verified_receipt','owner_verified_support'].includes(String(grant?.source||''));
   const active=!!grant && trustedSource && Date.parse(grant.expires_at)>now;
+  const consumed=Number(used?.used||0)+Number(fileCount?.n||0);
   return {authenticated:true,active,expires_at:active?grant.expires_at:null,
-    source:active?grant.source:null,free_remaining:active?1:Math.max(0,1-Number(used?.used||0)),day};
+    source:active?grant.source:null,free_limit:FREE_DAILY_LIMIT,
+    free_remaining:active?FREE_DAILY_LIMIT:Math.max(0,FREE_DAILY_LIMIT-consumed),
+    retry_files:(retries.results||[]).map(row=>row.file_key),day};
 }
-export async function consumeFree(env,userId){
-  const status=await getStatus(env,userId);if(status.active)return {...status,allowed:true,reason:status.vip?'vip':'grant'};
+
+/** External downloads use an atomic counter, respecting local-file tickets. */
+export async function consumeFree(env,userId,fileKey=null){
+  const status=await getStatus(env,userId);
+  if(status.active)return {...status,allowed:true,reason:status.vip?'vip':'grant'};
   const day=warsawDay();
+  if(fileKey!==null){
+    if(!validLocalFileKey(fileKey))throw fail(400,'Nieprawidłowa ścieżka pliku.');
+    const now=Date.now();
+    // A second or resumed GET/Range for this very file doesn't consume quota.
+    if(await hasActiveFileRetry(env,userId,fileKey,now))
+      return {allowed:true,reason:'free_retry',day};
+    // One statement: check daily usage, check for a concurrent retry ticket,
+    // and issue a new ticket atomically. Each ticket counts until midnight.
+    const issued=await env.COMMUNITY_DB.prepare(`INSERT INTO aio_access_account_file_retries
+      (id,user_id,day,file_key,opened_ms,expires_ms)
+      SELECT ?,?,?,?,?,?
+      WHERE COALESCE((SELECT used FROM aio_access_account_daily WHERE user_id=? AND day=?),0)
+        + (SELECT COUNT(*) FROM aio_access_account_file_retries WHERE user_id=? AND day=?) < ?
+        AND NOT EXISTS (SELECT 1 FROM aio_access_account_file_retries
+          WHERE user_id=? AND file_key=? AND expires_ms>?)`)
+      .bind(crypto.randomUUID(),userId,day,fileKey,now,now+FILE_RETRY_MS,
+        userId,day,userId,day,FREE_DAILY_LIMIT,userId,fileKey,now).run();
+    if(Number(issued.meta?.changes||0)===1){
+      // Low-cost bounded retention; never needed to decide the current quota.
+      try{await env.COMMUNITY_DB.prepare('DELETE FROM aio_access_account_file_retries WHERE day<?')
+        .bind(warsawDay(new Date(Date.now()-7*86400000))).run();}catch(_){}
+      return {allowed:true,reason:'free',day};
+    }
+    // Concurrent request for the same file may have inserted the ticket.
+    const retried=await hasActiveFileRetry(env,userId,fileKey,Date.now());
+    return {allowed:retried,reason:retried?'free_retry':'limit',day};
+  }
   await env.COMMUNITY_DB.prepare('INSERT OR IGNORE INTO aio_access_account_daily(user_id,day,used) VALUES(?,?,0)').bind(userId,day).run();
-  const changed=await env.COMMUNITY_DB.prepare('UPDATE aio_access_account_daily SET used=used+1 WHERE user_id=? AND day=? AND used<1').bind(userId,day).run();
+  const changed=await env.COMMUNITY_DB.prepare(`UPDATE aio_access_account_daily SET used=used+1
+    WHERE user_id=? AND day=? AND used+
+      (SELECT COUNT(*) FROM aio_access_account_file_retries WHERE user_id=? AND day=?)<?`)
+    .bind(userId,day,userId,day,FREE_DAILY_LIMIT).run();
   return {allowed:Number(changed.meta?.changes||0)>0,reason:'free',day};
 }
 export async function startFlow(env,userId,method){

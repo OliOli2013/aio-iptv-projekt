@@ -464,7 +464,7 @@
   }
 })();
 
-/* ===== AIO-IPTV Access 2.2 + Link Shield — 1 wspólny bezpłatny plik/link dziennie ===== */
+/* ===== AIO-IPTV Access — 3 bezpłatne pobrania/linki dziennie ===== */
 (function () {
   'use strict';
 
@@ -474,7 +474,7 @@
     kofi: 'https://ko-fi.com/pawelpawlek'
   };
 
-  const DOWNLOAD_POLICY = { freePerDay: 1 };
+  const DOWNLOAD_POLICY = { freePerDay: 3 };
   const DOWNLOAD_EXTENSIONS = /\.(?:ipk|apk|exe|msi|zip|7z|rar|deb|rpm|pdf|tar|tgz|gz|xz|img|bin|iso|m3u|m3u8|xml|conf|cfg|backup|sh|py|json|txt|list|tv|radio|bouquet)(?:$|[?#])/i;
   const IMAGE_EXTENSIONS = /\.(?:png|jpe?g|webp|gif|svg|avif)(?:$|[?#])/i;
   const SUPPORT_HOSTS = /(?:^|\.)(?:ko-fi\.com|revolut\.me|buycoffee\.to)$/i;
@@ -758,7 +758,7 @@
       if(!accessIndicator)return;
        if(!info.authenticated){
          accessIndicator.className='aio-access-indicator is-locked';
-         accessIndicator.innerHTML='<span class="aio-access-dot">!</span><div><strong>Pobieranie tylko dla zalogowanych</strong><small>Rejestracja jest bezpłatna. Po zalogowaniu: 1 darmowy plik dziennie, a po potwierdzonym wsparciu kawą — 7 dni dostępu na konto.</small></div><a href="community.html">Zaloguj się / Dołącz</a>';
+         accessIndicator.innerHTML='<span class="aio-access-dot">!</span><div><strong>Pobieranie tylko dla zalogowanych</strong><small>Rejestracja jest bezpłatna. Po zalogowaniu: 3 darmowe pobrania dziennie, a po potwierdzonym wsparciu — 7 dni dodatkowego dostępu.</small></div><a href="community.html">Zaloguj się / Dołącz</a>';
       }else if(info.vip && info.active){
         accessIndicator.className='aio-access-indicator is-unlocked';
         const until=new Intl.DateTimeFormat('pl-PL',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(info.expires_at));
@@ -769,7 +769,7 @@
         accessIndicator.innerHTML='<span class="aio-access-dot">✓</span><div><strong>AIO Access — dostęp aktywny</strong><small>7 dni liczone od odblokowania. Ważność: '+until+'. Uprawnienie przypisane do konta.</small></div><a href="support.html">Wsparcie projektu</a>';
       }else if(info.free_remaining>0){
         accessIndicator.className='aio-access-indicator is-free';
-        accessIndicator.innerHTML='<span class="aio-access-dot">1</span><div><strong>AIO Access — bezpłatne pobranie</strong><small>Jedno bezpłatne pobranie dziennie na konto, nie na adres IP.</small></div><a href="support.html">Zasady</a>';
+        accessIndicator.innerHTML='<span class="aio-access-dot">'+info.free_remaining+'</span><div><strong>AIO Access — darmowe pobrania</strong><small>Pozostało '+info.free_remaining+' z 3 darmowych pobrań dzisiaj.</small></div><a href="support.html">Zasady</a>';
       }else{
         accessIndicator.className='aio-access-indicator is-locked';
         accessIndicator.innerHTML='<span class="aio-access-dot">!</span><div><strong>AIO Access — limit dzienny wykorzystany</strong><small>Po potwierdzeniu wpłaty administrator przyzna Ci 7 dni dostępu na konto.</small></div><a href="support.html">Wsparcie</a>';
@@ -789,7 +789,7 @@
         <div class="support-gate-icon" aria-hidden="true">♥</div>
         <p class="support-gate-eyebrow">AIO ACCESS 2.1 • WSPARCIE PROJEKTÓW</p>
         <h2 id="support-gate-title">Pomóż rozwijać projekty dla Enigma2</h2>
-        <p id="support-gate-description">Pierwsze pobranie każdego dnia jest bezpłatne. Po potwierdzonym wsparciu kawą otrzymasz 7 dni dostępu przypisane do konta. Wsparcie pomaga rozwijać stronę oraz projekty AIO.</p>
+        <p id="support-gate-description">Trzy pobrania każdego dnia są bezpłatne. Po potwierdzonym wsparciu kawą otrzymasz 7 dni dostępu przypisane do konta. Wsparcie pomaga rozwijać stronę oraz projekty AIO.</p>
         <div class="aio-access-v31-support-note" role="note" hidden>
           <strong>☕ DOWOLNA KWOTA WSPARCIA — TY DECYDUJESZ</strong>
           <span>Nie ma ustalonej kwoty. Wpłać tyle, ile chcesz i na ile Cię stać — tak, jak doceniasz moją pracę. Po zatwierdzeniu wpłaty otrzymasz 7 dni dodatkowych pobrań.</span>
@@ -867,7 +867,7 @@
     notice.append(strong,subtitle);
     const file=document.createElement('p');file.textContent=item?.label?'Wybrany plik: '+String(item.label).slice(0,110):'Wybrany materiał AIO';
     const rules=document.createElement('p');
-    rules.textContent='Po zalogowaniu masz jedno darmowe pobranie każdego dnia. Dalsze pobrania przez 7 dni są dostępne po zatwierdzeniu wpłaty przez administratora. Każde zgłoszenie trafia do kolejki; możesz też poprosić o szybszą weryfikację. Wsparcie pomaga utrzymywać stronę i bezpłatne projekty AIO. Dostęp przypisujemy do konta.';
+    rules.textContent='Po zalogowaniu masz trzy darmowe pobrania każdego dnia. Dalsze pobrania przez 7 dni są dostępne po zatwierdzeniu wpłaty przez administratora. Każde zgłoszenie trafia do kolejki; możesz też poprosić o szybszą weryfikację. Wsparcie pomaga utrzymywać stronę i bezpłatne projekty AIO. Dostęp przypisujemy do konta.';
     rules.style.lineHeight='1.6';
     const buttons=document.createElement('div');buttons.className='aio-access-v31-buttons';
     const join=document.createElement('button');join.type='button';join.className='is-primary';join.textContent='Zaloguj się / Załóż konto';
@@ -881,7 +881,7 @@
     const panel=document.createElement('aside');panel.id='aio-member-welcome-v4';
     panel.setAttribute('role','status');panel.style.cssText='position:fixed;z-index:99999;bottom:20px;right:20px;width:min(92vw,410px);padding:18px;background:#103b48;color:#f1fcff;border:1px solid #56c9d2;border-radius:13px;box-shadow:0 15px 40px #0008;line-height:1.5';
     const title=document.createElement('strong');title.textContent='Witaj w AIO! Twoje pobieranie jest aktywne.';title.style.display='block';
-    const copy=document.createElement('p');copy.textContent='Masz jedno bezpłatne pobranie dziennie. Po potwierdzonym wsparciu kawą otrzymasz 7 dni dostępu przypisane do konta. Dziękujemy za pomoc w rozwijaniu projektów AIO.';
+    const copy=document.createElement('p');copy.textContent='Masz trzy bezpłatne pobrania dziennie. Po potwierdzonym wsparciu kawą otrzymasz 7 dni dostępu przypisane do konta. Dziękujemy za pomoc w rozwijaniu projektów AIO.';
     const close=document.createElement('button');close.type='button';close.textContent='Rozumiem';close.style.cssText='padding:8px 14px;background:#077986;border:0;color:white;border-radius:7px;cursor:pointer';
     close.addEventListener('click',()=>panel.remove());panel.append(title,copy,close);document.body.append(panel);
   }
@@ -893,7 +893,8 @@ async function accountDownload(item,kind){
       const target=new URL(item.href,location.href);
       const localFile=target.origin===location.origin && /^\/pliki\//i.test(target.pathname);
       if(info.active){trackAccessActivity('unlocked_access',item,{kind});openDownloadTarget(item);return;}
-      if(info.free_remaining>0){
+      const canRetry=localFile && Array.isArray(info.retry_files) && info.retry_files.includes(target.pathname);
+      if(info.free_remaining>0 || canRetry){
         // /pliki/ is accounted for atomically by the server when GET is served.
         if(!localFile)await accountApi({action:'consume'});
         trackAccessActivity('free_access',item,{kind});openDownloadTarget(item);
@@ -1014,7 +1015,7 @@ async function accountDownload(item,kind){
     if(accountNotice) accountNotice.hidden = !(modalMode === 'limit' || modalMode === 'community-link-limit');
 
     if (modalMode === 'community-link-limit' && download) {
-      title.textContent = 'Dzisiejszy bezpłatny dostęp został wykorzystany';
+      title.textContent = 'Wykorzystano 3 darmowe pobrania na dziś';
       description.textContent = 'Dzisiejszy darmowy limit został wykorzystany. Dodatkowe linki będą dostępne po wpłacie i jej zatwierdzeniu przez administratora.';
       note.textContent = 'Wybierz metodę wsparcia dla tego linku.';
       fileBox.hidden = false; methods.hidden = false;
@@ -1023,7 +1024,7 @@ async function accountDownload(item,kind){
       cancel.textContent = 'Anuluj';
       continueButton.textContent = 'Wybierz metodę wsparcia'; continueButton.disabled = true;
     } else if (modalMode === 'limit' && download) {
-      title.textContent = 'Dzisiejsze bezpłatne pobranie zostało wykorzystane';
+      title.textContent = 'Wykorzystano 3 darmowe pobrania na dziś';
       description.textContent = 'Dzisiejszy darmowy limit został wykorzystany. Dodatkowe pobierania przez 7 dni udostępnimy po wpłacie i jej zatwierdzeniu przez administratora.';
       note.textContent = 'Wybierz metodę wsparcia dla tego pliku.';
       fileBox.hidden = false; methods.hidden = false;
@@ -1033,7 +1034,7 @@ async function accountDownload(item,kind){
       continueButton.textContent = 'Wybierz metodę wsparcia'; continueButton.disabled = true;
     } else {
       title.textContent = 'Jak działa AIO Access 2.1?';
-      description.textContent = 'Jedno pobranie dziennie jest bezpłatne. Wysokość wsparcia wybierasz sam. Po zatwierdzeniu wpłaty uzyskasz 7 dni dodatkowych pobrań.';
+      description.textContent = 'Trzy pobrania dziennie są bezpłatne. Wysokość wsparcia wybierasz sam. Po zatwierdzeniu wpłaty uzyskasz 7 dni dodatkowych pobrań.';
       note.textContent = 'Samo odwiedzenie strony płatności nie potwierdza wsparcia. Do czasu automatycznego połączenia z operatorem płatności wpłaty weryfikuje administrator.';
       fileBox.hidden = true; methods.hidden = true;
       fileNameElement.textContent = '';
