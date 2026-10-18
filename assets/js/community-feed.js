@@ -2,7 +2,7 @@
 /* Społeczność AIO — Cloudflare feed, 2026-10-08 */
 (function(){
   'use strict';
-  const state={page:0,search:'',category:'',mode:'latest',loading:false,rows:[],pageSize:12};
+  const state={page:0,search:'',category:'',mode:'latest',loading:false,rows:[],pageSize:12,requestSeq:0,activeController:null};
   const q=(s,c=document)=>c.querySelector(s), qa=(s,c=document)=>Array.from(c.querySelectorAll(s));
   let news=false;
 
@@ -61,14 +61,40 @@
     const note=q('[data-compose-approval]',wrap);if(note&&AIOCommunity.user)note.textContent=(AIOCommunity.isAdmin()||AIOCommunity.profile?.trusted)?'Twój wpis zostanie opublikowany od razu.':'Pierwszy wpis może wymagać zatwierdzenia.';
   }
   async function load(reset){
-    const feed=q('[data-community-feed]'),more=q('[data-community-more]');if(!feed||state.loading)return;
-    state.loading=true;if(reset){state.page=0;state.rows=[];feed.innerHTML='<div class="community-loading">Ładuję wpisy…</div>';}
+    const feed=q('[data-community-feed]'),more=q('[data-community-more]');
+    if(!feed||(!reset&&state.loading))return;
+    // AIO AUDIT FIX V1: a new filter/search cancels any obsolete request.
+    // Older responses must never overwrite a newer filter or login state.
+    if(reset){
+      state.requestSeq++;
+      if(state.activeController)state.activeController.abort();
+      state.page=0;state.rows=[];
+      feed.innerHTML='<div class="community-loading">Ładuję wpisy…</div>';
+      if(more)more.hidden=true;
+    }
+    const seq=state.requestSeq;
+    const page=state.page;
+    const controller=new AbortController();
+    state.activeController=controller;
+    state.loading=true;
     try{
-      const d=await AIOCommunity.apiGet('feed',{mode:state.mode,category:state.category,search:state.search,page:state.page,pageSize:state.pageSize});
-      state.rows=reset?d.rows:state.rows.concat(d.rows||[]);
-      render();if(more)more.hidden=!d.hasMore;if(d.hasMore)state.page++;
-    }catch(e){feed.innerHTML=`<div class="community-error"><strong>Nie udało się pobrać wpisów.</strong><p>${AIOCommunity.escape(AIOCommunity.friendlyError(e))}</p></div>`;}
-    finally{state.loading=false;}
+      const d=await AIOCommunity.apiGet('feed',{
+        mode:state.mode,category:state.category,search:state.search,page,pageSize:state.pageSize
+      },{signal:controller.signal});
+      if(controller.signal.aborted||seq!==state.requestSeq)return;
+      state.rows=reset?(d.rows||[]):state.rows.concat(d.rows||[]);
+      render();
+      if(more)more.hidden=!d.hasMore;
+      if(d.hasMore)state.page=page+1;
+    }catch(e){
+      if(controller.signal.aborted||seq!==state.requestSeq)return;
+      feed.innerHTML=`<div class="community-error"><strong>Nie udało się pobrać wpisów.</strong><p>${AIOCommunity.escape(AIOCommunity.friendlyError(e))}</p></div>`;
+    }finally{
+      if(seq===state.requestSeq){
+        state.loading=false;
+        if(state.activeController===controller)state.activeController=null;
+      }
+    }
   }
   function render(){
     const feed=q('[data-community-feed]');

@@ -72,9 +72,13 @@
           '<div class="download-actions"><a class="button primary" href="'+esc(href)+'"'+(isExternal?' target="_blank" rel="noopener noreferrer"':'')+'>Pobierz</a><a class="button" href="'+esc(page)+'">Opis / instrukcja</a></div>';
         root.prepend(card);added++;
       }
-      // Refresh existing filter and counter implementations after adding new cards.
-      if(added){document.querySelector('#downloadSearch')?.dispatchEvent(new Event('input',{bubbles:true}));}
+      // Refresh existing filter/counter implementations after adding new cards.
+      // The explicit event keeps future filter implementations independent of the legacy search field.
       root.insertAdjacentElement('beforebegin',section);
+      if(added){
+        document.querySelector('#downloadSearch')?.dispatchEvent(new Event('input',{bubbles:true}));
+        document.dispatchEvent(new CustomEvent('aio:download-catalog-updated',{detail:{added}}));
+      }
     }catch(e){console.warn('AIO Catalog V1: katalog opcjonalny niedostępny.',e);}
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();

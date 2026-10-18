@@ -141,6 +141,8 @@ advanced?.addEventListener('click',()=>{
 [oldSearch,category,status,archive,platform,license].filter(Boolean).forEach(el=>{
   el.addEventListener(el===oldSearch?'input':'change',scheduleRefresh);
 });
+// AIO AUDIT FIX V1: new catalog cards already use dynamic selectors in refresh().
+document.addEventListener('aio:download-catalog-updated',scheduleRefresh);
 
 const params=new URLSearchParams(location.search);
 const initialQ=normalize(params.get('q')||'');

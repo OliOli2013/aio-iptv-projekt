@@ -1,0 +1,49 @@
+name: AIO Audit Fix V1 - regresja
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'functions/api/community.js'
+      - 'assets/js/community-core.js'
+      - 'assets/js/community-feed.js'
+      - 'assets/js/aio-catalog-downloads-v1.js'
+      - 'assets/js/aio-downloads-v2.js'
+      - 'assets/js/pro-suite.js'
+      - 'scripts/aio_audit_fix_v1_verify.py'
+      - 'scripts/aio_audit_fix_v1_test.cjs'
+      - '.github/workflows/aio-audit-fix-v1.yml'
+  pull_request:
+    paths:
+      - 'functions/api/community.js'
+      - 'assets/js/community-core.js'
+      - 'assets/js/community-feed.js'
+      - 'assets/js/aio-catalog-downloads-v1.js'
+      - 'assets/js/aio-downloads-v2.js'
+      - 'assets/js/pro-suite.js'
+      - 'scripts/aio_audit_fix_v1_verify.py'
+      - 'scripts/aio_audit_fix_v1_test.cjs'
+      - '.github/workflows/aio-audit-fix-v1.yml'
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Audit Fix V1 - kontrola kodu
+        run: python3 scripts/aio_audit_fix_v1_verify.py
+      - name: Test wyszukiwania i filtra oficjalnych
+        run: node scripts/aio_audit_fix_v1_test.cjs
+      - name: Kontrola skladni JS
+        run: |
+          for f in functions/api/community.js assets/js/community-core.js assets/js/community-feed.js assets/js/aio-catalog-downloads-v1.js assets/js/aio-downloads-v2.js assets/js/pro-suite.js; do
+            node --input-type=module --check < "$f"
+          done

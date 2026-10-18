@@ -195,6 +195,8 @@ export async function onRequestGet({request, env}) {
       const where=[];
       if (!user) {
         where.push(`p.status='published'`);
+        // AIO AUDIT FIX V1: the public News page must show official posts only.
+        if (mode === 'official') where.push(`p.kind='official'`);
         if (mode === 'mine') where.push('1=0');
       } else if (mode === "official") {
         where.push(`p.status='published' AND p.kind='official'`);

@@ -105,11 +105,11 @@
       };
     },
 
-    async apiGet(action, params={}){
+    async apiGet(action, params={}, options={}){
       const u=new URL('/api/community',location.origin);
       u.searchParams.set('action',action);
       Object.entries(params).forEach(([k,v])=>{if(v!==undefined&&v!==null&&v!=='')u.searchParams.set(k,String(v));});
-      const r=await fetch(u,{credentials:'include',cache:'no-store'});
+      const r=await fetch(u,{credentials:'include',cache:'no-store',signal:options.signal});
       const d=await r.json().catch(()=>({ok:false,error:'Nieprawidłowa odpowiedź serwera.'}));
       if(!r.ok||d.ok===false) throw new Error(d.error||('HTTP '+r.status));
       return d;
