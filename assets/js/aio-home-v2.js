@@ -23,6 +23,8 @@ async function loadUnifiedCatalog(){
   }
   return unifiedCatalogPromise;
 }
+// Use the already requested catalog for homepage project version labels.
+window.AIOHomeCatalogV1 = loadUnifiedCatalog;
 async function loadDownloadCatalog(){return (await loadUnifiedCatalog()).files;}
 
 function catalogDate(value){
@@ -227,9 +229,21 @@ function searchInit(){
   };
 }
 
+// Do not query the D1 feed until the user approaches the community section.
+function nearViewport(selector,load){
+  const target=$(selector);
+  if(!target)return;
+  if(typeof IntersectionObserver!=='function'){load();return;}
+  const observer=new IntersectionObserver(entries=>{
+    if(!entries.some(entry=>entry.isIntersecting))return;
+    observer.disconnect();
+    load();
+  },{rootMargin:'320px 0px'});
+  observer.observe(target);
+}
 function init(){
   latestDownloads();
-  latestCommunity();
+  nearViewport('[data-aio-community-latest]',latestCommunity);
   searchInit();
   const y=$('#year');if(y)y.textContent=new Date().getFullYear();
   const b=$('[data-copy-command]');

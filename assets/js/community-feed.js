@@ -104,7 +104,7 @@
   function card(post){
     if(post.teaser){
       const image=post.attachments?.[0]?.url||'assets/branding/aio-iptv-share-20261010.png';
-      const photo=image?`<img src="${AIOCommunity.escapeAttr(image)}" alt="Grafika wpisu" loading="lazy" data-community-image>`:'';
+      const photo=image?`<img src="${AIOCommunity.escapeAttr(image)}" alt="Grafika wpisu" loading="lazy" decoding="async" data-community-image>`:'';
       return `<article class="community-post-card aio-community-teaser" data-post-id="${AIOCommunity.escapeAttr(post.id)}">
         <div class="community-post-content"><span class="aio-teaser-eyebrow">PODGLĄD WPISU</span>
         <h2><a href="post.html?id=${AIOCommunity.escapeAttr(post.id)}">${AIOCommunity.escape(post.title)}</a></h2>
@@ -123,7 +123,7 @@
       <header class="community-post-head">${AIOCommunity.avatarHtml(a,a.display_name)}<div class="community-post-author"><strong><a href="profile.html?id=${AIOCommunity.escapeAttr(post.author_id)}">${AIOCommunity.escape(a.display_name||'Użytkownik')}</a>${a.role&&a.role!=='user'?` <span class="community-role ${AIOCommunity.escapeAttr(a.role)}">${AIOCommunity.escape(AIOCommunity.roleLabel(a.role))}</span>`:''}</strong><small>${AIOCommunity.escape([a.tuner_model,a.system_name].filter(Boolean).join(' • ')||(post.kind==='official'?'Oficjalny wpis AIO-IPTV.pl':'Użytkownik Społeczności AIO'))}</small></div><div class="community-post-meta">${AIOCommunity.escape(AIOCommunity.timeAgo(post.created_at))}</div></header>
       <div class="community-post-content"><div class="community-post-tags">${post.kind==='official'?'<span class="community-status-pill official">✓ Oficjalne</span>':''}${post.pinned?'<span class="community-status-pill pinned">📌 Przypięte</span>':''}<span class="community-status-pill post-type ${AIOCommunity.escapeAttr(type.id)}">${AIOCommunity.escape(type.icon+' '+type.label)}</span>${post.solved?'<span class="community-status-pill solved">✅ Rozwiązane</span>':''}<span class="community-category">${AIOCommunity.escape(cat.icon+' '+cat.label)}</span></div>
       <h2><a href="post.html?id=${AIOCommunity.escapeAttr(post.id)}">${AIOCommunity.escape(post.title)}</a></h2>
-      <div class="community-post-text">${AIOCommunity.formatText(post.content,limit)}</div>${images.length?`<div class="community-media-grid ${images.length===1?'one':''}">${images.map(x=>`<img src="${AIOCommunity.escapeAttr(x.url)}" alt="Zdjęcie do wpisu" loading="lazy" data-community-image>`).join('')}</div>`:''}</div>
+      <div class="community-post-text">${AIOCommunity.formatText(post.content,limit)}</div>${images.length?`<div class="community-media-grid ${images.length===1?'one':''}">${images.map(x=>`<img src="${AIOCommunity.escapeAttr(x.url)}" alt="Zdjęcie do wpisu" loading="lazy" decoding="async" data-community-image>`).join('')}</div>`:''}</div>
       <footer class="community-post-footer">${reaction(post,'helpful','👍 Pomocne')}${reaction(post,'works','✅ Działa')}${reaction(post,'thanks','❤️ Dziękuję')}<a class="community-action community-open" href="post.html?id=${AIOCommunity.escapeAttr(post.id)}">${AIOCommunity.user?'💬 '+Number(post.comment_count||0)+' odpowiedzi':'🔐 Dyskusja po zalogowaniu'}</a>${AIOCommunity.user?'<button class="community-action" type="button" data-report-post>⚑ Zgłoś</button>':''}${canDelete?'<button class="community-action danger" type="button" data-delete-post>Usuń</button>':''}</footer>
     </article>`;
   }

@@ -11,5 +11,17 @@
       if(status)status.textContent='Dane Społeczności AIO • Cloudflare';
     }catch(e){if(status)status.textContent='Społeczność chwilowo niedostępna';}
   }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run);else run();
+  // Site statistics live near the page footer; skip D1 work for short visits.
+  function schedule(){
+    const target=document.querySelector('[data-community-home-stats]');
+    if(!target)return;
+    if(typeof IntersectionObserver!=='function'){run();return;}
+    const observer=new IntersectionObserver(entries=>{
+      if(!entries.some(entry=>entry.isIntersecting))return;
+      observer.disconnect();
+      run();
+    },{rootMargin:'220px 0px'});
+    observer.observe(target);
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',schedule);else schedule();
 })();

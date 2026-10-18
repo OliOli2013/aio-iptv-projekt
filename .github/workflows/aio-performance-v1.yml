@@ -1,0 +1,43 @@
+name: AIO Performance V1 regression
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'assets/js/aio-home-v2.js'
+      - 'assets/js/community-home.js'
+      - 'assets/js/aio-catalog-version-v1.js'
+      - 'assets/js/community-feed.js'
+      - 'index.html'
+      - 'community.html'
+      - 'news.html'
+      - 'scripts/aio_performance_v1_verify.py'
+      - '.github/workflows/aio-performance-v1.yml'
+  pull_request:
+    paths:
+      - 'assets/js/aio-home-v2.js'
+      - 'assets/js/community-home.js'
+      - 'assets/js/aio-catalog-version-v1.js'
+      - 'assets/js/community-feed.js'
+      - 'index.html'
+      - 'community.html'
+      - 'news.html'
+      - 'scripts/aio_performance_v1_verify.py'
+permissions:
+  contents: read
+jobs:
+  performance-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify AIO Performance V1 contracts
+        run: python3 scripts/aio_performance_v1_verify.py
+      - name: Verify JS syntax
+        run: |
+          for f in assets/js/aio-home-v2.js assets/js/community-home.js assets/js/aio-catalog-version-v1.js assets/js/community-feed.js; do
+            node --check "$f"
+          done
