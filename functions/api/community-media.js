@@ -19,49 +19,57 @@ function extFor(type,name){
   return m?m[1]:"bin";
 }
 
-/*
- * Publiczny odczyt dotyczy wyłącznie załączników opublikowanych
- * w oficjalnych wpisach. Używamy instr() zamiast LIKE, ponieważ
- * Cloudflare D1 może zwracać "LIKE or GLOB pattern too complex"
- * przy wyszukiwaniu klucza R2 w polu JSON attachments.
+/* AIO MEDIA & SECURITY V2
+ * instr() is only a prefilter. Authorization always compares complete JSON keys.
+ * D1 stores post/chat attachments as JSON; older records may use `path`.
  */
-async function canReadPublic(env,key){
-  // All attachments of official published posts retain their existing access.
-  const official=await env.COMMUNITY_DB.prepare(`
-    SELECT id FROM community_posts
-    WHERE status='published' AND kind='official'
-      AND instr(COALESCE(attachments,''), ?) > 0 LIMIT 1
-  `).bind(key).first();
-  if(official)return true;
-
-  // Only the first image of a published ordinary community post is public.
-  // Check the EXACT key inside parsed JSON; substring match alone is insufficient.
-  const rows=await env.COMMUNITY_DB.prepare(`
-    SELECT attachments FROM community_posts
-    WHERE status='published' AND kind='community'
-      AND instr(COALESCE(attachments,''), ?) > 0 LIMIT 30
-  `).bind(key).all();
-  for(const row of rows.results||[]){
-    let attachments;
-    try{attachments=JSON.parse(row.attachments||'[]');}catch(_){continue;}
-    if(!Array.isArray(attachments))continue;
-    const first=attachments.find(a=>a && /^(image\/jpeg|image\/png|image\/webp|image\/gif)$/i.test(String(a.type||'')));
-    if(first && String(first.key||first.path||'')===key)return true;
-  }
-  return false;
+const IMAGE_TYPES = new Set(['image/jpeg','image/png','image/webp','image/gif']);
+const IMAGE_EXT = {jpg:'image/jpeg',jpeg:'image/jpeg',png:'image/png',webp:'image/webp',gif:'image/gif'};
+function readAttachments(raw){
+  let arr;
+  try{arr=Array.isArray(raw)?raw:JSON.parse(raw||'[]');}catch(_){return [];}
+  if(!Array.isArray(arr))return [];
+  return arr.filter(x=>x&&typeof x==='object').map(x=>({
+    key:String(x.key||x.path||''),type:String(x.type||'').toLowerCase()
+  }));
 }
-
-/* aio-maint-media-check-v1: member may access only own or actually published media. */
+function containsExactKey(attachments,key){
+  return readAttachments(attachments).some(x=>x.key===key);
+}
+function isFirstImage(attachments,key){
+  const first=readAttachments(attachments).find(x=>IMAGE_TYPES.has(x.type));
+  return Boolean(first&&first.key===key);
+}
+async function candidateRows(env,table,key){
+  // Only fixed table names are permitted; never interpolate request parameters as SQL.
+  if(table!=='community_posts'&&table!=='community_chat_messages')throw new Error('Invalid media table');
+  const selection=table==='community_posts'?'attachments, kind':'attachments';
+  const res=await env.COMMUNITY_DB.prepare(`SELECT ${selection} FROM ${table}
+    WHERE status='published' AND instr(COALESCE(attachments,''),?)>0 LIMIT 60`).bind(key).all();
+  return res.results||[];
+}
+async function canReadPublic(env,key){
+  const posts=await candidateRows(env,'community_posts',key);
+  // Every attached image of a published official post remains public.
+  // Published ordinary posts expose only the first attached image.
+  // Fetch kind with attachments so both visibility branches share the exact-key check.
+  return posts.some(row=>row.kind==='official'
+    ? containsExactKey(row.attachments,key)
+    : row.kind==='community' && isFirstImage(row.attachments,key));
+}
 async function canReadMember(env,key){
-  const db=env.COMMUNITY_DB;
-  const posts=await db.prepare(`SELECT 1 FROM community_posts
-    WHERE status='published' AND instr(COALESCE(attachments,''),?)>0 LIMIT 1`).bind(key).first();
-  if(posts) return true;
-  const chat=await db.prepare(`SELECT 1 FROM community_chat_messages
-    WHERE status='published' AND instr(COALESCE(attachments,''),?)>0 LIMIT 1`).bind(key).first();
-  if(chat) return true;
-  const avatar=await db.prepare(`SELECT 1 FROM community_profiles WHERE avatar_key=? LIMIT 1`).bind(key).first();
+  const posts=await candidateRows(env,'community_posts',key);
+  if(posts.some(x=>containsExactKey(x.attachments,key)))return true;
+  const chat=await candidateRows(env,'community_chat_messages',key);
+  if(chat.some(x=>containsExactKey(x.attachments,key)))return true;
+  const avatar=await env.COMMUNITY_DB.prepare(`SELECT 1 FROM community_profiles WHERE avatar_key=? LIMIT 1`).bind(key).first();
   return !!avatar;
+}
+function safeImageMime(obj,key){
+  const raw=String(obj.httpMetadata?.contentType||'').split(';',1)[0].trim().toLowerCase();
+  // Reject active document types even if the object key has an image extension.
+  if(raw)return IMAGE_TYPES.has(raw)?raw:null;
+  return IMAGE_EXT[String(key).split('.').pop().toLowerCase()]||null;
 }
 
 export async function onRequestGet({request,env}) {
@@ -99,12 +107,19 @@ export async function onRequestGet({request,env}) {
     const obj=await env.COMMUNITY_MEDIA.get(key);
     if(!obj) return json({ok:false,error:"Nie znaleziono pliku."},404);
 
+    const mime=safeImageMime(obj,key);
+    if(!mime)return json({ok:false,error:"Nieobsługiwany format obrazu."},415);
     const headers=new Headers();
     obj.writeHttpMetadata(headers);
-    if(obj.httpEtag) headers.set("etag",obj.httpEtag);
+    headers.set("content-type",mime);
+    headers.delete("etag"); // no cache validators on entitlement-dependent resources
     headers.set("x-content-type-options","nosniff");
-    headers.set("cache-control",publicAllowed?"public, max-age=300":"private, max-age=3600");
-
+    headers.set("referrer-policy","no-referrer");
+    // Hidden/deleted post images must be reauthorized on the very next request.
+    // Cache of previously downloaded copies cannot be revoked retroactively.
+    headers.set("cache-control","private, no-store, max-age=0");
+    headers.set("pragma","no-cache");
+    headers.set("expires","0");
     return new Response(obj.body,{headers});
   }catch(e){
     return errorResponse(e);
@@ -138,7 +153,7 @@ export async function onRequestPost({request,env}) {
     await env.COMMUNITY_MEDIA.put(key,file.stream(),{
       httpMetadata:{
         contentType:file.type,
-        cacheControl:"private, max-age=3600"
+        cacheControl:"private, no-store, max-age=0"
       },
       customMetadata:{
         owner:s.user.id,

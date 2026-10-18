@@ -126,7 +126,7 @@ export async function handleOfficialPost(context) {
   const headers = new Headers(base.headers);
   headers.delete('Content-Length');headers.delete('ETag');headers.delete('Content-Encoding');
   headers.set('Content-Type','text/html; charset=utf-8');
-  headers.set('Cache-Control','public, max-age=0, must-revalidate');
+  headers.set('Cache-Control',row.kind==='official'?'public, max-age=0, must-revalidate':'private, no-store, max-age=0');
   headers.set('X-Robots-Tag',row.kind==='official'?'index, follow':'noindex, follow');
   headers.set('Vary','Accept-Encoding');
   return new Response(updated,{status:200,headers});

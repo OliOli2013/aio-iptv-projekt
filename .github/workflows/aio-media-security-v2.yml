@@ -1,0 +1,33 @@
+name: AIO Media & Security V2 regression
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'functions/api/community-media.js'
+      - 'functions/_aio_post_meta.js'
+      - 'tests/aio-media-security-v2.mjs'
+      - '.github/workflows/aio-media-security-v2.yml'
+  pull_request:
+    paths:
+      - 'functions/api/community-media.js'
+      - 'functions/_aio_post_meta.js'
+      - 'tests/aio-media-security-v2.mjs'
+      - '.github/workflows/aio-media-security-v2.yml'
+permissions:
+  contents: read
+jobs:
+  security-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify Cloudflare Functions syntax
+        run: |
+          node --check functions/api/community-media.js
+          node --check functions/_aio_post_meta.js
+      - name: Verify D1/R2 media authorization and caching
+        run: node tests/aio-media-security-v2.mjs .
