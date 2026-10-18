@@ -1,0 +1,202 @@
+/* AIO HOME V3 — 18.10.2026. Only the homepage: existing header/VIP untouched. */
+body.aio-home-v3 {
+  --v3-line: rgba(125,211,225,.16);
+  --v3-surface: #092431;
+  --v3-turquoise: #73d8e8;
+}
+body.aio-home-v3 .aio-v2-main {
+  gap: 16px;
+  padding-top: 14px;
+}
+/* Less tall hero, one primary action: find a file. */
+body.aio-home-v3 .aio-v2-hero {
+  grid-template-columns: minmax(0,1.36fr) minmax(300px,.64fr);
+  gap: clamp(18px,2.6vw,34px);
+  padding: clamp(24px,3vw,42px);
+  border-radius: 20px;
+  box-shadow: 0 12px 32px rgba(0,0,0,.12);
+  background: linear-gradient(124deg,#0d3542 0%,#082430 58%,#061c28 100%);
+}
+body.aio-home-v3 .aio-v2-hero h1 {
+  max-width: 750px;
+  font-size: clamp(2.05rem,3.55vw,3.85rem);
+  line-height: 1.07;
+  letter-spacing: -.045em;
+}
+body.aio-home-v3 .aio-v2-hero-copy > p:not(.aio-v2-kicker) {
+  margin: 12px 0 0;
+  max-width: 580px;
+  font-size: .97rem;
+  line-height: 1.56;
+  color: #b4c9d2;
+}
+body.aio-home-v3 .aio-v2-searchbox {
+  width: 100%;
+  min-height: 58px;
+  margin-top: 20px;
+  border-color: rgba(112,221,240,.36);
+  box-shadow: inset 0 0 0 1px rgba(110,223,244,.03);
+  background: #061b25;
+  cursor: pointer;
+}
+body.aio-home-v3 .aio-v2-searchbox:hover,
+body.aio-home-v3 .aio-v2-searchbox:focus-visible {
+  border-color: #81dfe9;
+  outline: 2px solid transparent;
+  box-shadow: 0 0 0 3px rgba(109,219,236,.16);
+}
+body.aio-home-v3 .aio-v2-hero-actions {margin-top: 14px;}
+body.aio-home-v3 .aio-v2-btn {min-height: 42px;font-weight: 750;}
+body.aio-home-v3 .aio-v3-tuner {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  padding: clamp(18px,2.2vw,26px);
+  border: 1px solid var(--v3-line);
+  border-radius: 16px;
+  background: linear-gradient(156deg,#103644,#092734 72%,#08212d);
+}
+body.aio-home-v3 .aio-v3-tuner-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 14px;
+  color: #83e3e8;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+body.aio-home-v3 .aio-v3-tuner-eyebrow::before {
+  content: '';
+  width: 8px;height: 8px;border-radius: 50%;background: #63ddbd;
+  box-shadow: 0 0 0 5px rgba(99,221,189,.12);
+}
+body.aio-home-v3 .aio-v3-tuner h2 {
+  margin: 0;
+  font-size: clamp(1.35rem,2vw,1.95rem);
+  line-height: 1.18;
+  letter-spacing: -.03em;
+}
+body.aio-home-v3 .aio-v3-tuner p {
+  margin: 12px 0 20px;
+  font-size: .87rem;
+  line-height: 1.55;
+  color: #a8c0cb;
+}
+body.aio-home-v3 .aio-v3-tuner-main {
+  margin-top: auto;
+  min-height: 46px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  background: #77daee;
+  border-radius: 9px;
+  color: #08212c;
+  text-decoration: none;
+  font-weight: 820;
+}
+body.aio-home-v3 .aio-v3-tuner-main:hover,
+body.aio-home-v3 .aio-v3-tuner-main:focus-visible {background:#a7eff3;outline:2px solid #a7eff3;outline-offset:2px;}
+body.aio-home-v3 .aio-v3-tuner-links {display:flex;gap:10px 16px;flex-wrap:wrap;margin-top:15px;}
+body.aio-home-v3 .aio-v3-tuner-links a {color:#b4d5dc;text-decoration:none;font-size:.78rem;font-weight:650;}
+body.aio-home-v3 .aio-v3-tuner-links a:hover,
+body.aio-home-v3 .aio-v3-tuner-links a:focus-visible {color:white;text-decoration:underline;}
+/* Navigation chips: five destinations visible before the latest releases. */
+body.aio-home-v3 .aio-v3-categories {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 1px 0 2px;
+}
+body.aio-home-v3 .aio-v3-category {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 43px;
+  border-radius: 11px;
+  border: 1px solid rgba(125,211,225,.18);
+  background: #092a36;
+  color: #e0f5f8;
+  padding: 8px 14px;
+  font-size: .87rem;
+  font-weight: 720;
+  text-decoration: none;
+  transition: background-color .16s,border-color .16s;
+}
+body.aio-home-v3 .aio-v3-category-symbol {color:#86dfe9;font-size:1.08rem;line-height:1;}
+body.aio-home-v3 .aio-v3-category:hover,
+body.aio-home-v3 .aio-v3-category:focus-visible {background:#104253;border-color:rgba(125,224,238,.56);outline:2px solid transparent;}
+/* The most useful section is now immediately after the search/category row. */
+body.aio-home-v3 .aio-v2-block,
+body.aio-home-v3 .aio-v2-community-section {padding: 23px 24px;box-shadow:none;}
+body.aio-home-v3 .aio-v2-heading {align-items:center;margin-bottom:15px;}
+body.aio-home-v3 .aio-v2-heading h2 {font-size:clamp(1.42rem,2.15vw,2.07rem);}
+body.aio-home-v3 .aio-v2-file-card,
+body.aio-home-v3 .aio-v2-post {border-color:rgba(128,209,223,.12);box-shadow:none;}
+body.aio-home-v3 .aio-v2-file-card:hover,
+body.aio-home-v3 .aio-v2-post:hover {transform:none;border-color:rgba(125,224,238,.42);}
+body.aio-home-v3 .aio-v2-projects>a {min-height:91px;background:#092632;}
+/* More context, less competition with the catalog. AI Chat stays functional. */
+body.aio-home-v3 .aio-v2-ai-help.aio-v2-ai-help--robot {
+  grid-template-columns: 49px minmax(0,1fr) 184px;
+  gap: 15px;
+  padding: 16px 21px;
+  border-radius: 16px;
+}
+body.aio-home-v3 .aio-v2-ai-help--robot .aio-v2-ai-help-robot {display:none;}
+body.aio-home-v3 .aio-v2-ai-help--robot .aio-v2-ai-help-cta {width:184px;}
+body.aio-home-v3 .aio-v2-destinations>a {min-height:83px;padding:12px;}
+body.aio-home-v3 .aio-home-legal {
+  margin: 0;
+  padding: 15px 19px;
+  border-color:rgba(104,215,221,.14);
+  background:rgba(6,31,42,.8);
+  box-shadow:none;
+}
+body.aio-home-v3 .aio-home-legal h2 {font-size:1rem;}
+body.aio-home-v3 .aio-v2-small-stats {opacity:.9;}
+@media(max-width:1080px) {
+  body.aio-home-v3 .aio-v2-hero {grid-template-columns:1fr;gap:14px;}
+  body.aio-home-v3 .aio-v3-tuner {padding:18px;}
+  body.aio-home-v3 .aio-v3-tuner p {margin:8px 0 14px;}
+  body.aio-home-v3 .aio-v3-tuner-main {margin-top:0;}
+}
+@media(max-width:760px) {
+  body.aio-home-v3 .aio-v2-main {width:calc(100% - 16px);gap:12px;padding-top:10px;}
+  body.aio-home-v3 .aio-v2-hero {padding:20px 16px;gap:13px;border-radius:15px;}
+  body.aio-home-v3 .aio-v2-hero h1 {font-size:clamp(1.85rem,8.5vw,2.7rem);line-height:1.1;}
+  body.aio-home-v3 .aio-v2-hero-copy>p:not(.aio-v2-kicker) {font-size:.88rem;margin-top:10px;}
+  body.aio-home-v3 .aio-v2-searchbox {min-height:52px;margin-top:16px;padding:0 12px;gap:8px;}
+  body.aio-home-v3 .aio-v2-hero-actions {display:flex;gap:8px;}
+  body.aio-home-v3 .aio-v2-hero-actions .aio-v2-btn {width:auto;min-height:40px;padding:7px 11px;font-size:.78rem;}
+  body.aio-home-v3 .aio-v3-tuner {padding:14px 15px;}
+  body.aio-home-v3 .aio-v3-tuner-eyebrow {margin-bottom:7px;font-size:.64rem;}
+  body.aio-home-v3 .aio-v3-tuner h2 {font-size:1.22rem;}
+  body.aio-home-v3 .aio-v3-tuner p {font-size:.81rem;margin:6px 0 10px;}
+  body.aio-home-v3 .aio-v3-tuner-main {min-height:41px;font-size:.84rem;}
+  body.aio-home-v3 .aio-v3-tuner-links {margin-top:9px;}
+  body.aio-home-v3 .aio-v3-categories {flex-wrap:nowrap;overflow-x:auto;gap:7px;padding:3px 1px 9px;scrollbar-width:thin;scroll-snap-type:x proximity;}
+  body.aio-home-v3 .aio-v3-category {flex:0 0 auto;scroll-snap-align:start;min-height:40px;font-size:.8rem;padding:7px 11px;}
+  body.aio-home-v3 .aio-v2-block,
+  body.aio-home-v3 .aio-v2-community-section {padding:17px 14px;}
+  body.aio-home-v3 .aio-v2-heading h2 {font-size:1.45rem;}
+  body.aio-home-v3 .aio-v2-ai-help.aio-v2-ai-help--robot {grid-template-columns:1fr;padding:15px;}
+  body.aio-home-v3 .aio-v2-ai-help--robot .aio-v2-ai-help-icon {display:none;}
+  body.aio-home-v3 .aio-v2-ai-help--robot .aio-v2-ai-help-cta {width:100%;}
+  body.aio-home-v3 .aio-v2-destinations>a {min-height:76px;}
+  body.aio-home-v3 .aio-home-legal {padding:14px;}
+}
+@media(max-width:420px) {
+  body.aio-home-v3 .aio-v2-hero-actions .aio-v2-btn {flex:1 1 auto;}
+  body.aio-home-v3 .aio-v2-hero-actions {flex-wrap:wrap;}
+  body.aio-home-v3 .aio-v3-tuner-links {gap:8px 13px;}
+  body.aio-home-v3 .aio-v2-file-card {min-height:170px;}
+}
+@media(prefers-reduced-motion:reduce) {
+  body.aio-home-v3 .aio-v3-category,
+  body.aio-home-v3 .aio-v3-tuner-main {transition:none;}
+}
