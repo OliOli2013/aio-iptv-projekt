@@ -10,7 +10,9 @@ export const OWNER_HTML = String.raw`<!doctype html>
 <title>Centrum Właściciela AIO | AIO-IPTV.pl</title>
 <link rel="icon" href="/pliki/logo.png">
 <link rel="stylesheet" href="/assets/css/owner-hub.css?v=20261017-ownerhub-v1">
+<link rel="stylesheet" href="/assets/css/aio-owner-overview-v2.css?v=20261019-owner-overview-v2">
 <script defer src="/assets/js/owner-hub.js?v=20261017-aio-vip-v1"></script>
+<script defer src="/assets/js/aio-owner-overview-v2.js?v=20261019-owner-overview-v2"></script>
 </head>
 <body>
 <div class="oh-loading" id="oh-guard" role="status" aria-live="polite">Sprawdzam uprawnienia właściciela…</div>

@@ -1,0 +1,44 @@
+/* AIO Centrum Wlasciciela V2 — spójny podgląd na koncie i w /owner-hub. */
+.aov2{box-sizing:border-box;min-width:0;margin:22px 0 24px;padding:20px;border:1px solid #357589;border-radius:19px;background:linear-gradient(130deg,#0e3344,#061b28);color:#e5f8ff;font:inherit;box-shadow:0 14px 38px rgba(0,0,0,.17)}
+.aov2 *, .aov2 *:before,.aov2 *:after{box-sizing:border-box}
+.aov2-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.aov2-head h2{color:#fff;font-size:clamp(1.2rem,2.6vw,1.65rem);line-height:1.3;margin:4px 0 8px}
+.aov2-kicker{color:#6bd9ed;font-size:.72rem;font-weight:800;letter-spacing:.11em;margin:0}
+.aov2-sub{color:#b4d0dc;font-size:.86rem;line-height:1.5;max-width:700px;margin:0}
+.aov2-head-actions{display:flex;flex-wrap:wrap;gap:9px}
+.aov2-btn{display:inline-flex;align-items:center;justify-content:center;min-height:41px;padding:9px 12px;border-radius:10px;border:1px solid #4f90a4;background:#103949;color:#e9fbff;text-decoration:none;font:inherit;font-size:.82rem;font-weight:750;cursor:pointer}
+.aov2-btn:hover{border-color:#8fe7f4;background:#15536a;color:white}
+.aov2-main-link{background:#057f89;border-color:#4fe7de;color:#fff}
+.aov2-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:18px 0}
+.aov2-metric{min-width:0;min-height:98px;padding:13px;border:1px solid #315d71;border-radius:12px;background:#082534;text-decoration:none;color:#eafaff;display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto 1fr;gap:1px 10px;align-items:center}
+.aov2-metric:hover{border-color:#79e8ed;background:#113a4c}
+.aov2-metric-icon{font-size:20px;color:#79ddf0;grid-row:1/3}
+.aov2-metric-count{font-size:1.5rem;color:#8deaff;font-variant-numeric:tabular-nums}
+.aov2-metric-title{color:#c2dce5;font-size:.8rem}
+.aov2-feed{border-top:1px solid #295a6a;padding-top:15px}
+.aov2-feed-head{display:flex;gap:15px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.aov2-feed h3,.aov2-tools h3{color:#fff;font-size:1.09rem;margin:0}
+.aov2-tabs{display:flex;gap:8px;flex-wrap:wrap}
+.aov2-tab{border:1px solid #4a788a;border-radius:9px;padding:9px 12px;background:#0c2a39;color:#d4ebf4;font:inherit;font-size:.8rem;font-weight:750;cursor:pointer}
+.aov2-tab[aria-pressed="true"]{background:#116173;color:white;border-color:#75e8e8}
+.aov2-hint{font-size:.78rem;line-height:1.5;color:#94bccb;margin:12px 0}
+.aov2-hint.is-warning{color:#ffdb9e}
+.aov2-rows{display:grid;gap:8px;max-height:550px;overflow:auto;overscroll-behavior:contain;padding-right:3px}
+.aov2-item{display:grid;grid-template-columns:33px minmax(0,1fr) auto;align-items:center;gap:10px;min-width:0;padding:10px 12px;border:1px solid #2b5668;border-radius:11px;background:#081f2c;color:#e7f5fa;text-decoration:none}
+.aov2-item:hover{border-color:#80dff4;background:#103545;color:white}
+.aov2-item-icon{display:grid;place-items:center;width:32px;height:32px;border-radius:9px;background:#113e50;color:#7ce8f6;font-size:19px}
+.aov2-item-body{min-width:0}.aov2-item-body strong{font-size:.88rem;display:block;white-space:normal;overflow-wrap:anywhere}
+.aov2-item-body p{font-size:.78rem;color:#c2d5df;margin:3px 0;overflow-wrap:anywhere}
+.aov2-item-body small{color:#8fb9c7;font-size:.7rem}
+.aov2-item-action{font-size:.75rem;color:#93e5f4;font-weight:750;white-space:nowrap}
+.aov2-explain{color:#a9c2ce;font-size:.77rem;line-height:1.5;margin:13px 0 0}
+.aov2-empty{padding:15px;border:1px dashed #4c7183;border-radius:10px;color:#b6d3df}
+.aov2-tools{border-top:1px solid #295a6a;padding-top:18px;margin-top:20px}
+.aov2-tools-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin-top:13px}
+.aov2-tools-group{padding:15px;border:1px solid #2c6073;border-radius:13px;background:#082331;min-width:0}
+.aov2-tools-group h4{color:#b8f4ff;font-size:.89rem;margin:0 0 11px}
+.aov2-tools-group a{display:block;color:#d1eaf2;font-size:.8rem;padding:8px 0;text-decoration:none;border-top:1px solid #264959;line-height:1.35}
+.aov2-tools-group a:hover{text-decoration:underline;color:#fff}
+.oh-content>.aov2{margin:10px 0 24px}
+@media(max-width:850px){.aov2-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.aov2-tools-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.aov2{padding:14px}.aov2-head-actions{width:100%}.aov2-head-actions>*{flex:1}.aov2-metrics{gap:7px}.aov2-metric{padding:10px;min-height:85px;gap:3px 6px}.aov2-metric-icon{font-size:16px}.aov2-metric-count{font-size:1.3rem}.aov2-item{grid-template-columns:25px minmax(0,1fr);gap:8px;padding:9px}.aov2-item-icon{width:25px;height:25px;font-size:16px}.aov2-item-action{grid-column:2;justify-self:start}.aov2-tools-grid{grid-template-columns:1fr}}
