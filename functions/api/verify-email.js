@@ -1,7 +1,10 @@
 import {confirmVerificationToken} from '../_aio_email_verification.js';
 const HEADER={
  'Content-Type':'text/html; charset=utf-8','Cache-Control':'private, no-store',
- 'Referrer-Policy':'no-referrer','X-Content-Type-Options':'nosniff',
+ // Form POST requests use Origin:null under Referrer-Policy:no-referrer.
+ // "origin" sends only the scheme/host (never the verification token in URL)
+ // and keeps same-origin form POST checks functional.
+ 'Referrer-Policy':'origin','X-Content-Type-Options':'nosniff',
  'Content-Security-Policy':"default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'"
 };
 function page(title, body, status=200){
@@ -16,7 +19,9 @@ export async function onRequestGet({request}){
 }
 export async function onRequestPost({request,env}){
  const origin=request.headers.get('Origin');
- if(origin && origin!==new URL(request.url).origin)return page('Błąd weryfikacji','<p>Niedozwolone źródło żądania.</p>',403);
+ // Reject cross-site form submissions even if the browser suppresses Origin.
+ if(request.headers.get('Sec-Fetch-Site')==='cross-site' || (origin && origin!==new URL(request.url).origin))
+   return page('Błąd weryfikacji','<p>Niedozwolone źródło żądania.</p>',403);
  const form=await request.formData().catch(()=>null);
  const token=String(form?.get('token')||'');
  try {await confirmVerificationToken(env,token);}
