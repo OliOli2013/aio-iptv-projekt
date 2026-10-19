@@ -57,7 +57,7 @@
   }
 
   const AIOCommunity = {
-    config:null, user:null, profile:null, ready:false, backendReady:false, ipBlocked:false,
+    config:null, user:null, profile:null, emailVerified:false, ready:false, backendReady:false, ipBlocked:false,
 
     async init(){
       try{
@@ -68,10 +68,14 @@
         if(session && session.authenticated){
           this.user = session.user;
           this.profile = session.profile || session.user;
+          this.emailVerified=!!session.email_verified;
         }
         this.ready=true;
         this.initGlobalUi();
         this.renderAccountBars();
+        if(new URLSearchParams(location.search).has('email_verification') && this.user && !this.emailVerified){
+          setTimeout(()=>this.openAuth('Potwierdź e-mail i użyj przycisku wysyłania linku potwierdzającego.'),180);
+        }
         document.dispatchEvent(new CustomEvent('aio-community-ready',{detail:this}));
       }catch(error){
         console.error(error);
@@ -186,6 +190,7 @@
             <div class="community-auth-recovery-actions">
               <button class="community-auth-forgot" type="button" data-forgot-password>Nie pamiętam hasła</button>
               <button class="community-auth-forgot" type="button" data-have-reset-code>Mam kod resetu</button>
+              <button class="community-auth-forgot" type="button" data-resend-verification hidden>Wyślij ponownie link potwierdzający e-mail</button>
             </div>
             <div class="community-field" data-register-name hidden><label>Nazwa wyświetlana</label><input type="text" name="displayName" minlength="2" maxlength="60"></div>
             <div class="community-form-actions">
@@ -200,6 +205,16 @@
         const regWrap=dialog.querySelector('[data-register-name]');
         const toggle=dialog.querySelector('[data-register-toggle]');
         const submit=dialog.querySelector('[data-login-submit]');
+        const resend=dialog.querySelector('[data-resend-verification]');
+        resend.hidden=!(this.user&&!this.emailVerified);
+        resend.addEventListener('click',async()=>{
+          resend.disabled=true;
+          try{
+            const d=await this.auth('resend_verification');
+            dialog.querySelector('[data-aio-auth-message]').textContent=d.message||'Sprawdź skrzynkę e-mail.';
+          }catch(e){this.showToast(this.friendlyError(e),'error');}
+          finally{resend.disabled=false;}
+        });
         let register=false;
         toggle.addEventListener('click',()=>{
           register=!register;regWrap.hidden=!register;
@@ -221,8 +236,19 @@
             const d=await this.auth(register?'register':'login',{
               email,password,displayName:form.displayName.value.trim()
             });
-            this.user=d.user;this.profile=d.user;dialog.close();form.reset();
+            this.user=d.user;this.profile=d.user;
+            this.emailVerified=!d.email_verification_required;
             this.renderAccountBars();
+            if(d.email_verification_required){
+              dialog.querySelector('[data-aio-auth-message]').textContent=d.verification_mail_sent===false
+                ?'Konto utworzone, lecz wiadomość nie została wysłana. Skontaktuj się z administratorem lub spróbuj ponownie za kilka minut.'
+                :'Aby korzystać z konta i pobierać pliki, potwierdź link wysłany na e-mail. Jeśli wiadomość nie dotarła, użyj przycisku poniżej.';
+              resend.hidden=false;
+              form.reset();
+              this.showToast('Sprawdź skrzynkę e-mail i potwierdź adres.','success');
+              return;
+            }
+            dialog.close();form.reset();
             document.dispatchEvent(new CustomEvent('aio-community-auth',{detail:{user:this.user,profile:this.profile}}));
             this.showToast(d.user?.is_owner?'Zalogowano jako właściciel / administrator AIO.':'Zalogowano.','success');
           }catch(err){this.showToast(this.friendlyError(err),'error');}

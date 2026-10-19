@@ -2,6 +2,7 @@
 import {getSession,ensureSchema,sha256} from './_community.js';
 import {createListNotice} from './_aio_list_notice.js';
 import {getVipStatus} from './_aio_vip.js';
+import {emailVerificationStatus} from './_aio_email_verification.js';
 import {weeklyStatus,consumeWeekly,FREE_WEEKLY_LIMIT,FILE_RETRY_MS} from './_aio_weekly_access.js';
 export const SUPPORT_MS = 7 * 24 * 60 * 60 * 1000;
 export const ROLLOUT = '2026-10-14T21:42:50.000Z';
@@ -52,7 +53,7 @@ export function warsawDay(date=new Date()){
   const m=Object.fromEntries(parts.map(x=>[x.type,x.value]));return `${m.year}-${m.month}-${m.day}`;
 }
 export async function sessionUser(request,env){
-  const s=await getSession(request,env,{touch:false});
+  const s=await getSession(request,env,{touch:false,allowUnverified:true});
   return s && !s.blocked && !s.banned ? s.user : null;
 }
 async function userEmailHash(env,userId){
@@ -94,20 +95,26 @@ export async function hasActiveFileRetry(env,userId,fileKey,now=Date.now()){
   return status.retry_files.includes(fileKey);
 }
 export async function getStatus(env,userId){
-  await initAccess(env);await recoverForUser(env,userId);
+  await initAccess(env);
+  const ev=await emailVerificationStatus(env,userId);
+  if(ev.required) return {authenticated:true,email_verified:false,email_verification_required:true,
+    active:false,vip:false,expires_at:null,source:null,free_limit:FREE_WEEKLY_LIMIT,
+    free_remaining:0,free_period_hours:168,retry_files:[],free_resets_at:null};
+  await recoverForUser(env,userId);
   const free=await weeklyStatus(env,userId);
   const vip=await getVipStatus(env,userId);
-  if(vip.active)return {authenticated:true,active:true,vip:true,expires_at:vip.expires_at,
+  if(vip.active)return {authenticated:true,email_verified:true,active:true,vip:true,expires_at:vip.expires_at,
     source:'owner_vip',...free,free_remaining:FREE_WEEKLY_LIMIT,free_period_hours:168};
   const grant=await env.COMMUNITY_DB.prepare('SELECT expires_at,source FROM aio_access_account_grants WHERE user_id=?').bind(userId).first();
   const trusted=['verified_receipt','owner_verified_support'].includes(String(grant?.source||''));
   const active=!!grant&&trusted&&Date.parse(grant.expires_at)>Date.now();
-  return {authenticated:true,active,vip:false,expires_at:active?grant.expires_at:null,
+  return {authenticated:true,email_verified:true,active,vip:false,expires_at:active?grant.expires_at:null,
     source:active?grant.source:null,...free,free_remaining:active?FREE_WEEKLY_LIMIT:free.free_remaining,
     free_period_hours:168};
 }
 export async function consumeFree(env,userId,fileKey=null){
   const status=await getStatus(env,userId);
+  if(status.email_verified===false)throw fail(403,'Potwierdź adres e-mail przed pobraniem plików.');
   if(status.active)return {...status,allowed:true,reason:status.vip?'vip':'grant'};
   if(fileKey!==null&&!validLocalFileKey(fileKey))throw fail(400,'Nieprawidłowa ścieżka pliku.');
   return consumeWeekly(env,userId,fileKey);

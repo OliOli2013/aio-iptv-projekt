@@ -1,4 +1,5 @@
 
+import {emailVerificationStatus} from './_aio_email_verification.js';
 const enc = new TextEncoder();
 let schemaReadyPromise = null;
 
@@ -212,7 +213,7 @@ export function addDays(days) {
   return new Date(Date.now() + days * 86400000).toISOString();
 }
 
-export async function getSession(request, env, {touch=true} = {}) {
+export async function getSession(request, env, {touch=true,allowUnverified=false} = {}) {
   await ensureSchema(env);
   const token = cookieValue(request, "aio_community_session");
   if (!token) return null;
@@ -233,6 +234,10 @@ export async function getSession(request, env, {touch=true} = {}) {
 
   const profile = publicProfile(row);
   profile.is_owner = await isOwnerId(env, profile.id, profile.role);
+  if(!allowUnverified){
+    const ev=await emailVerificationStatus(env,profile.id);
+    if(ev.required)return null; // pending account cannot authorize community operations
+  }
 
   const ip = clientIp(request);
   if (ip) {

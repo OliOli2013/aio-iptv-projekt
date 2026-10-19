@@ -542,6 +542,12 @@
         catch(_){guestDownloadDialog({label:'Plik AIO'});}
       },120);
     }
+    if(accessParams.has('aio_verify_email')){
+      window.setTimeout(()=>{
+        alert('Aby pobrać plik, potwierdź adres e-mail konta AIO. Zaloguj się i wyślij link weryfikacyjny.');
+        window.AIOCommunity?.openAuth?.('Potwierdź adres e-mail, aby pobierać pliki.');
+      },250);
+    }
     if(accessParams.has('aio_limit')){
       window.setTimeout(async()=>{
         try{const status=await accountApi();if(status.authenticated){
@@ -761,6 +767,9 @@
        if(!info.authenticated){
          accessIndicator.className='aio-access-indicator is-locked';
          accessIndicator.innerHTML='<span class="aio-access-dot">!</span><div><strong>Pobieranie tylko dla zalogowanych</strong><small>Rejestracja jest bezpłatna. Po zalogowaniu: 3 darmowe pobrania na 7 dni, a po potwierdzonym wsparciu — 7 dni dodatkowego dostępu.</small></div><a href="community.html">Zaloguj się / Dołącz</a>';
+      }else if(info.email_verified===false){
+        accessIndicator.className='aio-access-indicator is-locked';
+        accessIndicator.innerHTML='<span class="aio-access-dot">!</span><div><strong>Potwierdź e-mail</strong><small>Przed pobieraniem plików musisz potwierdzić adres e-mail konta AIO. Zaloguj się ponownie, aby wysłać link.</small></div><a href="community.html?email_verification=1">Potwierdź adres</a>';
       }else if(info.vip && info.active){
         accessIndicator.className='aio-access-indicator is-unlocked';
         const until=new Intl.DateTimeFormat('pl-PL',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(info.expires_at));
@@ -892,6 +901,11 @@ async function accountDownload(item,kind){
     try {
       const info=await accountApi();
       if(!info.authenticated){guestDownloadDialog(item);return;}
+      if(info.email_verified===false){
+        alert('Przed pobraniem potwierdź adres e-mail. Zaloguj się ponownie i wyślij link potwierdzający.');
+        window.AIOCommunity?.openAuth?.('Potwierdź adres e-mail, aby korzystać z pobierania.');
+        return;
+      }
       const target=new URL(item.href,location.href);
       const localFile=target.origin===location.origin && /^\/pliki\//i.test(target.pathname);
       if(info.active){trackAccessActivity('unlocked_access',item,{kind});openDownloadTarget(item);return;}

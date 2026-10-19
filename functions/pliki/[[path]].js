@@ -37,6 +37,10 @@ async function handle(context){
       return redirectToInformation(request,'aio_login');
     }
     const state=await getStatus(env,user.id);
+    if(state.email_verified===false){
+      if(request.method==='HEAD')return accessDenied('Najpierw potwierdź adres e-mail.',403);
+      return redirectToInformation(request,'aio_verify_email');
+    }
     const fileKey=new URL(request.url).pathname;
     const retry=!state.active && await hasActiveFileRetry(env,user.id,fileKey);
     if(!state.active && state.free_remaining<=0 && !retry){

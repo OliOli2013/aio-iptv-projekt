@@ -14,6 +14,7 @@ import {
   cleanEmail, cleanText, sessionCookie, clearSessionCookie,
   clientIp, isoNow, addDays, getSession, publicProfile, errorResponse, recordIp, isOwnerId
 } from "../_community.js";
+import {emailSendingReady,sendVerificationEmail,emailVerificationStatus} from "../_aio_email_verification.js";
 
 function validPassword(p) {
   return typeof p === "string" && p.length >= 10 && p.length <= 200;
@@ -82,11 +83,12 @@ async function consumeWindowLimit(env, key, limit, windowMs) {
 export async function onRequestGet({request, env}) {
   try {
     await ensureSchema(env);
-    const session = await getSession(request, env);
+    const session = await getSession(request, env, {allowUnverified:true});
     if (!session || session.blocked || session.banned) {
       return json({ok:true, authenticated:false});
     }
-    return json({ok:true, authenticated:true, user:session.user, profile:session.user});
+    const ev=await emailVerificationStatus(env,session.user.id);
+    return json({ok:true, authenticated:true, user:session.user, profile:session.user, email_verified:ev.verified, email_verification_required:ev.required});
   } catch (e) { return errorResponse(e); }
 }
 
@@ -101,11 +103,20 @@ export async function onRequestPost({request, env}) {
     const ip = clientIp(request);
 
     if (action === "logout") {
-      const session = await getSession(request, env, {touch:false});
+      const session = await getSession(request, env, {touch:false,allowUnverified:true});
       if (session?.tokenHash) {
         await db.prepare(`DELETE FROM community_sessions WHERE token_hash=?`).bind(session.tokenHash).run();
       }
       return json({ok:true}, 200, {"Set-Cookie": clearSessionCookie()});
+    }
+
+    if (action === "resend_verification") {
+      const session=await getSession(request,env,{touch:false,allowUnverified:true});
+      if(!session || session.blocked || session.banned)return json({ok:false,error:"Zaloguj się ponownie, aby potwierdzić e-mail."},401);
+      const registered=await db.prepare('SELECT email FROM community_auth WHERE user_id=? LIMIT 1').bind(session.user.id).first();
+      if(!registered)return json({ok:false,error:"Nie znaleziono konta."},404);
+      const sent=await sendVerificationEmail(env,session.user.id,registered.email);
+      return json(sent);
     }
 
     if (action === "request_reset") {
@@ -246,6 +257,8 @@ export async function onRequestPost({request, env}) {
     await throttle(env, throttleKey);
 
     if (action === "register") {
+      // No fake-email registration while outbound verification is unavailable.
+      if(!emailSendingReady(env))return json({ok:false,error:"Rejestracja jest chwilowo wstrzymana: administrator konfiguruje potwierdzenia e-mail."},503);
       const registerIpKey = `register-ip:${ip || "noip"}`;
       await consumeWindowLimit(env, registerIpKey, 5, 30 * 60 * 1000);
 
@@ -285,8 +298,12 @@ export async function onRequestPost({request, env}) {
       const profile = await db.prepare(`SELECT * FROM community_profiles WHERE id=?`).bind(id).first();
       const publicUser = publicProfile(profile);
       publicUser.is_owner = await isOwnerId(env, publicUser.id, publicUser.role);
+      let emailSent=false;
+      try{ await sendVerificationEmail(env,id,email); emailSent=true; }
+      catch(error){ console.error('AIO registration: verification mail unavailable',Number(error?.status)||500); }
       return json(
-        {ok:true,authenticated:true,user:publicUser,firstAccount,ownerAccount},
+        {ok:true,authenticated:true,user:publicUser,firstAccount,ownerAccount,
+          email_verified:false,email_verification_required:true,verification_mail_sent:emailSent},
         201,
         {"Set-Cookie":sessionCookie(token)}
       );
@@ -326,8 +343,10 @@ export async function onRequestPost({request, env}) {
     await recordIp(env,auth.user_id,ip,"access");
     const loginUser = publicProfile(auth);
     loginUser.is_owner = await isOwnerId(env, loginUser.id, loginUser.role);
+    const verification=await emailVerificationStatus(env,loginUser.id);
     return json(
-      {ok:true,authenticated:true,user:loginUser},
+      {ok:true,authenticated:true,user:loginUser,email_verified:verification.verified,
+        email_verification_required:verification.required},
       200,
       {"Set-Cookie":sessionCookie(token)}
     );
