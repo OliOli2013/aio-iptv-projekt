@@ -81,3 +81,68 @@
 @media(max-width:680px){.community-dialog.community-admin-edit-dialog{width:calc(100vw - 16px);max-width:calc(100vw - 16px);max-height:calc(100vh - 16px)}.community-admin-edit-dialog .community-dialog-card{max-height:calc(100vh - 16px);padding:18px 14px}}
 .community-auth-forgot{justify-self:start;margin-top:-5px;padding:2px 0;border:0;background:transparent;color:#82e4f8;font:inherit;font-size:.78rem;font-weight:800;cursor:pointer}
 .community-auth-forgot:hover,.community-auth-forgot:focus-visible{color:#fff;text-decoration:underline}
+
+/* AIO EMAIL UX V1: czytelne odzyskiwanie konta i weryfikacja e-mail */
+/* Dotyczy tylko dialogu logowania, bez zmian mechanizmu sesji i weryfikacji. */
+[data-aio-auth-dialog] .community-auth-recovery-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 14px 0 18px;
+  min-width: 0;
+}
+[data-aio-auth-dialog] .community-auth-recovery-actions .community-auth-forgot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  margin: 0;
+  padding: 11px 13px;
+  border: 1px solid #366f85;
+  border-radius: 9px;
+  background: #103341;
+  color: #d8f5fa;
+  font-size: .83rem;
+  font-weight: 750;
+  line-height: 1.4;
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+  transition: background .16s ease, border-color .16s ease;
+}
+/* Zachowanie semantyki hidden podczas generowania formularza. */
+[data-aio-auth-dialog] .community-auth-recovery-actions .community-auth-forgot[hidden] {
+  display: none !important;
+}
+/* Weryfikacja e-mail wyraźnie oddzielona od odzyskiwania hasła. */
+[data-aio-auth-dialog] .community-auth-recovery-actions [data-resend-verification]:not([hidden]) {
+  grid-column: 1 / -1;
+  background: #09585b;
+  border-color: #69dcd2;
+  color: #f1fffe;
+  font-weight: 850;
+}
+[data-aio-auth-dialog] .community-auth-recovery-actions .community-auth-forgot:hover {
+  background: #185166;
+  border-color: #75def2;
+  color: #fff;
+  text-decoration: none;
+}
+[data-aio-auth-dialog] .community-auth-recovery-actions [data-resend-verification]:not([hidden]):hover {
+  background: #087275;
+  border-color: #a1fff5;
+}
+[data-aio-auth-dialog] .community-auth-recovery-actions .community-auth-forgot:focus-visible {
+  outline: 3px solid #9ae7ff;
+  outline-offset: 2px;
+}
+@media (max-width: 540px) {
+  [data-aio-auth-dialog] .community-auth-recovery-actions {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+}
