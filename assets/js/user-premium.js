@@ -770,6 +770,9 @@
       }else if(info.email_verified===false){
         accessIndicator.className='aio-access-indicator is-locked';
         accessIndicator.innerHTML='<span class="aio-access-dot">!</span><div><strong>Potwierdź e-mail</strong><small>Przed pobieraniem plików musisz potwierdzić adres e-mail konta AIO. Zaloguj się ponownie, aby wysłać link.</small></div><a href="community.html?email_verification=1">Potwierdź adres</a>';
+      }else if(info.owner===true && info.unlimited===true && info.active===true){
+        accessIndicator.className='aio-access-indicator is-unlocked';
+        accessIndicator.innerHTML='<span class="aio-access-dot">★</span><div><strong>AIO — konto właściciela</strong><small>Stały, nielimitowany dostęp do pobierania. Limit 3 plików na 168 godzin nie dotyczy właściciela strony.</small></div><a href="konto.html">Moje konto</a>';
       }else if(info.vip && info.active){
         accessIndicator.className='aio-access-indicator is-unlocked';
         const until=new Intl.DateTimeFormat('pl-PL',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(info.expires_at));
@@ -887,12 +890,14 @@
     buttons.append(join,cancel);dlg.append(heading,notice,file,rules,buttons);
     document.body.append(dlg);dlg.addEventListener('close',()=>dlg.remove(),{once:true});dlg.showModal();
   }
-  function memberWelcome(){
+  async function memberWelcome(){
+    const access=await accountApi().catch(()=>null);
+    const owner=access?.owner===true && access?.unlimited===true && access?.active===true;
     document.getElementById('aio-member-welcome-v4')?.remove();
     const panel=document.createElement('aside');panel.id='aio-member-welcome-v4';
     panel.setAttribute('role','status');panel.style.cssText='position:fixed;z-index:99999;bottom:20px;right:20px;width:min(92vw,410px);padding:18px;background:#103b48;color:#f1fcff;border:1px solid #56c9d2;border-radius:13px;box-shadow:0 15px 40px #0008;line-height:1.5';
-    const title=document.createElement('strong');title.textContent='Witaj w AIO! Twoje pobieranie jest aktywne.';title.style.display='block';
-    const copy=document.createElement('p');copy.textContent='Masz 3 bezpłatne pobrania na 7 dni liczonych od pierwszego pobrania. Po potwierdzonym wsparciu kawą otrzymasz 7 dni dostępu przypisane do konta. Dziękujemy za pomoc w rozwijaniu projektów AIO.';
+    const title=document.createElement('strong');title.textContent=owner?'Witaj właścicielu AIO! Pobieranie bez limitu.':'Witaj w AIO! Twoje pobieranie jest aktywne.';title.style.display='block';
+    const copy=document.createElement('p');copy.textContent=owner?'Konto właściciela ma stały dostęp do wszystkich chronionych plików AIO. Pobrania nie zużywają limitu 168 godzin i nie wymagają aktywnego VIP-a.':'Masz 3 bezpłatne pobrania na 7 dni liczonych od pierwszego pobrania. Po potwierdzonym wsparciu kawą otrzymasz 7 dni dostępu przypisane do konta. Dziękujemy za pomoc w rozwijaniu projektów AIO.';
     const close=document.createElement('button');close.type='button';close.textContent='Rozumiem';close.style.cssText='padding:8px 14px;background:#077986;border:0;color:white;border-radius:7px;cursor:pointer';
     close.addEventListener('click',()=>panel.remove());panel.append(title,copy,close);document.body.append(panel);
   }

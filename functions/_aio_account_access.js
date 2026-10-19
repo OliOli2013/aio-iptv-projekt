@@ -1,5 +1,5 @@
 /* AIO Access — server-side account entitlements. No entitlement is inferred from an IP or an unsigned browser cookie. */
-import {getSession,ensureSchema,sha256} from './_community.js';
+import {getSession,ensureSchema,sha256,isOwnerId} from './_community.js';
 import {createListNotice} from './_aio_list_notice.js';
 import {getVipStatus} from './_aio_vip.js';
 import {emailVerificationStatus} from './_aio_email_verification.js';
@@ -94,12 +94,27 @@ export async function hasActiveFileRetry(env,userId,fileKey,now=Date.now()){
   const status=await weeklyStatus(env,userId,now);
   return status.retry_files.includes(fileKey);
 }
+/* Sole site owner: derive both account role and owner ID from server-side D1/config.
+ * Never trust email, display name, browser flags or a generic moderator role.
+ */
+async function isDownloadOwner(env,userId){
+  const record=await env.COMMUNITY_DB.prepare('SELECT role FROM community_profiles WHERE id=? LIMIT 1').bind(userId).first();
+  return record?.role==='admin' && await isOwnerId(env,userId,record.role);
+}
 export async function getStatus(env,userId){
   await initAccess(env);
   const ev=await emailVerificationStatus(env,userId);
   if(ev.required) return {authenticated:true,email_verified:false,email_verification_required:true,
     active:false,vip:false,expires_at:null,source:null,free_limit:FREE_WEEKLY_LIMIT,
     free_remaining:0,free_period_hours:168,retry_files:[],free_resets_at:null};
+  // Owner bypasses ALL rolling quota and 7/30-day expiry checks.
+  // Email verification above remains mandatory for the owner too.
+  if(await isDownloadOwner(env,userId))return {
+    authenticated:true,email_verified:true,email_verification_required:false,
+    owner:true,unlimited:true,active:true,vip:false,expires_at:null,source:'site_owner',
+    free_limit:null,free_remaining:null,free_period_hours:null,
+    free_window_started_at:null,free_resets_at:null,retry_files:[]
+  };
   await recoverForUser(env,userId);
   const free=await weeklyStatus(env,userId);
   const vip=await getVipStatus(env,userId);
@@ -115,7 +130,7 @@ export async function getStatus(env,userId){
 export async function consumeFree(env,userId,fileKey=null){
   const status=await getStatus(env,userId);
   if(status.email_verified===false)throw fail(403,'Potwierdź adres e-mail przed pobraniem plików.');
-  if(status.active)return {...status,allowed:true,reason:status.vip?'vip':'grant'};
+  if(status.active)return {...status,allowed:true,reason:status.owner===true?'owner':(status.vip?'vip':'grant')};
   if(fileKey!==null&&!validLocalFileKey(fileKey))throw fail(400,'Nieprawidłowa ścieżka pliku.');
   return consumeWeekly(env,userId,fileKey);
 }
