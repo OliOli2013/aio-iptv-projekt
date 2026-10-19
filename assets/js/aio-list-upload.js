@@ -1,14 +1,15 @@
 /* AIO List Upload — zachowuje sesję społeczności, nigdy nie uzyskuje tokenu GitHub. */
 (()=>{
   'use strict';
-  const $=id=>document.getElementById(id), stat={pending:'Oczekuje na akceptację',publishing:'Publikowanie',published:'Opublikowana',applied:'Aktualizacja wdrożona',cancelled:'Wycofane przez autora',removing:'Usuwanie',rejected:'Odrzucona',publish_failed:'Błąd publikacji — ponów',removed:'Usunięta'};
+  const $=id=>document.getElementById(id), stat={pending:'Oczekuje na akceptację',publishing:'Publikowanie',published:'Opublikowana',applied:'Aktualizacja wdrożona',cancelled:'Wycofane przez autora',removing:'Usuwanie',editing:'Edycja',rejected:'Odrzucona',publish_failed:'Błąd publikacji — ponów',removed:'Usunięta'};
   let me=null,busy=false;
   function node(tag,text,cls){const x=document.createElement(tag);if(cls)x.className=cls;if(text!==undefined)x.textContent=String(text);return x;}
   function box(parent,txt,cls='alu-warning'){const x=node('div',txt,cls);parent.appendChild(x);return x;}
   function appendRow(target,item,admin=false){
     const card=node('article',undefined,'alu-record'),head=node('div',undefined,'alu-record-title');
     head.append(node('strong',item.name),node('span',stat[item.status]||item.status,'alu-status'));card.append(head);
-    card.append(node('p',`${item.version} · ${item.file_name} · ${(item.file_size/1024).toFixed(0)} KB`));
+    card.append(node('p',`${item.version||'wersja nieznana'} · ${item.file_name}${item.file_size>0?' · '+(item.file_size/1024).toFixed(0)+' KB':''}`));
+    if(item.linked_legacy)card.append(node('p','Starsza lista przypisana do tego konta przez administratora.','alu-legacy-hint'));
     if(admin) card.append(node('p',`Autor: ${item.author} · ID użytkownika: ${item.user_id}`));
     if(item.review_reason) box(card,'Informacja: '+item.review_reason,item.status==='rejected'?'alu-error':'alu-warning');
     const report=item.report||{};
@@ -17,8 +18,10 @@
     if(!admin && item.status==='published' && !item.update_of) {
       const actions=node('div',undefined,'alu-actions');
       const remove=node('button','Usuń moją listę','alu-button');remove.type='button';remove.addEventListener('click',()=>removeOwn(item));
-      actions.append(remove);card.append(actions);
-      card.append(node('p','Nowa wersja tej kategorii: najpierw usuń opublikowaną listę, a następnie dodaj nowy ZIP.','alu-warning'));
+      const update=node('button','Aktualizuj ZIP','alu-button alu-primary');update.type='button';update.addEventListener('click',()=>beginUpdate(item));
+      const edit=node('button','Edytuj nazwę / opis','alu-button');edit.type='button';edit.addEventListener('click',()=>editDetailsOwn(item));
+      actions.prepend(update,edit);actions.append(remove);card.append(actions);
+      card.append(node('p','Aktualizacja zachowa identyfikator i adres ZIP w AIO Panel. Nie trzeba usuwać listy.','alu-legacy-hint'));
     }
     if(!admin && item.status==='publish_failed' && me?.trusted_publisher && !item.update_of){
       const retry=node('button','Ponów publikację','alu-button alu-primary');retry.type='button';
@@ -51,8 +54,35 @@
     catch(e){alert('Błąd wycofania: '+e.message);await refresh();}
     finally{busy=false;}
   }
+  function beginUpdate(item){
+    if(busy || item.status!=='published'||item.update_of)return;
+    const form=$('aluForm');form.reset();$('aluUpdateOf').value=item.id;
+    form.elements.name.value=item.name||'';
+    form.elements.name.readOnly=false;
+    form.elements.description.value=item.description||'';
+    form.elements.version.value=new Date().toISOString().slice(0,10);
+    form.elements.satellite_slot.value=item.satellite_slot||'';
+    form.elements.satellite_slot.disabled=!!item.satellite_slot;
+    $('aluMode').querySelector('strong').textContent='Aktualizacja: '+item.name;
+    $('aluNewMode').hidden=false;
+    $('aluSubmit').textContent='Sprawdź ZIP i zaktualizuj istniejącą listę';
+    $('aluUploadCard').scrollIntoView({behavior:'smooth',block:'start'});
+    if(!item.satellite_slot)alert('Starsza lista nie ma przypisanej kategorii satelitów. Wybierz ją zgodnie z zawartością nowego ZIP.');
+  }
+  async function editDetailsOwn(item){
+    if(busy||item.status!=='published')return;
+    const name=prompt('Nazwa Twojej listy:',item.name);if(name===null)return;
+    const description=prompt('Opis listy:',item.description||'');if(description===null)return;
+    const version=prompt('Data aktualizacji RRRR-MM-DD:',item.version||new Date().toISOString().slice(0,10));if(version===null)return;
+    if(!confirm('Zapisać nową nazwę, opis i datę bez zmiany archiwum ZIP?'))return;
+    busy=true;
+    try{
+      const data=await call({method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({action:'edit_details_own',id:item.id,name,description,version})});
+      alert(data.message);await refresh();
+    }catch(e){alert('Nie zapisano zmian: '+e.message);await refresh();}finally{busy=false;}
+  }
   function newMode(){
-    const form=$('aluForm');form.reset();$('aluUpdateOf').value='';
+    const form=$('aluForm');form.elements.satellite_slot.disabled=false;form.reset();$('aluUpdateOf').value='';
     form.elements.name.readOnly=false;
     form.elements.version.value=new Date().toISOString().slice(0,10);
     $('aluMode').querySelector('strong').textContent='Nowa lista';
@@ -83,12 +113,29 @@
       const card=node('article',undefined,'alu-record');card.dataset.search=(item.name+' '+item.author).toLocaleLowerCase('pl');
       const head=node('div',undefined,'alu-record-title');head.append(node('strong',item.name),node('span',item.version,'alu-status'));card.append(head);
       card.append(node('p','Autor: '+(item.author||'nieokreślony')));
-      const btn=node('button','Wycofaj tę listę','alu-button');btn.type='button';btn.addEventListener('click',()=>removeLegacy(item));card.append(btn);list.append(card);
+      const actions=node('div',undefined,'alu-actions');
+      if(item.can_link){
+        const assign=node('button','Przypisz autorowi (e-mail)','alu-button alu-primary');assign.type='button';
+        assign.addEventListener('click',()=>assignLegacy(item));actions.append(assign);
+      }else card.append(node('p','Nie można bezpiecznie przypisać: wpis ma zduplikowane ID lub nieobsługiwany adres ZIP.','alu-warning'));
+      const btn=node('button','Wycofaj tę listę','alu-button');btn.type='button';btn.addEventListener('click',()=>removeLegacy(item));actions.append(btn);card.append(actions);list.append(card);
     }
     filter.addEventListener('input',()=>{
       const term=filter.value.trim().toLocaleLowerCase('pl');
       for(const card of list.children)card.hidden=!card.dataset.search.includes(term);
     });
+  }
+  async function assignLegacy(item){
+    if(busy||!item.can_link)return;
+    const email=prompt(`E-mail konta AIO, które ma zarządzać listą „${item.name}”:`, '');
+    if(email===null)return;
+    const trimmed=email.trim();
+    if(!trimmed||!confirm(`Przypisać „${item.name}” do konta ${trimmed}? Potwierdź tożsamość autora przed zatwierdzeniem.`))return;
+    busy=true;
+    try{
+      const d=await call({method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({action:'assign_legacy',manifest_id:item.id,confirm_name:item.name,email:trimmed})});
+      alert(d.message);await refresh();
+    }catch(e){alert('Nie przypisano listy: '+e.message);await refresh();}finally{busy=false;}
   }
   async function removeLegacy(item){
     if(busy)return;
@@ -117,7 +164,7 @@
     try{
       const data=await call();
       me=data;
-      $('aluAccountStatus').textContent=!data.authenticated?'Tylko zalogowani użytkownicy Społeczności AIO mogą dodawać listy.':`Zalogowano jako: ${data.user.display_name} · ${data.trusted_publisher?'Publikowanie samodzielne aktywne':'Pierwsza lista wymaga akceptacji'}`;
+      $('aluAccountStatus').textContent=!data.authenticated?'Tylko zalogowani użytkownicy Społeczności AIO mogą dodawać listy.':`Zalogowano jako: ${data.user.display_name}${data.account_email?' · '+data.account_email:''} · ${data.trusted_publisher?'Publikowanie samodzielne aktywne':'Pierwsza lista wymaga akceptacji'}`;
       $('aluLogin').hidden=!!data.authenticated;
       $('aluUploadCard').hidden=!data.authenticated||!!data.blocked;
       $('aluHistory').hidden=!data.authenticated;
@@ -165,7 +212,10 @@
     event.preventDefault();if(busy)return;
     const form=$('aluForm');if(!form.reportValidity())return;
     const f=$('aluZip').files[0];if(!f||f.size>12*1024*1024){box($('aluResult'),'ZIP może mieć maksymalnie 12 MB.','alu-error');$('aluResult').hidden=false;return;}
-    const data=new FormData(form), submitButton=$('aluSubmit'), result=$('aluResult');result.replaceChildren();result.hidden=false;
+    const wasUpdate=!!$('aluUpdateOf').value;
+    const data=new FormData(form), submitButton=$('aluSubmit'), result=$('aluResult');
+    // Disabled select controls are not serialized by FormData.
+    if(wasUpdate)data.set('satellite_slot',form.elements.satellite_slot.value);result.replaceChildren();result.hidden=false;
     busy=true;submitButton.disabled=true;submitButton.textContent='Sprawdzanie integralności i struktury archiwum…';
     try{
       const resp=await call({method:'POST',body:data});
@@ -176,7 +226,7 @@
       box(result,e.message,'alu-error');
       if(e.result?.validation?.errors?.length)box(result,e.result.validation.errors.map(x=>`• ${x.detail}`).join('\n'),'alu-error');
       if(e.result?.validation?.warnings?.length)box(result,e.result.validation.warnings.map(x=>`• ${x.detail}`).join('\n'),'alu-warning');
-    }finally{busy=false;submitButton.disabled=false;submitButton.textContent=$('aluUpdateOf').value?'Sprawdź ZIP i zgłoś aktualizację':'Sprawdź ZIP i zgłoś listę';}
+    }finally{busy=false;submitButton.disabled=false;submitButton.textContent=$('aluUpdateOf').value?'Sprawdź ZIP i zaktualizuj istniejącą listę':'Sprawdź ZIP i zgłoś listę';}
   }
   document.addEventListener('DOMContentLoaded',()=>{
     $('aluForm').addEventListener('submit',submit);

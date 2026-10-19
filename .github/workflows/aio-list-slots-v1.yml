@@ -1,4 +1,4 @@
-name: AIO List Slots V1 — automatyczne publikacje i duplikaty
+name: AIO List Owners V2 — przypisanie, edycja, aktualizacje
 on:
   workflow_dispatch:
   push:
@@ -33,5 +33,5 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: AIO list slots security and regression tests
+      - name: AIO list owners security and regression tests
         run: python3 scripts/aio_list_slots_verify.py

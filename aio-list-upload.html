@@ -3,12 +3,12 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#071a24">
 <title>Dodaj listę kanałów | Społeczność AIO</title>
-<meta name="description" content="Dodaj listę Enigma2: pierwsza wymaga zatwierdzenia, następne publikujesz samodzielnie. Trzy kategorie satelitów i ochrona przed duplikatami.">
+<meta name="description" content="Zarządzaj własnymi listami Enigma2 na koncie AIO: dodawanie, aktualizacja ZIP, edycja opisu, usuwanie i przypisanie starszych publikacji.">
 <meta name="robots" content="index,follow">
 <link rel="icon" href="pliki/logo.png">
 <link rel="stylesheet" href="assets/css/user-premium.css?v=20260724-v14">
 <link rel="stylesheet" href="assets/css/site-final.css?v=20261010-final1">
-<link rel="stylesheet" href="assets/css/aio-list-upload.css?v=20261019-slots-v1">
+<link rel="stylesheet" href="assets/css/aio-list-upload.css?v=20261019-owners-v2">
 <link rel="stylesheet" href="assets/css/aio-list-inbox.css?v=20261015-4">
 </head><body class="aio-list-upload-page">
 <a class="skip-link" href="#main">Przejdź do treści</a>
@@ -38,14 +38,14 @@
         <li>Nie umieszczaj <code>settings</code>, haseł, kluczy, skryptów ani danych logowania. Serwer pominie dodatkowe pliki, ale nie przesyłaj danych poufnych.</li>
         <li>Archiwum musi mieć prawidłowe CRC i bezpieczne ścieżki; nie może być zaszyfrowane.</li>
         <li><strong>Trzy zestawy:</strong> Hot Bird 13°E, Hot Bird 13°E + Astra 19,2°E, Multi SAT (13°E + 19,2°E + kolejne satelity). Nie można mieć dwóch opublikowanych list w jednej kategorii.</li>
-        <li><strong>Przed dodaniem zaktualizowanej listy usuń starą</strong> z sekcji „Moje zgłoszenia”. Dopiero wtedy prześlij nowy ZIP tej kategorii.</li>
+        <li><strong>Aby zaktualizować listę, użyj przycisku „Aktualizuj ZIP” w sekcji „Moje listy”</strong>. Identyfikator i adres pobierania zostaną zachowane.</li>
         <li>Limit: <strong>3 aktywne listy na konto, 3 zgłoszenia dziennie oraz 30 nowych wersji w 30 dni</strong>. Limit przypisany jest do konta, nie do IP.</li>
         <li>Usunięcie własnej opublikowanej listy wycofuje ją z manifestu; nie usuwa pobranych kopii na tunerach.</li>
       </ul></div></div>
-      <p class="alu-small">Walidacja struktury nie potwierdza, że wszystkie kanały odbierają sygnał ani że dostawca IPTV ma prawa do transmisji. Tylko pierwsza opublikowana lista wymaga zatwierdzenia przez administratora. Kolejne są publikowane samodzielnie po sprawdzeniu ZIP. Administrator może zablokować konto.</p>
+      <p class="alu-small">Walidacja struktury nie potwierdza, że wszystkie kanały odbierają sygnał ani że dostawca IPTV ma prawa do transmisji. Tylko pierwsza opublikowana lista wymaga zatwierdzenia przez administratora. Kolejne, w tym aktualizacje ZIP, są publikowane samodzielnie po sprawdzeniu. Administrator może zablokować konto.</p>
     </section>
     <section class="alu-card" id="aluAccount"><div class="alu-section-title"><div><h2>1. Konto użytkownika</h2><p id="aluAccountStatus">Sprawdzanie sesji…</p></div><button type="button" id="aluLogin" class="alu-button alu-primary" data-community-login hidden>Zaloguj się / utwórz konto</button></div><div id="aluBlocked" class="alu-error" role="alert" hidden></div></section>
-    <section class="alu-card" id="aluUploadCard" hidden><div class="alu-section-title"><div><h2>2. Prześlij listę Enigma2</h2><p>ZIP do 12 MB. Przed kolejną wersją usuń wcześniej opublikowaną listę tej samej kategorii w sekcji „Moje zgłoszenia”.</p></div></div>
+    <section class="alu-card" id="aluUploadCard" hidden><div class="alu-section-title"><div><h2>2. Prześlij listę Enigma2</h2><p>ZIP do 12 MB. Własną listę możesz aktualizować, edytować i usuwać po zalogowaniu. Przy starszych listach administrator jednorazowo przypisuje adres e-mail konta.</p></div></div>
       <div id="aluMode" class="alu-mode">Tryb: <strong>Nowa lista</strong> <button type="button" id="aluNewMode" class="alu-button" hidden>Wróć do dodawania nowej listy</button></div>
       <form id="aluForm" autocomplete="off"><input type="hidden" name="update_of" id="aluUpdateOf" value="">
         <div class="alu-grid"><label>Nazwa listy <input name="name" required minlength="5" maxlength="90" placeholder="np. JanKowalski Hot Bird 13E" /></label><label>Data aktualizacji <input name="version" type="date" required /></label></div>
@@ -59,7 +59,7 @@
       </form>
       <div id="aluResult" aria-live="polite" hidden></div>
     </section>
-    <section class="alu-card" id="aluHistory" hidden><h2>Moje zgłoszenia</h2><p>Śledź status zatwierdzenia oraz powód odmowy, jeśli lista wymaga poprawek.</p><div id="aluHistoryList" class="alu-records"></div></section>
+    <section class="alu-card" id="aluHistory" hidden><h2>Moje listy i zgłoszenia</h2><p>Po zalogowaniu widzisz listy przypisane do Twojego konta. Możesz zmieniać nazwę i opis, przesłać nowy ZIP bez zmiany adresu pobierania albo wycofać listę. Starsze listy przypisuje administrator.</p><div id="aluHistoryList" class="alu-records"></div></section>
     <section class="alu-card alu-contact-area" id="aluMessages" hidden>
       <h2>Kontakt z administratorem AIO</h2>
       <p>Masz pytanie o listę, zgodność ZIP albo decyzję moderacji? Wyślij wiadomość bezpośrednio z konta AIO. Administrator zobaczy ją w swojej prywatnej skrzynce. Wiadomości i odpowiedzi pozostają widoczne tylko dla nadawcy i właściciela.</p>
@@ -75,14 +75,14 @@
     </section>
     <section class="alu-card alu-admin" id="aluAdmin" hidden><div class="alu-section-title"><div><p class="alu-eyebrow">WYŁĄCZNIE WŁAŚCICIEL STRONY</p><h2>Moderacja list kanałów</h2><p>Pierwsza lista wymaga ręcznego zatwierdzenia. Następne prawidłowe listy można publikować samodzielnie.</p></div><button type="button" id="aluRefresh" class="alu-button">Odśwież</button></div><div id="aluAdminList" class="alu-records"></div><h3>Blokady publikowania</h3><div id="aluAdminBlocks" class="alu-records"></div>
       <div class="alu-legacy"><h3>Starsze listy z repozytorium GitHub</h3>
-      <p>Tylko właściciel może wycofać listy sprzed uruchomienia panelu. Bezpieczny wariant usuwa wpis z <code>manifest.json</code>, pozostawiając ZIP do ewentualnego przywrócenia. Opcjonalne usunięcie ZIP wymaga dodatkowego potwierdzenia.</p>
+      <p>Starsze listy przypisuj do zarejestrowanego konta przez zweryfikowany z autorem adres e-mail. Dopiero po przypisaniu autor może edytować, aktualizować i usuwać własną listę. Przy wycofaniu starszych list oryginalne ZIP pozostają w repozytorium.</p>
       <p id="aluLegacyError" class="alu-small" hidden></p>
       <div id="aluLegacyList" class="alu-records"></div></div></section>
   </main>
   <footer class="alu-footer">AIO-IPTV.pl · <a href="channel-lists.html">Pobierz listy</a> · <a href="community-rules.html">Regulamin społeczności</a> · <a href="privacy-community.html">Prywatność</a></footer>
 </div>
 <script defer src="assets/js/community-core.js?v=20261017-ownerhub-v1"></script>
-<script defer src="assets/js/aio-list-upload.js?v=20261019-slots-v1"></script>
+<script defer src="assets/js/aio-list-upload.js?v=20261019-owners-v2"></script>
 <script defer src="assets/js/aio-list-messages.js?v=20261015-4"></script>
 <script defer src="assets/js/aio-list-github-test.js?v=20261015-safe1"></script>
 </body></html>

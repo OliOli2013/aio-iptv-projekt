@@ -20,3 +20,10 @@ body.aio-list-upload-page{background:var(--alu-bg);color:var(--alu-text);font-fa
 /* AIO LIST SLOTS V1 — satellite category selector. */
 .alu-card select[name="satellite_slot"]{font:inherit;color:var(--alu-text);background:#071922;border:1px solid #456276;border-radius:9px;padding:11px;width:100%;max-width:100%}
 .alu-card select[name="satellite_slot"]:focus{outline:2px solid var(--alu-accent);outline-offset:2px}
+
+/* AIO LIST OWNERS V2 — account-linked legacy entries and in-place editing. */
+.alu-legacy-hint{color:#a9e7df!important;font-size:.9rem}
+.alu-record .alu-actions .alu-primary{background:#087a73}
+.alu-record button:focus-visible,.alu-mode button:focus-visible{outline:2px solid #94f7e7;outline-offset:3px}
+.alu-record .alu-actions{align-items:center}
+@media(max-width:550px){.alu-record .alu-actions button{width:100%}}

@@ -16,46 +16,67 @@ def check(ok,why):
 
 def main():
     api=API.read_text('utf-8');val=VALIDATOR.read_text('utf-8');u=UI.read_text('utf-8');h=HTML.read_text('utf-8')
-    check('const MAX_ACTIVE_LISTS = 3;' in api,'3 active slots per user')
-    check('satellite_slot' in api and 'NOT EXISTS(SELECT 1 FROM aio_list_submissions WHERE user_id=? AND update_of IS NULL AND (satellite_slot=?' in api,'atomic collision guard in D1')
-    check('trusted_publisher:await isTrusted' in api and "if(manual)await db.prepare" in api,'permanent approval after manual publish')
-    check("if(String(form.get('update_of')||'').trim()) throw httpError(409" in api and 'Zgłoś aktualizację' not in u,'old update flow disabled; remove old list first')
-    check("if(action==='retry_own')" in api and "status='publish_failed'" in api,'safe author retry on GitHub failure')
-    check('satellites,satellite_slot' in val and 'orbitalFromService(line)' in val,'server ZIP orbital validation')
-    check('name="satellite_slot" required' in h and 'trusted_publisher' in u,'satellite selector and approval status in UI')
-    check('Object.hasOwn(SLOT_LABELS,declaredSlot)' in api,'user cannot invent new satellite categories')
-    # D1 INSERT logic tested in real SQLite with simulated accounts and statuses.
-    match=re.search(r"const result=await db.prepare\(`(INSERT INTO aio_list_submissions.*?\))`\)\s*\.bind\(",api,re.S)
-    check(bool(match),'atomic insert SQL is extractable')
-    sql=match.group(1)
-    conn=sqlite3.connect(':memory:');conn.row_factory=sqlite3.Row
-    conn.execute('CREATE TABLE aio_list_submissions(id TEXT PRIMARY KEY,user_id TEXT,name TEXT,description TEXT,version TEXT,file_name TEXT,r2_key TEXT,file_size INTEGER,zip_sha256 TEXT,report_json TEXT,status TEXT,created_at TEXT,update_of TEXT,satellite_slot TEXT)')
-    day='2026-10-19';since='2026-09-19'
-    n=0
-    def insert(user,slot,name=None,hashval=None,date=day):
-        nonlocal n
-        n+=1
-        params=(str(n),user,name or (slot+' list'), 'Opis testowy',date,'test.zip','temp/'+str(n),1234,
-                hashval or ('hash-'+str(n)),'{}',date+'T10:00:00Z',slot,
-                user,date,3,user,user,3,user,since,30,user,slot,user,name or slot+' list',hashval or ('hash-'+str(n)),user)
-        assert sql.count('?')==len(params), (sql.count('?'),len(params))
-        cur=conn.execute(sql,params)
-        conn.commit()
-        return cur.rowcount
-    check(insert('u1','hb13')==1,'single 13E accepted')
-    check(insert('u1','dual')==1,'dual accepted')
-    check(insert('u1','multi')==1,'multi accepted')
-    check(insert('u1','dual')==0,'duplicate satellite slot rejected')
-    check(insert('u2','hb13')==1,'separate user can publish own 13E')
-    # Existing orphaned slots are blocked conservatively.
-    conn.execute("INSERT INTO aio_list_submissions (id,user_id,name,status,created_at,update_of,satellite_slot) VALUES ('legacy','legacy_user','Unclassified old list','published','2026-10-10T00:00:00Z',NULL,'')")
-    check(insert('legacy_user','hb13')==0,'legacy unclassified live list blocks new uploads')
-    # Removing current list frees slot, but 3-per-day quota still applies.
-    conn.execute("UPDATE aio_list_submissions SET status='removed' WHERE user_id='u1' AND satellite_slot='dual'")
-    conn.execute("UPDATE aio_list_submissions SET created_at='2026-10-18T10:00:00Z' WHERE user_id='u1'")
-    check(insert('u1','dual',date=day)==1,'removal permits replacement after daily quota permits it')
-    conn.execute("INSERT INTO aio_list_submissions (id,user_id,name,status,created_at,update_of,satellite_slot) VALUES ('blocked','u3','Old 13E','pending','2026-10-10T00:00:00Z',NULL,'hb13')")
-    check(insert('u3','hb13')==0,'pending submission occupies satellite slot')
+    check('const MAX_ACTIVE_LISTS = 3;' in api,'3 active slots per account')
+    check('source_type' in api and 'manifest_url' in api,'additive migration for historical lists')
+    check("if(action==='assign_legacy') return assignHistorical" in api and 'requireAdmin(request,env,true)' in api,'only site owner can link legacy lists to e-mail account')
+    check('SELECT user_id FROM community_auth WHERE lower(email)=?' in api,'server-side matching of registered e-mail')
+    check('const base=updateOf?await' in api and "id=? AND user_id=? AND update_of IS NULL AND status='published'" in api,'ownership enforced server-side for updates')
+    check("if(action==='edit_details_own') return editOwnDetails" in api,'metadata-only editing supported')
+    check("if(action==='delete_own') return removeOwn" in api and 'managedPath(row)' in api,'self-service removal with ownership guard')
+    check('snap.arr.filter(x=>x?.id===manifestId).length!==1' in api,'rejection of duplicated manifest IDs')
+    check("(others||row.source_type==='legacy')?null:row.archive_path" in api,'historical ZIPs kept when entries removed')
+    check('source_type' in api and 'NOT EXISTS' in api,'atomic conflict guards')
+    check('name="satellite_slot" required' in h and 'account_email' in u,'session account e-mail and satellite slot in UI')
+    check('beginUpdate(item)' in u and 'editDetailsOwn(item)' in u,'update ZIP and metadata buttons')
+    check('trusted_publisher:await isTrusted' in api and "if(manual)await db.prepare" in api,'trusted publisher approval retained')
+    check('satellites,satellite_slot' in val and 'orbitalFromService(line)' in val,'server ZIP validation retained')
+    # Real SQLite check of the exact INSERT...SELECT generated for both modes.
+    common=re.search(r'const common=`(INSERT INTO aio_list_submissions.*?)`;',api,re.S)
+    check(bool(common),'shared SQL INSERT is extractable')
+    rest=api[common.end():]
+    matches=[' WHERE'+m.group(1) for m in re.finditer(r'result=await db.prepare\(`\$\{common\} WHERE(.*?)`\)',rest,re.S)]
+    check(len(matches)==2,'both new and update SQL guards are extractable')
+    update_sql=common.group(1)+matches[0];new_sql=common.group(1)+matches[1]
+    con=sqlite3.connect(':memory:')
+    con.execute('''CREATE TABLE aio_list_submissions (id TEXT PRIMARY KEY,user_id TEXT,name TEXT,description TEXT,version TEXT,
+      file_name TEXT,r2_key TEXT,file_size INTEGER,zip_sha256 TEXT,report_json TEXT,status TEXT,created_at TEXT,
+      update_of TEXT,satellite_slot TEXT,source_type TEXT DEFAULT 'community',manifest_url TEXT,manifest_id TEXT)''')
+    day='2026-10-19';since='2026-09-19T00:00:00Z';i=0
+    def insert(user,slot,base=None):
+      nonlocal i
+      i+=1
+      name=f'Lista {user} {slot}';hashv=f'hash-{i}';common_args=[str(i),user,name,'Opis listy testowej',day,'new.zip','tmp',1234,hashv,'{}',day+'T12:00:00Z',base,slot]
+      if base:
+        params=common_args+[user,day,3,user,since,30,base,base,user]
+        sql=update_sql
+      else:
+        params=common_args+[user,day,3,user,user,3,user,since,30,user,slot,user,name,hashv,user]
+        sql=new_sql
+      assert sql.count('?')==len(params),(sql.count('?'),len(params),sql)
+      cur=con.execute(sql,params);con.commit();return cur.rowcount,str(i)
+    ok,base=insert('owner','hb13');check(ok==1,'new 13E list accepted')
+    con.execute("UPDATE aio_list_submissions SET status='published' WHERE id=?",(base,))
+    ok,newid=insert('owner','hb13');check(ok==0,'second NEW list in occupied slot is blocked')
+    ok,updateid=insert('owner','hb13',base);check(ok==1,'existing published list updated without deleting base')
+    ok,_=insert('owner','hb13',base);check(ok==0,'concurrent update of same base is blocked')
+    ok,_=insert('stranger','hb13',base);check(ok==0,'another account cannot update a foreign list')
+    con.execute("UPDATE aio_list_submissions SET status='applied' WHERE id=?",(updateid,))
+    ok,third=insert('owner','hb13',base);check(ok==1,'third ZIP submission today accepted')
+    con.execute("UPDATE aio_list_submissions SET status='applied' WHERE id=?",(third,))
+    ok,_=insert('owner','hb13',base);check(ok==0,'daily quota remains in effect for ZIP updates')
+    # Historical linking is an INSERT...SELECT tied to an authenticated account ID.
+    section=api[api.index('async function assignHistorical'):api.index('async function editOwnDetails')]
+    sql_match=re.search(r'const result=await db.prepare\(`(INSERT INTO aio_list_submissions.*?)`\)',section,re.S)
+    check(bool(sql_match),'legacy assignment statement extractable')
+    legacy_sql=sql_match.group(1)
+    con.execute('ALTER TABLE aio_list_submissions ADD COLUMN published_at TEXT')
+    con.execute('ALTER TABLE aio_list_submissions ADD COLUMN archive_path TEXT')
+    params=['historical1','legacy_owner','M@rio 13E','Historyczna lista','2026-08-23','mario.zip',day+'T11:00:00Z',day+'T11:00:00Z','mario_13E','archives/mario.zip','hb13','https://raw.githubusercontent.com/OliOli2013/PanelAIO-Lists/main/archives/mario.zip','mario_13E']
+    check(legacy_sql.count('?')==len(params),'historical SQL parameters match safely')
+    check(con.execute(legacy_sql,params).rowcount==1,'legacy list assigned to existing account ID')
+    params[0]='historical2'
+    check(con.execute(legacy_sql,params).rowcount==0,'duplicate historical claim blocked')
+    check('Object.hasOwn(SLOT_LABELS,declaredSlot)' in api,'satellite values validated')
     # check JS parsing and concrete ZIPs built with regular zipfile (no user files modified)
     for f in [API,VALIDATOR,SLOTS,UI]:
         subprocess.run(['node','--check',str(f)],check=True,capture_output=True)
