@@ -1,0 +1,32 @@
+/* AIO Moje konto V1: lokalny panel, bez nowych uprawnień ani trwałych danych. */
+:root{color-scheme:dark}
+body.aio-account-page{background:#061923;color:#e4f6fc;font-family:Inter,system-ui,-apple-system,'Segoe UI',Arial,sans-serif}
+.aio-account-main{width:min(1070px,calc(100% - 30px));margin:26px auto 70px;min-width:0}
+.aio-account-heading{margin:0 0 22px}.aio-account-eyebrow{font-size:.74rem;letter-spacing:.15em;font-weight:850;text-transform:uppercase;color:#7adcef}.aio-account-heading h1{font-size:clamp(1.8rem,4vw,2.9rem);margin:.25rem 0 .5rem;color:#f4fdff}.aio-account-heading>p:last-child{color:#bad3df;max-width:760px;line-height:1.6}
+.aio-account-status{display:grid;grid-template-columns:60px minmax(0,1fr);align-items:start;gap:16px;border:1px solid #3d778a;border-radius:17px;padding:22px;background:linear-gradient(135deg,#103a49,#08222e)}
+.aio-account-status-icon{display:grid;place-items:center;width:52px;height:52px;border:1px solid #55cde5;border-radius:14px;color:#82e7f8;font-size:27px}
+.aio-account-status h2{font-size:clamp(1.15rem,2.2vw,1.55rem);margin:0 0 6px;color:white}
+.aio-account-status p{margin:0;color:#d1e8ef;line-height:1.55}
+.aio-account-status .aio-account-meta{margin-top:10px;font-size:.89rem;color:#92dced}
+.aio-account-status.is-pending{border-color:#d6a35b;background:linear-gradient(135deg,#46351f,#192f35)}
+.aio-account-status.is-verified{border-color:#3cc9aa}
+.aio-account-actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:18px 0 8px}
+.aio-account-primary,.aio-account-secondary,.aio-account-card-buttons button{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;min-height:44px;line-height:1.35;border-radius:9px;font:inherit;font-weight:750;font-size:.91rem;cursor:pointer;text-decoration:none;padding:10px 16px}
+.aio-account-primary{background:#138d9d;border:1px solid #4aebef;color:#fff}
+.aio-account-primary:hover,.aio-account-primary:focus-visible{background:#116e80;color:#fff}
+.aio-account-secondary,.aio-account-card-buttons button{background:#123949;border:1px solid #407e90;color:#d8f4fd}
+.aio-account-secondary:hover,.aio-account-card-buttons button:hover{background:#195569;color:white}
+.aio-account-primary[hidden],.aio-account-secondary[hidden],[data-account-profile][hidden]{display:none!important}
+.aio-account-notice{color:#a5dbea;font-size:.9rem;min-height:1.1em;margin:10px 0 18px}
+.aio-account-notice.is-error{color:#ffb7bc}.aio-account-notice.is-success{color:#9bf7cb}
+.aio-account-panels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.aio-account-card{padding:22px;border:1px solid #2f6172;border-radius:15px;background:linear-gradient(155deg,#0e303e,#071f2a)}
+.aio-account-card h2{font-size:1.19rem;color:#effcff;margin:0 0 12px}
+.aio-account-card p,.aio-account-card li{color:#c3dbe5;line-height:1.6;font-size:.93rem}
+.aio-account-card ol{padding-left:22px}.aio-account-card li{margin:.45rem 0}
+.aio-account-card .aio-account-note{color:#8eb9c8;font-size:.84rem}
+.aio-account-card-buttons{display:flex;flex-wrap:wrap;gap:9px;margin:14px 0}
+.aio-account-card>a{display:inline-flex;color:#87e5f7;font-weight:700;margin:5px 15px 5px 0}
+.aio-account-footer{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;padding:25px;color:#a1bfcd;background:#071f2a;font-size:.83rem}
+.aio-account-footer a{color:#b8eaf4}
+@media(max-width:720px){.aio-account-main{width:min(100% - 22px,620px)}.aio-account-status{grid-template-columns:1fr;padding:18px}.aio-account-panels{grid-template-columns:1fr}.aio-account-actions{display:grid;grid-template-columns:1fr}.aio-account-card{padding:17px}.aio-account-card-buttons{display:grid;grid-template-columns:1fr}}

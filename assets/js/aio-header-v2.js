@@ -21,6 +21,16 @@
     header.insertAdjacentElement('beforebegin',topbar);
   }
 
+  /* Always-visible utility link, including legacy pages with prebuilt topbar. */
+  const utilityLinks=topbar.querySelector('.portal-topbar-links');
+  if(utilityLinks && !utilityLinks.querySelector('a[href="konto.html"]')){
+    const account=d.createElement('a');
+    account.href='konto.html';
+    account.className='aio-topbar-account';
+    account.textContent='Moje konto';
+    utilityLinks.insertBefore(account,utilityLinks.querySelector('a[href="support.html"]'));
+  }
+
   /* Replace the plain "Enigma2 • Android • Windows • pomoc" text with useful links. */
   let brandTop=topbar.querySelector('.portal-topbar-brand');
   if(brandTop){
@@ -53,6 +63,7 @@
     '<a href="channel-lists.html">Listy</a>'+
     '<a href="guides.html">Poradniki</a>'+
     '<a class="nav-community" href="community.html">Społeczność</a>'+
+    '<a class="aio-nav-account" href="konto.html">Moje konto</a>'+
     '<details class="nav-more"><summary>Więcej⌄</summary><div class="nav-more-menu">'+
       '<a href="android-apps.html">Android</a><a href="windows-apps.html">Windows</a><a href="pro.html">Aplikacje PRO</a>'+
       '<a href="errors.html">Baza błędów</a><a href="one-liner.html">One-Liner / FTP</a><a href="start-here.html">Zacznij tutaj</a>'+

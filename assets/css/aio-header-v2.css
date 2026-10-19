@@ -735,3 +735,19 @@ body.aio-home-v2.aio-header-v4 .aio-h4-tip-next:focus-visible{
     grid-template-columns: minmax(0,1fr) 41px 51px !important;
   }
 }
+
+/* AIO Moje konto V1 — prominent account entry (mobile + desktop). */
+body.aio-header-v4 .main-nav>a.aio-nav-account{
+  background:linear-gradient(145deg,rgba(0,142,163,.18),rgba(0,91,114,.10))!important;
+  color:#e2fdff!important;
+  border-left:1px solid rgba(90,222,235,.22)!important;
+}
+body.aio-header-v4 .main-nav>a.aio-nav-account::before{content:"♙";color:#83e7f4;font-size:17px}
+body.aio-header-v4 .main-nav>a.aio-nav-account:hover{background:#16677b!important;color:white!important}
+body.aio-header-v4 .portal-topbar-links a.aio-topbar-account{color:#b5f9ff!important;font-weight:900!important}
+@media(min-width:761px) and (max-width:1300px){
+  body.aio-header-v4 .main-nav>a,body.aio-header-v4 .nav-more>summary{
+    font-size:10px!important;padding-inline:6px!important;gap:5px!important
+  }
+  body.aio-header-v4 .nav-more>summary{min-width:100px!important}
+}
