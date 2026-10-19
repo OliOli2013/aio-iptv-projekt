@@ -16,3 +16,7 @@ body.aio-list-upload-page{background:var(--alu-bg);color:var(--alu-text);font-fa
 
 .alu-guide{background:#102d39}.alu-grid-guide{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;align-items:start}.alu-tree{background:#051821;border:1px solid #315665;padding:16px;border-radius:10px;overflow:auto;color:#d8f5ed;font-size:.86rem;line-height:1.5}.alu-guide code{color:#bcefe8}.alu-guide ul{padding-left:22px}.alu-guide li{margin-bottom:9px}.alu-mode{background:#173d46;padding:12px;border:1px solid #2d7774;border-radius:10px;display:flex;flex-wrap:wrap;align-items:center;gap:15px}.alu-legacy{margin-top:28px;border-top:1px solid #345262;padding-top:15px}.alu-legacy-search{background:#061b26;color:white;border:1px solid #456276;padding:12px;border-radius:8px;width:100%}.alu-record[hidden]{display:none}
 @media(max-width:850px){.alu-grid-guide{grid-template-columns:1fr}}
+
+/* AIO LIST SLOTS V1 — satellite category selector. */
+.alu-card select[name="satellite_slot"]{font:inherit;color:var(--alu-text);background:#071922;border:1px solid #456276;border-radius:9px;padding:11px;width:100%;max-width:100%}
+.alu-card select[name="satellite_slot"]:focus{outline:2px solid var(--alu-accent);outline-offset:2px}

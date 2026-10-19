@@ -1,0 +1,37 @@
+name: AIO List Slots V1 — automatyczne publikacje i duplikaty
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'functions/api/list-submissions.js'
+      - 'functions/_aio_list_validation.js'
+      - 'functions/_aio_list_slots.js'
+      - 'assets/js/aio-list-upload.js'
+      - 'assets/css/aio-list-upload.css'
+      - 'aio-list-upload.html'
+      - 'scripts/aio_list_slots_verify.py'
+      - '.github/workflows/aio-list-slots-v1.yml'
+  pull_request:
+    paths:
+      - 'functions/api/list-submissions.js'
+      - 'functions/_aio_list_validation.js'
+      - 'functions/_aio_list_slots.js'
+      - 'assets/js/aio-list-upload.js'
+      - 'assets/css/aio-list-upload.css'
+      - 'aio-list-upload.html'
+      - 'scripts/aio_list_slots_verify.py'
+      - '.github/workflows/aio-list-slots-v1.yml'
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: AIO list slots security and regression tests
+        run: python3 scripts/aio_list_slots_verify.py

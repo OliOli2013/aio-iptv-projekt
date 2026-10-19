@@ -16,9 +16,17 @@
     if((report.warnings||[]).length)box(card,'Ostrzeżenia: '+report.warnings.map(w=>w.detail).join(' • '),'alu-warning');
     if(!admin && item.status==='published' && !item.update_of) {
       const actions=node('div',undefined,'alu-actions');
-      const update=node('button','Zgłoś aktualizację','alu-button alu-primary');update.type='button';update.addEventListener('click',()=>startUpdate(item));
       const remove=node('button','Usuń moją listę','alu-button');remove.type='button';remove.addEventListener('click',()=>removeOwn(item));
-      actions.append(update,remove);card.append(actions);
+      actions.append(remove);card.append(actions);
+      card.append(node('p','Nowa wersja tej kategorii: najpierw usuń opublikowaną listę, a następnie dodaj nowy ZIP.','alu-warning'));
+    }
+    if(!admin && item.status==='publish_failed' && me?.trusted_publisher && !item.update_of){
+      const retry=node('button','Ponów publikację','alu-button alu-primary');retry.type='button';
+      retry.addEventListener('click',async()=>{
+        if(busy || !confirm('Ponowić publikację w GitHub dla: '+item.name+'?'))return;
+        busy=true;try{const d=await call({method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({action:'retry_own',id:item.id})});alert(d.message);await refresh();}
+        catch(e){alert(e.message);await refresh();}finally{busy=false;}
+      });card.append(retry);
     }
     if(!admin && ['pending','publish_failed'].includes(item.status)) {
       const cancel=node('button','Wycofaj moje zgłoszenie','alu-button');cancel.type='button';
@@ -42,20 +50,6 @@
     try{const d=await call({method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({action:'cancel_own',id:item.id})});alert(d.message);await refresh();}
     catch(e){alert('Błąd wycofania: '+e.message);await refresh();}
     finally{busy=false;}
-  }
-  function startUpdate(item){
-    if(busy)return;
-    const form=$('aluForm');form.reset();
-    $('aluUpdateOf').value=item.id;
-    form.elements.name.value=item.name;
-    form.elements.name.readOnly=true;
-    form.elements.version.value=new Date().toISOString().slice(0,10);
-    form.elements.description.value=item.description||'';
-    $('aluMode').querySelector('strong').textContent='Aktualizacja: '+item.name;
-    $('aluNewMode').hidden=false;
-    $('aluSubmit').textContent='Sprawdź ZIP i zgłoś aktualizację';
-    $('aluUploadCard').scrollIntoView({behavior:'smooth',block:'start'});
-    $('aluZip').focus();
   }
   function newMode(){
     const form=$('aluForm');form.reset();$('aluUpdateOf').value='';
@@ -123,7 +117,7 @@
     try{
       const data=await call();
       me=data;
-      $('aluAccountStatus').textContent=!data.authenticated?'Tylko zalogowani użytkownicy Społeczności AIO mogą dodawać listy.':`Zalogowano jako: ${data.user.display_name}`;
+      $('aluAccountStatus').textContent=!data.authenticated?'Tylko zalogowani użytkownicy Społeczności AIO mogą dodawać listy.':`Zalogowano jako: ${data.user.display_name} · ${data.trusted_publisher?'Publikowanie samodzielne aktywne':'Pierwsza lista wymaga akceptacji'}`;
       $('aluLogin').hidden=!!data.authenticated;
       $('aluUploadCard').hidden=!data.authenticated||!!data.blocked;
       $('aluHistory').hidden=!data.authenticated;
@@ -175,7 +169,7 @@
     busy=true;submitButton.disabled=true;submitButton.textContent='Sprawdzanie integralności i struktury archiwum…';
     try{
       const resp=await call({method:'POST',body:data});
-      box(result,resp.message||'Lista trafiła do moderacji.','alu-success');
+      box(result,resp.message||'Zgłoszenie przyjęte.',resp.status==='publish_failed'?'alu-warning':'alu-success');
       if(resp.validation?.warnings?.length)box(result,'Uwagi: '+resp.validation.warnings.map(x=>x.detail).join('\n'),'alu-warning');
       newMode();await refresh();document.dispatchEvent(new Event('aio-list-updated'));
     }catch(e){

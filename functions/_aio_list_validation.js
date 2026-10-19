@@ -1,6 +1,7 @@
 /* AIO List Upload V1.1 — kontrola ZIP i bezpieczna paczka publikacyjna.
    Pliki pomocnicze (settings, JSON, TXT poza README) są wyłączane z kopii
    publikacyjnej, bez naruszenia źródłowego pliku użytkownika. */
+import {orbitalFromService,classifySatellites} from './_aio_list_slots.js';
 const MAX_ZIP = 12 * 1024 * 1024;
 const MAX_UNPACKED = 64 * 1024 * 1024;
 const MAX_ENTRIES = 2500;
@@ -58,6 +59,7 @@ async function inflated(method, compressed, size) {
 async function inspectAioZip(arrayBuffer, prepare=false) {
   const errors=[], warnings=[], files=new Map(), publishEntries=[];
   const stats={files:0,compressed:0,unpacked:0,bouquets:0,services:0,iptv:0,published_files:0,omitted_files:0};
+  const orbitals=new Set();
   try {
     const bytes = new Uint8Array(arrayBuffer);
     if (bytes.length<22 || bytes.length>MAX_ZIP) throw new Error('ZIP musi mieć od 22 bajtów do 12 MB.');
@@ -124,6 +126,10 @@ async function inspectAioZip(arrayBuffer, prepare=false) {
       if(/\.(tv|radio)$/.test(key) && key!=='bouquets.tv' && key!=='bouquets.radio') {
         stats.bouquets++;
         const raw=decode(unpacked);
+        if(key.endsWith('.tv')) for(const line of raw.split(/\r?\n/)){
+          const orbital=orbitalFromService(line);
+          if(orbital!==null)orbitals.add(orbital);
+        }
         if(!/^#SERVICE\s+/m.test(raw)) {
           if(/^userbouquet\.(?:favourites|lastscanned)\./i.test(base)) warnings.push(message('EMPTY',`${base}: pusty bukiet systemowy — może to być normalne.`));
           else warnings.push(message('EMPTY_BOUQUET',`${base}: pusty bukiet bez #SERVICE. AIO Panel może go zainstalować, ale sprawdź, czy pusty bukiet jest zamierzony.`));
@@ -155,7 +161,9 @@ async function inspectAioZip(arrayBuffer, prepare=false) {
     if(stats.iptv) warnings.push(message('IPTV',`Wykryto około ${stats.iptv} pozycji lub adresów IPTV. Administrator musi zweryfikować prawa do ich udostępniania.`));
     if(stats.bouquets===0) warnings.push(message('TV','Nie wykryto osobnych plików bukietów TV/radio.'));
     if(stats.omitted_files>0) warnings.push(message('CLEAN',`Publikowana kopia ZIP pominie ${stats.omitted_files} plików dodatkowych; zostanie w niej ${stats.published_files} plików listy. Oryginalny ZIP na komputerze pozostanie bez zmian.`));
-    const report={ok:errors.length===0,errors:errors.slice(0,35),warnings:warnings.slice(0,35),stats};
+    const satellites=[...orbitals].sort((a,b)=>a-b);
+    const satellite_slot=classifySatellites(satellites);
+    const report={ok:errors.length===0,errors:errors.slice(0,35),warnings:warnings.slice(0,35),stats,satellites,satellite_slot};
     const cleanedBytes=(prepare && report.ok) ? makeAioZip(publishEntries) : null;
     return {report,cleanedBytes};
   } catch(error) {
