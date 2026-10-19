@@ -3,6 +3,7 @@
    before downloads when AIO_EMAIL_VERIFICATION_MODE=enforce.
    Newly created accounts always require verification before downloads.
 */
+import {sendWpSmtp,wpSmtpReady} from './_aio_wp_smtp.js';
 const TTL_MS = 24 * 60 * 60 * 1000;
 const COOLDOWN_MS = 3 * 60 * 1000;
 const LIMIT_DAY = 5;
@@ -17,10 +18,7 @@ async function hashToken(token) {
   return hashBytes(new Uint8Array(await crypto.subtle.digest('SHA-256', data)));
 }
 function newToken() { const a = new Uint8Array(32); crypto.getRandomValues(a); return hashBytes(a); }
-function sender(env) { return String(env.AIO_VERIFY_FROM_EMAIL || env.AIO_RESET_FROM_EMAIL || '').trim(); }
-export function emailSendingReady(env) {
-  return Boolean(String(env.RESEND_API_KEY||'').trim() && emailFormat(sender(env)));
-}
+export function emailSendingReady(env) { return wpSmtpReady(env); }
 export async function ensureEmailVerificationSchema(env) {
   if (!schemaPromise) schemaPromise=(async()=>{
     if (!env.COMMUNITY_DB) throw problem(503,'Brak połączenia D1.');
@@ -74,19 +72,13 @@ export async function sendVerificationEmail(env,userId,email) {
   if(Number(r.meta?.changes||0)!==1) throw problem(429,'Wiadomość niedawno wysłano lub wyczerpano limit. Spróbuj później.');
   const base='https://aio-iptv-projekt.pages.dev';
   const url=base+'/api/verify-email?token='+encodeURIComponent(token);
-  let response;
   try {
-    response=await fetch('https://api.resend.com/emails',{
-      method:'POST',
-      headers:{Authorization:'Bearer '+String(env.RESEND_API_KEY).trim(),'Content-Type':'application/json'},
-      body:JSON.stringify({from:sender(env),to:[email],
-        subject:'AIO-IPTV.pl — potwierdź adres e-mail',
-        text:'Aby aktywować pobieranie na koncie AIO, potwierdź adres e-mail:\n\n'+url+'\n\nLink jest ważny przez 24 godziny i można go użyć tylko raz. Jeśli nie rejestrowałeś konta, zignoruj wiadomość.'})
-    });
-  } catch { throw problem(502,'Nie udało się wysłać wiadomości. Ponów próbę później.'); }
-  if(!response.ok){
-    // Never leak provider credentials or provider response to the browser.
-    throw problem(502,'Dostawca poczty nie zaakceptował wiadomości. Sprawdź konfigurację nadawcy.');
+    await sendWpSmtp(env,{to:email,subject:'AIO-IPTV.pl — potwierdź adres e-mail',
+      text:'Aby aktywować pobieranie na koncie AIO, potwierdź adres e-mail:\n\n'+url+'\n\nLink jest ważny przez 24 godziny i można go użyć tylko raz. Jeśli nie rejestrowałeś konta, zignoruj wiadomość.'});
+  }catch(error){
+    // Never expose SMTP auth or server transcript to the user.
+    console.error('AIO email verification: WP SMTP dispatch failed',String(error?.code||'SMTP_UNKNOWN'));
+    throw problem(502,'Poczta WP nie zaakceptowała wysyłki. Spróbuj ponownie później.');
   }
   return {ok:true, sent:true, message:'Wysłaliśmy link weryfikacyjny na wskazany adres e-mail.'};
 }
