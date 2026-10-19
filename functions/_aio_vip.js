@@ -24,15 +24,12 @@ export async function ensureVipSchema(env) {
   await vipSchemaPromise;
 }
 export function oneCalendarMonth(started) {
-  const start = new Date(started);
-  if (!Number.isFinite(start.getTime())) throw new Error('Nieprawidłowa data aktywacji VIP.');
-  const year = start.getUTCFullYear(), month = start.getUTCMonth(), day = start.getUTCDate();
-  const target = new Date(Date.UTC(year, month + 1, 1,
-    start.getUTCHours(), start.getUTCMinutes(), start.getUTCSeconds(), start.getUTCMilliseconds()));
-  const lastDay = new Date(Date.UTC(year, month + 2, 0)).getUTCDate();
-  target.setUTCDate(Math.min(day, lastDay));
-  return target;
+  // Product policy: exactly 30 x 24h, NOT a variable calendar month.
+  const start=new Date(started);
+  if(!Number.isFinite(start.getTime()))throw new Error('Nieprawidłowa data aktywacji VIP.');
+  return new Date(start.getTime()+30*24*60*60*1000);
 }
+
 export async function getVipStatus(env,userId) {
   await ensureVipSchema(env);
   const row = await env.COMMUNITY_DB.prepare(`SELECT issued_at,expires_at FROM aio_vip_grants

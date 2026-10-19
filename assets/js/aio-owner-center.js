@@ -63,12 +63,12 @@
       {title:'Data (UTC)',view:x=>x.day},
       {title:'Wydania',view:x=>fmt(x.n)}
     ],'Brak danych dziennych.');
-    const audience={guest:'Gość',account_free:'Konto — bezpłatne',account_7d:'Konto — rozszerzony dostęp (7 dni lub VIP)'};
+    const accessLabel=x=>x.access_reason==='vip'?'Konto — VIP (30 dni)':x.access_reason==='grant'?'Konto — dostęp po wsparciu (7 dni)':x.access_reason==='free_retry'?'Konto — darmowe wznowienie':x.audience==='account_free'?'Konto — darmowe (7 dni)':x.audience==='account_7d'?'Konto — rozszerzony dostęp (starszy wpis)':x.audience==='guest'?'Gość':'—';
     renderRows($('aoc-history'),d.events,[
       {title:'Data',view:x=>date(x.created_at)},
       {title:'Użytkownik',view:x=>x.user_id ? (x.user_name||'Konto') : 'Gość bez konta'},
       {title:'Nazwa pliku',view:x=>x.file_name},
-      {title:'Rodzaj',view:x=>audience[x.audience]||'—'},
+      {title:'Rodzaj',view:x=>accessLabel(x)},
       {title:'HTTP',view:x=>String(x.status_code)}
     ],'Nie odnotowano wydań plików dla wybranych filtrów.');
     const from=d.totals.issued?d.offset+1:0;
@@ -102,10 +102,10 @@
   }
   function exportCsv() {
     if(!latest) return;
-    const headers=['data_iso','uzytkownik','nazwa_pliku','rodzaj','status_http'];
+    const headers=['data_iso','uzytkownik','nazwa_pliku','rodzaj','uprawnienie','status_http'];
     const csvCell=value=>'"'+String(value??'').replace(/"/g,'""').replace(/^[=+\-@]/,'\'$&')+'"';
     const data=latest.events.map(x=>[
-      x.created_at,x.user_id?(x.user_name||'Konto'):'Gość',x.file_name,x.audience,x.status_code
+      x.created_at,x.user_id?(x.user_name||'Konto'):'Gość',x.file_name,x.audience,x.access_reason||'',x.status_code
     ]);
     const csv='\uFEFF'+[headers,...data].map(row=>row.map(csvCell).join(';')).join('\r\n');
     const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));

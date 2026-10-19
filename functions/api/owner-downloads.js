@@ -44,7 +44,9 @@ export async function onRequestGet({ request, env }) {
       run(`SELECT COUNT(*) AS n,
         SUM(CASE WHEN d.user_id IS NULL THEN 1 ELSE 0 END) AS guests,
         SUM(CASE WHEN d.user_id IS NOT NULL THEN 1 ELSE 0 END) AS accounts,
-        SUM(CASE WHEN d.audience='account_7d' THEN 1 ELSE 0 END) AS on_7d,
+        SUM(CASE WHEN d.audience='account_7d' AND d.access_reason='grant' THEN 1 ELSE 0 END) AS on_7d,
+        SUM(CASE WHEN d.access_reason='vip' THEN 1 ELSE 0 END) AS on_vip,
+        SUM(CASE WHEN d.audience='account_7d' AND d.access_reason='' THEN 1 ELSE 0 END) AS legacy_unclassified,
         SUM(CASE WHEN d.status_code=206 THEN 1 ELSE 0 END) AS partials
         ${where}`),
       run(`SELECT substr(d.created_at,1,10) AS day, COUNT(*) AS n ${where}
@@ -53,7 +55,7 @@ export async function onRequestGet({ request, env }) {
         GROUP BY d.file_name ORDER BY n DESC,d.file_name LIMIT 15`),
       run(`SELECT d.user_id,COALESCE(p.display_name,'Konto usunięte') AS name,COUNT(*) AS n ${where}
         AND d.user_id IS NOT NULL GROUP BY d.user_id,p.display_name ORDER BY n DESC LIMIT 20`),
-      run(`SELECT d.created_at,d.user_id,d.audience,d.file_name,d.status_code,d.declared_bytes,
+      run(`SELECT d.created_at,d.user_id,d.audience,d.access_reason,d.file_name,d.status_code,d.declared_bytes,
         COALESCE(p.display_name,'Konto usunięte') AS user_name ${where}
         ORDER BY d.created_at DESC LIMIT 100 OFFSET ?`,offset),
       db.prepare(`SELECT COUNT(*) AS n FROM aio_access_account_grants WHERE expires_at > ?`)
@@ -62,7 +64,7 @@ export async function onRequestGet({ request, env }) {
     const totals = totalsRows.results?.[0] || {};
     return json({ok:true,days,all,day:selectedDay,offset,page_size:100,has_more:(offset+(eventRows.results||[]).length)<Number(totals.n||0),retention_days:90,
       totals:{issued:Number(totals.n||0),guests:Number(totals.guests||0),accounts:Number(totals.accounts||0),
-        on_7d:Number(totals.on_7d||0),partials:Number(totals.partials||0),
+        on_7d:Number(totals.on_7d||0),on_vip:Number(totals.on_vip||0),legacy_unclassified:Number(totals.legacy_unclassified||0),partials:Number(totals.partials||0),
         active_grants:activeRows?.n === null ? null : Number(activeRows?.n||0)},
       daily:dailyRows.results||[],files:filesRows.results||[],users:usersRows.results||[],events:eventRows.results||[],
       note:'Zapis oznacza wydaną przez serwer odpowiedź 200/206, nie gwarancję pobrania całego pliku. Linki zewnętrzne są raportowane osobno jako aktywność AIO Access.'},200,{'cache-control':'no-store'});

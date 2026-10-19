@@ -22,6 +22,12 @@ export async function ensureOwnerDownloadSchema(env) {
         env.COMMUNITY_DB.prepare('CREATE INDEX IF NOT EXISTS idx_aio_owner_downloads_time ON aio_owner_downloads(created_at DESC)'),
         env.COMMUNITY_DB.prepare('CREATE INDEX IF NOT EXISTS idx_aio_owner_downloads_user ON aio_owner_downloads(user_id,created_at DESC)')
       ]);
+      // Additive migration: preserve prior audit events and their legacy audiences.
+      const columns=await env.COMMUNITY_DB.prepare('PRAGMA table_info(aio_owner_downloads)').all();
+      if(!(columns.results||[]).some(x=>x.name==='access_reason')){
+        try{await env.COMMUNITY_DB.prepare("ALTER TABLE aio_owner_downloads ADD COLUMN access_reason TEXT NOT NULL DEFAULT ''").run();}
+        catch(error){if(!/duplicate column name/i.test(String(error?.message||error)))throw error;}
+      }
     })().catch((err) => { schemaPromise = null; throw err; });
   }
   await schemaPromise;
@@ -34,7 +40,7 @@ function filePathFromRequest(request) {
   return decoded.replace(/[\x00-\x1F\x7F]/g,'').slice(0,500);
 }
 
-export async function recordIssuedFile(env, request, userId, audience, response) {
+export async function recordIssuedFile(env, request, userId, audience, response, accessReason='') {
   // Only a served local file, not a click, redirection, 404 or HEAD request.
   if (request.method !== 'GET' || ![200,206].includes(response?.status)) return;
   if (!['guest','account_free','account_7d'].includes(audience)) return;
@@ -46,18 +52,18 @@ export async function recordIssuedFile(env, request, userId, audience, response)
   await ensureOwnerDownloadSchema(env);
   const now = new Date();
   await env.COMMUNITY_DB.prepare(`INSERT INTO aio_owner_downloads
-    (id,user_id,audience,file_name,file_path,status_code,declared_bytes,created_at)
-    VALUES(?,?,?,?,?,?,?,?)`)
-    .bind(crypto.randomUUID(),userId || null,audience,fileName,path,response.status,bytes,now.toISOString()).run();
+    (id,user_id,audience,file_name,file_path,status_code,declared_bytes,created_at,access_reason)
+    VALUES(?,?,?,?,?,?,?,?,?)`)
+    .bind(crypto.randomUUID(),userId || null,audience,fileName,path,response.status,bytes,now.toISOString(),String(accessReason||'').slice(0,25)).run();
   // Bounded retention even when the admin does not visit the dashboard.
   await env.COMMUNITY_DB.prepare('DELETE FROM aio_owner_downloads WHERE created_at < ?')
     .bind(new Date(now.getTime() - MAX_HISTORY_DAYS*86400000).toISOString()).run();
 }
 
-export function queueIssuedFileAudit(context, userId, audience, response) {
+export function queueIssuedFileAudit(context, userId, audience, response, accessReason='') {
   if (context.request?.method !== 'GET' || ![200,206].includes(response?.status)) return;
   try {
-    const task = recordIssuedFile(context.env, context.request, userId, audience, response)
+    const task = recordIssuedFile(context.env, context.request, userId, audience, response, accessReason)
       .catch(err => console.error('AIO Owner Center: audit unavailable', String(err?.message || err)));
     // Cloudflare waits for this non-critical write without delaying the download.
     if (typeof context.waitUntil === 'function') context.waitUntil(task);

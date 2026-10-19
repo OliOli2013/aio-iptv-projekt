@@ -1,8 +1,9 @@
 /* AIO Access V4 — lokalne pobieranie wyłącznie po zalogowaniu.
- * Uprawnienia 7D i limit dzienny pochodzą z D1, nie z IP ani cookies klienta.
+ * Uprawnienia 7D i 168-godzinny limit pochodzą z D1, nie z IP ani cookies klienta.
  */
 import {initAccess,sessionUser,getStatus,consumeFree,hasActiveFileRetry} from '../_aio_account_access.js';
 import {queueIssuedFileAudit} from '../_aio_owner_downloads.js';
+import {privateStorageEnabled,readPrivateFile} from '../_aio_private_files.js';
 const IMG=/\.(?:png|jpe?g|webp|gif|svg|avif)$/i;
 const NO_CACHE={'Cache-Control':'private, no-store'};
 function accessDenied(message,status=403){
@@ -39,20 +40,23 @@ async function handle(context){
     const fileKey=new URL(request.url).pathname;
     const retry=!state.active && await hasActiveFileRetry(env,user.id,fileKey);
     if(!state.active && state.free_remaining<=0 && !retry){
-      if(request.method==='HEAD')return accessDenied('Dzienny limit wykorzystany.',429);
+      if(request.method==='HEAD')return accessDenied('Limit 7-dniowy wykorzystany.',429);
       return redirectToInformation(request,'aio_limit');
     }
-    if(request.method==='HEAD')return context.next(); // HEAD nigdy nie zużywa limitu
-    // Najpierw sprawdź plik; 404/5xx nie może zużyć bezpłatnego pobrania.
-    const asset=await context.next();
+    // Private R2 is the only file source in r2 mode. Missing binding/object fails CLOSED.
+    // Legacy mode retains Pages files until R2 uploads have been verified.
+    const asset=privateStorageEnabled(env)
+      ?await readPrivateFile(request,env)
+      :await context.next();
+    if(request.method==='HEAD')return asset; // HEAD nigdy nie zużywa limitu
     if(asset.status!==200 && asset.status!==206)return asset;
     const contentType=String(asset.headers.get('content-type')||'').toLowerCase();
     if(contentType.startsWith('text/html'))return asset; // np. fallback strony, nie materiał
     const permit=await consumeFree(env,user.id,fileKey); // atomowe pobranie lub wznowienie
-    if(!permit.allowed)return accessDenied('Limit pobierania wykorzystany. Po potwierdzonym wsparciu możesz otrzymać 7 dni dostępu.',429);
+    if(!permit.allowed)return accessDenied('Wykorzystano 3 darmowe pobrania na 7 dni od pierwszego pobrania. Po zatwierdzeniu wsparcia otrzymasz dodatkowy dostęp.',429);
     const headers=new Headers(asset.headers);headers.set('Cache-Control','private, no-store');
     const issued=new Response(asset.body,{status:asset.status,statusText:asset.statusText,headers});
-    queueIssuedFileAudit(context,user.id,(permit.reason==='grant'||permit.reason==='vip')?'account_7d':'account_free',issued);
+    queueIssuedFileAudit(context,user.id,(permit.reason==='grant'||permit.reason==='vip')?'account_7d':'account_free',issued,permit.reason);
     return issued;
   }catch(error){
     console.error('AIO Access V4 download',error?.message);
