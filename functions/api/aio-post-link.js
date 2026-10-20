@@ -4,7 +4,7 @@
  */
 import {json,ensureSchema,sha256} from '../_community.js';
 import {initAccess,sessionUser,getStatus,consumeFree} from '../_aio_account_access.js';
-import {activeSharedHold,logSecurity} from '../_aio_security_journal.js';
+import {activeSharedHold,logSecurity,reviewPaidSessionSharing} from '../_aio_security_journal.js';
 import {linksInPost,normalizePostLink,classifyPostLink,ensurePostLinkSchema,safePostFileName,externalFileKey} from '../_aio_post_links_v5.js';
 const HEADERS={'Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff'};
 function result(obj,code=200){return json(obj,code,HEADERS)}
@@ -42,6 +42,8 @@ export async function onRequestPost({request,env}){
     if(hold)return result({ok:false,restricted:true,error:hold.message},403);
     const status=await getStatus(env,user.id);
     if(status.email_verified===false)return result({ok:false,email_verification_required:true,error:'Najpierw potwierdź e-mail.'},403);
+    const paidHold=await reviewPaidSessionSharing(env,request,user.id,status.active===true && status.owner!==true);
+    if(paidHold)return result({ok:false,restricted:true,error:paidHold.message},403);
     if(classified.kind==='local'){
       // No debit here: the actual Cloudflare /pliki/ handler validates and debits on GET.
       const local=new URL(clicked.href);local.searchParams.set('aio_post',postId);

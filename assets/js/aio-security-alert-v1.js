@@ -5,7 +5,12 @@
      if(!r.ok||!d.restricted){current?.remove();return;}
      if(!current){current=document.createElement('aside');current.id='aio-security-alert';current.className='asj-user-warning';current.setAttribute('role','alert');host.prepend(current);}
      const end=d.expires_at?new Date(d.expires_at).toLocaleString('pl-PL'):'';
-     current.textContent='⚠️ Ograniczenie bezpieczeństwa AIO: '+(d.message||'Pobieranie czasowo wstrzymane.')+(end?' Automatycznie wygaśnie: '+end+'.':'')+' Jeżeli korzystasz ze wspólnej domowej sieci, zgłoś to administratorowi.';
+     current.replaceChildren();
+     const title=document.createElement('strong');title.textContent='⚠️ AIO — czasowe wstrzymanie pobierania';
+     const paragraph=document.createElement('p');paragraph.textContent=(d.message||'Pobieranie czasowo wstrzymane.')+(end?' Blokada wygasa: '+end+'.':'');
+     const help=document.createElement('p');help.textContent='Jeżeli to Twoje urządzenia lub wspólna sieć domowa, możesz wyjaśnić sytuację z właścicielem. Nie publikuj haseł ani danych innych kont.';
+     const action=document.createElement('a');action.className='asj-contact';action.href='/contact.html?topic=account-security';action.textContent='Skontaktuj się z administratorem →';
+     current.append(title,paragraph,help,action);
    }catch(_){}
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',show,{once:true});else void show();

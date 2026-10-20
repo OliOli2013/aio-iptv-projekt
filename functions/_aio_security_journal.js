@@ -31,7 +31,20 @@ export async function ensureSecurityJournal(env){
       UNIQUE(user_id,ip_fingerprint),
       FOREIGN KEY(user_id) REFERENCES community_profiles(id) ON DELETE CASCADE)`),
     env.COMMUNITY_DB.prepare('CREATE INDEX IF NOT EXISTS idx_aio_sec_holds_user ON aio_security_shared_holds(user_id,expires_at)'),
-    env.COMMUNITY_DB.prepare('CREATE INDEX IF NOT EXISTS idx_aio_sec_holds_time ON aio_security_shared_holds(created_at DESC)')
+    env.COMMUNITY_DB.prepare('CREATE INDEX IF NOT EXISTS idx_aio_sec_holds_time ON aio_security_shared_holds(created_at DESC)'),
+    env.COMMUNITY_DB.prepare(`CREATE TABLE IF NOT EXISTS aio_security_paid_holds (
+      user_id TEXT PRIMARY KEY,id TEXT NOT NULL,created_at TEXT NOT NULL,
+      expires_at TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'active'
+      CHECK(status IN ('active','released')),
+      evidence TEXT NOT NULL DEFAULT '', released_at TEXT,released_by TEXT,
+      review_pause_until TEXT,
+      FOREIGN KEY(user_id) REFERENCES community_profiles(id) ON DELETE CASCADE)`),
+    env.COMMUNITY_DB.prepare('CREATE INDEX IF NOT EXISTS idx_aio_sec_paid_time ON aio_security_paid_holds(created_at DESC)'),
+    env.COMMUNITY_DB.prepare(`CREATE TABLE IF NOT EXISTS aio_security_shared_allow (
+      user_id TEXT NOT NULL,ip_fingerprint TEXT NOT NULL,
+      created_at TEXT NOT NULL,expires_at TEXT NOT NULL,approved_by TEXT NOT NULL,
+      PRIMARY KEY(user_id,ip_fingerprint),
+      FOREIGN KEY(user_id) REFERENCES community_profiles(id) ON DELETE CASCADE)`)
   ]).catch(e=>{ready=null;throw e;});
   await ready;
 }
@@ -53,6 +66,10 @@ export async function activeSharedHold(env,request,userId){
   await ensureSecurityJournal(env);
   // Restriction follows the second account even if it changes its network.
   // Otherwise switching to a mobile network would instantly bypass the hold.
+  const paid=await env.COMMUNITY_DB.prepare(`SELECT id,created_at,expires_at FROM aio_security_paid_holds
+    WHERE user_id=? AND status='active' AND expires_at>? LIMIT 1`).bind(userId,iso()).first();
+  if(paid)return {id:paid.id,kind:'paid',expires_at:paid.expires_at,
+    message:'Wykryto jednoczesne korzystanie z płatnego konta AIO w różnych sieciach i na różnych urządzeniach. Pobieranie zostało wstrzymane na czas weryfikacji. Jeżeli to Twoje urządzenia, wyjaśnij sytuację przez formularz Kontakt z administratorem: /contact.html.'};
   const row=await env.COMMUNITY_DB.prepare(`SELECT id,created_at,expires_at FROM aio_security_shared_holds
     WHERE user_id=? AND status='active' AND expires_at>? ORDER BY expires_at DESC LIMIT 1`)
     .bind(userId,iso()).first();
@@ -64,6 +81,11 @@ export async function reviewSharedIpAtLogin(env,request,userId,role='user'){
   const ip=clientIp(request);
   if(!ip)return null;
   await ensureSecurityJournal(env);
+  const fingerprint=await ipFingerprint(request);
+  const permission=await env.COMMUNITY_DB.prepare(`SELECT 1 ok FROM aio_security_shared_allow
+    WHERE user_id=? AND ip_fingerprint=? AND expires_at>? LIMIT 1`)
+    .bind(userId,fingerprint,iso()).first();
+  if(permission)return null;
   const existing=await activeSharedHold(env,request,userId);
   if(existing)return existing;
   const db=env.COMMUNITY_DB;
@@ -93,11 +115,60 @@ export async function reviewSharedIpAtLogin(env,request,userId,role='user'){
   const a=Date.parse(self.first_seen_at),b=Date.parse(peer.first_seen_at);
   if(Number.isFinite(a)&&Number.isFinite(b)&&(a<b || (a===b&&userId<peer.user_id)))return activeSharedHold(env,request,userId);
   const finger=await ipFingerprint(request),now=iso(),until=new Date(Date.now()+HOLD_MS).toISOString();
-  const insert=await db.prepare(`INSERT OR IGNORE INTO aio_security_shared_holds
+  const insert=await db.prepare(`INSERT INTO aio_security_shared_holds
     (id,user_id,peer_user_id,ip_fingerprint,created_at,expires_at,status)
-    VALUES(?,?,?,?,?,?,'active')`).bind(crypto.randomUUID(),userId,peer.user_id,finger,now,until).run();
+    VALUES(?,?,?,?,?,?,'active')
+    ON CONFLICT(user_id,ip_fingerprint) DO UPDATE SET
+      id=excluded.id,peer_user_id=excluded.peer_user_id,created_at=excluded.created_at,
+      expires_at=excluded.expires_at,status='active',released_at=NULL,released_by=NULL
+    WHERE aio_security_shared_holds.status='released' OR aio_security_shared_holds.expires_at<=excluded.created_at`).bind(crypto.randomUUID(),userId,peer.user_id,finger,now,until).run();
   if(Number(insert.meta?.changes||0)>0){
     await logSecurity(env,request,'shared_ip_hold_created',userId,'Pobieranie wstrzymane na 24 h, do przeglądu przez właściciela');
   }
+  return activeSharedHold(env,request,userId);
+}
+
+
+/** Paid/VIP account-sharing review: two currently used sessions, different
+ * public IPs AND different OS/browser classes in <=15 minutes. A simple IP
+ * change or two devices behind the same home router do not trigger this rule.
+ * Only the owner can release; a 7-day review grace prevents instant re-holds.
+ */
+export async function reviewPaidSessionSharing(env,request,userId,paidAccess=false){
+  if(!paidAccess||!userId)return null;
+  await ensureSecurityJournal(env);
+  if(await isOwnerId(env,userId,'admin'))return null;
+  const existing=await activeSharedHold(env,request,userId);
+  if(existing)return existing;
+  const db=env.COMMUNITY_DB, now=iso();
+  const previous=await db.prepare('SELECT review_pause_until FROM aio_security_paid_holds WHERE user_id=? LIMIT 1').bind(userId).first();
+  if(previous?.review_pause_until && previous.review_pause_until>now)return null;
+  const ip=clientIp(request),here=deviceClass(request);
+  if(!ip||here==='Inne / Inna przeglądarka')return null;
+  const cutoff=new Date(Date.now()-15*60*1000).toISOString();
+  const q=await db.prepare(`SELECT ip_address,user_agent,last_seen_at FROM community_sessions
+    WHERE user_id=? AND datetime(expires_at)>datetime('now')
+      AND datetime(last_seen_at)>=datetime(?)
+    ORDER BY last_seen_at DESC LIMIT 40`).bind(userId,cutoff).all();
+  const candidates=(q.results||[]).filter(s=>
+    s.ip_address && s.ip_address!==ip && s.user_agent &&
+    deviceClass({headers:{get:(k)=>k==='user-agent'?s.user_agent:''}})!==here
+  );
+  if(!candidates.length)return null;
+  const until=new Date(Date.now()+24*3600000).toISOString();
+  const reason='Różne sieci i różne urządzenia aktywne w ciągu 15 minut.';
+  const result=await db.prepare(`INSERT INTO aio_security_paid_holds
+      (user_id,id,created_at,expires_at,status,evidence)
+    VALUES(?,?,?,?,'active',?)
+    ON CONFLICT(user_id) DO UPDATE SET
+      id=excluded.id,created_at=excluded.created_at,expires_at=excluded.expires_at,
+      status='active',evidence=excluded.evidence,released_at=NULL,released_by=NULL,
+      review_pause_until=NULL
+    WHERE (aio_security_paid_holds.status='active' AND aio_security_paid_holds.expires_at<=excluded.created_at)
+       OR (aio_security_paid_holds.status='released' AND
+           (aio_security_paid_holds.review_pause_until IS NULL OR aio_security_paid_holds.review_pause_until<=excluded.created_at))`)
+    .bind(userId,crypto.randomUUID(),now,until,reason).run();
+  if(Number(result.meta?.changes||0)>0)
+    await logSecurity(env,request,'paid_account_sharing_hold',userId,reason);
   return activeSharedHold(env,request,userId);
 }

@@ -15,7 +15,8 @@ import {
   clientIp, isoNow, addDays, getSession, publicProfile, errorResponse, recordIp, isOwnerId
 } from "../_community.js";
 import {emailSendingReady,sendVerificationEmail,emailVerificationStatus} from "../_aio_email_verification.js";
-import {logSecurity,reviewSharedIpAtLogin,activeSharedHold} from "../_aio_security_journal.js";
+import {logSecurity,reviewSharedIpAtLogin,activeSharedHold,reviewPaidSessionSharing} from "../_aio_security_journal.js";
+import {getStatus} from "../_aio_account_access.js";
 
 function validPassword(p) {
   return typeof p === "string" && p.length >= 10 && p.length <= 200;
@@ -353,12 +354,17 @@ export async function onRequestPost({request, env}) {
     await recordIp(env,auth.user_id,ip,"access");
     await logSecurity(env,request,"login_ok",auth.user_id);
     const securityHold=await reviewSharedIpAtLogin(env,request,auth.user_id,auth.role).catch(e=>{console.error("AIO shared IP review",e.message);return null;});
+    // Premium/VIP: distinct live sessions on different networks and device classes.
+    const paidHold=await (async()=>{
+      const access=await getStatus(env,auth.user_id);
+      return reviewPaidSessionSharing(env,request,auth.user_id,access.active===true && access.owner!==true);
+    })().catch(e=>{console.error('AIO paid sharing review',String(e?.message||e));return null;});
     const loginUser = publicProfile(auth);
     loginUser.is_owner = await isOwnerId(env, loginUser.id, loginUser.role);
     const verification=await emailVerificationStatus(env,loginUser.id);
     return json(
       {ok:true,authenticated:true,user:loginUser,email_verified:verification.verified,
-        email_verification_required:verification.required,security_warning:securityHold?.message||null},
+        email_verification_required:verification.required,security_warning:(paidHold||securityHold)?.message||null},
       200,
       {"Set-Cookie":sessionCookie(token)}
     );

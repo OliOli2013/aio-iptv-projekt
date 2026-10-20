@@ -11,10 +11,10 @@ export const OWNER_HTML = String.raw`<!doctype html>
 <link rel="icon" href="/pliki/logo.png">
 <link rel="stylesheet" href="/assets/css/owner-hub.css?v=20261017-ownerhub-v1">
 <link rel="stylesheet" href="/assets/css/aio-owner-overview-v2.css?v=20261019-owner-overview-v2">
-<link rel="stylesheet" href="/assets/css/aio-security-journal-v1.css?v=20261020-asj1">
+<link rel="stylesheet" href="/assets/css/aio-security-journal-v1.css?v=20261020-asj2">
 <script defer src="/assets/js/owner-hub.js?v=20261017-aio-vip-v1"></script>
 <script defer src="/assets/js/aio-owner-overview-v2.js?v=20261019-owner-overview-v2"></script>
-<script defer src="/assets/js/aio-security-journal-v1.js?v=20261020-asj1"></script>
+<script defer src="/assets/js/aio-security-journal-v1.js?v=20261020-asj2"></script>
 <script defer src="/assets/js/aio-post-links-owner-v5.js?v=20261020-aplv5"></script>
 </head>
 <body>

@@ -3,7 +3,7 @@
  */
 import {initAccess,sessionUser,getStatus,consumeFree,hasActiveFileRetry} from '../_aio_account_access.js';
 import {queueIssuedFileAudit} from '../_aio_owner_downloads.js';
-import {activeSharedHold,logSecurity} from '../_aio_security_journal.js';
+import {activeSharedHold,logSecurity,reviewPaidSessionSharing} from '../_aio_security_journal.js';
 import {privateStorageEnabled,readPrivateFile} from '../_aio_private_files.js';
 const IMG=/\.(?:png|jpe?g|webp|gif|svg|avif)$/i;
 const NO_CACHE={'Cache-Control':'private, no-store'};
@@ -41,6 +41,10 @@ async function handle(context){
     const hold=await activeSharedHold(env,request,user.id);
     if(hold){if(request.method!=="HEAD")await logSecurity(env,request,"download_hold",user.id);return accessDenied(hold.message,403);}
     const state=await getStatus(env,user.id);
+    if(request.method==='GET' && state.active===true && state.owner!==true){
+      const sharing=await reviewPaidSessionSharing(env,request,user.id,true);
+      if(sharing){await logSecurity(env,request,'download_hold',user.id,'Płatne konto — współdzielenie');return accessDenied(sharing.message,403);}
+    }
     if(state.email_verified===false){
       if(request.method!=="HEAD")await logSecurity(env,request,"download_denied",user.id,"E-mail niezweryfikowany");
       if(request.method==='HEAD')return accessDenied('Najpierw potwierdź adres e-mail.',403);

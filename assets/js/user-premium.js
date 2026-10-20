@@ -905,6 +905,19 @@
     close.addEventListener('click',()=>panel.remove());panel.append(title,copy,close);document.body.append(panel);
   }
 
+function showAioRestriction(message){
+    let box=document.getElementById('aio-v2-restriction-contact');
+    if(!box){box=document.createElement('aside');box.id='aio-v2-restriction-contact';
+      box.setAttribute('role','alert');box.className='asj-user-warning';
+      box.style.cssText='margin:16px auto;padding:15px 20px;border:2px solid #d7a75b;border-radius:10px;background:#3e321d;color:#ffecc5;max-width:850px;';
+      (document.querySelector('main')||document.body).prepend(box);
+    }
+    box.replaceChildren();
+    const text=document.createElement('p');text.textContent=message||'Pobieranie jest czasowo wstrzymane.';
+    const link=document.createElement('a');link.href='/contact.html?topic=account-security';
+    link.textContent='Skontaktuj się z administratorem →';link.style.cssText='display:inline-block;background:#b9f3ff;color:#063342;padding:9px 12px;border-radius:8px;font-weight:800;text-decoration:none;';
+    box.append(text,link);box.scrollIntoView({behavior:'smooth',block:'center'});
+  }
 async function accountDownload(item,kind){
     try {
       const info=await accountApi();
@@ -914,7 +927,7 @@ async function accountDownload(item,kind){
         window.AIOCommunity?.openAuth?.('Potwierdź adres e-mail, aby korzystać z pobierania.');
         return;
       }
-      if(info.restricted===true){alert(info.restriction_message||'Pobieranie czasowo wstrzymane. Zajrzyj do Moje konto.');return;}
+      if(info.restricted===true){showAioRestriction(info.restriction_message);return;}
       const target=new URL(item.href,location.href);
       const localFile=target.origin===location.origin && /^\/pliki\//i.test(target.pathname);
       if(info.active){trackAccessActivity('unlocked_access',item,{kind});openDownloadTarget(item);return;}
@@ -947,7 +960,7 @@ async function accountDownload(item,kind){
           alert('Potwierdź adres e-mail konta AIO przed pobraniem pliku.');
           window.AIOCommunity?.openAuth?.('Potwierdź e-mail, aby pobierać pliki.');return;
         }
-        if(info.restricted){alert(info.error||'Pobieranie czasowo wstrzymane.');return;}
+        if(info.restricted){showAioRestriction(info.error);return;}
         if(info.limit_reached){openSupportModal(item,'community-link-limit');return;}
         throw new Error(info.error||'HTTP '+res.status);
       }
