@@ -118,3 +118,8 @@
  .asp-created-head .asp-title-stack strong{font-size:1.12rem}
 }
 @media(prefers-reduced-motion:reduce){.aio-support-v2-method,.asp-choice,.asp-provider-cta,.asp-submit,.aio-support-v2-method::before{transition:none!important;animation:none!important}}
+/* AIO konto history V1: each support column fits its own actual content. */
+@media(min-width:761px){
+ .aio-support-v2-paths{align-items:start}
+ .aio-support-v2-paths>.aio-support-v2-panel{align-self:start}
+}

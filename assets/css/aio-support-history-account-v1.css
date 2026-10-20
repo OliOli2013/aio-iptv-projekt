@@ -1,0 +1,26 @@
+/* AIO Moje Konto • zgłoszenia wsparcia. Wyłącznie panel konta, nie strona support. */
+#aio-my-support-history{margin:20px 0 23px;padding:clamp(16px,3vw,23px);border:1px solid #355f77;border-radius:18px;background:radial-gradient(ellipse at 100% 0,#143958 0%,transparent 55%),linear-gradient(135deg,#092838,#071d2c);color:#e9f9ff;box-shadow:0 12px 36px #0002}
+#aio-my-support-history[hidden]{display:none!important}
+.asm-top{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:16px}
+.asm-top h2{color:#f2fbff;font-size:clamp(1.2rem,2.7vw,1.55rem);margin:4px 0 7px;letter-spacing:-.035em}
+.asm-top p{margin:0;color:#a6c9da;font-size:.86rem;line-height:1.55}
+.asm-kicker{color:#78e4f0;font-size:.68rem;font-weight:850;letter-spacing:.12em}
+.asm-count{border-radius:12px;padding:6px 12px;background:#123e53;border:1px solid #2c6b80;font-weight:850;color:#9eeaf5;font-size:1.08rem}
+.asm-toolbar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 0 12px;flex-wrap:wrap}
+.asm-toolbar>a{color:#88eaff;font-size:.82rem;text-decoration:none;font-weight:750}.asm-toolbar>a:hover{text-decoration:underline}
+.asm-toolbar button,.asm-btn{font:inherit;display:inline-flex;align-items:center;justify-content:center;text-align:center;min-height:37px;padding:9px 13px;background:#133d50;border:1px solid #47798d;border-radius:9px;color:#e8faff;text-decoration:none;cursor:pointer;font-size:.8rem;font-weight:740;line-height:1.3;transition:transform .16s,border-color .16s,box-shadow .16s}
+.asm-btn:hover,.asm-toolbar button:hover{transform:translateY(-1px);border-color:#a3e9f5;background:#18546b}
+.asm-btn.primary{background:linear-gradient(115deg,#0bbdd2,#168ba7);border-color:#4ee0ee;color:#022c39;font-weight:900}
+.asm-btn.danger{background:#381d2b;border-color:#ac5365;color:#ffc5cb}
+.asm-btn.provider-buycoffee{border-color:#ffa941;background:linear-gradient(110deg,#664121,#342818);color:#ffe3b2}
+.asm-btn.provider-kofi{border-color:#37d1e6;background:linear-gradient(110deg,#114b62,#103446);color:#bbf8ff}
+.asm-btn.provider-revolut{border-color:#a897ff;background:linear-gradient(110deg,#343057,#211f42);color:#e5deff}
+.asm-list{display:grid;gap:10px}.asm-item{position:relative;background:#092331;border:1px solid #2d4f62;border-radius:13px;padding:14px 16px;overflow-wrap:anywhere}.asm-item.status-reported{border-color:#9b772f;background:linear-gradient(110deg,#17303b,#252d27)}.asm-item.status-approved{border-color:#237f69;background:#0a302e}.asm-item.status-cancelled,.asm-item.status-rejected{opacity:.75}
+.asm-item-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}.asm-item-title{min-width:0;display:grid;gap:5px}.asm-item-title strong{font-size:.94rem;color:#f2fcff}.asm-item-title span{color:#9dc1d0;font-size:.74rem}
+.asm-state{border:1px solid #416d80;border-radius:999px;padding:5px 10px;background:#173b4a;color:#bbebf5;font-size:.69rem;font-weight:800;flex:none;max-width:45%;text-align:center}.status-reported .asm-state{color:#ffe5a2;border-color:#a27b38;background:#483a20}.status-approved .asm-state{color:#b5ffd9;border-color:#39996e;background:#164435}
+.asm-meta{display:flex;flex-wrap:wrap;gap:7px 16px;margin-top:9px;color:#add0db;font-size:.76rem}.asm-item-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.asm-empty{padding:23px;background:#092736;border:1px dashed #376f81;border-radius:12px}.asm-empty strong{font-size:1rem}.asm-empty p{color:#a3cad7;line-height:1.6}
+.asm-feedback{font-size:.81rem;color:#9deed8;min-height:1.25em;margin:9px 0}.asm-feedback.is-error{color:#ffbabe}
+.asm-dialog{border:1px solid #53a8bd;background:linear-gradient(150deg,#0c3548,#081f31);border-radius:17px;box-shadow:0 24px 85px #000c;color:#effbff;width:min(530px,calc(100vw - 24px));max-height:90dvh;overflow:auto;padding:0}.asm-dialog::backdrop{background:#031019dd;backdrop-filter:blur(3px)}
+.asm-dialog-body{padding:clamp(16px,4vw,24px)}.asm-dialog-head{display:flex;align-items:center;justify-content:space-between;gap:10px}.asm-dialog h3{margin:0;color:#f5feff;font-size:1.18rem}.asm-dialog .asm-close{min-width:35px;min-height:35px;padding:5px}.asm-modal-meta{color:#a4d3e2;font-size:.84rem;line-height:1.5}.asm-warning{padding:10px 12px;border:1px solid #ad8542;background:#49381d;border-radius:9px;color:#ffe5b7;font-size:.78rem;line-height:1.5}.asm-form{display:grid;gap:14px;margin-top:16px}.asm-field{display:grid;gap:7px;color:#ddf9ff;font-size:.82rem;font-weight:750}.asm-field input,.asm-field select{min-height:45px;background:#061b2a;border:1px solid #4b8297;color:#fff;border-radius:9px;padding:9px 12px;font:inherit;box-sizing:border-box;width:100%;min-width:0}.asm-field select option{color:#111;background:#fff}.asm-form-actions{display:flex;gap:9px;flex-wrap:wrap}.asm-form-msg{margin:0;color:#ffe1a1;font-size:.83rem}.asm-dialog button:focus-visible,.asm-dialog a:focus-visible,.asm-btn:focus-visible{outline:3px solid #7bfaee;outline-offset:2px}
+@media(max-width:690px){.asm-item-heading{flex-direction:column;gap:9px}.asm-state{max-width:none}.asm-item-actions .asm-btn{flex:1 1 42%;min-height:43px}.asm-top{align-items:flex-start}.asm-top p{font-size:.79rem}}
+@media(prefers-reduced-motion:reduce){.asm-btn{transition:none}}

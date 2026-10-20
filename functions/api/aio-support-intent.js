@@ -52,8 +52,8 @@ export async function onRequestGet({request,env}){
       const counts=await db.prepare("SELECT SUM(CASE WHEN status='reported' THEN 1 ELSE 0 END) reported,SUM(CASE WHEN status='started' THEN 1 ELSE 0 END) started FROM aio_support_intents").first();
       return answer({ok:true,rows:rows.results||[],labels,pending_reported:Number(counts?.reported||0),pending_started:Number(counts?.started||0),legacy_pending:Number(legacy?.n||0),pending_total:Number(counts?.reported||0)+Number(legacy?.n||0)});
     }
-    const rr=await db.prepare(`SELECT id,purpose,method,reference,status,created_at,reported_at,declared_pln,review_note,entitlement_expires_at
-      FROM aio_support_intents WHERE user_id=? ORDER BY created_at DESC LIMIT 25`).bind(s.user.id).all();
+    const rr=await db.prepare(`SELECT id,purpose,method,reference,status,created_at,reported_at,declared_pln,payer_identifier,verified_pln,review_note,entitlement_expires_at
+      FROM aio_support_intents WHERE user_id=? ORDER BY created_at DESC LIMIT 50`).bind(s.user.id).all();
     return answer({ok:true,rows:rr.results||[],labels});
   }catch(e){return error(e);}
 }
@@ -80,6 +80,41 @@ export async function onRequestPost({request,env}){
     if(!/^[a-f0-9-]{36}$/i.test(id))fail(400,'Nieprawidłowy identyfikator zgłoszenia.');
     const row=await db.prepare('SELECT * FROM aio_support_intents WHERE id=? LIMIT 1').bind(id).first();
     if(!row)fail(404,'Nie znaleziono zgłoszenia.');
+    // Self-service only on this user's own unverified intents. Paid grants are NEVER modified.
+    if(action==='update'){
+      if(row.user_id!==s.user.id)fail(403,'Brak dostępu do zgłoszenia.');
+      if(!['started','reported'].includes(row.status))fail(409,'Tego zgłoszenia nie można już zmieniać.');
+      const purpose=String(body.purpose||''),method=String(body.method||'');
+      if(!['access7','vip30'].includes(purpose)||!METHODS.has(method))fail(400,'Wybierz właściwy cel i operatora.');
+      const result=await db.prepare(`UPDATE aio_support_intents
+        SET purpose=?,method=?,status='started'
+        WHERE id=? AND user_id=? AND status IN ('started','reported')`)
+        .bind(purpose,method,id,s.user.id).run();
+      if(Number(result.meta?.changes||0)!==1)fail(409,'Zgłoszenie zostało już rozpatrzone. Odśwież stronę.');
+      await audit(env,s.user.id,s.user.id,'support_intent_user_updated',{id,previous_purpose:row.purpose,purpose,method,previous_status:row.status});
+      return answer({ok:true,message:row.status==='reported'
+        ?'Zapisano zmianę. Poprzednie zgłoszenie wpłaty cofnięto do wersji roboczej. Aby wróciło do kolejki właściciela, ponownie zgłoś dane wpłaty.'
+        :'Zmieniono cel lub operatora. Nie przyznano żadnego dostępu.'});
+    }
+    if(action==='delete'){
+      if(row.user_id!==s.user.id)fail(403,'Brak dostępu do zgłoszenia.');
+      if(row.status!=='started'||row.reported_at)fail(409,'Usunąć można tylko wybór, dla którego nigdy nie zgłoszono wpłaty. Pozostałe można anulować.');
+      const result=await db.prepare(`DELETE FROM aio_support_intents
+        WHERE id=? AND user_id=? AND status='started' AND reported_at IS NULL`).bind(id,s.user.id).run();
+      if(Number(result.meta?.changes||0)!==1)fail(409,'Zgłoszenie ma już inny status. Odśwież stronę.');
+      await audit(env,s.user.id,s.user.id,'support_intent_user_deleted',{id,purpose:row.purpose,method:row.method});
+      return answer({ok:true,message:'Usunięto nieopłacony wybór. Nie przyznano dostępu.'});
+    }
+    if(action==='cancel'){
+      if(row.user_id!==s.user.id)fail(403,'Brak dostępu do zgłoszenia.');
+      if(!['reported','started'].includes(row.status)||!row.reported_at)fail(409,'Anulować można jedynie wpłatę zgłoszoną wcześniej do weryfikacji.');
+      const result=await db.prepare(`UPDATE aio_support_intents
+        SET status='cancelled',reviewed_at=?,review_note='Anulowane przez użytkownika przed weryfikacją'
+        WHERE id=? AND user_id=? AND status IN ('started','reported') AND reported_at IS NOT NULL`).bind(iso,id,s.user.id).run();
+      if(Number(result.meta?.changes||0)!==1)fail(409,'Zgłoszenie zostało już rozpatrzone. Odśwież stronę.');
+      await audit(env,s.user.id,s.user.id,'support_intent_user_cancelled',{id,purpose:row.purpose});
+      return answer({ok:true,message:'Anulowano zgłoszenie. Pozostało w historii do celów rozliczeniowych, ale nie będzie zatwierdzane.'});
+    }
     if(action==='report'){
       if(row.user_id!==s.user.id)fail(403,'Brak dostępu do zgłoszenia.');
       if(row.status!=='started')fail(409,'Zgłoszenie zostało już przesłane do weryfikacji.');

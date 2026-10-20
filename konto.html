@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="assets/css/aio-2026.css?v=20261014-uxperf-v1">
 <link rel="stylesheet" href="assets/css/aio-header-v2.css?v=20261019-moje-konto-v1">
 <link rel="stylesheet" href="assets/css/aio-moje-konto-v1.css?v=20261019-moje-konto-v1">
+<link rel="stylesheet" href="assets/css/aio-support-history-account-v1.css?v=20261021-asm1">
 <link rel="stylesheet" href="assets/css/aio-owner-overview-v2.css?v=20261019-owner-overview-v2">
 <link rel="stylesheet" href="assets/css/aio-security-journal-v1.css?v=20261020-asj2">
 </head>
@@ -32,6 +33,12 @@
 <button class="aio-account-secondary" type="button" data-account-refresh>Odśwież status</button>
 </div>
 <p class="aio-account-notice" data-account-message role="status" aria-live="polite"></p>
+<section id="aio-my-support-history" hidden aria-labelledby="asm-history-title">
+  <div class="asm-top"><div><span class="asm-kicker">TWOJE WSPARCIE AIO-IPTV.PL</span><h2 id="asm-history-title">Moje zgłoszenia i wpłaty</h2>
+    <p>Rozpoczęte wybory możesz edytować lub usunąć. Zgłoszone wpłaty możesz poprawić albo anulować przed potwierdzeniem przez właściciela.</p></div><span class="asm-count" data-asm-count aria-label="Liczba zgłoszeń">—</span></div>
+  <div class="asm-toolbar"><a href="support.html#wesprzyj-projekt">+ Nowe wsparcie</a><button type="button" data-asm-refresh>↻ Odśwież</button></div>
+  <p class="asm-feedback" data-asm-status role="status" aria-live="polite"></p><div class="asm-list" data-asm-list></div>
+</section>
 <div class="aio-account-panels">
 <section class="aio-account-card"><h2>🔐 Potwierdzenie e-mail</h2><p>Weryfikacja jest obowiązkowa również dla kont założonych wcześniej.</p>
 <ol><li>Zaloguj się na <strong>istniejące konto</strong> AIO.</li><li>Jeśli adres nie został potwierdzony, wybierz przycisk <strong>Wyślij link potwierdzający e-mail</strong> na tej stronie lub w oknie logowania.</li><li>Sprawdź skrzynkę e-mail (również Spam) i otwórz link.</li><li>Kliknij <strong>Potwierdzam adres e-mail</strong>, a następnie zaloguj się ponownie.</li></ol>
@@ -49,6 +56,7 @@
 <script defer src="assets/js/community-core.js?v=20261019-email-verify-v1"></script>
 <script defer src="assets/js/aio-header-v2.js?v=20261019-moje-konto-v1"></script>
 <script defer src="assets/js/aio-moje-konto-v1.js?v=20261019-moje-konto-v1"></script>
+<script defer src="assets/js/aio-support-history-account-v1.js?v=20261021-asm1"></script>
 <script defer src="assets/js/aio-owner-overview-v2.js?v=20261019-owner-overview-v2"></script>
 <script defer src="assets/js/aio-security-journal-v1.js?v=20261020-asj2"></script>
 <script defer src="assets/js/aio-security-alert-v1.js?v=20261020-asj2"></script>

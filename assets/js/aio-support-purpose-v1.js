@@ -86,20 +86,9 @@
   section.append(form);body.append(section);
   body.append(el('p','Zgłoszenie nie odblokowuje plików automatycznie. Właściciel sprawdza wpłatę i dopiero wtedy przyznaje dostęp.','asp-verification-hint'));
   form.addEventListener('submit',async e=>{e.preventDefault();send.disabled=true;msg.textContent='Zapisuję zgłoszenie w Centrum Właściciela…';
-    try{const d=await api({action:'report',id:item.id,payer_identifier:who.value,declared_pln:amt.value});msg.textContent='✓ '+d.message;msg.classList.add('asp-ok');send.hidden=true;void renderHistory();}
+    try{const d=await api({action:'report',id:item.id,payer_identifier:who.value,declared_pln:amt.value});msg.textContent='✓ '+d.message;msg.classList.add('asp-ok');send.hidden=true;}
     catch(err){msg.textContent=String(err.message||err);send.disabled=false;}
   });
- }
- function openReport(item){openDialog(item.method,item.purpose);if(dialog){pending=item;showCreated(dialog.querySelector('.asp-body'),item);}}
- async function renderHistory(){const host=document.getElementById('asp-history');if(!host)return;host.replaceChildren();
-   try{const d=await api();const rows=d.rows||[];host.append(el('h3','Moje zgłoszenia wsparcia'));
-     if(!rows.length){host.append(el('p','Nie masz jeszcze zapisanych zgłoszeń.'));return;}
-     for(const row of rows.slice(0,12)){
-       const card=el('article',undefined,'asp-history-row'),txt=el('div');txt.append(el('strong',NAMES[row.purpose]||row.purpose),el('span',`${row.reference} · ${METHODS[row.method]||row.method} · ${datetime(row.created_at)}`));
-       const state=({started:'Wybrano cel (wpłata niepotwierdzona)',reported:'Zgłoszone do weryfikacji',approved:'Wpłata potwierdzona',rejected:'Odrzucone'})[row.status]||row.status;txt.append(el('small',state));if(row.review_note)txt.append(el('small',row.review_note));card.append(txt);
-       if(row.status==='started'){const b=el('button','Zgłoś wpłatę');b.type='button';b.addEventListener('click',()=>openReport(row));card.append(b);}host.append(card);
-     }
-   }catch(err){if(!/Zaloguj|Brak dostępu|401/i.test(err.message||''))host.append(el('p','Historia jest dostępna po zalogowaniu.'));else host.append(el('p','Zaloguj się, aby zobaczyć powiązane z kontem zgłoszenia.'));}
  }
  function providerFromLink(a){if(!a||a.dataset.aioPurposeDirect)return null;let u;try{u=new URL(a.href,location.href);}catch(_){return null;}
   if(u.hostname==='revolut.me'&&u.pathname.toLowerCase().startsWith('/pawelz75'))return 'revolut';
@@ -115,7 +104,7 @@
   void api({action:'create',purpose,method}).then(d=>{
     // If dialog closed during request, do not resurrect it.
     if(dialog!==loadingDialog)return;
-    pending={id:d.id,reference:d.reference,purpose,method};showCreated(body,pending);void renderHistory();
+    pending={id:d.id,reference:d.reference,purpose,method};showCreated(body,pending);
   }).catch(err=>{
     if(dialog!==loadingDialog)return;
     message.textContent=String(err.message||err);
@@ -151,7 +140,7 @@
    const intro=el('p','Dobrowolne wsparcie prowadzi bezpośrednio do wybranego operatora bez zapisu zgłoszenia. Przy wyborze pobierania 7 dni lub VIP zgłoszenie trafi do właściciela i będzie wymagało potwierdzenia wpłaty.');panel.append(intro);
    const radios=el('div',undefined,'asp-inline-options');for(const [k,v] of Object.entries(NAMES))radios.append(radio('asp-support-page-purpose',k,v,''));panel.append(radios);
    const choose=el('p','2 · Wybierz operatora płatności poniżej. Dla 7 dni lub VIP cel zapiszemy już bez ponownego wybierania.','asp-next-step');panel.append(choose);
-   methods.before(panel);const history=el('div',undefined,'asp-history');history.id='asp-history';funding.append(history);void renderHistory();
+   methods.before(panel);const link=el('a','Zgłoszone wpłaty i ich edycja → Moje konto','asp-account-link');link.href='/konto.html#moje-wplaty';panel.append(link);
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();

@@ -1,7 +1,7 @@
 /* Only authenticated owner API returns account identifiers; no inline PII in HTML. */
 (()=>{'use strict';
  const $=id=>document.getElementById(id),apiUrl='/api/aio-support-intent';
- const status={started:'Cel wybrany — brak zgłoszenia wpłaty',reported:'ZGŁOSZONA WPŁATA',approved:'Potwierdzona',rejected:'Odrzucona'};
+ const status={started:'Cel wybrany — brak zgłoszenia wpłaty',reported:'ZGŁOSZONA WPŁATA',approved:'Potwierdzona',rejected:'Odrzucona',cancelled:'Anulowano przez użytkownika'};
  const purpose={donation:'Dobrowolne wsparcie bez dostępu',access7:'7 dni nielimitowanych pobrań',vip30:'VIP 30 dni (minimum 30 zł)'};
  const method={buycoffee:'BuyCoffee',kofi:'Ko-fi',revolut:'Revolut'};
  const el=(t,s,cls)=>{const e=document.createElement(t);if(s!==undefined)e.textContent=s;if(cls)e.className=cls;return e;};
