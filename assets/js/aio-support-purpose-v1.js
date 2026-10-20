@@ -10,18 +10,31 @@
  async function api(body){const r=await fetch(API+(body?'':'?scope=own'),{method:body?'POST':'GET',credentials:'include',cache:'no-store',...(body?{headers:{'content-type':'application/json'},body:JSON.stringify(body)}:{})});const d=await r.json().catch(()=>({}));if(!r.ok||!d.ok)throw Error(d.error||'Nie udało się połączyć z AIO.');return d;}
  let dialog=null,pending=null;
  function close(){if(dialog){dialog.close();dialog.remove();dialog=null;}}
+ function openDonation(method){
+  // True voluntary donation: NO account, NO D1 intent, NO payment report.
+  // Open through the original external provider in direct response to a click/change.
+  const href=PROVIDERS[method];if(!href)return;
+  close();
+  const gateClose=document.querySelector('.support-gate-modal [data-support-close]');
+  if(gateClose)gateClose.click();
+  const a=el('a');a.href=href;a.target='_blank';a.rel='noopener noreferrer';
+  a.dataset.aioPurposeDirect='1';a.hidden=true;document.body.append(a);a.click();a.remove();
+ }
  function radio(name,value,label,group){const l=el('label',undefined,'asp-choice');const i=el('input');i.type='radio';i.name=name;i.value=value;i.checked=group===value;const span=el('span',label);l.append(i,span);return l;}
  function openDialog(method,initialPurpose=''){
   close();pending=null;dialog=el('dialog',undefined,'asp-dialog');dialog.id='aio-support-purpose-dialog';
   const body=el('div',undefined,'asp-body'),head=el('div',undefined,'asp-head');head.append(el('strong','Cel wsparcia AIO-IPTV.pl'));
   const x=el('button','✕','asp-close');x.type='button';x.setAttribute('aria-label','Zamknij');x.addEventListener('click',close);head.append(x);body.append(head);
-  const intro=el('p','Zanim otworzysz '+METHODS[method]+', wybierz, czego dotyczy wpłata. Zapiszemy wybór w Centrum Właściciela — sama deklaracja nie jest potwierdzeniem płatności.');body.append(intro);
+  const intro=el('p','Zanim otworzysz '+METHODS[method]+', wybierz cel. Dobrowolna darowizna przenosi od razu do wpłaty — bez rejestracji i zgłoszenia. Tylko dostęp 7 dni i VIP wymagają zapisania celu w Centrum Właściciela.');body.append(intro);
   const f=el('form');f.id='asp-form';const fs=el('fieldset');fs.append(el('legend','Wybierz cel wpłaty'));
   for(const [k,v] of Object.entries(NAMES))fs.append(radio('asp-purpose',k,v,initialPurpose));f.append(fs);
+  // The payment method is already known; choosing a pure donation immediately opens it.
+  fs.addEventListener('change',e=>{if(e.target?.name==='asp-purpose'&&e.target.value==='donation')openDonation(method);});
   const notice=el('p','Dobrowolna darowizna nie daje dodatkowego pobierania. Dostęp 7-dniowy wymaga zweryfikowanej wpłaty. VIP na 30 dni wymaga minimum 30 zł, sprawdzonych przez właściciela.','asp-notice');f.append(notice);
   const msg=el('p','','asp-msg');msg.setAttribute('role','status');f.append(msg);
   const actions=el('div',undefined,'asp-actions'),go=el('button','Zapisz wybór','asp-primary');go.type='submit';const cancel=el('button','Nie teraz');cancel.type='button';cancel.addEventListener('click',close);actions.append(go,cancel);f.append(actions);body.append(f);dialog.append(body);document.body.append(dialog);dialog.showModal();
   f.addEventListener('submit',async e=>{e.preventDefault();const chosen=f.querySelector('input[name=asp-purpose]:checked')?.value;if(!chosen){msg.textContent='Najpierw wybierz cel wpłaty.';return;}
+    if(chosen==='donation'){openDonation(method);return;}
     go.disabled=true;msg.textContent='Zapisywanie celu w AIO…';try{const d=await api({action:'create',purpose:chosen,method});pending={id:d.id,reference:d.reference,purpose:chosen,method};showCreated(body,pending);}catch(err){msg.textContent=String(err.message||err);if(/Zaloguj|Brak dostępu|401|nie zalogowano/i.test(msg.textContent)){const link=el('a','Zaloguj się do AIO →');link.href='/community.html';msg.append(' ',link);}}finally{go.disabled=false;}
   });
  }
@@ -54,7 +67,10 @@
   if(u.hostname==='buycoffee.to'&&u.pathname.toLowerCase().startsWith('/pawelpawelek'))return 'buycoffee';return null;}
  document.addEventListener('click',e=>{
    const direct=e.target.closest('a[href]');const method=providerFromLink(direct);
-   if(method){e.preventDefault();e.stopImmediatePropagation();const initial=document.querySelector('input[name=asp-support-page-purpose]:checked')?.value||'';openDialog(method,initial);return;}
+   if(method){const initial=document.querySelector('input[name=asp-support-page-purpose]:checked')?.value||'';
+     // On /support the donor picked an external provider: do not intercept, do not write D1.
+     if(initial==='donation')return;
+     e.preventDefault();e.stopImmediatePropagation();openDialog(method,initial);return;}
    const old=e.target.closest('.support-gate-continue');if(old){const selected=document.querySelector('.support-gate-modal [data-access-method].is-selected');if(!selected)return;
      const m=String(selected.dataset.accessMethod||'');if(!PROVIDERS[m])return;
      e.preventDefault();e.stopImmediatePropagation();openDialog(m,'access7');return;}
@@ -62,7 +78,7 @@
  function init(){const funding=document.querySelector('.aio-support-v2-funding');if(!funding)return;
    const methods=funding.querySelector('.aio-support-v2-methods');if(!methods)return;
    const panel=el('section',undefined,'asp-inline');panel.append(el('h3','1. Najpierw wybierz cel wsparcia'));
-   const intro=el('p','Dzięki temu właściciel od razu zobaczy, czy wpłacasz dobrowolnie, wybierasz pobieranie na 7 dni, czy VIP. Potwierdzenie wpłaty następuje osobno.');panel.append(intro);
+   const intro=el('p','Dobrowolne wsparcie prowadzi bezpośrednio do wybranego operatora bez zapisu zgłoszenia. Przy wyborze pobierania 7 dni lub VIP zgłoszenie trafi do właściciela i będzie wymagało potwierdzenia wpłaty.');panel.append(intro);
    const radios=el('div',undefined,'asp-inline-options');for(const [k,v] of Object.entries(NAMES))radios.append(radio('asp-support-page-purpose',k,v,''));panel.append(radios);
    panel.append(el('p','2. Następnie wybierz BuyCoffee, Ko-fi lub Revolut poniżej.','asp-notice'));
    methods.before(panel);const history=el('div',undefined,'asp-history');history.id='asp-history';funding.append(history);void renderHistory();
