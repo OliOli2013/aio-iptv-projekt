@@ -9,6 +9,7 @@
  const make=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};
  const groups=[
   {id:'action',name:'Do załatwienia',icon:'◈',items:[
+   {id:'support-purpose',name:'Cele wpłat: darowizna, 7 dni, VIP',icon:'♥',desc:'Weryfikacja celu, operatora i kwoty przed przyznaniem dostępu',url:'/owner-support-intents.html',tags:'darowizna vip 30 zł kawa buycoffee ko-fi revolut wpłaty',stat:'support'},
    {id:'approvals',name:'Zgłoszenia wsparcia',icon:'♡',desc:'Sprawdź deklaracje wpłat i podejmij decyzję',target:'approvals',tags:'płatność kawa buycoffee revolut ko-fi',stat:'support'},
    {id:'pending',name:'Posty do zatwierdzenia',icon:'▤',desc:'Moderacja nowych wpisów',target:'pending',tags:'wpisy publikowanie',stat:'posts'},
    {id:'inbox',name:'Skrzynka AIO',icon:'✉',desc:'Wiadomości i korespondencja',target:'inbox',tags:'kontakt odpowiedzi skrzynka',stat:'inbox'},
@@ -79,7 +80,7 @@
  async function getJson(path){const c=new AbortController();const timer=setTimeout(()=>c.abort(),12000);try{const r=await fetch(path,{credentials:'include',cache:'no-store',signal:c.signal});const d=await r.json();if(!r.ok||d.ok!==true)throw new Error('Błąd odczytu '+path);return d;}finally{clearTimeout(timer);}}
  async function fetchCounts(){const status=$('aop-fetch-status');if(status)status.textContent='Aktualizacja danych…';
   const jobs=[
-   ['support','/api/aio-access-approvals?scope=admin',d=>(d.requests||[]).filter(x=>x.status==='pending').length],
+   ['support','/api/aio-support-intent?scope=admin',d=>Number(d.pending_total||0)],
    ['posts','/api/community?action=admin&tab=pending',d=>Number(d.stats?.pending??d.rows?.length??0)],
    ['reports','/api/community?action=admin&tab=reports',d=>Number(d.stats?.reports??d.rows?.length??0)],
    ['resets','/api/community?action=admin&tab=password-resets',d=>Number(d.stats?.password_resets??d.rows?.filter(x=>x.status==='pending').length??0)],
