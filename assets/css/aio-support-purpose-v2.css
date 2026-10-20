@@ -1,0 +1,120 @@
+/* AIO Support UI V2: purposeful layouts, vivid provider identity, keyboard/mobile accessibility. */
+:root{--asp-paper:#e7f6ff;--asp-muted:#a7cad6;--asp-cyan:#32def5;--asp-orange:#ffad37;--asp-purple:#9a87ff;--asp-ink:#051923}
+
+/* Compact right column: workflow comes before the decorative banner. */
+.aio-support-v2-funding>.asp-support-intro{font-size:.87rem;line-height:1.55!important;margin:6px 0 10px!important;color:#bed7e5!important}
+.aio-support-v2-funding .asp-inline{border:1px solid #315568;background:linear-gradient(145deg,#0a2f42,#061f31);border-radius:17px;padding:15px;margin:14px 0 6px;box-shadow:inset 0 1px #ffffff12}
+.aio-support-v2-funding .asp-inline h3{font-size:1.06rem;letter-spacing:-.01em;margin:0 0 7px;color:#effcff}
+.aio-support-v2-funding .asp-inline>p:not(.asp-next-step){font-size:.8rem;line-height:1.45;margin:0 0 12px;color:#96bccb}
+.aio-support-v2-funding .asp-inline-options{display:grid;grid-template-columns:1fr;gap:7px}
+.aio-support-v2-funding .asp-inline .asp-next-step{background:#093344;border:1px solid #2c6274;color:#aaf2fc;line-height:1.45;font-size:.79rem;border-radius:9px;margin:10px 0 0;padding:9px 10px;font-weight:700}
+.aio-support-v2-funding .asp-inline-options.asp-pick-warning{animation:aspWarn .38s ease-out 2}
+@keyframes aspWarn{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+
+/* One-line, tactile radio cards. */
+.asp-choice{--purpose:#63d6dd;display:flex;align-items:center;gap:11px;position:relative;min-width:0;min-height:61px;padding:8px 12px!important;margin:0!important;border:1px solid #35576b!important;border-radius:11px!important;background:#0b293a!important;color:var(--asp-paper)!important;cursor:pointer;transition:background .17s,border-color .17s,transform .17s,box-shadow .17s}
+.asp-choice[data-purpose=donation]{--purpose:#fc79ae}
+.asp-choice[data-purpose=access7]{--purpose:#26dbe9}
+.asp-choice[data-purpose=vip30]{--purpose:#ffc65a}
+.asp-choice:hover{border-color:var(--purpose)!important;background:#11384a!important;transform:translateX(2px)}
+.asp-choice:has(input:checked){border-color:var(--purpose)!important;background:color-mix(in srgb,var(--purpose) 12%,#0b293a)!important;box-shadow:inset 3px 0 var(--purpose),0 0 0 1px color-mix(in srgb,var(--purpose) 30%,transparent)}
+.asp-choice:focus-within{outline:2px solid var(--purpose);outline-offset:2px}
+.asp-choice input[type=radio]{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;inset:0}
+.asp-choice-icon{display:grid;place-items:center;width:37px;height:37px;flex:none;border-radius:10px;color:var(--purpose);background:color-mix(in srgb,var(--purpose) 12%,#061f2b);font-weight:900;font-size:1.2rem}
+.asp-choice-copy{display:grid;gap:2px;flex:1;min-width:0}
+.asp-choice-copy strong{font-size:.85rem;line-height:1.22;letter-spacing:-.01em;font-weight:820;color:#f2fbff}
+.asp-choice-copy small{font-size:.68rem;line-height:1.3;color:#9abdcf}
+.asp-choice-check{display:grid;place-items:center;width:22px;height:22px;flex:none;border:1px solid #456575;border-radius:50%;color:transparent;font-size:.73rem}
+.asp-choice:has(input:checked) .asp-choice-check{background:var(--purpose);color:#081e2e;border-color:var(--purpose)}
+
+/* Brand-colored payment cards - obvious, not identical teal surfaces. */
+.aio-support-v2-funding .aio-support-v2-methods{grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:9px}
+.aio-support-v2-funding .aio-support-v2-method{--asp-brand:#ffa334;--asp-rgb:255,163,52;position:relative;isolation:isolate;min-height:86px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:5px;padding:10px 7px;border-radius:13px;border:1px solid rgba(var(--asp-rgb),.68)!important;background:linear-gradient(155deg,rgba(var(--asp-rgb),.27),rgba(var(--asp-rgb),.08) 73%),#09283a!important;color:#fefaff!important;box-shadow:inset 0 1px rgba(255,255,255,.15),0 6px 20px rgba(0,0,0,.13);overflow:hidden;transition:transform .2s,box-shadow .2s,border-color .2s}
+.aio-support-v2-funding .aio-support-v2-method.kofi{--asp-brand:#32d2e9;--asp-rgb:50,210,233}
+.aio-support-v2-funding .aio-support-v2-method.revolut{--asp-brand:#a490ff;--asp-rgb:164,144,255}
+.aio-support-v2-funding .aio-support-v2-method::before{content:'';position:absolute;inset:0 auto 0 -140%;width:65%;transform:skewX(-25deg);background:linear-gradient(90deg,transparent,#ffffff20,transparent);transition:left .55s;pointer-events:none;z-index:-1}
+.aio-support-v2-funding .aio-support-v2-method:hover::before{left:160%}
+.aio-support-v2-funding .aio-support-v2-method:hover{transform:translateY(-3px);border-color:var(--asp-brand)!important;box-shadow:0 10px 24px rgba(var(--asp-rgb),.23)}
+.aio-support-v2-funding .aio-support-v2-method:focus-visible{outline:3px solid var(--asp-brand);outline-offset:3px}
+.aio-support-v2-funding .aio-support-v2-method>b{width:37px;height:37px;border-radius:10px;display:grid;place-items:center;background:rgba(var(--asp-rgb),.24)!important;color:var(--asp-brand)!important;font-size:.96rem!important;margin:0!important}
+.aio-support-v2-funding .aio-support-v2-method>span{min-width:0;display:grid;gap:3px}
+.aio-support-v2-funding .aio-support-v2-method strong{font-size:.84rem!important;line-height:1.2}
+.aio-support-v2-funding .aio-support-v2-method small{font-size:.65rem!important;line-height:1.2;color:#bed7e5}
+.aio-support-v2-funding .aio-support-v2-funding-media{margin-top:13px;max-height:130px;aspect-ratio:16/4}
+.aio-support-v2-funding>.aio-support-amount-v46{font-size:.74rem!important;line-height:1.4!important;padding:10px 12px!important;margin:10px 0 0!important}
+.aio-support-v2-funding .aio-support-v2-voluntary{margin-top:11px}
+.aio-support-v2-funding .asp-history{margin-top:16px;gap:7px}
+.aio-support-v2-funding .asp-history-row{padding:10px;border-radius:11px}
+
+/* Modal: compact info density and readable steps, including narrow devices. */
+.asp-dialog{box-sizing:border-box;width:min(570px,calc(100vw - 24px));max-width:none;max-height:min(92dvh,860px);border:1px solid #3999bb;border-radius:18px;background:radial-gradient(circle at 100% 0,#1e3965 0,transparent 210px),#081e2e;color:var(--asp-paper);box-shadow:0 22px 80px #000d,0 0 28px #28b7dd22;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#397088 transparent}
+.asp-dialog.asp-created{width:min(630px,calc(100vw - 20px))}
+.asp-dialog::backdrop{background:#000b15dc;backdrop-filter:blur(4px)}
+.asp-dialog .asp-body{padding:clamp(13px,2.5vw,21px);box-sizing:border-box}
+.asp-dialog .asp-head{margin:0 0 8px;gap:11px}
+.asp-dialog .asp-close{display:grid;place-items:center;width:32px;height:32px;border:1px solid #3d5e74;border-radius:10px;background:#102a3d;color:#d8f9ff;font-size:1.3rem;flex:none;cursor:pointer}
+.asp-dialog .asp-close:hover{border-color:#96c9de;background:#1b4254}
+.asp-dialog .asp-msg:empty{display:none!important}
+.asp-dialog .asp-msg{min-height:0!important;margin:5px 0 0!important;padding:8px 9px;font-size:.81rem;line-height:1.4;border-radius:9px;border:1px solid #946832;background:#48351d}
+.asp-dialog .asp-msg.asp-ok{background:#103d37;border-color:#40a993;color:#b9ffe7!important}
+.asp-dialog .asp-primary{background:linear-gradient(135deg,#05c2e9,#0a819c)!important;border-color:#61d9f1!important;color:#062c39!important;font-weight:850!important}
+.asp-dialog .asp-actions{margin:12px 0 0}
+.asp-dialog .asp-redirect{color:#9dd6e9}
+.asp-dialog:not(.asp-created) .asp-choice{min-height:57px}
+.asp-dialog:not(.asp-created) fieldset{margin:12px 0;gap:7px}
+.asp-dialog:not(.asp-created) .asp-notice{font-size:.76rem;line-height:1.4}
+
+.asp-dialog.asp-created .asp-body{display:grid;gap:9px}
+.asp-created .asp-created-head{display:flex;align-items:center;justify-content:flex-start;margin:0!important}
+.asp-created-head .asp-title-stack{display:grid;gap:2px;flex:1;min-width:0}
+.asp-created-head .asp-title-stack small{color:#62dcf7;letter-spacing:.1em;font-size:.61rem;font-weight:900}
+.asp-created-head .asp-title-stack strong{font-size:clamp(1.17rem,3vw,1.5rem);line-height:1.17;color:#f2fbff}
+.asp-success-icon{display:grid;place-items:center;width:41px;height:41px;border-radius:13px;background:linear-gradient(140deg,#0dcadb,#0d7988);color:#072834;font-size:1.3rem;font-weight:900;box-shadow:0 0 0 4px #13cdd61d;flex:none}
+.asp-dialog .asp-purpose-summary{font-size:.85rem;line-height:1.25;margin:0!important;color:#b7d7e9}
+.asp-ref-card{display:flex;align-items:center;justify-content:space-between;gap:9px;padding:10px 12px;border-radius:13px;border:1px dashed #49bad7;background:linear-gradient(120deg,#0d3349,#102b49);min-width:0}
+.asp-ref-content{display:grid;gap:2px;min-width:0;flex:1}
+.asp-ref-label{color:#95d8ef;font-size:.64rem;letter-spacing:.065em;font-weight:850}
+.asp-ref-number{font-size:clamp(1.04rem,3vw,1.31rem);letter-spacing:.035em;color:#f1ffff;overflow-wrap:anywhere;user-select:all}
+.asp-dialog .asp-copy{padding:7px 10px;border:1px solid #448baa;background:#123e57;color:#daf7ff;border-radius:9px;white-space:nowrap;cursor:pointer;font-size:.77rem;flex:none}
+.asp-dialog .asp-copy:hover{background:#1b5872}
+.asp-step-line{display:flex;align-items:center;gap:9px;margin:2px 0 0;min-width:0}
+.asp-step-line strong{color:#e9faff;font-size:.91rem;line-height:1.24}
+.asp-step-number{display:grid;place-items:center;width:25px;height:25px;border-radius:50%;border:1px solid #2fd9ee;color:#27e0f5;background:#103647;font-size:.69rem;font-weight:900;flex:none}
+.asp-dialog .asp-provider-cta{--brand:#ffa638;--shadow:255,166,56;display:flex;align-items:center;gap:12px;padding:10px 13px;min-height:55px;border-radius:12px;border:1px solid var(--brand);background:linear-gradient(120deg,rgba(var(--shadow),.39),rgba(var(--shadow),.12) 68%),#11293b;box-shadow:inset 0 1px #ffffff24,0 8px 24px rgba(var(--shadow),.19);text-decoration:none;color:#fefaff!important;transition:transform .18s,box-shadow .18s}
+.asp-dialog .asp-provider-cta.asp-provider-kofi{--brand:#32d4f2;--shadow:50,212,242}
+.asp-dialog .asp-provider-cta.asp-provider-revolut{--brand:#9e87ff;--shadow:158,135,255}
+.asp-dialog .asp-provider-cta:hover{transform:translateY(-2px);box-shadow:0 11px 28px rgba(var(--shadow),.35)}
+.asp-provider-symbol{display:grid;place-items:center;width:33px;height:33px;border-radius:10px;background:rgba(var(--shadow),.28);color:var(--brand);font-size:1.16rem;font-weight:900;flex:none}
+.asp-provider-cta strong{flex:1;font-size:1.07rem;font-weight:850}
+.asp-provider-arrow{font-size:1.25rem;color:var(--brand)}
+.asp-dialog .asp-short-hint{font-size:.72rem;line-height:1.4;color:#b9d7e7;margin:0!important}
+.asp-dialog .asp-report{border-top:1px solid #2d5266;padding-top:10px;display:grid;gap:9px}
+.asp-dialog .asp-report form{display:grid;gap:9px}
+.asp-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.asp-dialog .asp-report label{display:grid;gap:4px;align-content:start;font-size:.76rem;color:#ddf5ff;font-weight:740}
+.asp-dialog .asp-report input{min-width:0;width:100%;box-sizing:border-box;min-height:43px;padding:10px;border:1px solid #456e82;background:#051b2b;color:#e8faff;border-radius:9px;font-size:.85rem}
+.asp-dialog .asp-report input:focus{outline:2px solid #2bd9e7;outline-offset:1px}
+.asp-dialog .asp-submit{border:1px solid #a0f6ff!important;border-radius:11px;background:linear-gradient(100deg,#09d9f3,#18b4d8)!important;color:#042a3a!important;font-weight:900!important;min-height:46px;width:100%;box-shadow:0 0 16px #0bcad743;cursor:pointer;transition:transform .16s,filter .16s}
+.asp-dialog .asp-submit:hover{transform:translateY(-1px);filter:brightness(1.07)}
+.asp-dialog .asp-submit[hidden]{display:none!important}
+.asp-dialog .asp-verification-hint{font-size:.71rem;line-height:1.42;margin:0!important;color:#95b8c7}
+.asp-dialog a:focus-visible,.asp-dialog button:focus-visible,.asp-choice:focus-within{outline:2px solid #b8f5ff;outline-offset:3px}
+
+@media(max-width:760px){.aio-support-v2-funding .asp-inline{padding:13px}.aio-support-v2-funding .aio-support-v2-funding-media{max-height:105px}}
+@media(max-width:520px){
+ .aio-support-v2-funding .aio-support-v2-methods{gap:6px}
+ .aio-support-v2-funding .aio-support-v2-method{min-height:73px;padding:8px 4px;border-radius:10px}
+ .aio-support-v2-funding .aio-support-v2-method>b{width:29px;height:29px;font-size:.79rem!important}
+ .aio-support-v2-funding .aio-support-v2-method strong{font-size:.7rem!important}
+ .aio-support-v2-funding .aio-support-v2-method small{font-size:.58rem!important}
+ .asp-dialog .asp-body{padding:12px}
+ .asp-dialog.asp-created .asp-body{gap:8px}
+ .asp-ref-card{padding:8px 10px}
+ .asp-dialog .asp-ref-number{font-size:1.02rem}
+ .asp-dialog .asp-ref-label{font-size:.55rem}
+ .asp-dialog .asp-copy{padding:7px;font-size:.66rem}
+ .asp-fields{grid-template-columns:1fr;gap:8px}
+ .asp-dialog .asp-provider-cta{min-height:51px}
+ .asp-created-head .asp-title-stack strong{font-size:1.12rem}
+}
+@media(prefers-reduced-motion:reduce){.aio-support-v2-method,.asp-choice,.asp-provider-cta,.asp-submit,.aio-support-v2-method::before{transition:none!important;animation:none!important}}

@@ -1296,4 +1296,4 @@ async function accountDownload(item,kind){
 })();
 
 /* AIO Support Purpose V1 — single shared intent step on support links and AIO Access modal. */
-(()=>{if(typeof document==='undefined')return;const s=document.createElement('script');s.src='/assets/js/aio-support-purpose-v1.js?v=20261021-darowizna-bez-zgloszenia-v1';s.defer=true;s.dataset.aioSupportPurpose='v1';document.head.append(s);})();
+(()=>{if(typeof document==='undefined')return;const s=document.createElement('script');s.src='/assets/js/aio-support-purpose-v1.js?v=20261021-ui-v2';s.defer=true;s.dataset.aioSupportPurpose='v1';document.head.append(s);})();
