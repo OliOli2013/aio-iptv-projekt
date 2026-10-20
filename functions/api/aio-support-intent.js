@@ -1,7 +1,7 @@
 /* AIO Support Purpose V1 — declaration != payment; only owner verifies transactions. */
-import {ensureSchema,requireUser,requireAdmin,moderationLog} from '../../_community.js';
-import {initAccess,SUPPORT_MS} from '../../_aio_account_access.js';
-import {ensureVipSchema,oneCalendarMonth} from '../../_aio_vip.js';
+import {ensureSchema,requireUser,requireAdmin,moderationLog} from '../_community.js';
+import {initAccess,SUPPORT_MS} from '../_aio_account_access.js';
+import {ensureVipSchema,oneCalendarMonth} from '../_aio_vip.js';
 const HEADERS={'content-type':'application/json; charset=utf-8','cache-control':'private, no-store','x-content-type-options':'nosniff'};
 const ALLOWED=new Set(['donation','access7','vip30']);
 const METHODS=new Set(['buycoffee','revolut','kofi']);
