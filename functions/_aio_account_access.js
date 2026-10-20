@@ -121,7 +121,7 @@ export async function getStatus(env,userId){
   if(vip.active)return {authenticated:true,email_verified:true,active:true,vip:true,expires_at:vip.expires_at,
     source:'owner_vip',...free,free_remaining:FREE_WEEKLY_LIMIT,free_period_hours:168};
   const grant=await env.COMMUNITY_DB.prepare('SELECT expires_at,source FROM aio_access_account_grants WHERE user_id=?').bind(userId).first();
-  const trusted=['verified_receipt','owner_verified_support'].includes(String(grant?.source||''));
+  const trusted=['verified_receipt','owner_verified_support','owner_manual_grant'].includes(String(grant?.source||''));
   const active=!!grant&&trusted&&Date.parse(grant.expires_at)>Date.now();
   return {authenticated:true,email_verified:true,active,vip:false,expires_at:active?grant.expires_at:null,
     source:active?grant.source:null,...free,free_remaining:active?FREE_WEEKLY_LIMIT:free.free_remaining,

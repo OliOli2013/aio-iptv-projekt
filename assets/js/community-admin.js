@@ -70,6 +70,10 @@
     // Toolbar is outside the results area, so typing and focus are never lost.
     const searchInput=q('[data-aio-user-search-input]');
     const searchClear=q('[data-aio-user-search-clear]');
+    const searchRun=q('[data-aio-user-search-run]');
+    // Robust on mobile and embedded owner desk: the query arrives in the URL.
+    const fromOwnerDesk=new URLSearchParams(location.search).get('aio_user')||'';
+    if(searchInput&&fromOwnerDesk.trim().length>=2){userSearch=fromOwnerDesk.trim().slice(0,100);searchInput.value=userSearch;}
     if(searchInput){
       const applySearch=()=>{
         const next=searchInput.value.trim();
@@ -90,6 +94,10 @@
           event.preventDefault();clearTimeout(userSearchTimer);applySearch();
         }
       });
+      searchInput.addEventListener('change',()=>{clearTimeout(userSearchTimer);applySearch();});
+      searchInput.addEventListener('search',()=>{clearTimeout(userSearchTimer);applySearch();});
+      searchInput.addEventListener('compositionend',()=>{clearTimeout(userSearchTimer);applySearch();});
+      if(searchRun)searchRun.addEventListener('click',()=>{clearTimeout(userSearchTimer);applySearch();});
     }
     if(searchClear)searchClear.addEventListener('click',()=>{
       clearTimeout(userSearchTimer);

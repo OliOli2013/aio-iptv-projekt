@@ -96,7 +96,8 @@
    result.innerHTML=matches.length?matches.map(i=>`<button type="button" data-aop-go="${esc(i.id)}"><span>${esc(i.icon)}</span><span><strong>${esc(i.name)}</strong><small>${esc(i.groupName)} · ${esc(i.desc)}</small></span><b>↵</b></button>`).join(''):'<p>Nie znaleziono funkcji. Spróbuj np. „VIP”, „użytkownicy”, „pobrania” lub „listy”.</p>';
    box.hidden=false;
  }
- function bindAccountSearch(){const f=$('aop-account-form');if(!f)return;f.addEventListener('submit',e=>{e.preventDefault();const term=$('aop-account-search').value.trim();if(term.length<2){$('aop-account-search').focus();return;}navigate('users',true);if(iframe){iframe.dataset.userSearch=term;applyAccountSearch();}});}
+ let pendingAccountSearch='';
+ function bindAccountSearch(){const f=$('aop-account-form');if(!f)return;f.addEventListener('submit',e=>{e.preventDefault();const term=$('aop-account-search').value.trim();if(term.length<2){$('aop-account-search').focus();return;}pendingAccountSearch=term;navigate('users',true);});}
  function applyAccountSearch(){if(!iframe||active!=='users'||!iframe.dataset.userSearch)return;let d;try{d=iframe.contentDocument;}catch(_){return;}const input=d?.querySelector('[data-aio-user-search-input]');if(!input){setTimeout(applyAccountSearch,350);return;}input.value=iframe.dataset.userSearch;input.dispatchEvent(new Event('input',{bubbles:true}));delete iframe.dataset.userSearch;}
  function stopFrame(){if(frameObserver){frameObserver.disconnect();frameObserver=null;}if(frameTimer){clearTimeout(frameTimer);frameTimer=null;}if(iframe){iframe.remove();iframe=null;}}
  function fitFrame(){if(!iframe||!iframe.contentDocument)return;try{const doc=iframe.contentDocument;const h=Math.max(doc.documentElement.scrollHeight,doc.body?.scrollHeight||0);if(h>0)iframe.style.height=Math.max(690,Math.min(h+32,8000))+'px';}catch(_){}}
@@ -109,7 +110,9 @@
       fitFrame();setTimeout(fitFrame,480);setTimeout(fitFrame,1500);applyAccountSearch();
    });
    frame.addEventListener('error',()=>{if(loading)loading.textContent='Nie udało się załadować modułu. Użyj „Otwórz osobno”.';});
-   frame.src=item.target?('/community-admin.html?aio_section='+encodeURIComponent(item.target)):(item.url||'/community-admin.html');
+   const frameUrl=item.target?('/community-admin.html?aio_section='+encodeURIComponent(item.target)):(item.url||'/community-admin.html');
+   frame.src=frameUrl+(item.target==='users'&&pendingAccountSearch?'&aio_user='+encodeURIComponent(pendingAccountSearch):'');
+   pendingAccountSearch='';
  }
  function mountNative(item){stopFrame();$('aop-embedded').hidden=true;const mount=$('aop-native');mount.hidden=false;mount.replaceChildren();const node=$(item.native);if(node)mount.append(node);else mount.append(make('p','aop-loading','Ładuję dane modułu…'));}
  function syncNative(){if(!loaded)return;const ids=['aio-security-journal','aio-post-links-history'];for(const id of ids){const n=$(id);if(n && !n.closest('#aop-native') && document.documentElement.dataset.aopV3==='ready'){n.hidden=true;}}if(active!=='dashboard'&&byId.get(active)?.native){const item=byId.get(active);const node=$(item.native),mount=$('aop-native');if(node&&!mount.contains(node)){node.hidden=false;mount.replaceChildren();mount.append(node);}}}

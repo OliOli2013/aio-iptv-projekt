@@ -1,0 +1,9 @@
+/* Owner-only account management extension; no public-facing style changes. */
+.aou-detail{margin:15px 0 0;padding:17px;border:1px solid #477a88;border-radius:14px;background:#092b39;color:#e9f9ff;min-width:0}
+.aou-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap}.aou-title h3{font-size:1.03rem;margin:0}
+.aou-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.aou-info{border:1px solid #2b5968;background:#0a2230;border-radius:9px;padding:10px;min-width:0;display:grid;gap:5px}
+.aou-info span{color:#a3c6d3;font-size:.72rem}.aou-info strong{font-size:.82rem;overflow-wrap:anywhere;font-weight:690}
+.aou-muted{font-size:.79rem;line-height:1.5;color:#a9c9d6;margin:13px 0}.aou-feedback{font-size:.8rem;color:#ffe5af;min-height:1em}.aou-error{font-size:.84rem;color:#ffabab}
+.aou-actions{display:flex;flex-wrap:wrap;gap:9px}.aou-btn{padding:10px 13px;border:1px solid #4a7b8d;border-radius:9px;background:#17445a;color:#effaff;font-weight:760;cursor:pointer;font-size:.81rem;line-height:1.25;max-width:100%}
+.aou-btn.primary{background:#176c73;border-color:#5db8ad}.aou-btn.danger{background:#552c36;border-color:#bd6875}.aou-btn.secondary{background:#103847}.aou-btn:disabled{opacity:.5;cursor:wait}.aou-btn.aou-open{background:#16586c;border-color:#62b6c5}.aou-btn:focus-visible{outline:3px solid #aaeef4;outline-offset:2px}
+@media(max-width:680px){.aou-detail{padding:12px}.aou-stats{grid-template-columns:1fr}.aou-title{align-items:stretch}.aou-actions{display:grid;grid-template-columns:1fr}.aou-btn{width:100%;text-align:center}.aio-owner-user-search-row{display:grid!important;grid-template-columns:1fr 1fr;gap:8px}.aio-owner-user-search-row input{grid-column:1/-1;min-width:0;width:100%;font-size:16px!important}.aio-owner-user-search-row button{width:100%;min-width:0}.community-user-card .community-admin-actions{flex-wrap:wrap}}
