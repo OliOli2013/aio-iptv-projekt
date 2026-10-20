@@ -37,6 +37,7 @@
       ['Sesje','/community-admin.html?aio_section=sessions'],
       ['Blokady IP','/community-admin.html?aio_section=ip'],
       ['Bezpieczeństwo','/community-admin.html?aio_section=security'],
+      ['Trwały dziennik bezpieczeństwa','/owner-hub#aio-security-journal'],
       ['Dziennik','/community-admin.html?aio_section=logs']]},
     {name:'Statystyki i techniczne',items:[
       ['Statystyki','/community-admin.html?aio_section=statistics'],

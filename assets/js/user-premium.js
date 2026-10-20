@@ -773,6 +773,9 @@
       }else if(info.owner===true && info.unlimited===true && info.active===true){
         accessIndicator.className='aio-access-indicator is-unlocked';
         accessIndicator.innerHTML='<span class="aio-access-dot">★</span><div><strong>AIO — konto właściciela</strong><small>Stały, nielimitowany dostęp do pobierania. Limit 3 plików na 168 godzin nie dotyczy właściciela strony.</small></div><a href="konto.html">Moje konto</a>';
+      }else if(info.restricted===true){
+        accessIndicator.className='aio-access-indicator is-locked';
+        accessIndicator.innerHTML='<span class="aio-access-dot">!</span><div><strong>AIO — ostrzeżenie o wspólnym IP</strong><small>Pobieranie czasowo wstrzymane. Jeżeli korzystasz z domowej sieci z innym użytkownikiem, zgłoś to administratorowi w Moim koncie.</small></div><a href="konto.html">Moje konto</a>';
       }else if(info.vip && info.active){
         accessIndicator.className='aio-access-indicator is-unlocked';
         const until=new Intl.DateTimeFormat('pl-PL',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(info.expires_at));
@@ -911,6 +914,7 @@ async function accountDownload(item,kind){
         window.AIOCommunity?.openAuth?.('Potwierdź adres e-mail, aby korzystać z pobierania.');
         return;
       }
+      if(info.restricted===true){alert(info.restriction_message||'Pobieranie czasowo wstrzymane. Zajrzyj do Moje konto.');return;}
       const target=new URL(item.href,location.href);
       const localFile=target.origin===location.origin && /^\/pliki\//i.test(target.pathname);
       if(info.active){trackAccessActivity('unlocked_access',item,{kind});openDownloadTarget(item);return;}

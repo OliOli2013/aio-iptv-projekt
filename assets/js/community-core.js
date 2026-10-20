@@ -239,6 +239,7 @@
             this.user=d.user;this.profile=d.user;
             this.emailVerified=!d.email_verification_required;
             this.renderAccountBars();
+            if(d.security_warning)window.alert("AIO — OSTRZEŻENIE BEZPIECZEŃSTWA\n"+d.security_warning);
             if(d.email_verification_required){
               dialog.querySelector('[data-aio-auth-message]').textContent=d.verification_mail_sent===false
                 ?'Konto utworzone, lecz wiadomość nie została wysłana. Skontaktuj się z administratorem lub spróbuj ponownie za kilka minut.'

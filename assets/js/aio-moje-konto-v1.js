@@ -45,7 +45,8 @@
       catch(error){show({title:'Konto zweryfikowane',description:'Witaj, '+name+'. Twoja sesja działa i adres e-mail jest potwierdzony.',more:'Nie udało się odczytać limitu pobierania. Możesz go sprawdzić później.',icon:'✓',state:'verified'});return;}
       const ends=access.expires_at?formatDate(access.expires_at):'';
       let description='';let more='';
-      if(access.owner===true&&access.unlimited===true&&access.active===true){description='Konto właściciela AIO — wszystkie chronione pliki bez limitu pobierania.';more='Stałe uprawnienie właściciela. Bez limitu 168 godzin i bez terminu wygaśnięcia.';}
+      if(access.restricted===true){description='Ograniczenie bezpieczeństwa — pobieranie wstrzymane na 24 godziny.';more=access.restriction_message||'Jeżeli korzystasz ze wspólnej sieci, poproś administratora o weryfikację.';}
+      else if(access.owner===true&&access.unlimited===true&&access.active===true){description='Konto właściciela AIO — wszystkie chronione pliki bez limitu pobierania.';more='Stałe uprawnienie właściciela. Bez limitu 168 godzin i bez terminu wygaśnięcia.';}
       else if(access.vip&&access.active){description='AIO VIP — aktywny dostęp bez limitu pobierania.';more=ends?'VIP ważny do: '+ends:'';}
       else if(access.active){description='Aktywny dostęp po zatwierdzonym wsparciu — bez limitu pobierania.';more=ends?'Dostęp do: '+ends:'';}
       else{description='Pozostało '+Math.max(0,Number(access.free_remaining)||0)+' z 3 darmowych pobrań na 168 godzin.';more=access.free_resets_at?'Odnowienie limitu: '+formatDate(access.free_resets_at):'Okres rozpoczyna się od pierwszego darmowego pobrania.';}

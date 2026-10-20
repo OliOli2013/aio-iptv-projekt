@@ -3,6 +3,7 @@
  */
 import {initAccess,sessionUser,getStatus,consumeFree,hasActiveFileRetry} from '../_aio_account_access.js';
 import {queueIssuedFileAudit} from '../_aio_owner_downloads.js';
+import {activeSharedHold,logSecurity} from '../_aio_security_journal.js';
 import {privateStorageEnabled,readPrivateFile} from '../_aio_private_files.js';
 const IMG=/\.(?:png|jpe?g|webp|gif|svg|avif)$/i;
 const NO_CACHE={'Cache-Control':'private, no-store'};
@@ -34,10 +35,14 @@ async function handle(context){
     if(!user){
       // Brak "próbnego" pobrania dla gości, także po wejściu bezpośrednio w URL.
       if(request.method==='HEAD')return accessDenied('Pobieranie wymaga zalogowania w AIO.',401);
+      await logSecurity(env,request,"download_denied",null,"Bez sesji");
       return redirectToInformation(request,'aio_login');
     }
+    const hold=await activeSharedHold(env,request,user.id);
+    if(hold){if(request.method!=="HEAD")await logSecurity(env,request,"download_hold",user.id);return accessDenied(hold.message,403);}
     const state=await getStatus(env,user.id);
     if(state.email_verified===false){
+      if(request.method!=="HEAD")await logSecurity(env,request,"download_denied",user.id,"E-mail niezweryfikowany");
       if(request.method==='HEAD')return accessDenied('Najpierw potwierdź adres e-mail.',403);
       return redirectToInformation(request,'aio_verify_email');
     }
@@ -45,6 +50,7 @@ async function handle(context){
     const retry=!state.active && await hasActiveFileRetry(env,user.id,fileKey);
     if(!state.active && state.free_remaining<=0 && !retry){
       if(request.method==='HEAD')return accessDenied('Limit 7-dniowy wykorzystany.',429);
+      await logSecurity(env,request,"download_denied",user.id,"Limit pobierania");
       return redirectToInformation(request,'aio_limit');
     }
     // Private R2 is the only file source in r2 mode. Missing binding/object fails CLOSED.
@@ -61,6 +67,8 @@ async function handle(context){
     const headers=new Headers(asset.headers);headers.set('Cache-Control','private, no-store');
     const issued=new Response(asset.body,{status:asset.status,statusText:asset.statusText,headers});
     queueIssuedFileAudit(context,user.id,(permit.reason==='grant'||permit.reason==='vip')?'account_7d':'account_free',issued,permit.reason);
+    // Append-only security trail; do not rely on browser telemetry.
+    await logSecurity(env,request,"download_issued",user.id,permit.reason);
     return issued;
   }catch(error){
     console.error('AIO Access V4 download',error?.message);

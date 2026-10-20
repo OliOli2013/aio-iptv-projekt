@@ -15,15 +15,17 @@ import {
   clientIp, isoNow, addDays, getSession, publicProfile, errorResponse, recordIp, isOwnerId
 } from "../_community.js";
 import {emailSendingReady,sendVerificationEmail,emailVerificationStatus} from "../_aio_email_verification.js";
+import {logSecurity,reviewSharedIpAtLogin,activeSharedHold} from "../_aio_security_journal.js";
 
 function validPassword(p) {
   return typeof p === "string" && p.length >= 10 && p.length <= 200;
 }
-async function throttle(env, key) {
+async function throttle(env, key, request) {
   const row = await env.COMMUNITY_DB.prepare(
     `SELECT attempts, blocked_until FROM community_login_attempts WHERE key=?`
   ).bind(key).first();
   if (row?.blocked_until && Date.parse(row.blocked_until) > Date.now()) {
+    await logSecurity(env,request,"login_throttled",null,"Limit błędnych prób");
     throw Object.assign(new Error("Za dużo prób. Spróbuj ponownie później."), {status:429});
   }
 }
@@ -88,7 +90,8 @@ export async function onRequestGet({request, env}) {
       return json({ok:true, authenticated:false});
     }
     const ev=await emailVerificationStatus(env,session.user.id);
-    return json({ok:true, authenticated:true, user:session.user, profile:session.user, email_verified:ev.verified, email_verification_required:ev.required});
+    const hold=session.user.is_owner?null:await activeSharedHold(env,request,session.user.id).catch(()=>null);
+    return json({ok:true, authenticated:true, user:session.user, profile:session.user, email_verified:ev.verified, email_verification_required:ev.required, security_warning:hold?.message||null});
   } catch (e) { return errorResponse(e); }
 }
 
@@ -107,6 +110,7 @@ export async function onRequestPost({request, env}) {
       if (session?.tokenHash) {
         await db.prepare(`DELETE FROM community_sessions WHERE token_hash=?`).bind(session.tokenHash).run();
       }
+      await logSecurity(env,request,"logout",session?.user?.id||null);
       return json({ok:true}, 200, {"Set-Cookie": clearSessionCookie()});
     }
 
@@ -237,6 +241,7 @@ export async function onRequestPost({request, env}) {
         `).bind(now,reset.user_id,reset.id)
       ]);
 
+      await logSecurity(env,request,"password_reset_ok",reset.user_id);
       return json({ok:true,message:"Hasło zostało zmienione. Możesz się zalogować."});
     }
 
@@ -254,7 +259,7 @@ export async function onRequestPost({request, env}) {
     }
 
     const throttleKey = `${ip || "noip"}:${email}`;
-    await throttle(env, throttleKey);
+    await throttle(env, throttleKey, request);
 
     if (action === "register") {
       // No fake-email registration while outbound verification is unavailable.
@@ -295,6 +300,8 @@ export async function onRequestPost({request, env}) {
         VALUES(?,?,?,?,?,?,?)
       `).bind(tokenHash,id,expires,isoNow(),isoNow(),ip,request.headers.get("user-agent")||"").run();
       await recordIp(env,id,ip,"access");
+      await logSecurity(env,request,"register_ok",id);
+      const securityHold=await reviewSharedIpAtLogin(env,request,id,ownerAccount?"admin":"user").catch(e=>{console.error("AIO shared IP review",e.message);return null;});
       const profile = await db.prepare(`SELECT * FROM community_profiles WHERE id=?`).bind(id).first();
       const publicUser = publicProfile(profile);
       publicUser.is_owner = await isOwnerId(env, publicUser.id, publicUser.role);
@@ -303,7 +310,7 @@ export async function onRequestPost({request, env}) {
       catch(error){ console.error('AIO registration: verification mail unavailable',Number(error?.status)||500); }
       return json(
         {ok:true,authenticated:true,user:publicUser,firstAccount,ownerAccount,
-          email_verified:false,email_verification_required:true,verification_mail_sent:emailSent},
+          email_verified:false,email_verification_required:true,verification_mail_sent:emailSent,security_warning:securityHold?.message||null},
         201,
         {"Set-Cookie":sessionCookie(token)}
       );
@@ -317,14 +324,17 @@ export async function onRequestPost({request, env}) {
 
     if (!auth) {
       await failAttempt(env, throttleKey);
+      await logSecurity(env,request,"login_failed",null,"Nieznane konto lub błędny adres e-mail");
       return json({ok:false,error:"Nieprawidłowy e-mail lub hasło."}, 401);
     }
     const calc = await hashPassword(password, auth.password_salt, Number(auth.password_iterations || 100000));
     if (!safeEqual(calc.hash, auth.password_hash)) {
       await failAttempt(env, throttleKey);
+      await logSecurity(env,request,"login_failed",auth.user_id,"Błędne hasło");
       return json({ok:false,error:"Nieprawidłowy e-mail lub hasło."}, 401);
     }
     if (auth.banned_until && Date.parse(auth.banned_until) > Date.now()) {
+      await logSecurity(env,request,"login_throttled",auth.user_id,"Konto zablokowane");
       return json({ok:false,error:"Konto jest zablokowane."}, 403);
     }
 
@@ -341,12 +351,14 @@ export async function onRequestPost({request, env}) {
       db.prepare(`DELETE FROM community_sessions WHERE datetime(expires_at) <= datetime('now')`)
     ]);
     await recordIp(env,auth.user_id,ip,"access");
+    await logSecurity(env,request,"login_ok",auth.user_id);
+    const securityHold=await reviewSharedIpAtLogin(env,request,auth.user_id,auth.role).catch(e=>{console.error("AIO shared IP review",e.message);return null;});
     const loginUser = publicProfile(auth);
     loginUser.is_owner = await isOwnerId(env, loginUser.id, loginUser.role);
     const verification=await emailVerificationStatus(env,loginUser.id);
     return json(
       {ok:true,authenticated:true,user:loginUser,email_verified:verification.verified,
-        email_verification_required:verification.required},
+        email_verification_required:verification.required,security_warning:securityHold?.message||null},
       200,
       {"Set-Cookie":sessionCookie(token)}
     );

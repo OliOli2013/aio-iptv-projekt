@@ -1,0 +1,14 @@
+/* AIO private owner journal + user warning. Uses existing AIO colors. */
+.asj-root{margin:18px 0 22px;padding:22px;border:1px solid #3d778a;border-radius:14px;background:#082632;color:#e9f8ff;min-width:0}
+.asj-root h2{font-size:clamp(1.25rem,2vw,1.65rem);margin:0 0 6px;color:#f1fcff}
+.asj-root h3{font-size:1.02rem;margin:22px 0 12px;color:#abedff}
+.asj-description,.asj-muted{color:#9dbcc9;font-size:.83rem;line-height:1.55}
+.asj-actions{display:flex;align-items:center;gap:12px;margin:14px 0;flex-wrap:wrap}
+.asj-reload,.asj-release{font:inherit;font-weight:700;cursor:pointer;padding:10px 13px;border:1px solid #4cabbc;border-radius:9px;background:#13546a;color:#effbff}
+.asj-release{background:#255866;border-color:#82c9d4}.asj-reload:hover,.asj-release:hover{background:#277b8e}
+.asj-root button:disabled{opacity:.5;cursor:wait}
+.asj-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.asj-card{padding:16px;border:1px solid #285969;border-radius:10px;background:#0a3441;display:flex;flex-direction:column;gap:5px}.asj-card strong{font-size:1.65rem;color:#c6f8ff}.asj-card span{font-size:.77rem;color:#9fc3ce}
+.asj-holds{display:grid;gap:9px}.asj-hold{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px;border:1px solid #b79552;border-radius:10px;background:#423d27}.asj-hold>div{display:flex;flex-direction:column;gap:6px}.asj-hold span{color:#f0dab2;font-size:.8rem}
+.asj-table-wrap{max-width:100%;overflow:auto;border:1px solid #285969;border-radius:10px}.asj-table{width:100%;border-collapse:collapse;min-width:560px;font-size:.79rem}.asj-table th{text-align:left;background:#1e596b;padding:11px;color:#eaffff}.asj-table td{padding:9px 11px;border-top:1px solid #254859;vertical-align:top;overflow-wrap:anywhere}.asj-table tr:nth-child(2n){background:#103644}
+.asj-user-warning{margin:12px 0 20px;padding:15px 19px;border:2px solid #d7a75b;border-radius:12px;background:#3e321d;color:#ffecc5;font-weight:700;line-height:1.6}
+@media(max-width:720px){.asj-root{padding:15px}.asj-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.asj-hold{align-items:stretch;flex-direction:column}.asj-release{width:100%}}

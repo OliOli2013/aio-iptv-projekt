@@ -1,5 +1,6 @@
 /* Authenticated 7-day/VIP access and 3 free items per account/day. */
 import {requireAdmin} from '../_community.js';
+import {activeSharedHold,logSecurity} from '../_aio_security_journal.js';
 import {initAccess,sessionUser,getStatus,consumeFree,startFlow,flowOpened,flowComplete,registerReceipt,response,fail,ROLLOUT,LEGACY_END} from '../_aio_account_access.js';
 function sameOrigin(req){const origin=req.headers.get('Origin');if(origin && origin!==new URL(req.url).origin)return false;return req.headers.get('Sec-Fetch-Site')!=='cross-site';}
 function err(e){return response({ok:false,error:String(e.message||'Błąd serwera.')},Number(e.status)||500);}
@@ -8,7 +9,9 @@ export async function onRequestGet({request,env}){
     await initAccess(env);
     const user=await sessionUser(request,env);
     if(!user)return response({ok:true,authenticated:false,active:false,free_remaining:0,login_required:true});
-    return response({ok:true,...await getStatus(env,user.id)});
+    const hold=await activeSharedHold(env,request,user.id);
+    if(hold)return response({ok:true,...await getStatus(env,user.id),restricted:true,restriction_expires_at:hold.expires_at,restriction_message:hold.message,active:false,unlimited:false,free_remaining:0,retry_files:[]});
+    return response({ok:true,...await getStatus(env,user.id),restricted:false});
   }catch(e){return err(e);}
 }
 export async function onRequestPost({request,env}){
@@ -19,6 +22,8 @@ export async function onRequestPost({request,env}){
     const body=await request.json().catch(()=>({}));const action=String(body.action||'');
     if(!user)throw fail(401,'Pobieranie tylko dla zalogowanych. Zaloguj się lub załóż bezpłatne konto AIO.');
     if(action==='consume'){
+      const hold=await activeSharedHold(env,request,user.id);
+      if(hold){await logSecurity(env,request,'download_hold',user.id,'Zewnętrzny limit');throw fail(403,hold.message);}
       const r=await consumeFree(env,user.id);
       return response({ok:r.allowed,...r},r.allowed?200:429);
     }
