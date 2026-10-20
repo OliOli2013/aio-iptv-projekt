@@ -329,6 +329,7 @@ export async function onRequestGet({request, env}) {
       const s=await requireAdmin(request,env);
       const tab=url.searchParams.get("tab")||"pending";
       let rows=[];
+      let accountSearchMeta=null;
       if(tab==="pending"||tab==="published"){
         const status=tab==="pending"?"pending":"published";
         const rr=await db.prepare(`
@@ -345,12 +346,26 @@ export async function onRequestGet({request, env}) {
         `).all();
         rows=(rr.results||[]).map(r=>({...r,reporter:{id:r.reporter_id,display_name:r.reporter_name||"Użytkownik"}}));
       } else if(tab==="users"){
-        const rr=await db.prepare(`SELECT * FROM community_profiles ORDER BY created_at DESC LIMIT 200`).all();
+        // Owner-only D1 lookup. Never send email fields from a public API.
+        const search=cleanText(url.searchParams.get('userSearch')||'',100).trim();
+        const enabled=search.length>=2;
+        // Literal substring match: % and _ typed by the owner are NOT wildcards.
+        const escaped=search.replace(/[!%_]/g,c=>'!'+c);
+        const pattern='%'+escaped+'%';
+        const from=`FROM community_profiles p LEFT JOIN community_auth a ON a.user_id=p.id`;
+        const where=enabled?` WHERE (p.display_name LIKE ? ESCAPE '!' COLLATE NOCASE OR COALESCE(a.email,p.email,'') LIKE ? ESCAPE '!' COLLATE NOCASE)`:'';
+        const limit=enabled?80:200;
+        const sql=`SELECT p.*,COALESCE(a.email,p.email,'') AS account_email ${from}${where} ORDER BY p.created_at DESC LIMIT ${limit}`;
+        const rr=enabled
+          ?await db.prepare(sql).bind(pattern,pattern).all()
+          :await db.prepare(sql).all();
+        const matchCount=enabled?await db.prepare(`SELECT COUNT(*) AS n ${from}${where}`).bind(pattern,pattern).first():null;
         rows=[];
         for(const u of rr.results||[]){
           const ips=await db.prepare(`SELECT ip_address,last_seen_at,event_count,last_event FROM community_user_ips WHERE user_id=? ORDER BY last_seen_at DESC LIMIT 5`).bind(u.id).all();
-          rows.push({...publicProfile(u),ips:ips.results||[]});
+          rows.push({...publicProfile(u),email:u.account_email||'',ips:ips.results||[]});
         }
+        accountSearchMeta={query:enabled?search:'',total:enabled?Number(matchCount?.n||0):null,showing:rows.length,limit};
       } else if(tab==="ip"){
         const rr=await db.prepare(`
           SELECT b.*,p.display_name AS target_name
@@ -427,7 +442,7 @@ export async function onRequestGet({request, env}) {
           ? await countRows(env,`SELECT COUNT(*) AS n FROM community_password_reset_requests WHERE status='pending'`)
           : 0
       };
-      return json({ok:true,rows,stats:st,role:s.user.role});
+      return json({ok:true,rows,stats:st,role:s.user.role,account_search:accountSearchMeta});
     }
 
     return json({ok:false,error:"Nieznana operacja API."},400);

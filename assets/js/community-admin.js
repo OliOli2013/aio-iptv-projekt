@@ -4,7 +4,7 @@
 
   const q=(s,c=document)=>c.querySelector(s);
   const qa=(s,c=document)=>Array.from(c.querySelectorAll(s));
-  let tab='pending',rows=[],role='user';
+  let tab='pending',rows=[],role='user',userSearch='',loadSerial=0,userSearchTimer=null;
 
   async function ownerGet(tabName){
     const r=await fetch('/api/owner-admin?tab='+encodeURIComponent(tabName),{credentials:'include',cache:'no-store'});
@@ -62,8 +62,39 @@
     }
     qa('[data-admin-tab]').forEach(b=>b.onclick=()=>{
       tab=b.dataset.adminTab;
+      const toolbar=q('[data-aio-user-search]');
+      if(toolbar)toolbar.hidden=tab!=='users';
       qa('[data-admin-tab]').forEach(x=>x.classList.toggle('active',x===b));
       load();
+    });
+    // Toolbar is outside the results area, so typing and focus are never lost.
+    const searchInput=q('[data-aio-user-search-input]');
+    const searchClear=q('[data-aio-user-search-clear]');
+    if(searchInput){
+      const applySearch=()=>{
+        const next=searchInput.value.trim();
+        const status=q('[data-aio-user-search-status]');
+        if(next.length===1){
+          if(status)status.textContent='Wpisz minimum 2 znaki nazwy lub adresu e-mail.';
+          return;
+        }
+        userSearch=next;
+        if(tab==='users')void load();
+      };
+      searchInput.addEventListener('input',()=>{
+        clearTimeout(userSearchTimer);
+        userSearchTimer=setTimeout(applySearch,300);
+      });
+      searchInput.addEventListener('keydown',event=>{
+        if(event.key==='Enter'){
+          event.preventDefault();clearTimeout(userSearchTimer);applySearch();
+        }
+      });
+    }
+    if(searchClear)searchClear.addEventListener('click',()=>{
+      clearTimeout(userSearchTimer);
+      if(searchInput){searchInput.value='';searchInput.focus();}
+      userSearch='';if(tab==='users')void load();
     });
     document.addEventListener('click',handle);
     document.addEventListener('aio-community-auth',load);
@@ -72,6 +103,8 @@
   }
 
   async function load(){
+    const seq=++loadSerial;
+    const currentTab=tab;
     const root=q('[data-community-admin]');
     if(!root)return;
 
@@ -87,7 +120,8 @@
       const d=tab==='access-activity'
         ? await (async()=>{const r=await fetch('/api/access-activity',{credentials:'include',cache:'no-store'});const x=await r.json();if(!r.ok||!x.ok)throw new Error(x.error||'Nie udało się pobrać danych AIO Access.');return {rows:[x],role:'admin',stats:{}};})()
         : ownerTabs.includes(tab) ? await ownerGet(tab)
-        : await AIOCommunity.apiGet('admin',{tab});
+        : await AIOCommunity.apiGet('admin',{tab,userSearch:tab==='users'?userSearch:''});
+      if(seq!==loadSerial||currentTab!==tab)return; // stale server response
       rows=d.rows||[];
       role=d.role||'user';
       const resetTab=q('[data-admin-tab="password-resets"]');
@@ -105,7 +139,19 @@
         qa(`[data-admin-stat="${k}"]`).forEach(el=>el.textContent=Number(v||0).toLocaleString('pl-PL'))
       );
       render();
+      if(tab==='users'){
+        const status=q('[data-aio-user-search-status]');
+        const meta=d.account_search||{};
+        if(status){
+          if(meta.query){
+            status.textContent='Znaleziono '+Number(meta.total||0)+' kont. Wyświetlono '+rows.length+(Number(meta.total||0)>rows.length?' pierwszych wyników. Doprecyzuj wyszukiwanie.':'.');
+          }else{
+            status.textContent='Wyświetlono '+rows.length+' najnowszych z '+Number(d.stats?.users||0)+' kont. Wyszukiwanie obejmuje wszystkie konta.';
+          }
+        }
+      }
     }catch(e){
+      if(seq!==loadSerial||currentTab!==tab)return;
       root.innerHTML=`<div class="community-error">${AIOCommunity.escape(AIOCommunity.friendlyError(e))}</div>`;
     }
   }
@@ -163,7 +209,7 @@
         ? '<div class="community-admin-list">'+rows.map(u=>`<article class="community-admin-item community-user-card" data-admin-user="${AIOCommunity.escapeAttr(u.id)}">
           <div class="community-admin-item-head">
             ${AIOCommunity.avatarHtml(u,u.display_name)}
-            <div><strong>${AIOCommunity.escape(u.display_name)}</strong><small>${AIOCommunity.escape(AIOCommunity.roleLabel(u.role))}${u.trusted?' • zaufany':''}</small></div>
+            <div><strong>${AIOCommunity.escape(u.display_name)}</strong><small>${AIOCommunity.escape(AIOCommunity.roleLabel(u.role))}${u.trusted?' • zaufany':''}</small>${u.email?`<small class="aio-owner-user-email">${AIOCommunity.escape(u.email)}</small>`:''}</div>
           </div>
           ${(u.ips||[]).length?'<div class="community-ip-list">'+u.ips.map(ip=>`<span class="community-ip-chip"><code>${AIOCommunity.escape(ip.ip_address)}</code><small>${AIOCommunity.escape(AIOCommunity.formatDate(ip.last_seen_at))}</small><button class="community-mini-danger" data-ip-action="block" data-ip="${AIOCommunity.escapeAttr(ip.ip_address)}">Blokuj IP</button></span>`).join('')+'</div>':''}
           <div class="community-admin-actions">

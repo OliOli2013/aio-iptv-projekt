@@ -23,3 +23,15 @@
 .owner-admin-tabs-note{margin:0 0 14px;color:#7695a1;font-size:.78rem}
 @media(max-width:980px){.owner-admin-lock{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:680px){.owner-admin-lock{grid-template-columns:1fr}.owner-admin-row{grid-template-columns:1fr}.owner-admin-row .button{width:100%}.owner-admin-security-actions{display:grid}.owner-admin-security-actions .button{width:100%}}
+
+/* AIO owner user search V1 */
+.aio-owner-user-search[hidden]{display:none!important}
+.aio-owner-user-search{padding:17px;margin:14px 0 18px;border:1px solid rgba(112,221,255,.25);border-radius:12px;background:#082b38}
+.aio-owner-user-search label{display:block;margin-bottom:8px;color:#e4f7fb;font-weight:750;font-size:.92rem}
+.aio-owner-user-search-row{display:flex;align-items:stretch;gap:10px}
+.aio-owner-user-search-row input{flex:1;min-width:0;padding:12px 14px;background:#041e2b;border:1px solid #47819a;border-radius:9px;color:#f4fcff;font:inherit}
+.aio-owner-user-search-row input:focus{outline:2px solid #68d8f3;outline-offset:2px}
+.aio-owner-user-search-row button{min-width:100px}
+.aio-owner-user-search p{margin:9px 0 0;font-size:.79rem;color:#9bb7c3}
+.aio-owner-user-email{display:block;overflow-wrap:anywhere;color:#a6dfe9!important;margin-top:5px}
+@media(max-width:560px){.aio-owner-user-search-row{flex-direction:column}.aio-owner-user-search-row button{width:100%}}

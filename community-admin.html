@@ -95,7 +95,15 @@
   </div>
   <p class="aoc-footnote">Dane pochodzą z serwera Cloudflare wyłącznie dla plików /pliki/. Wydana odpowiedź HTTP 200/206 nie gwarantuje pełnego pobrania przez przeglądarkę. Zewnętrzne linki sprawdzisz w zakładce „AIO Access”. Nie zapisujemy IP ani adresów e-mail w tym dzienniku. Historia jest przechowywana maksymalnie 90 dni. Statystyki zaczynają się od wdrożenia Owner Center V1.</p>
 </section>
-<section id="aio-owner-legacy-workspace" class="community-panel community-panel-pad"><div class="community-admin-tabs"><button class="community-tab active" data-admin-tab="pending">Do zatwierdzenia</button><button class="community-tab" data-admin-tab="reports">Zgłoszenia</button><button class="community-tab" data-admin-tab="published">Opublikowane</button><button class="community-tab" data-admin-tab="users">Użytkownicy</button><button class="community-tab" data-admin-tab="ip">Blokady IP</button><button class="community-tab" data-admin-tab="logs">Dziennik</button></div><div data-community-admin=""><div class="community-loading">Sprawdzam uprawnienia…</div></div></section>
+<section id="aio-owner-legacy-workspace" class="community-panel community-panel-pad"><div class="community-admin-tabs"><button class="community-tab active" data-admin-tab="pending">Do zatwierdzenia</button><button class="community-tab" data-admin-tab="reports">Zgłoszenia</button><button class="community-tab" data-admin-tab="published">Opublikowane</button><button class="community-tab" data-admin-tab="users">Użytkownicy</button><button class="community-tab" data-admin-tab="ip">Blokady IP</button><button class="community-tab" data-admin-tab="logs">Dziennik</button></div><div class="aio-owner-user-search" data-aio-user-search hidden>
+  <label for="aio-owner-user-search-input">Znajdź użytkownika po nazwie lub adresie e-mail</label>
+  <div class="aio-owner-user-search-row">
+    <input id="aio-owner-user-search-input" data-aio-user-search-input type="search" autocomplete="off" spellcheck="false" maxlength="100" placeholder="np. Szasio lub nazwa@poczta.pl" aria-describedby="aio-owner-user-search-status">
+    <button class="button" type="button" data-aio-user-search-clear>Wyczyść</button>
+  </div>
+  <p id="aio-owner-user-search-status" data-aio-user-search-status role="status" aria-live="polite">Wpisz co najmniej 2 znaki, aby przeszukać wszystkie konta.</p>
+</div>
+<div data-community-admin=""><div class="community-loading">Sprawdzam uprawnienia…</div></div></section>
 <!-- AIO_LIST_INBOX_V1_4 -->
 <section id="aio-list-inbox" hidden aria-labelledby="aioListInboxTitle">
   <div class="aio-list-inbox-header"><div><p class="eyebrow">ZGŁOSZENIA LIST I KONTAKT OD UŻYTKOWNIKÓW</p>
