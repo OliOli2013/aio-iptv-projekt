@@ -48,7 +48,12 @@
       ? String(anchor.textContent||'').replace(/\s+/g,' ').trim()
       : maskCommunityLink(url);
 
+    const body=anchor?.closest('.community-post-text,.community-comment-body');
+    const wrapper=body?.closest('article[data-post-id]');
+    const postId=wrapper?.getAttribute('data-post-id')||'';
+    const commentId=wrapper?.getAttribute('data-comment-id')||'';
     return access.openCommunityLink({
+      postId,commentId,
       href:url,
       target:(anchor && anchor.getAttribute('target')) || '_blank',
       download:'',

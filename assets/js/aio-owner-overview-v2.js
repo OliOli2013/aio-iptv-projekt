@@ -19,6 +19,7 @@
       ['Dostępy 7 dni','/community-admin.html?aio_section=grants'],
       ['Konta VIP (30 dni)','/community-admin.html?aio_section=vip'],
       ['Historia pobrań','/community-admin.html?aio_section=downloads'],
+      ['Pliki z postów — historia','/owner-hub#aio-post-links-history'],
       ['Aktywność AIO Access','/community-admin.html?aio_section=access-activity']]},
     {name:'Społeczność i wiadomości',items:[
       ['Wiadomości od użytkowników','/community-admin.html?aio_section=inbox'],

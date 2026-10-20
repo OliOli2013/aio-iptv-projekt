@@ -2,6 +2,7 @@
  * No IP addresses, no emails, no cookies or external-link URLs are saved here.
  * A successful GET response is not proof the browser finished saving the file.
  */
+import {linksInPost} from './_aio_post_links_v5.js';
 const MAX_HISTORY_DAYS = 90;
 let schemaPromise;
 
@@ -28,6 +29,10 @@ export async function ensureOwnerDownloadSchema(env) {
         try{await env.COMMUNITY_DB.prepare("ALTER TABLE aio_owner_downloads ADD COLUMN access_reason TEXT NOT NULL DEFAULT ''").run();}
         catch(error){if(!/duplicate column name/i.test(String(error?.message||error)))throw error;}
       }
+      if(!(columns.results||[]).some(x=>x.name==='source_post_id')){
+        try{await env.COMMUNITY_DB.prepare("ALTER TABLE aio_owner_downloads ADD COLUMN source_post_id TEXT NOT NULL DEFAULT ''").run();}
+        catch(error){if(!/duplicate column name/i.test(String(error?.message||error)))throw error;}
+      }
     })().catch((err) => { schemaPromise = null; throw err; });
   }
   await schemaPromise;
@@ -50,11 +55,20 @@ export async function recordIssuedFile(env, request, userId, audience, response,
   const rawLength = Number(response.headers?.get('Content-Length'));
   const bytes = Number.isSafeInteger(rawLength) && rawLength > 0 ? rawLength : null;
   await ensureOwnerDownloadSchema(env);
+  let sourcePostId='';
+  const suppliedId=new URL(request.url).searchParams.get('aio_post')||'';
+  if(suppliedId.length>=8 && suppliedId.length<=100){
+    const row=await env.COMMUNITY_DB.prepare("SELECT content FROM community_posts WHERE id=? AND status='published' LIMIT 1").bind(suppliedId).first();
+    if(row){
+      const cleanUrl=new URL(request.url);cleanUrl.searchParams.delete('aio_post');
+      if(linksInPost(row.content).includes(cleanUrl.href))sourcePostId=suppliedId;
+    }
+  }
   const now = new Date();
   await env.COMMUNITY_DB.prepare(`INSERT INTO aio_owner_downloads
-    (id,user_id,audience,file_name,file_path,status_code,declared_bytes,created_at,access_reason)
-    VALUES(?,?,?,?,?,?,?,?,?)`)
-    .bind(crypto.randomUUID(),userId || null,audience,fileName,path,response.status,bytes,now.toISOString(),String(accessReason||'').slice(0,25)).run();
+    (id,user_id,audience,file_name,file_path,status_code,declared_bytes,created_at,access_reason,source_post_id)
+    VALUES(?,?,?,?,?,?,?,?,?,?)`)
+    .bind(crypto.randomUUID(),userId || null,audience,fileName,path,response.status,bytes,now.toISOString(),String(accessReason||'').slice(0,25),sourcePostId).run();
   // Bounded retention even when the admin does not visit the dashboard.
   await env.COMMUNITY_DB.prepare('DELETE FROM aio_owner_downloads WHERE created_at < ?')
     .bind(new Date(now.getTime() - MAX_HISTORY_DAYS*86400000).toISOString()).run();

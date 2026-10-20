@@ -930,8 +930,39 @@ async function accountDownload(item,kind){
     }catch(e){console.error('AIO Access',e);alert('AIO Access: '+e.message);}
   }
 
+  // AIO Access V5: post links are checked against published D1 text on the server.
+  // Editorial links do not use the download quota. Actual /pliki/ GET is metered
+  // by Cloudflare; an external download-link handoff is metered by this API.
+  async function accountPostLink(item){
+    try{
+      const res=await fetch('/api/aio-post-link',{
+        method:'POST',credentials:'include',cache:'no-store',
+        headers:{'content-type':'application/json'},
+        body:JSON.stringify({post_id:item.postId,comment_id:item.commentId||'',href:item.href})
+      });
+      const info=await res.json().catch(()=>({ok:false,error:'Nieprawidłowa odpowiedź serwera.'}));
+      if(!res.ok||!info.ok){
+        if(info.login_required){guestDownloadDialog(item);return;}
+        if(info.email_verification_required){
+          alert('Potwierdź adres e-mail konta AIO przed pobraniem pliku.');
+          window.AIOCommunity?.openAuth?.('Potwierdź e-mail, aby pobierać pliki.');return;
+        }
+        if(info.restricted){alert(info.error||'Pobieranie czasowo wstrzymane.');return;}
+        if(info.limit_reached){openSupportModal(item,'community-link-limit');return;}
+        throw new Error(info.error||'HTTP '+res.status);
+      }
+      if(info.kind==='external')trackAccessActivity('free_access',item,{kind:'community',source:'post'});
+      openDownloadTarget({...item,href:info.href});
+      if(info.kind==='external')updateAccessIndicator();
+    }catch(err){console.error('AIO V5 post link',err);alert('AIO: '+String(err.message||err));}
+  }
   function handleCommunityLinkAccess(item) {
     if(!item||!item.href)return false;
+    if(item.postId){void accountPostLink(item);return true;}
+    // Community comments and other links: only explicit files are metered.
+    // A generic website, article or project landing page must remain free.
+    const probe=document.createElement('a');
+    if(!isDownloadHref(probe,item.href)){openDownloadTarget(item);return true;}
     void accountDownload(item,'community');
     return true;
   }
