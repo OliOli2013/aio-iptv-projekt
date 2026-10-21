@@ -18,9 +18,11 @@ export const OWNER_HTML = String.raw`<!doctype html>
 <script defer src="/assets/js/aio-security-journal-v1.js?v=20261021-mobilefix-1"></script>
 <script defer src="/assets/js/aio-owner-security-v4.js?v=20261021-mobilefix-1"></script>
 <script defer src="/assets/js/aio-owner-security-v5.js?v=20261021-mobilefix-1"></script>
+<script defer src="/assets/js/aio-owner-messages-admin-v1.js?v=20261021-owner-messages-v1"></script>
 <script defer src="/assets/js/aio-post-links-owner-v5.js?v=20261020-aplv5"></script>
 <link rel="stylesheet" href="/assets/css/aio-owner-desk-v3.css?v=20261020-aop-v3">
 <script defer src="/assets/js/aio-owner-desk-v3.js?v=20261020-aop-v3"></script>
+<link rel="stylesheet" href="/assets/css/aio-owner-messages-v1.css?v=20261021-owner-messages-v1">
 </head>
 <body>
 <div class="oh-loading" id="oh-guard" role="status" aria-live="polite">Sprawdzam uprawnienia właściciela…</div>

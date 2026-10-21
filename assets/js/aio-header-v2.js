@@ -160,3 +160,13 @@
   });
   window.addEventListener('resize',()=>{if(window.innerWidth>760)setMenu(false)});
 })();
+
+/* AIO OWNER MESSAGES V1 AUTOLOAD — badge is enabled site-wide on pages with AIO header. */
+(()=>{'use strict';
+  if(window.__aioOwnerMessagesBadgeLoaderV1)return;
+  window.__aioOwnerMessagesBadgeLoaderV1=true;
+  const js=document.createElement('script');
+  js.src='/assets/js/aio-owner-messages-badge-v1.js?v=20261021-owner-messages-v1';
+  js.async=false;
+  document.head.append(js);
+})();

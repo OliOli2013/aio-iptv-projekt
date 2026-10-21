@@ -1,0 +1,37 @@
+/* AIO messages V1: page-scoped mailbox + navigation envelope */
+.aio-nav-account,.aio-topbar-account{position:relative}
+.aom1-envelope{display:flex;position:absolute;top:-9px;right:0;min-width:22px;height:21px;padding:0 4px;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.8);border-radius:999px;background:#ed4658;color:#fff;box-shadow:0 3px 9px rgba(0,0,0,.28);font-size:15px;font-weight:800;line-height:1;z-index:5;pointer-events:none}
+.aio-nav-account[data-aom-unread]::after,.aio-topbar-account[data-aom-unread]::after{content:attr(data-aom-unread);position:absolute;top:-17px;right:-8px;min-width:16px;height:16px;display:grid;place-items:center;padding:0 2px;background:#ffe6a5;color:#3b2315;border-radius:999px;font-size:10px;font-weight:800;line-height:1;pointer-events:none;z-index:6}
+.aom1-root{box-sizing:border-box;margin:20px 0;padding:clamp(16px,3vw,26px);border:1px solid #317fa1;border-radius:18px;background:linear-gradient(130deg,#092c43,#061c30);color:#ecf8ff;box-shadow:0 10px 28px rgba(0,0,0,.15)}
+.aom1-root *{box-sizing:border-box}
+.aom1-root h2{color:#fff;font-size:clamp(1.24rem,2vw,1.55rem);margin:3px 0 9px}.aom1-root h3{color:#fff;font-size:1.13rem;margin:24px 0 12px}
+.aom1-kicker{color:#84e1f2;font-size:.72rem;font-weight:750;letter-spacing:.1em;margin:0}
+.aom1-muted{color:#c6dbe5;line-height:1.55;font-size:.9rem;margin:7px 0}.aom1-error{color:#ffb7aa!important}
+.aom1-top,.aom1-actions,.aom1-item-head,.aom1-pager{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.aom1-count{border:1px solid #55b6ce;background:#07324d;border-radius:40px;padding:7px 11px;font-weight:700;font-size:.84rem;color:#fff}
+.aom1-button{display:inline-flex;align-items:center;justify-content:center;margin:5px 5px 5px 0;padding:9px 13px;color:#eafaff;background:#124761;border:1px solid #60afd0;border-radius:9px;font:inherit;font-size:.84rem;font-weight:700;text-decoration:none;cursor:pointer;min-height:38px;white-space:normal;text-align:center}
+.aom1-button:hover,.aom1-button:focus-visible{background:#1c6882;color:#fff}.aom1-button:disabled{opacity:.5;cursor:not-allowed}.aom1-primary{background:#09849d;border-color:#71e6ff}.aom1-undo{border-color:#c6a28c;color:#ffe6d2}
+.aom1-status{color:#b5e4ed;min-height:22px;font-size:.86rem;margin:10px 0}.aom1-list,.aom1-sent-list{display:grid;gap:10px}
+.aom1-item,.aom1-sent-row{background:rgba(1,15,27,.53);border:1px solid rgba(113,166,190,.38);border-radius:12px;padding:13px 16px;overflow-wrap:anywhere}
+.aom1-item.aom1-unread{border-color:#56dcec;box-shadow:inset 4px 0 #29cbe7}
+.aom1-item-head{justify-content:space-between;align-items:flex-start}.aom1-item-head strong{font-size:1rem;color:#fff}.aom1-item-head time{font-size:.8rem;color:#c6dbe5;white-space:nowrap}.aom1-body{border-top:1px solid #32536a;margin-top:8px;padding-top:11px}.aom1-body[hidden]{display:none!important}.aom1-text{margin:0;color:#effbff;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere;font-size:.94rem}
+.aom1-form{max-width:780px;display:grid;gap:11px;margin:18px 0}.aom1-label{display:grid;gap:6px;font-size:.88rem;font-weight:650;color:#e5f6ff}
+.aom1-input{box-sizing:border-box;width:100%;max-width:100%;background:#051927;color:#fff;border:1px solid #6e9bb0;border-radius:9px;padding:11px 12px;font:inherit;font-weight:400;color-scheme:dark}
+.aom1-input:focus-visible{outline:2px solid #73dcf1}.aom1-textarea{resize:vertical;min-height:145px}.aom1-recipient{display:grid;gap:7px}
+.aom1-search-results{display:grid;gap:5px;max-height:205px;overflow:auto}.aom1-search-result{background:#0d3852;text-align:left;color:#f0f9ff;font:inherit;font-size:.85rem;cursor:pointer;border:1px solid #416b81;border-radius:8px;padding:9px;overflow-wrap:anywhere}.aom1-search-result:hover{background:#21526e}
+.aom1-all-confirm{display:flex;align-items:flex-start;gap:9px;padding:12px;border:1px solid #ffbc75;border-radius:10px;background:#56381e;color:#fff}.aom1-all-confirm[hidden],.aom1-recipient[hidden]{display:none!important}.aom1-all-confirm input{width:18px;height:18px;flex:none}
+@media(max-width:650px){.aom1-root{margin:15px 0;padding:15px}.aom1-top{align-items:flex-start}.aom1-item-head time{white-space:normal}.aom1-search-results{max-height:260px}.aom1-envelope{right:4px;top:-5px}}
+/* On phones the normal navigation is collapsed and the old top bar hides all
+   links except Support. Keep 'Moje konto' visible so the envelope is visible
+   without opening the mobile menu. */
+@media(max-width:760px){
+  body.aio-header-v4 .portal-topbar .portal-topbar-links a.aio-topbar-account{display:inline-flex!important;position:relative!important;align-items:center!important;font-weight:750!important;padding:4px 7px!important;white-space:nowrap!important;font-size:11px!important}
+  body.aio-header-v4 .portal-topbar .portal-topbar-links{gap:3px!important}
+}
+@media(max-width:390px){
+  body.aio-header-v4 .portal-topbar .portal-topbar-links a.aio-topbar-account{font-size:10px!important;padding:4px 5px!important}
+}
+@media(max-width:760px){
+  body.aio-header-v4 .portal-topbar .portal-topbar-links a.aio-topbar-account .aom1-envelope{top:-4px;right:1px}
+  body.aio-header-v4 .portal-topbar .portal-topbar-links a.aio-topbar-account[data-aom-unread]::after{top:-5px;right:-2px}
+}
