@@ -15,13 +15,13 @@
   {
     "id": "aio-panel",
     "name": "AIO Panel",
-    "version": "17.0.0",
+    "version": "17.0.1",
     "page": "plugin-aio-panel.html",
     "category": "Wtyczka Enigma2",
     "status": "active",
     "statusLabel": "Aktywnie rozwijany",
-    "updated": "04.10.2026",
-    "summary": "Nowe wtyczki, dodatki i skórki, weryfikacja list kanałów oraz usprawnione aktualizacje i instalatory. Interfejs PL/EN, Python 2.7 i Python 3.",
+    "updated": "21.10.2026",
+    "summary": "Trzy zestawy piconów 13°E / 19.2°E / 13°E+19.2°E z wyborem katalogu, skórka Obsidian FHD, poprawiony changelog, nowe kody QR i ulepszona aktualizacja. Zachowano dotychczasowe funkcje oraz interfejs PL/EN.",
     "tested": "Zgodność kodu: Python 2.7 i Python 3; interfejs PL/EN",
     "next": "Dalszy rozwój AIO Panel i integracja kolejnych własnych projektów."
   },

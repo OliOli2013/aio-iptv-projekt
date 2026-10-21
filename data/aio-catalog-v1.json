@@ -18,13 +18,13 @@
     {
       "id": "aio-panel",
       "name": "AIO Panel",
-      "version": "17.0.0",
+      "version": "17.0.1",
       "page": "plugin-aio-panel.html",
       "category": "Wtyczka Enigma2",
       "status": "active",
       "statusLabel": "Aktywnie rozwijany",
-      "updated": "04.10.2026",
-      "summary": "Nowe wtyczki, dodatki i skórki, weryfikacja list kanałów oraz usprawnione aktualizacje i instalatory. Interfejs PL/EN, Python 2.7 i Python 3.",
+      "updated": "21.10.2026",
+      "summary": "Trzy zestawy piconów 13°E / 19.2°E / 13°E+19.2°E z wyborem katalogu, skórka Obsidian FHD, poprawiony changelog, nowe kody QR i ulepszona aktualizacja. Zachowano dotychczasowe funkcje oraz interfejs PL/EN.",
       "tested": "Zgodność kodu: Python 2.7 i Python 3; interfejs PL/EN",
       "next": "Dalszy rozwój AIO Panel i integracja kolejnych własnych projektów."
     },
@@ -533,21 +533,42 @@
       "access": "konto_AIO"
     },
     {
-      "title": "AIO Panel 17.0.0 — IPK",
-      "href": "pliki/enigma2-plugin-extensions-panelaio_17.0.0_all.ipk",
+      "title": "AIO Panel 17.0.1 — IPK",
+      "href": "pliki/enigma2-plugin-extensions-panelaio_17.0.1_all.ipk",
       "category": "Wtyczki",
       "platform": "Enigma2",
-      "version": "17.0.0",
-      "date": "04.10.2026",
+      "version": "17.0.1",
+      "date": "21.10.2026",
       "status": "Aktualna",
       "sourcePage": "plugin-aio-panel.html",
-      "sourceTitle": "AIO Panel 17.0.0",
+      "sourceTitle": "AIO Panel 17.0.1",
       "kind": "IPK",
-      "size": "398.3 KB",
-      "sha256": "19d3a9eb083c344bdaf9c8ebc714c257688a1a94a66b290a5013ca268eb00b05",
+      "size": "396.5 KB",
+      "sha256": "2d2b3d9ba9a959407f0925d190ef9b1bed9610f9bc140c7c315ea8011cc17dba",
       "official": "Plik na AIO-IPTV.pl",
       "project_id": "aio-panel",
-      "release_id": "legacy-1241e96967e04155",
+      "release_id": "legacy-0d4327c74bc9502c",
+      "origin": "legacy",
+      "published_at": null,
+      "verified_at": null,
+      "access": "konto_AIO"
+    },
+    {
+      "title": "AIO Panel 17.0.1 — DEB",
+      "href": "pliki/enigma2-plugin-extensions-panelaio_17.0.1_all.deb",
+      "category": "Wtyczki",
+      "platform": "Enigma2",
+      "version": "17.0.1",
+      "date": "21.10.2026",
+      "status": "Aktualna",
+      "sourcePage": "plugin-aio-panel.html",
+      "sourceTitle": "AIO Panel 17.0.1",
+      "kind": "DEB",
+      "size": "396.5 KB",
+      "sha256": "2d2b3d9ba9a959407f0925d190ef9b1bed9610f9bc140c7c315ea8011cc17dba",
+      "official": "Plik na AIO-IPTV.pl",
+      "project_id": "aio-panel",
+      "release_id": "legacy-1fcf3efbfe368b28",
       "origin": "legacy",
       "published_at": null,
       "verified_at": null,
@@ -1361,20 +1382,37 @@
       ]
     },
     {
-      "id": "legacy-1241e96967e04155",
+      "id": "legacy-0d4327c74bc9502c",
       "project_id": "aio-panel",
       "project_name": "AIO Panel",
-      "version": "17.0.0",
-      "date": "2026-10-04",
-      "title": "AIO Panel 17.0.0 — IPK",
-      "summary": "Nowe wtyczki, dodatki i skórki, weryfikacja list kanałów oraz usprawnione aktualizacje i instalatory. Interfejs PL/EN, Python 2.7 i Python 3.",
+      "version": "17.0.1",
+      "date": "2026-10-21",
+      "title": "AIO Panel 17.0.1 — IPK",
+      "summary": "Trzy zestawy piconów 13°E / 19.2°E / 13°E+19.2°E z wyborem katalogu, skórka Obsidian FHD, poprawiony changelog, nowe kody QR i ulepszona aktualizacja. Zachowano dotychczasowe funkcje oraz interfejs PL/EN.",
       "page": "plugin-aio-panel.html",
       "channel": "legacy",
       "origin": "legacy",
       "published_at": null,
       "verified_at": null,
       "files": [
-        "pliki/enigma2-plugin-extensions-panelaio_17.0.0_all.ipk"
+        "pliki/enigma2-plugin-extensions-panelaio_17.0.1_all.ipk"
+      ]
+    },
+    {
+      "id": "legacy-1fcf3efbfe368b28",
+      "project_id": "aio-panel",
+      "project_name": "AIO Panel",
+      "version": "17.0.1",
+      "date": "2026-10-21",
+      "title": "AIO Panel 17.0.1 — DEB",
+      "summary": "Trzy zestawy piconów 13°E / 19.2°E / 13°E+19.2°E z wyborem katalogu, skórka Obsidian FHD, poprawiony changelog, nowe kody QR i ulepszona aktualizacja. Zachowano dotychczasowe funkcje oraz interfejs PL/EN.",
+      "page": "plugin-aio-panel.html",
+      "channel": "legacy",
+      "origin": "legacy",
+      "published_at": null,
+      "verified_at": null,
+      "files": [
+        "pliki/enigma2-plugin-extensions-panelaio_17.0.1_all.deb"
       ]
     },
     {
@@ -1839,8 +1877,8 @@
   ],
   "counts": {
     "projects": 18,
-    "files": 42,
-    "releases": 42,
+    "files": 43,
+    "releases": 43,
     "new_publications": 0
   }
 }
