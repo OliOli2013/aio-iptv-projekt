@@ -74,6 +74,7 @@
    document.body.append(modal);modal.addEventListener('click',ev=>{if(ev.target===modal)close();});modal.showModal();
    }catch(err){alert('Nie można odczytać konta: '+err.message);}finally{inflight=false;}
  }
+ window.addEventListener('aio-owner-security-manage',event=>{const id=String(event?.detail?.user_id||'');if(/^[a-f0-9-]{36}$/i.test(id))void openAccount(id);});
  function enhance(root){
   const list=$('[data-asj-content]',root);if(!list)return;
   // Prevent observing DOM moves and mutations performed by our own UI.
@@ -119,3 +120,6 @@
  const overviewObserver=new MutationObserver(()=>enhanceOverview());
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{boot();overviewObserver.observe(document.body,{subtree:true,childList:true});},{once:true});else{boot();overviewObserver.observe(document.body,{subtree:true,childList:true});}
 })();
+
+/* AIO Security Control V5 */
+(()=>{const s=document.createElement('script');s.src='/assets/js/aio-owner-security-v5.js?v=20261021-v5';s.defer=true;document.head.append(s);const c=document.createElement('link');c.rel='stylesheet';c.href='/assets/css/aio-owner-security-v5.css?v=20261021-v5';document.head.append(c);})();
