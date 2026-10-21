@@ -974,21 +974,21 @@
       "access": "zgodnie_ze_zrodlem"
     },
     {
-      "title": "Zgemma H17 Combo — OpenATV 7.6",
-      "href": "https://multi-click.pl/index.php?controller=attachment&id_attachment=147",
+      "title": "Zgemma H17 Combo — OpenATV 8.0.1",
+      "href": "https://multi-click.pl/index.php?controller=attachment&id_attachment=157",
       "category": "Systemy",
       "platform": "Enigma2",
-      "version": "7.6",
+      "version": "8.0.1",
       "date": "",
       "status": "Stabilna",
       "sourcePage": "systems.html",
-      "sourceTitle": "Zgemma H17 Combo — OpenATV 7.6",
+      "sourceTitle": "Zgemma H17 Combo — OpenATV 8.0.1",
       "kind": "LINK",
       "size": "zewnętrzny link",
       "sha256": "",
       "official": "Link zewnętrzny",
       "project_id": "multi-click",
-      "release_id": "legacy-bf5a82d14b9e1ff5",
+      "release_id": "legacy-462b0b4b4887ffcd",
       "origin": "legacy",
       "published_at": null,
       "verified_at": null,
@@ -1718,12 +1718,12 @@
       ]
     },
     {
-      "id": "legacy-bf5a82d14b9e1ff5",
+      "id": "legacy-462b0b4b4887ffcd",
       "project_id": "multi-click",
       "project_name": "Systemy Multi-Click",
-      "version": "7.6",
+      "version": "8.0.1",
       "date": null,
-      "title": "Zgemma H17 Combo — OpenATV 7.6",
+      "title": "Zgemma H17 Combo — OpenATV 8.0.1",
       "summary": "Gotowe obrazy systemów wraz z instrukcjami instalacji.",
       "page": "systems.html",
       "channel": "legacy",
@@ -1731,7 +1731,7 @@
       "published_at": null,
       "verified_at": null,
       "files": [
-        "https://multi-click.pl/index.php?controller=attachment&id_attachment=147"
+        "https://multi-click.pl/index.php?controller=attachment&id_attachment=157"
       ]
     },
     {
