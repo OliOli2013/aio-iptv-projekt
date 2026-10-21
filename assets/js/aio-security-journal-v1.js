@@ -11,7 +11,7 @@
    wrap.append(el('h3','','Wspólne IP i płatne konta — decyzje właściciela'));
    const holdList=el('div','asj-holds');const pending=(d.holds||[]).filter(x=>x.active);
    if(!pending.length)holdList.append(el('p','asj-muted','Brak aktywnych ograniczeń pobierania.'));
-   for(const h of pending){const item=el('div','asj-hold'),text=el('div');
+   for(const h of pending){const item=el('div','asj-hold'),text=el('div');item.dataset.asjUserId=h.user_id||'';
      const paid=h.kind==='paid';
      text.append(el('strong','',(paid?'Płatne konto • ':'Wspólne IP • ')+h.user_name),
        el('span','',paid?'Różne sieci i urządzenia w 15 minut • do '+date(h.expires_at):'Wspólne IP z kontem: '+h.peer_name+' • do '+date(h.expires_at)));
@@ -49,8 +49,8 @@
  async function refresh(){if(busy)return;busy=true;const state=panel.querySelector('[data-asj-status]');state.textContent='Pobieranie danych…';try{const d=await read('/api/owner-security-journal?offset='+pageOffset);render(d);state.textContent='Odczyt: '+new Date().toLocaleString('pl-PL');}catch(e){state.textContent='Nie udało się odczytać dziennika: '+e.message;}finally{busy=false;}}
  async function init(){const host=document.querySelector('.aio-account-main')||document.querySelector('.oh-content');if(!host)return;
   // UI is a convenience only; server enforces owner role on all API actions.
-  let auth;try{auth=await read('/api/community-auth')}catch(_){return;}
-  if(!auth.authenticated||auth.user?.is_owner!==true||auth.email_verified!==true)return;
+  let auth=null;for(let attempt=0;attempt<3;attempt++){try{auth=await read('/api/community-auth');if(auth?.authenticated)break;}catch(error){console.warn('AIO journal: chwilowo niedostępna sesja',error.message);}if(attempt<2)await new Promise(resolve=>setTimeout(resolve,700*(attempt+1)));}
+  if(!auth?.authenticated||auth.user?.is_owner!==true||auth.email_verified!==true)return;
   panel=el('section','asj-root');panel.id='aio-security-journal';panel.append(el('h2','','Dziennik bezpieczeństwa i logowań'));
   panel.append(el('p','asj-description','Trwałe zdarzenia z serwera, analiza logowań i ostrzeżenia o współdzielonym IP. Tylko dla właściciela AIO.'));
   const actions=el('div','asj-actions'),status=el('span','asj-muted');status.dataset.asjStatus='';const reload=el('button','asj-reload','Odśwież');reload.type='button';reload.addEventListener('click',refresh);actions.append(reload,status);panel.append(actions);const content=el('div','');content.dataset.asjContent='';panel.append(content);
@@ -61,3 +61,5 @@
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>void init(),{once:true});else void init();
 })();
+/* Owner security v4: lazy UI extension; original journal logic preserved. */
+(()=>{const s=document.createElement('script');s.src='/assets/js/aio-owner-security-v4.js?v=20261021-owner-v4';s.defer=true;document.head.append(s);})();

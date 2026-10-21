@@ -57,6 +57,7 @@
   let container=null,lastRefresh=0,running=false,currentItems=[],active='pending',busySources=[],owner=false;
   function time(value){if(!value)return 'Brak daty';const d=new Date(value);return Number.isNaN(+d)?String(value).slice(0,16):new Intl.DateTimeFormat('pl-PL',{dateStyle:'short',timeStyle:'short'}).format(d);}
   async function get(url){const r=await fetch(url,{credentials:'include',cache:'no-store',headers:{accept:'application/json'}});const d=await r.json().catch(()=>null);if(!r.ok||!d||d.ok!==true)throw new Error('HTTP '+r.status);return d;}
+  async function getRetry(url){try{return await get(url);}catch(e){await new Promise(resolve=>setTimeout(resolve,750));return get(url);}}
   function entry(group,item){
     const date=item.created_at||item.priority_sent_at||'';
     const section=sections.find(x=>x.id===group);
@@ -122,11 +123,11 @@
     hint.classList.toggle('is-warning',busySources.length>0);
   }
   async function load(force=false){if(!container||running)return;if(!force && Date.now()-lastRefresh<40000)return;running=true;
-    const results=await Promise.allSettled(sources.map(s=>get(s.url)));
+    const results=await Promise.allSettled(sources.map(s=>getRetry(s.url)));
     const events=[];busySources=[];
     for(let i=0;i<sources.length;i++){
       const src=sources[i],r=results[i];const badge=$(`[data-aov-metric="${src.id}"] .aov2-metric-count`,container);
-      if(r.status==='rejected'){busySources.push(src.id);if(badge)badge.textContent='—';continue;}
+      if(r.status==='rejected'){busySources.push(src.id);if(badge&&!lastRefresh)badge.textContent='!';events.push(...currentItems.filter(x=>x.group===src.id));continue;}
       const list=src.extract(r.value);let count=0;
       for(const item of list){const e=entry(src.id,item);events.push(e);if(e.pending)count++;}
       if(badge)badge.textContent=String(src.id==='messages'&&Number.isFinite(Number(r.value.unread))?r.value.unread:count);
@@ -135,15 +136,17 @@
     currentItems=events.sort((a,b)=>Date.parse(b.date||'')-Date.parse(a.date||''));
     lastRefresh=Date.now();drawItems();running=false;
   }
+  let authFailures=0;
   async function sync(){
     try{
       const s=await get('/api/community-auth');
       const allowed=!!(s.authenticated&&s.user?.is_owner===true&&s.email_verified===true);
       owner=allowed;
-      if(!owner){if(container){container.remove();container=null;}return;}
+      if(!owner){if(container){container.remove();container=null;}if(++authFailures<4&&!s.authenticated)setTimeout(()=>void sync(),1200*authFailures);return;}
+      authFailures=0;
       if(!container)build();
       if(container)void load(true);
-    }catch(_){if(container){container.remove();container=null;}}
+    }catch(e){console.warn('AIO Owner: problem odczytu sesji',e.message);if(container){const hint=$('[data-aov-state]',container);if(hint)hint.textContent='Chwilowy problem z odświeżeniem. Ostatnie dane pozostają widoczne; spróbuję ponownie.';}if(++authFailures<4)setTimeout(()=>void sync(),1200*authFailures);}
   }
   const boot=()=>{void sync();document.addEventListener('aio-community-auth',()=>void sync());
     document.addEventListener('aio-community-ready',()=>void sync());

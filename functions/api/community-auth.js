@@ -21,6 +21,8 @@ import {getStatus} from "../_aio_account_access.js";
 function validPassword(p) {
   return typeof p === "string" && p.length >= 10 && p.length <= 200;
 }
+/* Owner Security V4: hashed e-mail denylist shared by sign-in and sign-up. */
+import {emailIsBlocked} from '../_aio_email_blocks.js';
 async function throttle(env, key, request) {
   const row = await env.COMMUNITY_DB.prepare(
     `SELECT attempts, blocked_until FROM community_login_attempts WHERE key=?`
@@ -261,6 +263,10 @@ export async function onRequestPost({request, env}) {
 
     const throttleKey = `${ip || "noip"}:${email}`;
     await throttle(env, throttleKey, request);
+    if(await emailIsBlocked(env,email)){
+      await logSecurity(env,request,'login_throttled',null,'Adres zablokowany administracyjnie');
+      return json({ok:false,error:'Ten adres e-mail został zablokowany przez administratora.'},403);
+    }
 
     if (action === "register") {
       // No fake-email registration while outbound verification is unavailable.

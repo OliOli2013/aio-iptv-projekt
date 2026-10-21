@@ -1,0 +1,31 @@
+/* AIO Owner Security V4: controls scoped to owner-only UI. */
+.asj-root .aos4-details,.aov2 .aos4-overview-details{border:1px solid #315b6c;border-radius:12px;background:#071f2d;margin:12px 0;overflow:hidden}
+.asj-root .aos4-summary,.aov2 .aos4-summary{color:#ebfaff;font-size:.99rem;font-weight:850;padding:14px 15px;display:flex;align-items:center;justify-content:space-between;gap:15px;cursor:pointer;min-height:54px;list-style-position:inside;outline-offset:-3px}
+.asj-root .aos4-summary:hover,.aov2 .aos4-summary:hover{background:#104254}
+.asj-root .aos4-details[open]>.aos4-summary,.aov2 .aos4-overview-details[open]>.aos4-summary{border-bottom:1px solid #376779;background:#113b4d}
+.asj-root .aos4-body{padding:12px 15px 15px;min-width:0}
+.asj-root .aos4-export{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 11px;margin:2px 0;font-size:.78rem;border:1px solid #69c7db;border-radius:9px;background:#154e65;color:#e6fcff;text-decoration:none;font-weight:750;white-space:nowrap}
+.asj-root .aos4-export:hover{border-color:#a2f2ff;background:#1b7287}
+.asj-root .aos4-holds-export{margin:0 0 12px}
+.asj-root .asj-hold-actions .aos4-manage{background:#133b73;color:#f7fcff;border-color:#8ba6ff}
+.asj-root .asj-hold-actions .aos4-manage:hover{background:#2053a3}
+.aos4-modal{width:min(640px,calc(100vw - 22px));max-width:none;max-height:90dvh;overflow:auto;padding:0;border:1px solid #61b8d1;border-radius:17px;background:#071d2a;color:#f0faff;box-shadow:0 20px 80px #000d}
+.aos4-modal::backdrop{background:#030b12d9;backdrop-filter:blur(3px)}
+.aos4-modal-body{padding:clamp(14px,3vw,23px);display:grid;gap:13px;font:inherit}
+.aos4-modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:1.18rem}
+.aos4-modal .aos4-label{display:grid;gap:7px;font-size:.83rem;color:#bde7f0;font-weight:750}
+.aos4-modal .aos4-input{width:100%;min-height:42px;padding:10px 12px;background:#092b3c;border:1px solid #56889b;color:#eaffff;border-radius:9px;font:inherit;box-sizing:border-box}
+.aos4-modal .aos4-buttons{display:flex;flex-wrap:wrap;gap:8px}
+.aos4-modal .aos4-btn{padding:10px 12px;min-height:40px;background:#174c62;border:1px solid #55b4c8;color:white;border-radius:9px;font-weight:760;cursor:pointer;font:inherit}
+.aos4-modal .aos4-btn:hover{filter:brightness(1.2)}
+.aos4-modal .aos4-warning{background:#64501f;border-color:#dfa744;color:#fff7db}
+.aos4-modal .aos4-danger{background:#722f3e;border-color:#f28aa0;color:#fff}
+.aos4-modal .aos4-btn:disabled{opacity:.5;cursor:not-allowed}
+.aos4-modal .aos4-ip{padding:15px;border:1px solid #3c7183;border-radius:12px;background:#0b2a39;display:grid;gap:11px}
+.aos4-modal .aos4-ip h3{margin:0;font-size:1rem;color:#b0eafd}
+.aos4-modal .aos4-delete{padding:14px;border:1px solid #955262;border-radius:12px;background:#2a202a;display:grid;gap:10px}
+.aos4-modal .aos4-delete p,.aos4-modal .aos4-ip p,.aos4-modal .aos4-muted{font-size:.83rem;line-height:1.5;color:#aacad8;margin:0}
+.aos4-modal .aos4-status{margin:0;padding:9px 11px;border-radius:9px;background:#174255;color:#c6f5fa;overflow-wrap:anywhere}
+.aov2 .aos4-overview-details>.aov2-feed,.aov2 .aos4-overview-details>.aov2-tools{border-top:0;padding:13px;margin:0}
+@media(max-width:600px){.asj-root .aos4-summary{flex-wrap:wrap;align-items:flex-start;font-size:.86rem}.asj-root .aos4-summary .aos4-export{margin-left:auto}.aos4-modal .aos4-buttons{display:grid;grid-template-columns:1fr}.aos4-modal .aos4-btn{width:100%}}
+@media(prefers-reduced-motion:reduce){.aos4-modal::backdrop{backdrop-filter:none}}
