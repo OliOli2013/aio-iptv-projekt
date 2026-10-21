@@ -170,3 +170,13 @@
   js.async=false;
   document.head.append(js);
 })();
+
+/* AIO OWNER BELL HEADER V1 AUTOLOAD */
+(()=>{'use strict';
+  if(window.__aioOwnerBellHeaderLoaderV1)return;
+  window.__aioOwnerBellHeaderLoaderV1=true;
+  const script=document.createElement('script');
+  script.src='/assets/js/aio-owner-bell-v1.js?v=20261022-owner-bell-v1';
+  script.async=false;
+  document.head.append(script);
+})();

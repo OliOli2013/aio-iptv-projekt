@@ -1,0 +1,38 @@
+/* AIO Owner Bell V1: subtle, accessible owner-only header notification indicator. */
+body.aio-header-v4 .portal-topbar .portal-topbar-links a.aio-owner-bell{
+  position:relative!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  width:35px!important;min-width:35px!important;height:33px!important;min-height:33px!important;
+  box-sizing:border-box!important;margin:0 2px!important;padding:3px!important;
+  border:1px solid rgba(121,204,229,.3)!important;border-radius:10px!important;
+  background:rgba(9,55,71,.62)!important;color:#e7faff!important;
+  text-decoration:none!important;flex-shrink:0!important;overflow:visible!important;
+}
+body.aio-header-v4 .portal-topbar .portal-topbar-links a.aio-owner-bell:hover,
+body.aio-header-v4 .portal-topbar .portal-topbar-links a.aio-owner-bell:focus-visible{
+  background:rgba(30,101,120,.76)!important;border-color:#85e9f7!important;outline-offset:2px!important;
+}
+.aio-owner-bell .aob1-icon{display:inline-flex;align-items:center;justify-content:center;font-size:19px;line-height:1}
+.aio-owner-bell .aob1-count{
+  position:absolute;right:-7px;top:-8px;min-width:18px;height:18px;box-sizing:border-box;
+  padding:0 4px;display:inline-flex;align-items:center;justify-content:center;
+  background:#df3d49;color:#fff;border:1px solid #fff5;border-radius:999px;
+  box-shadow:0 2px 8px #0008;font-family:inherit;font-size:10px;font-weight:850;line-height:1;
+  pointer-events:none;font-variant-numeric:tabular-nums;
+}
+.aio-owner-bell .aob1-count[hidden]{display:none!important}
+.aio-owner-bell[data-aob-state="unknown"] .aob1-count{background:#b47c25}
+.aio-owner-bell[data-aob-partial="1"]{border-color:#b47c25!important}
+body.aio-header-v4 .portal-topbar-links a.aio-owner-bell::before,
+body.aio-header-v4 .portal-topbar-links a.aio-owner-bell::after{content:none!important}
+@media(max-width:760px){
+  /* Existing mobile header hides non-support links. Explicitly keep owner bell visible. */
+  body.aio-header-v4 .portal-topbar .portal-topbar-links a.aio-owner-bell{
+    display:inline-flex!important;width:33px!important;min-width:33px!important;height:30px!important;
+    min-height:30px!important;padding:2px!important;margin:0 2px!important;border-radius:9px!important;
+  }
+  body.aio-header-v4 .portal-topbar .portal-topbar-links{gap:3px!important}
+  .aio-owner-bell .aob1-count{top:0px;right:0px}
+}
+@media(max-width:390px){
+  body.aio-header-v4 .portal-topbar .portal-topbar-links a.aio-owner-bell{margin:0 1px!important}
+}

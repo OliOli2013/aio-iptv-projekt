@@ -45,6 +45,12 @@
     const foot=make('p','aoa1-foot','Licznik pokazuje sprawy nadal oczekujące. Samo otwarcie listy niczego nie zatwierdza ani nie usuwa. Zgłoszenie wpłaty nie oznacza jej otrzymania.');
     root.append(top,note,list,foot);
     status.after(root);
+
+    /* AIO OWNER BELL V1 DEEP LINK */
+    if(location.hash==='#aio-owner-attention-panel'){
+      interacted=true;setOpen(true);
+      requestAnimationFrame(()=>root?.scrollIntoView({block:'start'}));
+    }
     trigger.addEventListener('click',()=>{
       interacted=true;
       root.hidden=!root.hidden;
