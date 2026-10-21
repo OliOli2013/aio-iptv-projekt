@@ -1,7 +1,8 @@
 /* AIO Wiadomosci od Administracji V1 — private D1 inbox + one-row broadcasts.
  * Authorization is always performed on the server, never from user-supplied IDs.
  */
-import {requireUser,requireAdmin,moderationLog} from '../_community.js';
+import {requireUser,requireAdmin,moderationLog,getOwnerId} from '../_community.js';
+import {getStatus} from '../_aio_account_access.js';
 
 const HEAD={'Content-Type':'application/json; charset=utf-8','Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff'};
 const respond=(data,status=200)=>new Response(JSON.stringify(data),{status,headers:HEAD});
@@ -66,6 +67,46 @@ async function inbox(db,userId,createdAt,offset){
     .bind(userId,userId,createdAt,offset).all();
   return q.results||[];
 }
+// This reminder is a normal private mailbox message. It is created lazily while the
+// recipient visits AIO during the final 24h. A stable request_id prevents duplicates.
+// No unverified payment grants or browser-set VIP flags are used.
+async function syncMembershipReminder(env,userId){
+  try{
+    const db=env.COMMUNITY_DB;
+    const status=await getStatus(env,userId);
+    const expires=Date.parse(status.expires_at||'');
+    const ms=expires-Date.now();
+    const kind=status.owner===true||status.email_verified===false||!status.active||!(ms>0&&ms<=86400000)
+      ?null:(status.vip===true?'vip':'seven');
+    const key=kind?'aio-access-expiry:'+userId+':'+kind+':'+String(expires):'';
+    const existing=await db.prepare(`SELECT id,request_id FROM aio_owner_messages
+      WHERE recipient_user_id=? AND request_id LIKE 'aio-access-expiry:%' AND revoked_at IS NULL LIMIT 20`)
+      .bind(userId).all();
+    for(const row of existing.results||[]){
+      if(row.request_id!==key){
+        await db.prepare('UPDATE aio_owner_messages SET revoked_at=? WHERE id=? AND revoked_at IS NULL')
+          .bind(now(),row.id).run();
+      }
+    }
+    if(!key||(existing.results||[]).some(row=>row.request_id===key))return;
+    const sender=await getOwnerId(env);
+    if(!sender)return;
+    const verified=await db.prepare('SELECT id FROM community_profiles WHERE id=? LIMIT 1').bind(sender).first();
+    if(!verified)return;
+    const label=kind==='vip'?'VIP':'7 dni nielimitowanego pobierania';
+    const date=new Intl.DateTimeFormat('pl-PL',{timeZone:'Europe/Warsaw',dateStyle:'long',timeStyle:'short'}).format(new Date(expires));
+    const subject=kind==='vip'?'AIO: Twój VIP wkrótce wygaśnie':'AIO: Twój dostęp 7 dni wkrótce wygaśnie';
+    const content='Twój dostęp '+label+' wygaśnie '+date+'. Jeśli chcesz nadal korzystać z nielimitowanego pobierania, wesprzyj projekt i zgłoś wpłatę na stronie https://aio-iptv-projekt.pages.dev/support.html. Przedłużenie następuje po weryfikacji wpłaty przez administrację.';
+    await db.prepare(`INSERT OR IGNORE INTO aio_owner_messages
+      (id,sender_user_id,recipient_user_id,audience,subject,body,created_at,request_id)
+      VALUES(?,?,?,'user',?,?,?,?)`)
+      .bind(crypto.randomUUID(),sender,userId,subject,content,now(),key).run();
+  }catch(error){
+    // Temporary access or D1 problems must never break the user's mailbox.
+    console.error('AIO access reminder:',String(error?.message||'error').slice(0,130));
+  }
+}
+
 async function audit(env,actorId,targetId,action,detail){
   try{await moderationLog(env,actorId,{targetUserId:targetId||actorId,targetType:'user',targetId:targetId||actorId,action,metadata:detail});}
   catch(e){console.error('AIO owner mail audit',String(e?.message||'error').slice(0,90));}
@@ -93,10 +134,12 @@ export async function onRequestGet({request,env}){
         m.recipient_user_id,COALESCE(p.display_name,'Konto niedostępne') recipient_name,
         (SELECT COUNT(*) FROM aio_owner_message_reads r WHERE r.message_id=m.id) read_count
         FROM aio_owner_messages m LEFT JOIN community_profiles p ON p.id=m.recipient_user_id
+        WHERE m.request_id NOT LIKE 'aio-access-expiry:%'
         ORDER BY m.created_at DESC LIMIT 40`).all();
       return respond({ok:true,rows:q.results||[]});
     }
     if(!['unread','inbox'].includes(view))fail(400,'Nieznany widok.');
+    await syncMembershipReminder(env,s.user.id);
     const createdAt=await registeredAt(db,s.user.id);
     const unread=await unreadCount(db,s.user.id,createdAt);
     if(view==='unread')return respond({ok:true,unread});
@@ -152,7 +195,7 @@ export async function onRequestPost({request,env}){
       }
       const cutoff=new Date(Date.now()-86400000).toISOString();
       const cap=audience==='all'?5:120;
-      const nr=await db.prepare('SELECT COUNT(*) n FROM aio_owner_messages WHERE sender_user_id=? AND audience=? AND created_at>=?')
+      const nr=await db.prepare("SELECT COUNT(*) n FROM aio_owner_messages WHERE sender_user_id=? AND audience=? AND created_at>=? AND request_id NOT LIKE 'aio-access-expiry:%'")
         .bind(s.user.id,audience,cutoff).first();
       if(Number(nr?.n||0)>=cap)fail(429,'Osiągnięto dzienny limit wysyłek dla tego typu wiadomości.');
       const id=crypto.randomUUID(),created=now();

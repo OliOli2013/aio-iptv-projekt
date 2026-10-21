@@ -1,0 +1,11 @@
+/* Account-only VIP / 7D badges, desktop and mobile. No changes to site-wide UI. */
+.aam1-membership{box-sizing:border-box;margin:15px 0 21px;padding:18px 20px;border-radius:16px;border:1px solid rgba(102,204,245,.35);background:linear-gradient(120deg,#082c41,#123e55);color:#f0fbff;box-shadow:0 6px 20px rgba(2,25,39,.12)}
+.aam1-membership[hidden]{display:none!important}.aam1-membership *{box-sizing:border-box}
+.aam1-top{display:flex;align-items:center;gap:16px;flex-wrap:wrap}.aam1-mark{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:10px 15px;border-radius:12px;letter-spacing:.06em;white-space:nowrap;font-size:14px;font-weight:900}
+.aam1-vip .aam1-mark{color:#382604;background:linear-gradient(130deg,#fff0a6,#eebd51);border:1px solid #ffe6a0}
+.aam1-seven .aam1-mark{color:#042f37;background:linear-gradient(130deg,#c9ffff,#5ee2e5);border:1px solid #b2f8fa}
+.aam1-caption{display:grid;gap:5px;min-width:0;flex:1}.aam1-caption strong{font-size:1.07rem;color:#fff}.aam1-caption span{font-size:.9rem;color:#c3e2ec}
+.aam1-warning{margin-top:15px;padding:14px 17px;border-left:4px solid #f1c45d;border-radius:11px;background:rgba(244,190,70,.12);color:#fff7df}.aam1-warning strong{font-size:1rem;color:#fff1c0}.aam1-warning p{margin:9px 0 12px;line-height:1.57;font-size:.93rem;color:#f6efd9}
+.aam1-support{display:inline-flex;padding:10px 13px;border:1px solid #fff1bd;border-radius:9px;background:#ffdda0;color:#352100!important;font-weight:750;text-decoration:none}.aam1-support:hover,.aam1-support:focus-visible{background:#fff0bd;text-decoration:underline}
+.aam1-restricted{margin:12px 0 0;font-size:.89rem;color:#fbdac7}
+@media(max-width:600px){.aam1-membership{padding:14px}.aam1-top{align-items:stretch;gap:10px}.aam1-mark{width:max-content;max-width:100%;font-size:13px}.aam1-caption strong{font-size:1rem}.aam1-caption span{font-size:.83rem}.aam1-support{width:100%;justify-content:center;text-align:center}}
