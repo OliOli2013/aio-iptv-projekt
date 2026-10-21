@@ -1,5 +1,26 @@
 [
-  {
+    {
+    "date": "2026-10-21",
+    "ts": 1792540800000,
+    "type": "release",
+    "title": "AIO Panel 17.0.1 — picony, Obsidian FHD i poprawki",
+    "desc": "Nowy wybór zestawów piconów 13E / 19.2E, skórka Obsidian FHD, poprawiony changelog i aktualne kody QR.",
+    "details": "AIO Panel 17.0.1 — 21.10.2026\n\n• Trzy zestawy piconów: Hot Bird 13°E z IPTV, Astra 19.2°E, 13°E + 19.2°E.\n• Wybór katalogu docelowego po wybraniu zestawu piconów.\n• Obsidian FHD dostępny bezpośrednio w sekcji Skórki.\n• Poprawiono wyświetlanie changelogu.\n• Nowe kody QR do strony projektu, społeczności i zgłaszania problemów.\n• Poprawki kontroli wersji, testów i budowania pakietów.\n• Bez zmian w Super Konfiguratorze, dotychczasowych instalatorach i układzie menu.\n\nAktualizacja: niebieski przycisk w AIO Panel lub pliki IPK/DEB z Centrum pobierania.\n\nAIO Team | Paweł Pawełek.",
+    "url": "plugin-aio-panel.html",
+    "tags": [
+      "AIO Panel",
+      "17.0.1",
+      "Enigma2",
+      "picony",
+      "13E",
+      "19.2E",
+      "Obsidian FHD",
+      "IPK",
+      "DEB",
+      "aktualizacja"
+    ]
+  },
+{
     "date": "2026-10-09",
     "ts": 1791504000000,
     "type": "release",

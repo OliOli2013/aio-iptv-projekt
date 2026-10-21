@@ -37,12 +37,12 @@
     ]
   },
   {
-    "title": "AIO Panel 17.0.0 — aktualizacja",
-    "desc": "Nowe wtyczki, dodatki i skórki, weryfikacja list kanałów oraz usprawnione aktualizacje i instalatory. Interfejs PL/EN, Python 2.7 i Python 3.",
+    "title": "AIO Panel 17.0.1 — aktualizacja",
+    "desc": "Wybór piconów 13E / 19.2E, Obsidian FHD, aktualne kody QR, poprawiony changelog i instalatory IPK / DEB.",
     "url": "plugin-aio-panel.html",
     "tags": [
       "AIO Panel",
-      "17.0.0",
+      "17.0.1",
       "Enigma2",
       "listy kanałów",
       "skórki",
