@@ -120,6 +120,3 @@
  const overviewObserver=new MutationObserver(()=>enhanceOverview());
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{boot();overviewObserver.observe(document.body,{subtree:true,childList:true});},{once:true});else{boot();overviewObserver.observe(document.body,{subtree:true,childList:true});}
 })();
-
-/* AIO Security Control V5 */
-(()=>{const s=document.createElement('script');s.src='/assets/js/aio-owner-security-v5.js?v=20261021-v5';s.defer=true;document.head.append(s);const c=document.createElement('link');c.rel='stylesheet';c.href='/assets/css/aio-owner-security-v5.css?v=20261021-v5';document.head.append(c);})();

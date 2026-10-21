@@ -61,5 +61,3 @@
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>void init(),{once:true});else void init();
 })();
-/* Owner security v4: lazy UI extension; original journal logic preserved. */
-(()=>{const s=document.createElement('script');s.src='/assets/js/aio-owner-security-v4.js?v=20261021-owner-v4';s.defer=true;document.head.append(s);})();

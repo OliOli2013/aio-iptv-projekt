@@ -26,3 +26,19 @@
 
 /manifest.json
   Cache-Control: public, max-age=86400
+
+# AIO Security Control: owner UI must revalidate after code releases.
+/konto.html
+  Cache-Control: no-store
+
+/assets/js/aio-security-journal-v1.js
+  Cache-Control: no-cache, must-revalidate
+
+/assets/js/aio-owner-security-v4.js
+  Cache-Control: no-cache, must-revalidate
+
+/assets/js/aio-owner-security-v5.js
+  Cache-Control: no-cache, must-revalidate
+
+/assets/css/aio-owner-security-v5.css
+  Cache-Control: no-cache, must-revalidate
