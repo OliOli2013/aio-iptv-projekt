@@ -13,6 +13,7 @@
    {id:'approvals',name:'Zgłoszenia wsparcia',icon:'♡',desc:'Sprawdź deklaracje wpłat i podejmij decyzję',target:'approvals',tags:'płatność kawa buycoffee revolut ko-fi',stat:'support'},
    {id:'pending',name:'Posty do zatwierdzenia',icon:'▤',desc:'Moderacja nowych wpisów',target:'pending',tags:'wpisy publikowanie',stat:'posts'},
    {id:'inbox',name:'Skrzynka AIO',icon:'✉',desc:'Wiadomości i korespondencja',target:'inbox',tags:'kontakt odpowiedzi skrzynka',stat:'inbox'},
+    {id:'admin-messages',name:'Wiadomości do użytkowników',icon:'✉',desc:'Wysyłaj wiadomości do konta lub wszystkich użytkowników',native:'aio-admin-messages',tags:'wysyłka poczta wiadomość prywatna komunikat ogłoszenie koperta konto'},
    {id:'reports',name:'Zgłoszenia naruszeń',icon:'⚑',desc:'Zgłoszenia społeczności i decyzje',target:'reports',tags:'skargi raporty',stat:'reports'},
    {id:'resets',name:'Reset haseł',icon:'⚿',desc:'Prośby o odzyskanie konta',target:'password-resets',tags:'reset kod hasło',stat:'resets'},
    {id:'lists',name:'Moderacja list ZIP',icon:'▦',desc:'Wnioski o publikację i aktualizacje',url:'/aio-list-upload.html#aluAdmin',tags:'kanały enigma2 lista bukiety upload',stat:'lists'}
@@ -53,9 +54,9 @@
  const ICON={dashboard:'⌂'};
  const baseLink=(item)=>item.target?('/community-admin.html?aio_section='+encodeURIComponent(item.target)):(item.url||('/owner-hub#'+item.native));
  const renderLink=(item,wide=false)=>`<button type="button" class="aop-shortcut ${wide?'aop-shortcut-wide':''}" data-aop-go="${esc(item.id)}"><span class="aop-shortcut-icon" aria-hidden="true">${esc(item.icon)}</span><span class="aop-shortcut-copy"><strong>${esc(item.name)}</strong><small>${esc(item.desc)}</small></span><span aria-hidden="true" class="aop-shortcut-arrow">→</span></button>`;
- const important=['approvals','pending','inbox','users','vip','security-journal'];
+ const important=['approvals','pending','inbox','admin-messages','users','vip','security-journal'];
  function changeHash(id){try{history.pushState({aop:id},'',location.pathname+location.search+'#panel='+encodeURIComponent(id));}catch(_){/* Keep module usable if history is disabled. */}}
- function parseHash(){const value=location.hash;if(value==='#aio-security-journal')return 'security-journal';if(value==='#aio-post-links-history')return 'post-links';if(value.startsWith('#panel='))return decodeURIComponent(value.slice(7));return 'dashboard';}
+ function parseHash(){const value=location.hash;if(value==='#aio-security-journal')return 'security-journal';if(value==='#aio-post-links-history')return 'post-links';if(value==='#aio-admin-messages')return 'admin-messages';if(value.startsWith('#panel='))return decodeURIComponent(value.slice(7));return 'dashboard';}
  function validate(id){return id==='dashboard'||byId.has(id)?id:'dashboard';}
  function setPin(id){if(pinned.includes(id))pinned=pinned.filter(x=>x!==id);else pinned=[id,...pinned].slice(0,10);try{localStorage.setItem('aio_owner_v3_pins',JSON.stringify(pinned));}catch(_){}if(active==='dashboard')drawDashboard();updatePin();}
  function updatePin(){const b=$('aop-pin');if(!b)return;b.hidden=active==='dashboard';b.textContent=pinned.includes(active)?'★ Przypięto':'☆ Przypnij';b.setAttribute('aria-label',pinned.includes(active)?'Usuń ze skrótów':'Przypnij w skrótach');}
@@ -115,8 +116,31 @@
    frame.src=frameUrl+(item.target==='users'&&pendingAccountSearch?'&aio_user='+encodeURIComponent(pendingAccountSearch):'');
    pendingAccountSearch='';
  }
- function mountNative(item){stopFrame();$('aop-embedded').hidden=true;const mount=$('aop-native');mount.hidden=false;mount.replaceChildren();const node=$(item.native);if(node)mount.append(node);else mount.append(make('p','aop-loading','Ładuję dane modułu…'));}
- function syncNative(){if(!loaded)return;const ids=['aio-security-journal','aio-post-links-history'];for(const id of ids){const n=$(id);if(n && !n.closest('#aop-native') && document.documentElement.dataset.aopV3==='ready'){n.hidden=true;}}if(active!=='dashboard'&&byId.get(active)?.native){const item=byId.get(active);const node=$(item.native),mount=$('aop-native');if(node&&!mount.contains(node)){node.hidden=false;mount.replaceChildren();mount.append(node);}}}
+ function mountNative(item){
+    stopFrame();$('aop-embedded').hidden=true;
+    const mount=$('aop-native'),home=document.querySelector('.oh-content');
+    if(!mount||!home)return;
+    // Preserve existing native modules and listeners while switching owner tabs.
+    for(const child of [...mount.children]){
+      if(['aio-security-journal','aio-post-links-history','aio-admin-messages'].includes(child.id)){
+        child.hidden=true;home.appendChild(child);
+      }else child.remove();
+    }
+    mount.hidden=false;
+    const node=$(item.native);
+    if(node){node.hidden=false;mount.append(node);}
+    else mount.append(make('p','aop-loading','Ładuję dane modułu…'));
+  }
+ function syncNative(){if(!loaded)return;
+    const ids=['aio-security-journal','aio-post-links-history','aio-admin-messages'];
+    for(const id of ids){const node=$(id);
+      if(node && !node.closest('#aop-native') && document.documentElement.dataset.aopV3==='ready')node.hidden=true;
+    }
+    if(active!=='dashboard'&&byId.get(active)?.native){
+      const item=byId.get(active),node=$(item.native),mount=$('aop-native');
+      if(node&&mount&&!mount.contains(node))mountNative(item);
+    }
+  }
  function navigate(id,historyChange=false){id=validate(id);if(historyChange)changeHash(id);last=active;active=id;const item=byId.get(id),desk=$('aop-dashboard'),work=$('aop-work'),title=$('aop-work-title'),desc=$('aop-work-desc'),external=$('aop-open'),crumb=$('aop-crumb');
    if(!desk||!work)return;
    desk.hidden=id!=='dashboard';work.hidden=id==='dashboard';hideFind();
@@ -151,3 +175,4 @@
   }catch(error){console.error('AIO Owner Desk V3: cannot initialize',String(error?.message||error));}}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>void init(),{once:true});else void init();
 })();
+/* AIO OWNER MESSAGES PANEL NAV FIX V1 */
