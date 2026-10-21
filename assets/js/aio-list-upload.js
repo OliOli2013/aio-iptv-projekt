@@ -1,3 +1,4 @@
+/* AIO OWNER LIST NO LIMIT V1 — owner messaging only; quotas are enforced server-side. */
 /* AIO List Upload — zachowuje sesję społeczności, nigdy nie uzyskuje tokenu GitHub. */
 (()=>{
   'use strict';
@@ -164,7 +165,7 @@
     try{
       const data=await call();
       me=data;
-      $('aluAccountStatus').textContent=!data.authenticated?'Tylko zalogowani użytkownicy Społeczności AIO mogą dodawać listy.':`Zalogowano jako: ${data.user.display_name}${data.account_email?' · '+data.account_email:''} · ${data.trusted_publisher?'Publikowanie samodzielne aktywne':'Pierwsza lista wymaga akceptacji'}`;
+      $('aluAccountStatus').textContent=!data.authenticated?'Tylko zalogowani użytkownicy Społeczności AIO mogą dodawać listy.':`Zalogowano jako: ${data.user.display_name}${data.account_email?' · '+data.account_email:''} · ${data.is_owner?'WŁAŚCICIEL: bez limitów liczby list i aktualizacji · publikacja bez akceptacji':(data.trusted_publisher?'Publikowanie samodzielne aktywne':'Pierwsza lista wymaga akceptacji')}`;
       $('aluLogin').hidden=!!data.authenticated;
       $('aluUploadCard').hidden=!data.authenticated||!!data.blocked;
       $('aluHistory').hidden=!data.authenticated;
@@ -173,6 +174,7 @@
       const target=$('aluHistoryList');target.replaceChildren();
       if(!data.items.length)box(target,'Nie masz jeszcze zgłoszeń.');
       for(const row of data.items)appendRow(target,row);
+      const ownerHint=$('aluOwnerUnlimited');if(ownerHint)ownerHint.hidden=!data.is_owner;
       $('aluAdmin').hidden=!data.is_owner;
       if(data.is_owner) await refreshAdmin();
     }catch(e){$('aluAccountStatus').textContent=e.message;$('aluUploadCard').hidden=true;}

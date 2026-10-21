@@ -37,15 +37,17 @@
       <div><h3>Najważniejsze zasady</h3><ul>
         <li>Nie umieszczaj <code>settings</code>, haseł, kluczy, skryptów ani danych logowania. Serwer pominie dodatkowe pliki, ale nie przesyłaj danych poufnych.</li>
         <li>Archiwum musi mieć prawidłowe CRC i bezpieczne ścieżki; nie może być zaszyfrowane.</li>
-        <li><strong>Trzy zestawy:</strong> Hot Bird 13°E, Hot Bird 13°E + Astra 19,2°E, Multi SAT (13°E + 19,2°E + kolejne satelity). Nie można mieć dwóch opublikowanych list w jednej kategorii.</li>
+        <li><strong>Trzy zestawy:</strong> Hot Bird 13°E, Hot Bird 13°E + Astra 19,2°E, Multi SAT (13°E + 19,2°E + kolejne satelity). Nie można mieć dwóch opublikowanych list w jednej kategorii (wyjątek: konto właściciela).</li>
         <li><strong>Aby zaktualizować listę, użyj przycisku „Aktualizuj ZIP” w sekcji „Moje listy”</strong>. Identyfikator i adres pobierania zostaną zachowane.</li>
-        <li>Limit: <strong>3 aktywne listy na konto, 3 zgłoszenia dziennie oraz 30 nowych wersji w 30 dni</strong>. Limit przypisany jest do konta, nie do IP.</li>
+        <li>Limit: <strong>3 aktywne listy na konto, 3 zgłoszenia dziennie oraz 30 nowych wersji w 30 dni</strong>. Limity dotyczą zwykłych kont, nie właściciela strony.</li>
         <li>Usunięcie własnej opublikowanej listy wycofuje ją z manifestu; nie usuwa pobranych kopii na tunerach.</li>
       </ul></div></div>
       <p class="alu-small">Walidacja struktury nie potwierdza, że wszystkie kanały odbierają sygnał ani że dostawca IPTV ma prawa do transmisji. Tylko pierwsza opublikowana lista wymaga zatwierdzenia przez administratora. Kolejne, w tym aktualizacje ZIP, są publikowane samodzielnie po sprawdzeniu. Administrator może zablokować konto.</p>
     </section>
     <section class="alu-card" id="aluAccount"><div class="alu-section-title"><div><h2>1. Konto użytkownika</h2><p id="aluAccountStatus">Sprawdzanie sesji…</p></div><button type="button" id="aluLogin" class="alu-button alu-primary" data-community-login hidden>Zaloguj się / utwórz konto</button></div><div id="aluBlocked" class="alu-error" role="alert" hidden></div></section>
     <section class="alu-card" id="aluUploadCard" hidden><div class="alu-section-title"><div><h2>2. Prześlij listę Enigma2</h2><p>ZIP do 12 MB. Własną listę możesz aktualizować, edytować i usuwać po zalogowaniu. Przy starszych listach administrator jednorazowo przypisuje adres e-mail konta.</p></div></div>
+      <!-- AIO OWNER LIST NO LIMIT V1 -->
+      <p id="aluOwnerUnlimited" class="alu-small" hidden><strong>✓ Konto właściciela:</strong> bez limitów 3 dziennie, 30 w 30 dni, liczby oczekujących zgłoszeń, aktywnych list i liczby list w jednym zestawie satelitarnym. Obowiązują nadal walidacja ZIP, maksymalny rozmiar 12 MB oraz zabezpieczenia przed duplikatami.</p>
       <div id="aluMode" class="alu-mode">Tryb: <strong>Nowa lista</strong> <button type="button" id="aluNewMode" class="alu-button" hidden>Wróć do dodawania nowej listy</button></div>
       <form id="aluForm" autocomplete="off"><input type="hidden" name="update_of" id="aluUpdateOf" value="">
         <div class="alu-grid"><label>Nazwa listy <input name="name" required minlength="5" maxlength="90" placeholder="np. JanKowalski Hot Bird 13E" /></label><label>Data aktualizacji <input name="version" type="date" required /></label></div>
@@ -54,8 +56,8 @@
         <label>Archiwum ZIP z plikami Enigma2 <input id="aluZip" type="file" name="file" accept=".zip,application/zip" required /></label>
         <label class="alu-check"><input name="legal" type="checkbox" value="1" required><span>Potwierdzam, że mam prawo udostępniać przesyłane materiały, nie umieszczam niedozwolonych transmisji ani cudzych haseł i akceptuję zasady moderacji.</span></label>
         <button id="aluSubmit" type="submit" class="alu-button alu-primary">Sprawdź ZIP i zgłoś listę</button>
-        <p class="alu-small"><strong>Uwaga:</strong> Wysłany ZIP może zawierać pliki dodatkowe, np. <code>settings</code>, <code>AIO_PANEL_ONLY.json</code> lub raporty TXT. Panel utworzy kopię publikacyjną wyłącznie z plikami Enigma2 potrzebnymi AIO Panel. Pliki dodatkowe będą pominięte, o czym poinformuje walidator. Twój oryginał na komputerze nie zostanie zmieniony. Pierwsza lista wymaga zatwierdzenia. Następne wymagają tylko kontroli ZIP i wolnej kategorii.</p>
-        <p class="alu-small">Każdy plik jest kontrolowany na serwerze. Limit jest przypisany do zalogowanego konta, niezależnie od adresu IP. Po pierwszym zatwierdzeniu kolejne listy są publikowane samodzielnie. Zajęta kategoria wymaga usunięcia poprzedniej listy.</p>
+        <p class="alu-small"><strong>Uwaga:</strong> Wysłany ZIP może zawierać pliki dodatkowe, np. <code>settings</code>, <code>AIO_PANEL_ONLY.json</code> lub raporty TXT. Panel utworzy kopię publikacyjną wyłącznie z plikami Enigma2 potrzebnymi AIO Panel. Pliki dodatkowe będą pominięte, o czym poinformuje walidator. Twój oryginał na komputerze nie zostanie zmieniony. Pierwsza lista wymaga zatwierdzenia. Następne wymagają tylko kontroli ZIP i wolnej kategorii (bez ograniczenia kategorii dla właściciela).</p>
+        <p class="alu-small">Każdy plik jest kontrolowany na serwerze. Limit jest przypisany do zalogowanego konta, niezależnie od adresu IP. Po pierwszym zatwierdzeniu kolejne listy są publikowane samodzielnie. Właściciel nie podlega limitom liczby zgłoszeń, aktualizacji ani zajętych kategorii.</p>
       </form>
       <div id="aluResult" aria-live="polite" hidden></div>
     </section>
@@ -82,7 +84,7 @@
   <footer class="alu-footer">AIO-IPTV.pl · <a href="channel-lists.html">Pobierz listy</a> · <a href="community-rules.html">Regulamin społeczności</a> · <a href="privacy-community.html">Prywatność</a></footer>
 </div>
 <script defer src="assets/js/community-core.js?v=20261017-ownerhub-v1"></script>
-<script defer src="assets/js/aio-list-upload.js?v=20261019-owners-v2"></script>
+<script defer src="assets/js/aio-list-upload.js?v=20261022-owner-list-unlimited-v1"></script>
 <script defer src="assets/js/aio-list-messages.js?v=20261015-4"></script>
 <script defer src="assets/js/aio-list-github-test.js?v=20261015-safe1"></script>
 </body></html>

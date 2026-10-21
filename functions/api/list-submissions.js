@@ -98,8 +98,10 @@ function publicRow(row, owner=false) {
     update_of:row.update_of||null,satellite_slot:row.satellite_slot||null,linked_legacy:row.source_type==='legacy',
     report:JSON.parse(row.report_json||'{}'),manifest_id:row.manifest_id};
 }
-async function ownList(env,userId) {
-  const rr=await env.COMMUNITY_DB.prepare('SELECT * FROM aio_list_submissions WHERE user_id=? ORDER BY created_at DESC LIMIT 50').bind(userId).all();
+async function ownList(env,userId,owner=false) {
+  // Owner may manage ALL their existing lists; other users keep the 50-row view.
+  const sql='SELECT * FROM aio_list_submissions WHERE user_id=? ORDER BY created_at DESC';
+  const rr=await env.COMMUNITY_DB.prepare(owner?sql:sql+' LIMIT 50').bind(userId).all();
   return (rr.results||[]).map(r=>publicRow(r));
 }
 async function isTrusted(env,userId){
@@ -141,16 +143,22 @@ async function userGet(request,env) {
         .map(x=>({id:x.id,name:String(x.name||''),author:String(x.author||''),version:String(x.version||''),url:String(x.url||''),
           can_link:!!safeArchivedUrl(x.url)&&snap.arr.filter(y=>y?.id===x.id).length===1}));
     } catch(e) {manifest_error='Nie można teraz pobrać katalogu GitHub. Zgłoszenia są dostępne.';}
-    return json({ok:true,authenticated:true,is_owner:true,items:(rr.results||[]).map(r=>publicRow(r,true)),blocks:bb.results||[],legacy,manifest_error,policy:{max_active:MAX_ACTIVE_LISTS,max_new_30d:MAX_NEW_LISTS_30_DAYS,slots:SLOT_LABELS}});
+    return json({ok:true,authenticated:true,is_owner:true,items:(rr.results||[]).map(r=>publicRow(r,true)),blocks:bb.results||[],legacy,manifest_error,policy:{max_active:null,max_new_30d:null,max_daily:null,max_pending:null,unlimited:true,slots:SLOT_LABELS}});
   }
   const account=await env.COMMUNITY_DB.prepare('SELECT email FROM community_auth WHERE user_id=?').bind(session.user.id).first();
   return json({ok:true,authenticated:true,is_owner:!!session.user.is_owner,user:session.user,account_email:account?.email||null,
-    blocked:blocked?.reason||null,items:await ownList(env,session.user.id),
-    trusted_publisher:await isTrusted(env,session.user.id),
-    policy:{max_active:MAX_ACTIVE_LISTS,max_new_30d:MAX_NEW_LISTS_30_DAYS,slots:SLOT_LABELS}});
+    blocked:blocked?.reason||null,items:await ownList(env,session.user.id,session.user.is_owner===true),
+    trusted_publisher:session.user.is_owner===true || await isTrusted(env,session.user.id),
+    policy:{max_active:session.user.is_owner===true?null:MAX_ACTIVE_LISTS,
+      max_new_30d:session.user.is_owner===true?null:MAX_NEW_LISTS_30_DAYS,
+      max_daily:session.user.is_owner===true?null:LIMIT_PER_DAY,
+      max_pending:session.user.is_owner===true?null:3,
+      unlimited:session.user.is_owner===true,slots:SLOT_LABELS}});
 }
 async function upload(request,env) {
   const s=await requireUser(request,env);
+  /* AIO OWNER LIST NO LIMIT V1: use server-verified owner flag, never client inputs. */
+  const ownerBypass=s.user.is_owner===true;
   // Nie przyjmuj nowych zgłoszeń, jeżeli nie można zapisać ich w skrzynce administratora.
   await ensureListInbox(env);
   if(await isBlocked(env,s.user.id)) throw httpError(403,'Administrator cofnął możliwość dodawania list na tym koncie.');
@@ -171,10 +179,12 @@ async function upload(request,env) {
   if(!/\.zip$/i.test(file.name) || file.size>AIO_ZIP_MAX_BYTES || file.size<22) throw httpError(413,'Obsługujemy wyłącznie pliki .zip do 12 MB.');
   const db=env.COMMUNITY_DB;
   const day=new Date().toISOString().slice(0,10);
-  const limit=await db.prepare("SELECT COUNT(*) AS n FROM aio_list_submissions WHERE user_id=? AND created_at>=? AND source_type!='legacy'").bind(s.user.id,day).first();
-  if(Number(limit?.n||0)>=LIMIT_PER_DAY) throw httpError(429,'Limit 3 nowych zgłoszeń dziennie. Spróbuj jutro.');
-  const pending=await db.prepare("SELECT COUNT(*) AS n FROM aio_list_submissions WHERE user_id=? AND status IN ('pending','publish_failed','publishing')").bind(s.user.id).first();
-  if(Number(pending?.n||0)>=3) throw httpError(429,'Masz już 3 nierozpatrzone zgłoszenia. Poczekaj na ocenę.');
+  if(!ownerBypass){
+    const limit=await db.prepare("SELECT COUNT(*) AS n FROM aio_list_submissions WHERE user_id=? AND created_at>=? AND source_type!='legacy'").bind(s.user.id,day).first();
+    if(Number(limit?.n||0)>=LIMIT_PER_DAY) throw httpError(429,'Limit 3 nowych zgłoszeń dziennie. Spróbuj jutro.');
+    const pending=await db.prepare("SELECT COUNT(*) AS n FROM aio_list_submissions WHERE user_id=? AND status IN ('pending','publish_failed','publishing')").bind(s.user.id).first();
+    if(Number(pending?.n||0)>=3) throw httpError(429,'Masz już 3 nierozpatrzone zgłoszenia. Poczekaj na ocenę.');
+  }
   const source=await file.arrayBuffer();
   const {report,cleanedBytes}=await prepareAioZip(source);
   if(!report.ok) return json({ok:false,validation:report,error:'Popraw wskazane błędy archiwum i prześlij je ponownie.'},422);
@@ -185,7 +195,7 @@ async function upload(request,env) {
     return json({ok:false,error:'Satelity wykryte w kanałach ZIP nie odpowiadają wybranej kategorii. Wybierz właściwy zestaw i prześlij pełną listę DVB.',validation:{...report,errors:[...(report.errors||[]),{code:'SATELLITE_SLOT',detail:'Wykryte pozycje: '+(report.satellites||[]).map(x=>(x/10).toFixed(1)+'°E').join(', ')+'. Dozwolone: 13°E, 13°E + 19,2°E, lub 13°E + 19,2°E + kolejne satelity.'}]}},422);
   }
   // New lists cannot occupy an existing slot; updates must point to the same owned base.
-  if(!base){
+  if(!base&&!ownerBypass){
     const occupied=await db.prepare(`SELECT name,satellite_slot FROM aio_list_submissions
       WHERE user_id=? AND update_of IS NULL AND status IN ('pending','publish_failed','publishing','published','removing','editing')
         AND (satellite_slot=? OR satellite_slot='') LIMIT 1`).bind(s.user.id,declaredSlot).first();
@@ -193,7 +203,7 @@ async function upload(request,env) {
       ? 'Masz już listę w tej kategorii: „'+occupied.name+'”. Użyj przy niej przycisku „Aktualizuj listę”, zamiast dodawać nową.'
       : 'Masz starszą listę bez kategorii. Zaktualizuj ją lub poproś administratora o przypisanie satelitów.');
   }
-  const trusted=await isTrusted(env,s.user.id);
+  const trusted=ownerBypass || await isTrusted(env,s.user.id);
   const bytes=cleanedBytes;
   const id=crypto.randomUUID(),r2Key=`aio-list-submissions/${s.user.id}/${id}.zip`, hash=await sha256(bytes);
   await env.COMMUNITY_MEDIA.put(r2Key,bytes,{httpMetadata:{contentType:'application/zip',cacheControl:'private, no-store'},customMetadata:{owner:s.user.id,kind:'aio-list-review'}});
@@ -209,13 +219,29 @@ async function upload(request,env) {
     const params=[id,s.user.id,name,description,version,cleanText(file.name,170),r2Key,bytes.byteLength,hash,JSON.stringify(report),isoNow(),base?.id||null,declaredSlot];
     let result;
     if(base){
+      if(ownerBypass){
+        // Ignore all numerical quotas, but protect an already-running update.
+        result=await db.prepare(`${common} WHERE
+          NOT EXISTS(SELECT 1 FROM aio_list_submissions WHERE update_of=? AND status IN ('pending','publish_failed','publishing'))
+          AND EXISTS(SELECT 1 FROM aio_list_submissions WHERE id=? AND user_id=? AND status='published')`)
+          .bind(...params,base.id,base.id,s.user.id).run();
+      }else{
       result=await db.prepare(`${common} WHERE
         (SELECT COUNT(*) FROM aio_list_submissions WHERE user_id=? AND created_at>=? AND source_type!='legacy')<?
         AND (SELECT COUNT(*) FROM aio_list_submissions WHERE user_id=? AND created_at>=? AND source_type!='legacy')<?
         AND NOT EXISTS(SELECT 1 FROM aio_list_submissions WHERE update_of=? AND status IN ('pending','publish_failed','publishing'))
         AND EXISTS(SELECT 1 FROM aio_list_submissions WHERE id=? AND user_id=? AND status='published')`)
         .bind(...params,s.user.id,day,LIMIT_PER_DAY,s.user.id,since30,MAX_NEW_LISTS_30_DAYS,base.id,base.id,s.user.id).run();
+      }
     }else{
+      if(ownerBypass){
+        // Same satellite slot may contain multiple DISTINCT lists on owner's account.
+        // Keep duplicate-name and cross-account archive checks to avoid conflicts.
+        result=await db.prepare(`${common} WHERE
+          NOT EXISTS(SELECT 1 FROM aio_list_submissions WHERE user_id=? AND update_of IS NULL AND name=? COLLATE NOCASE AND status IN ('pending','publish_failed','publishing','published','removing','editing'))
+          AND NOT EXISTS(SELECT 1 FROM aio_list_submissions WHERE zip_sha256=? AND user_id<>? AND status IN ('pending','published','publishing'))`)
+          .bind(...params,s.user.id,name,hash,s.user.id).run();
+      }else{
       result=await db.prepare(`${common} WHERE
         (SELECT COUNT(*) FROM aio_list_submissions WHERE user_id=? AND created_at>=? AND source_type!='legacy')<?
         AND (SELECT COUNT(*) FROM aio_list_submissions WHERE user_id=? AND status IN ('pending','publish_failed','publishing'))<3
@@ -225,13 +251,16 @@ async function upload(request,env) {
         AND NOT EXISTS(SELECT 1 FROM aio_list_submissions WHERE user_id=? AND update_of IS NULL AND name=? COLLATE NOCASE AND status IN ('pending','publish_failed','publishing','published','removing','editing'))
         AND NOT EXISTS(SELECT 1 FROM aio_list_submissions WHERE zip_sha256=? AND user_id<>? AND status IN ('pending','published','publishing'))`)
         .bind(...params,s.user.id,day,LIMIT_PER_DAY,s.user.id,s.user.id,MAX_ACTIVE_LISTS,s.user.id,since30,MAX_NEW_LISTS_30_DAYS,s.user.id,declaredSlot,s.user.id,name,hash,s.user.id).run();
+      }
     }
-    if(!result.meta?.changes)throw httpError(409,base?'Jest już aktywna aktualizacja tej listy lub przekroczono limit zgłoszeń.':'Limit kategorii, nazwy albo zgłoszeń. Użyj przycisku „Aktualizuj” przy istniejącej liście.');
+    if(!result.meta?.changes)throw httpError(409,ownerBypass
+      ?(base?'Trwa już aktualizacja tej listy. Zakończ ją przed kolejną.':'Istnieje już lista o tej nazwie albo identyczne archiwum innego autora.')
+      :(base?'Jest już aktywna aktualizacja tej listy lub przekroczono limit zgłoszeń.':'Limit kategorii, nazwy albo zgłoszeń. Użyj przycisku „Aktualizuj” przy istniejącej liście.'));
   }catch(e){await env.COMMUNITY_MEDIA.delete(r2Key).catch(()=>{});throw e;}
   if(trusted){
     try{
       const row=await db.prepare('SELECT * FROM aio_list_submissions WHERE id=?').bind(id).first();
-      const published=await publishSubmission(env,row,s.user.id,false);
+      const published=await publishSubmission(env,row,s.user.id,ownerBypass);
       return json({ok:true,id,status:'published',validation:report,message:published.message},201);
     }catch(e){
       // The row and safe R2 backup survive; author may retry without submitting another list.
@@ -526,7 +555,7 @@ async function adminPost(request,env,body) {
     const row=await env.COMMUNITY_DB.prepare("SELECT * FROM aio_list_submissions WHERE id=? AND user_id=? AND status='publish_failed'")
       .bind(body.id,user.user.id).first();
     if(!row)throw httpError(403,'Nie można ponowić tej publikacji.');
-    const result=await publishSubmission(env,row,user.user.id,false);
+    const result=await publishSubmission(env,row,user.user.id,user.user.is_owner===true);
     return json({ok:true,message:result.message});
   }
   if(action==='hide_legacy') return hideLegacy(request,env,body);

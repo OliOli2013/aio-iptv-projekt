@@ -28,15 +28,16 @@ def main():
     check('source_type' in api and 'NOT EXISTS' in api,'atomic conflict guards')
     check('name="satellite_slot" required' in h and 'account_email' in u,'session account e-mail and satellite slot in UI')
     check('beginUpdate(item)' in u and 'editDetailsOwn(item)' in u,'update ZIP and metadata buttons')
-    check('trusted_publisher:await isTrusted' in api and "if(manual)await db.prepare" in api,'trusted publisher approval retained')
+    check('trusted_publisher:session.user.is_owner===true || await isTrusted' in api and "if(manual)await db.prepare" in api,'trusted publisher approval retained')
     check('satellites,satellite_slot' in val and 'orbitalFromService(line)' in val,'server ZIP validation retained')
     # Real SQLite check of the exact INSERT...SELECT generated for both modes.
     common=re.search(r'const common=`(INSERT INTO aio_list_submissions.*?)`;',api,re.S)
     check(bool(common),'shared SQL INSERT is extractable')
     rest=api[common.end():]
     matches=[' WHERE'+m.group(1) for m in re.finditer(r'result=await db.prepare\(`\$\{common\} WHERE(.*?)`\)',rest,re.S)]
-    check(len(matches)==2,'both new and update SQL guards are extractable')
-    update_sql=common.group(1)+matches[0];new_sql=common.group(1)+matches[1]
+    check(len(matches)==4,'four owner and regular SQL guards are extractable')
+    owner_update_sql=common.group(1)+matches[0];update_sql=common.group(1)+matches[1]
+    owner_new_sql=common.group(1)+matches[2];new_sql=common.group(1)+matches[3]
     con=sqlite3.connect(':memory:')
     con.execute('''CREATE TABLE aio_list_submissions (id TEXT PRIMARY KEY,user_id TEXT,name TEXT,description TEXT,version TEXT,
       file_name TEXT,r2_key TEXT,file_size INTEGER,zip_sha256 TEXT,report_json TEXT,status TEXT,created_at TEXT,
@@ -64,6 +65,28 @@ def main():
     ok,third=insert('owner','hb13',base);check(ok==1,'third ZIP submission today accepted')
     con.execute("UPDATE aio_list_submissions SET status='applied' WHERE id=?",(third,))
     ok,_=insert('owner','hb13',base);check(ok==0,'daily quota remains in effect for ZIP updates')
+    # Owner's server-verified exemption: no daily, monthly, pending, or slot quotas.
+    # Same-name/cross-account duplicates and concurrent update protection remain.
+    owner_id='site_owner_test'
+    def owner_insert(base_id=None, forced_name=None, forced_hash=None):
+      nonlocal i
+      i+=1
+      name=forced_name or ('Owner unlimited list '+str(i))
+      digest=forced_hash or ('owner-zip-'+str(i))
+      values=[str(i),owner_id,name,'Opis listy testowej',day,'owner.zip','tmp',1234,digest,'{}',day+'T12:00:00Z',base_id,'hb13']
+      if base_id:
+        sql=owner_update_sql;args=values+[base_id,base_id,owner_id]
+      else:
+        sql=owner_new_sql;args=values+[owner_id,name,digest,owner_id]
+      check(sql.count('?')==len(args),'owner SQL bind parameters match')
+      ret=con.execute(sql,args);con.commit();return ret.rowcount,str(i),name
+    entries=[owner_insert() for _ in range(32)]
+    check(all(row[0]==1 for row in entries),'owner may create 32 lists in one category, beyond all quotas')
+    check(owner_insert(forced_name=entries[0][2])[0]==0,'owner duplicate list name is rejected')
+    check(owner_insert(forced_hash='hash-1')[0]==0,'owner cannot reuse another account archived ZIP')
+    con.execute("UPDATE aio_list_submissions SET status='published' WHERE id=?",(entries[0][1],))
+    check(owner_insert(base_id=entries[0][1])[0]==1,'owner can update after daily and monthly quotas')
+    check(owner_insert(base_id=entries[0][1])[0]==0,'owner cannot concurrently update same list')
     # Historical linking is an INSERT...SELECT tied to an authenticated account ID.
     section=api[api.index('async function assignHistorical'):api.index('async function editOwnDetails')]
     sql_match=re.search(r'const result=await db.prepare\(`(INSERT INTO aio_list_submissions.*?)`\)',section,re.S)
