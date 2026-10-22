@@ -1,0 +1,26 @@
+/* AIO Owner Post Contact V1: restricted to owner moderation page. */
+.aopc-contact{border-color:#55b7d6!important;background:#174b61!important;color:#f4fdff!important}
+.aopc-contact:hover,.aopc-contact:focus-visible{background:#196680!important}
+.community-admin-item-head .aopc-identity{font-size:.78rem;line-height:1.55;color:#aed8e6;margin-top:7px;overflow-wrap:anywhere;max-width:100%;font-weight:400}
+.aopc-identity code,.aopc-recipient code{font:600 .74rem/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;color:#a4eefa;overflow-wrap:anywhere}
+.aopc-sent-note{padding:8px 10px;border-left:3px solid #59d9a2;color:#b0efcc;font-size:.85rem}
+.aopc-dialog{width:min(660px,calc(100vw - 26px));max-height:min(88vh,800px);padding:0;border:1px solid #469bb8;border-radius:16px;background:#09283b;color:#f5fbff;box-shadow:0 24px 80px #0009;overflow:auto;color-scheme:dark;z-index:10000}
+.aopc-dialog::backdrop{background:#00131bbd;backdrop-filter:blur(3px)}
+.aopc-dialog .aopc-sheet{padding:clamp(16px,3vw,26px)}
+.aopc-heading{position:relative;padding-right:36px;margin-bottom:16px}
+.aopc-heading h2{color:#fff;font-size:1.25rem;margin:6px 0 12px}
+.aopc-kicker{color:#85d9ec;font-size:.72rem;font-weight:800;letter-spacing:.08em;margin:0}
+.aopc-recipient{color:#cce8f2;overflow-wrap:anywhere;line-height:1.5;margin:0}
+.aopc-recipient strong{color:#fff}
+.aopc-close{position:absolute;right:0;top:0;width:34px;height:34px;border-radius:8px;border:1px solid #487f94;background:#0b394c;color:white;cursor:pointer}
+.aopc-form{display:grid;gap:13px}
+.aopc-form label{display:grid;gap:6px;color:#e7f7fc;font-size:.88rem;font-weight:700}
+.aopc-input{box-sizing:border-box;width:100%;padding:10px 12px;border-radius:9px;border:1px solid #5c9ab2;background:#061e2d;color:#fff;font:inherit;min-height:41px;outline-offset:3px}
+.aopc-body{resize:vertical;min-height:150px;line-height:1.5}
+.aopc-help{color:#b5d3de;font-size:.8rem;line-height:1.5;margin:0}
+.aopc-status{color:#aaf1d2;font-size:.85rem;min-height:19px;margin:0}.aopc-status.aopc-error{color:#ffc0b3}
+.aopc-controls{display:flex;justify-content:flex-end;gap:9px;flex-wrap:wrap}
+.aopc-controls button{padding:10px 15px;border-radius:9px;border:1px solid #579eb7;color:#fff;background:#1a4d61;font-family:inherit;font-size:.85rem;font-weight:700;line-height:1.2;cursor:pointer;min-height:40px}
+.aopc-controls button.aopc-primary{background:#087d99;border-color:#7bd7ed}
+.aopc-controls button:disabled{cursor:not-allowed;opacity:.5}
+@media(max-width:650px){.aopc-dialog{width:calc(100vw - 16px);max-height:94vh}.aopc-dialog .aopc-sheet{padding:13px}.aopc-controls{display:grid;grid-template-columns:1fr 1fr}.aopc-controls button{padding:10px 7px}}
