@@ -189,6 +189,7 @@
             <button class="community-dialog-close" type="button" aria-label="Zamknij">✕</button>
             <p class="eyebrow">Społeczność AIO • Cloudflare</p>
             <h2>Zaloguj się lub utwórz konto</h2>
+            <div data-aio-auth-error role="alert" aria-live="assertive" hidden style="background:#53272d;color:#fff0f0;border:2px solid #ff9191;border-radius:10px;padding:15px;margin:14px 0;font-size:15px;line-height:1.5;white-space:pre-wrap;font-weight:600;"></div>
             <p data-aio-auth-message class="community-side-note">Konto działa już na Cloudflare. Hasło musi mieć co najmniej 10 znaków.</p>
             <div class="community-field"><label>E-mail</label><input type="email" name="email" required autocomplete="email"></div>
             <div class="community-field"><label>Hasło</label><input type="password" name="password" required minlength="10" autocomplete="current-password"></div>
@@ -236,6 +237,8 @@
         form.addEventListener('submit',async e=>{
           e.preventDefault();
           const button=submit;button.disabled=true;
+          const errorBox=dialog.querySelector('[data-aio-auth-error]');
+          errorBox.hidden=true;errorBox.textContent='';
           try{
             const email=form.email.value.trim(), password=form.password.value;
             const d=await this.auth(register?'register':'login',{
@@ -257,10 +260,17 @@
             dialog.close();form.reset();
             document.dispatchEvent(new CustomEvent('aio-community-auth',{detail:{user:this.user,profile:this.profile}}));
             this.showToast(d.user?.is_owner?'Zalogowano jako właściciel / administrator AIO.':'Zalogowano.','success');
-          }catch(err){this.showToast(this.friendlyError(err),'error');}
+          }catch(err){
+            // Toasts live BEHIND <dialog>: put the actual server reason inside
+            // the login modal so the user sees the block and appeal link.
+            errorBox.textContent=this.friendlyError(err)+'\n\nJeśli potrzebujesz wyjaśnienia, napisz do administratora przez /contact.html?topic=account-security';
+            errorBox.hidden=false;errorBox.scrollIntoView({block:'nearest',behavior:'auto'});
+          }
           finally{button.disabled=false;}
         });
       }
+      const errBox=dialog.querySelector('[data-aio-auth-error]');
+      if(errBox){errBox.hidden=true;errBox.textContent='';}
       const msg=dialog.querySelector('[data-aio-auth-message]');
       if(msg&&message)msg.textContent=message;
       if(typeof dialog.showModal==='function')dialog.showModal();else dialog.setAttribute('open','');

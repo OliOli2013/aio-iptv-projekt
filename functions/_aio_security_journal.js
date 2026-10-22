@@ -3,6 +3,8 @@
  * Shared household IP is NOT sufficient to ban an account or an IP globally.
  */
 import {sha256,clientIp,isOwnerId} from './_community.js';
+import {isIpPolicyExemptV8} from './_aio_ip_policy_exempt_v8.js';
+import {isApprovedOnCurrentIp} from './_aio_ip_one_account_v7.js';
 let ready;
 const HOLD_MS=24*60*60*1000;
 function iso(){return new Date().toISOString();}
@@ -64,20 +66,25 @@ export async function logSecurity(env,request,event,userId=null,detail=''){
 export async function activeSharedHold(env,request,userId){
   if(!userId)return null;
   await ensureSecurityJournal(env);
-  // Restriction follows the second account even if it changes its network.
-  // Otherwise switching to a mobile network would instantly bypass the hold.
+  // Paid/VIP suspicious sharing remains account-wide, never tied to only one IP.
   const paid=await env.COMMUNITY_DB.prepare(`SELECT id,created_at,expires_at FROM aio_security_paid_holds
     WHERE user_id=? AND status='active' AND expires_at>? LIMIT 1`).bind(userId,iso()).first();
   if(paid)return {id:paid.id,kind:'paid',expires_at:paid.expires_at,
     message:'Wykryto jednoczesne korzystanie z płatnego konta AIO w różnych sieciach i na różnych urządzeniach. Pobieranie zostało wstrzymane na czas weryfikacji. Jeżeli to Twoje urządzenia, wyjaśnij sytuację przez formularz Kontakt z administratorem: /contact.html.'};
+  // Legacy shared-IP restrictions are network-scoped. Test accounts and
+  // owner-approved users cannot be held for the same connection alone.
+  if(isIpPolicyExemptV8(userId,env))return null;
+  const fingerprint=await ipFingerprint(request);
+  if(!fingerprint)return null;
   const row=await env.COMMUNITY_DB.prepare(`SELECT id,created_at,expires_at FROM aio_security_shared_holds
-    WHERE user_id=? AND status='active' AND expires_at>? ORDER BY expires_at DESC LIMIT 1`)
-    .bind(userId,iso()).first();
+    WHERE user_id=? AND ip_fingerprint=? AND status='active' AND expires_at>? ORDER BY expires_at DESC LIMIT 1`)
+    .bind(userId,fingerprint,iso()).first();
+  if(row && await isApprovedOnCurrentIp(env,request,userId))return null;
   return row?{id:row.id,expires_at:row.expires_at,message:'Wykryto korzystanie z tego samego połączenia przez inne konto AIO. Dla bezpieczeństwa pobieranie z tego konta jest czasowo wstrzymane. Skontaktuj się z administratorem; pozostałe funkcje konta działają.'}:null;
 }
 export async function reviewSharedIpAtLogin(env,request,userId,role='user'){
   // This check runs only after successful authenticated register/login.
-  if(!userId || role==='admin' || await isOwnerId(env,userId,role))return null;
+  if(!userId || role==='admin' || isIpPolicyExemptV8(userId,env) || await isOwnerId(env,userId,role) || await isApprovedOnCurrentIp(env,request,userId))return null;
   const ip=clientIp(request);
   if(!ip)return null;
   await ensureSecurityJournal(env);

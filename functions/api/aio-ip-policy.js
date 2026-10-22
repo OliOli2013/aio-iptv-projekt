@@ -12,7 +12,7 @@ export async function onRequestGet({request,env}){
     const url=new URL(request.url),offset=Math.min(100000,Math.max(0,Number.parseInt(url.searchParams.get('offset')||'0',10)||0));
     const db=env.COMMUNITY_DB,groups=await listCollisionGroups(env,{offset,limit:5});
     const holds=await db.prepare(`SELECT h.user_id,p.display_name,COALESCE(a.email,'') email,h.ip_key,h.reason,
-      h.status,h.created_at,h.released_at,h.released_by FROM aio_ip_policy_holds h
+      h.status,h.created_at,h.released_at,h.released_by FROM aio_ip_policy_holds_v8 h
       LEFT JOIN community_profiles p ON p.id=h.user_id LEFT JOIN community_auth a ON a.user_id=h.user_id
       WHERE h.status='active' ORDER BY h.created_at DESC LIMIT 300`).all();
     return respond({ok:true,offset,groups:groups.groups,has_more:groups.has_more,holds:holds.results||[],
@@ -36,7 +36,7 @@ export async function onRequestPost({request,env}){
     if(action==='approve_user'){
       if(!validId(data.user_id))invalid(400,'Nieprawidłowe ID konta.');
       if(reason.length<10)invalid(400,'Podaj przyczynę zatwierdzenia (minimum 10 znaków).');
-      const hold=await env.COMMUNITY_DB.prepare("SELECT ip_key FROM aio_ip_policy_holds WHERE user_id=? AND ip_key=? AND status='active'").bind(data.user_id,key).first();
+      const hold=await env.COMMUNITY_DB.prepare("SELECT ip_key FROM aio_ip_policy_holds_v8 WHERE user_id=? AND ip_key=? AND status='active'").bind(data.user_id,key).first();
       if(!hold)invalid(409,'Brak aktywnej blokady dla tego konta i IP.');
       await grantException(env,key,data.user_id,owner.user.id,reason);
       await moderationLog(env,owner.user.id,{targetUserId:data.user_id,targetType:'user',targetId:data.user_id,action:'ip_policy_exception_approved',reason});

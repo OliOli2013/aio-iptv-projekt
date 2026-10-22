@@ -236,7 +236,7 @@ export async function getSession(request, env, {touch=true,allowUnverified=false
   const profile = publicProfile(row);
   profile.is_owner = await isOwnerId(env, profile.id, profile.role);
   if(!profile.is_owner){
-    const ipHold=await activeIpHold(env,profile.id);
+    const ipHold=await activeIpHold(env,profile.id,request);
     if(ipHold){profile.ban_reason=ipHold.reason;return {banned:true,tokenHash,user:profile,ip_policy:true};}
   }
   if(!allowUnverified){

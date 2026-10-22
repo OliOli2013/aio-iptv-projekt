@@ -7,13 +7,16 @@
  async function action(x){if(busy)return;busy=true;status('Zapisywanie decyzji…');try{const data=await req({method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({...x,confirm:true})});status(data.message);await refresh();}catch(e){status(e.message,true)}finally{busy=false}}
  const local=x=>x?new Date(x).toLocaleString('pl-PL'):'—';
  function render(){const root=$('ip7-groups');root.replaceChildren();
-  $('ip7-summary').textContent=`Grupy na tej stronie wyników: ${groups.length} • Konta objęte blokadą: ${holds.length}`;
+  $('ip7-summary').textContent=`Historyczne sieci na tej stronie: ${groups.length} • Dodatkowe konta wymagające decyzji: ${groups.reduce((n,g)=>n+(g.pending||0),0)} • Aktywne blokady: ${holds.length}`;
   if(!groups.length)root.append(el('p','Nie znaleziono kolejnych grup o wspólnym IP.'));
   for(const group of groups){const card=el('article',undefined,'ip7-card');card.append(el('h3','Sieć '+group.ip_masked+' • '+group.accounts.length+' kont'));
    card.append(el('p','Ostatnia aktywność: '+local(group.last_seen)));
-   const ul=el('ul');for(const u of group.accounts){const li=el('li',(u.name||'Konto')+' • ID: '+u.id+(u.owner?' • WŁAŚCICIEL':u.primary?' • podstawowe':' • dodatkowe')+(u.blocked?' • ZABLOKOWANE':'')+(u.approved?' • WYJĄTEK':''));ul.append(li);}card.append(ul);
-   const btn=el('button','⛔ Zablokuj dodatkowe konta','ip7-danger');btn.type='button';btn.onclick=()=>{if(confirm('Zablokować bezterminowo dodatkowe konta z tego IP? Konto właściciela i jedno konto podstawowe są chronione.'))void action({action:'apply_group',ip_key:group.ip_key,ip:group.ip});};card.append(btn);
-   const allow=el('button','✓ Zgoda na 1 nową rejestrację');allow.type='button';allow.onclick=()=>{const reason=prompt('Uzasadnienie zgody (minimum 10 znaków):','');if(reason&&reason.trim().length>=10&&confirm('Zezwolić na JEDNĄ dodatkową rejestrację z tej sieci?'))void action({action:'allow_next',ip_key:group.ip_key,ip:group.ip,reason});};card.append(allow);root.append(card);
+   const ul=el('ul');for(const u of group.accounts){const li=el('li',(u.name||'Konto')+' • ID: '+u.id+(u.owner?' • WŁAŚCICIEL':u.protected?' • WYJĄTEK TESTOWY':u.primary?' • podstawowe':' • dodatkowe')+(u.blocked?' • ZABLOKOWANE NA TYM IP':'')+(u.approved?' • ZGODA WŁAŚCICIELA':''));ul.append(li);}card.append(ul);
+   const pending=Number(group.pending||0);card.append(el('p',pending>0?'Do decyzji: '+pending+' aktywne dodatkowe konto/a.':'Brak nowych kont do zablokowania. Historyczne powiązania IP pozostają zapisane do audytu.'));
+   card.append(el('p','Zgody na przyszłe rejestracje: '+Number(group.signup_permits||0)));
+   const btn=el('button',pending?'⛔ Zablokuj '+pending+' dodatkowe konto/a':'✓ Rozpatrzone','ip7-danger');btn.type='button';btn.disabled=!pending;
+   btn.onclick=()=>{if(confirm('Zablokować dodatkowe konta na TYM IP? Konto główne, właściciel, Klos i Beata będą chronione.'))void action({action:'apply_group',ip_key:group.ip_key,ip:group.ip});};card.append(btn);
+   const allow=el('button','+ Zezwól na JEDNĄ PRZYSZŁĄ rejestrację');allow.type='button';allow.title='Nie odblokowuje istniejących kont ani nie usuwa historii IP.';allow.onclick=()=>{const reason=prompt('Uzasadnienie zgody na przyszłą rejestrację (minimum 10 znaków):','');if(reason&&reason.trim().length>=10&&confirm('Zezwolić na jedną NOWĄ rejestrację? Dotychczasowe konta i historia pozostaną bez zmian.'))void action({action:'allow_next',ip_key:group.ip_key,ip:group.ip,reason});};card.append(allow);root.append(card);
   }
   $('ip7-next').hidden=!hasMore;
   const list=$('ip7-holds');list.replaceChildren();if(!holds.length)list.append(el('p','Brak aktywnych blokad polityki IP.'));
@@ -24,10 +27,11 @@
  }
  async function refresh(){try{const d=await req();offset=0;groups=d.groups||[];holds=d.holds||[];hasMore=!!d.has_more;render();status('Odczyt D1: '+local(new Date().toISOString()));}catch(e){status(e.message,true)}}
  $('ip7-bulk').onclick=async()=>{
-   if(busy||!groups.length)return;
-   if(!confirm('Zablokować dodatkowe konta WSZYSTKICH '+groups.length+' grup na tej stronie? To działanie może objąć osoby korzystające z sieci współdzielonych.'))return;
+   const pendingGroups=groups.filter(g=>Number(g.pending||0)>0);
+   if(busy||!pendingGroups.length){status('Nie ma na tej stronie dodatkowych kont wymagających blokady.');return;}
+   if(!confirm('Zablokować dodatkowe konta w '+pendingGroups.length+' nierozpatrzonych sieciach? Konta właściciela, Klos i Beata są chronione.'))return;
    busy=true;let ok=0,errors=0;
-   try{for(const group of groups){try{const d=await req({method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({action:'apply_group',ip_key:group.ip_key,ip:group.ip,confirm:true})});ok+=Number(d.held||0);}catch(e){errors++;}status('Przetworzono grupy. Nowe blokady: '+ok+'. Błędy: '+errors+'.');}
+   try{for(const group of pendingGroups){try{const d=await req({method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({action:'apply_group',ip_key:group.ip_key,ip:group.ip,confirm:true})});ok+=Number(d.held||0);}catch(e){errors++;}status('Przetworzono grupy. Nowe blokady: '+ok+'. Błędy: '+errors+'.');}
      await refresh();status('Zapisano blokady: '+ok+'. Grupy wymagające dodatkowej weryfikacji: '+errors,errors>0);
    }finally{busy=false;}
  };
