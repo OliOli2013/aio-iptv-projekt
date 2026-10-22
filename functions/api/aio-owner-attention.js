@@ -2,6 +2,7 @@
  * No payout is marked verified by this endpoint; it does not alter business status.
  */
 import {requireAdmin} from '../_community.js';
+import {ensureV6} from '../_aio_security_v6.js';
 
 const HEADERS = {
   'content-type':'application/json; charset=utf-8',
@@ -75,10 +76,16 @@ const DEFINITIONS = [
   }
 ];
 
+DEFINITIONS.push({id:'v6-blocks',title:'Nowe blokady Security V6',
+  detail:'Automatyczne lub ręczne blokady wymagające przeglądu.',
+  href:'/owner-hub#panel=v6-blocks',icon:'⛨',priority:'high',
+  sql:"SELECT COUNT(*) n,MAX(created_at) latest FROM aio_v6_blocks WHERE status='active' AND expires_at>? AND reviewed_at IS NULL",
+  params:now=>[now]});
 export async function onRequestGet({request,env}){
   try{
     // Validates the CURRENT session and the configured owner ID server-side.
     await requireAdmin(request,env,true);
+    await ensureV6(env);
     const db=env.COMMUNITY_DB;
     if(!db)return response({ok:false,error:'Baza danych niedostępna.'},503);
     const now=new Date().toISOString();

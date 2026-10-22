@@ -4,6 +4,7 @@
  */
 import {requireAdmin} from '../_community.js';
 import {ensureSecurityJournal} from '../_aio_security_journal.js';
+import {cleanupV6} from '../_aio_security_v6.js';
 import {ensureEmailBlockTable} from '../_aio_email_blocks.js';
 
 const HEAD={'cache-control':'private, no-store','x-content-type-options':'nosniff'};
@@ -109,6 +110,7 @@ export async function onRequestGet({request,env}){
     await requireAdmin(request,env,true);
     await ensureSecurityJournal(env);
     await ensureEmailBlockTable(env);
+    await cleanupV6(env); // Opportunistic expiry cleanup; no scheduled background work.
     const url=new URL(request.url),kind=url.searchParams.get('kind')||'accounts',format=url.searchParams.get('format')||'json';
     if(!queries[kind]||!['json','csv'].includes(format))return json({ok:false,error:'Nieznany zakres eksportu.'},400);
     const now=NOW(),db=env.COMMUNITY_DB,offset=safeInt(url.searchParams.get('offset'),100000);

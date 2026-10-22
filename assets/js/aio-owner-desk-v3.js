@@ -26,6 +26,7 @@
    {id:'ip',name:'Blokady adresów IP',icon:'⛨',desc:'Adresy z ograniczeniami i zwalnianie blokad',target:'ip',tags:'ban sieć blokada'}
   ]},
   {id:'security',name:'Bezpieczeństwo',icon:'⬡',items:[
+   {id:'v6-blocks',name:'Security V6 — zablokowane konta',icon:'⛔',desc:'Automatyczne blokady, odwołania i ręczne decyzje',url:'/aio-security-v6.html',tags:'v6 bot skrypt ban blokady nadużycia odwołania'},
    {id:'security-journal',name:'Dziennik bezpieczeństwa',icon:'⬡',desc:'Wspólne IP, udostępniane konta i decyzje',native:'aio-security-journal',tags:'logowania alerty blokady wspólne ip vip'},
    {id:'security',name:'Ochrona administratora',icon:'⛨',desc:'Uprawnienia, dostęp właściciela i kontrole',target:'security',tags:'administracja bezpieczeństwo'},
    {id:'logs',name:'Dziennik administracyjny',icon:'≡',desc:'Historia operacji na kontach i treściach',target:'logs',tags:'moderacja audyt log'}

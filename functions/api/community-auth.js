@@ -342,7 +342,7 @@ export async function onRequestPost({request, env}) {
     }
     if (auth.banned_until && Date.parse(auth.banned_until) > Date.now()) {
       await logSecurity(env,request,"login_throttled",auth.user_id,"Konto zablokowane");
-      return json({ok:false,error:"Konto jest zablokowane."}, 403);
+      return json({ok:false,error:"Konto zostało zablokowane. Jeśli uważasz to za pomyłkę, skontaktuj się z administracją: /contact.html"}, 403);
     }
 
     await clearAttempt(env, throttleKey);

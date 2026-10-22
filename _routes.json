@@ -1,12 +1,19 @@
 {
   "version": 1,
   "include": [
-    "/api/*",
-    "/pliki/*",
-    "/owner-hub",
-    "/post",
-    "/post.html",
-    "/sitemap-posts"
+    "/*"
   ],
-  "exclude": []
+  "exclude": [
+    "/assets/*",
+    "/data/*",
+    "/fonts/*",
+    "/images/*",
+    "/icons/*",
+    "/favicon.ico",
+    "/manifest.json",
+    "/robots.txt",
+    "/sitemap.xml",
+    "/service-worker.js",
+    "/sw.js"
+  ]
 }
