@@ -16,6 +16,7 @@ import {
 } from "../_community.js";
 import {emailSendingReady,sendVerificationEmail,emailVerificationStatus} from "../_aio_email_verification.js";
 import {logSecurity,reviewSharedIpAtLogin,activeSharedHold,reviewPaidSessionSharing} from "../_aio_security_journal.js";
+import {reserveRegistrationIp,rollbackRegistrationIp,permitRegistrationStatement,checkAfterValidLogin} from '../_aio_ip_one_account_v7.js';
 import {getStatus} from "../_aio_account_access.js";
 
 function validPassword(p) {
@@ -286,7 +287,9 @@ export async function onRequestPost({request, env}) {
       if (displayName.length < 2) return json({ok:false,error:"Nazwa użytkownika jest za krótka."}, 400);
 
       const pw = await hashPassword(password);
-      await db.batch([
+      // Hard gate before creating an account: prevents multiple registrations on one IP.
+      const lease = await reserveRegistrationIp(env,request,id);
+      try{await db.batch([
         db.prepare(`
           INSERT INTO community_profiles
           (id,email,display_name,role,trusted,created_at,updated_at)
@@ -296,8 +299,9 @@ export async function onRequestPost({request, env}) {
           INSERT INTO community_auth
           (user_id,email,password_hash,password_salt,password_iterations,created_at)
           VALUES(?,?,?,?,?,?)
-        `).bind(id,email,pw.hash,pw.salt,pw.iterations,isoNow())
-      ]);
+        `).bind(id,email,pw.hash,pw.salt,pw.iterations,isoNow()),
+        permitRegistrationStatement(env,lease,id)
+      ].filter(Boolean));}catch(e){await rollbackRegistrationIp(env,lease,id);throw e;}
 
       const token = randomToken();
       const tokenHash = await sha256(token);
@@ -308,7 +312,7 @@ export async function onRequestPost({request, env}) {
       `).bind(tokenHash,id,expires,isoNow(),isoNow(),ip,request.headers.get("user-agent")||"").run();
       await recordIp(env,id,ip,"access");
       await logSecurity(env,request,"register_ok",id);
-      const securityHold=await reviewSharedIpAtLogin(env,request,id,ownerAccount?"admin":"user").catch(e=>{console.error("AIO shared IP review",e.message);return null;});
+      const securityHold=null; // V7 checks IP before registration; no temporary shared-IP hold.
       const profile = await db.prepare(`SELECT * FROM community_profiles WHERE id=?`).bind(id).first();
       const publicUser = publicProfile(profile);
       publicUser.is_owner = await isOwnerId(env, publicUser.id, publicUser.role);
@@ -345,6 +349,9 @@ export async function onRequestPost({request, env}) {
       return json({ok:false,error:"Konto zostało zablokowane. Jeśli uważasz to za pomyłkę, skontaktuj się z administracją: /contact.html"}, 403);
     }
 
+    // Executed only after a valid password and the existing V6 ban check.
+    const ipRestriction=await checkAfterValidLogin(env,request,auth.user_id,auth.role);
+    if(ipRestriction)return json({ok:false,code:'AIO_IP_POLICY',error:ipRestriction.reason+' Kontakt: /contact.html?topic=account-security'},403);
     await clearAttempt(env, throttleKey);
     const token = randomToken();
     const tokenHash = await sha256(token);
@@ -359,7 +366,7 @@ export async function onRequestPost({request, env}) {
     ]);
     await recordIp(env,auth.user_id,ip,"access");
     await logSecurity(env,request,"login_ok",auth.user_id);
-    const securityHold=await reviewSharedIpAtLogin(env,request,auth.user_id,auth.role).catch(e=>{console.error("AIO shared IP review",e.message);return null;});
+    const securityHold=null; // Replaced by indefinite V7 hold and owner review.
     // Premium/VIP: distinct live sessions on different networks and device classes.
     const paidHold=await (async()=>{
       const access=await getStatus(env,auth.user_id);

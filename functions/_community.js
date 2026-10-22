@@ -1,5 +1,6 @@
 
 import {emailVerificationStatus} from './_aio_email_verification.js';
+import {activeIpHold} from './_aio_ip_one_account_v7.js';
 const enc = new TextEncoder();
 let schemaReadyPromise = null;
 
@@ -234,6 +235,10 @@ export async function getSession(request, env, {touch=true,allowUnverified=false
 
   const profile = publicProfile(row);
   profile.is_owner = await isOwnerId(env, profile.id, profile.role);
+  if(!profile.is_owner){
+    const ipHold=await activeIpHold(env,profile.id);
+    if(ipHold){profile.ban_reason=ipHold.reason;return {banned:true,tokenHash,user:profile,ip_policy:true};}
+  }
   if(!allowUnverified){
     const ev=await emailVerificationStatus(env,profile.id);
     if(ev.required)return null; // pending account cannot authorize community operations
