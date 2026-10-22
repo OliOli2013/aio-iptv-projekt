@@ -12,6 +12,33 @@
     return n;
   };
   let dialog,recipient,form,subject,content,sendBtn,status,current=null,busy=false,requestId=null,openSeq=0;
+  /* Owner Desk V3 embeds community-admin.html in an auto-resizing iframe.
+   * A modal inside that iframe changes its measured scrollHeight and forces
+   * the outer page to move repeatedly. Use the same-origin owner's top-level
+   * document as the modal host, but keep all data requests in this module.
+   * Standalone /community-admin.html keeps the normal local dialog. */
+  function modalDocument(){
+    try{
+      if(window.parent!==window && window.frameElement?.classList.contains('aop-frame') && window.parent.document?.body){
+        return window.parent.document;
+      }
+    }catch(_){/* Cross-origin frames must never be accessed. */}
+    return document;
+  }
+  const hostDocument=modalDocument();
+  if(hostDocument!==document && !hostDocument.querySelector('link[data-aopc-modal-css]')){
+    const link=hostDocument.createElement('link');
+    link.rel='stylesheet';
+    link.href='/assets/css/aio-owner-post-contact-v1.css?v=20261022-aopc-modal-fix-v1';
+    link.dataset.aopcModalCss='1';
+    hostDocument.head.append(link);
+  }
+  window.addEventListener('pagehide',()=>{
+    if(dialog && dialog.ownerDocument!==document){
+      if(dialog.open)dialog.close();
+      dialog.remove();
+    }
+  });
   const timeoutFetch=async(url,options={})=>{
     const controller=new AbortController();
     const timer=setTimeout(()=>controller.abort(),14000);
@@ -85,7 +112,7 @@
     sendBtn=make('button','aopc-primary','✉ Wyślij do autora');sendBtn.type='submit';
     buttons.append(cancel,sendBtn);
     form.append(subjectLabel,contentLabel,make('p','aopc-help','Wiadomość trafi do „Moje konto” konkretnego autora, a nie do innych osób o takiej samej nazwie. E-mail służy tu jedynie do identyfikacji konta.'),status,buttons);
-    wrap.append(form);dialog.append(wrap);document.body.append(dialog);
+    wrap.append(form);dialog.append(wrap);hostDocument.body.append(dialog);
     dialog.addEventListener('cancel',event=>{if(busy)event.preventDefault();});
   }
   async function openForPost(id){
