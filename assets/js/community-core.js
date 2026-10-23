@@ -144,7 +144,7 @@
         body:JSON.stringify({action,...payload})
       });
       const d=await r.json().catch(()=>({ok:false,error:'Nieprawidłowa odpowiedź serwera.'}));
-      if(!r.ok||d.ok===false) throw new Error(d.error||('HTTP '+r.status));
+      if(!r.ok||d.ok===false){const e=new Error(d.error||('HTTP '+r.status));e.code=d.code||'';throw e;}
       return d;
     },
 
@@ -205,9 +205,18 @@
             </div>
             <p class="community-muted" data-aio-privacy-registration>Informacja o danych konta: <a href="privacy-community.html" target="_blank" rel="noopener noreferrer">polityka prywatności</a> i <a href="community-rules.html" target="_blank" rel="noopener noreferrer">regulamin</a>. Utworzenie konta wymaga podania e-maila i hasła, nie wymaga zgody na statystyki.</p>
             <small class="community-muted">Stare konta Supabase nie przenoszą haseł. Przy pierwszym wejściu do nowej Społeczności utwórz nowe konto.</small>
-          </form>`;
+          </form>
+          <section data-aio-ip-refused hidden style="display:none;width:min(580px,94vw);max-height:85vh;overflow-y:auto;box-sizing:border-box;background:#0b2d40;color:#f0faff;padding:clamp(22px,4vw,36px);border:2px solid #d98282;border-radius:16px;box-shadow:0 18px 70px #0008;line-height:1.65;">
+            <h2 data-aio-ip-refused-title tabindex="-1" style="margin:0 0 15px;font-size:clamp(1.25rem,3vw,1.8rem);">⛔ Dostęp do konta wstrzymany</h2>
+            <p data-aio-ip-refused-reason style="font-weight:600;white-space:pre-wrap;overflow-wrap:anywhere;"></p>
+            <p>W tej sieci obowiązuje zasada jednego zwykłego konta AIO. Sam wspólny adres IP nie oznacza nadużycia — jeśli jest to łącze rodzinne, firmowe lub operatora mobilnego, możesz poprosić o indywidualną zgodę.</p>
+            <p><a href="/contact.html?topic=account-security" style="color:#b1efff;text-decoration:underline;font-weight:700;">✉ Skontaktuj się z administratorem i odwołaj od blokady</a></p>
+            <p style="font-size:.9em;opacity:.85;">Nie wysyłaj hasła. Konto nie zostało usunięte, a limity pobierania pozostają przypisane do konta.</p>
+            <button type="button" data-aio-ip-refused-close style="border:1px solid #93dcea;border-radius:8px;padding:10px 20px;background:#16546b;color:#fff;cursor:pointer;">Zamknij</button>
+          </section>`;
         document.body.appendChild(dialog);
         const form=dialog.querySelector('[data-aio-auth-form]');
+        dialog.querySelector('[data-aio-ip-refused-close]').addEventListener('click',()=>dialog.close());
         const regWrap=dialog.querySelector('[data-register-name]');
         const toggle=dialog.querySelector('[data-register-toggle]');
         const submit=dialog.querySelector('[data-login-submit]');
@@ -261,14 +270,29 @@
             document.dispatchEvent(new CustomEvent('aio-community-auth',{detail:{user:this.user,profile:this.profile}}));
             this.showToast(d.user?.is_owner?'Zalogowano jako właściciel / administrator AIO.':'Zalogowano.','success');
           }catch(err){
-            // Toasts live BEHIND <dialog>: put the actual server reason inside
-            // the login modal so the user sees the block and appeal link.
-            errorBox.textContent=this.friendlyError(err)+'\n\nJeśli potrzebujesz wyjaśnienia, napisz do administratora przez /contact.html?topic=account-security';
-            errorBox.hidden=false;errorBox.scrollIntoView({block:'nearest',behavior:'auto'});
+            if(err?.code==='AIO_IP_POLICY'){
+              // No session was created by the server. Replace the entire login form
+              // with a readable refusal notice inside the active modal top layer.
+              form.reset();form.hidden=true;form.style.display='none';
+              const notice=dialog.querySelector('[data-aio-ip-refused]');
+              notice.querySelector('[data-aio-ip-refused-reason]').textContent=
+                err?.message?.startsWith('Z tego publicznego adresu IP')
+                  ?'Z tego adresu IP korzysta już konto AIO. Dodatkowe logowanie lub rejestracja wymaga zgody administratora.'
+                  :'Dostęp do dodatkowego konta AIO z tej sieci został odmówiony.';
+              notice.hidden=false;notice.style.display='block';
+              notice.querySelector('[data-aio-ip-refused-title]').focus();
+            }else{
+              errorBox.textContent=this.friendlyError(err);
+              errorBox.hidden=false;errorBox.scrollIntoView({block:'nearest',behavior:'auto'});
+            }
           }
           finally{button.disabled=false;}
         });
       }
+      const refused=dialog.querySelector('[data-aio-ip-refused]');
+      if(refused){refused.hidden=true;refused.style.display='none';}
+      const authForm=dialog.querySelector('[data-aio-auth-form]');
+      if(authForm){authForm.hidden=false;authForm.style.display='';}
       const errBox=dialog.querySelector('[data-aio-auth-error]');
       if(errBox){errBox.hidden=true;errBox.textContent='';}
       const msg=dialog.querySelector('[data-aio-auth-message]');

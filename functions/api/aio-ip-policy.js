@@ -11,11 +11,13 @@ export async function onRequestGet({request,env}){
     await requireAdmin(request,env,true);await ensureIpPolicy(env);
     const url=new URL(request.url),offset=Math.min(100000,Math.max(0,Number.parseInt(url.searchParams.get('offset')||'0',10)||0));
     const db=env.COMMUNITY_DB,groups=await listCollisionGroups(env,{offset,limit:5});
+    // Pending grants only: never touch accounts, already-used permissions or account-specific exceptions.
+    const permitTotals=await db.prepare('SELECT COALESCE(SUM(remaining),0) total FROM aio_ip_policy_signup_permits WHERE remaining>0').first();
     const holds=await db.prepare(`SELECT h.user_id,p.display_name,COALESCE(a.email,'') email,h.ip_key,h.reason,
       h.status,h.created_at,h.released_at,h.released_by FROM aio_ip_policy_holds_v8 h
       LEFT JOIN community_profiles p ON p.id=h.user_id LEFT JOIN community_auth a ON a.user_id=h.user_id
       WHERE h.status='active' ORDER BY h.created_at DESC LIMIT 300`).all();
-    return respond({ok:true,offset,groups:groups.groups,has_more:groups.has_more,holds:holds.results||[],
+    return respond({ok:true,offset,groups:groups.groups,has_more:groups.has_more,holds:holds.results||[],total_signup_permits:Number(permitTotals?.total||0),
       note:'Wspólny IP to jedno łącze, nie dowód tożsamości. Blokady historyczne wymagają zatwierdzenia przez właściciela.'});
   }catch(e){console.error('[AIO IP policy GET]',String(e?.message||e).slice(0,150));return handleError(e)}
 }
@@ -41,6 +43,25 @@ export async function onRequestPost({request,env}){
       await grantException(env,key,data.user_id,owner.user.id,reason);
       await moderationLog(env,owner.user.id,{targetUserId:data.user_id,targetType:'user',targetId:data.user_id,action:'ip_policy_exception_approved',reason});
       return respond({ok:true,message:'Zatwierdzono wyjątek na wskazanym IP. Zdjęto blokadę duplikatu.'});
+    }
+    if(action==='revoke_signup_permits'){
+      if(!/^[0-9a-f]{64}$/i.test(key))invalid(400,'Nieprawidłowy identyfikator sieci.');
+      const row=await env.COMMUNITY_DB.prepare('SELECT remaining FROM aio_ip_policy_signup_permits WHERE ip_key=?').bind(key).first();
+      const count=Math.max(0,Number(row?.remaining||0));
+      if(!count)return respond({ok:true,revoked:0,message:'Ta sieć nie ma niewykorzystanych zgód na nowe rejestracje.'});
+      await env.COMMUNITY_DB.prepare('UPDATE aio_ip_policy_signup_permits SET remaining=0 WHERE ip_key=? AND remaining>0').bind(key).run();
+      await moderationLog(env,owner.user.id,{targetType:'user',targetId:owner.user.id,
+        action:'ip_policy_signup_permits_revoked',reason:'Cofnięto '+count+' niewykorzystanych zgód; sieć '+key.slice(0,12)});
+      return respond({ok:true,revoked:count,message:'Cofnięto '+count+' niewykorzystanych zgód. Konta i blokady pozostały bez zmian.'});
+    }
+    if(action==='revoke_all_signup_permits'){
+      const row=await env.COMMUNITY_DB.prepare('SELECT COALESCE(SUM(remaining),0) total FROM aio_ip_policy_signup_permits WHERE remaining>0').first();
+      const count=Math.max(0,Number(row?.total||0));
+      if(!count)return respond({ok:true,revoked:0,message:'Nie znaleziono niewykorzystanych zgód do cofnięcia.'});
+      await env.COMMUNITY_DB.prepare('UPDATE aio_ip_policy_signup_permits SET remaining=0 WHERE remaining>0').run();
+      await moderationLog(env,owner.user.id,{targetType:'user',targetId:owner.user.id,
+        action:'ip_policy_all_signup_permits_revoked',reason:'Cofnięto '+count+' niewykorzystanych zgód na rejestrację.'});
+      return respond({ok:true,revoked:count,message:'Cofnięto '+count+' niewykorzystanych zgód w D1. Istniejące konta, blokady i limity pozostały bez zmian.'});
     }
     if(action==='allow_next'){
       if(reason.length<10)invalid(400,'Podaj uzasadnienie (minimum 10 znaków).');

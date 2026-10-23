@@ -16,7 +16,7 @@ import {
 } from "../_community.js";
 import {emailSendingReady,sendVerificationEmail,emailVerificationStatus} from "../_aio_email_verification.js";
 import {logSecurity,reviewSharedIpAtLogin,activeSharedHold,reviewPaidSessionSharing} from "../_aio_security_journal.js";
-import {reserveRegistrationIp,rollbackRegistrationIp,permitRegistrationStatement,checkAfterValidLogin} from '../_aio_ip_one_account_v7.js';
+import {reserveRegistrationIp,rollbackRegistrationIp,permitRegistrationStatement,checkAfterValidLogin,NOTICE as IP_POLICY_NOTICE} from '../_aio_ip_one_account_v7.js';
 import {getStatus} from "../_aio_account_access.js";
 
 function validPassword(p) {
@@ -381,5 +381,12 @@ export async function onRequestPost({request, env}) {
       200,
       {"Set-Cookie":sessionCookie(token)}
     );
-  } catch (e) { return errorResponse(e); }
+  } catch (e) {
+    // Registration denied because this IP has no free additional-account permit.
+    // No profile, session or successful login is created in this branch.
+    if(e?.status===409 && e?.message===IP_POLICY_NOTICE)
+      return json({ok:false,code:'AIO_IP_POLICY',error:IP_POLICY_NOTICE,
+        contact:'/contact.html?topic=account-security'},409);
+    return errorResponse(e);
+  }
 }
