@@ -1,0 +1,42 @@
+/* Owner Account Dashboard V3 — read-only, brief; detailed sections belong in /owner-hub. */
+.aod3,.aod3 *{box-sizing:border-box}
+.aod3{margin:22px 0 30px;padding:22px;border:1px solid #39839a;border-radius:18px;background:linear-gradient(145deg,#10394b 0%,#071f2e 70%);color:#e6f9ff;box-shadow:0 12px 30px #0003;min-width:0}
+.aod3-head{display:flex;justify-content:space-between;align-items:start;gap:16px;flex-wrap:wrap}
+.aod3-eyebrow{color:#79ddec;letter-spacing:.11em;font-weight:800;font-size:.71rem;margin:0 0 6px}
+.aod3 h2{margin:0 0 8px;font-size:clamp(1.25rem,2.8vw,1.85rem);line-height:1.25;color:#fff}
+.aod3-lead{color:#bed9e4;max-width:690px;font-size:.9rem;line-height:1.55;margin:0}
+.aod3-actions{display:flex;gap:9px;flex-wrap:wrap}
+.aod3-button,.aod3-link{display:inline-flex;align-items:center;justify-content:center;min-height:43px;padding:9px 13px;border-radius:10px;border:1px solid #5594a7;background:#10394a;color:#e9fbff;font:inherit;font-size:.86rem;font-weight:750;cursor:pointer;text-decoration:none;line-height:1.25;text-align:center}
+.aod3-button:disabled{opacity:.6;cursor:wait}
+.aod3-button:hover:not(:disabled),.aod3-link:hover{background:#1a586d;color:#fff;border-color:#8ce8f6}
+.aod3-link.aod3-primary{background:#0b8b95;border-color:#6ce7e3;color:#fff}
+.aod3-counters{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:20px 0 15px}
+.aod3-counter{background:#072836;border:1px solid #315b6d;border-radius:12px;padding:14px 13px;display:flex;flex-direction:column;gap:5px;min-width:0}
+.aod3-counter-name{color:#b5d7e3;font-size:.78rem;font-weight:650;line-height:1.3}
+.aod3-counter-value{color:#7be7ee;font-size:clamp(1.4rem,3vw,2rem);font-weight:850;font-variant-numeric:tabular-nums;line-height:1.15}
+.aod3-state{font-size:.79rem;line-height:1.5;color:#9dc3d0;margin:0 0 17px}
+.aod3-warning{color:#ffce9b!important}
+.aod3-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.aod3-section{padding:15px;border:1px solid #36677a;border-radius:13px;background:#072532;min-width:0}
+.aod3-section[data-aod-section="messages"]{grid-column:1/-1;border-color:#3a8494}
+.aod3-section h3{font-size:1.03rem;line-height:1.35;color:#f3fdff;margin:0 0 11px}
+.aod3-entries{display:grid;gap:7px}
+.aod3-item{display:flex;align-items:center;gap:10px;padding:11px 12px;border:1px solid #2e5667;border-radius:10px;background:#0d3241;color:#edfcff;text-decoration:none;min-width:0}
+.aod3-item:hover{background:#15485b;border-color:#70d9ea;color:#fff}
+.aod3-item-text{display:grid;gap:5px;flex:1;min-width:0}
+.aod3-item-text strong{font-size:.88rem;overflow-wrap:anywhere;line-height:1.35;color:#f7fcff}
+.aod3-item-text small{font-size:.76rem;color:#b0cfdc;overflow-wrap:anywhere;line-height:1.45}
+.aod3-pill{background:#255e70;border:1px solid #65a3b5;border-radius:9px;padding:5px 8px;min-width:30px;text-align:center;font-size:.85rem;font-weight:800;color:#fff;font-variant-numeric:tabular-nums}
+.aod3-arrow{white-space:nowrap;color:#83e3eb;font-size:.76rem;font-weight:750}
+.aod3-empty{margin:0;padding:14px;color:#bddae2;border:1px dashed #3b697a;border-radius:9px;font-size:.83rem;line-height:1.5}
+.aod3-more{margin:3px 0 0;color:#a9cbd7;font-size:.78rem;line-height:1.4}
+.aod3-link.aod3-section-footer{margin-top:11px;min-height:37px;padding:7px 10px;font-size:.78rem;background:transparent}
+.aod3-footer{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:17px;padding-top:14px;border-top:1px solid #376274}
+.aod3-health{font-size:.8rem;color:#9fdbd5;margin:0}
+.aod3-link.aod3-secondary{background:#0f5569}
+body.aio-account-page.aio-owner-dashboard-v3-active #aio-messages,
+body.aio-account-page.aio-owner-clean #aio-messages{display:none!important}
+body.aio-account-page.aio-owner-clean .aio-account-actions>a[href="community.html"]{display:none!important}
+@media(max-width:780px){.aod3-counters{grid-template-columns:repeat(2,minmax(0,1fr))}.aod3-grid{grid-template-columns:1fr}.aod3-section[data-aod-section="messages"]{grid-column:auto}}
+@media(max-width:540px){.aod3{padding:14px;margin:15px 0 20px}.aod3-head{gap:13px}.aod3-actions{width:100%;display:grid;grid-template-columns:1fr 1fr}.aod3-counters{gap:8px;margin:14px 0}.aod3-counter{padding:10px}.aod3-section{padding:12px}.aod3-item{flex-wrap:wrap;gap:8px}.aod3-arrow{margin-left:auto}.aod3-link.aod3-secondary{width:100%}.aod3-footer{align-items:stretch}}
+@media(max-width:350px){.aod3-actions{grid-template-columns:1fr}}
