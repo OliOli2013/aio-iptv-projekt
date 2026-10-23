@@ -15,6 +15,7 @@ import {
   decoratePost, publicProfile, parseAttachments, bodyJson, errorResponse,
   isoNow, clientIp, recordIp, moderationLog, countRows, randomToken
 } from "../_community.js";
+import {deleteAccountSafely} from "../_aio_delete_account_v1.js";
 
 async function optionalSession(request, env) {
   try { return await getSession(request, env); } catch (_) { return null; }
@@ -744,6 +745,7 @@ export async function onRequestPost({request,env}) {
       }
 
       if(target==="user"){
+        let deleted=false, mediaWarning=false;
         const u=await db.prepare(`SELECT * FROM community_profiles WHERE id=?`).bind(id).first();
         if(!u) return json({ok:false,error:"Nie znaleziono użytkownika."},404);
         if(id===s.user.id) return json({ok:false,error:"Nie możesz wykonać tej operacji na własnym koncie."},400);
@@ -765,18 +767,28 @@ export async function onRequestPost({request,env}) {
           await db.prepare(`UPDATE community_comments SET status='hidden',updated_at=? WHERE author_id=?`).bind(now,id).run();
         } else if(op==="delete"){
           if(!isFullAdmin(s)) return json({ok:false,error:"Tylko administrator może usunąć konto."},403);
+          // Snapshot attachment references BEFORE deletion, but remove media only AFTER D1 commits.
           const posts=await db.prepare(`SELECT * FROM community_posts WHERE author_id=?`).bind(id).all();
-          for(const p of posts.results||[]) await deletePostMedia(env,p);
-          await db.batch([
-            db.prepare(`DELETE FROM community_sessions WHERE user_id=?`).bind(id),
-            db.prepare(`DELETE FROM community_auth WHERE user_id=?`).bind(id),
-            db.prepare(`DELETE FROM community_comments WHERE author_id=?`).bind(id),
-            db.prepare(`DELETE FROM community_reactions WHERE user_id=?`).bind(id),
-            db.prepare(`DELETE FROM community_subscriptions WHERE user_id=?`).bind(id),
-            db.prepare(`DELETE FROM community_posts WHERE author_id=?`).bind(id),
-            db.prepare(`DELETE FROM community_profiles WHERE id=?`).bind(id)
-          ]);
+          await deleteAccountSafely(env,id);
+          deleted=true;
+          if(env.COMMUNITY_MEDIA){
+            for(const p of posts.results||[]){
+              try{await deletePostMedia(env,p)}catch(e){
+                mediaWarning=true;
+                console.error('[AIO account delete] media cleanup failed',String(e?.message||e).slice(0,140));
+              }
+            }
+          }else if((posts.results||[]).length){mediaWarning=true;}
         } else return json({ok:false,error:"Nieznana akcja użytkownika."},400);
+        if(deleted){
+          // A completed D1 deletion must not be reported as failed if post-commit auditing has an issue.
+          let auditWarning=false;
+          // The profile no longer exists. Audit targetUserId MUST be null (foreign key),
+          // but targetId retains the deleted profile ID in the historical action record.
+          try{await moderationLog(env,s.user.id,{targetUserId:null,targetType:"user",targetId:id,action:op,reason:reason||"Trwale usunięto konto z D1",ip:clientIp(request)});}
+          catch(e){auditWarning=true;console.error('[AIO account delete] audit failed',String(e?.message||e).slice(0,140));}
+          return json({ok:true,deleted:true,deleted_id:id,audit_warning:auditWarning,media_warning:mediaWarning});
+        }
         await moderationLog(env,s.user.id,{targetUserId:id,targetType:"user",targetId:id,action:op,reason,ip:clientIp(request)});
         return json({ok:true});
       }

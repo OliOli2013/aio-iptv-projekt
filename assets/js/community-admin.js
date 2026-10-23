@@ -752,12 +752,29 @@
   }
 
   async function call(payload){
+    const deleting=payload.target==='user'&&payload.op==='delete';
+    const status=deleting?q('[data-aio-user-search-status]'):null;
+    if(deleting&&status)status.textContent='Usuwanie konta — czekam na potwierdzenie bazy D1…';
     try{
-      await AIOCommunity.api('admin_action',payload);
-      AIOCommunity.showToast('Zapisano zmianę.','success');
-      await load();
+      const result=await AIOCommunity.api('admin_action',payload);
+      if(deleting){
+        if(result.deleted!==true||result.deleted_id!==payload.id)
+          throw new Error('Serwer nie potwierdził trwałego usunięcia konta.');
+        await load();
+        const stillVisible=tab==='users'&&rows.some(u=>u.id===payload.id);
+        if(stillVisible)throw new Error('Konto nadal występuje w wynikach. Sprawdź D1.');
+        const warn=result.audit_warning||result.media_warning;
+        const msg=warn?'Konto usunięte z D1, ale wymagany jest przegląd audytu lub plików.':'Konto trwale usunięte z D1; lista została odświeżona.';
+        if(status)status.textContent=msg;
+        AIOCommunity.showToast(msg,warn?'warning':'success');
+      }else{
+        AIOCommunity.showToast('Zapisano zmianę.','success');
+        await load();
+      }
     }catch(e){
-      AIOCommunity.showToast(AIOCommunity.friendlyError(e),'error');
+      const msg=AIOCommunity.friendlyError(e);
+      if(deleting&&status)status.textContent='Nie potwierdzono usunięcia: '+msg;
+      AIOCommunity.showToast(msg,'error');
     }
   }
 
