@@ -4,6 +4,7 @@
 import {requireAdmin} from '../_community.js';
 import {ensureV6} from '../_aio_security_v6.js';
 import {ensureIpPolicy} from '../_aio_ip_one_account_v7.js';
+import {ensureAnonymousShield} from '../_aio_anon_shield_v1.js';
 import {FIXED_IP_POLICY_EXEMPT_IDS} from '../_aio_ip_policy_exempt_v8.js';
 
 const HEADERS = {
@@ -92,12 +93,20 @@ DEFINITIONS.push({id:'ip-policy-blocks',title:'Nowe blokady — wspólny IP',
       SELECT 1 FROM aio_ip_policy_hold_reviews_v9 r
       WHERE r.user_id=h.user_id AND r.ip_key=h.ip_key AND r.hold_created_at=h.created_at)`,
   params:(now,ownerId)=>[ownerId,...FIXED_IP_POLICY_EXEMPT_IDS]});
+// One indicator for ANY number of anonymous burst incidents — never flood the bell.
+DEFINITIONS.push({id:'anonymous-bursts',title:'Anonimowe fale żądań plików',
+  detail:'Jedna zbiorcza sprawa: weryfikacja nowych ograniczeń /pliki/ bez sesji.',
+  href:'/aio-security-center.html',icon:'⛨',priority:'high',
+  sql:`SELECT CASE WHEN EXISTS(SELECT 1 FROM aio_anon_shield_incidents WHERE reviewed_at IS NULL)
+        THEN 1 ELSE 0 END n,
+      (SELECT MAX(created_at) FROM aio_anon_shield_incidents WHERE reviewed_at IS NULL) latest`});
 export async function onRequestGet({request,env}){
   try{
     // Validates the CURRENT session and the configured owner ID server-side.
     const auth=await requireAdmin(request,env,true);
     await ensureV6(env);
     await ensureIpPolicy(env);
+    await ensureAnonymousShield(env);
     const db=env.COMMUNITY_DB;
     if(!db)return response({ok:false,error:'Baza danych niedostępna.'},503);
     const now=new Date().toISOString();

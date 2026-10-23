@@ -26,6 +26,7 @@
    {id:'ip',name:'Blokady adresów IP',icon:'⛨',desc:'Adresy z ograniczeniami i zwalnianie blokad',target:'ip',tags:'ban sieć blokada'}
   ]},
   {id:'security',name:'Bezpieczeństwo',icon:'⬡',items:[
+   {id:'security-center-v1',name:'Centrum Bezpieczeństwa — pełen obraz',icon:'🛡',desc:'Logowania, pobrania, masowe żądania, V6, IP i VIP w jednym miejscu',url:'/aio-security-center.html',tags:'bezpieczenstwo dashboard ip logowania pobrania anonimy alerty raporty'},
    {id:'v6-blocks',name:'Security V6 — zablokowane konta',icon:'⛔',desc:'Automatyczne blokady, odwołania i ręczne decyzje',url:'/aio-security-v6.html',tags:'v6 bot skrypt ban blokady nadużycia odwołania'},
     {id:'ip-policy-v7',name:'Jedno konto na IP • V8.1',icon:'⛨',desc:'Blokowanie duplikatów, zgody na rejestrację, przegląd historyczny',url:'/aio-ip-policy.html',tags:'ip jedno konto blokady duplikaty rejestracja administracja'},
    {id:'security-journal',name:'Dziennik bezpieczeństwa',icon:'⬡',desc:'Wspólne IP, udostępniane konta i decyzje',native:'aio-security-journal',tags:'logowania alerty blokady wspólne ip vip'},

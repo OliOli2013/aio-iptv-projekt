@@ -5,6 +5,8 @@
 import {json,ensureSchema,sha256} from '../_community.js';
 import {initAccess,sessionUser,getStatus,consumeFree} from '../_aio_account_access.js';
 import {activeSharedHold,logSecurity,reviewPaidSessionSharing} from '../_aio_security_journal.js';
+import {monitorDownload} from '../_aio_security_v6.js';
+import {checkAnonymousFileBurst} from '../_aio_anon_shield_v1.js';
 import {linksInPost,normalizePostLink,classifyPostLink,ensurePostLinkSchema,safePostFileName,externalFileKey} from '../_aio_post_links_v5.js';
 const HEADERS={'Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff'};
 function result(obj,code=200){return json(obj,code,HEADERS)}
@@ -37,7 +39,14 @@ export async function onRequestPost({request,env}){
     if(classified.kind==='info')return result({ok:true,kind:'info',href:clicked.href,counted:false});
     await initAccess(env);
     const user=await sessionUser(request,env);
-    if(!user)return result({ok:false,login_required:true,error:'Pobieranie wymaga zalogowania do AIO.'},401);
+    if(!user){
+      const anon=await checkAnonymousFileBurst(env,request);
+      if(anon.blocked)return result({ok:false,restricted:true,error:'Zbyt wiele anonimowych żądań. Spróbuj ponownie później. Kontakt: /contact.html.'},anon.status||429);
+      return result({ok:false,login_required:true,error:'Pobieranie wymaga zalogowania do AIO.'},401);
+    }
+    // External-file handoffs also count toward the V6 authenticated burst threshold.
+    const burst=await monitorDownload(env,request,user.id);
+    if(burst.blocked)return result({ok:false,restricted:true,error:'Konto czasowo zablokowane przez AIO Security V6. Kontakt: /contact.html.'},403);
     const hold=await activeSharedHold(env,request,user.id);
     if(hold)return result({ok:false,restricted:true,error:hold.message},403);
     const status=await getStatus(env,user.id);

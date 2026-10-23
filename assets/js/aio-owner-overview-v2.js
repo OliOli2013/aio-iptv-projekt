@@ -33,6 +33,7 @@
       ['Wiadomości o listach','/community-admin.html?aio_section=inbox'],
       ['Opublikowane listy','/channel-lists.html']]},
     {name:'Konta i bezpieczeństwo',items:[
+      ['Centrum Bezpieczeństwa — zbiorczy raport','/aio-security-center.html'],
       ['Użytkownicy','/community-admin.html?aio_section=users'],
       ['Prośby o reset hasła','/community-admin.html?aio_section=password-resets'],
       ['Sesje','/community-admin.html?aio_section=sessions'],

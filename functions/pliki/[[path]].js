@@ -5,6 +5,7 @@ import {initAccess,sessionUser,getStatus,consumeFree,hasActiveFileRetry} from '.
 import {queueIssuedFileAudit} from '../_aio_owner_downloads.js';
 import {activeSharedHold,logSecurity,reviewPaidSessionSharing} from '../_aio_security_journal.js';
 import {monitorDownload} from '../_aio_security_v6.js';
+import {checkAnonymousFileBurst,anonymousDeniedResponse} from '../_aio_anon_shield_v1.js';
 import {privateStorageEnabled,readPrivateFile} from '../_aio_private_files.js';
 const IMG=/\.(?:png|jpe?g|webp|gif|svg|avif)$/i;
 const NO_CACHE={'Cache-Control':'private, no-store'};
@@ -34,6 +35,10 @@ async function handle(context){
     await initAccess(env);
     const user=await sessionUser(request,env);
     if(!user){
+      // Rate-limit only unauthorized /pliki/ requests; never globally ban a shared IP.
+      // A DB failure does NOT fall back to handing out the protected file.
+      const anon=await checkAnonymousFileBurst(env,request);
+      if(anon.blocked)return anonymousDeniedResponse(anon,request.method);
       // Brak "próbnego" pobrania dla gości, także po wejściu bezpośrednio w URL.
       if(request.method==='HEAD')return accessDenied('Pobieranie wymaga zalogowania w AIO.',401);
       await logSecurity(env,request,"download_denied",null,"Bez sesji");

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>AIO — Centrum Bezpieczeństwa</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;background:#061c29;color:#e4f5fc}
+a{color:#9de9fa}.sec-shell{max-width:1110px;margin:0 auto;padding:clamp(13px,3vw,35px)}h1{font-size:clamp(1.5rem,3.8vw,2.15rem)}h2{font-size:1.2rem}
+.sec-nav,.sec-block-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.sec-nav{border-bottom:1px solid #2f6578;padding-bottom:16px}
+.sec-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,205px),1fr));gap:13px;margin:22px 0}
+.sec-metric,.sec-block{background:#0d3040;border:1px solid #326579;border-radius:13px;padding:17px;min-width:0}
+.sec-metric{display:flex;flex-direction:column;gap:5px}.sec-metric strong{font-size:clamp(1.5rem,3.5vw,2rem);color:white}.sec-metric small,.sec-metric span,.sec-muted{color:#a8c9d4;font-size:.86rem}
+.sec-block{margin:16px 0}.sec-block h2{margin:0 0 12px}.sec-block-head{margin:0 0 9px}.sec-warning{color:#ffe6ac;padding:12px;border:1px solid #ab7c32;border-radius:9px}
+.sec-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:space-between;background:#092534;border:1px solid #245368;border-radius:9px;padding:12px;margin:8px 0;overflow-wrap:anywhere}
+.sec-row>div:first-child{flex:1;min-width:min(100%,240px)}.sec-row strong{color:white}.sec-row p{margin:4px 0 0;color:#b6d3df;font-size:.86rem}.sec-row time{font-size:.79rem;color:#a2cbdc;white-space:nowrap}
+.sec-pill{padding:3px 8px;border-radius:6px;background:#164e62;color:#effaff;font-size:.75rem}.sec-history{margin:12px 0;border-top:1px solid #295568;padding-top:10px}.sec-history summary{cursor:pointer;padding:9px;color:#aff0ff;font-weight:700}
+button,.sec-link{display:inline-flex;align-items:center;justify-content:center;border:1px solid #61acbf;background:#174d65;color:#fff;border-radius:9px;padding:9px 13px;cursor:pointer;font:700 .86rem system-ui;text-decoration:none;min-height:42px}button:hover,.sec-link:hover{background:#236880}button:disabled{opacity:.5;cursor:not-allowed}
+button.sec-small{min-height:34px;padding:5px 9px}#sec-status,#sec-feedback{min-height:1.4em;color:#b2d8e5}
+@media(max-width:600px){.sec-shell{padding:12px}.sec-row{align-items:flex-start;flex-direction:column}.sec-row>div:first-child{min-width:0;width:100%}.sec-row time{white-space:normal}.sec-block{padding:12px}.sec-nav{align-items:flex-start}.sec-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.sec-metric{padding:12px}}
+@media(max-width:350px){.sec-metrics{grid-template-columns:1fr}}
+</style></head><body>
+<main class="sec-shell"><nav class="sec-nav" aria-label="Nawigacja Centrum"><a href="/owner-hub">← Centrum Właściciela</a><a href="/aio-ip-policy.html">Polityka IP</a><a href="/aio-security-v6.html">Blokady V6</a></nav>
+<h1>⛨ AIO — Centrum Bezpieczeństwa</h1>
+<p class="sec-muted">Zbiorczy wgląd w incydenty D1. Automatyczne ograniczenia anonimów trwają 15 minut i obejmują wyłącznie pobieranie chronionych plików bez sesji. Wspólny adres IP nie oznacza wspólnej tożsamości.</p>
+<div class="sec-nav"><button type="button" id="sec-reload">↻ Odśwież dane</button><a class="sec-link" href="/api/aio-security-center?format=csv" download>↓ Eksport zbiorczy CSV</a></div>
+<p id="sec-status" role="status" aria-live="polite">Sprawdzam uprawnienia…</p><p id="sec-feedback" role="status" aria-live="polite"></p>
+<div id="aio-sec-center" aria-label="Raport bezpieczeństwa"></div>
+<p class="sec-muted">To dane aplikacyjne D1, bez telemetrii Cloudflare WAF. Jeśli potrzebujesz ochrony jeszcze przed wykonaniem Functions, skonfiguruj oddzielnie regułę rate limiting w Cloudflare.</p>
+</main><script defer src="/assets/js/aio-security-center-v1.js?v=20261023-sec-shield-1"></script></body></html>

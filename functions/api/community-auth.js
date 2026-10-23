@@ -34,18 +34,25 @@ async function throttle(env, key, request) {
   }
 }
 async function failAttempt(env, key) {
-  const now = isoNow();
-  const row = await env.COMMUNITY_DB.prepare(
-    `SELECT attempts, first_at FROM community_login_attempts WHERE key=?`
-  ).bind(key).first();
-  const old = Number(row?.attempts || 0);
-  const attempts = old + 1;
-  const blockedUntil = attempts >= 8 ? new Date(Date.now()+15*60*1000).toISOString() : null;
+  // Single atomic UPSERT: parallel wrong-password attempts cannot overwrite each other.
+  // After 15 minutes (or an expired penalty) the counter starts at ONE, not old+1.
+  const now=isoNow(),cutoff=new Date(Date.now()-15*60*1000).toISOString();
+  const until=new Date(Date.now()+15*60*1000).toISOString();
   await env.COMMUNITY_DB.prepare(`
     INSERT INTO community_login_attempts(key,attempts,first_at,last_at,blocked_until)
-    VALUES(?,?,?,?,?)
-    ON CONFLICT(key) DO UPDATE SET attempts=excluded.attempts,last_at=excluded.last_at,blocked_until=excluded.blocked_until
-  `).bind(key, attempts, row?.first_at || now, now, blockedUntil).run();
+    VALUES(?,1,?,?,NULL)
+    ON CONFLICT(key) DO UPDATE SET
+      attempts=CASE WHEN community_login_attempts.first_at<=? OR
+        (community_login_attempts.blocked_until IS NOT NULL AND community_login_attempts.blocked_until<=?)
+        THEN 1 ELSE community_login_attempts.attempts+1 END,
+      first_at=CASE WHEN community_login_attempts.first_at<=? OR
+        (community_login_attempts.blocked_until IS NOT NULL AND community_login_attempts.blocked_until<=?)
+        THEN excluded.first_at ELSE community_login_attempts.first_at END,
+      last_at=excluded.last_at,
+      blocked_until=CASE WHEN community_login_attempts.first_at<=? OR
+        (community_login_attempts.blocked_until IS NOT NULL AND community_login_attempts.blocked_until<=?)
+        THEN NULL WHEN community_login_attempts.attempts+1>=8 THEN ? ELSE NULL END
+  `).bind(key,now,now,cutoff,now,cutoff,now,cutoff,now,until).run();
 }
 async function clearAttempt(env, key) {
   await env.COMMUNITY_DB.prepare(`DELETE FROM community_login_attempts WHERE key=?`).bind(key).run();

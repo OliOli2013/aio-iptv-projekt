@@ -1,13 +1,13 @@
 /* AIO Security V6: account-bound bot burst containment; never auto-block by shared IP. */
 import {isOwnerId,moderationLog} from './_community.js';
 import {logSecurity,ensureSecurityJournal} from './_aio_security_journal.js';
-const MAX_REQUESTS=80, MAX_DENIALS=18;
+const MAX_REQUESTS=80, MAX_DENIALS=18, MAX_RANGE_REQUESTS=180;
 const BLOCK_HOURS=24;
 let ready;
 const iso=()=>new Date().toISOString();
 const safe=(v,n=300)=>String(v??'').replace(/[\x00-\x1f<>]/g,' ').trim().slice(0,n);
 const v6Reason=x=>'[AIO V6] '+safe(x,240);
-export const POLICY={max_requests:MAX_REQUESTS,max_denials:MAX_DENIALS,window_seconds:60,auto_block_hours:BLOCK_HOURS};
+export const POLICY={max_requests:MAX_REQUESTS,max_range_requests:MAX_RANGE_REQUESTS,max_denials:MAX_DENIALS,window_seconds:60,auto_block_hours:BLOCK_HOURS};
 export async function ensureV6(env){
   if(!env.COMMUNITY_DB)throw new Error('Brak bazy COMMUNITY_DB');
   if(!ready)ready=env.COMMUNITY_DB.batch([
@@ -67,11 +67,11 @@ async function impose(env,request,userId,reason,evidence,origin,hours){
 }
 export async function monitorDownload(env,request,userId,{denied=false}={}){
   if(!userId || request.method==='HEAD')return {blocked:false};
-  // Multi-part Range downloads are normal; count them only when denied.
-  if(!denied && request.headers?.has('Range'))return {blocked:false};
+  // Range requests are normal; count separately with a HIGHER threshold to prevent an abuse bypass.
+  const range=!denied && !!request.headers?.has('Range');
   await ensureV6(env);
   if(await isSiteOwner(env,userId))return {blocked:false};
-  const now=iso(),minute_key=now.slice(0,16);
+  const now=iso(),minute_key=now.slice(0,16)+(range?':range':'');
   const req=denied?0:1,fail=denied?1:0;
   const db=env.COMMUNITY_DB;
   // Atomic counters: races cannot bypass a threshold by overwriting an old value.
@@ -83,8 +83,9 @@ export async function monitorDownload(env,request,userId,{denied=false}={}){
     .bind(userId,minute_key,req,fail,now,now).run();
   const r=await db.prepare('SELECT requests,denials FROM aio_v6_rate WHERE user_id=? AND minute_key=?').bind(userId,minute_key).first();
   const n=Number(r?.requests||0),d=Number(r?.denials||0);
-  if(n<MAX_REQUESTS && d<MAX_DENIALS)return {blocked:false,requests:n,denials:d};
-  const reason=n>=MAX_REQUESTS?'Zautomatyzowane, bardzo częste pobieranie plików':'Wielokrotne żądania plików mimo odmowy dostępu';
+  const threshold=range?MAX_RANGE_REQUESTS:MAX_REQUESTS;
+  if(n<threshold && d<MAX_DENIALS)return {blocked:false,requests:n,denials:d};
+  const reason=n>=threshold?(range?'Zautomatyzowana seria żądań częściowych Range':'Zautomatyzowane, bardzo częste pobieranie plików'):'Wielokrotne żądania plików mimo odmowy dostępu';
   const blocked=await impose(env,request,userId,reason,`Okno 60 s; żądania: ${n}, odmowy: ${d}`, 'auto',BLOCK_HOURS);
   return {blocked,requests:n,denials:d,reason};
 }
