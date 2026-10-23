@@ -1,6 +1,6 @@
 /* Owner-only D1 review and decisions; never reveal IP/account correlation publicly. */
 import {requireAdmin,json,moderationLog} from '../_community.js';
-import {ensureIpPolicy,listCollisionGroups,applyHistoricalGroup,grantException,allowNextSignup} from '../_aio_ip_one_account_v7.js';
+import {ensureIpPolicy,listCollisionGroups,applyHistoricalGroup,grantException,allowNextSignup,reviewIpGroup} from '../_aio_ip_one_account_v7.js';
 const respond=(x,status=200)=>json(x,status,{'Cache-Control':'private, no-store','Vary':'Cookie'});
 const invalid=(status,msg)=>{throw Object.assign(new Error(msg),{status})};
 const validId=s=>/^[0-9a-f]{8}-[0-9a-f-]{27,40}$/i.test(String(s||''));
@@ -37,6 +37,17 @@ export async function onRequestPost({request,env}){
       const ip=safe(data.ip,80);const result=await applyHistoricalGroup(env,key,ip,owner.user.id);
       await moderationLog(env,owner.user.id,{targetType:'user',targetId:owner.user.id,action:'ip_policy_group_applied',reason:'Sieć: '+key.slice(0,12)+'; zablokowano: '+result.held});
       return respond({ok:true,message:`Sprawdzono ${result.accounts} kont. Nowe blokady: ${result.held}.`,...result});
+    }
+    if(action==='review_group'){
+      if(!/^[0-9a-f]{64}$/i.test(key))invalid(400,'Nieprawidłowy identyfikator sieci.');
+      const result=await reviewIpGroup(env,key,safe(data.ip,80),owner.user.id);
+      if(result.reviewed>0)await moderationLog(env,owner.user.id,{
+        targetType:'user',targetId:owner.user.id,action:'ip_policy_group_reviewed',
+        reason:'Przejrzano '+result.reviewed+' blokad z sieci '+key.slice(0,12)+'; bez odblokowania kont.'});
+      return respond({ok:true,reviewed:result.reviewed,
+        message:result.reviewed>0
+          ?'Oznaczono jako przejrzane '+result.reviewed+' blokad. Konta NADAL są zablokowane na tym IP.'
+          :'W tej sieci nie ma nowych blokad do przejrzenia. Żadna blokada nie została zdjęta.'});
     }
     if(action==='review_hold'){
       if(!validId(data.user_id)||!/^[0-9a-f]{64}$/i.test(key))invalid(400,'Nieprawidłowe konto lub identyfikator IP.');

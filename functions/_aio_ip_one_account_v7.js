@@ -176,8 +176,17 @@ export async function listCollisionGroups(env,{offset=0,limit=30}={}){
         blocked:!!hold,approved:allow,primary:u.user_id===first?.user_id});
     }
     const pending=ids.filter(x=>!x.protected&&!x.primary&&!x.approved&&!x.blocked).length;
+    // Single group status for the owner dashboard: acknowledgement and restriction are separate.
+    const reviewCounts=await db.prepare(`SELECT COUNT(*) active,
+      COALESCE(SUM(CASE WHEN v.user_id IS NULL THEN 1 ELSE 0 END),0) unreviewed
+      FROM aio_ip_policy_holds_v8 h
+      LEFT JOIN aio_ip_policy_hold_reviews_v9 v
+        ON v.user_id=h.user_id AND v.ip_key=h.ip_key AND v.hold_created_at=h.created_at
+      WHERE h.ip_key=? AND h.status='active'`).bind(key).first();
     const permit=await db.prepare('SELECT remaining FROM aio_ip_policy_signup_permits WHERE ip_key=?').bind(key).first();
-    groups.push({ip_key:key,ip:item.ip,ip_masked:masked(item.ip),last_seen:item.latest,accounts:ids,pending,signup_permits:Number(permit?.remaining||0)});
+    groups.push({ip_key:key,ip:item.ip,ip_masked:masked(item.ip),last_seen:item.latest,accounts:ids,pending,
+      active_holds:Number(reviewCounts?.active||0),unreviewed_holds:Number(reviewCounts?.unreviewed||0),
+      signup_permits:Number(permit?.remaining||0)});
   }
   return {groups,has_more:(r.results||[]).length>=Math.min(limit,50)};
 }
@@ -195,6 +204,19 @@ export async function applyHistoricalGroup(env,key,ip,adminId){
   }
   return {held,accounts:users.length};
 }
+/** Mark currently active blocks from ONE validated network as read; never unlock them.
+ * Unique incident key includes hold_created_at, so a later hold creates a new alert.
+ */
+export async function reviewIpGroup(env,key,ip,adminId){
+  await ensureIpPolicy(env);
+  if(!ip || await keyFor(ip)!==key)throw error(400,'Nieprawidłowe wskazanie sieci.');
+  const result=await env.COMMUNITY_DB.prepare(`INSERT OR IGNORE INTO aio_ip_policy_hold_reviews_v9
+    (user_id,ip_key,hold_created_at,reviewed_at,reviewed_by)
+    SELECT h.user_id,h.ip_key,h.created_at,?,? FROM aio_ip_policy_holds_v8 h
+    WHERE h.ip_key=? AND h.status='active'`).bind(now(),adminId,key).run();
+  return {reviewed:Number(result.meta?.changes||0)};
+}
+
 export async function grantException(env,key,userId,adminId,reason){
   await ensureIpPolicy(env);const db=env.COMMUNITY_DB;
   await db.batch([

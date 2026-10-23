@@ -23,7 +23,20 @@
           void action({action:'revoke_signup_permits',ip_key:group.ip_key});
       };card.append(revoke);
     }
-   const btn=el('button',pending?'⛔ Zablokuj '+pending+' dodatkowe konto/a':'✓ Rozpatrzone','ip7-danger');btn.type='button';btn.disabled=!pending;
+   // Lack of new accounts to block is NOT the same as owner acknowledgement.
+   const unread=Math.max(0,Number(group.unreviewed_holds||0));
+   const active=Math.max(0,Number(group.active_holds||0));
+   if(active){
+     card.append(el('p',unread?'🔔 Do zapoznania: '+unread+' aktywna/e blokada/y.':'✓ Zapoznano się ze wszystkimi '+active+' aktywnymi blokadami.'));
+     const review=el('button',unread?'✓ Oznacz '+unread+' blokad/y jako przejrzane':'✓ Zapoznano się z blokadami');
+     review.type='button';review.disabled=!unread;
+     review.onclick=()=>{
+       if(confirm('Oznaczyć '+unread+' aktywnych blokad z tej sieci jako przejrzane?\nKonta NADAL będą zablokowane na tym IP.'))
+         void action({action:'review_group',ip_key:group.ip_key,ip:group.ip});
+     };
+     card.append(review);
+   }
+   const btn=el('button',pending?'⛔ Zablokuj '+pending+' dodatkowe konto/a':'✓ Brak nowych kont do blokady','ip7-danger');btn.type='button';btn.disabled=!pending;
    btn.onclick=()=>{if(confirm('Zablokować dodatkowe konta na TYM IP? Konto główne, właściciel, Klos i Beata będą chronione.'))void action({action:'apply_group',ip_key:group.ip_key,ip:group.ip});};card.append(btn);
    const allow=el('button','+ Zezwól na JEDNĄ PRZYSZŁĄ rejestrację');allow.type='button';allow.title='Nie odblokowuje istniejących kont ani nie usuwa historii IP.';allow.onclick=()=>{const reason=prompt('Uzasadnienie zgody na przyszłą rejestrację (minimum 10 znaków):','');if(reason&&reason.trim().length>=10&&confirm('Zezwolić na jedną NOWĄ rejestrację? Dotychczasowe konta i historia pozostaną bez zmian.'))void action({action:'allow_next',ip_key:group.ip_key,ip:group.ip,reason});};card.append(allow);root.append(card);
   }
