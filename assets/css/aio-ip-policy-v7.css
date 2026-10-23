@@ -1,2 +1,11 @@
 .ip7-shell{max-width:1100px;margin:auto;color:#e4f6fc;font-family:Inter,system-ui,sans-serif}.ip7-shell a{color:#9ce8f5}
 .ip7-shell h1{font-size:clamp(1.55rem,3vw,2.3rem);line-height:1.2}.ip7-shell h2{margin-top:32px}.ip7-info{padding:15px;border-radius:12px;background:#123a50;border:1px solid #3c8199;line-height:1.6}.ip7-top{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}.ip7-card{border:1px solid #39697b;border-radius:12px;background:#0d3143;margin:12px 0;padding:17px;overflow-wrap:anywhere}.ip7-card h3{font-size:1.04rem;color:#fff;margin:0 0 8px}.ip7-card p,.ip7-card li{font-size:.86rem;line-height:1.6}.ip7-card ul{padding-left:21px}.ip7-shell button{border:1px solid #66aac5;border-radius:8px;background:#174a61;color:#fff;padding:10px 13px;cursor:pointer;font:700 .85rem Inter,system-ui;margin:5px}.ip7-shell button:hover{background:#226a87}.ip7-shell button.ip7-danger{background:#753039;border-color:#ee8492}.ip7-error{color:#ffd0c8}
+
+/* AIO V8.2 – compact archived groups/holds; keyboard and mobile accessible */
+.ip7-archive{margin:14px 0 20px;border:1px solid #356a7d;border-radius:13px;background:#0a2737;overflow:hidden}
+.ip7-archive>summary{display:list-item;cursor:pointer;padding:16px 20px;color:#dbf8ff;font-weight:800;line-height:1.5;list-style-position:inside}
+.ip7-archive>summary:hover,.ip7-archive>summary:focus-visible{background:#153d4e;outline-offset:-3px}
+.ip7-archive-body{padding:1px 12px 12px}
+.ip7-archive-body .ip7-card{background:#0a2b3a}
+#ip7-review-all:disabled{opacity:.6;cursor:not-allowed}
+@media(max-width:650px){.ip7-archive>summary{padding:13px}.ip7-archive-body{padding:0 7px 9px}.ip7-shell button{white-space:normal;max-width:100%;min-height:42px}.ip7-card{padding:13px}}

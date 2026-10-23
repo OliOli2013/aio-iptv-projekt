@@ -1,26 +1,39 @@
 /* Owner-only D1 review and decisions; never reveal IP/account correlation publicly. */
 import {requireAdmin,json,moderationLog} from '../_community.js';
 import {ensureIpPolicy,listCollisionGroups,applyHistoricalGroup,grantException,allowNextSignup,reviewIpGroup} from '../_aio_ip_one_account_v7.js';
+import {FIXED_IP_POLICY_EXEMPT_IDS,isIpPolicyExemptV8} from '../_aio_ip_policy_exempt_v8.js';
 const respond=(x,status=200)=>json(x,status,{'Cache-Control':'private, no-store','Vary':'Cookie'});
 const invalid=(status,msg)=>{throw Object.assign(new Error(msg),{status})};
 const validId=s=>/^[0-9a-f]{8}-[0-9a-f-]{27,40}$/i.test(String(s||''));
 const safe=(s,limit=200)=>String(s||'').replace(/[\x00-\x1f<>]/g,' ').trim().slice(0,limit);
+const excludedIds=(env,ownerId)=>[...new Set([ownerId,...FIXED_IP_POLICY_EXEMPT_IDS,
+  ...String(env.AIO_IP_POLICY_EXEMPT_USER_IDS||'').split(',').map(x=>x.trim())
+    .filter(x=>/^[0-9a-f-]{36}$/i.test(x))])];
+const pendingClause=(ids)=>'h.status=\'active\' AND h.user_id NOT IN ('+ids.map(()=>'?').join(',')+') AND NOT EXISTS (SELECT 1 FROM aio_ip_policy_hold_reviews_v9 r WHERE r.user_id=h.user_id AND r.ip_key=h.ip_key AND r.hold_created_at=h.created_at)';
 const handleError=e=>respond({ok:false,error:[400,401,403,404,409].includes(e.status)?e.message:'Nie można obsłużyć polityki IP.'},[400,401,403,404,409].includes(e.status)?e.status:500);
 export async function onRequestGet({request,env}){
   try{
-    await requireAdmin(request,env,true);await ensureIpPolicy(env);
+    const auth=await requireAdmin(request,env,true);await ensureIpPolicy(env);
     const url=new URL(request.url),offset=Math.min(100000,Math.max(0,Number.parseInt(url.searchParams.get('offset')||'0',10)||0));
     const db=env.COMMUNITY_DB,groups=await listCollisionGroups(env,{offset,limit:5});
     // Pending grants only: never touch accounts, already-used permissions or account-specific exceptions.
     const permitTotals=await db.prepare('SELECT COALESCE(SUM(remaining),0) total FROM aio_ip_policy_signup_permits WHERE remaining>0').first();
+    const hidden=excludedIds(env,auth.user.id);
+    // Count every unread ordinary account, even beyond the currently displayed five networks.
+    const pendingSql='SELECT COUNT(*) n FROM aio_ip_policy_holds_v8 h WHERE '+pendingClause(hidden);
+    const unread=await db.prepare(pendingSql).bind(...hidden).first();
     const holds=await db.prepare(`SELECT h.user_id,p.display_name,COALESCE(a.email,'') email,h.ip_key,h.reason,
       h.status,h.created_at,h.released_at,h.released_by,
       CASE WHEN r.user_id IS NULL THEN 0 ELSE 1 END reviewed,r.reviewed_at
       FROM aio_ip_policy_holds_v8 h
       LEFT JOIN community_profiles p ON p.id=h.user_id LEFT JOIN community_auth a ON a.user_id=h.user_id
       LEFT JOIN aio_ip_policy_hold_reviews_v9 r ON r.user_id=h.user_id AND r.ip_key=h.ip_key AND r.hold_created_at=h.created_at
-      WHERE h.status='active' ORDER BY h.created_at DESC LIMIT 300`).all();
-    return respond({ok:true,offset,groups:groups.groups,has_more:groups.has_more,holds:holds.results||[],total_signup_permits:Number(permitTotals?.total||0),
+      WHERE h.status IN ('active','released')
+      ORDER BY CASE WHEN h.status='active' AND r.user_id IS NULL THEN 0 WHEN h.status='active' THEN 1 ELSE 2 END,
+        COALESCE(h.released_at,h.created_at) DESC LIMIT 300`).all();
+    const visible=(holds.results||[]).filter(h=>h.user_id!==auth.user.id&&!isIpPolicyExemptV8(h.user_id,env));
+    return respond({ok:true,offset,groups:groups.groups,has_more:groups.has_more,holds:visible,
+      unreviewed_total:Number(unread?.n||0),total_signup_permits:Number(permitTotals?.total||0),
       note:'Wspólny IP to jedno łącze, nie dowód tożsamości. Blokady historyczne wymagają zatwierdzenia przez właściciela.'});
   }catch(e){console.error('[AIO IP policy GET]',String(e?.message||e).slice(0,150));return handleError(e)}
 }
@@ -37,6 +50,21 @@ export async function onRequestPost({request,env}){
       const ip=safe(data.ip,80);const result=await applyHistoricalGroup(env,key,ip,owner.user.id);
       await moderationLog(env,owner.user.id,{targetType:'user',targetId:owner.user.id,action:'ip_policy_group_applied',reason:'Sieć: '+key.slice(0,12)+'; zablokowano: '+result.held});
       return respond({ok:true,message:`Sprawdzono ${result.accounts} kont. Nowe blokady: ${result.held}.`,...result});
+    }
+    if(action==='review_all_unread'){
+      const hidden=excludedIds(env,owner.user.id), clause=pendingClause(hidden);
+      const at=new Date().toISOString();
+      const sql=`INSERT OR IGNORE INTO aio_ip_policy_hold_reviews_v9
+        (user_id,ip_key,hold_created_at,reviewed_at,reviewed_by)
+        SELECT h.user_id,h.ip_key,h.created_at,?,? FROM aio_ip_policy_holds_v8 h
+        WHERE ${clause}`;
+      const result=await env.COMMUNITY_DB.prepare(sql).bind(at,owner.user.id,...hidden).run();
+      const reviewed=Math.max(0,Number(result.meta?.changes||0));
+      if(reviewed)await moderationLog(env,owner.user.id,{targetType:'user',targetId:owner.user.id,
+        action:'ip_policy_unread_reviewed',reason:'Potwierdzono '+reviewed+' nowych blokad IP; bez zmiany uprawnień.'});
+      return respond({ok:true,reviewed,message:reviewed
+        ?'Zapoznano się z '+reviewed+' blokadami. Konta nadal są zablokowane.'
+        :'Brak nowych blokad do zapoznania. Nie zmieniono żadnego konta.'});
     }
     if(action==='review_group'){
       if(!/^[0-9a-f]{64}$/i.test(key))invalid(400,'Nieprawidłowy identyfikator sieci.');

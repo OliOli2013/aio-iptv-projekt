@@ -166,8 +166,12 @@ export async function listCollisionGroups(env,{offset=0,limit=30}={}){
   const owner=await getOwnerId(env),groups=[];
   for(const item of r.results||[]){
     const users=await peers(db,item.ip),key=await keyFor(item.ip);
-    const first=await primary(env,users),ids=[];
-    for(const u of users){
+    // Owner and test accounts are excluded from this report, not from authentication.
+    // A protected-only/one-ordinary-account network is not a duplicate group.
+    const ordinary=users.filter(u=>u.user_id!==owner&&!isIpPolicyExemptV8(u.user_id,env));
+    if(ordinary.length<2)continue;
+    const first=await primary(env,ordinary),ids=[];
+    for(const u of ordinary){
       const protectedAccount=u.user_id===owner||isIpPolicyExemptV8(u.user_id,env);
       const hold=protectedAccount?null:await activeIpHold(env,u.user_id,item.ip);
       const allow=protectedAccount?false:await permitted(db,key,u.user_id);

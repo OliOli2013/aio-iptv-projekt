@@ -4,6 +4,7 @@
 import {requireAdmin} from '../_community.js';
 import {ensureV6} from '../_aio_security_v6.js';
 import {ensureIpPolicy} from '../_aio_ip_one_account_v7.js';
+import {FIXED_IP_POLICY_EXEMPT_IDS} from '../_aio_ip_policy_exempt_v8.js';
 
 const HEADERS = {
   'content-type':'application/json; charset=utf-8',
@@ -87,13 +88,14 @@ DEFINITIONS.push({id:'ip-policy-blocks',title:'Nowe blokady — wspólny IP',
   detail:'Blokady V8.1 wymagające przejrzenia. Konta pozostają zablokowane do odrębnej decyzji.',
   href:'/owner-hub#panel=ip-policy-v7',icon:'⛨',priority:'high',
   sql:`SELECT COUNT(*) n,MAX(h.created_at) latest FROM aio_ip_policy_holds_v8 h
-    WHERE h.status='active' AND NOT EXISTS (
+    WHERE h.status='active' AND h.user_id NOT IN (?,?,?) AND NOT EXISTS (
       SELECT 1 FROM aio_ip_policy_hold_reviews_v9 r
-      WHERE r.user_id=h.user_id AND r.ip_key=h.ip_key AND r.hold_created_at=h.created_at)`});
+      WHERE r.user_id=h.user_id AND r.ip_key=h.ip_key AND r.hold_created_at=h.created_at)`,
+  params:(now,ownerId)=>[ownerId,...FIXED_IP_POLICY_EXEMPT_IDS]});
 export async function onRequestGet({request,env}){
   try{
     // Validates the CURRENT session and the configured owner ID server-side.
-    await requireAdmin(request,env,true);
+    const auth=await requireAdmin(request,env,true);
     await ensureV6(env);
     await ensureIpPolicy(env);
     const db=env.COMMUNITY_DB;
@@ -101,7 +103,7 @@ export async function onRequestGet({request,env}){
     const now=new Date().toISOString();
     const results=await Promise.allSettled(DEFINITIONS.map(async item=>{
       const stmt=db.prepare(item.sql);
-      const r=await (item.params?stmt.bind(...item.params(now)):stmt).first();
+      const r=await (item.params?stmt.bind(...item.params(now,auth.user.id)):stmt).first();
       return {id:item.id,title:item.title,detail:item.detail,href:item.href,
         icon:item.icon,priority:item.priority,count:Math.max(0,Number(r?.n)||0),
         latest:r?.latest||null};
