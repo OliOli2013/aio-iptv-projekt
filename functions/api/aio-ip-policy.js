@@ -14,8 +14,11 @@ export async function onRequestGet({request,env}){
     // Pending grants only: never touch accounts, already-used permissions or account-specific exceptions.
     const permitTotals=await db.prepare('SELECT COALESCE(SUM(remaining),0) total FROM aio_ip_policy_signup_permits WHERE remaining>0').first();
     const holds=await db.prepare(`SELECT h.user_id,p.display_name,COALESCE(a.email,'') email,h.ip_key,h.reason,
-      h.status,h.created_at,h.released_at,h.released_by FROM aio_ip_policy_holds_v8 h
+      h.status,h.created_at,h.released_at,h.released_by,
+      CASE WHEN r.user_id IS NULL THEN 0 ELSE 1 END reviewed,r.reviewed_at
+      FROM aio_ip_policy_holds_v8 h
       LEFT JOIN community_profiles p ON p.id=h.user_id LEFT JOIN community_auth a ON a.user_id=h.user_id
+      LEFT JOIN aio_ip_policy_hold_reviews_v9 r ON r.user_id=h.user_id AND r.ip_key=h.ip_key AND r.hold_created_at=h.created_at
       WHERE h.status='active' ORDER BY h.created_at DESC LIMIT 300`).all();
     return respond({ok:true,offset,groups:groups.groups,has_more:groups.has_more,holds:holds.results||[],total_signup_permits:Number(permitTotals?.total||0),
       note:'Wspólny IP to jedno łącze, nie dowód tożsamości. Blokady historyczne wymagają zatwierdzenia przez właściciela.'});
@@ -34,6 +37,25 @@ export async function onRequestPost({request,env}){
       const ip=safe(data.ip,80);const result=await applyHistoricalGroup(env,key,ip,owner.user.id);
       await moderationLog(env,owner.user.id,{targetType:'user',targetId:owner.user.id,action:'ip_policy_group_applied',reason:'Sieć: '+key.slice(0,12)+'; zablokowano: '+result.held});
       return respond({ok:true,message:`Sprawdzono ${result.accounts} kont. Nowe blokady: ${result.held}.`,...result});
+    }
+    if(action==='review_hold'){
+      if(!validId(data.user_id)||!/^[0-9a-f]{64}$/i.test(key))invalid(400,'Nieprawidłowe konto lub identyfikator IP.');
+      const at=new Date().toISOString();
+      const r=await env.COMMUNITY_DB.prepare(`INSERT OR IGNORE INTO aio_ip_policy_hold_reviews_v9
+        (user_id,ip_key,hold_created_at,reviewed_at,reviewed_by)
+        SELECT user_id,ip_key,created_at,?,? FROM aio_ip_policy_holds_v8
+        WHERE user_id=? AND ip_key=? AND status='active'`)
+        .bind(at,owner.user.id,data.user_id,key).run();
+      if(Number(r.meta?.changes||0)===0){
+        const exists=await env.COMMUNITY_DB.prepare(`SELECT 1 ok FROM aio_ip_policy_holds_v8 h
+          LEFT JOIN aio_ip_policy_hold_reviews_v9 v ON v.user_id=h.user_id AND v.ip_key=h.ip_key AND v.hold_created_at=h.created_at
+          WHERE h.user_id=? AND h.ip_key=? AND h.status='active' AND v.user_id IS NOT NULL LIMIT 1`).bind(data.user_id,key).first();
+        if(!exists)invalid(409,'Blokada jest już nieaktywna lub została zmieniona. Odśwież panel.');
+        return respond({ok:true,message:'To zdarzenie było już przejrzane. Blokada pozostaje aktywna.'});
+      }
+      await moderationLog(env,owner.user.id,{targetUserId:data.user_id,targetType:'user',targetId:data.user_id,
+        action:'ip_policy_hold_reviewed',reason:'Przejrzano blokadę IP: '+key.slice(0,12)+'; dostęp pozostaje zablokowany.'});
+      return respond({ok:true,message:'Oznaczono jako przejrzane. Blokada nadal obowiązuje, powiadomienie znika z licznika.'});
     }
     if(action==='approve_user'){
       if(!validId(data.user_id))invalid(400,'Nieprawidłowe ID konta.');

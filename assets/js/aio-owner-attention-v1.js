@@ -61,7 +61,7 @@
   function addRow(item){
     const href=String(item.href||'');
     // Navigation is limited to approved same-site owner destinations.
-    if(!/^\/(?:owner-hub(?:#panel=[a-z-]+)?|owner-support-intents\.html|aio-list-upload\.html#aluAdmin)$/.test(href))return;
+    if(!/^\/(?:owner-hub(?:#panel=[a-z0-9-]+)?|owner-support-intents\.html|aio-list-upload\.html#aluAdmin)$/.test(href))return;
     const link=make('a','aoa1-row',undefined);link.href=href;
     const sym=make('span','aoa1-symbol',String(item.icon||'!'));sym.setAttribute('aria-hidden','true');
     const body=make('span','aoa1-copy');body.append(make('strong','',item.title||'Sprawa do obsłużenia'),make('small','',item.detail||''));

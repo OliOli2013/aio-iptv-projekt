@@ -30,3 +30,19 @@ body.aio-account-page{background:#061923;color:#e4f6fc;font-family:Inter,system-
 .aio-account-footer{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;padding:25px;color:#a1bfcd;background:#071f2a;font-size:.83rem}
 .aio-account-footer a{color:#b8eaf4}
 @media(max-width:720px){.aio-account-main{width:min(100% - 22px,620px)}.aio-account-status{grid-template-columns:1fr;padding:18px}.aio-account-panels{grid-template-columns:1fr}.aio-account-actions{display:grid;grid-template-columns:1fr}.aio-account-card{padding:17px}.aio-account-card-buttons{display:grid;grid-template-columns:1fr}}
+
+/* AIO Owner Focus V1 — only the verified owner, never ordinary user accounts. */
+body.aio-account-page.aio-owner-clean .aio-account-panels,
+body.aio-account-page.aio-owner-clean #aio-my-support-history,
+body.aio-account-page.aio-owner-clean #aio-contact-admin,
+body.aio-account-page.aio-owner-clean [data-account-contact],
+body.aio-account-page.aio-owner-clean .aio-account-heading > p:last-child,
+body.aio-account-page.aio-owner-clean .aio-account-notice:empty {
+  display:none!important;
+}
+/* Owner overview and the actionable bell panel remain visible and usable. */
+@media (max-width:720px) {
+  body.aio-account-page.aio-owner-clean .aio-account-main {width:min(100% - 22px,620px)}
+  body.aio-account-page.aio-owner-clean .aio-account-actions {display:flex;flex-wrap:wrap;gap:8px}
+  body.aio-account-page.aio-owner-clean .aio-account-actions > * {flex:1 1 180px;min-width:0}
+}

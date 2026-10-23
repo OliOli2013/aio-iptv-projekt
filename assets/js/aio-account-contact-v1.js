@@ -61,6 +61,8 @@
    try{
      const data=await request('/api/community-auth');
      if(generation!==epoch)return;
+     if(data.authenticated&&data.user?.is_owner===true){section.hidden=true;status('');return;}
+     section.hidden=false;
      if(!data.authenticated){status('Aby napisać do administratora, zaloguj się na swoje konto AIO.');return;}
      if(!data.email_verified||data.email_verification_required){status('Potwierdź adres e-mail na koncie AIO, aby korzystać z prywatnych wiadomości.');return;}
      canSend(true);status('Możesz wysłać prywatną wiadomość do właściciela AIO.');
@@ -89,7 +91,7 @@
  }
  function init(){
    const host=document.querySelector('.aio-account-main');if(!host)return;
-   section=el('section','aac1-root');section.id='aio-contact-admin';
+   section=el('section','aac1-root');section.id='aio-contact-admin';section.hidden=true;
    section.setAttribute('aria-labelledby','aac1-title');
    const head=el('div','aac1-heading');
    const left=el('div','');left.append(el('p','aac1-kicker','KONTAKT PRYWATNY'),el('h2','', '✉ Napisz do administratora'),el('p','aac1-description','Masz pytanie o konto, dostęp, pliki lub działanie strony? Napisz bezpośrednio do właściciela AIO. Odpowiedź pojawi się tutaj.'));

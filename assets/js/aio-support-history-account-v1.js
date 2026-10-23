@@ -70,7 +70,7 @@
  }
  async function refresh(){const seq=++requestNo;message('Odświeżam historię…');
    try{const authRes=await fetch('/api/community-auth',{credentials:'include',cache:'no-store'});const auth=await authRes.json();if(seq!==requestNo)return;
-     if(!authRes.ok||!auth.authenticated){root.hidden=true;return;}
+     if(!authRes.ok||!auth.authenticated||auth.user?.is_owner===true){root.hidden=true;return;}
      root.hidden=false;const d=await api();if(seq!==requestNo)return;
      list.replaceChildren();const rows=d.rows||[];count.textContent=String(rows.length);
      if(!rows.length){const empty=el('div',undefined,'asm-empty');empty.append(el('strong','Brak zgłoszeń dotyczących dostępu'));empty.append(el('p','Wybór 7 dni lub VIP zapiszesz na stronie wsparcia. Dobrowolne darowizny nie wymagają zgłoszenia.'));const a=el('a','Wybierz wsparcie →','asm-btn primary');a.href='/support.html#wesprzyj-projekt';empty.append(a);list.append(empty);}

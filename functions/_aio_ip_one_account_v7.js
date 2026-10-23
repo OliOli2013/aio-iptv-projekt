@@ -33,6 +33,11 @@ export async function ensureIpPolicy(env){
       PRIMARY KEY(user_id,ip_key),
       FOREIGN KEY(user_id) REFERENCES community_profiles(id) ON DELETE CASCADE)`),
     env.COMMUNITY_DB.prepare('CREATE INDEX IF NOT EXISTS idx_ip_v8_holds_status ON aio_ip_policy_holds_v8(status,created_at DESC)'),
+    // One acknowledgement per IP-hold incident; re-created holds generate fresh alerts.
+    env.COMMUNITY_DB.prepare(`CREATE TABLE IF NOT EXISTS aio_ip_policy_hold_reviews_v9 (
+      user_id TEXT NOT NULL, ip_key TEXT NOT NULL, hold_created_at TEXT NOT NULL,
+      reviewed_at TEXT NOT NULL, reviewed_by TEXT NOT NULL,
+      PRIMARY KEY(user_id,ip_key,hold_created_at))`),
     env.COMMUNITY_DB.prepare(`INSERT OR IGNORE INTO aio_ip_policy_holds_v8
       (user_id,ip_key,status,reason,created_at,released_at,released_by)
       SELECT user_id,ip_key,status,reason,created_at,released_at,released_by FROM aio_ip_policy_holds`),

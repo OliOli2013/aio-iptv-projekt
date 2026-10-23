@@ -7,7 +7,7 @@
  async function action(x){if(busy)return;busy=true;status('Zapisywanie decyzji…');try{const data=await req({method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({...x,confirm:true})});await refresh();status(data.message);}catch(e){status(e.message,true)}finally{busy=false}}
  const local=x=>x?new Date(x).toLocaleString('pl-PL'):'—';
  function render(){const root=$('ip7-groups');root.replaceChildren();
-  $('ip7-summary').textContent=`Historyczne sieci na tej stronie: ${groups.length} • Dodatkowe konta wymagające decyzji: ${groups.reduce((n,g)=>n+(g.pending||0),0)} • Aktywne blokady: ${holds.length} • Niewykorzystane zgody na rejestrację: ${permitTotal}`;
+  $('ip7-summary').textContent=`Historyczne sieci na tej stronie: ${groups.length} • Dodatkowe konta wymagające decyzji: ${groups.reduce((n,g)=>n+(g.pending||0),0)} • Aktywne blokady: ${holds.length} • Do przejrzenia: ${holds.filter(h=>!h.reviewed).length} • Niewykorzystane zgody na rejestrację: ${permitTotal}`;
   $('ip7-revoke-all').disabled=permitTotal<=0;
   if(!groups.length)root.append(el('p','Nie znaleziono kolejnych grup o wspólnym IP.'));
   for(const group of groups){const card=el('article',undefined,'ip7-card');card.append(el('h3','Sieć '+group.ip_masked+' • '+group.accounts.length+' kont'));
@@ -31,6 +31,8 @@
   const list=$('ip7-holds');list.replaceChildren();if(!holds.length)list.append(el('p','Brak aktywnych blokad polityki IP.'));
   for(const h of holds){const box=el('article',undefined,'ip7-card');box.append(el('h3',(h.display_name||'Użytkownik')+' • blokada do wyjaśnienia'));
    box.append(el('p','E-mail: '+(h.email||'brak')+' • ID: '+h.user_id));box.append(el('p',h.reason));box.append(el('p','Od: '+local(h.created_at)));
+    box.append(el('p',h.reviewed?'✓ Przejrzano: '+local(h.reviewed_at)+' (blokada pozostaje aktywna)':'🔔 Nowe zdarzenie — wymaga przejrzenia przez właściciela.'));
+    if(!h.reviewed){const review=el('button','✓ Oznacz jako przejrzane — BEZ odblokowania');review.type='button';review.onclick=()=>{if(confirm('Oznaczyć zdarzenie jako przejrzane? Konto NADAL będzie zablokowane na tym IP.'))void action({action:'review_hold',user_id:h.user_id,ip_key:h.ip_key});};box.append(review);}
    const button=el('button','✓ Zatwierdź wyjątek i odblokuj');button.type='button';button.onclick=()=>{const reason=prompt('Powód zgody na korzystanie z tego samego IP:','');if(reason&&reason.trim().length>=10&&confirm('Zezwolić temu kontu na używanie wskazanego IP i zdjąć blokadę?'))void action({action:'approve_user',user_id:h.user_id,ip_key:h.ip_key,reason});};box.append(button);list.append(box);
   }
  }

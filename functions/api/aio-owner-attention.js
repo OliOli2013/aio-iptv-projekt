@@ -3,6 +3,7 @@
  */
 import {requireAdmin} from '../_community.js';
 import {ensureV6} from '../_aio_security_v6.js';
+import {ensureIpPolicy} from '../_aio_ip_one_account_v7.js';
 
 const HEADERS = {
   'content-type':'application/json; charset=utf-8',
@@ -81,11 +82,20 @@ DEFINITIONS.push({id:'v6-blocks',title:'Nowe blokady Security V6',
   href:'/owner-hub#panel=v6-blocks',icon:'⛨',priority:'high',
   sql:"SELECT COUNT(*) n,MAX(created_at) latest FROM aio_v6_blocks WHERE status='active' AND expires_at>? AND reviewed_at IS NULL",
   params:now=>[now]});
+// V8.1 IP-policy holds require explicit owner review. Merely viewing the bell does not acknowledge them.
+DEFINITIONS.push({id:'ip-policy-blocks',title:'Nowe blokady — wspólny IP',
+  detail:'Blokady V8.1 wymagające przejrzenia. Konta pozostają zablokowane do odrębnej decyzji.',
+  href:'/owner-hub#panel=ip-policy-v7',icon:'⛨',priority:'high',
+  sql:`SELECT COUNT(*) n,MAX(h.created_at) latest FROM aio_ip_policy_holds_v8 h
+    WHERE h.status='active' AND NOT EXISTS (
+      SELECT 1 FROM aio_ip_policy_hold_reviews_v9 r
+      WHERE r.user_id=h.user_id AND r.ip_key=h.ip_key AND r.hold_created_at=h.created_at)`});
 export async function onRequestGet({request,env}){
   try{
     // Validates the CURRENT session and the configured owner ID server-side.
     await requireAdmin(request,env,true);
     await ensureV6(env);
+    await ensureIpPolicy(env);
     const db=env.COMMUNITY_DB;
     if(!db)return response({ok:false,error:'Baza danych niedostępna.'},503);
     const now=new Date().toISOString();
@@ -107,7 +117,7 @@ export async function onRequestGet({request,env}){
     const total=items.reduce((n,item)=>n+item.count,0);
     return response({ok:true,total,items:items.filter(x=>x.count>0),unavailable,
       complete:unavailable.length===0,checked_at:now,
-      note:'Zdarzenia oczekujące, niepotwierdzone wpływy. Nie obejmuje historii błędów Cloudflare.'});
+      note:'Zdarzenia wymagające decyzji, w tym nowe blokady V6 i IP V8.1. Nie obejmuje całych logów Cloudflare.'});
   }catch(error){
     const status=error?.status===401?401:error?.status===403?403:500;
     if(status===500)console.error('[AIO owner attention] request failed',String(error?.message||error).slice(0,160));

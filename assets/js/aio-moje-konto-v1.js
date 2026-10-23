@@ -27,6 +27,9 @@
     try{
       const session=await json('/api/community-auth');
       const authorized=!!session.authenticated;
+      // Owner-only presentation. API permissions are verified independently on the server.
+      const ownerView=authorized&&session.user?.is_owner===true&&session.email_verified===true&&!session.email_verification_required;
+      document.body.classList.toggle('aio-owner-clean',ownerView);
       login.hidden=authorized;resend.hidden=true;downloads.hidden=true;profile.hidden=true;
       if(!authorized){
         show({title:'Nie jesteś zalogowany',description:'Zaloguj się na dotychczasowe konto AIO lub utwórz nowe. Po zalogowaniu pokażemy status weryfikacji i dostęp do plików.',icon:'👤'});
@@ -46,12 +49,12 @@
       const ends=access.expires_at?formatDate(access.expires_at):'';
       let description='';let more='';
       if(access.restricted===true){description='Ograniczenie bezpieczeństwa — pobieranie wstrzymane na 24 godziny.';more=access.restriction_message||'Jeżeli korzystasz ze wspólnej sieci, poproś administratora o weryfikację.';}
-      else if(access.owner===true&&access.unlimited===true&&access.active===true){description='Konto właściciela AIO — wszystkie chronione pliki bez limitu pobierania.';more='Stałe uprawnienie właściciela. Bez limitu 168 godzin i bez terminu wygaśnięcia.';}
+      else if(access.owner===true&&access.unlimited===true&&access.active===true){description='Konto właściciela AIO — dostęp do plików bez limitu.';more='';}
       else if(access.vip&&access.active){description='AIO VIP — aktywny dostęp bez limitu pobierania.';more=ends?'VIP ważny do: '+ends:'';}
       else if(access.active){description='Aktywny dostęp po zatwierdzonym wsparciu — bez limitu pobierania.';more=ends?'Dostęp do: '+ends:'';}
       else{description='Pozostało '+Math.max(0,Number(access.free_remaining)||0)+' z 3 darmowych pobrań na 168 godzin.';more=access.free_resets_at?'Odnowienie limitu: '+formatDate(access.free_resets_at):'Okres rozpoczyna się od pierwszego darmowego pobrania.';}
       show({title:'Witaj, '+name+' — e-mail potwierdzony',description,more,icon:'✓',state:'verified'});
-    }catch(error){show({title:'Nie udało się sprawdzić konta',description:'Sprawdź połączenie ze stroną i spróbuj ponownie.',more:String(error.message||''),icon:'!'});}
+    }catch(error){document.body.classList.remove('aio-owner-clean');show({title:'Nie udało się sprawdzić konta',description:'Sprawdź połączenie ze stroną i spróbuj ponownie.',more:String(error.message||''),icon:'!'});}
     finally{busy=false;if(pending){pending=false;refresh();}}
   }
   resend.addEventListener('click',async()=>{
