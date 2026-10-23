@@ -36,6 +36,23 @@ export async function deleteAccountSafely(env, userId) {
     // Message reads on those messages are removed by ON DELETE CASCADE.
     steps.push(db.prepare('DELETE FROM aio_owner_messages WHERE recipient_user_id=? OR sender_user_id=?').bind(userId, userId));
   }
+  // FIX V2: preserve the historical moderation log while detaching deleted users.
+  // Production D1 schema: actor_id and target_user_id are restrictive FKs (NO ACTION).
+  if (existing.has('community_moderation_log')) {
+    steps.push(db.prepare('UPDATE community_moderation_log SET target_user_id=NULL WHERE target_user_id=?').bind(userId));
+    steps.push(db.prepare('UPDATE community_moderation_log SET actor_id=NULL WHERE actor_id=?').bind(userId));
+  }
+  // Keep active network rules but detach references to the removed account.
+  if (existing.has('community_ip_blocks')) {
+    steps.push(db.prepare('UPDATE community_ip_blocks SET target_user_id=NULL WHERE target_user_id=?').bind(userId));
+    steps.push(db.prepare('UPDATE community_ip_blocks SET created_by=NULL WHERE created_by=?').bind(userId));
+  }
+  // Reports filed by this account require deletion (reporter_id is NOT NULL),
+  // while reviewed reports from other users must retain their decision history.
+  if (existing.has('community_reports')) {
+    steps.push(db.prepare('UPDATE community_reports SET reviewed_by=NULL WHERE reviewed_by=?').bind(userId));
+    steps.push(db.prepare('DELETE FROM community_reports WHERE reporter_id=?').bind(userId));
+  }
   steps.push(
     db.prepare('DELETE FROM community_sessions WHERE user_id=?').bind(userId),
     db.prepare('DELETE FROM community_auth WHERE user_id=?').bind(userId),
