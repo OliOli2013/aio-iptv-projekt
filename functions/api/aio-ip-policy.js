@@ -1,6 +1,6 @@
 /* Owner-only D1 review and decisions; never reveal IP/account correlation publicly. */
 import {requireAdmin,json,moderationLog} from '../_community.js';
-import {ensureIpPolicy,listCollisionGroups,applyHistoricalGroup,grantException,allowNextSignup,reviewIpGroup} from '../_aio_ip_one_account_v7.js';
+import {ensureIpPolicy,listCollisionGroups,applyHistoricalGroup,grantException,allowNextSignup,reviewIpGroup,historicalPendingIpSummary} from '../_aio_ip_one_account_v7.js';
 import {FIXED_IP_POLICY_EXEMPT_IDS,isIpPolicyExemptV8} from '../_aio_ip_policy_exempt_v8.js';
 const respond=(x,status=200)=>json(x,status,{'Cache-Control':'private, no-store','Vary':'Cookie'});
 const invalid=(status,msg)=>{throw Object.assign(new Error(msg),{status})};
@@ -16,6 +16,12 @@ export async function onRequestGet({request,env}){
     const auth=await requireAdmin(request,env,true);await ensureIpPolicy(env);
     const url=new URL(request.url),offset=Math.min(100000,Math.max(0,Number.parseInt(url.searchParams.get('offset')||'0',10)||0));
     const db=env.COMMUNITY_DB,groups=await listCollisionGroups(env,{offset,limit:5});
+    const historical=await historicalPendingIpSummary(env);
+    const denied=await db.prepare(`SELECT d.ip_key,d.kind,d.attempts,d.first_at,d.last_at,d.reviewed_at,
+      p.display_name last_user_name FROM aio_ip_policy_denials_v10 d
+      LEFT JOIN community_profiles p ON p.id=d.last_user_id
+      ORDER BY CASE WHEN d.reviewed_at IS NULL THEN 0 ELSE 1 END,d.last_at DESC LIMIT 120`).all();
+    const unreadDenials=await db.prepare('SELECT COUNT(*) n FROM aio_ip_policy_denials_v10 WHERE reviewed_at IS NULL').first();
     // Pending grants only: never touch accounts, already-used permissions or account-specific exceptions.
     const permitTotals=await db.prepare('SELECT COALESCE(SUM(remaining),0) total FROM aio_ip_policy_signup_permits WHERE remaining>0').first();
     const hidden=excludedIds(env,auth.user.id);
@@ -33,7 +39,9 @@ export async function onRequestGet({request,env}){
         COALESCE(h.released_at,h.created_at) DESC LIMIT 300`).all();
     const visible=(holds.results||[]).filter(h=>h.user_id!==auth.user.id&&!isIpPolicyExemptV8(h.user_id,env));
     return respond({ok:true,offset,groups:groups.groups,has_more:groups.has_more,holds:visible,
-      unreviewed_total:Number(unread?.n||0),total_signup_permits:Number(permitTotals?.total||0),
+      unreviewed_total:Number(unread?.n||0),historical_pending:historical,
+      denial_attempts:denied.results||[],unread_denials:Number(unreadDenials?.n||0),
+      total_signup_permits:Number(permitTotals?.total||0),
       note:'Wspólny IP to jedno łącze, nie dowód tożsamości. Blokady historyczne wymagają zatwierdzenia przez właściciela.'});
   }catch(e){console.error('[AIO IP policy GET]',String(e?.message||e).slice(0,150));return handleError(e)}
 }
@@ -46,6 +54,15 @@ export async function onRequestPost({request,env}){
     const data=await request.json().catch(()=>({})),action=safe(data.action,40),key=safe(data.ip_key,120);
     if(data.confirm!==true)invalid(400,'Wymagane potwierdzenie właściciela.');
     const reason=safe(data.reason,240);
+    if(action==='review_denial'){
+      if(!/^[0-9a-f]{64}$/i.test(key)||!['register','login'].includes(data.kind))invalid(400,'Nieprawidłowy identyfikator zdarzenia.');
+      const at=new Date().toISOString();
+      const r=await env.COMMUNITY_DB.prepare('UPDATE aio_ip_policy_denials_v10 SET reviewed_at=?,reviewed_by=? WHERE ip_key=? AND kind=? AND reviewed_at IS NULL')
+        .bind(at,owner.user.id,key,data.kind).run();
+      const changed=Number(r.meta?.changes||0);
+      if(changed)await moderationLog(env,owner.user.id,{targetType:'user',targetId:owner.user.id,action:'ip_policy_denial_reviewed',reason:'Przejrzano agregat '+data.kind+' dla sieci '+key.slice(0,12)+'; nie zmieniono kont ani blokad.'});
+      return respond({ok:true,message:changed?'Potwierdzono próbę. Zabezpieczenia pozostają aktywne.':'To zdarzenie było już przejrzane.'});
+    }
     if(action==='apply_group'){
       const ip=safe(data.ip,80);const result=await applyHistoricalGroup(env,key,ip,owner.user.id);
       await moderationLog(env,owner.user.id,{targetType:'user',targetId:owner.user.id,action:'ip_policy_group_applied',reason:'Sieć: '+key.slice(0,12)+'; zablokowano: '+result.held});

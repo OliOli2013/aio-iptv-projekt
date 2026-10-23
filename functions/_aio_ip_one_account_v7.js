@@ -33,6 +33,14 @@ export async function ensureIpPolicy(env){
       PRIMARY KEY(user_id,ip_key),
       FOREIGN KEY(user_id) REFERENCES community_profiles(id) ON DELETE CASCADE)`),
     env.COMMUNITY_DB.prepare('CREATE INDEX IF NOT EXISTS idx_ip_v8_holds_status ON aio_ip_policy_holds_v8(status,created_at DESC)'),
+    // V10: aggregated denied same-IP registrations and valid-password login restrictions.
+    // Never store raw IP, password, email or unregistered display name.
+    env.COMMUNITY_DB.prepare(`CREATE TABLE IF NOT EXISTS aio_ip_policy_denials_v10 (
+      ip_key TEXT NOT NULL, kind TEXT NOT NULL CHECK(kind IN ('register','login')),
+      attempts INTEGER NOT NULL DEFAULT 1, first_at TEXT NOT NULL, last_at TEXT NOT NULL,
+      last_user_id TEXT, reviewed_at TEXT, reviewed_by TEXT,
+      PRIMARY KEY(ip_key,kind))`),
+    env.COMMUNITY_DB.prepare('CREATE INDEX IF NOT EXISTS idx_aio_ip_denials_unread ON aio_ip_policy_denials_v10(reviewed_at,last_at DESC)'),
     // One acknowledgement per IP-hold incident; re-created holds generate fresh alerts.
     env.COMMUNITY_DB.prepare(`CREATE TABLE IF NOT EXISTS aio_ip_policy_hold_reviews_v9 (
       user_id TEXT NOT NULL, ip_key TEXT NOT NULL, hold_created_at TEXT NOT NULL,
@@ -96,6 +104,62 @@ export async function isApprovedOnCurrentIp(env,request,userId){
 }
 /* IMPORTANT: call BEFORE inserting a new profile. The reservation has a unique PK,
  * preventing two simultaneous registrations from claiming an empty IP. */
+/** One pending alert per network and denial type, not one bell alert per request.
+ * A reviewed network is reopened only on a new attempt at least 10 min later.
+ */
+export async function noteIpDenial(env,request,kind,userId=null){
+  if(!['register','login'].includes(kind))return;
+  const ip=getIp(request);if(!ip)return;
+  await ensureIpPolicy(env);
+  const key=await keyFor(ip),at=now(),cutoff=new Date(Date.now()-10*60000).toISOString();
+  await env.COMMUNITY_DB.prepare(`INSERT INTO aio_ip_policy_denials_v10
+    (ip_key,kind,attempts,first_at,last_at,last_user_id) VALUES(?,?,1,?,?,?)
+    ON CONFLICT(ip_key,kind) DO UPDATE SET
+      attempts=aio_ip_policy_denials_v10.attempts+1,last_at=excluded.last_at,
+      last_user_id=COALESCE(excluded.last_user_id,aio_ip_policy_denials_v10.last_user_id),
+      reviewed_at=CASE WHEN aio_ip_policy_denials_v10.reviewed_at IS NOT NULL AND aio_ip_policy_denials_v10.reviewed_at<? THEN NULL ELSE aio_ip_policy_denials_v10.reviewed_at END,
+      reviewed_by=CASE WHEN aio_ip_policy_denials_v10.reviewed_at IS NOT NULL AND aio_ip_policy_denials_v10.reviewed_at<? THEN NULL ELSE aio_ip_policy_denials_v10.reviewed_by END`)
+    .bind(key,kind,at,at,userId,cutoff,cutoff).run();
+}
+/** All historical additional ordinary accounts, even outside the 5 visible groups.
+ * Read-only, excludes owner/exemptions and accounts already held or approved on that IP.
+ */
+export async function historicalPendingIpSummary(env){
+  await ensureIpPolicy(env);
+  const db=env.COMMUNITY_DB,owner=await getOwnerId(env);
+  const [history,held,approved]=await Promise.all([
+    db.prepare(`SELECT ui.ip_address ip,ui.user_id,p.created_at,ui.first_seen_at,ui.last_seen_at
+      FROM community_user_ips ui JOIN community_profiles p ON p.id=ui.user_id
+      WHERE ui.ip_address IS NOT NULL AND LENGTH(ui.ip_address)>2
+        AND ui.ip_address IN (SELECT ip_address FROM community_user_ips
+          WHERE ip_address IS NOT NULL GROUP BY ip_address HAVING COUNT(DISTINCT user_id)>1)
+      ORDER BY ui.ip_address,p.created_at,ui.first_seen_at,p.id`).all(),
+    db.prepare("SELECT user_id,ip_key FROM aio_ip_policy_holds_v8 WHERE status='active'").all(),
+    db.prepare('SELECT user_id,ip_key FROM aio_ip_policy_exceptions').all()
+  ]);
+  const heldKeys=new Set((held.results||[]).map(x=>x.user_id+':'+x.ip_key));
+  const allowKeys=new Set((approved.results||[]).map(x=>x.user_id+':'+x.ip_key));
+  const networks=new Map();
+  for(const row of history.results||[]){
+    if(row.user_id===owner||isIpPolicyExemptV8(row.user_id,env))continue;
+    if(!networks.has(row.ip))networks.set(row.ip,[]);
+    networks.get(row.ip).push(row);
+  }
+  let groups=0,accounts=0,latest=null;
+  for(const [ip,people] of networks){
+    if(people.length<2)continue;
+    const key=await keyFor(ip);
+    let networkPending=0;
+    for(const person of people.slice(1)){
+      const id=person.user_id+':'+key;
+      if(heldKeys.has(id)||allowKeys.has(id))continue;
+      accounts++;networkPending++;
+      if(!latest||person.last_seen_at>latest)latest=person.last_seen_at;
+    }
+    if(networkPending)groups++;
+  }
+  return {groups,accounts,latest};
+}
 export async function reserveRegistrationIp(env,request,newUserId){
   await ensureIpPolicy(env);
   const ip=getIp(request);if(!ip)throw error(503,'Nie można bezpiecznie ustalić adresu IP. Spróbuj ponownie później.');
@@ -105,12 +169,18 @@ export async function reserveRegistrationIp(env,request,newUserId){
   if(claim){
     // One-time owner permit; grants are count-limited and consumed atomically.
     const used=await db.prepare('UPDATE aio_ip_policy_signup_permits SET remaining=remaining-1 WHERE ip_key=? AND remaining>0').bind(key).run();
-    if(!used.meta?.changes)throw error(409,NOTICE);
+    if(!used.meta?.changes){
+      await noteIpDenial(env,request,'register').catch(e=>console.error('[AIO IP denial registration]',String(e?.message||e).slice(0,100)));
+      throw error(409,NOTICE);
+    }
     return {key,existing:true,permit:true};
   }
   const lock=await db.prepare(`INSERT OR IGNORE INTO aio_ip_policy_claims(ip_key,user_id,created_at,source)
     VALUES(?,?,?,'register')`).bind(key,newUserId,now()).run();
-  if(!lock.meta?.changes)throw error(409,NOTICE);
+  if(!lock.meta?.changes){
+    await noteIpDenial(env,request,'register').catch(e=>console.error('[AIO IP denial registration]',String(e?.message||e).slice(0,100)));
+    throw error(409,NOTICE);
+  }
   return {key,existing:false,permit:false};
 }
 export async function rollbackRegistrationIp(env,lease,newUserId){
@@ -128,7 +198,11 @@ export async function checkAfterValidLogin(env,request,userId,role){
   await ensureIpPolicy(env);
   if(userId===await getOwnerId(env) || isIpPolicyExemptV8(userId,env))return null;
   const ip=getIp(request);if(!ip)return null;
-  const hold=await activeIpHold(env,userId,request);if(hold)return hold;
+  const hold=await activeIpHold(env,userId,request);
+  if(hold){
+    await noteIpDenial(env,request,'login',userId).catch(e=>console.error('[AIO IP denial login]',String(e?.message||e).slice(0,100)));
+    return hold;
+  }
   const db=env.COMMUNITY_DB,key=await keyFor(ip);
   if(await permitted(db,key,userId))return null;
   const known=await peers(db,ip);
@@ -141,6 +215,7 @@ export async function checkAfterValidLogin(env,request,userId,role){
   const reread=await db.prepare('SELECT user_id FROM aio_ip_policy_claims WHERE ip_key=?').bind(key).first();
   if(reread?.user_id===userId)return null;
   await imposeIpHold(env,userId,key,'Kilka kont korzysta z jednego adresu IP. Wyjaśnij sytuację z administracją AIO.');
+  await noteIpDenial(env,request,'login',userId).catch(e=>console.error('[AIO IP denial login]',String(e?.message||e).slice(0,100)));
   return activeIpHold(env,userId,request);
 }
 export async function imposeIpHold(env,userId,key,reason){

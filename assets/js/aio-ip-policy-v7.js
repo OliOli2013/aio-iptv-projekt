@@ -1,6 +1,6 @@
 /* IP Policy V7 owner dashboard; no third-party dependencies. */
 (()=>{'use strict';
- const $=x=>document.getElementById(x),api='/api/aio-ip-policy';let groups=[],holds=[],offset=0,hasMore=false,busy=false,permitTotal=0,globalUnread=0;
+ const $=x=>document.getElementById(x),api='/api/aio-ip-policy';let groups=[],holds=[],offset=0,hasMore=false,busy=false,permitTotal=0,globalUnread=0,denials=[],globalDenials=0,historyPending={groups:0,accounts:0};
  function el(tag,txt,cls){const n=document.createElement(tag);if(txt!==undefined)n.textContent=txt;if(cls)n.className=cls;return n;}
  function status(t,err=false){const n=$('ip7-status');if(n){n.textContent=t;n.classList.toggle('ip7-error',err);}}
  async function req(o={}){const r=await fetch(api,{credentials:'include',cache:'no-store',...o});const d=await r.json().catch(()=>({ok:false,error:'Błąd odpowiedzi serwera'}));if(!r.ok||!d.ok)throw Error(d.error||'HTTP '+r.status);return d;}
@@ -83,13 +83,35 @@
   const openGroups=document.getElementById('ip7-reviewed-groups')?.open===true;
   const openHolds=document.getElementById('ip7-reviewed-holds')?.open===true;
   root.replaceChildren();
+  const denialRoot=$('ip7-denials');if(denialRoot){
+    denialRoot.replaceChildren();
+    const pending=denials.filter(d=>!d.reviewed_at),done=denials.filter(d=>!!d.reviewed_at);
+    if(!pending.length)denialRoot.append(el('p','Brak nowych odrzuconych prób w monitoringu V10.'));
+    for(const d of pending){
+      const card=el('article',undefined,'ip7-card');
+      card.append(el('h3',(d.kind==='register'?'Odmowy kolejnej rejestracji':'Odmowy logowania z drugiego IP')+' • sieć '+d.ip_key.slice(0,12)));
+      card.append(el('p','Próby: '+Number(d.attempts||0)+' • ostatnia: '+local(d.last_at)));
+      if(d.last_user_name)card.append(el('p','Ostatnio sprawdzane konto: '+d.last_user_name));
+      if(d.kind==='register')card.append(el('p','Odmówiono utworzenia konta — profil użytkownika nie został utworzony.'));
+      const b=el('button','✓ Zapoznano się — bez odblokowania');b.type='button';
+      b.onclick=()=>{if(confirm('Oznaczyć próbę jako przejrzaną? Nie zmienia to blokad ani kont.'))void action({action:'review_denial',ip_key:d.ip_key,kind:d.kind});};
+      card.append(b);denialRoot.append(card);
+    }
+    if(done.length){const history=archiveSection('✓ Przejrzane próby — historia','ip7-denial-archive',done,d=>{
+      const c=el('article',undefined,'ip7-card');
+      c.append(el('h3',(d.kind==='register'?'Rejestracja':'Logowanie')+' • sieć '+d.ip_key.slice(0,12)));
+      c.append(el('p','Łącznie prób: '+Number(d.attempts||0)+' • ostatnia: '+local(d.last_at)+' • zapoznano: '+local(d.reviewed_at)));return c;});
+      history.open=window.__ip7DenialOpen===true;
+      history.addEventListener('toggle',()=>{window.__ip7DenialOpen=history.open;});denialRoot.append(history);
+    }
+  }
   const unreadTotal=Math.max(0,Number(globalUnread||0));
   const activeHolds=holds.filter(h=>h.status==='active');
   const pendingGroups=groups.filter(g=>Number(g.pending||0)>0||Number(g.unreviewed_holds||0)>0);
   const doneGroups=groups.filter(g=>Number(g.pending||0)===0&&Number(g.unreviewed_holds||0)===0);
   $('ip7-summary').textContent='Widoczne sieci: '+groups.length+' • Do obsługi na tej stronie: '+pendingGroups.length+
     ' • Aktywne blokady: '+activeHolds.length+' • Nieprzejrzane blokady (wszystkie sieci): '+unreadTotal+
-    ' • Niewykorzystane zgody: '+permitTotal;
+    ' • Nowe próby odrzucone: '+globalDenials+' • Sieci do decyzji: '+Number(historyPending.groups||0)+' • Niewykorzystane zgody: '+permitTotal;
   $('ip7-revoke-all').disabled=permitTotal<=0;
   const all=$('ip7-review-all');all.disabled=unreadTotal<=0;
   all.textContent=unreadTotal?'✓ Zapoznaj się ze wszystkimi '+unreadTotal+' nowymi blokadami':'✓ Brak nieprzejrzanych blokad';
@@ -106,7 +128,7 @@
   if(archived.length){const d=archiveSection('✓ Zapoznane i zakończone sprawy — rozwiń historię','ip7-reviewed-holds',archived,holdCard);
     d.open=openHolds;list.append(d);}
  }
- async function refresh(){try{const d=await req();offset=0;groups=d.groups||[];holds=d.holds||[];hasMore=!!d.has_more;permitTotal=Number(d.total_signup_permits||0);globalUnread=Number(d.unreviewed_total||0);render();status('Odczyt D1: '+local(new Date().toISOString()));}catch(e){status(e.message,true)}}
+ async function refresh(){try{const d=await req();offset=0;groups=d.groups||[];holds=d.holds||[];hasMore=!!d.has_more;permitTotal=Number(d.total_signup_permits||0);globalUnread=Number(d.unreviewed_total||0);denials=d.denial_attempts||[];globalDenials=Number(d.unread_denials||0);historyPending=d.historical_pending||{groups:0,accounts:0};render();status('Odczyt D1: '+local(new Date().toISOString()));}catch(e){status(e.message,true)}}
   $('ip7-revoke-all').onclick=()=>{
     if(busy||permitTotal<1)return;
     if(prompt('Cofniesz WSZYSTKIE '+permitTotal+' niewykorzystane zgody na dodatkową rejestrację. Wpisz COFNIJ, aby potwierdzić:')!=='COFNIJ')return;
@@ -126,6 +148,6 @@
      await refresh();status('Zapisano blokady: '+ok+'. Grupy wymagające dodatkowej weryfikacji: '+errors,errors>0);
    }finally{busy=false;}
  };
- $('ip7-refresh').onclick=()=>void refresh();$('ip7-next').onclick=async()=>{try{offset+=5;const r=await fetch(api+'?offset='+offset,{credentials:'include',cache:'no-store'}),j=await r.json();if(!r.ok||!j.ok)throw Error(j.error||'Błąd stronicowania');groups=j.groups||[];holds=j.holds||[];hasMore=!!j.has_more;permitTotal=Number(j.total_signup_permits||0);globalUnread=Number(j.unreviewed_total||0);render();}catch(e){status(e.message,true)}};
+ $('ip7-refresh').onclick=()=>void refresh();$('ip7-next').onclick=async()=>{try{offset+=5;const r=await fetch(api+'?offset='+offset,{credentials:'include',cache:'no-store'}),j=await r.json();if(!r.ok||!j.ok)throw Error(j.error||'Błąd stronicowania');groups=j.groups||[];holds=j.holds||[];hasMore=!!j.has_more;permitTotal=Number(j.total_signup_permits||0);globalUnread=Number(j.unreviewed_total||0);denials=j.denial_attempts||[];globalDenials=Number(j.unread_denials||0);historyPending=j.historical_pending||{groups:0,accounts:0};render();}catch(e){status(e.message,true)}};
  void refresh();
 })();

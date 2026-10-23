@@ -26,3 +26,11 @@ html[data-aop-v3="ready"] .oh-topbar .oh-topactions a{font-size:.74rem}
 /* On small screens expand groups in normal document flow (no clipped popup menus). */
 @media(max-width:760px){html[data-aop-v3="ready"] .oh-sidebar{overflow:visible!important}.aop-side{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));overflow:visible}.aop-nav-home{width:100%;white-space:normal}.aop-nav-group{min-width:0}.aop-nav-heading{white-space:normal}.aop-nav-group .aop-nav-items{position:static;min-width:0;max-height:none;box-shadow:none;margin:5px 0 0}.aop-nav-group[open]{grid-column:span 2}.aop-nav-group[open] .aop-nav-items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.aop-nav-item{min-width:0}}
 @media(max-width:450px){.aop-side{grid-template-columns:1fr}.aop-nav-group[open]{grid-column:span 1}.aop-nav-group[open] .aop-nav-items{grid-template-columns:1fr}}
+
+/* V10: Mobile owner navigation and dynamically resized embedded security modules. */
+@media(max-width:760px){
+  html[data-aop-v3="ready"] .aop-nav-group[open] .aop-nav-items{max-height:none!important;overflow:visible!important;display:grid!important}
+  html[data-aop-v3="ready"] .aop-nav-item{display:flex!important;visibility:visible!important;min-height:42px;white-space:normal!important}
+  html[data-aop-v3="ready"] .aop-embedded{overflow:visible!important;padding:4px!important}
+  html[data-aop-v3="ready"] .aop-frame{width:100%!important;min-width:0!important}
+}

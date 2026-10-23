@@ -28,7 +28,7 @@
   {id:'security',name:'Bezpieczeństwo',icon:'⬡',items:[
    {id:'security-center-v1',name:'Centrum Bezpieczeństwa — pełen obraz',icon:'🛡',desc:'Logowania, pobrania, masowe żądania, V6, IP i VIP w jednym miejscu',url:'/aio-security-center.html',tags:'bezpieczenstwo dashboard ip logowania pobrania anonimy alerty raporty'},
    {id:'v6-blocks',name:'Security V6 — zablokowane konta',icon:'⛔',desc:'Automatyczne blokady, odwołania i ręczne decyzje',url:'/aio-security-v6.html',tags:'v6 bot skrypt ban blokady nadużycia odwołania'},
-    {id:'ip-policy-v7',name:'Jedno konto na IP • V8.1',icon:'⛨',desc:'Blokowanie duplikatów, zgody na rejestrację, przegląd historyczny',url:'/aio-ip-policy.html',tags:'ip jedno konto blokady duplikaty rejestracja administracja'},
+    {id:'ip-policy-v7',name:'Jedno konto na IP • V10',icon:'⛨',desc:'Blokowanie duplikatów, zgody na rejestrację, przegląd historyczny',url:'/aio-ip-policy.html',tags:'ip jedno konto blokady duplikaty rejestracja administracja'},
    {id:'security-journal',name:'Dziennik bezpieczeństwa',icon:'⬡',desc:'Wspólne IP, udostępniane konta i decyzje',native:'aio-security-journal',tags:'logowania alerty blokady wspólne ip vip'},
    {id:'security',name:'Ochrona administratora',icon:'⛨',desc:'Uprawnienia, dostęp właściciela i kontrole',target:'security',tags:'administracja bezpieczeństwo'},
    {id:'logs',name:'Dziennik administracyjny',icon:'≡',desc:'Historia operacji na kontach i treściach',target:'logs',tags:'moderacja audyt log'}
@@ -110,8 +110,13 @@
    stopFrame();iframe=frame;wrap.replaceChildren();wrap.append(frame);wrap.hidden=false;if(loading)loading.hidden=false;
    frame.addEventListener('load',()=>{if(frame!==iframe)return;if(loading)loading.hidden=true;
      if(item.target){try{const d=frame.contentDocument;const style=d.createElement('style');style.textContent=`html{scroll-behavior:auto!important}html body{margin:0!important;min-height:0!important;background:#071c28!important}html .site-header,html .site-footer,html .skip-link,html .aio-owner-focusbar,html .community-account,html .aoc-intro,html #aio-owner-center{display:none!important}html .page-shell{max-width:none!important;min-height:0!important;padding:0!important;margin:0!important;background:transparent!important}html main#main-content{max-width:none!important;padding:10px 6px!important;margin:0!important;min-height:0!important}html .community-shell{max-width:none!important}html[data-aio-owner-mode=focus] #aio-owner-legacy-workspace{margin:0!important}html .standalone-main{padding-top:6px!important}`;d.head.append(style);
-       if(frameObserver)frameObserver.disconnect();frameObserver=new MutationObserver(()=>{clearTimeout(frameTimer);frameTimer=setTimeout(fitFrame,240);});frameObserver.observe(d.body,{subtree:true,childList:true,attributes:true,attributeFilter:['hidden','style','class']});
       }catch(_){} }
+      try{const d=frame.contentDocument;if(d?.body){
+        if(frameObserver)frameObserver.disconnect();
+        frameObserver=new MutationObserver(()=>{clearTimeout(frameTimer);frameTimer=setTimeout(fitFrame,180);});
+        frameObserver.observe(d.body,{subtree:true,childList:true,attributes:true,attributeFilter:['hidden','style','class','open']});
+        d.addEventListener('toggle',()=>{clearTimeout(frameTimer);frameTimer=setTimeout(fitFrame,100);},true);
+      }}catch(_){}
       fitFrame();setTimeout(fitFrame,480);setTimeout(fitFrame,1500);applyAccountSearch();
    });
    frame.addEventListener('error',()=>{if(loading)loading.textContent='Nie udało się załadować modułu. Użyj „Otwórz osobno”.';});

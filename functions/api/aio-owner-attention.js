@@ -3,7 +3,7 @@
  */
 import {requireAdmin} from '../_community.js';
 import {ensureV6} from '../_aio_security_v6.js';
-import {ensureIpPolicy} from '../_aio_ip_one_account_v7.js';
+import {ensureIpPolicy,historicalPendingIpSummary} from '../_aio_ip_one_account_v7.js';
 import {ensureAnonymousShield} from '../_aio_anon_shield_v1.js';
 import {FIXED_IP_POLICY_EXEMPT_IDS} from '../_aio_ip_policy_exempt_v8.js';
 
@@ -93,6 +93,11 @@ DEFINITIONS.push({id:'ip-policy-blocks',title:'Nowe blokady — wspólny IP',
       SELECT 1 FROM aio_ip_policy_hold_reviews_v9 r
       WHERE r.user_id=h.user_id AND r.ip_key=h.ip_key AND r.hold_created_at=h.created_at)`,
   params:(now,ownerId)=>[ownerId,...FIXED_IP_POLICY_EXEMPT_IDS]});
+// New same-IP registration/login denials are aggregated by network and kind.
+DEFINITIONS.push({id:'ip-denials',title:'Odrzucone próby — wiele kont na IP',
+  detail:'Zarejestrowane odmowy rejestracji i logowania. Przejrzenie nie odblokowuje kont.',
+  href:'/owner-hub#panel=ip-policy-v7',icon:'⛨',priority:'high',
+  sql:'SELECT COUNT(*) n,MAX(last_at) latest FROM aio_ip_policy_denials_v10 WHERE reviewed_at IS NULL'});
 // One indicator for ANY number of anonymous burst incidents — never flood the bell.
 DEFINITIONS.push({id:'anonymous-bursts',title:'Anonimowe fale żądań plików',
   detail:'Jedna zbiorcza sprawa: weryfikacja nowych ograniczeń /pliki/ bez sesji.',
@@ -125,6 +130,13 @@ export async function onRequestGet({request,env}){
         console.error('[AIO owner attention] source',DEFINITIONS[index].id,String(result.reason?.message||'error').slice(0,160));
       }
     });
+    try{
+      const pending=await historicalPendingIpSummary(env);
+      if(pending.groups>0)items.push({id:'ip-history-pending',title:'Dodatkowe konta na wspólnych IP — do decyzji',
+        detail:pending.accounts+' dodatkowe konta w '+pending.groups+' sieciach; przed blokadą zweryfikuj wspólną sieć.',
+        href:'/owner-hub#panel=ip-policy-v7',icon:'⛨',priority:'high',count:pending.groups,latest:pending.latest});
+    }catch(e){unavailable.push('Wspólne IP — konta oczekujące na decyzję');
+      console.error('[AIO owner attention] pending IP history',String(e?.message||e).slice(0,150));}
     const total=items.reduce((n,item)=>n+item.count,0);
     return response({ok:true,total,items:items.filter(x=>x.count>0),unavailable,
       complete:unavailable.length===0,checked_at:now,
