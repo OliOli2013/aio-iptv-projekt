@@ -1,0 +1,15 @@
+/* OpenCamView 2.0.1 — scoped enhancement only; rest of site CSS unchanged. */
+.ocv201 .ocv201-hero{align-items:start;gap:26px}
+.ocv201 .ocv201-hero figure{max-width:450px;margin:0 auto}
+.ocv201 .ocv201-hero figure img{display:block;width:100%;height:auto;border-radius:18px;border:1px solid rgba(80,220,243,.5);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.ocv201 .ocv201-hero figcaption{margin:8px 0 0;color:#a7cedd;font-size:.8rem;text-align:center}
+.ocv201 .ocv201-tags{display:flex;flex-wrap:wrap;gap:9px;margin:20px 0}
+.ocv201 .ocv201-tags span{display:inline-block;border:1px solid rgba(53,207,222,.5);background:rgba(9,54,72,.85);color:#a0f1f7;border-radius:999px;padding:7px 13px;font-size:.84rem;font-weight:700}
+.ocv201 .ocv201-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin-top:17px}
+.ocv201 .ocv201-grid article{min-width:0;padding:16px;border:1px solid #276070;border-radius:12px;background:#082532}
+.ocv201 .ocv201-grid article strong{display:block;color:#e7fbff;font-size:1rem;margin-bottom:6px}
+.ocv201 .ocv201-grid article p{color:#b5d2df;font-size:.88rem;line-height:1.55;margin:0}
+.ocv201 .ocv201-note{font-size:.87rem;color:#b9dce9;margin:18px 0 0}
+.ocv201 code{overflow-wrap:anywhere;word-break:break-word}
+@media(max-width:880px){.ocv201 .ocv201-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.ocv201 .ocv201-grid{grid-template-columns:1fr}.ocv201 .ocv201-hero figure{max-width:min(100%,350px)}.ocv201 .action-row>*{min-width:0}}

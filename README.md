@@ -5,7 +5,7 @@
 ![Enigma2](https://img.shields.io/badge/Enigma2-OpenATV%20%7C%20OpenPLi-blue?style=for-the-badge&logo=linux)
 ![Python](https://img.shields.io/badge/Python-2%20%7C%203-yellow?style=for-the-badge&logo=python)
 ![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
-![AIO Panel](https://img.shields.io/badge/AIO%20Panel-17.0.0-00bcd4?style=for-the-badge)
+![AIO Panel](https://img.shields.io/badge/AIO%20Panel-17.0.2-00bcd4?style=for-the-badge)
 ![AIOHD NEXT](https://img.shields.io/badge/AIOHD%20NEXT-3.2.1-f0b84b?style=for-the-badge)
 
 ---
@@ -61,22 +61,23 @@ Ochrona sieciowa tunera Enigma2: zapora IPv4/IPv6, profile DOM, ZAUFANE i LOCKDO
 Aktywna zapora wymaga modułów netfilter. E2 Security nie zastępuje zabezpieczeń routera.
 
 
-### 🔷 AIO Panel 17.0.0
+### 🔷 AIO Panel 17.0.2
 
-AIO Panel to rozbudowane centrum zarządzania odbiornikiem Enigma2.
+AIO Panel to rozbudowane centrum zarządzania odbiornikiem Enigma2. W wersji 17.0.2 poprawiono instalację E2iPlayer na wybranych image, zgodność z Pythonem 3.14 oraz dodano OpenCamView 2.0.1 do Wtyczek Online.
 
-Aktualizacja **17.0.0 — poprawiona paczka, 2026-10-04**
+Aktualizacja **17.0.2 — 2026-10-23**
 
-- Rozszerzono katalog instalacyjny o nowe wtyczki, dodatki i skórki dla Enigma2.
-- Dodano weryfikację archiwów list kanałów przed wyświetleniem; błędne, puste i uszkodzone paczki są ukrywane.
-- Skórki z feedu dobierane są według pakietów dostępnych w danym obrazie.
-- Uporządkowano kategorie, pozostawiając „Listy kanałów” na początku, a „AIO / Aktualizacje” na końcu.
-- Usprawniono aktualizację panelu, pobieranie plików oraz kontrolę poprawności instalacji.
-- Poprawiono obsługę zmiany hasła i przywracanie poprzednich list po nieudanej instalacji.
-- Wzmocniono zabezpieczenia instalatorów i obsługę błędów.
-- Zachowano obsługę języka polskiego i angielskiego oraz zgodność kodu z Python 2.7 i Python 3.
+- Poprawiono instalację E2iPlayer na części systemów Enigma2.
+- Poprawiono zgodność z Pythonem 3.14 i walidację składni przy brakujących modułach.
+- Dodano autorską wtyczkę OpenCamView 2.0.1 (Python 3) do sekcji Wtyczki Online.
+- Usprawniono walidację instalatorów i pakiety IPK/DEB, sprawdzono SHA-256.
+- Zachowano dotychczasowe funkcje z wersji 17.0.1.
 
-[Pobierz IPK 17.0.0](pliki/enigma2-plugin-extensions-panelaio_17.0.0_all.ipk) • [Opis i instalacja](plugin-aio-panel.html)
+[Pobierz IPK 17.0.2](pliki/enigma2-plugin-extensions-panelaio_17.0.2_all.ipk) • [Opis i instalacja](plugin-aio-panel.html)
+
+### 📹 OpenCamView 2.0.1 — Python 3
+
+Kamery IP w Enigma2: RTSP, ONVIF, PTZ, JPEG, PiP, ściana 4 kamer, patrol, skan sieci LAN, bukiety i M3U. Ulepszony interfejs oraz poprawka zawieszania Enigma2 podczas dodawania kamery. Dostępne pakiety IPK i DEB. [Opis i instalacja](plugin-opencamview.html).
 
 AIO Panel oferuje m.in.:
 

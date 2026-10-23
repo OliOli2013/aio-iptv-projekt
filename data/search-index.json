@@ -37,18 +37,21 @@
     ]
   },
   {
-    "title": "AIO Panel 17.0.1 — aktualizacja",
-    "desc": "Wybór piconów 13E / 19.2E, Obsidian FHD, aktualne kody QR, poprawiony changelog i instalatory IPK / DEB.",
+    "title": "AIO Panel 17.0.2 — aktualizacja",
+    "desc": "Poprawki instalacji E2iPlayer, Python 3.14, kontrola składni i pakietów IPK/DEB, OpenCamView 2.0.1 w Wtyczkach Online.",
     "url": "plugin-aio-panel.html",
     "tags": [
       "AIO Panel",
-      "17.0.1",
+      "17.0.2",
       "Enigma2",
       "listy kanałów",
       "skórki",
       "instalatory",
       "Python 2.7",
-      "Python 3"
+      "Python 3",
+      "E2iPlayer",
+      "Python 3.14",
+      "OpenCamView 2.0.1"
     ]
   },
   {
@@ -321,13 +324,23 @@
     ]
   },
   {
-    "title": "OpenCamView",
-    "desc": "Podgląd kamer IP RTSP + eksport do bukietów i M3U.",
-    "url": "plugins.html#opencamview",
+    "title": "OpenCamView 2.0.1 — kamery IP dla Enigma2",
+    "desc": "RTSP, ONVIF, PTZ, JPEG, PiP, ściana 4 kamer, patrol, skan LAN, bukiety i M3U. Python 3.",
+    "url": "plugin-opencamview.html",
     "tags": [
-      "rtsp",
-      "kamery",
-      "ocv"
+      "OpenCamView",
+      "2.0.1",
+      "kamery IP",
+      "RTSP",
+      "ONVIF",
+      "PTZ",
+      "JPEG",
+      "PiP",
+      "Python 3",
+      "monitoring",
+      "patrol",
+      "bukiety",
+      "M3U"
     ]
   },
   {

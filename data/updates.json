@@ -1,5 +1,45 @@
 [
-    {
+  {
+    "date": "2026-10-23",
+    "ts": 1792713600000,
+    "type": "release",
+    "title": "AIO Panel 17.0.2 — E2iPlayer, Python 3.14 i OpenCamView",
+    "desc": "Poprawki instalatorów E2iPlayer, zgodności z Pythonem 3.14, walidacji i dodanie OpenCamView 2.0.1 do Wtyczek Online.",
+    "details": "AIO Panel 17.0.2 — 23.10.2026\n\n• E2iPlayer: naprawa instalacji na części obrazów Enigma2.\n• Python 3.14: zgodność i usunięcie błędów kontroli składni przy brakujących modułach.\n• Nowa autorska wtyczka OpenCamView 2.0.1 w Wtyczkach Online (Python 3).\n• Usprawnione instalatory, obsługa błędów, pakiety IPK/DEB oraz integralność SHA-256.\n• Zachowane funkcje wersji 17.0.1.\n\nAktualizacja niebieskim przyciskiem w AIO Panel lub z IPK/DEB. W razie potrzeby restart GUI.",
+    "url": "plugin-aio-panel.html",
+    "tags": [
+      "AIO Panel",
+      "17.0.2",
+      "E2iPlayer",
+      "Python 3.14",
+      "OpenCamView 2.0.1",
+      "IPK",
+      "DEB",
+      "Enigma2"
+    ]
+  },
+  {
+    "date": "2026-10-23",
+    "ts": 1792713600000,
+    "type": "release",
+    "title": "OpenCamView 2.0.1 — kamery IP w Enigma2",
+    "desc": "Nowy interfejs i monitoring RTSP/ONVIF, PTZ, PiP, JPEG, ściana 4 kamer, patrol oraz skanowanie LAN. Python 3.",
+    "details": "OpenCamView 2.0.1 — 23.10.2026\n\n• Obsługa RTSP i kamer IP przez HTTP/HTTPS.\n• ONVIF: wykrywanie profili i źródeł.\n• Podgląd pełnoekranowy oraz JPEG na ekranie TV.\n• Opcjonalnie PiP, ściana 4 kamer i automatyczny patrol.\n• PTZ i skanowanie RTSP w sieci domowej.\n• Ulubione kamery, bukiety Enigma2, M3U, kopie ustawień.\n• Naprawa zawieszenia Enigma2 podczas dodawania kamery.\n• Paczki IPK i DEB. Python 3; restart GUI po instalacji.\n\nInstalacja z AIO Panel lub z oficjalnego instalatora GitHub.",
+    "url": "plugin-opencamview.html",
+    "tags": [
+      "OpenCamView",
+      "2.0.1",
+      "RTSP",
+      "ONVIF",
+      "PiP",
+      "PTZ",
+      "kamera IP",
+      "Python 3",
+      "IPK",
+      "DEB"
+    ]
+  },
+  {
     "date": "2026-10-21",
     "ts": 1792540800000,
     "type": "release",
@@ -20,7 +60,7 @@
       "aktualizacja"
     ]
   },
-{
+  {
     "date": "2026-10-09",
     "ts": 1791504000000,
     "type": "release",

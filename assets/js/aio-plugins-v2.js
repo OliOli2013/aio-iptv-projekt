@@ -15,14 +15,14 @@ let activeKind='';
 let freeQuery='';
 
 const DESC=[
-  {re:/aio\s*panel/i, kind:'Narzędzia AIO', icon:'AP', image:'pliki/aio-panel-17.0.0.png', desc:'Centrum instalacji i aktualizacji dla Enigma2. Ułatwia dostęp do list kanałów, piconów, narzędzi i dodatków AIO z poziomu samego tunera.', aio:true},
+  {re:/aio\s*panel/i, kind:'Narzędzia AIO', icon:'AP', image:'pliki/aio-panel-17.0.2.png', desc:'Centrum instalacji i aktualizacji dla Enigma2. Ułatwia dostęp do list kanałów, piconów, narzędzi i dodatków AIO z poziomu samego tunera.', aio:true},
   {re:/simple\s*iptv\s*epg|iptv\s*epg/i, kind:'EPG / IPTV', icon:'EP', image:'pliki/simple-iptv-epg-3.1.0-r1.png', desc:'Dodaje i dopasowuje dane EPG dla list IPTV. Przydatna, gdy kanały internetowe nie pokazują programu lub opisów audycji.', aio:true},
   {re:/e2\s*security|aio\s*security/i, kind:'Bezpieczeństwo', icon:'SE', image:'pliki/e2-security-interface-1.1.0.jpg', desc:'Wtyczka do zwiększenia bezpieczeństwa tunera Enigma2. Pomaga sprawdzić ustawienia dostępu i włącza dodatkową ochronę sieciową.', aio:true},
   {re:/e2\s*doctor/i, kind:'Diagnostyka', icon:'ED', image:'pliki/e2-doctor-2.3-main.png', desc:'Centrum diagnostyki i bezpiecznej naprawy Enigma2. Pomaga ocenić stan tunera i znaleźć typowe problemy systemowe.', aio:true},
   {re:/pp\s*channel\s*sync/i, kind:'Listy kanałów', icon:'CS', image:'pliki/pp-channel-sync-2.1.1-screen.png', desc:'Synchronizacja i porządkowanie list kanałów Enigma2 z obsługą różnych formatów lamedb i bezpiecznym rollbackiem.', aio:true},
   {re:/iptv\s*dream/i, kind:'IPTV', icon:'IP', image:'pliki/iptv-dream-8.0.1.png', desc:'Rozbudowana wtyczka IPTV do obsługi M3U, Xtream i MAC/Stalker oraz eksportu kanałów do bukietów Enigma2.', aio:true},
   {re:/neoradio/i, kind:'Radio / multimedia', icon:'NR', image:'pliki/neoradio-3.0.0-screen.jpg', desc:'Radio internetowe dla Enigma2 z Radio-Browser, RDS/ICY, cache grafik i nowym interfejsem AIO.', aio:true},
-  {re:/opencamview/i, kind:'Kamery IP', icon:'CV', image:'pliki/1.png', desc:'Podgląd kamer IP / RTSP bezpośrednio na tunerze Enigma2.'},
+  {re:/opencamview/i, kind:'Kamery IP', icon:'CV', image:'pliki/opencamview-2.0.1-promo.png', desc:'OpenCamView 2.0.1: kamery IP RTSP/ONVIF, PiP, PTZ, JPEG, patrol i skanowanie LAN dla Enigma2 Python 3.'},
   {re:/dreamosatx\s*signal/i, kind:'Sygnał SAT', icon:'DS', image:'pliki/dreamosatx-signal-2.0-pl.jpg', desc:'Narzędzie do monitorowania sygnału, transponderów i ustawiania anteny / obrotnicy.'},
   {re:/nagrania\s*on\s*demand/i, kind:'Multimedia / VOD', icon:'ND', image:'pliki/nagrania-on-demand-3.0.0-main.png', desc:'Obsługa biblioteki nagrań i materiałów na HDD/USB, EPG, timerów i plików Enigma2.', aio:true},
   {re:/picon\s*updater/i, kind:'Picony / grafika', icon:'PI', image:'pliki/logo.png?v=20261010-logo2', logo:true, desc:'Pobieranie i aktualizacja piconów oraz szybkie wdrożenie ich do Enigma2.'},

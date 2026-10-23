@@ -1,25 +1,158 @@
 {
   "schema": 1,
-  "updated": "2026-10-13",
+  "updated": "2026-10-23",
   "disclaimer": "Dopasowanie na podstawie deklarowanych wymagań projektów AIO. Nie jest testem instalacji ani potwierdzeniem działania na konkretnym sprzęcie.",
   "rules": {
-    "aio-panel": {"group":"plugins", "python":["2","3"], "rank":1, "caution":"Zależności i architektura pakietów są zależne od konkretnego obrazu Enigma2."},
-    "e2-security": {"group":"plugins", "python":["2","3"], "rank":2, "needsVerification":true, "caution":"Funkcje zapory wymagają modułów netfilter oraz dostępności nftables/iptables w image."},
-    "simple-iptv-epg": {"group":"plugins", "python":["2","3"], "rank":3, "needsVerification":true, "caution":"Mapowanie IPTV i import EPG zależą od wersji eEPGCache, list i źródła XMLTV."},
-    "iptv-dream": {"group":"plugins", "python":["3"], "rank":4, "caution":"Sprawdź wersję systemu, zależności i obsługę wybranego źródła IPTV."},
-    "pp-channel-sync": {"group":"plugins", "python":["2","3"], "rank":5, "caution":"Zrób kopię bukietów przed modyfikacją list kanałów."},
-    "e2-doctor": {"group":"plugins", "python":["3"], "rank":6, "caution":"Zależności narzędzi diagnostycznych mogą być różne w poszczególnych image."},
-    "recordings": {"group":"plugins", "python":["2","3"], "rank":7, "needsVerification":true, "caution":"Obsługa nagrań, dysku i timerów zależy również od danego image."},
-    "neoradio": {"group":"plugins", "python":[], "rank":8, "needsVerification":true, "caution":"Przed instalacją sprawdź wymagania konkretnego pakietu."},
-    "opencamview": {"group":"plugins", "python":[], "rank":9, "needsVerification":true, "caution":"Sprawdź wymagania wtyczki i obsługę strumieni kamer przez tuner."},
-    "myupdater": {"group":"plugins", "python":[], "rank":10, "needsVerification":true, "caution":"Dostępne funkcje zależą od wybranego obrazu Enigma2."},
-    "picon-updater": {"group":"plugins", "python":[], "rank":11, "needsVerification":true, "caution":"Sprawdź miejsce instalacji piconów i dostępność pamięci."},
-    "dreamosatx": {"group":"plugins", "python":[], "rank":12, "needsVerification":true, "caution":"Wymagania wydania trzeba sprawdzić na stronie projektu."},
-    "aiohd-next": {"group":"skins", "python":["3"], "systems":["OpenATV"], "rank":1, "needsVerification":true, "caution":"Wymaga komponentów MetrixHD; zgodność z innymi obrazami nie została potwierdzona."},
-    "channel-lists": {"group":"lists", "python":[], "rank":1, "needsVerification":true, "caution":"Dobierz pozycje satelitarne i sprawdź, czy lista jest aktualna dla Twojego image."},
-    "multi-click": {"group":"systems", "python":[], "rank":1, "needsVerification":true, "caution":"Nigdy nie wgrywaj obrazu przeznaczonego dla innego modelu. Wykonaj pełny backup."},
-    "aio-remote": {"group":"companion", "platform":"Android", "python":[], "rank":1, "needsVerification":true, "caution":"Zależne od konfiguracji OpenWebif i sieci lokalnej lub VPN."},
-    "cambridge-android": {"group":"companion", "platform":"Android", "python":[], "rank":2, "needsVerification":true, "caution":"Narzędzie pracuje poza tunerem; korzystaj wyłącznie z legalnych źródeł."},
-    "cambridge-windows": {"group":"companion", "platform":"Windows", "python":[], "rank":3, "needsVerification":true, "caution":"Narzędzie pracuje poza tunerem; korzystaj wyłącznie z legalnych źródeł."}
+    "aio-panel": {
+      "group": "plugins",
+      "python": [
+        "2",
+        "3"
+      ],
+      "rank": 1,
+      "caution": "Zależności i architektura pakietów są zależne od konkretnego obrazu Enigma2."
+    },
+    "e2-security": {
+      "group": "plugins",
+      "python": [
+        "2",
+        "3"
+      ],
+      "rank": 2,
+      "needsVerification": true,
+      "caution": "Funkcje zapory wymagają modułów netfilter oraz dostępności nftables/iptables w image."
+    },
+    "simple-iptv-epg": {
+      "group": "plugins",
+      "python": [
+        "2",
+        "3"
+      ],
+      "rank": 3,
+      "needsVerification": true,
+      "caution": "Mapowanie IPTV i import EPG zależą od wersji eEPGCache, list i źródła XMLTV."
+    },
+    "iptv-dream": {
+      "group": "plugins",
+      "python": [
+        "3"
+      ],
+      "rank": 4,
+      "caution": "Sprawdź wersję systemu, zależności i obsługę wybranego źródła IPTV."
+    },
+    "pp-channel-sync": {
+      "group": "plugins",
+      "python": [
+        "2",
+        "3"
+      ],
+      "rank": 5,
+      "caution": "Zrób kopię bukietów przed modyfikacją list kanałów."
+    },
+    "e2-doctor": {
+      "group": "plugins",
+      "python": [
+        "3"
+      ],
+      "rank": 6,
+      "caution": "Zależności narzędzi diagnostycznych mogą być różne w poszczególnych image."
+    },
+    "recordings": {
+      "group": "plugins",
+      "python": [
+        "2",
+        "3"
+      ],
+      "rank": 7,
+      "needsVerification": true,
+      "caution": "Obsługa nagrań, dysku i timerów zależy również od danego image."
+    },
+    "neoradio": {
+      "group": "plugins",
+      "python": [],
+      "rank": 8,
+      "needsVerification": true,
+      "caution": "Przed instalacją sprawdź wymagania konkretnego pakietu."
+    },
+    "opencamview": {
+      "group": "plugins",
+      "python": [
+        "3"
+      ],
+      "rank": 9,
+      "needsVerification": true,
+      "caution": "Wymagany Python 3; PTZ/ONVIF i PiP zależą od obsługi przez kamerę, tuner oraz image Enigma2."
+    },
+    "myupdater": {
+      "group": "plugins",
+      "python": [],
+      "rank": 10,
+      "needsVerification": true,
+      "caution": "Dostępne funkcje zależą od wybranego obrazu Enigma2."
+    },
+    "picon-updater": {
+      "group": "plugins",
+      "python": [],
+      "rank": 11,
+      "needsVerification": true,
+      "caution": "Sprawdź miejsce instalacji piconów i dostępność pamięci."
+    },
+    "dreamosatx": {
+      "group": "plugins",
+      "python": [],
+      "rank": 12,
+      "needsVerification": true,
+      "caution": "Wymagania wydania trzeba sprawdzić na stronie projektu."
+    },
+    "aiohd-next": {
+      "group": "skins",
+      "python": [
+        "3"
+      ],
+      "systems": [
+        "OpenATV"
+      ],
+      "rank": 1,
+      "needsVerification": true,
+      "caution": "Wymaga komponentów MetrixHD; zgodność z innymi obrazami nie została potwierdzona."
+    },
+    "channel-lists": {
+      "group": "lists",
+      "python": [],
+      "rank": 1,
+      "needsVerification": true,
+      "caution": "Dobierz pozycje satelitarne i sprawdź, czy lista jest aktualna dla Twojego image."
+    },
+    "multi-click": {
+      "group": "systems",
+      "python": [],
+      "rank": 1,
+      "needsVerification": true,
+      "caution": "Nigdy nie wgrywaj obrazu przeznaczonego dla innego modelu. Wykonaj pełny backup."
+    },
+    "aio-remote": {
+      "group": "companion",
+      "platform": "Android",
+      "python": [],
+      "rank": 1,
+      "needsVerification": true,
+      "caution": "Zależne od konfiguracji OpenWebif i sieci lokalnej lub VPN."
+    },
+    "cambridge-android": {
+      "group": "companion",
+      "platform": "Android",
+      "python": [],
+      "rank": 2,
+      "needsVerification": true,
+      "caution": "Narzędzie pracuje poza tunerem; korzystaj wyłącznie z legalnych źródeł."
+    },
+    "cambridge-windows": {
+      "group": "companion",
+      "platform": "Windows",
+      "python": [],
+      "rank": 3,
+      "needsVerification": true,
+      "caution": "Narzędzie pracuje poza tunerem; korzystaj wyłącznie z legalnych źródeł."
+    }
   }
 }
