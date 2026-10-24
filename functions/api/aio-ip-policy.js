@@ -5,6 +5,8 @@ import {FIXED_IP_POLICY_EXEMPT_IDS,isIpPolicyExemptV8} from '../_aio_ip_policy_e
 const respond=(x,status=200)=>json(x,status,{'Cache-Control':'private, no-store','Vary':'Cookie'});
 const invalid=(status,msg)=>{throw Object.assign(new Error(msg),{status})};
 const validId=s=>/^[0-9a-f]{8}-[0-9a-f-]{27,40}$/i.test(String(s||''));
+// _community.sha256() returns 43-character Base64URL, not a 64-char hex digest.
+const validIpKey=s=>/^[A-Za-z0-9_-]{43}$/.test(String(s||''));
 const safe=(s,limit=200)=>String(s||'').replace(/[\x00-\x1f<>]/g,' ').trim().slice(0,limit);
 const excludedIds=(env,ownerId)=>[...new Set([ownerId,...FIXED_IP_POLICY_EXEMPT_IDS,
   ...String(env.AIO_IP_POLICY_EXEMPT_USER_IDS||'').split(',').map(x=>x.trim())
@@ -55,7 +57,7 @@ export async function onRequestPost({request,env}){
     if(data.confirm!==true)invalid(400,'Wymagane potwierdzenie właściciela.');
     const reason=safe(data.reason,240);
     if(action==='review_denial'){
-      if(!/^[0-9a-f]{64}$/i.test(key)||!['register','login'].includes(data.kind))invalid(400,'Nieprawidłowy identyfikator zdarzenia.');
+      if(!validIpKey(key)||!['register','login'].includes(data.kind))invalid(400,'Nieprawidłowy identyfikator zdarzenia.');
       const at=new Date().toISOString();
       const r=await env.COMMUNITY_DB.prepare('UPDATE aio_ip_policy_denials_v10 SET reviewed_at=?,reviewed_by=? WHERE ip_key=? AND kind=? AND reviewed_at IS NULL')
         .bind(at,owner.user.id,key,data.kind).run();
@@ -84,7 +86,7 @@ export async function onRequestPost({request,env}){
         :'Brak nowych blokad do zapoznania. Nie zmieniono żadnego konta.'});
     }
     if(action==='review_group'){
-      if(!/^[0-9a-f]{64}$/i.test(key))invalid(400,'Nieprawidłowy identyfikator sieci.');
+      if(!validIpKey(key))invalid(400,'Nieprawidłowy identyfikator sieci.');
       const result=await reviewIpGroup(env,key,safe(data.ip,80),owner.user.id);
       if(result.reviewed>0)await moderationLog(env,owner.user.id,{
         targetType:'user',targetId:owner.user.id,action:'ip_policy_group_reviewed',
@@ -95,7 +97,7 @@ export async function onRequestPost({request,env}){
           :'W tej sieci nie ma nowych blokad do przejrzenia. Żadna blokada nie została zdjęta.'});
     }
     if(action==='review_hold'){
-      if(!validId(data.user_id)||!/^[0-9a-f]{64}$/i.test(key))invalid(400,'Nieprawidłowe konto lub identyfikator IP.');
+      if(!validId(data.user_id)||!validIpKey(key))invalid(400,'Nieprawidłowe konto lub identyfikator IP.');
       const at=new Date().toISOString();
       const r=await env.COMMUNITY_DB.prepare(`INSERT OR IGNORE INTO aio_ip_policy_hold_reviews_v9
         (user_id,ip_key,hold_created_at,reviewed_at,reviewed_by)
@@ -123,7 +125,7 @@ export async function onRequestPost({request,env}){
       return respond({ok:true,message:'Zatwierdzono wyjątek na wskazanym IP. Zdjęto blokadę duplikatu.'});
     }
     if(action==='revoke_signup_permits'){
-      if(!/^[0-9a-f]{64}$/i.test(key))invalid(400,'Nieprawidłowy identyfikator sieci.');
+      if(!validIpKey(key))invalid(400,'Nieprawidłowy identyfikator sieci.');
       const row=await env.COMMUNITY_DB.prepare('SELECT remaining FROM aio_ip_policy_signup_permits WHERE ip_key=?').bind(key).first();
       const count=Math.max(0,Number(row?.remaining||0));
       if(!count)return respond({ok:true,revoked:0,message:'Ta sieć nie ma niewykorzystanych zgód na nowe rejestracje.'});
