@@ -638,7 +638,7 @@
     const message=[
       `Dzień dobry${safeName&&safeName!=='Użytkownik'?', '+safeName:''},`,
       '',
-      'otrzymaliśmy prośbę o zresetowanie hasła do Społeczności AIO-IPTV.pl.',
+      'otrzymaliśmy prośbę o zresetowanie hasła do Społeczności AIO TunerHub.',
       '',
       'Twój jednorazowy kod resetu:',
       safeCode,

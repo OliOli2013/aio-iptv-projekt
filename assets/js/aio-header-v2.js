@@ -63,12 +63,13 @@
     '<a href="channel-lists.html">Listy</a>'+
     '<a href="guides.html">Poradniki</a>'+
     '<a class="nav-community" href="community.html">Społeczność</a>'+
+    '<a class="aio-nav-latest" href="latest-posts.html">Najnowsze Posty</a>'+
     '<a class="aio-nav-account" href="konto.html">Moje konto</a>'+
     '<details class="nav-more"><summary>Więcej⌄</summary><div class="nav-more-menu">'+
       '<a href="android-apps.html">Android</a><a href="windows-apps.html">Windows</a><a href="pro.html">Aplikacje PRO</a>'+
       '<a href="errors.html">Baza błędów</a><a href="one-liner.html">One-Liner / FTP</a><a href="start-here.html">Zacznij tutaj</a>'+
       '<a href="compatibility.html">Zgodność</a><a href="updates.html">Historia wydań</a><a href="project-status.html">Status projektów</a>'+
-      '<a href="community-chat.html">Czat AIO</a><a href="ai-chat.html">AI Chat</a><a href="report-error.html">Zgłoś błąd</a><a href="contact.html">Kontakt</a>'+
+      '<a class="aio-nav-latest-extra" href="latest-posts.html">Najnowsze Posty</a><a href="community-chat.html">Czat AIO</a><a href="ai-chat.html">AI Chat</a><a href="report-error.html">Zgłoś błąd</a><a href="contact.html">Kontakt</a>'+
     '</div></details>';
 
   const row=header.querySelector('.brand-row');
@@ -80,12 +81,12 @@
   if(search){
     if(legacyHomeSearch && legacyHomeSearch!==search) legacyHomeSearch.remove();
     search.style.marginLeft='';
-    search.innerHTML='<span class="aio-h4-search-icon" aria-hidden="true">⌕</span><span class="aio-h4-search-label">Szukaj na AIO-IPTV.pl...</span><kbd>Ctrl K</kbd>';
+    search.innerHTML='<span class="aio-h4-search-icon" aria-hidden="true">⌕</span><span class="aio-h4-search-label">Szukaj w AIO TunerHub…</span><kbd>Ctrl K</kbd>';
     search.setAttribute('aria-label','Szukaj na AIO TunerHub');
   }else if(legacyHomeSearch){
     search=legacyHomeSearch;
     search.classList.add('site-search-trigger');
-    search.innerHTML='<span class="aio-h4-search-icon" aria-hidden="true">⌕</span><span class="aio-h4-search-label">Szukaj na AIO-IPTV.pl...</span><kbd>Ctrl K</kbd>';
+    search.innerHTML='<span class="aio-h4-search-icon" aria-hidden="true">⌕</span><span class="aio-h4-search-label">Szukaj w AIO TunerHub…</span><kbd>Ctrl K</kbd>';
   }
 
   /* Remove old secondary header buttons; support gets one clean premium CTA. */

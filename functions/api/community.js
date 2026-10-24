@@ -212,6 +212,8 @@ export async function onRequestGet({request, env}) {
       if (category) { where.push(`p.category=?`); params.push(allowedCategory(category)); }
       if (search) { where.push(user ? `(p.title LIKE ? OR p.content LIKE ?)` : `(p.title LIKE ? OR (p.kind='official' AND p.content LIKE ?))`); params.push(`%${search}%`,`%${search}%`); }
       let order=`p.pinned DESC, p.created_at DESC`;
+      // True publication order for Najnowsze Posty. Other feeds keep existing pin priority.
+      if (mode === "recent") order=`COALESCE(p.published_at,p.created_at) DESC, p.created_at DESC, p.id DESC`;
       if (mode==="popular") order=`p.pinned DESC,p.reaction_count DESC,p.comment_count DESC,p.created_at DESC`;
       const sql=`
         SELECT ${authorSelect()}

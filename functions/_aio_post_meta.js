@@ -3,7 +3,7 @@
  * Standalone Pages Functions /post and /post.html call this shared handler.
  */
 const SITE = 'https://aio-iptv-projekt.pages.dev';
-const FALLBACK_IMAGE = SITE + '/assets/branding/aio-iptv-share-20261010.png';
+const FALLBACK_IMAGE = SITE + '/assets/branding/aio-iptv-share-20261010.png?v=20261024-tunerhub-v11';
 const ID_RE = /^[a-zA-Z0-9_-]{1,100}$/;
 
 function escapeHtml(value) {

@@ -89,7 +89,7 @@ async function latestCommunity(){
 
     box.innerHTML=d.rows.slice(0,4).map(p=>{
       const type=p.kind==='official'?'AKTUALIZACJA':'SPOŁECZNOŚĆ';
-      const image=p.attachments?.[0]?.url||(p.teaser?'assets/branding/aio-iptv-share-20261010.png':'');
+      const image=p.attachments?.[0]?.url||(p.teaser?'assets/branding/aio-iptv-share-20261010.png?v=20261024-tunerhub-v11':'');
       const preview=image
         ? `<div class="aio-v2-post-preview has-image"><img src="${esc(image)}" alt="" loading="lazy" decoding="async"></div>`
         : `<div class="aio-v2-post-preview"><span>${esc(type)}</span></div>`;

@@ -539,7 +539,7 @@
   },
   {
     "title": "🔥 Nowości AIO TunerHub",
-    "desc": "Najnowsze aktualizacje AIO Panel, IPTV Dream, NeoRadio, Nagrania On Demand, Simple IPTV EPG i pozostałych projektów AIO TunerHub PL.",
+    "desc": "Najnowsze aktualizacje AIO Panel, IPTV Dream, NeoRadio, Nagrania On Demand, Simple IPTV EPG i pozostałych projektów AIO TunerHub.",
     "url": "updates.html",
     "tags": [
       "nowości",
@@ -768,7 +768,7 @@
   },
   {
     "title": "Cookies i ustawienia prywatności",
-    "desc": "Zarządzaj dobrowolnymi statystykami i poznaj techniczne cookies AIO-IPTV.pl.",
+    "desc": "Zarządzaj dobrowolnymi statystykami i poznaj techniczne cookies AIO TunerHub.",
     "url": "cookies.html",
     "tags": [
       "cookies",
@@ -949,7 +949,7 @@
   },
   {
     "title": "Aktualności AIO TunerHub — oficjalne komunikaty",
-    "desc": "Oficjalne aktualizacje wtyczek, aplikacji, list kanałów i systemów AIO-IPTV.pl.",
+    "desc": "Oficjalne aktualizacje wtyczek, aplikacji, list kanałów i systemów AIO TunerHub.",
     "url": "news.html",
     "tags": [
       "news",
@@ -1007,7 +1007,7 @@
   },
   {
     "title": "Polityka prywatności i RODO",
-    "desc": "Zasady przetwarzania danych osobowych w AIO-IPTV.pl.",
+    "desc": "Zasady przetwarzania danych osobowych w AIO TunerHub.",
     "url": "privacy-community.html",
     "tags": [
       "privacy",
@@ -1085,11 +1085,12 @@
   },
   {
     "title": "Studio AIO TunerHub — inteligentne narzędzia Enigma2",
-    "desc": "Lokalny publikator aktualizacji, interaktywny pilot, baza błędów, status projektów, analizator logów i pozostałe narzędzia AIO-IPTV.pl.",
+    "desc": "Lokalny publikator aktualizacji, interaktywny pilot, baza błędów, status projektów, analizator logów i pozostałe narzędzia AIO TunerHub.",
     "url": "studio.html",
     "tags": [
       "studio",
       "Narzędzia AIO w jednym miejscu."
     ]
-  }
+  },
+  {"title": "Najnowsze Posty — AIO TunerHub", "desc": "Najnowsze publikacje członków Społeczności AIO i oficjalne posty administratora, od najświeższych.", "url": "latest-posts.html", "tags": ["posty", "najnowsze", "wpisy", "społeczność", "aktualności", "AIO TunerHub"]}
 ]

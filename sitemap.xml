@@ -385,4 +385,10 @@
 <priority>0.4</priority>
 </url>
   <url><loc>https://aio-iptv-projekt.pages.dev/smart-tuner</loc></url>
+<url>
+<loc>https://aio-iptv-projekt.pages.dev/latest-posts</loc>
+<lastmod>2026-10-24</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.8</priority>
+</url>
 </urlset>

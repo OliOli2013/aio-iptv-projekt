@@ -205,6 +205,7 @@ body.aio-header-v4 .main-nav>a[href*="systems"]::before,body.aio-header-v4 .site
 body.aio-header-v4 .main-nav>a[href*="plugins"]::before,body.aio-header-v4 .site-nav>a[href*="plugins"]::before{content:"◆"}
 body.aio-header-v4 .main-nav>a[href*="channel-lists"]::before,body.aio-header-v4 .site-nav>a[href*="channel-lists"]::before{content:"☷"}
 body.aio-header-v4 .main-nav>a[href*="guides"]::before,body.aio-header-v4 .site-nav>a[href*="guides"]::before{content:"▤"}
+body.aio-header-v4 .main-nav>a[href*="latest-posts"]::before{content:"▤";color:#75edfb;font-size:17px}
 body.aio-header-v4 .main-nav>a[href*="community"]::before,body.aio-header-v4 .site-nav>a[href*="community"]::before{content:"●";color:#59e6a1;font-size:8px}
 body.aio-header-v4 .main-nav>a:hover,
 body.aio-header-v4 .site-nav>a:hover,
@@ -751,3 +752,8 @@ body.aio-header-v4 .portal-topbar-links a.aio-topbar-account{color:#b5f9ff!impor
   }
   body.aio-header-v4 .nav-more>summary{min-width:100px!important}
 }
+
+/* AIO TunerHub V1.1: Najnowsze Posty are directly visible on wide screens and in Więcej at intermediate widths. Mobile grid keeps the direct link. */
+body.aio-header-v4 .nav-more-menu>a.aio-nav-latest-extra{display:none!important}
+@media(min-width:761px) and (max-width:1190px){body.aio-header-v4 .main-nav>a,body.aio-header-v4 .site-nav>a,body.aio-header-v4 .nav-more>summary{font-size:9.7px!important;padding-inline:6px!important}body.aio-header-v4 .nav-more>summary{min-width:88px!important}}
+@media(min-width:761px) and (max-width:1030px){body.aio-header-v4 .main-nav>a.aio-nav-latest{display:none!important}body.aio-header-v4 .nav-more-menu>a.aio-nav-latest-extra{display:flex!important}}
