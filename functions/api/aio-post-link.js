@@ -12,16 +12,20 @@ import {linksInPost,normalizePostLink,classifyPostLink,ensurePostLinkSchema,safe
 const HEADERS={'Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff'};
 function result(obj,code=200){return json(obj,code,HEADERS)}
 function sameOrigin(req){const origin=req.headers.get('Origin');return (!origin||origin===new URL(req.url).origin)&&req.headers.get('Sec-Fetch-Site')!=='cross-site'}
-/* Audit is best effort: no click-log failure may deny a file or debit a quota. */
-function queueClickAudit(env,waitUntil,data){
+/* V1.2: await only the independent telemetry write. A failure cannot deny a link,
+ * consume a quota, change a block, or modify the existing download decision.
+ * In Pages Functions a detached waitUntil reference could drop the write silently.
+ */
+async function recordClickSafely(env,data){
   try{
-    const task=recordPostFileClickV1(env,data).catch(err=>
-      console.error('AIO click stats:',String(err?.message||err).slice(0,130)));
-    if(typeof waitUntil==='function')waitUntil(task);
-    else void task;
-  }catch(_e){}
+    await recordPostFileClickV1(env,data);
+    return true;
+  }catch(err){
+    console.error('AIO Post File Stats write failed:',String(err?.message||err).slice(0,180));
+    return false;
+  }
 }
-export async function onRequestPost({request,env,waitUntil}){
+export async function onRequestPost({request,env}){
   if(!sameOrigin(request))return result({ok:false,error:'Niedozwolone źródło żądania.'},403);
   if(!(request.headers.get('content-type')||'').toLowerCase().includes('application/json'))return result({ok:false,error:'Wymagany JSON.'},415);
   try{
@@ -47,12 +51,12 @@ export async function onRequestPost({request,env,waitUntil}){
     if(classified.kind==='invalid')return result({ok:false,error:'Nieprawidłowy link.'},400);
     // Editorial links are navigation, never a download. No quota, login or audit.
     if(classified.kind==='info'){
-      queueClickAudit(env,waitUntil,{postId,userId:null,kind:'info',url:clicked.href});
-      return result({ok:true,kind:'info',href:clicked.href,counted:false});
+      const statsRecorded=await recordClickSafely(env,{postId,userId:null,kind:'info',url:clicked.href});
+      return result({ok:true,kind:'info',href:clicked.href,counted:false,stats_recorded:statsRecorded});
     }
     await initAccess(env);
     const user=await sessionUser(request,env);
-    queueClickAudit(env,waitUntil,{postId,userId:user?.id||null,kind:classified.kind,url:clicked.href});
+    const statsRecorded=await recordClickSafely(env,{postId,userId:user?.id||null,kind:classified.kind,url:clicked.href});
     if(!user){
       const anon=await checkAnonymousFileBurst(env,request);
       if(anon.blocked)return result({ok:false,restricted:true,error:'Zbyt wiele anonimowych żądań. Spróbuj ponownie później. Kontakt: /contact.html.'},anon.status||429);
@@ -70,7 +74,7 @@ export async function onRequestPost({request,env,waitUntil}){
     if(classified.kind==='local'){
       // No debit here: the actual Cloudflare /pliki/ handler validates and debits on GET.
       const local=new URL(clicked.href);local.searchParams.set('aio_post',postId);
-      return result({ok:true,kind:'local',href:local.href,counted:false,accounted_by:'file_server'});
+      return result({ok:true,kind:'local',href:local.href,counted:false,accounted_by:'file_server',stats_recorded:statsRecorded});
     }
     const fileKey=await externalFileKey(clicked.href,sha256);
     const permit=await consumeFree(env,user.id,fileKey);
@@ -90,6 +94,7 @@ export async function onRequestPost({request,env,waitUntil}){
     }catch(auditError){console.error('AIO post link audit:',String(auditError?.message||auditError).slice(0,130));}
     await logSecurity(env,request,'post_link_handoff',user.id,'Przekazano plik z posta do zewnętrznego serwera');
     return result({ok:true,kind:'external',href:clicked.href,counted:permit.reason==='free',reason:permit.reason,
+      stats_recorded:statsRecorded,
       note:'Otwarcie linku zewnętrznego; AIO nie potwierdza ukończenia pobierania.'});
   }catch(e){
     console.error('AIO post link V5',String(e?.message||e).slice(0,200));
