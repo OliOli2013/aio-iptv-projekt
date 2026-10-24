@@ -3,6 +3,7 @@
  */
 import {requireAdmin,moderationLog} from '../_community.js';
 import {ensureAnonymousShield} from '../_aio_anon_shield_v1.js';
+import {ensureDistributedMonitor} from '../_aio_distributed_monitor_v1.js';
 import {ensureV6} from '../_aio_security_v6.js';
 import {ensureIpPolicy} from '../_aio_ip_one_account_v7.js';
 import {ensureSecurityJournal} from '../_aio_security_journal.js';
@@ -10,7 +11,7 @@ const HEAD={'cache-control':'private, no-store','x-content-type-options':'nosnif
 const reply=(data,status=200)=>new Response(JSON.stringify(data),{status,headers:{...HEAD,'content-type':'application/json; charset=utf-8'}});
 const cut=v=>String(v??'').slice(0,160);
 const cell=v=>{let s=String(v??'');if(/^\s*[=+@\-]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"';};
-async function ready(env){await Promise.all([ensureAnonymousShield(env),ensureV6(env),ensureIpPolicy(env),ensureSecurityJournal(env)]);}
+async function ready(env){await Promise.all([ensureAnonymousShield(env),ensureDistributedMonitor(env),ensureV6(env),ensureIpPolicy(env),ensureSecurityJournal(env)]);}
 const sources=(cutoff,now,ownerId)=>({
   kinds:{sql:'SELECT event,COUNT(*) n FROM aio_security_journal WHERE created_at>=? GROUP BY event ORDER BY n DESC LIMIT 35',args:[cutoff]},
   fingerprint_patterns:{sql:`SELECT substr(j.ip_fingerprint,1,12) network,COUNT(*) requests,
@@ -40,6 +41,9 @@ const sources=(cutoff,now,ownerId)=>({
       FROM aio_security_paid_holds h LEFT JOIN community_profiles p ON p.id=h.user_id
       WHERE h.status='active' AND h.expires_at>? ORDER BY created_at DESC LIMIT 80`,args:[now,now]},
   active_anonymous:{sql:'SELECT COUNT(*) n FROM aio_anon_shield_bans WHERE blocked_until_ms>?',args:[Date.now()]},
+  distributed_incidents:{sql:`SELECT id,created_at,requests,networks,window_seconds,reviewed_at
+    FROM aio_distributed_file_incidents_v1 ORDER BY created_ms DESC LIMIT 100`,args:[]},
+  unread_distributed:{sql:'SELECT COUNT(*) n FROM aio_distributed_file_incidents_v1 WHERE reviewed_at IS NULL',args:[]},
   unread_anonymous:{sql:'SELECT COUNT(*) n FROM aio_anon_shield_incidents WHERE reviewed_at IS NULL',args:[]}
 });
 export async function onRequestGet({request,env}){
@@ -58,6 +62,7 @@ export async function onRequestGet({request,env}){
       for(const r of info.ip||[])all.push(['IP V8.2',r.created_at,r.name||r.user_id,'blokada',r.reviewed?'przejrzana':'do przejrzenia',r.reason]);
       for(const r of info.other_holds||[])all.push(['Pozostałe',r.created_at,r.name||r.user_id,r.kind,'aktywna','Ważność: '+r.expires_at]);
       for(const r of info.incidents||[])all.push(['Anonim',r.created_at,r.network,'anonimowa fala',r.reviewed_at?'przejrzana':'do przejrzenia','10s: '+r.hits_10s+', 60s: '+r.hits_60s]);
+      for(const r of info.distributed_incidents||[])all.push(['Rozproszony ruch',r.created_at,'Wiele sieci','zbiorcza fala',r.reviewed_at?'przejrzana':'do przejrzenia',r.requests+' odmów / maks. '+r.window_seconds+' s, '+r.networks+' skrótów sieci; bez blokady globalnej']);
       const body='\ufeff'+all.map(row=>row.map(cell).join(',')).join('\r\n');
       return new Response(body,{status:200,headers:{...HEAD,'content-type':'text/csv; charset=utf-8','content-disposition':'attachment; filename="AIO-security-center-'+now.slice(0,10)+'.csv"'}});
     }
@@ -70,20 +75,24 @@ export async function onRequestPost({request,env}){
   if(request.headers.get('Sec-Fetch-Site')==='cross-site')return reply({ok:false,error:'Niedozwolone żądanie.'},403);
   if(!String(request.headers.get('Content-Type')||'').includes('application/json'))return reply({ok:false,error:'Wymagany JSON.'},415);
   try{
-    const owner=await requireAdmin(request,env,true);await ensureAnonymousShield(env);
-    const body=await request.json();if(body.action!=='review_anonymous'&&body.action!=='review_all_anonymous')return reply({ok:false,error:'Nieznane działanie.'},400);
+    const owner=await requireAdmin(request,env,true);await Promise.all([ensureAnonymousShield(env),ensureDistributedMonitor(env)]);
+    const body=await request.json();
+    if(!['review_anonymous','review_all_anonymous','review_distributed','review_all_distributed'].includes(body.action))
+      return reply({ok:false,error:'Nieznane działanie.'},400);
     if(body.confirm!==true)return reply({ok:false,error:'Potwierdź operację.'},400);
     const at=new Date().toISOString();let result;
-    if(body.action==='review_anonymous'){
+    const distributed=['review_distributed','review_all_distributed'].includes(body.action);
+    const table=distributed?'aio_distributed_file_incidents_v1':'aio_anon_shield_incidents';
+    if(body.action==='review_anonymous'||body.action==='review_distributed'){
       if(!/^[0-9a-f-]{36}$/i.test(String(body.id||'')))return reply({ok:false,error:'Niepoprawne ID.'},400);
-      result=await env.COMMUNITY_DB.prepare('UPDATE aio_anon_shield_incidents SET reviewed_at=?,reviewed_by=? WHERE id=? AND reviewed_at IS NULL')
+      result=await env.COMMUNITY_DB.prepare('UPDATE '+table+' SET reviewed_at=?,reviewed_by=? WHERE id=? AND reviewed_at IS NULL')
         .bind(at,owner.user.id,String(body.id)).run();
     }else{
-      result=await env.COMMUNITY_DB.prepare('UPDATE aio_anon_shield_incidents SET reviewed_at=?,reviewed_by=? WHERE reviewed_at IS NULL')
+      result=await env.COMMUNITY_DB.prepare('UPDATE '+table+' SET reviewed_at=?,reviewed_by=? WHERE reviewed_at IS NULL')
         .bind(at,owner.user.id).run();
     }
     const reviewed=Math.max(0,Number(result.meta?.changes||0));
-    if(reviewed)await moderationLog(env,owner.user.id,{targetType:'user',targetId:owner.user.id,action:'anon_shield_incidents_reviewed',reason:'Przejrzano '+reviewed+' zagregowanych zdarzeń. Nie cofnięto ograniczeń.'});
+    if(reviewed)await moderationLog(env,owner.user.id,{targetType:'user',targetId:owner.user.id,action:distributed?'distributed_wave_reviewed':'anon_shield_incidents_reviewed',reason:'Przejrzano '+reviewed+' zagregowanych zdarzeń. Nie cofnięto ograniczeń.'});
     return reply({ok:true,reviewed,message:'Przejrzano '+reviewed+' zdarzeń. Automatyczne ograniczenia pozostają niezależne.'});
   }catch(e){const c=e?.status===401?401:e?.status===403?403:500;return reply({ok:false,error:c===500?'Nie można zapisać potwierdzenia.':'Brak dostępu.'},c);}
 }

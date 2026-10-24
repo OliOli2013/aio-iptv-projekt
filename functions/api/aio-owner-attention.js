@@ -5,6 +5,7 @@ import {requireAdmin} from '../_community.js';
 import {ensureV6} from '../_aio_security_v6.js';
 import {ensureIpPolicy,historicalPendingIpSummary} from '../_aio_ip_one_account_v7.js';
 import {ensureAnonymousShield} from '../_aio_anon_shield_v1.js';
+import {ensureDistributedMonitor} from '../_aio_distributed_monitor_v1.js';
 import {FIXED_IP_POLICY_EXEMPT_IDS} from '../_aio_ip_policy_exempt_v8.js';
 
 const HEADERS = {
@@ -105,6 +106,13 @@ DEFINITIONS.push({id:'anonymous-bursts',title:'Anonimowe fale żądań plików',
   sql:`SELECT CASE WHEN EXISTS(SELECT 1 FROM aio_anon_shield_incidents WHERE reviewed_at IS NULL)
         THEN 1 ELSE 0 END n,
       (SELECT MAX(created_at) FROM aio_anon_shield_incidents WHERE reviewed_at IS NULL) latest`});
+// One bell item for a whole distributed wave; never treat shared-IP timing as identity proof.
+DEFINITIONS.push({id:'distributed-anonymous',title:'Rozproszone anonimowe żądania plików',
+  detail:'Wykryto krótką falę odmów z wielu sieci. Wymaga oceny, bez zbiorowego blokowania.',
+  href:'/aio-security-center.html',icon:'⛨',priority:'high',
+  sql:`SELECT CASE WHEN EXISTS(SELECT 1 FROM aio_distributed_file_incidents_v1 WHERE reviewed_at IS NULL)
+      THEN 1 ELSE 0 END n,
+      (SELECT MAX(created_at) FROM aio_distributed_file_incidents_v1 WHERE reviewed_at IS NULL) latest`});
 export async function onRequestGet({request,env}){
   try{
     // Validates the CURRENT session and the configured owner ID server-side.
@@ -112,6 +120,7 @@ export async function onRequestGet({request,env}){
     await ensureV6(env);
     await ensureIpPolicy(env);
     await ensureAnonymousShield(env);
+    await ensureDistributedMonitor(env);
     const db=env.COMMUNITY_DB;
     if(!db)return response({ok:false,error:'Baza danych niedostępna.'},503);
     const now=new Date().toISOString();

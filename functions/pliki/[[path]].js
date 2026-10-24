@@ -6,6 +6,7 @@ import {queueIssuedFileAudit} from '../_aio_owner_downloads.js';
 import {activeSharedHold,logSecurity,reviewPaidSessionSharing} from '../_aio_security_journal.js';
 import {monitorDownload} from '../_aio_security_v6.js';
 import {checkAnonymousFileBurst,anonymousDeniedResponse} from '../_aio_anon_shield_v1.js';
+import {recordDistributedAnonymousDenied} from '../_aio_distributed_monitor_v1.js';
 import {privateStorageEnabled,readPrivateFile} from '../_aio_private_files.js';
 const IMG=/\.(?:png|jpe?g|webp|gif|svg|avif)$/i;
 const NO_CACHE={'Cache-Control':'private, no-store'};
@@ -41,6 +42,9 @@ async function handle(context){
       if(anon.blocked)return anonymousDeniedResponse(anon,request.method);
       // Brak "próbnego" pobrania dla gości, także po wejściu bezpośrednio w URL.
       if(request.method==='HEAD')return accessDenied('Pobieranie wymaga zalogowania w AIO.',401);
+      // Best-effort distributed telemetry; a write failure never grants the file.
+      await recordDistributedAnonymousDenied(env,request)
+        .catch(e=>console.error('[AIO distributed monitor]',String(e?.message||e).slice(0,150)));
       await logSecurity(env,request,"download_denied",null,"Bez sesji");
       return redirectToInformation(request,'aio_login');
     }

@@ -41,6 +41,11 @@ export async function ensureIpPolicy(env){
       last_user_id TEXT, reviewed_at TEXT, reviewed_by TEXT,
       PRIMARY KEY(ip_key,kind))`),
     env.COMMUNITY_DB.prepare('CREATE INDEX IF NOT EXISTS idx_aio_ip_denials_unread ON aio_ip_policy_denials_v10(reviewed_at,last_at DESC)'),
+    // V11: only a fresh, substantial wave can reopen an acknowledged network alert.
+    env.COMMUNITY_DB.prepare(`CREATE TABLE IF NOT EXISTS aio_ip_policy_denial_windows_v11 (
+      ip_key TEXT NOT NULL,kind TEXT NOT NULL,bucket_start INTEGER NOT NULL,hits INTEGER NOT NULL DEFAULT 0,
+      PRIMARY KEY(ip_key,kind,bucket_start))`),
+    env.COMMUNITY_DB.prepare('CREATE INDEX IF NOT EXISTS idx_aio_ip_denial_windows_time ON aio_ip_policy_denial_windows_v11(bucket_start)'),
     // One acknowledgement per IP-hold incident; re-created holds generate fresh alerts.
     env.COMMUNITY_DB.prepare(`CREATE TABLE IF NOT EXISTS aio_ip_policy_hold_reviews_v9 (
       user_id TEXT NOT NULL, ip_key TEXT NOT NULL, hold_created_at TEXT NOT NULL,
@@ -105,21 +110,36 @@ export async function isApprovedOnCurrentIp(env,request,userId){
 /* IMPORTANT: call BEFORE inserting a new profile. The reservation has a unique PK,
  * preventing two simultaneous registrations from claiming an empty IP. */
 /** One pending alert per network and denial type, not one bell alert per request.
- * A reviewed network is reopened only on a new attempt at least 10 min later.
+ * A reviewed network reopens only after >=5 new denials within a fresh 10-minute bucket.
  */
 export async function noteIpDenial(env,request,kind,userId=null){
   if(!['register','login'].includes(kind))return;
   const ip=getIp(request);if(!ip)return;
   await ensureIpPolicy(env);
-  const key=await keyFor(ip),at=now(),cutoff=new Date(Date.now()-10*60000).toISOString();
+  const key=await keyFor(ip),at=now(),ms=Date.now(),bucket=Math.floor(ms/600000)*600000;
   await env.COMMUNITY_DB.prepare(`INSERT INTO aio_ip_policy_denials_v10
     (ip_key,kind,attempts,first_at,last_at,last_user_id) VALUES(?,?,1,?,?,?)
     ON CONFLICT(ip_key,kind) DO UPDATE SET
       attempts=aio_ip_policy_denials_v10.attempts+1,last_at=excluded.last_at,
       last_user_id=COALESCE(excluded.last_user_id,aio_ip_policy_denials_v10.last_user_id),
-      reviewed_at=CASE WHEN aio_ip_policy_denials_v10.reviewed_at IS NOT NULL AND aio_ip_policy_denials_v10.reviewed_at<? THEN NULL ELSE aio_ip_policy_denials_v10.reviewed_at END,
-      reviewed_by=CASE WHEN aio_ip_policy_denials_v10.reviewed_at IS NOT NULL AND aio_ip_policy_denials_v10.reviewed_at<? THEN NULL ELSE aio_ip_policy_denials_v10.reviewed_by END`)
-    .bind(key,kind,at,at,userId,cutoff,cutoff).run();
+      reviewed_at=aio_ip_policy_denials_v10.reviewed_at,
+      reviewed_by=aio_ip_policy_denials_v10.reviewed_by`)
+    .bind(key,kind,at,at,userId).run();
+  const hit=await env.COMMUNITY_DB.prepare(`INSERT INTO aio_ip_policy_denial_windows_v11
+    (ip_key,kind,bucket_start,hits) VALUES(?,?,?,1)
+    ON CONFLICT(ip_key,kind,bucket_start) DO UPDATE SET hits=hits+1 RETURNING hits`)
+    .bind(key,kind,bucket).first();
+  // Single retries never re-notify the owner. A NEW wave must start after acknowledgement.
+  if(Number(hit?.hits||0)>=5){
+    await env.COMMUNITY_DB.prepare(`UPDATE aio_ip_policy_denials_v10
+      SET reviewed_at=NULL,reviewed_by=NULL WHERE ip_key=? AND kind=?
+      AND reviewed_at IS NOT NULL AND reviewed_at<?`)
+      .bind(key,kind,new Date(bucket).toISOString()).run();
+  }
+  if(Math.random()<0.003){
+    await env.COMMUNITY_DB.prepare('DELETE FROM aio_ip_policy_denial_windows_v11 WHERE bucket_start<?')
+      .bind(ms-2*86400000).run().catch(()=>{});
+  }
 }
 /** All historical additional ordinary accounts, even outside the 5 visible groups.
  * Read-only, excludes owner/exemptions and accounts already held or approved on that IP.
