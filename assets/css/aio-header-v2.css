@@ -757,3 +757,13 @@ body.aio-header-v4 .portal-topbar-links a.aio-topbar-account{color:#b5f9ff!impor
 body.aio-header-v4 .nav-more-menu>a.aio-nav-latest-extra{display:none!important}
 @media(min-width:761px) and (max-width:1190px){body.aio-header-v4 .main-nav>a,body.aio-header-v4 .site-nav>a,body.aio-header-v4 .nav-more>summary{font-size:9.7px!important;padding-inline:6px!important}body.aio-header-v4 .nav-more>summary{min-width:88px!important}}
 @media(min-width:761px) and (max-width:1030px){body.aio-header-v4 .main-nav>a.aio-nav-latest{display:none!important}body.aio-header-v4 .nav-more-menu>a.aio-nav-latest-extra{display:flex!important}}
+
+/* AIO TunerHub – Desktop Menu Fix V2 (2026-10-24):
+   The top utility bar already links to Moje konto. Hide only the
+   duplicate main-nav entry on desktop; KEEP it on mobile, because
+   the top utility bar hides its account link at widths <=760px. */
+@media (min-width: 761px) {
+  body.aio-header-v4 .main-nav > a.aio-nav-account {
+    display: none !important;
+  }
+}
