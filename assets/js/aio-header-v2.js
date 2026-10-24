@@ -17,7 +17,7 @@
   if(!topbar){
     topbar=d.createElement('div');
     topbar.className='portal-topbar';
-    topbar.innerHTML='<div class="portal-topbar-brand"><span class="portal-live-dot"></span><strong>AIO IPTV PROJECT</strong></div><div class="portal-topbar-links"><a href="news.html">Aktualności</a><a href="community.html">Społeczność</a><a href="support.html">Wsparcie projektu</a></div>';
+    topbar.innerHTML='<div class="portal-topbar-brand"><span class="portal-live-dot"></span><strong>AIO TunerHub</strong></div><div class="portal-topbar-links"><a href="news.html">Aktualności</a><a href="community.html">Społeczność</a><a href="support.html">Wsparcie projektu</a></div>';
     header.insertAdjacentElement('beforebegin',topbar);
   }
 
@@ -81,7 +81,7 @@
     if(legacyHomeSearch && legacyHomeSearch!==search) legacyHomeSearch.remove();
     search.style.marginLeft='';
     search.innerHTML='<span class="aio-h4-search-icon" aria-hidden="true">⌕</span><span class="aio-h4-search-label">Szukaj na AIO-IPTV.pl...</span><kbd>Ctrl K</kbd>';
-    search.setAttribute('aria-label','Szukaj na AIO-IPTV.pl');
+    search.setAttribute('aria-label','Szukaj na AIO TunerHub');
   }else if(legacyHomeSearch){
     search=legacyHomeSearch;
     search.classList.add('site-search-trigger');

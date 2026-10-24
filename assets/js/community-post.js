@@ -151,7 +151,7 @@
         </div>
 
         <label class="community-notice success" data-edit-official-wrap hidden>
-          <input type="checkbox" data-edit-official> Oficjalny wpis AIO-IPTV.pl
+          <input type="checkbox" data-edit-official> Oficjalny wpis AIO TunerHub
         </label>
 
 

@@ -73,7 +73,7 @@ export async function sendVerificationEmail(env,userId,email) {
   const base='https://aio-iptv-projekt.pages.dev';
   const url=base+'/api/verify-email?token='+encodeURIComponent(token);
   try {
-    await sendWpSmtp(env,{to:email,subject:'AIO-IPTV.pl — potwierdź adres e-mail',
+    await sendWpSmtp(env,{to:email,subject:'AIO TunerHub — potwierdź adres e-mail',
       text:'Aby aktywować pobieranie na koncie AIO, potwierdź adres e-mail:\n\n'+url+'\n\nLink jest ważny przez 24 godziny i można go użyć tylko raz. Jeśli nie rejestrowałeś konta, zignoruj wiadomość.'});
   }catch(error){
     // Never expose SMTP auth or server transcript to the user.

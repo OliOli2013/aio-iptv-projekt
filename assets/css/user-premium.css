@@ -575,7 +575,7 @@ tbody tr:hover { background: rgba(67, 154, 194, .09); }
 @media(max-width:980px){.cambridge-home-grid,.download-panel,.cambridge-windows-hero{grid-template-columns:1fr}.cambridge-home-media{grid-template-columns:1fr 1fr}.platform-app-card{grid-template-columns:1fr}.app-card-media img{height:360px}}
 @media(max-width:700px){.cambridge-home-media,.cambridge-platform-actions,.download-matrix,.feature-check-grid,.cambridge-gallery{grid-template-columns:1fr}.cambridge-home-media figure:first-child img{max-height:240px}.platform-app-card{padding:14px}.app-card-media img{height:300px}.cambridge-gallery img{height:auto;max-height:520px}}
 
-/* ===== AIO-IPTV: globalny monit wsparcia przed pobieraniem — 2026-07-24 ===== */
+/* ===== AIO TunerHub: globalny monit wsparcia przed pobieraniem — 2026-07-24 ===== */
 .support-ticker{position:relative;display:flex;align-items:center;gap:12px;min-height:44px;padding:7px 14px;overflow:hidden;cursor:pointer;color:#fff;background:linear-gradient(90deg,#102331,#163d4e 42%,#49350a 78%,#172c39);border-bottom:1px solid rgba(255,210,73,.38);isolation:isolate}
 .support-ticker:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(110deg,transparent 20%,rgba(255,255,255,.11) 45%,transparent 70%);transform:translateX(-130%);animation:supportTickerShine 7s ease-in-out infinite}
 .support-ticker:focus-visible{outline:3px solid #ffd24a;outline-offset:-3px}
@@ -1054,7 +1054,7 @@ body.support-gate-open{overflow:hidden}
   .home-command-center.home-command-compact .home-command-visual img{max-height:280px}
 }
 
-/* ===== Zbiórka celowa AIO IPTV PL — 2026-08-01 ===== */
+/* ===== Zbiórka celowa AIO TunerHub — 2026-08-01 ===== */
 .fundraiser-ribbon{
   position:relative;
   display:grid;

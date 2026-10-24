@@ -173,7 +173,7 @@ function searchInit(){
   const m=$('[data-aio-search-modal]'),i=$('[data-aio-search-input]'),h=$('[data-aio-search-hints]');
   if(!m||!i)return;
   const dialog=$('.aio-v2-search-dialog',m);
-  if(dialog){dialog.setAttribute('aria-label','Wyszukiwarka AIO-IPTV.pl');dialog.setAttribute('tabindex','-1');}
+  if(dialog){dialog.setAttribute('aria-label','Wyszukiwarka AIO TunerHub');dialog.setAttribute('tabindex','-1');}
   i.setAttribute('aria-label','Szukaj plików, systemów, wtyczek i poradników AIO');
   let t,version=0,inFlight=null,focusBefore=null;
   const invalidate=()=>{

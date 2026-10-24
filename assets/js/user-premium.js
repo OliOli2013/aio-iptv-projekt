@@ -188,8 +188,8 @@
       { title: 'Multi-Click i systemy', desc: 'Gotowe systemy i instrukcje instalacji.', url: 'systems.html', tags: ['systemy', 'multiclick', 'image'] },
       { title: 'Poradniki', desc: 'Instrukcje i pomoc dla Enigma2.', url: 'guides.html', tags: ['poradniki', 'pomoc'] },
       { title: 'Listy kanałów', desc: 'Listy kanałów i bukiety.', url: 'channel-lists.html', tags: ['listy', 'bukiety'] },
-      { title: 'Studio AIO-IPTV.pl', desc: 'Publikator, symulator pilota, baza błędów i status projektów.', url: 'studio.html', tags: ['studio', 'narzędzia', 'publikator', 'pilot', 'błędy', 'status'] },
-      { title: 'Aktualności AIO-IPTV.pl', desc: 'Oficjalne komunikaty, wydania wtyczek, aplikacji i list kanałów.', url: 'news.html', tags: ['aktualności', 'komunikaty', 'wersje', 'wydania'] },
+      { title: 'Studio AIO TunerHub', desc: 'Publikator, symulator pilota, baza błędów i status projektów.', url: 'studio.html', tags: ['studio', 'narzędzia', 'publikator', 'pilot', 'błędy', 'status'] },
+      { title: 'Aktualności AIO TunerHub', desc: 'Oficjalne komunikaty, wydania wtyczek, aplikacji i list kanałów.', url: 'news.html', tags: ['aktualności', 'komunikaty', 'wersje', 'wydania'] },
       { title: 'Społeczność AIO', desc: 'Pytania, odpowiedzi, zdjęcia, komentarze i pomoc użytkowników Enigma2.', url: 'community.html', tags: ['społeczność', 'forum', 'pytania', 'pomoc', 'komentarze'] },
       { title: 'Panel publikowania aktualizacji', desc: 'Lokalne tworzenie stron projektu i paczek ZIP do GitHuba.', url: 'publisher.html', tags: ['publikator', 'github', 'zip', 'aktualizacja'] },
       { title: 'Interaktywny symulator pilota', desc: 'Klikalny pilot Enigma2 z opisem funkcji przycisków.', url: 'remote-simulator.html', tags: ['pilot', 'przyciski', 'openatv', 'openpli'] },
@@ -387,7 +387,7 @@
           const response = await fetch(endpoint, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', apikey: config.supabase.anonKey, Authorization: 'Bearer ' + config.supabase.anonKey },
-            body: JSON.stringify({ query, message: query, source: 'aio-iptv', locale: 'pl' })
+            body: JSON.stringify({ query, message: query, source: 'AIO TunerHub', locale: 'pl' })
           });
           if (!response.ok) throw new Error('HTTP ' + response.status);
           const data = await response.json();
@@ -466,7 +466,7 @@
   }
 })();
 
-/* ===== AIO-IPTV Access — 3 bezpłatne pobrania/linki na ruchome 168 h ===== */
+/* ===== AIO TunerHub Access — 3 bezpłatne pobrania/linki na ruchome 168 h ===== */
 (function () {
   'use strict';
 
@@ -730,16 +730,16 @@
     const language = String(navigator.language || document.documentElement.lang || 'pl').toLowerCase();
     const polish = language.startsWith('pl');
     const copy = polish ? {
-      badge: 'ZBIÓRKA CELOWA', title: 'Pomóż rozwijać AIO IPTV PL',
+      badge: 'ZBIÓRKA CELOWA', title: 'Pomóż rozwijać AIO TunerHub',
       text: 'Wsparcie utrzymania strony, Społeczności AIO i darmowych projektów Enigma2.', button: 'Wesprzyj projekt'
     } : {
-      badge: 'FUNDRAISING CAMPAIGN', title: 'Support AIO IPTV PL',
+      badge: 'FUNDRAISING CAMPAIGN', title: 'Support AIO TunerHub',
       text: 'Help maintain the website, AIO Community and free Enigma2 projects.', button: 'Support the project'
     };
 
     const ribbon = document.createElement('aside');
     ribbon.className = 'fundraiser-ribbon';
-    ribbon.setAttribute('aria-label', polish ? 'Zbiórka na rozwój AIO IPTV PL' : 'AIO IPTV PL fundraising campaign');
+    ribbon.setAttribute('aria-label', polish ? 'Zbiórka na rozwój AIO TunerHub' : 'AIO TunerHub fundraising campaign');
     ribbon.innerHTML = `
       <span class="fundraiser-ribbon-badge">${copy.badge}</span>
       <div class="fundraiser-ribbon-copy"><strong>${copy.title}</strong><span>${copy.text}</span></div>
@@ -879,7 +879,7 @@
     dlg.setAttribute('aria-label','Zaloguj się, aby pobrać plik');
     const heading=document.createElement('h2');heading.textContent='Pobieranie tylko dla zalogowanych';
     const notice=document.createElement('div');notice.className='aio-access-v31-guest-note';
-    const strong=document.createElement('strong');strong.textContent='Dołącz bezpłatnie do społeczności AIO-IPTV.pl';
+    const strong=document.createElement('strong');strong.textContent='Dołącz bezpłatnie do społeczności AIO TunerHub';
     const subtitle=document.createElement('span');subtitle.textContent='Zarejestruj się lub zaloguj, aby pobierać pliki i korzystać z projektów Enigma2.';
     notice.append(strong,subtitle);
     const file=document.createElement('p');file.textContent=item?.label?'Wybrany plik: '+String(item.label).slice(0,110):'Wybrany materiał AIO';
@@ -1277,7 +1277,7 @@ async function accountDownload(item,kind){
     banner.setAttribute('aria-label','Dobrowolny wybór statystyk odwiedzin');
     const copy=document.createElement('div');
     const title=document.createElement('strong');
-    title.textContent='Prywatność na AIO-IPTV.pl';
+    title.textContent='Prywatność na AIO TunerHub';
     const desc=document.createElement('p');
     desc.append('Czy możemy zapisywać anonimowo prezentowane statystyki wizyt z identyfikatorem przeglądarki? Bez zgody nie prowadzimy tych pomiarów. ');
     const link=document.createElement('a');link.href='cookies.html';link.textContent='Szczegóły i ustawienia';

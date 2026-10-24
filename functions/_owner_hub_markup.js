@@ -7,7 +7,7 @@ export const OWNER_HTML = String.raw`<!doctype html>
 <meta name="robots" content="noindex,nofollow,noarchive">
 <meta name="referrer" content="same-origin">
 <meta name="theme-color" content="#081a26">
-<title>Centrum Właściciela AIO | AIO-IPTV.pl</title>
+<title>Centrum Właściciela AIO | AIO TunerHub</title>
 <link rel="icon" href="/pliki/logo.png">
 <link rel="stylesheet" href="/assets/css/owner-hub.css?v=20261017-ownerhub-v1">
 <link rel="stylesheet" href="/assets/css/aio-owner-overview-v2.css?v=20261019-owner-overview-v2">
@@ -28,13 +28,13 @@ export const OWNER_HTML = String.raw`<!doctype html>
 <div class="oh-loading" id="oh-guard" role="status" aria-live="polite">Sprawdzam uprawnienia właściciela…</div>
 <div class="oh-app" id="oh-app" hidden>
  <aside class="oh-sidebar" aria-label="Nawigacja Centrum Właściciela">
-  <a class="oh-brand" href="/index.html" aria-label="AIO-IPTV.pl — strona główna"><img src="/pliki/logo.png" alt=""><span><strong>AIO-IPTV.pl</strong><small>CENTRUM WŁAŚCICIELA</small></span></a>
+  <a class="oh-brand" href="/index.html" aria-label="AIO TunerHub — strona główna"><img src="/pliki/logo.png" alt=""><span><strong>AIO TunerHub</strong><small>CENTRUM WŁAŚCICIELA</small></span></a>
   <div class="oh-sidecaption">ZARZĄDZANIE</div>
   <nav class="oh-categories" id="oh-categories" aria-label="Działy administracji"></nav>
   <div class="oh-sidebottom"><span class="oh-secure"><span aria-hidden="true">●</span> Sesja właściciela</span><a href="/community.html">Społeczność AIO</a><a href="/index.html">Strona główna ↗</a></div>
  </aside>
  <main class="oh-main" id="main-content">
-  <header class="oh-topbar"><div class="oh-breadcrumb">AIO-IPTV.pl <span> / </span> Zarządzanie <span> / </span> Centrum właściciela</div><div class="oh-topactions"><span id="oh-current-owner">Konto właściciela</span><a href="/community-admin.html">Pełny panel (klasyczny) ↗</a></div></header>
+  <header class="oh-topbar"><div class="oh-breadcrumb">AIO TunerHub <span> / </span> Zarządzanie <span> / </span> Centrum właściciela</div><div class="oh-topactions"><span id="oh-current-owner">Konto właściciela</span><a href="/community-admin.html">Pełny panel (klasyczny) ↗</a></div></header>
   <div class="oh-content">
    <section class="oh-intro"><div><div class="oh-eyebrow">PRYWATNA STREFA ADMINISTRACYJNA</div><h1>Centrum Właściciela</h1><p>Wszystkie narzędzia AIO, uporządkowane według zadań. Wybierz dział lub znajdź funkcję po nazwie.</p></div><div class="oh-intro-symbol" aria-hidden="true">⌘</div></section>
    <section class="oh-summary" aria-label="Szybki podgląd"><div class="oh-metric"><span>Akceptacje wpłat</span><strong id="oh-stat-payments">—</strong><small>oczekujące zgłoszenia</small></div><div class="oh-metric"><span>Posty do moderacji</span><strong id="oh-stat-posts">—</strong><small>oczekujące wpisy</small></div><div class="oh-metric"><span>Wydania plików / 24 h</span><strong id="oh-stat-downloads">—</strong><small>lokalne pliki /pliki/</small></div><div class="oh-metric"><span>Aktywne dostępy</span><strong id="oh-stat-active">—</strong><small>uprawnienia 7 dni</small></div></section>
@@ -45,7 +45,7 @@ export const OWNER_HTML = String.raw`<!doctype html>
      <div id="oh-results" aria-live="polite"></div>
      <div id="oh-empty" class="oh-empty" hidden>Nie znaleziono takiej funkcji. Zmień wyszukiwaną frazę lub wybierz „Wszystkie”.</div>
    </section>
-   <footer class="oh-footer">AIO-IPTV.pl • Centrum właściciela V1 <span>Uprawnienia są sprawdzane po stronie serwera; katalog nie zmienia danych ani dostępów.</span></footer>
+   <footer class="oh-footer">AIO TunerHub • Centrum właściciela V1 <span>Uprawnienia są sprawdzane po stronie serwera; katalog nie zmienia danych ani dostępów.</span></footer>
   </div>
  </main>
 </div>

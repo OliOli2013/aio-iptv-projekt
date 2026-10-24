@@ -61,7 +61,7 @@
   hub.className = 'home-more-hub portal-panel';
   hub.innerHTML = `
     <div class="home-more-head">
-      <div><p class="aio-kicker">PEŁNA ZAWARTOŚĆ AIO-IPTV.PL</p><h2>Więcej z AIO-IPTV.pl</h2><p>Najważniejsze funkcje są już wyżej. Pozostałe sekcje zostały zachowane tutaj, żeby strona startowa była krótsza i czytelniejsza.</p></div>
+      <div><p class="aio-kicker">PEŁNA ZAWARTOŚĆ AIO TunerHub</p><h2>Więcej z AIO TunerHub</h2><p>Najważniejsze funkcje są już wyżej. Pozostałe sekcje zostały zachowane tutaj, żeby strona startowa była krótsza i czytelniejsza.</p></div>
       <button class="home-more-toggle" type="button" aria-expanded="false"><span>Pokaż pełną stronę</span><b>↓</b></button>
     </div>
     <div class="home-more-summary"><span>${extras.length} dodatkowych sekcji</span><span>projekty • aplikacje • narzędzia • wsparcie</span></div>

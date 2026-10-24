@@ -1,4 +1,4 @@
-/* AIO-IPTV Smart Tools 2026-07-24 */
+/* AIO TunerHub Smart Tools 2026-07-24 */
 (function () {
   'use strict';
 

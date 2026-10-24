@@ -1,5 +1,5 @@
 /* =========================================================
-   AIO-IPTV Final Enhancements (GitHub Pages / static)
+   AIO TunerHub Final Enhancements (GitHub Pages / static)
    - Notifications (bell) with updates.json
    - AI Chat (offline KB)
    - Knowledge Base + Tools + Systems checklists

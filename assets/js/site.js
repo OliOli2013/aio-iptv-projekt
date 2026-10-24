@@ -2,7 +2,7 @@
   'use strict';
 
   // =========================
-  // KONFIGURACJA AIO-IPTV (SUPABASE)
+  // KONFIGURACJA AIO TunerHub (SUPABASE)
   // =========================
   window.AIO_SITE = window.AIO_SITE || {};
   window.AIO_SITE.supabaseUrl = "https://pynjjeobqzxbrvmqofcw.supabase.co";
@@ -33,7 +33,7 @@
       nav_home: 'Start',
       nav_new_projects: 'Nowe Projekty',
       updates: 'Nowości',
-      marquee_text: 'Wesprzyj AIO‑IPTV — kawa pomaga rozwijać stronę i autorskie wtyczki.',
+      marquee_text: 'Wesprzyj AIO TunerHub — kawa pomaga rozwijać stronę i autorskie wtyczki.',
       marquee_text2: 'Wsparcie (kawa): Revolut i PayPal — dziękuję!',
       marquee_cta: 'Postaw kawę',
       holiday: 'Paweł Pawełek — życzy Zdrowych Wesołych Świąt',
@@ -71,7 +71,7 @@
       nav_home: 'Home',
       nav_new_projects: 'New Projects',
       updates: 'Updates',
-      marquee_text: 'Support AIO‑IPTV — coffee helps build the site.',
+      marquee_text: 'Support AIO TunerHub — coffee helps build the site.',
       marquee_text2: 'Coffee support: Revolut & PayPal — thank you!',
       marquee_cta: 'Buy coffee',
       holiday: 'Paweł Pawełek — wishes you a joyful holiday season',
@@ -103,7 +103,7 @@
       error_scan_result: 'Result',
       error_scan_result_empty: 'Upload an image or paste text to get a diagnosis.',
       error_scan_privacy: 'Privacy',
-      error_scan_privacy_text: 'Text recognition runs locally in your browser (Tesseract.js). The file is not uploaded to the AIO‑IPTV.pl server.'
+      error_scan_privacy_text: 'Text recognition runs locally in your browser (Tesseract.js). The file is not uploaded to the AIO TunerHub server.'
     }
   };
 
@@ -874,7 +874,7 @@ function injectImageInstallNav() {
             const res = await fetch(online.endpoint, {
               method: 'POST',
               headers: online.headers,
-              body: JSON.stringify({ query: query, message: query, source: 'aio-iptv', locale: getLang() })
+              body: JSON.stringify({ query: query, message: query, source: 'AIO TunerHub', locale: getLang() })
             });
             if (!res.ok) throw new Error('HTTP ' + res.status);
             const data = await res.json();

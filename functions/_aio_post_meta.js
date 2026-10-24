@@ -26,10 +26,10 @@ function imageFor(row) {
 function substitute(html,row,id) {
   const title = plain(row.title, 140) || 'Wpis AIO';
   const content = plain(row.content, 15000);
-  const excerpt = content.slice(0,190) || 'Oficjalna publikacja AIO-IPTV.pl — Enigma2, oprogramowanie i poradniki.';
+  const excerpt = content.slice(0,190) || 'Oficjalna publikacja AIO TunerHub — Enigma2, oprogramowanie i poradniki.';
   const canonical = SITE+'/post?id='+encodeURIComponent(id);
   const photo = imageFor(row);
-  const pageTitle = title+' — Społeczność AIO-IPTV.pl';
+  const pageTitle = title+' — Społeczność AIO TunerHub';
   // All inputs escaped; no hidden/private rows can reach this function.
   const replacements = [
     [/<title>Wpis — Społeczność AIO<\/title>/, '<title>'+meta(pageTitle)+'</title>'],
@@ -49,7 +49,7 @@ function substitute(html,row,id) {
   for (const [pattern,value] of replacements) html = html.replace(pattern,value);
   const schema = {
     '@context':'https://schema.org','@type':'BlogPosting',headline:title,description:excerpt,
-    mainEntityOfPage:canonical,url:canonical,image:[photo],publisher:{'@type':'Organization',name:'AIO-IPTV.pl',url:SITE}
+    mainEntityOfPage:canonical,url:canonical,image:[photo],publisher:{'@type':'Organization',name:'AIO TunerHub',url:SITE}
   };
   if (row.published_at) schema.datePublished = row.published_at;
   if (row.updated_at) schema.dateModified = row.updated_at;
@@ -67,7 +67,7 @@ function substitute(html,row,id) {
  */
 function substituteTeaser(html,row,id){
   const title=plain(row.title,140)||'Wpis Społeczności AIO';
-  const pageTitle=title+' — Społeczność AIO-IPTV.pl';
+  const pageTitle=title+' — Społeczność AIO TunerHub';
   const description='Zarejestruj się lub zaloguj do Społeczności AIO, aby przeczytać pełną treść i komentarze.';
   const canonical=SITE+'/post?id='+encodeURIComponent(id);
   const photo=imageFor(row);

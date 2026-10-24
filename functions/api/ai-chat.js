@@ -1,4 +1,4 @@
-/* AIO-IPTV.pl — Cloudflare Pages Function /api/ai-chat
+/* AIO TunerHub — Cloudflare Pages Function /api/ai-chat
  * Primary backend for AI Chat. Supabase remains only as browser-side fallback.
  * Required secret for OpenAI:
  *   OPENAI_API_KEY
@@ -8,7 +8,7 @@
  *   DEEPSEEK_API_KEY / DEEPSEEK_MODEL
  *   AI_API_KEY / AI_BASE_URL / AI_MODEL
  */
-const SYSTEM_PROMPT = `Jesteś technicznym asystentem AIO-IPTV.pl przygotowanym przez Pawła Pawełka.
+const SYSTEM_PROMPT = `Jesteś technicznym asystentem AIO TunerHub przygotowanym przez Pawła Pawełka.
 Odpowiadasz po polsku, jasno i konkretnie. Specjalizujesz się w Enigma2, OpenATV, OpenPLi,
 OpenViX, Egami, tunerach Zgemma i Octagon, listach kanałów, piconach, EPG, OSCam,
 softcamach, IPTV, M3U, Xtream Codes, portalach MAC, OpenWebif, FTP/SSH i projektach AIO-IPTV.pl.

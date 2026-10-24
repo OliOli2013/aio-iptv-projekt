@@ -1,4 +1,4 @@
-/* AIO-IPTV.pl — Content Protection
+/* AIO TunerHub — Content Protection
  * 2026-10-09
  * Utrudnia kopiowanie i dodaje watermark.
  * Uwaga: żadna strona WWW nie może zagwarantować pełnej blokady screenshotów.
@@ -79,7 +79,7 @@
       const id = shortId((u && u.id) || (p && p.id));
       return id ? `${name} • ${id}` : name;
     }
-    return 'AIO-IPTV.pl • Paweł Pawełek';
+    return 'AIO TunerHub • Paweł Pawełek';
   }
 
   function watermarkText(){
@@ -109,7 +109,7 @@
     }
     const text=watermarkText();
     root.querySelectorAll('.aio-watermark-item').forEach((el,i)=>{
-      el.textContent = i%2===0 ? text : 'AIO-IPTV.pl • treść chroniona';
+      el.textContent = i%2===0 ? text : 'AIO TunerHub • treść chroniona';
     });
   }
 

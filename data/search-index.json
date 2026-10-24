@@ -538,8 +538,8 @@
     ]
   },
   {
-    "title": "🔥 Nowości AIO IPTV PL",
-    "desc": "Najnowsze aktualizacje AIO Panel, IPTV Dream, NeoRadio, Nagrania On Demand, Simple IPTV EPG i pozostałych projektów AIO IPTV PL.",
+    "title": "🔥 Nowości AIO TunerHub",
+    "desc": "Najnowsze aktualizacje AIO Panel, IPTV Dream, NeoRadio, Nagrania On Demand, Simple IPTV EPG i pozostałych projektów AIO TunerHub PL.",
     "url": "updates.html",
     "tags": [
       "nowości",
@@ -672,7 +672,7 @@
   },
   {
     "title": "Ekosystem AIO",
-    "desc": "Zobacz jak projekty na tunerze Enigma2, aplikacje Android i strona AIO-IPTV.pl współpracują ze sobą.",
+    "desc": "Zobacz jak projekty na tunerze Enigma2, aplikacje Android i strona AIO TunerHub współpracują ze sobą.",
     "url": "ecosystem.html",
     "tags": [
       "ekosystem",
@@ -948,7 +948,7 @@
     ]
   },
   {
-    "title": "Aktualności AIO-IPTV.pl — oficjalne komunikaty",
+    "title": "Aktualności AIO TunerHub — oficjalne komunikaty",
     "desc": "Oficjalne aktualizacje wtyczek, aplikacji, list kanałów i systemów AIO-IPTV.pl.",
     "url": "news.html",
     "tags": [
@@ -1012,11 +1012,11 @@
     "tags": [
       "privacy",
       "community",
-      "Polityka prywatności AIO-IPTV.pl"
+      "Polityka prywatności AIO TunerHub"
     ]
   },
   {
-    "title": "Status projektów AIO-IPTV.pl",
+    "title": "Status projektów AIO TunerHub",
     "desc": "Stan rozwoju wtyczek, aplikacji, list kanałów i systemów: aktywnie rozwijane, stabilne, utrzymywane, wstrzymane i archiwalne.",
     "url": "project-status.html",
     "tags": [
@@ -1084,7 +1084,7 @@
     ]
   },
   {
-    "title": "Studio AIO-IPTV.pl — inteligentne narzędzia Enigma2",
+    "title": "Studio AIO TunerHub — inteligentne narzędzia Enigma2",
     "desc": "Lokalny publikator aktualizacji, interaktywny pilot, baza błędów, status projektów, analizator logów i pozostałe narzędzia AIO-IPTV.pl.",
     "url": "studio.html",
     "tags": [

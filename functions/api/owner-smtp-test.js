@@ -21,7 +21,7 @@ export async function onRequestPost({request,env}){
       WHERE aio_smtp_owner_tests.last_sent_at<=?`).bind(s.user.id,now,allowed).run();
     if(Number(r.meta?.changes||0)!==1)return json({ok:false,error:'Odczekaj 90 sekund przed następnym testem.'},429);
     try{
-      await sendWpSmtp(env,{to:recipient.email,subject:'AIO-IPTV.pl — test poczty WP SMTP',
+      await sendWpSmtp(env,{to:recipient.email,subject:'AIO TunerHub — test poczty WP SMTP',
         text:'To testowa wiadomość systemu AIO-IPTV.pl.\n\nJeżeli dotarła, wysyłka z Cloudflare Pages przez SMTP WP działa.\nNie musisz odpowiadać na tę wiadomość.'});
     }catch(e){
       const code=/^SMTP_[A-Z0-9_]+$/.test(String(e?.code||''))?String(e.code):'SMTP_UNKNOWN';

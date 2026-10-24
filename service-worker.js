@@ -1,4 +1,4 @@
-/* AIO-IPTV.pl — wycofanie starego cache PWA, 2026-10-10
+/* AIO TunerHub — wycofanie starego cache PWA, 2026-10-10
    Serwis nie rejestruje już Service Workera. Ten plik służy wyłącznie
    do bezpiecznego usunięcia wcześniejszych cache i rejestracji u powracających użytkowników.
 */

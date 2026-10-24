@@ -32,7 +32,7 @@
 @media(max-width:980px){.hero-home:before,.hero-home:after{display:none}.logo-frame{min-height:220px}}
 @media(max-width:640px){.welcome-line{font-size:1.45rem}.hero-content-home:before{top:74px;height:46px}.personal-logo{width:min(100%,260px)}.footer-brand-stack{flex-wrap:wrap}}
 
-/* === AIO-IPTV Premium / XXII Century layer === */
+/* === AIO TunerHub Premium / XXII Century layer === */
 :root{
   --bg:#020714;
   --bg2:#071426;

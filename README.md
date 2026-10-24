@@ -1,4 +1,4 @@
-# 📺 AIO-IPTV Project
+# 📺 AIO TunerHub
 
 ### Enigma2 • IPTV • Wtyczki • Skiny • Listy kanałów • Narzędzia
 
@@ -10,13 +10,13 @@
 
 ---
 
-## 🚀 AIO-IPTV.pl
+## 🚀 AIO TunerHub
 
-**AIO-IPTV Project** to rozwijany zestaw autorskich projektów dla odbiorników **Enigma2**.
+**AIO TunerHub** to rozwijany zestaw autorskich projektów dla odbiorników **Enigma2**.
 
 W jednym miejscu znajdziesz wtyczki, skin, listy kanałów, narzędzia systemowe, poradniki, instalatory oraz rozwiązania przygotowane z myślą o codziennym użytkowaniu tunerów Enigma2.
 
-### 👉 [OTWÓRZ AIO-IPTV.PL](https://aio-iptv-projekt.pages.dev/)
+### 👉 [OTWÓRZ AIO TunerHub](https://aio-iptv-projekt.pages.dev/)
 
 ---
 
@@ -37,7 +37,7 @@ Nowa wersja poprawia obsługę EPG dla list IPTV i dokładność mapowania kana�
 [Pobierz IPK 3.1.0 r1](pliki/enigma2-plugin-extensions-simpleiptvepg_3.1.0-r1_all.ipk) • [Opis i instrukcja](plugin-simple-iptv-epg.html)
 
 
-### 🧹 09.10.2026 — porządkowanie i optymalizacja AIO-IPTV.pl
+### 🧹 09.10.2026 — porządkowanie i optymalizacja AIO TunerHub
 
 Przeprowadzono techniczne porządki strony i repozytorium bez usuwania bieżącej zawartości ani Społeczności AIO.
 
@@ -162,7 +162,7 @@ Listy obejmują polskie platformy, kanały FTA, sport, radio oraz dodatkowe buki
 
 ---
 
-## 🌐 Co znajdziesz na stronie AIO-IPTV.pl?
+## 🌐 Co znajdziesz na stronie AIO TunerHub?
 
 Strona projektu zawiera:
 
@@ -202,7 +202,7 @@ Zalecane jest korzystanie z aktualnych wydań publikowanych na stronie lub w Git
 
 GitHub: **OliOli2013**
 
-🌐 [AIO-IPTV.pl](https://aio-iptv-projekt.pages.dev/)
+🌐 [AIO TunerHub](https://aio-iptv-projekt.pages.dev/)
 
 > Projekty powstają z myślą o użytkownikach Enigma2 i są rozwijane na podstawie rzeczywistych testów, zgłoszeń użytkowników oraz codziennego korzystania z odbiorników.
 
@@ -218,7 +218,7 @@ Pojawiają się tam:
 
 ---
 
-### AIO-IPTV Project
+### AIO TunerHub
 **Enigma2 tworzone dla użytkowników Enigma2.**
 
 **by Paweł Pawełek**

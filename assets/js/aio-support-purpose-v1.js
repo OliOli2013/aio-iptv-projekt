@@ -36,7 +36,7 @@
 
  function openDialog(method,initialPurpose=''){
   close();pending=null;dialog=el('dialog',undefined,'asp-dialog');dialog.id='aio-support-purpose-dialog';
-  const body=el('div',undefined,'asp-body'),head=el('div',undefined,'asp-head');head.append(el('strong','Cel wsparcia AIO-IPTV.pl'));
+  const body=el('div',undefined,'asp-body'),head=el('div',undefined,'asp-head');head.append(el('strong','Cel wsparcia AIO TunerHub'));
   const x=el('button','✕','asp-close');x.type='button';x.setAttribute('aria-label','Zamknij');x.addEventListener('click',close);head.append(x);body.append(head);
   const intro=el('p','Zanim otworzysz '+METHODS[method]+', wybierz cel. Dobrowolna darowizna przenosi od razu do wpłaty — bez rejestracji i zgłoszenia. Tylko dostęp 7 dni i VIP wymagają zapisania celu w Centrum Właściciela.');body.append(intro);
   const f=el('form');f.id='asp-form';const fs=el('fieldset');fs.append(el('legend','Wybierz cel wpłaty'));

@@ -1,4 +1,4 @@
-/* AIO‑IPTV.pl — v4 enhancements (search, updates widget, copy buttons, back-to-top) */
+/* AIO TunerHub — v4 enhancements (search, updates widget, copy buttons, back-to-top) */
 (function(){
   'use strict';
 

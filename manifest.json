@@ -1,6 +1,6 @@
 {
-  "name": "AIO-IPTV.pl — Enigma2, IPTV i pomoc",
-  "short_name": "AIO-IPTV",
+  "name": "AIO TunerHub — Enigma2, IPTV i pomoc",
+  "short_name": "AIO TunerHub",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
@@ -38,7 +38,7 @@
       ]
     },
     {
-      "name": "Aktualności AIO-IPTV.pl",
+      "name": "Aktualności AIO TunerHub",
       "short_name": "Aktualności",
       "url": "./news",
       "icons": [
@@ -50,7 +50,7 @@
       ]
     },
     {
-      "name": "Studio AIO-IPTV.pl",
+      "name": "Studio AIO TunerHub",
       "short_name": "Studio",
       "url": "./studio",
       "icons": [

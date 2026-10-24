@@ -122,7 +122,7 @@
       </button>
       <div class="aio-mascot-panel" id="aio-mascot-panel-v2" aria-hidden="true">
         <div class="aio-mascot-panel-head">
-          <div><strong>AIO AI GPT</strong><span data-aio-mascot-context>Twój przewodnik po AIO-IPTV.pl</span></div>
+          <div><strong>AIO AI GPT</strong><span data-aio-mascot-context>Twój przewodnik po AIO TunerHub</span></div>
           <button class="aio-mascot-x" type="button" aria-label="Zwiń pomoc">×</button>
         </div>
         <p class="aio-mascot-message"><span data-aio-mascot-typed></span><span class="aio-mascot-cursor" aria-hidden="true"></span></p>
@@ -172,7 +172,7 @@
       if (!area && /^(?:plugin-|skin-)/.test(page)) area = 'Wtyczki i skórki';
       if (!area && /^(?:guide-|help-)/.test(page)) area = 'Poradniki Enigma2';
       if (!area && /^(?:app-)/.test(page)) area = 'Aplikacje AIO';
-      contextLine.textContent = area ? 'Przewodnik • ' + area : 'Twój przewodnik po AIO-IPTV.pl';
+      contextLine.textContent = area ? 'Przewodnik • ' + area : 'Twój przewodnik po AIO TunerHub';
     }
 
     // V2: make the safety note visible only on pages where a wrong file matters.

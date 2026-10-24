@@ -153,7 +153,7 @@ export async function onRequestGet({request, env}) {
       const exportedAt = isoNow();
       const data = {
         meta:{
-          site:"AIO-IPTV.pl",
+          site:"AIO TunerHub",
           exported_at:exportedAt,
           owner_id:ownerId,
           note:"Eksport właściciela nie zawiera haseł, hashy haseł ani tokenów sesji."

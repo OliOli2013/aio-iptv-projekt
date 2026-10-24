@@ -1,5 +1,5 @@
 
-/* AIO-IPTV Professional Suite 2026-07-24 */
+/* AIO TunerHub Professional Suite 2026-07-24 */
 :root{--pro-bg:#06141c;--pro-panel:#0b2430;--pro-panel2:#103342;--pro-line:#2b5a6d;--pro-accent:#54d6f4;--pro-blue:#2e8fe8;--pro-gold:#ffd15b;--pro-green:#64e3b0;--pro-red:#ff7c85;--pro-muted:#a9c0ca}
 body{background-color:#02090e;background-image:radial-gradient(circle at 85% -10%,rgba(43,159,213,.22),transparent 34%),radial-gradient(circle at 2% 42%,rgba(66,218,187,.10),transparent 25%),linear-gradient(180deg,#02070b,#06131a 55%,#02090e)!important}
 .page-shell{max-width:1320px}.site-header{position:sticky;top:0;z-index:900;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 16px 50px rgba(0,0,0,.42)}

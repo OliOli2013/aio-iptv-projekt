@@ -61,7 +61,7 @@ export async function smtpSend({connect,from,to,password,subject,text}){
     await command(`RCPT TO:<${to}>`,[250,251]);
     await command('DATA',[354]);
     const head=[
-      `From: AIO-IPTV.pl <${from}>`,
+      `From: AIO TunerHub <${from}>`,
       `To: <${to}>`,
       `Subject: =?UTF-8?B?${base64(subject)}?=`,
       `Date: ${new Date().toUTCString()}`,

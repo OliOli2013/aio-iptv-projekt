@@ -400,7 +400,7 @@
 
         <label class="community-notice success" data-edit-official-wrap>
           <input type="checkbox" data-edit-official>
-          Wpis oficjalny AIO-IPTV.pl
+          Wpis oficjalny AIO TunerHub
         </label>
 
         <div class="community-field">
@@ -634,7 +634,7 @@
       return;
     }
 
-    const subject='Kod resetu hasła — AIO-IPTV.pl';
+    const subject='Kod resetu hasła — AIO TunerHub';
     const message=[
       `Dzień dobry${safeName&&safeName!=='Użytkownik'?', '+safeName:''},`,
       '',
@@ -644,13 +644,13 @@
       safeCode,
       '',
       'Kod jest ważny przez 24 godziny i może zostać użyty tylko jeden raz.',
-      'Na stronie AIO-IPTV.pl wybierz „Mam kod resetu”, wpisz powyższy kod i ustaw nowe hasło.',
+      'Na stronie AIO TunerHub wybierz „Mam kod resetu”, wpisz powyższy kod i ustaw nowe hasło.',
       '',
       'Jeżeli nie prosiłeś o zmianę hasła, zignoruj tę wiadomość.',
       '',
       'Pozdrawiam',
       'Paweł Pawełek',
-      'Administrator strony AIO-IPTV.pl'
+      'Administrator strony AIO TunerHub'
     ].join('\n');
 
     const dialog=document.createElement('dialog');

@@ -1,11 +1,11 @@
-/* AIO-IPTV.pl — global sharing system, 2026-10-10 */
+/* AIO TunerHub — global sharing system, 2026-10-10 */
 (function(){
   'use strict';
 
   if (window.__AIO_SHARE_SYSTEM__) return;
   window.__AIO_SHARE_SYSTEM__ = true;
 
-  const SITE_NAME = 'AIO-IPTV.pl';
+  const SITE_NAME = 'AIO TunerHub';
 
   function cleanText(value){
     return String(value || '').replace(/\s+/g,' ').trim();
@@ -41,13 +41,13 @@
     const og = document.querySelector('meta[property="og:title"]');
     const h1 = document.querySelector('main h1, .standalone-main h1, h1');
     const value = cleanText(og?.content || h1?.textContent || document.title || SITE_NAME);
-    return value.replace(/\s*[—|-]\s*AIO-IPTV\.pl\s*$/i,'') || SITE_NAME;
+    return value.replace(/\s*[—|-]\s*(?:AIO-IPTV\.pl|AIO TunerHub)\s*$/i,'') || SITE_NAME;
   }
 
   function payloadForPage(){
     const title = currentTitle();
     const text = title === SITE_NAME
-      ? 'Sprawdź AIO-IPTV.pl — Enigma2, IPTV, wtyczki, poradniki i pomoc.'
+      ? 'Sprawdź AIO TunerHub — Enigma2, IPTV, wtyczki, poradniki i pomoc.'
       : `${title} — ${SITE_NAME}`;
     return {title, text, url:currentUrl()};
   }
@@ -73,10 +73,10 @@
 
   function externalShareText(payload){
     let text = cleanText(payload?.text || payload?.title || SITE_NAME);
-    // Messenger/Android potrafi potraktować sam napis "AIO-IPTV.pl"
+    // W archiwalnych wpisach stara nazwa "AIO-IPTV.pl"
     // jako osobny adres http://aio-iptv.pl/. W treści udostępnienia
     // używamy więc nazwy marki bez końcówki domenowej.
-    text = text.replace(/\bAIO-IPTV\.pl\b/gi,'AIO IPTV');
+    text = text.replace(/\bAIO-IPTV\.pl\b/gi,'AIO TunerHub');
     return text;
   }
 
@@ -167,7 +167,7 @@
           <input type="text" readonly data-aio-share-url aria-label="Link do udostępnienia">
           <button type="button" class="aio-share-copy" data-aio-share-provider="copy">Kopiuj link</button>
         </div>
-        <small>Udostępniasz tylko link i tytuł. AIO-IPTV.pl nie wysyła danych do serwisów społecznościowych, dopóki nie wybierzesz konkretnej opcji.</small>
+        <small>Udostępniasz tylko link i tytuł. AIO TunerHub nie wysyła danych do serwisów społecznościowych, dopóki nie wybierzesz konkretnej opcji.</small>
       </section>`;
     document.body.appendChild(modal);
 
@@ -236,7 +236,7 @@
 
     const isHome=/\/(?:index\.html)?$/i.test(location.pathname);
     const isPost=isPostPage();
-    const title=isPost ? 'Ten wpis może komuś pomóc.' : (isHome ? 'Poleć AIO-IPTV.pl innym.' : 'Ta strona może komuś pomóc.');
+    const title=isPost ? 'Ten wpis może komuś pomóc.' : (isHome ? 'Poleć AIO TunerHub innym.' : 'Ta strona może komuś pomóc.');
     const desc=isPost
       ? 'Udostępnij wpis znajomemu lub na grupie — może rozwiązać czyjś problem z Enigma2.'
       : 'Jedno udostępnienie ułatwia innym znalezienie poradników, projektów i pomocy dla Enigma2.';

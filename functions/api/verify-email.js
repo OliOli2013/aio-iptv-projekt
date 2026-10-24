@@ -8,7 +8,7 @@ const HEADER={
  'Content-Security-Policy':"default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'"
 };
 function page(title, body, status=200){
- const html=`<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title} — AIO IPTV</title><style>body{font:16px system-ui;background:#092632;color:#eafaff;padding:24px}main{max-width:480px;margin:9vh auto;padding:28px;background:#113b49;border:1px solid #387c88;border-radius:16px}button,a{display:inline-block;padding:12px 17px;background:#067f87;color:#fff;border:0;border-radius:8px;font:inherit;text-decoration:none;cursor:pointer}p{line-height:1.6}</style></head><body><main><h1>${title}</h1>${body}</main></body></html>`;
+ const html=`<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title} — AIO TunerHub</title><style>body{font:16px system-ui;background:#092632;color:#eafaff;padding:24px}main{max-width:480px;margin:9vh auto;padding:28px;background:#113b49;border:1px solid #387c88;border-radius:16px}button,a{display:inline-block;padding:12px 17px;background:#067f87;color:#fff;border:0;border-radius:8px;font:inherit;text-decoration:none;cursor:pointer}p{line-height:1.6}</style></head><body><main><h1>${title}</h1>${body}</main></body></html>`;
  return new Response(html,{status,headers:HEADER});
 }
 export async function onRequestGet({request}){

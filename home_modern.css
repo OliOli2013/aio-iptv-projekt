@@ -1455,7 +1455,7 @@ body[data-page="home"] .news-banner * {
 
 /* ===== Mobile cleanup (requested) ===== */
 @media (max-width: 700px){
-  /* Hide large hero header (AIO IPTV + logo) – mobile uses only the thin sticky bar */
+  /* Hide large hero header (AIO TunerHub + logo) – mobile uses only the thin sticky bar */
   .hero-header{ display:none !important; }
 
   /* Thin sticky top bar: only menu + weather + share */

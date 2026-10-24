@@ -1,4 +1,4 @@
-/* AIO-IPTV.pl — finalny polish całego serwisu, 2026-10-10 */
+/* AIO TunerHub — finalny polish całego serwisu, 2026-10-10 */
 .site-final-v1 :where(section[id],article[id],div[id]){scroll-margin-top:96px}
 .site-final-v1 :where(img,video,canvas,svg){max-width:100%}
 .site-final-v1 img{height:auto}

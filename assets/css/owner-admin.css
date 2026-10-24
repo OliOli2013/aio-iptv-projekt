@@ -1,4 +1,4 @@
-/* AIO-IPTV.pl — prywatny Panel Właściciela, 2026-10-10 */
+/* AIO TunerHub — prywatny Panel Właściciela, 2026-10-10 */
 .owner-admin-lock{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:18px}
 .owner-admin-card{min-width:0;padding:16px;border:1px solid rgba(110,219,248,.16);border-radius:14px;background:linear-gradient(180deg,rgba(7,43,55,.96),rgba(5,28,38,.96))}
 .owner-admin-card strong{display:block;color:#effbff;font-size:1.05rem;margin-bottom:5px;overflow-wrap:anywhere}

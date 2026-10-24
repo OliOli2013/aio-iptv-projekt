@@ -188,7 +188,7 @@ export async function onRequestPost({request, env}) {
               body:JSON.stringify({
                 from,
                 to:[auth.email],
-                subject:'AIO-IPTV.pl — jednorazowy kod resetowania hasla',
+                subject:'AIO TunerHub — jednorazowy kod resetowania hasla',
                 text:'Otrzymalismy prosbe o reset hasla. Jezeli to Ty, otworz https://aio-iptv-projekt.pages.dev/community.html i wybierz „Mam kod resetu”.\n\nKod: '+token+'\n\nKod wygasa za 60 minut. Jezeli nie skladales prosby, zignoruj wiadomosc.'
               })
             });

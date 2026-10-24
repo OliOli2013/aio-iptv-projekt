@@ -1,4 +1,4 @@
-/* Future Lab — AIO-IPTV.pl
+/* Future Lab — AIO TunerHub
    Fix pack: align JS bindings with current HTML IDs (cfgDiff*, check*, sr*)
    and keep backward compatibility with older IDs.
 */
@@ -229,7 +229,7 @@
 
       // Recommended tuner commands (for SSH/Telnet)
       const cmd = [
-        '# AIO-IPTV — diagnostyka tunera',
+        '# AIO TunerHub — diagnostyka tunera',
         'uname -a',
         'ip addr || ifconfig -a',
         'ping -c 2 1.1.1.1',

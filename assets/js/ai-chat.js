@@ -1,4 +1,4 @@
-/* AIO-IPTV.pl — AI Chat Cloudflare-first 2026-10-10
+/* AIO TunerHub — AI Chat Cloudflare-first 2026-10-10
  * 1. Cloudflare Pages Function /api/ai-chat
  * 2. Supabase Edge Function fallback
  * 3. lokalna baza wiedzy

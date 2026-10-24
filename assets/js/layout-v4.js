@@ -1,4 +1,4 @@
-/* AIO‑IPTV.pl — Layout v4 injector (template-like) */
+/* AIO TunerHub — Layout v4 injector (template-like) */
 (function(){
   'use strict';
   const $ = (s,r=document)=>r.querySelector(s);
@@ -14,10 +14,10 @@
     sidebar.id = 'sidebar';
     sidebar.innerHTML = `
       <div class="logo-block">
-        <a class="brand" href="index.html" aria-label="AIO‑IPTV.pl">
-          <img src="pliki/logo.png?v=20261010-logo2" alt="AIO‑IPTV.pl" />
+        <a class="brand" href="index.html" aria-label="AIO TunerHub">
+          <img src="pliki/logo.png?v=20261010-logo2" alt="AIO TunerHub" />
           <div>
-            <div class="t1">AIO‑IPTV.pl</div>
+            <div class="t1">AIO TunerHub</div>
             <div class="t2">Enigma2 • IPTV • Tools</div>
           </div>
         </a>

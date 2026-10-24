@@ -1,4 +1,4 @@
-/* AIO-IPTV.pl — automatic PL/EN language selection, 2026-07-29
+/* AIO TunerHub — automatic PL/EN language selection, 2026-07-29
    Polish browser language keeps the original Polish site.
    Any other browser language opens an English machine-translated view.
    Optional override: append ?lang=pl or ?lang=en to any page. */

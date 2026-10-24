@@ -1,4 +1,4 @@
-/* AIO-IPTV.pl — ochrona treści / watermark
+/* AIO TunerHub — ochrona treści / watermark
    Wersja 2026-10-09
    Utrudnia kopiowanie i ponowne publikowanie treści.
    Nie jest technicznie możliwe całkowite zablokowanie zrzutów ekranu w WWW.
@@ -91,7 +91,7 @@ html.aio-screen-guard .aio-protected-content {
   transition: filter .08s linear;
 }
 html.aio-screen-guard::after {
-  content: "AIO-IPTV.pl • treść chroniona";
+  content: "AIO TunerHub • treść chroniona";
   position: fixed;
   inset: 0;
   z-index: 2147482500;
@@ -106,7 +106,7 @@ html.aio-screen-guard::after {
 @media print {
   body * { visibility: hidden !important; }
   body::before {
-    content: "Treść chroniona AIO-IPTV.pl — wydruk został wyłączony.";
+    content: "Treść chroniona AIO TunerHub — wydruk został wyłączony.";
     visibility: visible !important;
     position: fixed;
     inset: 0;
