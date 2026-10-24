@@ -7,11 +7,21 @@ import {initAccess,sessionUser,getStatus,consumeFree} from '../_aio_account_acce
 import {activeSharedHold,logSecurity,reviewPaidSessionSharing} from '../_aio_security_journal.js';
 import {monitorDownload} from '../_aio_security_v6.js';
 import {checkAnonymousFileBurst} from '../_aio_anon_shield_v1.js';
+import {recordPostFileClickV1} from '../_aio_post_file_stats_v1.js';
 import {linksInPost,normalizePostLink,classifyPostLink,ensurePostLinkSchema,safePostFileName,externalFileKey} from '../_aio_post_links_v5.js';
 const HEADERS={'Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff'};
 function result(obj,code=200){return json(obj,code,HEADERS)}
 function sameOrigin(req){const origin=req.headers.get('Origin');return (!origin||origin===new URL(req.url).origin)&&req.headers.get('Sec-Fetch-Site')!=='cross-site'}
-export async function onRequestPost({request,env}){
+/* Audit is best effort: no click-log failure may deny a file or debit a quota. */
+function queueClickAudit(env,waitUntil,data){
+  try{
+    const task=recordPostFileClickV1(env,data).catch(err=>
+      console.error('AIO click stats:',String(err?.message||err).slice(0,130)));
+    if(typeof waitUntil==='function')waitUntil(task);
+    else void task;
+  }catch(_e){}
+}
+export async function onRequestPost({request,env,waitUntil}){
   if(!sameOrigin(request))return result({ok:false,error:'Niedozwolone źródło żądania.'},403);
   if(!(request.headers.get('content-type')||'').toLowerCase().includes('application/json'))return result({ok:false,error:'Wymagany JSON.'},415);
   try{
@@ -36,9 +46,13 @@ export async function onRequestPost({request,env}){
     const classified=classifyPostLink(clicked.href,new URL(request.url).origin);
     if(classified.kind==='invalid')return result({ok:false,error:'Nieprawidłowy link.'},400);
     // Editorial links are navigation, never a download. No quota, login or audit.
-    if(classified.kind==='info')return result({ok:true,kind:'info',href:clicked.href,counted:false});
+    if(classified.kind==='info'){
+      queueClickAudit(env,waitUntil,{postId,userId:null,kind:'info',url:clicked.href});
+      return result({ok:true,kind:'info',href:clicked.href,counted:false});
+    }
     await initAccess(env);
     const user=await sessionUser(request,env);
+    queueClickAudit(env,waitUntil,{postId,userId:user?.id||null,kind:classified.kind,url:clicked.href});
     if(!user){
       const anon=await checkAnonymousFileBurst(env,request);
       if(anon.blocked)return result({ok:false,restricted:true,error:'Zbyt wiele anonimowych żądań. Spróbuj ponownie później. Kontakt: /contact.html.'},anon.status||429);
