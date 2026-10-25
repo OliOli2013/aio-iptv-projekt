@@ -1,0 +1,35 @@
+name: AIO Pages public output V1
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/aio_pages_public_build_v1.py'
+      - 'scripts/aio_pages_public_verify_v1.py'
+      - 'functions/_middleware.js'
+      - '_routes.json'
+      - '.github/workflows/aio-pages-public-v1.yml'
+  pull_request:
+    paths:
+      - 'scripts/aio_pages_public_build_v1.py'
+      - 'scripts/aio_pages_public_verify_v1.py'
+      - 'functions/_middleware.js'
+      - '_routes.json'
+      - '.github/workflows/aio-pages-public-v1.yml'
+permissions:
+  contents: read
+jobs:
+  build-verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build isolated public output
+        run: python3 scripts/aio_pages_public_build_v1.py
+      - name: Verify no technical files are published
+        run: python3 scripts/aio_pages_public_verify_v1.py
+      - name: Check Pages middleware syntax
+        run: node --input-type=module --check < functions/_middleware.js
