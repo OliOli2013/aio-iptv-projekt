@@ -19,6 +19,7 @@ if missing:
 try:
  import boto3
  from botocore.config import Config
+ from botocore.exceptions import ClientError
 except ImportError:
  print('ERROR: boto3 required. Install: python3 -m pip install boto3',file=sys.stderr)
  sys.exit(2)
@@ -49,8 +50,24 @@ for item in manifest['objects']:
    errors.append(key+': SHA-256 mismatch')
   else:
    print('R2 SHA-256 OK:',key,'('+str(total)+' bytes)')
+ except ClientError as exc:
+  # Only show allowlisted S3 error codes and numeric HTTP status. Never log
+  # response messages, endpoints, signed URLs, request headers or credentials.
+  response=exc.response if isinstance(exc.response,dict) else {}
+  error=response.get('Error') or {}
+  raw_code=str(error.get('Code') or '') if isinstance(error,dict) else ''
+  allowed={'AccessDenied','SignatureDoesNotMatch','InvalidAccessKeyId',
+           'NoSuchBucket','NoSuchKey','AuthorizationHeaderMalformed',
+           'InvalidToken','ExpiredToken','RequestTimeTooSkewed',
+           'InvalidRequest','InvalidArgument','PermanentRedirect',
+           '401','403','404'}
+  code=raw_code if raw_code in allowed else 'Unrecognized'
+  meta=response.get('ResponseMetadata') or {}
+  http=meta.get('HTTPStatusCode') if isinstance(meta,dict) else None
+  if type(http) is not int or not 100<=http<=599:http='unknown'
+  errors.append(key+': retrieval failed (ClientError, code='+code+', HTTP='+str(http)+')')
  except Exception as exc:
-  # Don't print remote exception messages: SDK diagnostics may contain endpoint info.
+  # Deliberately do not output str(exc), which may contain an endpoint URL.
   errors.append(key+': retrieval failed ('+type(exc).__name__+')')
 for error in errors:print('ERROR:',error,file=sys.stderr)
 if errors:sys.exit(1)
