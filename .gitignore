@@ -3,3 +3,17 @@
 /changed_files_list.txt
 
 /.aio_backup_*/
+
+# Local Cloudflare tooling and environment secrets; tracked files require git rm.
+/.wrangler/
+/.dev.vars
+/.dev.vars.*
+/.env
+/.env.*
+!/.env.example
+/node_modules/
+/dist/
+/.cache/
+__pycache__/
+*.pyc
+*.log

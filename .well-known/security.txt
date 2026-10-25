@@ -1,0 +1,6 @@
+Contact: mailto:aio-iptv@wp.pl
+Contact: https://aio-iptv-projekt.pages.dev/contact.html
+Expires: 2027-04-25T00:00:00Z
+Preferred-Languages: pl, en
+Canonical: https://aio-iptv-projekt.pages.dev/.well-known/security.txt
+Policy: https://github.com/OliOli2013/aio-iptv-projekt/security/policy
