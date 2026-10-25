@@ -18,7 +18,17 @@
     const panel=q('[data-profile-edit-panel]');if(panel)panel.hidden=!data.own;
     if(data.own){const f=q('[data-profile-form]');for(const n of ['display_name','tuner_model','system_name','system_version','python_version','bio'])if(f?.elements[n])f.elements[n].value=p[n]||'';const prev=q('[data-profile-avatar-preview]');if(prev)prev.innerHTML=AIOCommunity.avatarHtml(p,p.display_name,false);}
   }
-  function preview(e){const f=e.target.files?.[0],prev=q('[data-profile-avatar-preview]');if(f&&prev){const u=URL.createObjectURL(f);prev.innerHTML=`<img class="community-avatar" src="${u}" alt="Podgląd">`;}}
+  function preview(e){
+    const f=e.target.files?.[0], prev=q('[data-profile-avatar-preview]');
+    if(!f||!prev)return;
+    const url=URL.createObjectURL(f);
+    const img=document.createElement('img');
+    img.className='community-avatar';
+    img.alt='Podgląd';
+    img.onload=img.onerror=()=>URL.revokeObjectURL(url);
+    img.src=url;
+    prev.replaceChildren(img);
+  }
   async function save(e){
     e.preventDefault();const f=e.currentTarget,b=f.querySelector('button[type="submit"]');b.disabled=true;
     try{let avatar_key=data.profile.avatar_key||'';const file=q('[data-profile-avatar-file]',f)?.files?.[0];if(file){const up=await AIOCommunity.uploadMedia(file,'avatar');avatar_key=up.key;}
