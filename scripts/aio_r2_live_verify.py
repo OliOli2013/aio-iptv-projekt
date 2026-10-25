@@ -29,7 +29,9 @@ assert manifest.get('bucket')=='aio-downloads-private', 'Unexpected R2 bucket'
 client=boto3.client('s3',endpoint_url=os.environ['AIO_R2_ENDPOINT'],
   aws_access_key_id=os.environ['AIO_R2_ACCESS_KEY_ID'],
   aws_secret_access_key=os.environ['AIO_R2_SECRET_ACCESS_KEY'],
-  region_name='auto',config=Config(signature_version='s3v4',retries={'max_attempts':2}))
+  region_name='auto',config=Config(signature_version='s3v4',retries={'max_attempts':2},
+  request_checksum_calculation='when_required',
+  response_checksum_validation='when_required'))
 errors=[]
 for item in manifest['objects']:
  key=item['key']
