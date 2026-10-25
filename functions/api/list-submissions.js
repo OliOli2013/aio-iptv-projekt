@@ -143,7 +143,7 @@ async function userGet(request,env) {
         .map(x=>({id:x.id,name:String(x.name||''),author:String(x.author||''),version:String(x.version||''),url:String(x.url||''),
           can_link:!!safeArchivedUrl(x.url)&&snap.arr.filter(y=>y?.id===x.id).length===1}));
     } catch(e) {manifest_error='Nie można teraz pobrać katalogu GitHub. Zgłoszenia są dostępne.';}
-    return json({ok:true,authenticated:true,is_owner:true,items:(rr.results||[]).map(r=>publicRow(r,true)),blocks:bb.results||[],legacy,manifest_error,policy:{max_active:null,max_new_30d:null,max_daily:null,max_pending:null,unlimited:true,slots:SLOT_LABELS}});
+    return json({ok:true,authenticated:true,is_owner:true,items:(rr.results||[]).map(r=>publicRow(r,true)),blocks:bb.results||[],legacy,manifest_error,policy:{max_active:null,max_new_30d:null,max_daily:null,max_pending:null,update_existing_unlimited:true,unlimited:true,slots:SLOT_LABELS}});
   }
   const account=await env.COMMUNITY_DB.prepare('SELECT email FROM community_auth WHERE user_id=?').bind(session.user.id).first();
   return json({ok:true,authenticated:true,is_owner:!!session.user.is_owner,user:session.user,account_email:account?.email||null,
@@ -153,6 +153,7 @@ async function userGet(request,env) {
       max_new_30d:session.user.is_owner===true?null:MAX_NEW_LISTS_30_DAYS,
       max_daily:session.user.is_owner===true?null:LIMIT_PER_DAY,
       max_pending:session.user.is_owner===true?null:3,
+      update_existing_unlimited:true,
       unlimited:session.user.is_owner===true,slots:SLOT_LABELS}});
 }
 async function upload(request,env) {
@@ -179,8 +180,8 @@ async function upload(request,env) {
   if(!/\.zip$/i.test(file.name) || file.size>AIO_ZIP_MAX_BYTES || file.size<22) throw httpError(413,'Obsługujemy wyłącznie pliki .zip do 12 MB.');
   const db=env.COMMUNITY_DB;
   const day=new Date().toISOString().slice(0,10);
-  if(!ownerBypass){
-    const limit=await db.prepare("SELECT COUNT(*) AS n FROM aio_list_submissions WHERE user_id=? AND created_at>=? AND source_type!='legacy'").bind(s.user.id,day).first();
+  if(!ownerBypass && !base){
+    const limit=await db.prepare("SELECT COUNT(*) AS n FROM aio_list_submissions WHERE user_id=? AND created_at>=? AND update_of IS NULL AND source_type!='legacy'").bind(s.user.id,day).first();
     if(Number(limit?.n||0)>=LIMIT_PER_DAY) throw httpError(429,'Limit 3 nowych zgłoszeń dziennie. Spróbuj jutro.');
     const pending=await db.prepare("SELECT COUNT(*) AS n FROM aio_list_submissions WHERE user_id=? AND status IN ('pending','publish_failed','publishing')").bind(s.user.id).first();
     if(Number(pending?.n||0)>=3) throw httpError(429,'Masz już 3 nierozpatrzone zgłoszenia. Poczekaj na ocenę.');
@@ -219,20 +220,13 @@ async function upload(request,env) {
     const params=[id,s.user.id,name,description,version,cleanText(file.name,170),r2Key,bytes.byteLength,hash,JSON.stringify(report),isoNow(),base?.id||null,declaredSlot];
     let result;
     if(base){
-      if(ownerBypass){
-        // Ignore all numerical quotas, but protect an already-running update.
-        result=await db.prepare(`${common} WHERE
-          NOT EXISTS(SELECT 1 FROM aio_list_submissions WHERE update_of=? AND status IN ('pending','publish_failed','publishing'))
-          AND EXISTS(SELECT 1 FROM aio_list_submissions WHERE id=? AND user_id=? AND status='published')`)
-          .bind(...params,base.id,base.id,s.user.id).run();
-      }else{
+      // A verified owner of a published list can update its ZIP without
+      // daily/30-day numerical quotas. Preserve atomic ownership check and
+      // exactly one pending/publishing/failed update per base list.
       result=await db.prepare(`${common} WHERE
-        (SELECT COUNT(*) FROM aio_list_submissions WHERE user_id=? AND created_at>=? AND source_type!='legacy')<?
-        AND (SELECT COUNT(*) FROM aio_list_submissions WHERE user_id=? AND created_at>=? AND source_type!='legacy')<?
-        AND NOT EXISTS(SELECT 1 FROM aio_list_submissions WHERE update_of=? AND status IN ('pending','publish_failed','publishing'))
+        NOT EXISTS(SELECT 1 FROM aio_list_submissions WHERE update_of=? AND status IN ('pending','publish_failed','publishing'))
         AND EXISTS(SELECT 1 FROM aio_list_submissions WHERE id=? AND user_id=? AND status='published')`)
-        .bind(...params,s.user.id,day,LIMIT_PER_DAY,s.user.id,since30,MAX_NEW_LISTS_30_DAYS,base.id,base.id,s.user.id).run();
-      }
+        .bind(...params,base.id,base.id,s.user.id).run();
     }else{
       if(ownerBypass){
         // Same satellite slot may contain multiple DISTINCT lists on owner's account.
@@ -243,10 +237,10 @@ async function upload(request,env) {
           .bind(...params,s.user.id,name,hash,s.user.id).run();
       }else{
       result=await db.prepare(`${common} WHERE
-        (SELECT COUNT(*) FROM aio_list_submissions WHERE user_id=? AND created_at>=? AND source_type!='legacy')<?
+        (SELECT COUNT(*) FROM aio_list_submissions WHERE user_id=? AND created_at>=? AND update_of IS NULL AND source_type!='legacy')<?
         AND (SELECT COUNT(*) FROM aio_list_submissions WHERE user_id=? AND status IN ('pending','publish_failed','publishing'))<3
         AND (SELECT COUNT(*) FROM aio_list_submissions WHERE user_id=? AND update_of IS NULL AND status IN ('pending','publish_failed','publishing','published','removing','editing'))<?
-        AND (SELECT COUNT(*) FROM aio_list_submissions WHERE user_id=? AND created_at>=? AND source_type!='legacy')<?
+        AND (SELECT COUNT(*) FROM aio_list_submissions WHERE user_id=? AND created_at>=? AND update_of IS NULL AND source_type!='legacy')<?
         AND NOT EXISTS(SELECT 1 FROM aio_list_submissions WHERE user_id=? AND update_of IS NULL AND (satellite_slot=? OR satellite_slot='') AND status IN ('pending','publish_failed','publishing','published','removing','editing'))
         AND NOT EXISTS(SELECT 1 FROM aio_list_submissions WHERE user_id=? AND update_of IS NULL AND name=? COLLATE NOCASE AND status IN ('pending','publish_failed','publishing','published','removing','editing'))
         AND NOT EXISTS(SELECT 1 FROM aio_list_submissions WHERE zip_sha256=? AND user_id<>? AND status IN ('pending','published','publishing'))`)
@@ -255,7 +249,7 @@ async function upload(request,env) {
     }
     if(!result.meta?.changes)throw httpError(409,ownerBypass
       ?(base?'Trwa już aktualizacja tej listy. Zakończ ją przed kolejną.':'Istnieje już lista o tej nazwie albo identyczne archiwum innego autora.')
-      :(base?'Jest już aktywna aktualizacja tej listy lub przekroczono limit zgłoszeń.':'Limit kategorii, nazwy albo zgłoszeń. Użyj przycisku „Aktualizuj” przy istniejącej liście.'));
+      :(base?'Trwa już aktualizacja tej listy albo poprzednia publikacja nie powiodła się. Użyj „Ponów aktualizację” przy zgłoszeniu.':'Limit kategorii, nazwy albo zgłoszeń. Użyj przycisku „Aktualizuj” przy istniejącej liście.'));
   }catch(e){await env.COMMUNITY_MEDIA.delete(r2Key).catch(()=>{});throw e;}
   if(trusted){
     try{

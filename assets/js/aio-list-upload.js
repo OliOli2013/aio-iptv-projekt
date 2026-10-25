@@ -10,6 +10,13 @@
     const card=node('article',undefined,'alu-record'),head=node('div',undefined,'alu-record-title');
     head.append(node('strong',item.name),node('span',stat[item.status]||item.status,'alu-status'));card.append(head);
     card.append(node('p',`${item.version||'wersja nieznana'} · ${item.file_name}${item.file_size>0?' · '+(item.file_size/1024).toFixed(0)+' KB':''}`));
+    if(item.status==='published' && item.published_at){
+      const ts=new Date(item.published_at);
+      if(!Number.isNaN(ts.getTime()))card.append(node('p','Ostatnia skuteczna publikacja ZIP: '+ts.toLocaleString('pl-PL'),'alu-legacy-hint'));
+    }
+    if(item.status==='publish_failed' && item.update_of){
+      card.append(node('p','Aktualizacja NIE została wdrożona. Poprzednia data i ZIP w AIO Panel nadal obowiązują. Użyj „Ponów aktualizację”.','alu-warning'));
+    }
     if(item.linked_legacy)card.append(node('p','Starsza lista przypisana do tego konta przez administratora.','alu-legacy-hint'));
     if(admin) card.append(node('p',`Autor: ${item.author} · ID użytkownika: ${item.user_id}`));
     if(item.review_reason) box(card,'Informacja: '+item.review_reason,item.status==='rejected'?'alu-error':'alu-warning');
@@ -24,8 +31,8 @@
       actions.prepend(update,edit);actions.append(remove);card.append(actions);
       card.append(node('p','Aktualizacja zachowa identyfikator i adres ZIP w AIO Panel. Nie trzeba usuwać listy.','alu-legacy-hint'));
     }
-    if(!admin && item.status==='publish_failed' && me?.trusted_publisher && !item.update_of){
-      const retry=node('button','Ponów publikację','alu-button alu-primary');retry.type='button';
+    if(!admin && item.status==='publish_failed' && me?.trusted_publisher){
+      const retry=node('button',item.update_of?'Ponów aktualizację':'Ponów publikację','alu-button alu-primary');retry.type='button';
       retry.addEventListener('click',async()=>{
         if(busy || !confirm('Ponowić publikację w GitHub dla: '+item.name+'?'))return;
         busy=true;try{const d=await call({method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({action:'retry_own',id:item.id})});alert(d.message);await refresh();}
