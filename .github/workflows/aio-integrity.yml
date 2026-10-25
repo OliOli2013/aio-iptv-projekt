@@ -8,14 +8,18 @@ on:
       - "assets/**"
       - "pliki/**"
       - "data/downloads.json"
+      - "integrity/aio_private_r2_inventory.json"
       - "scripts/aio_integrity_audit.py"
+      - "scripts/aio_r2_live_verify.py"
       - ".github/workflows/aio-integrity.yml"
   pull_request:
     paths:
       - "**/*.html"
       - "data/downloads.json"
+      - "integrity/aio_private_r2_inventory.json"
       - "assets/**"
       - "scripts/aio_integrity_audit.py"
+      - "scripts/aio_r2_live_verify.py"
 permissions:
   contents: read
 jobs:
@@ -31,3 +35,16 @@ jobs:
         run: python scripts/aio_integrity_audit.py --strict-links
       - name: SHA-256 metadata report (legacy mismatches are warnings)
         run: python scripts/aio_integrity_audit.py --sha
+      - name: R2 LIVE SHA-256 verification (read-only, optional until secrets configured)
+        if: github.event_name != 'pull_request'
+        env:
+          AIO_R2_ENDPOINT: ${{ secrets.AIO_R2_ENDPOINT }}
+          AIO_R2_ACCESS_KEY_ID: ${{ secrets.AIO_R2_ACCESS_KEY_ID }}
+          AIO_R2_SECRET_ACCESS_KEY: ${{ secrets.AIO_R2_SECRET_ACCESS_KEY }}
+        run: |
+          if [ -n "$AIO_R2_ENDPOINT" ] && [ -n "$AIO_R2_ACCESS_KEY_ID" ] && [ -n "$AIO_R2_SECRET_ACCESS_KEY" ]; then
+            python -m pip install --disable-pip-version-check --quiet boto3
+            python scripts/aio_r2_live_verify.py
+          else
+            echo '::notice::LIVE R2 CHECK SKIPPED: offline SHA manifest checked. Configure read-only AIO_R2_* secrets for remote verification.'
+          fi

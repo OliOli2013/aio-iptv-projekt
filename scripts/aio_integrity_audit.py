@@ -29,11 +29,43 @@ def declared_function_route(path):
   rules=json.loads(rules_file.read_text(encoding='utf-8'))
   includes=rules.get('include',[])
  except (ValueError,OSError,TypeError):return False
- if not isinstance(includes,list) or path not in includes:return False
+ if not isinstance(includes,list) or not (path in includes or '/*' in includes):return False
+ # Check actual Pages exclusions before accepting a dynamic function route.
+ for excluded in rules.get('exclude',[]):
+  if excluded==path or (excluded.endswith('/*') and path.startswith(excluded[:-1])):return False
  rel=Path(path.lstrip('/'))
  if '..' in rel.parts:return False
  handler=ROOT/'functions'/rel.with_suffix('.js')
  return handler.is_file()
+
+
+
+# Private R2 objects verified on 2026-10-25 by the repository owner (object listing
+# and local SHA-256 of the downloaded bytes). This offline inventory alone does
+# NOT prove that an object remains in R2; see aio_r2_live_verify.py.
+_R2_INVENTORY = {}
+
+def load_private_r2_inventory():
+ doc=json.loads((ROOT/'integrity/aio_private_r2_inventory.json').read_text(encoding='utf-8'))
+ if doc.get('schema_version')!=1 or doc.get('bucket')!='aio-downloads-private':
+  raise ValueError('unsupported private R2 inventory schema/bucket')
+ objects=doc.get('objects')
+ if not isinstance(objects,list) or not objects:
+  raise ValueError('empty private R2 inventory')
+ result={}
+ for obj in objects:
+  if not isinstance(obj,dict):raise ValueError('invalid private R2 object entry')
+  key=obj.get('key');digest=obj.get('sha256')
+  if not isinstance(key,str) or not key.startswith('pliki/') or key.startswith('pliki//') or chr(92) in key or '..' in Path(key).parts or key.endswith('/'):
+   raise ValueError('invalid R2 inventory key: '+str(key))
+  if not isinstance(digest,str) or len(digest)!=64 or any(ch not in '0123456789abcdef' for ch in digest):
+   raise ValueError('invalid R2 inventory sha256 for '+key)
+  size=obj.get('size_bytes')
+  if size is not None and (type(size) is not int or size<=0):
+   raise ValueError('invalid R2 inventory object size for '+key)
+  if key in result:raise ValueError('duplicate R2 inventory key: '+key)
+  result[key]=obj
+ return result
 
 def missing(source,ref):
  ref=ref.strip()
@@ -45,14 +77,20 @@ def missing(source,ref):
  dest=((ROOT/p.lstrip('/')) if p.startswith('/') else (source.parent/p)).resolve()
  if not dest.is_relative_to(ROOT.resolve()):return 'Zewnętrzna ścieżka względna: '+p
  if dest.is_file() or (not dest.suffix and dest.with_suffix('.html').is_file()):return None
+ if (p.lstrip('/') in _R2_INVENTORY and
+     dest == (ROOT/p.lstrip('/')).resolve()):return None
  if declared_function_route(p):return None
  return p
 
 def audit(sha,strict,include_archive=False):
  bad=[];warn=[];pages=0;skipped_archive=0
+ global _R2_INVENTORY
+ try:_R2_INVENTORY=load_private_r2_inventory()
+ except (OSError,ValueError,TypeError) as e:
+  bad.append('R2 inventory: '+str(e));_R2_INVENTORY={}
  for page in ROOT.rglob('*.html'):
   rel=page.relative_to(ROOT)
-  if '.git' in rel.parts:continue
+  if '.git' in rel.parts or (rel.parts and rel.parts[0]=='dist'):continue
   # Historical 2026 legacy site is preserved for reference, not published
   # as a supported section of the current AIO site. Do not treat its old
   # relative paths as faults of the active pages.
@@ -79,6 +117,20 @@ def audit(sha,strict,include_archive=False):
      with f.open('rb') as inp:
       for chunk in iter(lambda:inp.read(1024*1024),b''):h.update(chunk)
      if h.hexdigest().lower()!=str(x['sha256']).lower():warn.append('Niezgodna suma SHA (zweryfikuj metadane): '+href)
+  # Each private object must be explicitly listed in the download catalogue;
+  # the recorded SHA-256 must match the SHA-256 independently verified from R2.
+  if not isinstance(items,list):bad.append('downloads.json: expected a list');items=[]
+  catalogue={}
+  for item in items:
+   if not isinstance(item,dict):continue
+   key=str(item.get('href','')).split('?',1)[0].lstrip('/')
+   if key in _R2_INVENTORY:
+    catalogue[key]=item
+    actual=str(item.get('sha256','')).lower()
+    if actual!=_R2_INVENTORY[key]['sha256']:
+     bad.append('R2 inventory SHA mismatch vs downloads.json: '+key)
+  for key in _R2_INVENTORY:
+   if key not in catalogue:bad.append('R2 inventory key not in downloads.json: '+key)
  if (ROOT/'sitemap.xml').exists():
   try:ET.parse(ROOT/'sitemap.xml')
   except ET.ParseError as e:bad.append('sitemap.xml XML: '+str(e))

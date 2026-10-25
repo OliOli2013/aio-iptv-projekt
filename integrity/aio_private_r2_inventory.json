@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "bucket": "aio-downloads-private",
+  "verified_date": "2026-10-25",
+  "verification_note": "R2 object listing and owner-downloaded file SHA-256. Offline inventory; enable read-only live R2 verification in GitHub Actions to detect later remote changes.",
+  "objects": [
+    {
+      "key": "pliki/enigma2-plugin-extensions-panelaio_17.0.2_all.ipk",
+      "sha256": "b7b46d35c7acadccdacf8061984c0d6886dc6145d4c6ac15b85824ec21a10b1b",
+      "size_bytes": 407736
+    },
+    {
+      "key": "pliki/enigma2-plugin-extensions-panelaio_17.0.2_all.deb",
+      "sha256": "b7b46d35c7acadccdacf8061984c0d6886dc6145d4c6ac15b85824ec21a10b1b",
+      "size_bytes": 407736
+    },
+    {
+      "key": "pliki/enigma2-plugin-extensions-opencamview_2.0.1_all.ipk",
+      "sha256": "b05a94e3184149a373f7e91fa1ab5601ba0c5c4a66d52bc57325b362bd18bf03"
+    },
+    {
+      "key": "pliki/enigma2-plugin-extensions-opencamview_2.0.1_all.deb",
+      "sha256": "3c5c2b101681822cbf71f34fe181567745bce1726edaf72028add6624d57ebd0"
+    }
+  ]
+}
