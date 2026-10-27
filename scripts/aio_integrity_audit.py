@@ -60,6 +60,9 @@ def load_private_r2_inventory():
    raise ValueError('invalid R2 inventory key: '+str(key))
   if not isinstance(digest,str) or len(digest)!=64 or any(ch not in '0123456789abcdef' for ch in digest):
    raise ValueError('invalid R2 inventory sha256 for '+key)
+  catalog_status=obj.get('catalog_status','active')
+  if catalog_status not in ('active','archived'):
+   raise ValueError('invalid R2 catalog status for '+key)
   size=obj.get('size_bytes')
   if size is not None and (type(size) is not int or size<=0):
    raise ValueError('invalid R2 inventory object size for '+key)
@@ -129,8 +132,11 @@ def audit(sha,strict,include_archive=False):
     actual=str(item.get('sha256','')).lower()
     if actual!=_R2_INVENTORY[key]['sha256']:
      bad.append('R2 inventory SHA mismatch vs downloads.json: '+key)
-  for key in _R2_INVENTORY:
-   if key not in catalogue:bad.append('R2 inventory key not in downloads.json: '+key)
+  # Historical verified R2 objects stay in R2, even when removed from CURRENT catalogue.
+  # Every active R2 object is still mandatory in downloads.json.
+  for key,obj in _R2_INVENTORY.items():
+   if key not in catalogue and obj.get('catalog_status','active')!='archived':
+    bad.append('R2 inventory key not in downloads.json: '+key)
  if (ROOT/'sitemap.xml').exists():
   try:ET.parse(ROOT/'sitemap.xml')
   except ET.ParseError as e:bad.append('sitemap.xml XML: '+str(e))

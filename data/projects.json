@@ -158,15 +158,15 @@
   {
     "id": "opencamview",
     "name": "OpenCamView",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "page": "plugin-opencamview.html",
     "category": "Wtyczka Enigma2",
     "status": "active",
     "statusLabel": "Nowa wersja",
-    "updated": "23.10.2026",
-    "summary": "Monitoring kamer IP w Enigma2: RTSP, ONVIF, JPEG, PiP, ściana czterech kamer, PTZ, patrol, skan LAN, bukiety i M3U. Nowy interfejs; Python 3.",
+    "updated": "27.10.2026",
+    "summary": "Monitoring IP/RTSP/ONVIF, PTZ, JPEG, PiP i skan LAN. Nowość 2.0.2: PL/EN, automatyczny/ręczny język i sprawdzanie aktualizacji; konfiguracje 2.0.1 zachowane.",
     "tested": "Python 3; ONVIF, PTZ i PiP zależne od obsługi kamery, tunera i obrazu Enigma2.",
-    "next": "Dalsza stabilizacja i rozbudowa monitoringu."
+    "next": "Dalsze testy kompatybilności Enigma2 i rozwój obsługi kamer."
   },
   {
     "id": "recordings",

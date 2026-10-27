@@ -324,12 +324,12 @@
     ]
   },
   {
-    "title": "OpenCamView 2.0.1 — kamery IP dla Enigma2",
-    "desc": "RTSP, ONVIF, PTZ, JPEG, PiP, ściana 4 kamer, patrol, skan LAN, bukiety i M3U. Python 3.",
+    "title": "OpenCamView 2.0.2 — kamery IP, PL/EN i aktualizacje dla Enigma2",
+    "desc": "Monitoring RTSP/ONVIF, PTZ, PiP i JPEG, automatyczny lub ręczny wybór języka PL/EN, sprawdzanie aktualizacji, Python 3.",
     "url": "plugin-opencamview.html",
     "tags": [
       "OpenCamView",
-      "2.0.1",
+      "2.0.2",
       "kamery IP",
       "RTSP",
       "ONVIF",
@@ -338,6 +338,10 @@
       "PiP",
       "Python 3",
       "monitoring",
+      "język polski",
+      "English",
+      "PL/EN",
+      "aktualizacje",
       "patrol",
       "bukiety",
       "M3U"
@@ -987,15 +991,6 @@
     ]
   },
   {
-    "title": "OpenCamView 1.3",
-    "desc": "Podgląd kamer IP / RTSP bez ręcznego tworzenia list kanałów.",
-    "url": "plugin-opencamview.html",
-    "tags": [
-      "plugin",
-      "opencamview"
-    ]
-  },
-  {
     "title": "Picon Updater 1.2",
     "desc": "Pobieranie i aktualizacja piconów dla Enigma2.",
     "url": "plugin-picon-updater.html",
@@ -1092,5 +1087,17 @@
       "Narzędzia AIO w jednym miejscu."
     ]
   },
-  {"title": "Najnowsze Posty — AIO TunerHub", "desc": "Najnowsze publikacje członków Społeczności AIO i oficjalne posty administratora, od najświeższych.", "url": "latest-posts.html", "tags": ["posty", "najnowsze", "wpisy", "społeczność", "aktualności", "AIO TunerHub"]}
+  {
+    "title": "Najnowsze Posty — AIO TunerHub",
+    "desc": "Najnowsze publikacje członków Społeczności AIO i oficjalne posty administratora, od najświeższych.",
+    "url": "latest-posts.html",
+    "tags": [
+      "posty",
+      "najnowsze",
+      "wpisy",
+      "społeczność",
+      "aktualności",
+      "AIO TunerHub"
+    ]
+  }
 ]

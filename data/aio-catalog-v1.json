@@ -161,15 +161,15 @@
     {
       "id": "opencamview",
       "name": "OpenCamView",
-      "version": "2.0.1",
+      "version": "2.0.2",
       "page": "plugin-opencamview.html",
       "category": "Wtyczka Enigma2",
       "status": "active",
       "statusLabel": "Nowa wersja",
-      "updated": "23.10.2026",
-      "summary": "Monitoring kamer IP w Enigma2: RTSP, ONVIF, JPEG, PiP, ściana czterech kamer, PTZ, patrol, skan LAN, bukiety i M3U. Nowy interfejs; Python 3.",
+      "updated": "27.10.2026",
+      "summary": "Monitoring IP/RTSP/ONVIF, PTZ, JPEG, PiP i skan LAN. Nowość 2.0.2: PL/EN, automatyczny/ręczny język i sprawdzanie aktualizacji; konfiguracje 2.0.1 zachowane.",
       "tested": "Python 3; ONVIF, PTZ i PiP zależne od obsługi kamery, tunera i obrazu Enigma2.",
-      "next": "Dalsza stabilizacja i rozbudowa monitoringu."
+      "next": "Dalsze testy kompatybilności Enigma2 i rozwój obsługi kamer."
     },
     {
       "id": "recordings",
@@ -470,42 +470,42 @@
       "access": "konto_AIO"
     },
     {
-      "title": "OpenCamView 2.0.1 — IPK",
-      "href": "pliki/enigma2-plugin-extensions-opencamview_2.0.1_all.ipk",
+      "title": "OpenCamView 2.0.2 — IPK",
+      "href": "pliki/enigma2-plugin-extensions-opencamview_2.0.2_all.ipk",
       "category": "Wtyczki",
       "platform": "Enigma2",
-      "version": "2.0.1",
-      "date": "23.10.2026",
+      "version": "2.0.2",
+      "date": "27.10.2026",
       "status": "Aktualna",
       "sourcePage": "plugin-opencamview.html",
-      "sourceTitle": "OpenCamView 2.0.1",
+      "sourceTitle": "OpenCamView 2.0.2",
       "kind": "IPK",
-      "size": "20 KB",
-      "sha256": "b05a94e3184149a373f7e91fa1ab5601ba0c5c4a66d52bc57325b362bd18bf03",
+      "size": "24.8 KB",
+      "sha256": "8d47f56e90bafaa7e54a72ed9b5d8df3c7d262a70fccdeacb8f69e7a4c1aa407",
       "official": "Plik na AIO TunerHub",
       "project_id": "opencamview",
-      "release_id": "legacy-8d89fcc78dd129f4",
+      "release_id": "legacy-1a93ccccdab4b630",
       "origin": "legacy",
       "published_at": null,
       "verified_at": null,
       "access": "konto_AIO"
     },
     {
-      "title": "OpenCamView 2.0.1 — DEB",
-      "href": "pliki/enigma2-plugin-extensions-opencamview_2.0.1_all.deb",
+      "title": "OpenCamView 2.0.2 — DEB",
+      "href": "pliki/enigma2-plugin-extensions-opencamview_2.0.2_all.deb",
       "category": "Wtyczki",
       "platform": "Enigma2",
-      "version": "2.0.1",
-      "date": "23.10.2026",
+      "version": "2.0.2",
+      "date": "27.10.2026",
       "status": "Aktualna",
       "sourcePage": "plugin-opencamview.html",
-      "sourceTitle": "OpenCamView 2.0.1",
+      "sourceTitle": "OpenCamView 2.0.2",
       "kind": "DEB",
-      "size": "20 KB",
-      "sha256": "3c5c2b101681822cbf71f34fe181567745bce1726edaf72028add6624d57ebd0",
+      "size": "24.8 KB",
+      "sha256": "d4cdcfeb34128d678924de7ffff8b80fde2f69fac4edd79c00cc03a704b07d01",
       "official": "Plik na AIO TunerHub",
       "project_id": "opencamview",
-      "release_id": "legacy-82984961f823dc73",
+      "release_id": "legacy-9cc61f15590575be",
       "origin": "legacy",
       "published_at": null,
       "verified_at": null,
@@ -1100,21 +1100,21 @@
       "access": "zgodnie_ze_zrodlem"
     },
     {
-      "title": "Octagon SF8008 4K Combo / Twin / Supreme — OpenATV 7.6",
-      "href": "https://multi-click.pl/index.php?controller=attachment&id_attachment=146",
+      "title": "Octagon SF8008 4K Combo / Twin / Supreme — OpenATV 8.0.1",
+      "href": "https://multi-click.pl/index.php?controller=attachment&id_attachment=158",
       "category": "Systemy",
       "platform": "Enigma2",
-      "version": "7.6",
+      "version": "8.0.1",
       "date": "",
-      "status": "Stabilna",
+      "status": "Aktualna",
       "sourcePage": "systems.html",
-      "sourceTitle": "Octagon SF8008 4K Combo / Twin / Supreme — OpenATV 7.6",
+      "sourceTitle": "Octagon SF8008 4K Combo / Twin / Supreme — OpenATV 8.0.1",
       "kind": "LINK",
       "size": "zewnętrzny link",
       "sha256": "",
       "official": "Link zewnętrzny",
       "project_id": "multi-click",
-      "release_id": "legacy-a4c0c1a261881f92",
+      "release_id": "legacy-fe37434578833ac1",
       "origin": "legacy",
       "published_at": null,
       "verified_at": null,
@@ -1142,21 +1142,21 @@
       "access": "zgodnie_ze_zrodlem"
     },
     {
-      "title": "Ustym 4K Pro / Twin — OpenATV 7.6",
-      "href": "https://multi-click.pl/index.php?controller=attachment&id_attachment=140",
+      "title": "Ustym 4K Pro / Combo — OpenATV 8.0.1",
+      "href": "https://multi-click.pl/index.php?controller=attachment&id_attachment=159",
       "category": "Systemy",
       "platform": "Enigma2",
-      "version": "7.6",
+      "version": "8.0.1",
       "date": "",
-      "status": "Stabilna",
+      "status": "Aktualna",
       "sourcePage": "systems.html",
-      "sourceTitle": "Ustym 4K Pro / Twin — OpenATV 7.6",
+      "sourceTitle": "Ustym 4K Pro / Combo — OpenATV 8.0.1",
       "kind": "LINK",
       "size": "zewnętrzny link",
       "sha256": "",
       "official": "Link zewnętrzny",
       "project_id": "multi-click",
-      "release_id": "legacy-5796c81c5e7bd0b0",
+      "release_id": "legacy-5c7de130e03ff72b",
       "origin": "legacy",
       "published_at": null,
       "verified_at": null,
@@ -1352,37 +1352,37 @@
       ]
     },
     {
-      "id": "legacy-8d89fcc78dd129f4",
+      "id": "legacy-1a93ccccdab4b630",
       "project_id": "opencamview",
       "project_name": "OpenCamView",
-      "version": "2.0.1",
-      "date": "2026-10-23",
-      "title": "OpenCamView 2.0.1 — IPK",
-      "summary": "Monitoring kamer IP w Enigma2: RTSP, ONVIF, JPEG, PiP, ściana czterech kamer, PTZ, patrol, skan LAN, bukiety i M3U. Nowy interfejs; Python 3.",
+      "version": "2.0.2",
+      "date": "2026-10-27",
+      "title": "OpenCamView 2.0.2 — IPK",
+      "summary": "Monitoring IP/RTSP/ONVIF, PTZ, JPEG, PiP i skan LAN. Nowość 2.0.2: PL/EN, automatyczny/ręczny język i sprawdzanie aktualizacji; konfiguracje 2.0.1 zachowane.",
       "page": "plugin-opencamview.html",
       "channel": "legacy",
       "origin": "legacy",
       "published_at": null,
       "verified_at": null,
       "files": [
-        "pliki/enigma2-plugin-extensions-opencamview_2.0.1_all.ipk"
+        "pliki/enigma2-plugin-extensions-opencamview_2.0.2_all.ipk"
       ]
     },
     {
-      "id": "legacy-82984961f823dc73",
+      "id": "legacy-9cc61f15590575be",
       "project_id": "opencamview",
       "project_name": "OpenCamView",
-      "version": "2.0.1",
-      "date": "2026-10-23",
-      "title": "OpenCamView 2.0.1 — DEB",
-      "summary": "Monitoring kamer IP w Enigma2: RTSP, ONVIF, JPEG, PiP, ściana czterech kamer, PTZ, patrol, skan LAN, bukiety i M3U. Nowy interfejs; Python 3.",
+      "version": "2.0.2",
+      "date": "2026-10-27",
+      "title": "OpenCamView 2.0.2 — DEB",
+      "summary": "Monitoring IP/RTSP/ONVIF, PTZ, JPEG, PiP i skan LAN. Nowość 2.0.2: PL/EN, automatyczny/ręczny język i sprawdzanie aktualizacji; konfiguracje 2.0.1 zachowane.",
       "page": "plugin-opencamview.html",
       "channel": "legacy",
       "origin": "legacy",
       "published_at": null,
       "verified_at": null,
       "files": [
-        "pliki/enigma2-plugin-extensions-opencamview_2.0.1_all.deb"
+        "pliki/enigma2-plugin-extensions-opencamview_2.0.2_all.deb"
       ]
     },
     {
@@ -1862,12 +1862,12 @@
       ]
     },
     {
-      "id": "legacy-a4c0c1a261881f92",
+      "id": "legacy-fe37434578833ac1",
       "project_id": "multi-click",
       "project_name": "Systemy Multi-Click",
-      "version": "7.6",
+      "version": "8.0.1",
       "date": null,
-      "title": "Octagon SF8008 4K Combo / Twin / Supreme — OpenATV 7.6",
+      "title": "Octagon SF8008 4K Combo / Twin / Supreme — OpenATV 8.0.1",
       "summary": "Gotowe obrazy systemów wraz z instrukcjami instalacji.",
       "page": "systems.html",
       "channel": "legacy",
@@ -1875,7 +1875,7 @@
       "published_at": null,
       "verified_at": null,
       "files": [
-        "https://multi-click.pl/index.php?controller=attachment&id_attachment=146"
+        "https://multi-click.pl/index.php?controller=attachment&id_attachment=158"
       ]
     },
     {
@@ -1896,12 +1896,12 @@
       ]
     },
     {
-      "id": "legacy-5796c81c5e7bd0b0",
+      "id": "legacy-5c7de130e03ff72b",
       "project_id": "multi-click",
       "project_name": "Systemy Multi-Click",
-      "version": "7.6",
+      "version": "8.0.1",
       "date": null,
-      "title": "Ustym 4K Pro / Twin — OpenATV 7.6",
+      "title": "Ustym 4K Pro / Combo — OpenATV 8.0.1",
       "summary": "Gotowe obrazy systemów wraz z instrukcjami instalacji.",
       "page": "systems.html",
       "channel": "legacy",
@@ -1909,7 +1909,7 @@
       "published_at": null,
       "verified_at": null,
       "files": [
-        "https://multi-click.pl/index.php?controller=attachment&id_attachment=140"
+        "https://multi-click.pl/index.php?controller=attachment&id_attachment=159"
       ]
     }
   ],

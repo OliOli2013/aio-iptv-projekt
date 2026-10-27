@@ -1,5 +1,26 @@
 [
   {
+    "date": "2026-10-27",
+    "ts": 1793059200000,
+    "type": "release",
+    "title": "OpenCamView 2.0.2 — PL/EN i sprawdzanie aktualizacji",
+    "desc": "Aktualizacja językowa i funkcjonalna: angielski, ręczny i automatyczny wybór języka, kontrola nowych wersji, zachowanie ustawień.",
+    "details": "OpenCamView 2.0.2 — 27.10.2026\n\n• Dodano język angielski.\n• Dodano ręczny wybór polskiego i angielskiego.\n• Dodano automatyczny wybór języka systemowego Enigma2.\n• Dodano sprawdzanie aktualizacji.\n• Zachowano zgodność z konfiguracjami poprzednich wersji.\n• Rozszerzono testy działania interfejsu.\n\nWymagany Python 3. Dostępne pakiety IPK/DEB. Po instalacji zalecany restart GUI.",
+    "url": "plugin-opencamview.html",
+    "tags": [
+      "OpenCamView",
+      "2.0.2",
+      "PL/EN",
+      "język systemowy",
+      "aktualizacje",
+      "RTSP",
+      "ONVIF",
+      "Python 3",
+      "IPK",
+      "DEB"
+    ]
+  },
+  {
     "date": "2026-10-23",
     "ts": 1792713600000,
     "type": "release",

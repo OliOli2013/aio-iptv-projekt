@@ -2,7 +2,7 @@
   "schema_version": 1,
   "bucket": "aio-downloads-private",
   "verified_date": "2026-10-25",
-  "verification_note": "R2 object listing and owner-downloaded file SHA-256. Offline inventory; enable read-only live R2 verification in GitHub Actions to detect later remote changes.",
+  "verification_note": "R2 SHA-256 verified 2026-10-25. catalog_status=archived: historical objects retained and still checked by live R2 verifier; no longer current downloads. This does not verify OpenCamView 2.0.2 files in private R2.",
   "objects": [
     {
       "key": "pliki/enigma2-plugin-extensions-panelaio_17.0.2_all.ipk",
@@ -16,11 +16,13 @@
     },
     {
       "key": "pliki/enigma2-plugin-extensions-opencamview_2.0.1_all.ipk",
-      "sha256": "b05a94e3184149a373f7e91fa1ab5601ba0c5c4a66d52bc57325b362bd18bf03"
+      "sha256": "b05a94e3184149a373f7e91fa1ab5601ba0c5c4a66d52bc57325b362bd18bf03",
+      "catalog_status": "archived"
     },
     {
       "key": "pliki/enigma2-plugin-extensions-opencamview_2.0.1_all.deb",
-      "sha256": "3c5c2b101681822cbf71f34fe181567745bce1726edaf72028add6624d57ebd0"
+      "sha256": "3c5c2b101681822cbf71f34fe181567745bce1726edaf72028add6624d57ebd0",
+      "catalog_status": "archived"
     }
   ]
 }
