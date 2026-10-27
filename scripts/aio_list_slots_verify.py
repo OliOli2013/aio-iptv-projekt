@@ -35,20 +35,21 @@ def main():
     check(bool(common),'shared SQL INSERT is extractable')
     rest=api[common.end():]
     matches=[' WHERE'+m.group(1) for m in re.finditer(r'result=await db.prepare\(`\$\{common\} WHERE(.*?)`\)',rest,re.S)]
-    check(len(matches)==4,'four owner and regular SQL guards are extractable')
-    owner_update_sql=common.group(1)+matches[0];update_sql=common.group(1)+matches[1]
-    owner_new_sql=common.group(1)+matches[2];new_sql=common.group(1)+matches[3]
+    check(len(matches)==3,'three current SQL guards are extractable')
+    update_sql=common.group(1)+matches[0];owner_update_sql=update_sql
+    owner_new_sql=common.group(1)+matches[1];new_sql=common.group(1)+matches[2]
     con=sqlite3.connect(':memory:')
     con.execute('''CREATE TABLE aio_list_submissions (id TEXT PRIMARY KEY,user_id TEXT,name TEXT,description TEXT,version TEXT,
       file_name TEXT,r2_key TEXT,file_size INTEGER,zip_sha256 TEXT,report_json TEXT,status TEXT,created_at TEXT,
-      update_of TEXT,satellite_slot TEXT,source_type TEXT DEFAULT 'community',manifest_url TEXT,manifest_id TEXT)''')
+      update_of TEXT,satellite_slot TEXT,source_type TEXT DEFAULT 'community',manifest_url TEXT,manifest_id TEXT,
+      review_reason TEXT,reviewer_id TEXT,reviewed_at TEXT)''')
     day='2026-10-19';since='2026-09-19T00:00:00Z';i=0
     def insert(user,slot,base=None):
       nonlocal i
       i+=1
       name=f'Lista {user} {slot}';hashv=f'hash-{i}';common_args=[str(i),user,name,'Opis listy testowej',day,'new.zip','tmp',1234,hashv,'{}',day+'T12:00:00Z',base,slot]
       if base:
-        params=common_args+[user,day,3,user,since,30,base,base,user]
+        params=common_args+[base,base,user]
         sql=update_sql
       else:
         params=common_args+[user,day,3,user,user,3,user,since,30,user,slot,user,name,hashv,user]
@@ -64,7 +65,37 @@ def main():
     con.execute("UPDATE aio_list_submissions SET status='applied' WHERE id=?",(updateid,))
     ok,third=insert('owner','hb13',base);check(ok==1,'third ZIP submission today accepted')
     con.execute("UPDATE aio_list_submissions SET status='applied' WHERE id=?",(third,))
-    ok,_=insert('owner','hb13',base);check(ok==0,'daily quota remains in effect for ZIP updates')
+    # Verify no numerical limits for repeated ZIP updates to a published list.
+    repeated=[]
+    for _ in range(35):
+      success,row_id=insert('owner','hb13',base)
+      repeated.append(success)
+      if success:con.execute("UPDATE aio_list_submissions SET status='applied' WHERE id=?",(row_id,))
+    check(all(x==1 for x in repeated),'35 sequential ZIP updates bypass daily/monthly quotas')
+    # Real SQL regression for replacing a failed update without touching base.
+    recovery=re.search(r'// AIO LIST UPDATE RECOVERY V2: replace a failed submission in-place\.(.*?)\.bind\(',api,re.S)
+    check(bool(recovery),'failed update recovery SQL exists')
+    match=re.search(r'result=await db.prepare\(`(UPDATE aio_list_submissions.*?)`\)',recovery.group(1),re.S)
+    check(bool(match),'failed update recovery is an atomic UPDATE')
+    rec_sql=match.group(1)
+    pending_id='failed-1'
+    con.execute('''INSERT INTO aio_list_submissions
+      (id,user_id,name,description,version,file_name,r2_key,file_size,zip_sha256,report_json,status,created_at,update_of,satellite_slot)
+      VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)''',
+      (pending_id,'owner','Lista owner hb13','Poprzednia poprawka','2026-10-19','failed.zip','old-r2',123,'oldsha','{}','publish_failed',day,base,'hb13'))
+    params=['Lista owner hb13','Nowa poprawka','2026-10-20','new.zip','new-r2',321,'newsha','{}',day,pending_id,'owner',base,base,base,'owner']
+    check(rec_sql.count('?')==len(params),'recovery SQL parameters match')
+    changed=con.execute(rec_sql,params).rowcount
+    check(changed==1,'failed update can be replaced atomically')
+    check(con.execute('SELECT r2_key FROM aio_list_submissions WHERE id=?',(pending_id,)).fetchone()[0]=='new-r2',
+      'new R2 reference applied to failed submission')
+    check(con.execute('SELECT status FROM aio_list_submissions WHERE id=?',(base,)).fetchone()[0]=='published',
+      'published base preserved')
+    check(con.execute(rec_sql,params).rowcount==0,'no replacement of pending publication')
+    con.execute("UPDATE aio_list_submissions SET status='publish_failed' WHERE id=?",(pending_id,))
+    check(con.execute(rec_sql,params[:9]+[pending_id,'stranger',base,base,base,'stranger']).rowcount==0,
+      'other user cannot replace a failed update')
+    con.execute("UPDATE aio_list_submissions SET status='cancelled' WHERE id=?",(pending_id,))
     # Owner's server-verified exemption: no daily, monthly, pending, or slot quotas.
     # Same-name/cross-account duplicates and concurrent update protection remain.
     owner_id='site_owner_test'

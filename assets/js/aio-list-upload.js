@@ -15,7 +15,7 @@
       if(!Number.isNaN(ts.getTime()))card.append(node('p','Ostatnia skuteczna publikacja ZIP: '+ts.toLocaleString('pl-PL'),'alu-legacy-hint'));
     }
     if(item.status==='publish_failed' && item.update_of){
-      card.append(node('p','Aktualizacja NIE została wdrożona. Poprzednia data i ZIP w AIO Panel nadal obowiązują. Użyj „Ponów aktualizację”.','alu-warning'));
+      card.append(node('p','Aktualizacja NIE została wdrożona. Wybierz „Ponów aktualizację” dla tego ZIP albo „Prześlij inny ZIP”, aby zastąpić nieudaną próbę. Dotychczasowa opublikowana lista pozostaje dostępna.','alu-warning'));
     }
     if(item.linked_legacy)card.append(node('p','Starsza lista przypisana do tego konta przez administratora.','alu-legacy-hint'));
     if(admin) card.append(node('p',`Autor: ${item.author} · ID użytkownika: ${item.user_id}`));
@@ -38,6 +38,14 @@
         busy=true;try{const d=await call({method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({action:'retry_own',id:item.id})});alert(d.message);await refresh();}
         catch(e){alert(e.message);await refresh();}finally{busy=false;}
       });card.append(retry);
+    }
+    if(!admin && item.status==='publish_failed' && item.update_of){
+      const newer=node('button','Prześlij inny ZIP','alu-button');newer.type='button';
+      newer.addEventListener('click',()=>{
+        const original=me?.items?.find(x=>x.id===item.update_of && x.status==='published' && !x.update_of);
+        if(!original){alert('Nie znaleziono opublikowanej listy bazowej. Odśwież stronę.');return;}
+        beginUpdate(original);
+      });card.append(newer);
     }
     if(!admin && ['pending','publish_failed'].includes(item.status)) {
       const cancel=node('button','Wycofaj moje zgłoszenie','alu-button');cancel.type='button';

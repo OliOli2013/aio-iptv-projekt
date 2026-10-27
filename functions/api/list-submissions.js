@@ -206,7 +206,16 @@ async function upload(request,env) {
   }
   const trusted=ownerBypass || await isTrusted(env,s.user.id);
   const bytes=cleanedBytes;
-  const id=crypto.randomUUID(),r2Key=`aio-list-submissions/${s.user.id}/${id}.zip`, hash=await sha256(bytes);
+  // AIO LIST UPDATE RECOVERY V2: a failed update must not pin the author's
+  // published list forever. Only a failed attempt owned by this account/base
+  // can be replaced; pending and publishing attempts remain locked.
+  const failedUpdate=base?await db.prepare(`SELECT id,r2_key FROM aio_list_submissions
+    WHERE user_id=? AND update_of=? AND status='publish_failed'
+    ORDER BY created_at DESC LIMIT 1`).bind(s.user.id,base.id).first():null;
+  const id=failedUpdate?.id||crypto.randomUUID();
+  // New, unique R2 object: never overwrite the old ZIP before D1 commit.
+  const objectId=failedUpdate?crypto.randomUUID():id;
+  const r2Key=`aio-list-submissions/${s.user.id}/${objectId}.zip`,hash=await sha256(bytes);
   await env.COMMUNITY_MEDIA.put(r2Key,bytes,{httpMetadata:{contentType:'application/zip',cacheControl:'private, no-store'},customMetadata:{owner:s.user.id,kind:'aio-list-review'}});
   try{
     // All quotas/ownership checks happen atomically with INSERT to resist
@@ -219,7 +228,21 @@ async function upload(request,env) {
       SELECT ?,?,?,?,?,?,?,?,?,?,'pending',?,?,?`;
     const params=[id,s.user.id,name,description,version,cleanText(file.name,170),r2Key,bytes.byteLength,hash,JSON.stringify(report),isoNow(),base?.id||null,declaredSlot];
     let result;
-    if(base){
+    if(base && failedUpdate){
+      // AIO LIST UPDATE RECOVERY V2: replace a failed submission in-place.
+      // Atomic guard: same account, same base, valid published original,
+      // no pending/publishing update; preserves published manifest and ZIP.
+      result=await db.prepare(`UPDATE aio_list_submissions SET
+        name=?,description=?,version=?,file_name=?,r2_key=?,file_size=?,zip_sha256=?,report_json=?,
+        status='pending',created_at=?,review_reason=NULL,reviewer_id=NULL,reviewed_at=NULL
+        WHERE id=? AND user_id=? AND update_of=? AND status='publish_failed'
+        AND NOT EXISTS(SELECT 1 FROM aio_list_submissions
+          WHERE update_of=? AND status IN ('pending','publishing'))
+        AND EXISTS(SELECT 1 FROM aio_list_submissions
+          WHERE id=? AND user_id=? AND update_of IS NULL AND status='published')`)
+        .bind(name,description,version,cleanText(file.name,170),r2Key,bytes.byteLength,hash,JSON.stringify(report),isoNow(),
+          failedUpdate.id,s.user.id,base.id,base.id,base.id,s.user.id).run();
+    }else if(base){
       // A verified owner of a published list can update its ZIP without
       // daily/30-day numerical quotas. Preserve atomic ownership check and
       // exactly one pending/publishing/failed update per base list.
@@ -249,8 +272,11 @@ async function upload(request,env) {
     }
     if(!result.meta?.changes)throw httpError(409,ownerBypass
       ?(base?'Trwa już aktualizacja tej listy. Zakończ ją przed kolejną.':'Istnieje już lista o tej nazwie albo identyczne archiwum innego autora.')
-      :(base?'Trwa już aktualizacja tej listy albo poprzednia publikacja nie powiodła się. Użyj „Ponów aktualizację” przy zgłoszeniu.':'Limit kategorii, nazwy albo zgłoszeń. Użyj przycisku „Aktualizuj” przy istniejącej liście.'));
+      :(base?'Inna aktualizacja tej listy jest w trakcie przetwarzania. Odśwież stronę i ponów próbę.':'Limit kategorii, nazwy albo zgłoszeń. Użyj przycisku „Aktualizuj” przy istniejącej liście.'));
   }catch(e){await env.COMMUNITY_MEDIA.delete(r2Key).catch(()=>{});throw e;}
+  // D1 now refers to the new object. The old failed ZIP is no longer used.
+  if(failedUpdate?.r2_key && failedUpdate.r2_key!==r2Key)
+    await env.COMMUNITY_MEDIA.delete(failedUpdate.r2_key).catch(()=>{});
   if(trusted){
     try{
       const row=await db.prepare('SELECT * FROM aio_list_submissions WHERE id=?').bind(id).first();
@@ -259,7 +285,7 @@ async function upload(request,env) {
     }catch(e){
       // The row and safe R2 backup survive; author may retry without submitting another list.
       return json({ok:true,id,status:'publish_failed',validation:report,
-        message:'Lista została zweryfikowana, ale publikacja na GitHub nie powiodła się: '+String(e.message||'Błąd').slice(0,190)+'. Użyj „Ponów publikację” przy zgłoszeniu.'},201);
+        message:'ZIP przeszedł walidację, lecz GitHub nie potwierdził publikacji: '+String(e.message||'Błąd').slice(0,190)+'. Możesz ponowić próbę albo przesłać poprawiony ZIP.'},201);
     }
   }
   try{
@@ -298,7 +324,7 @@ async function repoSnapshot(env) {
   if(!/^[a-f\d]{40}$/.test(parent||'')) throw httpError(502,'Brak gałęzi main w repozytorium list.');
   const [commit,contents]=await Promise.all([
     git(env,'GET',`/git/commits/${parent}`),
-    git(env,'GET','/contents/manifest.json?ref=main')
+    git(env,'GET',`/contents/manifest.json?ref=${parent}`)
   ]);
   const arr=JSON.parse(decodeBase64Unicode(contents.content||''));
   if(!Array.isArray(arr)||!commit.tree?.sha) throw httpError(502,'Nieprawidłowa struktura manifest.json. Wstrzymano publikację.');
