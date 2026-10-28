@@ -4,32 +4,66 @@
   'use strict';
   const $=id=>document.getElementById(id), stat={pending:'Oczekuje na akceptację',publishing:'Publikowanie',published:'Opublikowana',applied:'Aktualizacja wdrożona',cancelled:'Wycofane przez autora',removing:'Usuwanie',editing:'Edycja',rejected:'Odrzucona',publish_failed:'Błąd publikacji — ponów',removed:'Usunięta'};
   let me=null,busy=false;
+  function compactStatus(item){
+    if(item.status==='published')return ['✓ Lista poprawna i opublikowana.','alu-success'];
+    if(item.status==='applied')return ['✓ Aktualizacja została wdrożona.','alu-success'];
+    if(item.status==='pending')return ['✓ Lista sprawdzona — oczekuje na zatwierdzenie.','alu-success'];
+    if(item.status==='publishing')return ['Trwa publikowanie listy…','alu-small'];
+    if(item.status==='publish_failed')return ['Nie udało się opublikować listy. Sprawdź błąd i ponów próbę.','alu-error'];
+    if(item.status==='rejected')return ['Lista odrzucona — wymaga poprawy.','alu-error'];
+    if(item.status==='removed')return ['Lista została wycofana.','alu-small'];
+    return [stat[item.status]||item.status,'alu-small'];
+  }
+  function currentRecords(rows){
+    // Keep only current published bases and the most recent unresolved attempt.
+    // Applied/cancelled/removed history remains in D1 but does not clutter the screen.
+    const published=rows.filter(x=>x.status==='published'&&!x.update_of);
+    const bases=new Map(published.map(x=>[x.id,x]));
+    const recent=new Map();
+    for(const item of rows){
+      if(!['pending','publishing','publish_failed','rejected'].includes(item.status))continue;
+      const key=item.update_of?'update:'+item.update_of:
+        'new:'+(item.name||'').toLocaleLowerCase('pl-PL')+':'+(item.satellite_slot||'');
+      const prev=recent.get(key);
+      if(!prev||Date.parse(item.created_at||'')>Date.parse(prev.created_at||''))recent.set(key,item);
+    }
+    const out=[...published];
+    for(const item of recent.values()){
+      if(item.update_of){
+        const original=bases.get(item.update_of);
+        if(original&&Date.parse(original.published_at||'')>=Date.parse(item.created_at||''))continue;
+      }else if(published.some(base=>base.name===item.name && base.satellite_slot===item.satellite_slot &&
+                 Date.parse(base.published_at||base.created_at||'')>=Date.parse(item.created_at||'')))continue;
+      out.push(item);
+    }
+    return out.sort((a,b)=>(Date.parse(b.published_at||b.created_at||'')||0)-(Date.parse(a.published_at||a.created_at||'')||0));
+  }
   function node(tag,text,cls){const x=document.createElement(tag);if(cls)x.className=cls;if(text!==undefined)x.textContent=String(text);return x;}
   function box(parent,txt,cls='alu-warning'){const x=node('div',txt,cls);parent.appendChild(x);return x;}
   function appendRow(target,item,admin=false){
     const card=node('article',undefined,'alu-record'),head=node('div',undefined,'alu-record-title');
     head.append(node('strong',item.name),node('span',stat[item.status]||item.status,'alu-status'));card.append(head);
-    card.append(node('p',`${item.version||'wersja nieznana'} · ${item.file_name}${item.file_size>0?' · '+(item.file_size/1024).toFixed(0)+' KB':''}`));
-    if(item.status==='published' && item.published_at){
-      const ts=new Date(item.published_at);
-      if(!Number.isNaN(ts.getTime()))card.append(node('p','Ostatnia skuteczna publikacja ZIP: '+ts.toLocaleString('pl-PL'),'alu-legacy-hint'));
+    card.append(node('p',`Wersja: ${item.version||'brak daty'}`,'alu-small'));
+    const [message,kind]=compactStatus(item);
+    box(card,message,kind);
+    if(admin)card.append(node('p','Autor: '+(item.author||'nieznany'),'alu-small'));
+    if(['publish_failed','rejected'].includes(item.status)){
+      const reason=String(item.review_reason||'').trim();
+      if(reason)box(card,'Przyczyna: '+reason,'alu-error');
+      const problems=(item.report?.errors||[]).filter(x=>x&&x.detail).slice(0,5);
+      if(problems.length){
+        const details=node('details',undefined,'alu-compact');
+        details.append(node('summary','Szczegóły błędu ZIP'));
+        box(details,problems.map(x=>'• '+x.detail).join('\n'),'alu-error');
+        card.append(details);
+      }
     }
-    if(item.status==='publish_failed' && item.update_of){
-      card.append(node('p','Aktualizacja NIE została wdrożona. Wybierz „Ponów aktualizację” dla tego ZIP albo „Prześlij inny ZIP”, aby zastąpić nieudaną próbę. Dotychczasowa opublikowana lista pozostaje dostępna.','alu-warning'));
-    }
-    if(item.linked_legacy)card.append(node('p','Starsza lista przypisana do tego konta przez administratora.','alu-legacy-hint'));
-    if(admin) card.append(node('p',`Autor: ${item.author} · ID użytkownika: ${item.user_id}`));
-    if(item.review_reason) box(card,'Informacja: '+item.review_reason,item.status==='rejected'?'alu-error':'alu-warning');
-    const report=item.report||{};
-    if(report.stats) card.append(node('p',`Kontrola: ${report.stats.files} plików, ${report.stats.bouquets} bukietów, ${report.stats.services} wpisów #SERVICE.`));
-    if((report.warnings||[]).length)box(card,'Ostrzeżenia: '+report.warnings.map(w=>w.detail).join(' • '),'alu-warning');
     if(!admin && item.status==='published' && !item.update_of) {
       const actions=node('div',undefined,'alu-actions');
       const remove=node('button','Usuń moją listę','alu-button');remove.type='button';remove.addEventListener('click',()=>removeOwn(item));
       const update=node('button','Aktualizuj ZIP','alu-button alu-primary');update.type='button';update.addEventListener('click',()=>beginUpdate(item));
       const edit=node('button','Edytuj nazwę / opis','alu-button');edit.type='button';edit.addEventListener('click',()=>editDetailsOwn(item));
       actions.prepend(update,edit);actions.append(remove);card.append(actions);
-      card.append(node('p','Aktualizacja zachowa identyfikator i adres ZIP w AIO Panel. Nie trzeba usuwać listy.','alu-legacy-hint'));
     }
     if(!admin && item.status==='publish_failed' && me?.trusted_publisher){
       const retry=node('button',item.update_of?'Ponów aktualizację':'Ponów publikację','alu-button alu-primary');retry.type='button';
@@ -51,7 +85,6 @@
       const cancel=node('button','Wycofaj moje zgłoszenie','alu-button');cancel.type='button';
       cancel.addEventListener('click',()=>cancelOwn(item));card.append(cancel);
     }
-    if(item.update_of)card.append(node('p','Aktualizacja dotychczasowej listy (nazwa pozostaje bez zmian).'));
     if(admin){const actions=node('div',undefined,'alu-actions');
       const add=(label,action,enabled)=>{if(!enabled)return;const b=node('button',label,'alu-button');b.type='button';b.addEventListener('click',()=>perform(action,item));actions.append(b);};
       add('Zatwierdź i opublikuj','approve',['pending','publish_failed'].includes(item.status));
@@ -187,8 +220,9 @@
       $('aluBlocked').hidden=!data.blocked;
       if(data.blocked)$('aluBlocked').textContent='Konto nie ma uprawnień do dodawania list. Powód: '+data.blocked;
       const target=$('aluHistoryList');target.replaceChildren();
-      if(!data.items.length)box(target,'Nie masz jeszcze zgłoszeń.');
-      for(const row of data.items)appendRow(target,row);
+      const current=currentRecords(data.items||[]);
+      if(!current.length)box(target,'Nie masz jeszcze aktywnych list ani zgłoszeń.');
+      for(const row of current)appendRow(target,row);
       const ownerHint=$('aluOwnerUnlimited');if(ownerHint)ownerHint.hidden=!data.is_owner;
       $('aluAdmin').hidden=!data.is_owner;
       if(data.is_owner) await refreshAdmin();
@@ -197,8 +231,15 @@
   async function refreshAdmin(){
     const data=await fetch('/api/list-submissions?view=admin',{credentials:'include',cache:'no-store'}).then(async r=>{const d=await r.json();if(!r.ok)throw new Error(d.error||'Brak danych moderacji.');return d;});
     const target=$('aluAdminList');target.replaceChildren();
-    if(!data.items.length)box(target,'Brak zgłoszeń do moderacji.');
-    for(const item of data.items)appendRow(target,item,true);
+    const needsAction=(data.items||[]).filter(x=>['pending','publishing','publish_failed'].includes(x.status));
+    if(!needsAction.length)box(target,'✓ Brak zgłoszeń wymagających decyzji.','alu-success');
+    for(const item of currentRecords(needsAction))appendRow(target,item,true);
+    const published=$('aluAdminPublished');published.replaceChildren();
+    const active=(data.items||[]).filter(x=>x.status==='published'&&!x.update_of);
+    if(!active.length)box(published,'Brak aktywnych list.','alu-small');
+    for(const item of active)appendRow(published,item,true);
+    const summary=$('aluAdminPublishedSummary');
+    if(summary)summary.textContent='Opublikowane listy — zarządzanie ('+active.length+')';
     const blocks=$('aluAdminBlocks');blocks.replaceChildren();
     for(const b of data.blocks){
       const line=node('article',undefined,'alu-record');line.append(node('strong',b.author||b.user_id),node('p',b.reason));
@@ -236,13 +277,15 @@
     busy=true;submitButton.disabled=true;submitButton.textContent='Sprawdzanie integralności i struktury archiwum…';
     try{
       const resp=await call({method:'POST',body:data});
-      box(result,resp.message||'Zgłoszenie przyjęte.',resp.status==='publish_failed'?'alu-warning':'alu-success');
-      if(resp.validation?.warnings?.length)box(result,'Uwagi: '+resp.validation.warnings.map(x=>x.detail).join('\n'),'alu-warning');
+      const success=resp.status==='published'?'✓ Lista poprawna — zapisano i opublikowano.':
+        resp.status==='pending'?'✓ Lista poprawna — oczekuje na zatwierdzenie.':
+        resp.status==='publish_failed'?'Nie udało się opublikować listy. '+(resp.message||'Ponów próbę z sekcji Moje listy.'):
+        (resp.message||'Zgłoszenie zostało zapisane.');
+      box(result,success,resp.status==='publish_failed'?'alu-error':'alu-success');
       newMode();await refresh();document.dispatchEvent(new Event('aio-list-updated'));
     }catch(e){
       box(result,e.message,'alu-error');
       if(e.result?.validation?.errors?.length)box(result,e.result.validation.errors.map(x=>`• ${x.detail}`).join('\n'),'alu-error');
-      if(e.result?.validation?.warnings?.length)box(result,e.result.validation.warnings.map(x=>`• ${x.detail}`).join('\n'),'alu-warning');
     }finally{busy=false;submitButton.disabled=false;submitButton.textContent=$('aluUpdateOf').value?'Sprawdź ZIP i zaktualizuj istniejącą listę':'Sprawdź ZIP i zgłoś listę';}
   }
   document.addEventListener('DOMContentLoaded',()=>{

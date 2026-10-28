@@ -27,3 +27,11 @@ body.aio-list-upload-page{background:var(--alu-bg);color:var(--alu-text);font-fa
 .alu-record button:focus-visible,.alu-mode button:focus-visible{outline:2px solid #94f7e7;outline-offset:3px}
 .alu-record .alu-actions{align-items:center}
 @media(max-width:550px){.alu-record .alu-actions button{width:100%}}
+
+/* AIO listy: krótkie stany, szczegóły techniczne tylko przy rzeczywistym błędzie. */
+.alu-record .alu-success,.alu-record .alu-error{margin:9px 0;padding:10px 12px}
+.alu-compact,.alu-legacy{margin-top:16px;border:1px solid var(--alu-line);border-radius:12px;padding:12px 16px;background:#0b2430}
+.alu-compact>summary,.alu-legacy>summary,.alu-guide>summary{cursor:pointer;font-weight:700;color:#bcefe6;list-style:revert}
+.alu-compact[open]>summary,.alu-legacy[open]>summary,.alu-guide[open]>summary{margin-bottom:12px}
+.alu-guide-content{margin-top:15px}.alu-legacy-content{margin-top:12px}
+.alu-record .alu-error{white-space:pre-wrap;overflow-wrap:anywhere}

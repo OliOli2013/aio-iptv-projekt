@@ -8,7 +8,7 @@
 <link rel="icon" href="pliki/logo.png?v=20261024-tunerhub-v11">
 <link rel="stylesheet" href="assets/css/user-premium.css?v=20260724-v14">
 <link rel="stylesheet" href="assets/css/site-final.css?v=20261010-final1">
-<link rel="stylesheet" href="assets/css/aio-list-upload.css?v=20261019-owners-v2">
+<link rel="stylesheet" href="assets/css/aio-list-upload.css?v=20261028-czytelne-statusy-v1">
 <link rel="stylesheet" href="assets/css/aio-list-inbox.css?v=20261015-4">
 </head><body class="aio-list-upload-page">
 <a class="skip-link" href="#main">Przejdź do treści</a>
@@ -18,9 +18,9 @@
     <nav aria-label="Nawigacja strony"><a href="index.html">Start</a><a href="channel-lists.html">Listy kanałów</a><a href="aio-list-editor.html">Edytor list</a><a href="community.html">Społeczność</a></nav>
   </header>
   <main id="main">
-    <section class="alu-hero"><div><p class="alu-eyebrow">SPOŁECZNOŚĆ AIO • WSPÓŁTWORZENIE LIST</p><h1>Dodaj i aktualizuj własne listy Enigma2</h1><p>Pierwsza lista zostanie sprawdzona i zatwierdzona przez administratora. Po tej akceptacji możesz samodzielnie publikować kolejne ZIP-y, po jednym dla każdej z trzech kategorii satelitarnych.</p></div><div class="alu-stepbox"><strong>Jak to działa?</strong><ol><li>Zaloguj się w Społeczności AIO.</li><li>Prześlij archiwum ZIP i opis.</li><li>Popraw błędy wykryte przez walidator.</li><li>Pierwsza lista wymaga akceptacji, kolejne opublikujesz samodzielnie.</li></ol></div></section>
+    <section class="alu-hero"><div><p class="alu-eyebrow">SPOŁECZNOŚĆ AIO • WSPÓŁTWORZENIE LIST</p><h1>Dodaj lub zaktualizuj listę Enigma2</h1><p>Wgraj ZIP. Po kontroli otrzymasz jasny status: opublikowano, oczekuje na akceptację albo wymaga poprawy.</p></div><div class="alu-stepbox"><strong>Jak to działa?</strong><ol><li>Zaloguj się w Społeczności AIO.</li><li>Prześlij archiwum ZIP i opis.</li><li>Popraw błędy wykryte przez walidator.</li><li>Pierwsza lista wymaga akceptacji, kolejne opublikujesz samodzielnie.</li></ol></div></section>
     <section class="alu-alert" aria-labelledby="aluRulesHeading"><h2 id="aluRulesHeading">Zasady udostępniania list</h2><p><strong>Zabronione jest dodawanie nielegalnych treści</strong>, w tym list zawierających nieuprawnione źródła płatnych kanałów, skradzione dane dostępowe lub odnośniki do nielegalnych transmisji. Takie listy będą usuwane, a autor straci możliwość dodawania kolejnych list. Publikowane mogą być tylko treści, do których masz odpowiednie prawa.</p><p>Kontrola ZIP sprawdza jego strukturę i bezpieczeństwo techniczne, <strong>nie jest potwierdzeniem legalności transmisji ani poprawności odbioru każdego kanału</strong>. Administrator może zablokować konto lub wycofać niezgodne listy także po ich publikacji.</p></section>
-    <section class="alu-card alu-guide" aria-labelledby="aluGuideTitle">
+    <details class="alu-card alu-guide" aria-labelledby="aluGuideTitle"><summary>Jak przygotować prawidłowy ZIP? — rozwiń instrukcję</summary><div class="alu-guide-content">
       <h2 id="aluGuideTitle">Jak przygotować ZIP zgodny z AIO Panel?</h2>
       <p>Prześlij <strong>jeden plik .zip (maks. 12 MB)</strong> zawierający prawidłową listę usług i bukietów Enigma2. AIO Panel 17.x sprawdza integralność i obecność odpowiednich plików. Nowy panel dodatkowo podaje czytelne wskazówki o błędach.</p>
       <div class="alu-grid-guide"><div><h3>Przykładowa struktura archiwum</h3>
@@ -43,9 +43,9 @@
         <li>Usunięcie własnej opublikowanej listy wycofuje ją z manifestu; nie usuwa pobranych kopii na tunerach.</li>
       </ul></div></div>
       <p class="alu-small">Walidacja struktury nie potwierdza, że wszystkie kanały odbierają sygnał ani że dostawca IPTV ma prawa do transmisji. Tylko pierwsza opublikowana lista wymaga zatwierdzenia przez administratora. Kolejne, w tym aktualizacje ZIP, są publikowane samodzielnie po sprawdzeniu. Administrator może zablokować konto.</p>
-    </section>
+    </div></details>
     <section class="alu-card" id="aluAccount"><div class="alu-section-title"><div><h2>1. Konto użytkownika</h2><p id="aluAccountStatus">Sprawdzanie sesji…</p></div><button type="button" id="aluLogin" class="alu-button alu-primary" data-community-login hidden>Zaloguj się / utwórz konto</button></div><div id="aluBlocked" class="alu-error" role="alert" hidden></div></section>
-    <section class="alu-card" id="aluUploadCard" hidden><div class="alu-section-title"><div><h2>2. Prześlij listę Enigma2</h2><p>ZIP do 12 MB. Własną listę możesz aktualizować, edytować i usuwać po zalogowaniu. Przy starszych listach administrator jednorazowo przypisuje adres e-mail konta.</p></div></div>
+    <section class="alu-card" id="aluUploadCard" hidden><div class="alu-section-title"><div><h2>2. Wgraj plik ZIP</h2><p>Wybierz zestaw satelitów i archiwum do 12 MB. Aby zmienić istniejącą listę, użyj przycisku „Aktualizuj ZIP” poniżej.</p></div></div>
       <!-- AIO OWNER LIST NO LIMIT V1 -->
       <p id="aluOwnerUnlimited" class="alu-small" hidden><strong>✓ Konto właściciela:</strong> bez limitów 3 dziennie, 30 w 30 dni, liczby oczekujących zgłoszeń, aktywnych list i liczby list w jednym zestawie satelitarnym. Obowiązują nadal walidacja ZIP, maksymalny rozmiar 12 MB oraz zabezpieczenia przed duplikatami.</p>
       <div id="aluMode" class="alu-mode">Tryb: <strong>Nowa lista</strong> <button type="button" id="aluNewMode" class="alu-button" hidden>Wróć do dodawania nowej listy</button></div>
@@ -56,12 +56,11 @@
         <label>Archiwum ZIP z plikami Enigma2 <input id="aluZip" type="file" name="file" accept=".zip,application/zip" required /></label>
         <label class="alu-check"><input name="legal" type="checkbox" value="1" required><span>Potwierdzam, że mam prawo udostępniać przesyłane materiały, nie umieszczam niedozwolonych transmisji ani cudzych haseł i akceptuję zasady moderacji.</span></label>
         <button id="aluSubmit" type="submit" class="alu-button alu-primary">Sprawdź ZIP i zgłoś listę</button>
-        <p class="alu-small"><strong>Uwaga:</strong> Wysłany ZIP może zawierać pliki dodatkowe, np. <code>settings</code>, <code>AIO_PANEL_ONLY.json</code> lub raporty TXT. Panel utworzy kopię publikacyjną wyłącznie z plikami Enigma2 potrzebnymi AIO Panel. Pliki dodatkowe będą pominięte, o czym poinformuje walidator. Twój oryginał na komputerze nie zostanie zmieniony. Pierwsza lista wymaga zatwierdzenia. Następne wymagają tylko kontroli ZIP i wolnej kategorii (bez ograniczenia kategorii dla właściciela).</p>
-        <p class="alu-small">Każdy plik jest kontrolowany na serwerze. Limit jest przypisany do zalogowanego konta, niezależnie od adresu IP. Po pierwszym zatwierdzeniu kolejne listy są publikowane samodzielnie. Właściciel nie podlega limitom liczby zgłoszeń, aktualizacji ani zajętych kategorii.</p>
+        <p class="alu-small">ZIP zostanie bezpiecznie sprawdzony. Dodatkowe pliki techniczne będą pominięte w publikacji; o niepowodzeniu poinformujemy tylko wtedy, gdy wymaga działania.</p>
       </form>
       <div id="aluResult" aria-live="polite" hidden></div>
     </section>
-    <section class="alu-card" id="aluHistory" hidden><h2>Moje listy i zgłoszenia</h2><p>Po zalogowaniu widzisz listy przypisane do Twojego konta. Możesz zmieniać nazwę i opis, przesłać nowy ZIP bez zmiany adresu pobierania albo wycofać listę. Starsze listy przypisuje administrator.</p><div id="aluHistoryList" class="alu-records"></div></section>
+    <section class="alu-card" id="aluHistory" hidden><h2>Moje listy</h2><p>Tylko aktualnie opublikowane listy i bieżące zgłoszenia. Wybierz „Aktualizuj ZIP”, aby zastąpić plik bez zmiany adresu pobierania.</p><div id="aluHistoryList" class="alu-records"></div></section>
     <section class="alu-card alu-contact-area" id="aluMessages" hidden>
       <h2>Kontakt z administratorem AIO</h2>
       <p>Masz pytanie o listę, zgodność ZIP albo decyzję moderacji? Wyślij wiadomość bezpośrednio z konta AIO. Administrator zobaczy ją w swojej prywatnej skrzynce. Wiadomości i odpowiedzi pozostają widoczne tylko dla nadawcy i właściciela.</p>
@@ -75,16 +74,16 @@
       <h3>Moje wiadomości i odpowiedzi</h3>
       <div id="aluMyMessages" class="alu-records"></div>
     </section>
-    <section class="alu-card alu-admin" id="aluAdmin" hidden><div class="alu-section-title"><div><p class="alu-eyebrow">WYŁĄCZNIE WŁAŚCICIEL STRONY</p><h2>Moderacja list kanałów</h2><p>Pierwsza lista wymaga ręcznego zatwierdzenia. Następne prawidłowe listy można publikować samodzielnie.</p></div><button type="button" id="aluRefresh" class="alu-button">Odśwież</button></div><div id="aluAdminList" class="alu-records"></div><h3>Blokady publikowania</h3><div id="aluAdminBlocks" class="alu-records"></div>
-      <div class="alu-legacy"><h3>Starsze listy z repozytorium GitHub</h3>
+    <section class="alu-card alu-admin" id="aluAdmin" hidden><div class="alu-section-title"><div><p class="alu-eyebrow">WYŁĄCZNIE WŁAŚCICIEL STRONY</p><h2>Moderacja list kanałów</h2><p>Pierwsza lista wymaga ręcznego zatwierdzenia. Następne prawidłowe listy można publikować samodzielnie.</p></div><button type="button" id="aluRefresh" class="alu-button">Odśwież</button></div><div id="aluAdminList" class="alu-records"></div><details class="alu-compact" id="aluAdminPublishedDetails"><summary id="aluAdminPublishedSummary">Opublikowane listy — zarządzanie</summary><div id="aluAdminPublished" class="alu-records"></div></details><h3>Blokady publikowania</h3><div id="aluAdminBlocks" class="alu-records"></div>
+      <details class="alu-legacy"><summary>Starsze listy z GitHub — narzędzia archiwalne</summary><div class="alu-legacy-content"><h3>Starsze listy z repozytorium GitHub</h3>
       <p>Starsze listy przypisuj do zarejestrowanego konta przez zweryfikowany z autorem adres e-mail. Dopiero po przypisaniu autor może edytować, aktualizować i usuwać własną listę. Przy wycofaniu starszych list oryginalne ZIP pozostają w repozytorium.</p>
       <p id="aluLegacyError" class="alu-small" hidden></p>
-      <div id="aluLegacyList" class="alu-records"></div></div></section>
+      <div id="aluLegacyList" class="alu-records"></div></div></details></section>
   </main>
   <footer class="alu-footer">AIO TunerHub · <a href="channel-lists.html">Pobierz listy</a> · <a href="community-rules.html">Regulamin społeczności</a> · <a href="privacy-community.html">Prywatność</a></footer>
 </div>
 <script defer src="assets/js/community-core.js?v=20261023-ip-policy-v81"></script>
-<script defer src="assets/js/aio-list-upload.js?v=20261027-list-update-recovery-v2"></script>
+<script defer src="assets/js/aio-list-upload.js?v=20261028-czytelne-statusy-v1"></script>
 <script defer src="assets/js/aio-list-messages.js?v=20261015-4"></script>
 <script defer src="assets/js/aio-list-github-test.js?v=20261015-safe1"></script>
 </body></html>
