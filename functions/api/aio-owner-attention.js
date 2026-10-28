@@ -6,7 +6,6 @@ import {ensureV6} from '../_aio_security_v6.js';
 import {ensureIpPolicy,historicalPendingIpSummary} from '../_aio_ip_one_account_v7.js';
 import {ensureAnonymousShield} from '../_aio_anon_shield_v1.js';
 import {ensureDistributedMonitor} from '../_aio_distributed_monitor_v1.js';
-import {FIXED_IP_POLICY_EXEMPT_IDS} from '../_aio_ip_policy_exempt_v8.js';
 
 const HEADERS = {
   'content-type':'application/json; charset=utf-8',
@@ -90,10 +89,10 @@ DEFINITIONS.push({id:'ip-policy-blocks',title:'Nowe blokady — wspólny IP',
   detail:'Blokady V8.1 wymagające przejrzenia. Konta pozostają zablokowane do odrębnej decyzji.',
   href:'/owner-hub#panel=ip-policy-v7',icon:'⛨',priority:'high',
   sql:`SELECT COUNT(*) n,MAX(h.created_at) latest FROM aio_ip_policy_holds_v8 h
-    WHERE h.status='active' AND h.user_id NOT IN (?,?,?) AND NOT EXISTS (
+    WHERE h.status='active' AND h.user_id <> ? AND NOT EXISTS (
       SELECT 1 FROM aio_ip_policy_hold_reviews_v9 r
       WHERE r.user_id=h.user_id AND r.ip_key=h.ip_key AND r.hold_created_at=h.created_at)`,
-  params:(now,ownerId)=>[ownerId,...FIXED_IP_POLICY_EXEMPT_IDS]});
+  params:(now,ownerId)=>[ownerId]});
 // New same-IP registration/login denials are aggregated by network and kind.
 DEFINITIONS.push({id:'ip-denials',title:'Odrzucone próby — wiele kont na IP',
   detail:'Zarejestrowane odmowy rejestracji i logowania. Przejrzenie nie odblokowuje kont.',
