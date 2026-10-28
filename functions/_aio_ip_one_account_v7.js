@@ -5,7 +5,7 @@ import {sha256,getOwnerId} from './_community.js';
 import {isIpPolicyExemptV8} from './_aio_ip_policy_exempt_v8.js';
 let schemaReady=null;
 const now=()=>new Date().toISOString();
-export const NOTICE='Z tego publicznego adresu IP korzysta już inne konto AIO. Zgodnie z zasadą jednego konta na adres IP nie możesz utworzyć ani używać kolejnego konta bez zgody administracji. Jeżeli sytuacja wymaga wyjaśnienia, skontaktuj się z administracją przez /contact.html?topic=account-security.';
+export const NOTICE='Ten publiczny adres IP jest już przypisany do innego konta AIO. Obowiązuje zasada: jeden adres IP — jedno konto, niezależnie od urządzenia. Użyj istniejącego konta lub skontaktuj się z administracją: /contact.html?topic=account-security.';
 const error=(code,message)=>Object.assign(new Error(message),{status:code});
 const getIp=request=>{const ip=String(request.headers.get('CF-Connecting-IP')||'').trim();return /^(?:[a-f\d:.]{2,45}|(?:\d{1,3}\.){3}\d{1,3})$/i.test(ip)?ip:'';};
 const keyFor=async ip=>sha256('aio-unique-ip-v7:'+ip);
@@ -69,8 +69,28 @@ export async function activeIpHold(env,userId,requestOrIp){
   if(!ip)return null;
   await ensureIpPolicy(env);
   const key=await keyFor(ip);
-  if(await permitted(env.COMMUNITY_DB,key,userId))return null;
-  return env.COMMUNITY_DB.prepare("SELECT ip_key,reason,created_at FROM aio_ip_policy_holds_v8 WHERE user_id=? AND ip_key=? AND status='active' LIMIT 1").bind(userId,key).first();
+  const db=env.COMMUNITY_DB;
+  const currentHold=await db.prepare("SELECT ip_key,reason,created_at FROM aio_ip_policy_holds_v8 WHERE user_id=? AND ip_key=? AND status='active' LIMIT 1").bind(userId,key).first();
+  if(currentHold)return currentHold;
+  // Enforce the same 1-IP/1-account rule on EXISTING sessions and new devices.
+  // A known network cannot be silently reused by another account, even after
+  // an admin has acknowledged/released an incident or granted an old exception.
+  // Fast path: assigned network and its rightful account require no writes.
+  let claim=await db.prepare('SELECT user_id FROM aio_ip_policy_claims WHERE ip_key=?').bind(key).first();
+  if(claim?.user_id===userId)return null;
+  if(!claim){
+    const known=await peers(db,ip);
+    if(known.length)await claimExisting(env,ip,key,known);
+    claim=await db.prepare('SELECT user_id FROM aio_ip_policy_claims WHERE ip_key=?').bind(key).first();
+    if(claim?.user_id===userId)return null;
+  }
+  if(!claim){
+    await db.prepare("INSERT OR IGNORE INTO aio_ip_policy_claims(ip_key,user_id,created_at,source) VALUES(?,?,?,'session')")
+      .bind(key,userId,now()).run();
+    const after=await db.prepare('SELECT user_id FROM aio_ip_policy_claims WHERE ip_key=?').bind(key).first();
+    if(after?.user_id===userId)return null;
+  }
+  return {ip_key:key,reason:NOTICE,created_at:now()};
 }
 
 async function peers(db,ip){
@@ -96,11 +116,13 @@ async function claimExisting(env,ip,ipKey,users){
   await db.prepare(`INSERT OR IGNORE INTO aio_ip_policy_claims(ip_key,user_id,created_at,source) VALUES(?,?,?,?)`)
     .bind(ipKey,first.user_id,now(),'history').run();
   // Keep a deterministic primary ordinary account, never the owner/test accounts.
-  if(users.length>1)await db.prepare("UPDATE aio_ip_policy_claims SET user_id=?,source='history' WHERE ip_key=?").bind(first.user_id,ipKey).run();
+  // A previously reserved network is NEVER reassigned to a different account.
+  // Keep the first persisted claim, even when new historical peers are discovered.
   return first;
 }
 async function permitted(db,ipKey,userId){
-  return !!await db.prepare('SELECT 1 ok FROM aio_ip_policy_exceptions WHERE ip_key=? AND user_id=?').bind(ipKey,userId).first();
+  // Strict owner policy: old exceptions remain in D1 audit history but are not authorization.
+  return false;
 }
 export async function isApprovedOnCurrentIp(env,request,userId){
   const ip=getIp(request);if(!ip)return false;
@@ -187,13 +209,9 @@ export async function reserveRegistrationIp(env,request,newUserId){
   let claim=await db.prepare('SELECT user_id FROM aio_ip_policy_claims WHERE ip_key=?').bind(key).first();
   if(existing.length){await claimExisting(env,ip,key,existing);claim=await db.prepare('SELECT user_id FROM aio_ip_policy_claims WHERE ip_key=?').bind(key).first();}
   if(claim){
-    // One-time owner permit; grants are count-limited and consumed atomically.
-    const used=await db.prepare('UPDATE aio_ip_policy_signup_permits SET remaining=remaining-1 WHERE ip_key=? AND remaining>0').bind(key).run();
-    if(!used.meta?.changes){
-      await noteIpDenial(env,request,'register').catch(e=>console.error('[AIO IP denial registration]',String(e?.message||e).slice(0,100)));
-      throw error(409,NOTICE);
-    }
-    return {key,existing:true,permit:true};
+    // No exception, no one-time permit: an occupied public IP never authorizes another signup.
+    await noteIpDenial(env,request,'register').catch(e=>console.error('[AIO IP denial registration]',String(e?.message||e).slice(0,100)));
+    throw error(409,NOTICE);
   }
   const lock=await db.prepare(`INSERT OR IGNORE INTO aio_ip_policy_claims(ip_key,user_id,created_at,source)
     VALUES(?,?,?,'register')`).bind(key,newUserId,now()).run();
@@ -209,10 +227,8 @@ export async function rollbackRegistrationIp(env,lease,newUserId){
   else if(!lease.existing)await env.COMMUNITY_DB.prepare("DELETE FROM aio_ip_policy_claims WHERE ip_key=? AND user_id=? AND source='register'").bind(lease.key,newUserId).run();
 }
 export function permitRegistrationStatement(env,lease,newUserId){
-  if(!lease?.permit)return null;
-  return env.COMMUNITY_DB.prepare(`INSERT INTO aio_ip_policy_exceptions(ip_key,user_id,reason,approved_by,created_at)
-    SELECT ?,?,'Zgoda na dodatkowe konto przy rejestracji',approved_by,?
-    FROM aio_ip_policy_signup_permits WHERE ip_key=?`).bind(lease.key,newUserId,now(),lease.key);
+  // Kept for compatible registration batch, but no additional account can be permitted.
+  return null;
 }
 export async function checkAfterValidLogin(env,request,userId,role){
   await ensureIpPolicy(env);
@@ -317,22 +333,8 @@ export async function reviewIpGroup(env,key,ip,adminId){
 }
 
 export async function grantException(env,key,userId,adminId,reason){
-  await ensureIpPolicy(env);const db=env.COMMUNITY_DB;
-  await db.batch([
-    db.prepare(`INSERT INTO aio_ip_policy_exceptions(ip_key,user_id,reason,approved_by,created_at)
-      VALUES(?,?,?,?,?) ON CONFLICT(ip_key,user_id) DO UPDATE SET reason=excluded.reason,approved_by=excluded.approved_by,created_at=excluded.created_at`).bind(key,userId,reason,adminId,now()),
-    db.prepare("UPDATE aio_ip_policy_holds_v8 SET status='released',released_at=?,released_by=? WHERE user_id=? AND ip_key=? AND status='active'").bind(now(),adminId,userId,key)
-  ]);
+  throw error(409,'Zasada 1 IP = 1 konto: wyjątki administracyjne są wyłączone.');
 }
 export async function allowNextSignup(env,key,adminId,reason,ip){
-  await ensureIpPolicy(env);
-  let exists=await env.COMMUNITY_DB.prepare('SELECT user_id FROM aio_ip_policy_claims WHERE ip_key=?').bind(key).first();
-  if(!exists && ip && await keyFor(ip)===key){
-    const users=await peers(env.COMMUNITY_DB,ip);
-    if(users.length)await claimExisting(env,ip,key,users);
-    exists=await env.COMMUNITY_DB.prepare('SELECT user_id FROM aio_ip_policy_claims WHERE ip_key=?').bind(key).first();
-  }
-  if(!exists)throw error(404,'Nieznana sieć. Najpierw wykonaj skan.');
-  await env.COMMUNITY_DB.prepare(`INSERT INTO aio_ip_policy_signup_permits(ip_key,remaining,created_at,approved_by,reason)
-    VALUES(?,1,?,?,?) ON CONFLICT(ip_key) DO UPDATE SET remaining=remaining+1,created_at=excluded.created_at,approved_by=excluded.approved_by,reason=excluded.reason`).bind(key,now(),adminId,reason).run();
+  throw error(409,'Zasada 1 IP = 1 konto: zgody na dodatkowe rejestracje są wyłączone.');
 }

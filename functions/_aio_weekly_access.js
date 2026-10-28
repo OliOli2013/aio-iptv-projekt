@@ -1,5 +1,5 @@
 /* AIO Download Security V1
- * Per-account, 168-hour free window STARTING at the first free action.
+ * Per-account, 168-hour free window STARTING at the THIRD counted free file.
  * Historical local tickets and daily external counters are included once on rollout.
  * Only server-side D1 statements authorize downloads. Never use display names/IPs.
  */
@@ -78,7 +78,9 @@ async function initWeeklyAccount(env,userId,now=Date.now()){
 function validFileKey(file){return typeof file==='string' && /^\/pliki\/[^\x00-\x1f\x7f\\]{1,795}$/.test(file) && !/\.(?:png|jpe?g|webp|gif|svg|avif)$/i.test(file);}
 async function currentWindow(env,userId,now){
   const row=await initWeeklyAccount(env,userId,now);
-  if(Number(row.expires_ms)>now)return row;
+  // expires_ms=0 marks a NEW, not-yet-counted-down period (1 or 2 free files).
+  // Old live 168-hour windows retain their old expiry until they finish.
+  if(Number(row.started_ms)>0 && (Number(row.expires_ms)===0 || Number(row.expires_ms)>now))return row;
   return {started_ms:0,expires_ms:0,historical_used:0};
 }
 export async function weeklyStatus(env,userId,now=Date.now()){
@@ -91,19 +93,31 @@ export async function weeklyStatus(env,userId,now=Date.now()){
   ]);
   const used=Number(row.historical_used||0)+Number(counter?.n||0);
   return {free_limit:FREE_WEEKLY_LIMIT,free_remaining:Math.max(0,FREE_WEEKLY_LIMIT-used),
-    free_window_started_at:new Date(Number(row.started_ms)).toISOString(),free_resets_at:new Date(Number(row.expires_ms)).toISOString(),
+    free_window_started_at:Number(row.expires_ms)>0?new Date(Number(row.started_ms)).toISOString():null,
+    free_resets_at:Number(row.expires_ms)>0?new Date(Number(row.expires_ms)).toISOString():null,
     retry_files:[...new Set([...(tickets.results||[]),...(legacyRetries.results||[])].map(x=>x.file_key))]};
 }
 export async function consumeWeekly(env,userId,fileKey=null,now=Date.now()){
   if(fileKey!==null && !validFileKey(fileKey))throw Object.assign(new Error('Nieprawidłowa ścieżka pliku.'),{status:400});
   await initWeeklyAccount(env,userId,now);
-  // CAS: when the previous 168h period expires, the next action STARTS a new period.
-  // Concurrent calls cannot reset the same live window.
-  await env.COMMUNITY_DB.prepare(`UPDATE aio_access_free_windows SET started_ms=?,expires_ms=?,historical_used=0,updated_at=?
-    WHERE user_id=? AND expires_ms<=?`)
-    .bind(now,now+FREE_WINDOW_MS,new Date(now).toISOString(),userId,now).run();
+  // Idempotent recovery after a third ticket succeeded but the deadline update failed.
+  await env.COMMUNITY_DB.prepare(`UPDATE aio_access_free_windows
+    SET expires_ms=(SELECT e.issued_ms+? FROM aio_access_free_events e
+      WHERE e.user_id=? AND e.window_started_ms=aio_access_free_windows.started_ms
+      ORDER BY e.issued_ms,e.id LIMIT 1 OFFSET 2),updated_at=?
+    WHERE user_id=? AND expires_ms=0 AND historical_used=0 AND started_ms>0
+      AND (SELECT COUNT(*) FROM aio_access_free_events e
+        WHERE e.user_id=? AND e.window_started_ms=aio_access_free_windows.started_ms)>=?`)
+    .bind(FREE_WINDOW_MS,userId,new Date(now).toISOString(),userId,userId,FREE_WEEKLY_LIMIT).run();
+  // CAS: start a fresh count at the FIRST free file, but do not start its 168h timer yet.
+  // Existing legacy windows keep their old deadline until expiry.
+  await env.COMMUNITY_DB.prepare(`UPDATE aio_access_free_windows
+    SET started_ms=?,expires_ms=0,historical_used=0,updated_at=?
+    WHERE user_id=? AND (started_ms=0 OR (expires_ms>0 AND expires_ms<=?))`)
+    .bind(now,new Date(now).toISOString(),userId,now).run();
   const row=await env.COMMUNITY_DB.prepare('SELECT started_ms,expires_ms,historical_used FROM aio_access_free_windows WHERE user_id=?').bind(userId).first();
-  if(!row||Number(row.expires_ms)<=now)throw Object.assign(new Error('Nie udało się ustalić okresu pobierania.'),{status:503});
+  if(!row||Number(row.started_ms)<=0||(Number(row.expires_ms)>0&&Number(row.expires_ms)<=now))
+    throw Object.assign(new Error('Nie udało się ustalić okresu pobierania.'),{status:503});
   const start=Number(row.started_ms);
   if(fileKey){
     const legacyRetry=await env.COMMUNITY_DB.prepare(`SELECT 1 AS yes FROM aio_access_account_file_retries
@@ -120,7 +134,7 @@ export async function consumeWeekly(env,userId,fileKey=null,now=Date.now()){
     (id,user_id,window_started_ms,file_key,issued_ms,expires_ms)
     SELECT ?,?,?,?,?,?
     WHERE EXISTS (SELECT 1 FROM aio_access_free_windows w
-      WHERE w.user_id=? AND w.started_ms=? AND w.expires_ms>?
+      WHERE w.user_id=? AND w.started_ms=? AND (w.expires_ms=0 OR w.expires_ms>?)
         AND w.historical_used+(SELECT COUNT(*) FROM aio_access_free_events e
           WHERE e.user_id=? AND e.window_started_ms=?)<?)
     AND NOT EXISTS (SELECT 1 FROM aio_access_free_events r
@@ -128,7 +142,21 @@ export async function consumeWeekly(env,userId,fileKey=null,now=Date.now()){
     .bind(crypto.randomUUID(),userId,start,fileKey,now,now+FILE_RETRY_MS,
       userId,start,now,userId,start,FREE_WEEKLY_LIMIT,
       userId,start,fileKey,now).run();
-  if(Number(result.meta?.changes||0)===1)return {allowed:true,reason:'free'};
+  if(Number(result.meta?.changes||0)===1){
+    // Only after the THIRD successful atomic issue start the seven-day countdown.
+    // Its timestamp is the third ticket, not the first download or the last API call.
+    // A legacy period (expires_ms>0) is deliberately not shortened or extended.
+    await env.COMMUNITY_DB.prepare(`UPDATE aio_access_free_windows
+      SET expires_ms=(SELECT e.issued_ms+? FROM aio_access_free_events e
+        WHERE e.user_id=? AND e.window_started_ms=? ORDER BY e.issued_ms,e.id LIMIT 1 OFFSET 2),
+          updated_at=?
+      WHERE user_id=? AND started_ms=? AND expires_ms=0 AND historical_used=0
+        AND (SELECT COUNT(*) FROM aio_access_free_events e
+          WHERE e.user_id=? AND e.window_started_ms=?)>=?`)
+      .bind(FREE_WINDOW_MS,userId,start,new Date(now).toISOString(),
+            userId,start,userId,start,FREE_WEEKLY_LIMIT).run();
+    return {allowed:true,reason:'free'};
+  }
   // When a concurrent download has just issued a ticket for this exact file, retry is OK.
   if(fileKey){
     const retry=await env.COMMUNITY_DB.prepare(`SELECT 1 AS yes FROM aio_access_free_events

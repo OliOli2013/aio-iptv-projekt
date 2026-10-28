@@ -43,11 +43,7 @@
         void action({action:'apply_group',ip_key:group.ip_key,ip:group.ip});
     };card.append(block);
   }
-  const allow=el('button','+ Zezwól na JEDNĄ PRZYSZŁĄ rejestrację');allow.type='button';
-  allow.onclick=()=>{const reason=prompt('Uzasadnienie zgody na rejestrację (minimum 10 znaków):','');
-    if(reason&&reason.trim().length>=10&&confirm('Zezwolić na jedną NOWĄ rejestrację?'))
-      void action({action:'allow_next',ip_key:group.ip_key,ip:group.ip,reason});
-  };card.append(allow);
+  card.append(el('p','Nowa polityka: żadnych dodatkowych rejestracji ani wyjątków na zajętym IP.'));
   return card;
  }
  function holdCard(h){
@@ -64,11 +60,7 @@
     review.onclick=()=>{if(confirm('Oznaczyć blokadę jako przejrzaną? Konto NADAL będzie zablokowane.'))
       void action({action:'review_hold',user_id:h.user_id,ip_key:h.ip_key});};box.append(review);
   }
-  if(blocked){const allow=el('button','✓ Zatwierdź wyjątek i odblokuj');allow.type='button';
-    allow.onclick=()=>{const reason=prompt('Powód wyjątku (minimum 10 znaków):','');
-      if(reason&&reason.trim().length>=10&&confirm('Zdjąć blokadę konta na tym IP?'))
-        void action({action:'approve_user',user_id:h.user_id,ip_key:h.ip_key,reason});};box.append(allow);
-  }
+  if(blocked)box.append(el('p','Przypisanie IP do pierwszego konta pozostaje aktywne. Zgody na drugie konto są wyłączone.'));
   return box;
  }
  function archiveSection(title,id,items,renderOne){
@@ -89,7 +81,7 @@
     if(!pending.length)denialRoot.append(el('p','Brak nowych odrzuconych prób w monitoringu V10.'));
     for(const d of pending){
       const card=el('article',undefined,'ip7-card');
-      card.append(el('h3',(d.kind==='register'?'Odmowy kolejnej rejestracji':'Odmowy logowania z drugiego IP')+' • sieć '+d.ip_key.slice(0,12)));
+      card.append(el('h3',(d.kind==='register'?'Odmowy kolejnej rejestracji':'Odmowy logowania z zajętego IP')+' • sieć '+d.ip_key.slice(0,12)));
       card.append(el('p','Próby: '+Number(d.attempts||0)+' • ostatnia: '+local(d.last_at)));
       if(d.last_user_name)card.append(el('p','Ostatnio sprawdzane konto: '+d.last_user_name));
       if(d.kind==='register')card.append(el('p','Odmówiono utworzenia konta — profil użytkownika nie został utworzony.'));
@@ -142,7 +134,7 @@
   $('ip7-bulk').onclick=async()=>{
    const pendingGroups=groups.filter(g=>Number(g.pending||0)>0);
    if(busy||!pendingGroups.length){status('Nie ma na tej stronie dodatkowych kont wymagających blokady.');return;}
-   if(!confirm('Zablokować dodatkowe konta w '+pendingGroups.length+' nierozpatrzonych sieciach? Konta właściciela, Klos i Beata są chronione.'))return;
+   if(!confirm('Zablokować dodatkowe konta w '+pendingGroups.length+' nierozpatrzonych sieciach? Konto właściciela pozostaje chronione.'))return;
    busy=true;let ok=0,errors=0;
    try{for(const group of pendingGroups){try{const d=await req({method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({action:'apply_group',ip_key:group.ip_key,ip:group.ip,confirm:true})});ok+=Number(d.held||0);}catch(e){errors++;}status('Przetworzono grupy. Nowe blokady: '+ok+'. Błędy: '+errors+'.');}
      await refresh();status('Zapisano blokady: '+ok+'. Grupy wymagające dodatkowej weryfikacji: '+errors,errors>0);

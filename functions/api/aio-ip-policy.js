@@ -43,7 +43,7 @@ export async function onRequestGet({request,env}){
     return respond({ok:true,offset,groups:groups.groups,has_more:groups.has_more,holds:visible,
       unreviewed_total:Number(unread?.n||0),historical_pending:historical,
       denial_attempts:denied.results||[],unread_denials:Number(unreadDenials?.n||0),
-      total_signup_permits:Number(permitTotals?.total||0),
+      total_signup_permits:0, // prior permits exist as history but no longer authorize registrations
       note:'Wspólny IP to jedno łącze, nie dowód tożsamości. Blokady historyczne wymagają zatwierdzenia przez właściciela.'});
   }catch(e){console.error('[AIO IP policy GET]',String(e?.message||e).slice(0,150));return handleError(e)}
 }
@@ -56,6 +56,8 @@ export async function onRequestPost({request,env}){
     const data=await request.json().catch(()=>({})),action=safe(data.action,40),key=safe(data.ip_key,120);
     if(data.confirm!==true)invalid(400,'Wymagane potwierdzenie właściciela.');
     const reason=safe(data.reason,240);
+    if(action==='approve_user'||action==='allow_next')
+      return respond({ok:false,error:'Zasada 1 IP = 1 konto: wyjątki i dodatkowe rejestracje są wyłączone.'},409);
     if(action==='review_denial'){
       if(!validIpKey(key)||!['register','login'].includes(data.kind))invalid(400,'Nieprawidłowy identyfikator zdarzenia.');
       const at=new Date().toISOString();
