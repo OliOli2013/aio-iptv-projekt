@@ -26,6 +26,11 @@ export async function ensureIpPolicy(env){
     env.COMMUNITY_DB.prepare(`CREATE TABLE IF NOT EXISTS aio_ip_policy_signup_permits(
       ip_key TEXT PRIMARY KEY,remaining INTEGER NOT NULL DEFAULT 0,created_at TEXT NOT NULL,
       approved_by TEXT NOT NULL,reason TEXT NOT NULL)`),
+    // V12 cleanup: keep only a time-limited hashed IP cooldown after removing an unverified account.
+    env.COMMUNITY_DB.prepare(`CREATE TABLE IF NOT EXISTS aio_ip_policy_cleanup_cooldowns_v1 (
+      ip_key TEXT PRIMARY KEY,created_at TEXT NOT NULL,expires_at TEXT NOT NULL,
+      reason TEXT NOT NULL)`),
+    env.COMMUNITY_DB.prepare('CREATE INDEX IF NOT EXISTS idx_cleanup_ip_expiry ON aio_ip_policy_cleanup_cooldowns_v1(expires_at)'),
     // V8: one account can have independent network-specific holds. Old V7 data stays intact.
     env.COMMUNITY_DB.prepare(`CREATE TABLE IF NOT EXISTS aio_ip_policy_holds_v8(
       user_id TEXT NOT NULL,ip_key TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'active',
@@ -205,7 +210,19 @@ export async function historicalPendingIpSummary(env){
 export async function reserveRegistrationIp(env,request,newUserId){
   await ensureIpPolicy(env);
   const ip=getIp(request);if(!ip)throw error(503,'Nie można bezpiecznie ustalić adresu IP. Spróbuj ponownie później.');
-  const db=env.COMMUNITY_DB,key=await keyFor(ip),existing=await peers(db,ip);
+  const db=env.COMMUNITY_DB,key=await keyFor(ip);
+  // Closed cleanup accounts cannot immediately re-register and reset free downloads.
+  // The SHA-256 key is already used by the one-account-IP policy; no raw IP is stored here.
+  const stamp=now();
+  const cooldown=await db.prepare('SELECT expires_at FROM aio_ip_policy_cleanup_cooldowns_v1 WHERE ip_key=? AND expires_at>? LIMIT 1')
+    .bind(key,stamp).first();
+  if(cooldown){
+    await noteIpDenial(env,request,'register').catch(()=>{});
+    throw error(429,'Rejestracja z tej sieci jest czasowo niedostępna po usunięciu niezweryfikowanego konta. Spróbuj później lub skontaktuj się z administracją.');
+  }
+  // Remove expired cooldown rows opportunistically; the lock is never permanent.
+  await db.prepare('DELETE FROM aio_ip_policy_cleanup_cooldowns_v1 WHERE expires_at<=?').bind(stamp).run();
+  const existing=await peers(db,ip);
   let claim=await db.prepare('SELECT user_id FROM aio_ip_policy_claims WHERE ip_key=?').bind(key).first();
   if(existing.length){await claimExisting(env,ip,key,existing);claim=await db.prepare('SELECT user_id FROM aio_ip_policy_claims WHERE ip_key=?').bind(key).first();}
   if(claim){

@@ -1,0 +1,10 @@
+/* AIO Account Cleanup V1: private page; server-side auth on every request. */
+import {requireAdmin,getOwnerId} from './_community.js';
+const html=`<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Niezweryfikowane konta — AIO TunerHub</title><link rel="stylesheet" href="/assets/css/aio-account-cleanup-v1.css?v=1"><script defer src="/assets/js/aio-account-cleanup-v1.js?v=1"></script></head><body><main class="wrap"><header><a href="/owner-hub">← Centrum Właściciela</a><h1>AIO TunerHub — niezweryfikowane konta</h1><p>Ręczne i kontrolowane czyszczenie po 7 dniach od rejestracji i ostatniej wiadomości weryfikacyjnej. Brak automatycznego usuwania.</p></header><section class="notice"><strong>Przed usuwaniem:</strong> wykonaj eksport bazy Cloudflare D1. Usuwanie jest nieodwracalne. Każde konto musi zostać potwierdzone osobno; sesje zostaną unieważnione. Adresy IP będą czasowo chronione przed nową rejestracją.</section><div class="toolbar"><button id="refresh" type="button">↻ Odśwież</button><span id="summary" role="status" aria-live="polite">Wczytywanie…</span></div><div id="list" aria-live="polite"></div><p class="footer">Konta VIP, aktywny dostęp 7 dni, konta z aktywnymi zgłoszeniami i opublikowaną treścią nie są kwalifikowane. Starsze konta bez rekordu weryfikacji pozostają nienaruszone.</p></main></body></html>`;
+export async function onRequestGet({request,env}){
+  try{
+    const s=await requireAdmin(request,env,true);
+    if(s.user.id!==await getOwnerId(env))throw Object.assign(new Error('Brak dostępu'),{status:403});
+  }catch(e){return new Response('Brak dostępu do narzędzi właściciela.',{status:e?.status===401?401:403,headers:{'content-type':'text/plain; charset=utf-8','cache-control':'private, no-store'}});}
+  return new Response(html,{headers:{'content-type':'text/html; charset=utf-8','cache-control':'private, no-store','x-robots-tag':'noindex,nofollow','x-content-type-options':'nosniff'}});
+}

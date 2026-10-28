@@ -24,6 +24,7 @@
   ]},
   {id:'accounts',name:'Konta i bezpieczeństwo',icon:'⬡',summary:'Użytkownicy, reset haseł, blokady i sesje',items:[
    {id:'users',name:'Użytkownicy',icon:'♙',description:'Profile, uprawnienia, blokady i zarządzanie kontami.',href:'/community-admin.html?aio_section=users',keywords:'konta użytkownicy role ban' },
+   {id:'account-cleanup',name:'Niezweryfikowane konta — czyszczenie',icon:'⌫',description:'Podgląd kont bez potwierdzenia e-mail po 7 dniach i ręczne usuwanie z ochroną IP.',href:'/aio-account-cleanup',keywords:'email weryfikacja sprzątanie retencja czyszczenie konta usuwanie' },
    {id:'resets',name:'Prośby o reset hasła',icon:'⚿',description:'Obsługa kodów oraz zgłoszeń odzyskiwania dostępu do konta.',href:'/community-admin.html?aio_section=password-resets',keywords:'hasło logowanie' },
    {id:'security-journal',name:'Trwały dziennik logowań i wspólne IP',icon:'◷',description:'Zdarzenia serwera, kolizje IP, ostrzeżenia i ręczne odblokowanie pobierania.',href:'/owner-hub#aio-security-journal',keywords:'ip logowania bezpieczeństwo ostrzeżenie historia'},
    {id:'security',name:'Bezpieczeństwo systemu',icon:'⚑',description:'Kontrole bezpieczeństwa, uprawnienia i wydarzenia administracyjne.',href:'/community-admin.html?aio_section=security',keywords:'audyt zagrożenia admin' },

@@ -13,10 +13,13 @@ const OPTIONAL_USER_TABLES = [
   'aio_access_account_daily',
   'aio_access_account_flows',
   'aio_access_account_file_retries',
+  'aio_access_free_events',
+  'aio_access_free_windows',
+  'community_user_ips',
   'aio_v6_rate'
 ];
 
-export async function deleteAccountSafely(env, userId) {
+export async function deleteAccountSafely(env, userId, options = {}) {
   const db = env.COMMUNITY_DB;
   if (!db || !/^[0-9a-f-]{36}$/i.test(String(userId || ''))) {
     throw Object.assign(new Error('Nieprawidłowe ID konta lub brak bazy danych.'), {status:400});
@@ -25,6 +28,10 @@ export async function deleteAccountSafely(env, userId) {
   const catalog = await db.prepare("SELECT name FROM sqlite_master WHERE type='table'").all();
   const existing = new Set((catalog.results || []).map(x => x.name));
   const steps = [];
+  // Optional strict transaction guard: stale verification status aborts the WHOLE D1 batch.
+  if (options.guardStatement) steps.push(options.guardStatement);
+  // Insert temporary hashed-IP cooldown records before deleting the account.
+  for (const statement of (options.preDeleteStatements || [])) steps.push(statement);
   for (const table of OPTIONAL_USER_TABLES) {
     if (existing.has(table)) {
       // Table names are static internal constants, never taken from request parameters.
