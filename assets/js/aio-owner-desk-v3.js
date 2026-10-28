@@ -20,6 +20,7 @@
   ]},
   {id:'accounts',name:'Konta i dostępy',icon:'♙',items:[
    {id:'users',name:'Użytkownicy',icon:'♙',desc:'Wyszukaj po nazwie lub e-mailu i zarządzaj kontem',target:'users',tags:'wyszukiwarka adres email profil ban konto'},
+   {id:'account-cleanup',name:'Niezweryfikowane konta — czyszczenie',icon:'⌫',desc:'Kontrola i ręczne usuwanie kont bez potwierdzenia e-mail z ochroną IP',url:'/aio-account-cleanup',tags:'email weryfikacja porządki konta czyszczenie usuwanie 7 dni'},
    {id:'vip',name:'Konta VIP',icon:'★',desc:'Dostęp miesięczny: nadaj, przedłuż lub wyłącz',target:'vip',tags:'30 dni płatny dostęp'},
    {id:'grants',name:'Dostępy 7 dni',icon:'✓',desc:'Uprawnienia i zatwierdzenia wsparcia',target:'grants',tags:'przyznanie grant potwierdzenia'},
    {id:'sessions',name:'Sesje użytkowników',icon:'◎',desc:'Aktywne sesje i ich zakończenie',target:'sessions',tags:'logowanie urządzenia'},

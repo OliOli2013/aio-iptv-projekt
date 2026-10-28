@@ -67,13 +67,16 @@ export async function deleteAccountSafely(env, userId, options = {}) {
     db.prepare('DELETE FROM community_reactions WHERE user_id=?').bind(userId),
     db.prepare('DELETE FROM community_subscriptions WHERE user_id=?').bind(userId),
     db.prepare('DELETE FROM community_posts WHERE author_id=?').bind(userId),
-    db.prepare('DELETE FROM community_profiles WHERE id=?').bind(userId)
+    // RETURNING confirms the exact deleted profile, independently of D1 meta.changes.
+    // meta.changes is not a reliable per-row assertion when FK cascades/batch changes occur.
+    db.prepare('DELETE FROM community_profiles WHERE id=? RETURNING id').bind(userId)
   );
-  // D1 .batch() is transactional: a foreign key failure must not partially remove the account.
+  // D1 .batch() is atomic: the eligibility guard, cooldowns and removal commit together.
   const results = await db.batch(steps);
   const last = results[results.length - 1];
-  if (Number(last?.meta?.changes || 0) !== 1) {
-    throw new Error('Usuwanie konta nie zostało potwierdzone przez bazę D1.');
+  const removed = Array.isArray(last?.results) ? last.results : [];
+  if (last?.success !== true || removed.length !== 1 || removed[0]?.id !== userId) {
+    throw new Error('Błąd weryfikacji DELETE RETURNING: nie usunięto dokładnie jednego wskazanego konta.');
   }
   const remains = await db.prepare('SELECT id FROM community_profiles WHERE id=?').bind(userId).first();
   if (remains) throw new Error('Błąd weryfikacji usunięcia konta.');

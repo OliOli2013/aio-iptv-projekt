@@ -22,7 +22,7 @@ export const OWNER_HTML = String.raw`<!doctype html>
 <script defer src="/assets/js/aio-post-links-owner-v5.js?v=20261020-aplv5"></script>
 <script defer src="/assets/js/aio-post-file-stats-owner-v1.js?v=20261024-post-file-stats-v1"></script>
 <link rel="stylesheet" href="/assets/css/aio-owner-desk-v3.css?v=20261023-owner-mobile-v10">
-<script defer src="/assets/js/aio-owner-desk-v3.js?v=20261023-owner-mobile-v10"></script>
+<script defer src="/assets/js/aio-owner-desk-v3.js?v=20261028-account-cleanup-nav-v1"></script>
 <link rel="stylesheet" href="/assets/css/aio-owner-messages-v1.css?v=20261021-owner-messages-v1">
 </head>
 <body>
