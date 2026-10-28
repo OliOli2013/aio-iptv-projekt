@@ -1,5 +1,28 @@
 [
   {
+    "date": "2026-10-28",
+    "ts": 1793145600000,
+    "type": "release",
+    "title": "AIO Panel 17.0.3 — JediMakerXtream, ChocholousekPicons i PHub 18+",
+    "desc": "JediMakerXtream 6.37 i ChocholousekPicons 5.0.240904: instalacja IPK/DEB z zewnętrznych źródeł przy brakach w feedach; nowy PHub 18+, kontrola pakietów i pamięci FLASH. Enigma2 Python 2/3.",
+    "details": "AIO Panel 17.0.3 — 28.10.2026\n\n• JediMakerXtream 6.37 — instalator IPK/DEB z repozytorium pakietów, niezależnie od dostępności w feedzie.\n• ChocholousekPicons 5.0.240904 — alternatywny instalator IPK/DEB dla obrazów bez pakietu w feedzie.\n• PHub (18+) — nowa pozycja w kategorii Dla dorosłych, wyszukiwanie, nowości i popularne materiały, kategorie i oceny, kanały, twórcy oraz playlisty; także serwisy polskojęzyczne. Tylko dla pełnoletnich.\n• Poprawione mechanizmy instalowania zewnętrznych wtyczek i sprawdzanie pobranych pakietów.\n• Usprawniona kontrola wolnego miejsca FLASH podczas aktualizacji.\n• Zachowano zgodność z obsługiwanymi obrazami Enigma2 Python 2 i Python 3.\n\nAktualizacja: AIO Panel → AIO / Aktualizacje. Po instalacji w razie potrzeby restart GUI.\nUwaga: źródło instalatora PHub nie zostało niezależnie zweryfikowane, może być czasowo niedostępne.",
+    "url": "plugin-aio-panel.html",
+    "tags": [
+      "AIO Panel",
+      "17.0.3",
+      "JediMakerXtream 6.37",
+      "ChocholousekPicons 5.0.240904",
+      "PHub",
+      "18+",
+      "Python 2",
+      "Python 3",
+      "IPK",
+      "DEB",
+      "FLASH",
+      "Enigma2"
+    ]
+  },
+  {
     "date": "2026-10-27",
     "ts": 1793059200000,
     "type": "release",

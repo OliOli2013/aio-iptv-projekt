@@ -37,21 +37,25 @@
     ]
   },
   {
-    "title": "AIO Panel 17.0.2 — aktualizacja",
-    "desc": "Poprawki instalacji E2iPlayer, Python 3.14, kontrola składni i pakietów IPK/DEB, OpenCamView 2.0.1 w Wtyczkach Online.",
+    "title": "AIO Panel 17.0.3 — nowa aktualizacja",
+    "desc": "JediMakerXtream 6.37 i ChocholousekPicons 5.0.240904: instalacja IPK/DEB z zewnętrznych źródeł przy brakach w feedach; nowy PHub 18+, kontrola pakietów i pamięci FLASH. Enigma2 Python 2/3.",
     "url": "plugin-aio-panel.html",
     "tags": [
       "AIO Panel",
-      "17.0.2",
+      "17.0.3",
       "Enigma2",
-      "listy kanałów",
-      "skórki",
-      "instalatory",
-      "Python 2.7",
+      "Python 2",
       "Python 3",
-      "E2iPlayer",
-      "Python 3.14",
-      "OpenCamView 2.0.1"
+      "JediMakerXtream 6.37",
+      "ChocholousekPicons 5.0.240904",
+      "PHub 18+",
+      "Dla dorosłych 18+",
+      "instalatory",
+      "IPK",
+      "DEB",
+      "FLASH",
+      "listy kanałów",
+      "aktualizacje"
     ]
   },
   {

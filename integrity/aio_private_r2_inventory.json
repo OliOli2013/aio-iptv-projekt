@@ -2,17 +2,19 @@
   "schema_version": 1,
   "bucket": "aio-downloads-private",
   "verified_date": "2026-10-25",
-  "verification_note": "R2 SHA-256 verified 2026-10-25. catalog_status=archived: historical objects retained and still checked by live R2 verifier; no longer current downloads. This does not verify OpenCamView 2.0.2 files in private R2.",
+  "verification_note": "R2 SHA-256 verified 2026-10-25. catalog_status=archived: historyczne obiekty zachowane i nadal sprawdzane przez live R2 verifier. Nowe OpenCamView 2.0.2 i AIO Panel 17.0.3 nie są tu potwierdzone: przed uruchomieniem trybu prywatnego R2 wymagają osobnej kontroli obiektów.",
   "objects": [
     {
       "key": "pliki/enigma2-plugin-extensions-panelaio_17.0.2_all.ipk",
       "sha256": "b7b46d35c7acadccdacf8061984c0d6886dc6145d4c6ac15b85824ec21a10b1b",
-      "size_bytes": 407736
+      "size_bytes": 407736,
+      "catalog_status": "archived"
     },
     {
       "key": "pliki/enigma2-plugin-extensions-panelaio_17.0.2_all.deb",
       "sha256": "b7b46d35c7acadccdacf8061984c0d6886dc6145d4c6ac15b85824ec21a10b1b",
-      "size_bytes": 407736
+      "size_bytes": 407736,
+      "catalog_status": "archived"
     },
     {
       "key": "pliki/enigma2-plugin-extensions-opencamview_2.0.1_all.ipk",
