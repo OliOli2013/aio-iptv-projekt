@@ -187,15 +187,15 @@
     {
       "id": "simple-iptv-epg",
       "name": "Simple IPTV EPG",
-      "version": "3.1.0 r1",
+      "version": "3.2.0 RC5 AUTO",
       "page": "plugin-simple-iptv-epg.html",
       "category": "Wtyczka Enigma2",
       "status": "stable",
-      "statusLabel": "Stabilny",
-      "updated": "2026-10-09",
-      "summary": "Importer i mapper EPG dla IPTV z lepszą integracją BouquetMakerXtream/XMLTV, poprawionym eEPGCache.importEvents, obsługą różnych referencji usług, GZIP oraz rozbudowaną diagnostyką.",
+      "statusLabel": "RC5 AUTO",
+      "updated": "2026-10-29",
+      "summary": "Automatyczne źródła XMLTV, dokładniejsze mapowanie kanałów IPTV, uzupełnianie piconów, prostszy interfejs i import w tle.",
       "tested": "Enigma2 • Python 2 / Python 3 • zgodność zależna od image, list IPTV i źródła XMLTV",
-      "next": "Dalsze testy na różnych image Enigma2, źródłach XMLTV i konfiguracjach BouquetMakerXtream."
+      "next": "Dalsze testy mapowania IPTV i źródeł XMLTV na różnych obrazach Enigma2."
     },
     {
       "id": "dreamosatx",
@@ -533,21 +533,21 @@
       "access": "konto_AIO"
     },
     {
-      "title": "enigma2-plugin-extensions-simpleiptvepg_3.1.0-r1_all.ipk",
-      "href": "pliki/enigma2-plugin-extensions-simpleiptvepg_3.1.0-r1_all.ipk",
+      "title": "enigma2-plugin-extensions-simpleiptvepg_3.2.0-rc5-auto_all.ipk",
+      "href": "pliki/enigma2-plugin-extensions-simpleiptvepg_3.2.0-rc5-auto_all.ipk",
       "category": "Wtyczki",
       "platform": "Enigma2",
-      "version": "3.1.0-r1",
-      "date": "09.10.2026",
+      "version": "3.2.0-rc5-auto",
+      "date": "29.10.2026",
       "status": "Aktualna",
       "sourcePage": "plugin-simple-iptv-epg.html",
-      "sourceTitle": "3.1.0 r1",
+      "sourceTitle": "3.2.0 RC5 AUTO",
       "kind": "IPK",
-      "size": "51.3 KB",
-      "sha256": "1a09ee01b7fa296615ca4133f6b4f357328fa39b73a0bb23677277735c8a17ff",
+      "size": "82.3 KB",
+      "sha256": "7da50cb73f2292df84ad0d38ac85dab11e3252d7fae64929f0d3d2b5c1eaba9a",
       "official": "Plik na AIO TunerHub",
       "project_id": "simple-iptv-epg",
-      "release_id": "legacy-0d00515acfbc0d3d",
+      "release_id": "legacy-391d475e9c0e22bb",
       "origin": "legacy",
       "published_at": null,
       "verified_at": null,
@@ -1403,20 +1403,20 @@
       ]
     },
     {
-      "id": "legacy-0d00515acfbc0d3d",
+      "id": "legacy-391d475e9c0e22bb",
       "project_id": "simple-iptv-epg",
       "project_name": "Simple IPTV EPG",
-      "version": "3.1.0-r1",
-      "date": "2026-10-09",
-      "title": "enigma2-plugin-extensions-simpleiptvepg_3.1.0-r1_all.ipk",
-      "summary": "Importer i mapper EPG dla IPTV z lepszą integracją BouquetMakerXtream/XMLTV, poprawionym eEPGCache.importEvents, obsługą różnych referencji usług, GZIP oraz rozbudowaną diagnostyką.",
+      "version": "3.2.0-rc5-auto",
+      "date": "2026-10-29",
+      "title": "enigma2-plugin-extensions-simpleiptvepg_3.2.0-rc5-auto_all.ipk",
+      "summary": "Automatyczne źródła XMLTV, dokładniejsze mapowanie kanałów IPTV, uzupełnianie piconów, prostszy interfejs i import w tle.",
       "page": "plugin-simple-iptv-epg.html",
       "channel": "legacy",
       "origin": "legacy",
       "published_at": null,
       "verified_at": null,
       "files": [
-        "pliki/enigma2-plugin-extensions-simpleiptvepg_3.1.0-r1_all.ipk"
+        "pliki/enigma2-plugin-extensions-simpleiptvepg_3.2.0-rc5-auto_all.ipk"
       ]
     },
     {

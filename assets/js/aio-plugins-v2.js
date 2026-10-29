@@ -16,7 +16,7 @@ let freeQuery='';
 
 const DESC=[
   {re:/aio\s*panel/i, kind:'Narzędzia AIO', icon:'AP', image:'pliki/aio-panel-17.0.2.png', desc:'Centrum instalacji i aktualizacji dla Enigma2. Ułatwia dostęp do list kanałów, piconów, narzędzi i dodatków AIO z poziomu samego tunera.', aio:true},
-  {re:/simple\s*iptv\s*epg|iptv\s*epg/i, kind:'EPG / IPTV', icon:'EP', image:'pliki/simple-iptv-epg-3.1.0-r1.png', desc:'Dodaje i dopasowuje dane EPG dla list IPTV. Przydatna, gdy kanały internetowe nie pokazują programu lub opisów audycji.', aio:true},
+  {re:/simple\s*iptv\s*epg|iptv\s*epg/i, kind:'EPG / IPTV', icon:'EP', image:'pliki/simple-iptv-epg-3.2.0-rc5-05-glowny.webp', desc:'Simple IPTV EPG RC5 AUTO: automatyczne źródła XMLTV, dokładniejsze mapowanie EPG, picony IPTV i import w tle.', aio:true},
   {re:/e2\s*security|aio\s*security/i, kind:'Bezpieczeństwo', icon:'SE', image:'pliki/e2-security-interface-1.1.0.jpg', desc:'Wtyczka do zwiększenia bezpieczeństwa tunera Enigma2. Pomaga sprawdzić ustawienia dostępu i włącza dodatkową ochronę sieciową.', aio:true},
   {re:/e2\s*doctor/i, kind:'Diagnostyka', icon:'ED', image:'pliki/e2-doctor-2.3-main.png', desc:'Centrum diagnostyki i bezpiecznej naprawy Enigma2. Pomaga ocenić stan tunera i znaleźć typowe problemy systemowe.', aio:true},
   {re:/pp\s*channel\s*sync/i, kind:'Listy kanałów', icon:'CS', image:'pliki/pp-channel-sync-2.1.1-screen.png', desc:'Synchronizacja i porządkowanie list kanałów Enigma2 z obsługą różnych formatów lamedb i bezpiecznym rollbackiem.', aio:true},

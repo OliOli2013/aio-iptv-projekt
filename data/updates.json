@@ -1,5 +1,27 @@
 [
   {
+    "date": "2026-10-29",
+    "ts": 1793232000000,
+    "type": "release",
+    "title": "Simple IPTV EPG 3.2.0 RC5 AUTO — EPG Autopilot i picony IPTV",
+    "desc": "Automatyczne źródła XMLTV, dokładniejsze mapowanie kanałów IPTV, uzupełnianie piconów, prostszy interfejs i import w tle.",
+    "details": "Simple IPTV EPG 3.2.0 RC5 AUTO — 29.10.2026\n\n• Uproszczony ekran: źródło EPG, harmonogram importu i picony IPTV.\n• Autopilot dobierający dostępne źródła XMLTV także dla wybranych kanałów zagranicznych.\n• Poprawione mapowanie nazw i identyfikatorów, ochrona przed błędnymi przypisaniami.\n• Źródła: EPG.OVH, EPGShare, PolishTeam, IPTV-EPG.org i EPG.PW.\n• Automatyczne uzupełnianie brakujących piconów IPTV.\n• Ochrona EPG SAT; kopiowanie SAT → IPTV domyślnie wyłączone.\n• Dodatkowe ustawienia w menu Narzędzia; raporty i diagnostyka importu.\n\nZalecane: AUTO AIO Polska, import co 24 h, uzupełnianie piconów: Tak.\nPrzy pierwszym uruchomieniu: Narzędzia → Wymuś pełny import + nowe mapowanie.\nMożna zamknąć okno wtyczki po uruchomieniu importu; zadanie trwa dalej w tle. Nie restartuj wtedy tunera ani GUI.\nEfekty zależą od dostępności i jakości źródeł XMLTV oraz konkretnych kanałów IPTV.",
+    "url": "plugin-simple-iptv-epg.html",
+    "tags": [
+      "Simple IPTV EPG",
+      "3.2.0",
+      "RC5 AUTO",
+      "XMLTV",
+      "EPG Autopilot",
+      "IPTV",
+      "picony",
+      "Enigma2",
+      "Python 2",
+      "Python 3",
+      "aktualizacja"
+    ]
+  },
+  {
     "date": "2026-10-28",
     "ts": 1793145600000,
     "type": "release",

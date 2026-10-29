@@ -371,27 +371,27 @@
     ]
   },
   {
-    "title": "Simple IPTV EPG 3.1.0 r1",
-    "desc": "Import i mapowanie EPG dla IPTV: BouquetMakerXtream, XMLTV, eEPGCache, referencje 4097/5001/5002, GZIP, AutoMapper, SAT→IPTV i diagnostyka.",
+    "title": "Simple IPTV EPG 3.2.0 RC5 AUTO — EPG Autopilot i picony",
+    "desc": "Automatyczne źródła XMLTV, dokładniejsze mapowanie kanałów IPTV, uzupełnianie piconów, prostszy interfejs i import w tle.",
     "url": "plugin-simple-iptv-epg.html",
     "tags": [
+      "Simple IPTV EPG",
+      "3.2.0",
+      "RC5 AUTO",
+      "Enigma2",
       "EPG",
       "IPTV",
-      "Simple IPTV EPG",
-      "3.1.0",
-      "r1",
-      "BouquetMakerXtream",
-      "BMX",
       "XMLTV",
-      "GZIP",
-      "eEPGCache",
-      "importEvents",
-      "4097",
-      "5001",
-      "5002",
-      "AutoMapper",
-      "SAT IPTV",
-      "diagnostyka"
+      "EPG.OVH",
+      "EPGShare",
+      "PolishTeam",
+      "IPTV-EPG.org",
+      "EPG.PW",
+      "picony IPTV",
+      "mapowanie",
+      "autopilot",
+      "Python 2",
+      "Python 3"
     ]
   },
   {

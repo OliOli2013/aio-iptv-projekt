@@ -210,18 +210,18 @@
     "official": "Plik na AIO TunerHub"
   },
   {
-    "title": "enigma2-plugin-extensions-simpleiptvepg_3.1.0-r1_all.ipk",
-    "href": "pliki/enigma2-plugin-extensions-simpleiptvepg_3.1.0-r1_all.ipk",
+    "title": "enigma2-plugin-extensions-simpleiptvepg_3.2.0-rc5-auto_all.ipk",
+    "href": "pliki/enigma2-plugin-extensions-simpleiptvepg_3.2.0-rc5-auto_all.ipk",
     "category": "Wtyczki",
     "platform": "Enigma2",
-    "version": "3.1.0-r1",
-    "date": "09.10.2026",
+    "version": "3.2.0-rc5-auto",
+    "date": "29.10.2026",
     "status": "Aktualna",
     "sourcePage": "plugin-simple-iptv-epg.html",
-    "sourceTitle": "3.1.0 r1",
+    "sourceTitle": "3.2.0 RC5 AUTO",
     "kind": "IPK",
-    "size": "51.3 KB",
-    "sha256": "1a09ee01b7fa296615ca4133f6b4f357328fa39b73a0bb23677277735c8a17ff",
+    "size": "82.3 KB",
+    "sha256": "7da50cb73f2292df84ad0d38ac85dab11e3252d7fae64929f0d3d2b5c1eaba9a",
     "official": "Plik na AIO TunerHub"
   },
   {
