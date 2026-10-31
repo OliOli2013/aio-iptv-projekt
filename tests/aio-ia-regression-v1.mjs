@@ -72,8 +72,8 @@ check('Homepage has logical sections and projects hub',()=>{
   const s=readFileSync(resolve(root,'index.html'),'utf8');
   const n=s.indexOf('Najnowsze pliki i aktualizacje');
   const p=s.indexOf('Projekty AIO pod ręką');
-  const c=s.indexOf('Najnowsze posty społeczności');
-  assert(n>=0 && n<p && p<c);
+  const c=s.indexOf('Najnowsze Posty</h2>');
+  assert(c>=0 && c<n && n<p);
   assert(s.includes('href="projects-aio.html">Wszystkie projekty'));
 });
 check('Projects list and generated catalog remain in sync',()=>{

@@ -23,6 +23,12 @@ if(root && tabs && search && counter){
   tabs.replaceChildren(...PROJECT_CATEGORIES.map(([id,label])=>tabButton(id,label)));
   function projectCard(p){
     const card=el('article','aio-ia-project-card');
+    card.dataset.type=projectCategory(p.category);
+    const type=projectCategory(p.category);
+    const visuals={'Wtyczki':['◈','ENIGMA2'],'Skórki':['✦','FHD SKIN'],'Android':['▣','ANDROID'],'Windows':['▦','WINDOWS'],'Listy kanałów':['≋','AIO TEAM']};
+    const [mark,tag]=visuals[type]||['◉','AIO'];
+    const art=el('div','aio-v2-project-art');art.setAttribute('aria-hidden','true');
+    art.append(el('strong','',mark),el('em','',tag));card.append(art);
     const meta=el('div','aio-ia-project-meta');
     meta.append(el('span','aio-ia-pill',projectCategory(p.category)));
     // For ambiguous authorship use catalog label; do not assert sole ownership.

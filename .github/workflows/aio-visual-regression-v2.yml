@@ -1,0 +1,47 @@
+name: AIO TunerHub Visual V2 regression
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'projects-aio.html'
+      - 'systems-multiclick.html'
+      - 'assets/js/aio-header-v2.js'
+      - 'assets/js/aio-multiclick-v2.js'
+      - 'assets/js/aio-ia-core-v1.mjs'
+      - 'assets/js/aio-projects-hub-v1.js'
+      - 'assets/js/aio-download-groups-v1.js'
+      - 'assets/css/aio-visual-v2.css'
+      - 'data/projects.json'
+      - 'data/aio-catalog-v1.json'
+      - 'tests/aio-ia-regression-v1.mjs'
+      - 'tests/aio-visual-regression-v2.mjs'
+      - '.github/workflows/aio-visual-regression-v2.yml'
+  pull_request:
+    paths:
+      - 'index.html'
+      - 'systems-multiclick.html'
+      - 'data/projects.json'
+      - 'tests/aio-visual-regression-v2.mjs'
+permissions:
+  contents: read
+jobs:
+  verify-visual-nav:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate syntax and canonical catalogue
+        run: |
+          node --check assets/js/aio-header-v2.js
+          node --check assets/js/aio-multiclick-v2.js
+          node --check assets/js/aio-projects-hub-v1.js
+          python3 scripts/aio_catalog_v1.py check
+      - name: Validate existing IA V1 contract
+        run: node tests/aio-ia-regression-v1.mjs .
+      - name: Validate visual navigation and authorship separation
+        run: node tests/aio-visual-regression-v2.mjs .

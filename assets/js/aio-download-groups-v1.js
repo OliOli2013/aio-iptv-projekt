@@ -40,6 +40,7 @@ if(catalog&&container&&grid&&count&&current&&groupButton&&filesButton){
     grid.replaceChildren();
     for(const group of results){
       const article=el('article','aio-ia-group-card');
+      article.dataset.category=group.category;
       const label=el('div','aio-ia-group-category',group.category);article.append(label);
       article.append(el('h3','aio-ia-card-title',group.label));
       article.append(el('p','aio-ia-group-types',[...group.types].join(' · ')+' · '+group.items.length+' '+(group.items.length===1?'pozycja':'pozycje')));

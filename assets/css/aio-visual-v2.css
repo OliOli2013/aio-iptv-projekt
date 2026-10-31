@@ -1,0 +1,116 @@
+/* AIO TunerHub Visual V2 — color, diagrams & illustrated section cards.
+ * Presentation only. Does NOT alter access controls, redirects or download handlers.
+ */
+:root{--aio-v2-cyan:#38d9f5;--aio-v2-violet:#a47cff;--aio-v2-amber:#ffc46b;--aio-v2-mint:#60e6bb;--aio-v2-sapphire:#5ba5ff}
+/* One obvious top-level home for external Multi-Click images. */
+.aio-header-v4 .main-nav>a[href="systems-multiclick.html"]{background:linear-gradient(120deg,rgba(107,71,211,.22),rgba(240,152,54,.11));color:#f7ddff!important;border:1px solid rgba(191,129,255,.34);border-radius:10px;padding-inline:12px}
+.aio-header-v4 .main-nav>a[href="systems-multiclick.html"].is-active{background:linear-gradient(125deg,#6649c7,#25478b);box-shadow:0 0 22px #8663ed44;border-color:#b7a2ff}
+/* Home: give shortcuts different, recognisable colors, keeping text contrasts. */
+body.aio-home-v3 .aio-v3-categories{gap:10px;margin-bottom:18px}
+body.aio-home-v3 .aio-v3-categories .aio-v3-category{position:relative;border:1px solid rgba(83,212,246,.33);background:linear-gradient(140deg,#10384b,#071c2b);box-shadow:inset 0 1px #a9e9ff11,0 8px 18px #0002;transition:transform .16s,border-color .16s,box-shadow .16s}
+body.aio-home-v3 .aio-v3-categories .aio-v3-category:hover{transform:translateY(-3px);border-color:#67e1ff;box-shadow:0 12px 22px #040d1c80}
+body.aio-home-v3 .aio-v3-categories .aio-v3-category:nth-child(2){border-color:#a87afb75;background:linear-gradient(130deg,#33245f,#0c2441)}
+body.aio-home-v3 .aio-v3-categories .aio-v3-category:nth-child(3){border-color:#ffc16e75;background:linear-gradient(130deg,#51321e,#122439)}
+body.aio-home-v3 .aio-v3-categories .aio-v3-category:nth-child(4){border-color:#60dfad75;background:linear-gradient(130deg,#174e42,#0c2937)}
+body.aio-home-v3 .aio-v3-categories .aio-v3-category:nth-child(5){border-color:#ff8fb275;background:linear-gradient(130deg,#4c254c,#142439)}
+body.aio-home-v3 .aio-v3-categories .aio-v3-category:nth-child(6){border-color:#7cdb8675;background:linear-gradient(130deg,#1f493e,#112c36)}
+body.aio-home-v3 .aio-v3-categories .aio-v3-category:nth-child(7){border-color:#7fb4ff75;background:linear-gradient(130deg,#183a64,#11283c)}
+body.aio-home-v3 .aio-v3-category-symbol{font-size:1.25em;filter:drop-shadow(0 0 7px #ffffff40)}
+/* Latest posts now sits directly below the category shortcuts. Aurora artwork is deliberately background-only. */
+body.aio-home-v3 .aio-v2-community-section{position:relative;isolation:isolate;overflow:hidden;margin:20px 0 28px;padding:clamp(18px,3vw,31px)!important;border:1px solid #7c65d6aa;border-radius:23px;background:linear-gradient(125deg,#071d40,#101e38 55%,#24164e);box-shadow:0 19px 45px rgba(0,6,25,.32),inset 0 1px #e0eaff1a}
+body.aio-home-v3 .aio-v2-community-section::before{content:"";position:absolute;z-index:-1;inset:0 0 auto;height:190px;background:linear-gradient(90deg,rgba(6,19,50,.75),rgba(10,24,54,.18)),url('/assets/branding/aio-posts-aurora-v2.svg') right top/cover no-repeat;opacity:.95;pointer-events:none}
+body.aio-home-v3 .aio-v2-community-section .aio-v2-heading h2{color:#fff;text-shadow:0 2px 15px #040d2b}
+body.aio-home-v3 .aio-v2-community-section .aio-v2-kicker{color:#e7a5ff}
+body.aio-home-v3 .aio-v2-community-section .aio-v2-heading p{color:#e0daf2}
+body.aio-home-v3 .aio-v2-community-section .aio-v2-heading>a{background:#102d56;border:1px solid #8377d6;border-radius:9px;padding:9px 13px;color:#e1f4ff;text-decoration:none;font-weight:800}
+.aio-v2-post-topics{display:flex;flex-wrap:wrap;gap:8px;margin:7px 0 19px;position:relative;z-index:1}
+.aio-v2-post-topics a{text-decoration:none;color:#ddf5ff;border:1px solid #496293;background:rgba(6,25,57,.85);padding:7px 12px;border-radius:999px;font-size:.78rem;font-weight:750;transition:background .15s,border-color .15s}
+.aio-v2-post-topics a:hover,.aio-v2-post-topics a:focus-visible{background:#284f89;border-color:#81dbff}
+body.aio-home-v3 .aio-v2-community-section [data-aio-community-latest]>a,
+body.aio-home-v3 .aio-v2-community-section [data-aio-community-latest]>article{border:1px solid #4d609f77;box-shadow:0 10px 24px #030f2d55;overflow:hidden;border-radius:14px}
+/* A bright independent Multi-Click navigation tile below the latest posts. */
+.aio-v2-mc-spotlight{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(180px,.6fr);gap:20px;align-items:center;overflow:hidden;position:relative;margin:0 0 26px;padding:20px clamp(18px,2.9vw,30px);border:1px solid #c889ff8e;border-radius:18px;background:radial-gradient(circle at 94% 14%,#772c9f77,transparent 43%),linear-gradient(105deg,#102c53,#1e2456 63%,#432348);color:#f9f7ff;box-shadow:0 12px 32px #0004}
+.aio-v2-mc-spotlight::before{content:"";position:absolute;width:260px;height:260px;border-radius:50%;right:-52px;top:-65px;border:2px solid #b7a8ff55;box-shadow:0 0 0 25px #8570ee12,0 0 0 63px #d2a8ff0c;pointer-events:none}
+.aio-v2-mc-spotlight .aio-ia-eyebrow{color:#ffd08f;margin:0 0 4px}
+.aio-v2-mc-spotlight h2{margin:0 0 7px;color:#fff;font-size:clamp(1.25rem,2.3vw,2rem)}
+.aio-v2-mc-spotlight p:not(.aio-ia-eyebrow){margin:0;color:#d3e7f3;max-width:700px}
+.aio-v2-mc-spotlight a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 15px;color:#08192a!important;text-decoration:none;font-weight:850;border-radius:10px;border:1px solid #ffe7a7;background:linear-gradient(115deg,#ffba68,#ffdd85);box-shadow:0 7px 24px #faab4c33;z-index:1}
+/* Color-code the existing project cards and grouped download cards without replacing their original anchors. */
+.aio-ia-projects-page .aio-ia-projects-hero{position:relative;overflow:hidden;min-height:270px;padding-right:min(41%,410px);background:radial-gradient(circle at 83% 25%,#7545bf47,transparent 37%),linear-gradient(115deg,#0b364f,#11265a 65%,#362553);border-color:#916be266}
+.aio-ia-projects-page .aio-ia-projects-hero::after{content:"";position:absolute;right:0;top:0;width:44%;height:100%;background:url('/assets/branding/aio-projects-art-v2.svg') center/contain no-repeat;pointer-events:none}
+.aio-ia-projects-page .aio-ia-projects-hero h1{color:#fcfcff}
+.aio-ia-project-card,.aio-ia-group-card{position:relative;overflow:hidden;transition:transform .17s,box-shadow .17s,border-color .17s}
+.aio-ia-project-card:hover,.aio-ia-group-card:hover{transform:translateY(-3px);box-shadow:0 15px 32px #010c1e8c;border-color:#65ccee}
+.aio-v2-project-art{height:80px;display:flex;justify-content:space-between;align-items:center;border-radius:11px;padding:10px 17px;margin:0 0 5px;background:linear-gradient(120deg,#1d6e81,#1a2e61);border:1px solid #66d0ff55;overflow:hidden;position:relative}
+.aio-v2-project-art::after{content:"";position:absolute;width:115px;height:115px;right:20px;top:-55px;border:2px solid #ffffff27;border-radius:30px;transform:rotate(30deg)}
+.aio-v2-project-art strong{font-size:2rem;line-height:1;font-weight:900;color:#fff;text-shadow:0 5px 17px #0007;letter-spacing:-.05em}
+.aio-v2-project-art em{font-size:.7rem;letter-spacing:.1em;font-weight:800;font-style:normal;color:#cbfaff}
+.aio-ia-project-card[data-type="Windows"] .aio-v2-project-art{background:linear-gradient(115deg,#15538b,#14325f);border-color:#7abaff55}
+.aio-ia-project-card[data-type="Android"] .aio-v2-project-art{background:linear-gradient(115deg,#125f5a,#1d4865);border-color:#76efbd66}
+.aio-ia-project-card[data-type="Skórki"] .aio-v2-project-art{background:linear-gradient(115deg,#713c7d,#263669);border-color:#e59bfa66}
+.aio-ia-project-card[data-type="Listy kanałów"] .aio-v2-project-art{background:linear-gradient(115deg,#5b5135,#344969);border-color:#ffd28f66}
+.aio-ia-group-card{border-color:#58bfe35b!important;background:linear-gradient(140deg,#11374c,#0b273a)!important}
+.aio-ia-group-card[data-category="Android"]{border-color:#70daa06b!important;background:linear-gradient(140deg,#123d42,#0a2a39)!important}
+.aio-ia-group-card[data-category="Skórki"]{border-color:#cf90ff85!important;background:linear-gradient(140deg,#3a2758,#122c40)!important}
+.aio-ia-group-card[data-category="Systemy"]{border-color:#ffc56d77!important;background:linear-gradient(140deg,#43331e,#112e41)!important}
+.aio-ia-group-card[data-category="Windows"]{border-color:#86bcff77!important;background:linear-gradient(140deg,#173a64,#122b41)!important}
+.aio-ia-group-card[data-category="Listy kanałów"]{border-color:#72dfa977!important;background:linear-gradient(140deg,#1b4b3d,#102d40)!important}
+.aio-ia-group-card[data-category="Poradniki"]{border-color:#f5aa7777!important;background:linear-gradient(140deg,#493044,#132a42)!important}
+.aio-ia-group-card::before{content:"◈";font-size:2.4rem;color:#71e4f6;opacity:.9;line-height:1}
+.aio-ia-group-card[data-category="Systemy"]::before{content:"◉";color:#ffd080}
+.aio-ia-group-card[data-category="Android"]::before{content:"▣";color:#8dffc1}
+.aio-ia-group-card[data-category="Windows"]::before{content:"▦";color:#8cbaff}
+.aio-ia-group-card[data-category="Poradniki"]::before{content:"▤";color:#ffb188}
+.aio-ia-group-card[data-category="Skórki"]::before{content:"✦";color:#e29bff}
+/* Latest Posts page: distinct colorful card accents and improved visual hierarchy. */
+body.aio-latest-posts-v11 .latest-hero{position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(90deg,#082f4d,#241959 62%,#4b245d)!important;border-color:#936fff66}
+body.aio-latest-posts-v11 .latest-hero::before{content:"";position:absolute;z-index:-1;inset:0 0 0 36%;background:url('/assets/branding/aio-posts-aurora-v2.svg') center/cover no-repeat;opacity:.6}
+body.aio-latest-posts-v11 .latest-card{border-color:#4b6bd266!important;background:linear-gradient(135deg,#092a45,#111c3a)!important;box-shadow:0 11px 27px #010c2099}
+body.aio-latest-posts-v11 .latest-card:nth-child(3n+2){border-color:#a873dc75!important;background:linear-gradient(135deg,#26214f,#12253c)!important}
+body.aio-latest-posts-v11 .latest-card:nth-child(3n+3){border-color:#7bcfae75!important;background:linear-gradient(135deg,#113b41,#10283c)!important}
+body.aio-latest-posts-v11 .aio-ia-latest-pill{color:#c8fff1;background:#16545c;border-color:#3eb4aa}
+/* Standalone colorful Multi-Click system discovery page. */
+body.aio-multiclick-page{background:radial-gradient(circle at 18% 0,#092e59 0,transparent 40rem),#061b2a;color:#f1f8ff}
+.aio-mc-main{padding-bottom:60px}
+.aio-mc-hero{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,.8fr);align-items:center;min-height:370px;gap:20px;overflow:hidden;border-radius:24px;border:1px solid #8375d88f;background:radial-gradient(circle at 81% 24%,#8a3bb85e,transparent 51%),linear-gradient(125deg,#0a2848,#101d46 64%,#302054);padding:clamp(24px,4vw,44px);box-shadow:0 28px 70px #0005}
+.aio-mc-hero-copy{position:relative;z-index:1;max-width:650px}
+.aio-mc-hero h1{font-size:clamp(2.2rem,5vw,4.15rem);line-height:1.03;color:#fff;letter-spacing:-.045em;margin:10px 0 16px}
+.aio-mc-hero h1 span{color:#ffce8e}
+.aio-mc-hero-copy>p:not(.aio-ia-eyebrow){font-size:1.01rem;color:#d5e5f4;max-width:590px;line-height:1.65}
+.aio-mc-hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:23px}
+.aio-mc-receiver{width:min(100%,460px);max-height:330px;object-fit:contain;justify-self:center;filter:drop-shadow(0 14px 20px #0a032e)}
+.aio-mc-info-strip{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0 25px}
+.aio-mc-info-strip span{padding:8px 13px;background:#0b354a;border:1px solid #32647e;border-radius:9px;font-size:.81rem;color:#c1e5f5;font-weight:750}
+.aio-mc-panel{border:1px solid #32617f;border-radius:22px;padding:clamp(18px,3vw,30px);background:linear-gradient(150deg,#0b2a40,#071b30)}
+.aio-mc-panel-head{display:flex;align-items:end;justify-content:space-between;gap:22px;flex-wrap:wrap}
+.aio-mc-panel-head h2{color:#fff;font-size:clamp(1.6rem,3vw,2.25rem);margin:0 0 4px}
+.aio-mc-panel-head p:not(.aio-ia-eyebrow){max-width:690px;color:#a8d1e4;margin:0}
+.aio-mc-panel-head>a{color:#9cefff;font-weight:800;text-decoration:none}
+.aio-mc-search-row{display:flex;align-items:end;gap:12px;margin:25px 0 12px}
+.aio-mc-search-row label{flex:1;display:grid;gap:7px;color:#d4efff;font-weight:750}
+.aio-mc-search-row input{min-height:49px;width:100%;padding:12px 15px;background:#071d2d;border:1px solid #4c82a4;border-radius:11px;color:#fff;font:inherit}
+.aio-mc-search-row button{padding:11px 16px;min-height:49px;border-radius:11px;background:#183e5b;border:1px solid #4c82a4;color:#e2f9ff;cursor:pointer}
+.aio-mc-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.aio-mc-tabs button{border:1px solid #426d99;border-radius:10px;padding:9px 14px;color:#d6ecff;background:#10314b;cursor:pointer;font-weight:800}
+.aio-mc-tabs button.is-active{background:linear-gradient(120deg,#724add,#324fad);border-color:#bf9aff;color:#fff}
+#aio-mc-count{color:#b0d4ea;font-size:.86rem}
+.aio-mc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:15px}
+.aio-mc-card{display:flex;flex-direction:column;overflow:hidden;border-radius:17px;border:1px solid #4275ae;background:#0e2944;box-shadow:0 12px 30px #0003;transition:transform .17s}
+.aio-mc-card:hover{transform:translateY(-4px)}
+.aio-mc-card-visual{height:94px;display:flex;justify-content:space-between;align-items:center;padding:16px 22px;position:relative;overflow:hidden;background:radial-gradient(circle at 88% 5%,#8d6aff99,transparent 48%),linear-gradient(120deg,#183b83,#112e55)}
+.aio-mc-card-visual:after{content:"";width:125px;height:125px;border:2px solid #adf2ff33;transform:rotate(25deg);position:absolute;right:35px;top:-60px;border-radius:28px}
+.aio-mc-octagon .aio-mc-card-visual{background:radial-gradient(circle at 80% 5%,#ffc66c8c,transparent 60%),linear-gradient(120deg,#49385d,#193956)}
+.aio-mc-ustym .aio-mc-card-visual{background:radial-gradient(circle at 80% 5%,#60e9bd77,transparent 60%),linear-gradient(120deg,#1b4e52,#123249)}
+.aio-mc-card-icon{font-size:2.8rem;font-weight:950;line-height:1;color:#e4faff;text-shadow:0 4px 15px #0008}
+.aio-mc-card-chip{font-weight:800;letter-spacing:.12em;font-size:.65rem;color:#dcf6ff;border-radius:6px;padding:5px 8px;border:1px solid #d2faff66}
+.aio-mc-card-content{padding:19px;display:flex;flex-direction:column;gap:9px;flex:1}
+.aio-mc-maker{font-size:.74rem;letter-spacing:.07em;color:#78e7f5;font-weight:850;text-transform:uppercase}
+.aio-mc-card-title{font-size:1.1rem;line-height:1.35;color:#fff;margin:0;overflow-wrap:anywhere}
+.aio-mc-card-description{margin:0;color:#b8d4e5;font-size:.88rem;flex:1}
+.aio-mc-card-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.aio-mc-card-actions .aio-ia-action{font-size:.77rem;flex:1;white-space:nowrap}
+.aio-mc-bottom{margin-top:20px;display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;border:1px solid #31798a;border-radius:16px;padding:20px;background:linear-gradient(120deg,#113849,#132e42)}
+.aio-mc-bottom strong{color:#fff;font-size:1.12rem}.aio-mc-bottom p{max-width:760px;color:#bfd4df;margin:5px 0 0}
+@media(max-width:850px){.aio-mc-hero{grid-template-columns:1fr}.aio-mc-receiver{width:min(78%,350px);max-height:205px}.aio-ia-projects-page .aio-ia-projects-hero{padding-right:clamp(24px,4vw,48px)}.aio-ia-projects-page .aio-ia-projects-hero::after{opacity:.16;width:75%;background-position:right center}}
+@media(max-width:670px){.aio-v2-mc-spotlight{grid-template-columns:1fr}.aio-v2-mc-spotlight a{width:max-content}.aio-v2-post-topics{gap:6px}.aio-v2-post-topics a{font-size:.7rem;padding:6px 8px}.aio-mc-hero{padding:24px}.aio-mc-hero h1{font-size:2.25rem}.aio-mc-card-actions .aio-ia-action{font-size:.79rem}.aio-mc-search-row{align-items:stretch}.aio-mc-search-row label{min-width:0}.aio-mc-search-row button{align-self:end}}
+@media(prefers-reduced-motion:reduce){.aio-ia-project-card,.aio-ia-group-card,.aio-mc-card,body.aio-home-v3 .aio-v3-categories .aio-v3-category{transition:none!important}}

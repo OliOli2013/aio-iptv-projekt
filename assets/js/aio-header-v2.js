@@ -4,6 +4,10 @@
   const body=d.body;
   if(!body) return;
   body.classList.add('aio-header-v4');
+  if(!d.querySelector('link[data-aio-visual-v2]')){
+    const css=d.createElement('link');css.rel='stylesheet';css.href='/assets/css/aio-visual-v2.css?v=20261031-v2';
+    css.setAttribute('data-aio-visual-v2','');d.head.appendChild(css);
+  }
 
   const header=d.querySelector('.site-header');
   if(!header) return;
@@ -59,6 +63,7 @@
     '<a href="index.html">Start</a>'+
     '<a href="downloads.html">Pobieranie</a>'+
     '<a href="projects-aio.html">Projekty AIO</a>'+
+    '<a href="systems-multiclick.html">Systemy Multi-Click</a>'+
     '<a class="aio-nav-latest" href="latest-posts.html">Najnowsze posty</a>'+
     '<a href="guides.html">Poradniki</a>'+
     '<a class="nav-community" href="community.html">Społeczność</a>'+
@@ -135,6 +140,7 @@
   else if(/^guide-|^help-/.test(current)) section='guides.html';
   else if(/^app-/.test(current)) section='projects-aio.html';
   else if(['systems.html','channel-lists.html','android-apps.html','windows-apps.html'].includes(current)) section='downloads.html';
+  else if(current==='systems-multiclick.html') section='systems-multiclick.html';
   else if(current==='post.html') section='latest-posts.html';
   else if(['community-chat.html','profile.html'].includes(current)) section='community.html';
   nav.querySelectorAll(':scope > a[href]').forEach(a=>{

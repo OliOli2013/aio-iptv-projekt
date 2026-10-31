@@ -1,8 +1,7 @@
 /* AIO IA V1 — pure catalog helpers, usable by browser and Node tests. */
 export const PROJECT_CATEGORIES = [
   ['all','Wszystkie'],['Wtyczki','Wtyczki Enigma2'],['Skórki','Skórki'],
-  ['Android','Android'],['Windows','Windows'],['Listy kanałów','Listy AIO Team'],
-  ['Systemy','Systemy i materiały']
+  ['Android','Android'],['Windows','Windows'],['Listy kanałów','Listy AIO Team']
 ];
 export const DOWNLOAD_CATEGORIES = [
   ['Systemy','Systemy'],['Wtyczki','Wtyczki'],['Skórki','Skórki'],
