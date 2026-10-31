@@ -133,13 +133,19 @@
     setMenu(!header.classList.contains('nav-open'));
   });
 
-  if(!d.querySelector('link[data-aio-visual-v3]')){
-    const css=d.createElement('link');css.rel='stylesheet';css.href='/assets/css/aio-visual-v3.css?v=20261031-v3';
-    css.setAttribute('data-aio-visual-v3','');d.head.appendChild(css);
-  }
-  if(!d.querySelector('script[data-aio-visual-v3]')){
-    const s=d.createElement('script');s.src='/assets/js/aio-visual-v3.js?v=20261031-v3';s.defer=true;
-    s.setAttribute('data-aio-visual-v3','');d.head.appendChild(s);
+  /* AIO Design V4: disable V3's emoji/card injection, preserve V2 structural styles. */
+  const d4page=(location.pathname.split('/').pop()||'index.html').toLowerCase();
+  const d4public=/^(?:index|downloads|projects-aio|systems-multiclick|systems|plugins|channel-lists|guides|latest-posts|community|news|updates|android-apps|windows-apps|ecosystem|start-here|compatibility|errors|one-liner|project-status|studio|ai-chat|assistant|community-chat|post|pro|support|contact|report-error)(?:\.html)?$/.test(d4page)
+    || /^(?:plugin|app|skin|guide|help)-[a-z0-9-]+(?:\.html)?$/.test(d4page);
+  if(d4public){
+    body.classList.add('aio-design-v4');
+    if(!d.querySelector('link[data-aio-design-v4]')){
+      const css=d.createElement('link');
+      css.rel='stylesheet';
+      css.href='/assets/css/aio-design-v4.css?v=20261031-v4';
+      css.setAttribute('data-aio-design-v4','');
+      d.head.appendChild(css);
+    }
   }
   /* Active section. */
   const current=(location.pathname.split('/').pop()||'index.html').toLowerCase();

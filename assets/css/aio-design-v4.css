@@ -1,0 +1,352 @@
+/*
+ * AIO TunerHub DESIGN V4 — coherent visual system, 31 October 2026.
+ * This stylesheet is loaded AFTER the legacy presentation layers.
+ * It only targets public-facing pages with body.aio-design-v4.
+ * It never changes visibility, auth, downloads, access quotas or API behavior.
+ * Accent hierarchy: cyan = navigation / actions; violet = posts / projects;
+ * amber = third-party Multi-Click systems. All other surfaces are neutral.
+ */
+body.aio-design-v4 {
+  --d4-bg:#061724;
+  --d4-surface:#0c2535;
+  --d4-surface-hi:#103043;
+  --d4-surface-alt:#102a3c;
+  --d4-line:rgba(119,177,202,.24);
+  --d4-line-strong:rgba(104,204,229,.45);
+  --d4-text:#f1f8fc;
+  --d4-muted:#a8c5d3;
+  --d4-cyan:#63ddf0;
+  --d4-violet:#b99bf4;
+  --d4-amber:#f4c374;
+  --d4-green:#7fdfb3;
+  --d4-shadow:0 13px 32px rgba(2,10,20,.24);
+  color:var(--d4-text);
+  background:radial-gradient(ellipse 900px 540px at 56% -160px,rgba(33,112,145,.19),transparent 65%),#061724!important;
+  font-family:Inter,system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+body.aio-design-v4 a{transition:border-color .17s,background-color .17s,color .17s,box-shadow .17s}
+body.aio-design-v4 a:focus-visible,
+body.aio-design-v4 button:focus-visible,
+body.aio-design-v4 input:focus-visible,
+body.aio-design-v4 select:focus-visible{
+  outline:2px solid var(--d4-cyan)!important;outline-offset:3px;
+}
+body.aio-design-v4 :where(.site-header,.portal-topbar,.main-nav,.aio-v2-main,.standalone-main,.aio-ia-projects-main,.latest-shell){color:var(--d4-text)}
+/* Calm down the distracting repeated watermark without disabling identification. */
+body.aio-design-v4 #aio-content-watermark{opacity:.045!important}
+body.aio-design-v4 #aio-content-watermark .aio-watermark-item{font-size:13px!important;font-weight:700!important;letter-spacing:.035em!important}
+
+/* 1. Unified, readable header. The existing menu logic is unchanged. */
+body.aio-design-v4.aio-header-v4 .site-header{
+  border-color:rgba(108,196,221,.22)!important;
+  box-shadow:0 12px 32px rgba(0,8,19,.22)!important;
+}
+body.aio-design-v4.aio-header-v4 .site-header .brand-row{
+  background:linear-gradient(100deg,#0b2638,#0b2333)!important;
+}
+body.aio-design-v4.aio-header-v4 .main-nav{
+  background:linear-gradient(100deg,#081b2a,#0a2130)!important;
+}
+body.aio-design-v4.aio-header-v4 .main-nav>a{
+  color:#c6dbe6!important;background:transparent!important;
+  border-color:transparent!important;box-shadow:none!important;
+  border-radius:9px!important;gap:7px!important;
+}
+body.aio-design-v4.aio-header-v4 .main-nav>a:hover{
+  background:rgba(99,221,240,.09)!important;color:#fff!important;
+}
+body.aio-design-v4.aio-header-v4 .main-nav>a.is-active,
+body.aio-design-v4.aio-header-v4 .main-nav>a[aria-current="page"]{
+  background:#12394b!important;color:#ecfbff!important;
+  box-shadow:inset 0 -2px var(--d4-cyan)!important;
+}
+body.aio-design-v4.aio-header-v4 .main-nav>a[href="systems-multiclick.html"]{
+  background:rgba(244,195,116,.07)!important;color:#f7d6a0!important;
+  border-color:rgba(244,195,116,.26)!important;
+}
+body.aio-design-v4.aio-header-v4 .main-nav>a[href="systems-multiclick.html"].is-active{
+  background:#3b322d!important;box-shadow:inset 0 -2px var(--d4-amber)!important;
+}
+/* Vector icons replace the mixed text glyphs in navigation, but leave labels intact. */
+body.aio-design-v4.aio-header-v4 .main-nav>a::before{
+  content:""!important;display:inline-block!important;flex:0 0 17px!important;
+  width:17px!important;height:17px!important;
+  background:currentColor!important;
+  -webkit-mask:var(--d4-icon,url('/assets/icons/aio-v4/grid.svg')) center/contain no-repeat!important;
+  mask:var(--d4-icon,url('/assets/icons/aio-v4/grid.svg')) center/contain no-repeat!important;
+  font-size:0!important;line-height:0!important;
+}
+body.aio-design-v4.aio-header-v4 .main-nav>a[href="index.html"]{--d4-icon:url('/assets/icons/aio-v4/home.svg')}
+body.aio-design-v4.aio-header-v4 .main-nav>a[href="downloads.html"]{--d4-icon:url('/assets/icons/aio-v4/download.svg')}
+body.aio-design-v4.aio-header-v4 .main-nav>a[href="projects-aio.html"]{--d4-icon:url('/assets/icons/aio-v4/layers.svg')}
+body.aio-design-v4.aio-header-v4 .main-nav>a[href="systems-multiclick.html"]{--d4-icon:url('/assets/icons/aio-v4/satellite.svg')}
+body.aio-design-v4.aio-header-v4 .main-nav>a[href="latest-posts.html"]{--d4-icon:url('/assets/icons/aio-v4/newspaper.svg')}
+body.aio-design-v4.aio-header-v4 .main-nav>a[href="guides.html"]{--d4-icon:url('/assets/icons/aio-v4/book.svg')}
+body.aio-design-v4.aio-header-v4 .main-nav>a[href="community.html"]{--d4-icon:url('/assets/icons/aio-v4/users.svg')}
+body.aio-design-v4.aio-header-v4 .main-nav>a[href="konto.html"]{--d4-icon:url('/assets/icons/aio-v4/user.svg')}
+body.aio-design-v4.aio-header-v4 .nav-more>summary{
+  color:#cadfea!important;border-color:rgba(111,176,206,.15)!important;
+  background:transparent!important;border-radius:9px!important;
+}
+
+/* 2. One proportional rhythm for banners and section titles. */
+body.aio-design-v4 :where(.aio-v2-hero,.aio-v2-community-section,.aio-v2-mc-spotlight,.latest-hero,.download-v2-hero,.aio-ia-projects-hero,.aio-mc-hero){
+  box-shadow:var(--d4-shadow)!important;
+  border-radius:20px!important;
+}
+body.aio-design-v4 :where(.aio-v2-heading,.aio-mc-panel-head,.aio-catalog-v1-head) h2{
+  letter-spacing:-.028em!important;font-weight:800!important;color:var(--d4-text)!important;
+}
+body.aio-design-v4 :where(.aio-v2-kicker,.aio-ia-eyebrow,.latest-kicker,.download-v2-kicker){
+  font-size:.72rem!important;letter-spacing:.105em!important;font-weight:750!important;
+}
+body.aio-design-v4 :where(.aio-v2-heading,.aio-mc-panel-head) > div > p:not(.aio-v2-kicker):not(.aio-ia-eyebrow){
+  color:var(--d4-muted)!important;
+}
+body.aio-design-v4 :where(.aio-v2-heading,.aio-mc-panel-head) a{
+  font-weight:700!important;
+}
+/* The homepage hero carries ONE readable technical illustration. */
+body.aio-design-v4.aio-home-v3 .aio-v2-hero{
+  position:relative!important;isolation:isolate!important;overflow:hidden!important;
+  background:linear-gradient(115deg,rgba(9,41,56,.94),rgba(7,31,45,.96)),
+    url('/assets/branding/aio-blueprint-v4.svg') 65% center/cover no-repeat!important;
+  border:1px solid rgba(95,197,216,.31)!important;
+}
+body.aio-design-v4.aio-home-v3 .aio-v2-hero::before{
+  content:"";position:absolute;right:26%;top:0;width:36%;height:100%;z-index:-1;
+  background:url('/assets/branding/aio-blueprint-v4.svg') center/contain no-repeat;
+  opacity:.43;pointer-events:none;
+}
+body.aio-design-v4.aio-home-v3 .aio-v2-hero h1{color:#f6fbff!important}
+body.aio-design-v4.aio-home-v3 .aio-v2-hero h1::first-line{color:#f6fbff}
+body.aio-design-v4.aio-home-v3 .aio-v3-tuner{
+  background:linear-gradient(140deg,#11394a,#092736)!important;
+  border:1px solid rgba(119,195,210,.27)!important;
+}
+
+/* 3. Home category shortcuts: neutral cards, one purposeful icon per item. */
+body.aio-design-v4.aio-home-v3 .aio-v3-categories{gap:10px!important}
+body.aio-design-v4.aio-home-v3 .aio-v3-categories .aio-v3-category{
+  --d4-accent:var(--d4-cyan);
+  background:#0e2a3b!important;border:1px solid rgba(116,182,211,.25)!important;
+  border-radius:12px!important;color:#e5f4fa!important;
+  box-shadow:0 8px 20px rgba(0,10,22,.16)!important;
+  transition:transform .16s,border-color .16s!important;
+}
+body.aio-design-v4.aio-home-v3 .aio-v3-categories .aio-v3-category:hover{
+  transform:translateY(-2px)!important;border-color:var(--d4-accent)!important;
+  box-shadow:0 11px 25px rgba(0,13,29,.26)!important;
+}
+body.aio-design-v4.aio-home-v3 .aio-v3-categories .aio-v3-category:nth-child(2){--d4-accent:var(--d4-violet)}
+body.aio-design-v4.aio-home-v3 .aio-v3-categories .aio-v3-category:nth-child(3){--d4-accent:var(--d4-amber)}
+body.aio-design-v4.aio-home-v3 .aio-v3-categories .aio-v3-category:nth-child(4){--d4-accent:var(--d4-green)}
+body.aio-design-v4.aio-home-v3 .aio-v3-categories .aio-v3-category:nth-child(5){--d4-accent:var(--d4-violet)}
+body.aio-design-v4.aio-home-v3 .aio-v3-categories .aio-v3-category:nth-child(6){--d4-accent:var(--d4-green)}
+body.aio-design-v4.aio-home-v3 .aio-v3-categories .aio-v3-category:nth-child(7){--d4-accent:#93bfff}
+body.aio-design-v4.aio-home-v3 .aio-v3-category-symbol{
+  display:inline-block!important;flex:0 0 19px!important;width:19px!important;height:19px!important;
+  font-size:0!important;color:transparent!important;filter:none!important;
+  background:var(--d4-accent)!important;
+  -webkit-mask:var(--d4-icon,url('/assets/icons/aio-v4/grid.svg')) center/contain no-repeat!important;
+  mask:var(--d4-icon,url('/assets/icons/aio-v4/grid.svg')) center/contain no-repeat!important;
+}
+body.aio-design-v4.aio-home-v3 .aio-v3-category[href="downloads.html"]{--d4-icon:url('/assets/icons/aio-v4/download.svg')}
+body.aio-design-v4.aio-home-v3 .aio-v3-category[href*="Wtyczki"]{--d4-icon:url('/assets/icons/aio-v4/layers.svg')}
+body.aio-design-v4.aio-home-v3 .aio-v3-category[href*="multiclick"]{--d4-icon:url('/assets/icons/aio-v4/satellite.svg')}
+body.aio-design-v4.aio-home-v3 .aio-v3-category[href*="Listy"]{--d4-icon:url('/assets/icons/aio-v4/list.svg')}
+body.aio-design-v4.aio-home-v3 .aio-v3-category[href*="Skórki"]{--d4-icon:url('/assets/icons/aio-v4/palette.svg')}
+body.aio-design-v4.aio-home-v3 .aio-v3-category[href*="Android"]{--d4-icon:url('/assets/icons/aio-v4/smartphone.svg')}
+body.aio-design-v4.aio-home-v3 .aio-v3-category[href*="Windows"]{--d4-icon:url('/assets/icons/aio-v4/monitor.svg')}
+
+/* 4. Posts and third-party systems: two restrained section accent colors. */
+body.aio-design-v4.aio-home-v3 .aio-v2-community-section{
+  margin-top:22px!important;margin-bottom:24px!important;
+  background:linear-gradient(110deg,#101e3b,#0a2336 70%)!important;
+  border:1px solid rgba(167,147,226,.37)!important;
+}
+body.aio-design-v4.aio-home-v3 .aio-v2-community-section::before{
+  opacity:.20!important;background:linear-gradient(95deg,transparent,rgba(138,110,202,.12)),
+    url('/assets/branding/aio-blueprint-v4.svg') right top/contain no-repeat!important;
+}
+body.aio-design-v4.aio-home-v3 .aio-v2-community-section .aio-v2-kicker{color:var(--d4-violet)!important}
+body.aio-design-v4.aio-home-v3 .aio-v2-community-section .aio-v2-heading>a{
+  background:#1b3150!important;border-color:rgba(179,148,237,.35)!important;
+}
+body.aio-design-v4 .aio-v2-post-topics a{
+  background:#112b40!important;border:1px solid rgba(130,165,197,.30)!important;
+  color:#c9e0ee!important;box-shadow:none!important;border-radius:9px!important;
+}
+body.aio-design-v4 .aio-v2-post-topics a:hover{border-color:var(--d4-violet)!important;color:#fff!important}
+body.aio-design-v4.aio-home-v3 .aio-v2-mc-spotlight{
+  background:linear-gradient(115deg,#17283c,#1d2c39 72%,#2b303a)!important;
+  border:1px solid rgba(244,195,116,.38)!important;
+}
+body.aio-design-v4.aio-home-v3 .aio-v2-mc-spotlight::before{
+  opacity:.15!important;border-color:rgba(244,195,116,.3)!important;box-shadow:none!important;
+}
+body.aio-design-v4.aio-home-v3 .aio-v2-mc-spotlight .aio-ia-eyebrow{color:var(--d4-amber)!important}
+body.aio-design-v4.aio-home-v3 .aio-v2-mc-spotlight a{
+  background:var(--d4-amber)!important;color:#172330!important;
+  border-color:rgba(255,226,176,.7)!important;border-radius:10px!important;
+  box-shadow:none!important;
+}
+
+/* 5. Shared components: same geometry, typography and borders across catalogs. */
+body.aio-design-v4 :where(.aio-v2-block,.latest-panel,.aio-ia-projects-panel,.aio-mc-panel,.download-v2-hero){
+  background:#0a2232!important;border-color:var(--d4-line)!important;
+  border-radius:20px!important;box-shadow:var(--d4-shadow)!important;
+}
+body.aio-design-v4 :where(.aio-v2-help,.aio-v2-projects a,.aio-ia-project-card,.aio-ia-group-card,.latest-card,.download-card,.aio-mc-card,.system-card,.guide-card){
+  background:#0e293a!important;
+  border-color:var(--d4-line)!important;
+  border-radius:14px!important;
+  box-shadow:0 6px 16px rgba(2,12,23,.13)!important;
+  transition:transform .16s,border-color .16s,box-shadow .16s!important;
+}
+body.aio-design-v4 :where(.aio-v2-help,.aio-v2-projects a,.aio-ia-project-card,.aio-ia-group-card,.latest-card,.download-card,.aio-mc-card,.system-card,.guide-card):hover{
+  transform:translateY(-2px)!important;
+  border-color:rgba(99,221,240,.54)!important;
+  box-shadow:0 14px 28px rgba(2,9,20,.27)!important;
+}
+body.aio-design-v4 :where(.aio-v2-help,.aio-ia-project-card,.aio-ia-group-card,.download-card,.latest-card,.aio-mc-card) :where(h2,h3,.aio-ia-card-title,.latest-title,.aio-mc-card-title){
+  color:#f0f8ff!important;font-weight:750!important;letter-spacing:-.015em;
+}
+body.aio-design-v4 :where(.aio-ia-project-summary,.aio-mc-card-description,.latest-excerpt,.download-source){
+  color:var(--d4-muted)!important;
+}
+body.aio-design-v4 .download-card h3,
+body.aio-design-v4 .aio-ia-group-card h3{overflow-wrap:anywhere}
+/* Project artwork is consistent and technical. Never add new labels to cards. */
+body.aio-design-v4 .aio-v2-project-art{
+  --d4-icon:url('/assets/icons/aio-v4/layers.svg');
+  height:76px!important;border-radius:11px!important;
+  background:linear-gradient(120deg,#183950,#143147)!important;
+  border:1px solid rgba(115,179,207,.24)!important;
+}
+body.aio-design-v4 .aio-v2-project-art strong{
+  display:grid;place-items:center;width:36px;height:36px;
+  font-size:0!important;color:transparent!important;
+}
+body.aio-design-v4 .aio-v2-project-art strong::before{
+  content:"";width:31px;height:31px;background:var(--d4-cyan);
+  -webkit-mask:var(--d4-icon) center/contain no-repeat;
+  mask:var(--d4-icon) center/contain no-repeat;
+}
+body.aio-design-v4 .aio-ia-project-card[data-type="Android"] .aio-v2-project-art{--d4-icon:url('/assets/icons/aio-v4/smartphone.svg')}
+body.aio-design-v4 .aio-ia-project-card[data-type="Windows"] .aio-v2-project-art{--d4-icon:url('/assets/icons/aio-v4/monitor.svg')}
+body.aio-design-v4 .aio-ia-project-card[data-type="Skórki"] .aio-v2-project-art{--d4-icon:url('/assets/icons/aio-v4/palette.svg')}
+body.aio-design-v4 .aio-ia-project-card[data-type="Listy kanałów"] .aio-v2-project-art{--d4-icon:url('/assets/icons/aio-v4/list.svg')}
+body.aio-design-v4 .aio-v2-project-art em{color:#a9d6e7!important;font-weight:750!important;letter-spacing:.06em!important}
+/* Remove V2's emoji-like pseudo-glyphs, replace them with the same vector icons. */
+body.aio-design-v4 .aio-ia-group-card::before{
+  content:""!important;display:block!important;width:34px!important;height:34px!important;
+  background:var(--d4-cyan)!important;
+  -webkit-mask:var(--d4-group-icon,url('/assets/icons/aio-v4/layers.svg')) center/contain no-repeat!important;
+  mask:var(--d4-group-icon,url('/assets/icons/aio-v4/layers.svg')) center/contain no-repeat!important;
+  font-size:0!important;
+}
+body.aio-design-v4 .aio-ia-group-card[data-category="Systemy"]{--d4-group-icon:url('/assets/icons/aio-v4/satellite.svg')}
+body.aio-design-v4 .aio-ia-group-card[data-category="Android"]{--d4-group-icon:url('/assets/icons/aio-v4/smartphone.svg')}
+body.aio-design-v4 .aio-ia-group-card[data-category="Windows"]{--d4-group-icon:url('/assets/icons/aio-v4/monitor.svg')}
+body.aio-design-v4 .aio-ia-group-card[data-category="Skórki"]{--d4-group-icon:url('/assets/icons/aio-v4/palette.svg')}
+body.aio-design-v4 .aio-ia-group-card[data-category="Listy kanałów"]{--d4-group-icon:url('/assets/icons/aio-v4/list.svg')}
+body.aio-design-v4 .aio-ia-group-card[data-category="Poradniki"]{--d4-group-icon:url('/assets/icons/aio-v4/book.svg')}
+body.aio-design-v4 .aio-ia-group-card[data-category="Dodatki"]{--d4-group-icon:url('/assets/icons/aio-v4/settings.svg')}
+/* Remove scattered rainbow panels from V2; category is communicated by the icon/name. */
+body.aio-design-v4 .aio-ia-group-card[data-category]{background:#0e293a!important;border-color:var(--d4-line)!important}
+body.aio-design-v4 .aio-ia-project-card[data-type] .aio-v2-project-art{background:#15374a!important;border-color:var(--d4-line)!important}
+body.aio-design-v4 .aio-ia-projects-hero{
+  background:linear-gradient(125deg,#102e45,#172b46 75%)!important;
+  border-color:rgba(153,173,208,.30)!important;
+}
+body.aio-design-v4 .aio-ia-projects-hero::after{
+  opacity:.29!important;filter:saturate(.75);background-size:contain!important;
+}
+body.aio-design-v4 .aio-ia-projects-hero h1{color:#f6f9ff!important}
+body.aio-design-v4 .latest-hero{
+  background:linear-gradient(120deg,#102942,#202643)!important;
+  border-color:rgba(174,151,226,.34)!important;
+}
+body.aio-design-v4 .latest-hero::before{opacity:.26!important}
+body.aio-design-v4 .latest-card:nth-child(n){
+  background:#0e293a!important;border-color:var(--d4-line)!important;
+}
+body.aio-design-v4 .latest-card .latest-thumb{background:#13364c!important}
+body.aio-design-v4 .latest-card .latest-thumb img{object-fit:cover!important}
+body.aio-design-v4 .latest-card .latest-badge{
+  border-color:rgba(148,196,219,.40)!important;background:#17384c!important;color:#d1ecf6!important;
+}
+body.aio-design-v4 .latest-card .latest-badge.official{
+  border-color:rgba(177,151,226,.43)!important;background:#302e50!important;color:#e2d7ff!important;
+}
+body.aio-design-v4 .aio-mc-card-visual{background:linear-gradient(115deg,#18384b,#1b3143)!important}
+body.aio-design-v4 .aio-mc-octagon .aio-mc-card-visual,
+body.aio-design-v4 .aio-mc-ustym .aio-mc-card-visual{background:linear-gradient(115deg,#18384b,#1b3143)!important}
+body.aio-design-v4 .aio-mc-card-icon{color:#b6deea!important}
+body.aio-design-v4 .aio-mc-hero{
+  background:linear-gradient(115deg,#102a42,#252d43)!important;
+  border-color:rgba(244,195,116,.36)!important;
+}
+body.aio-design-v4 .aio-mc-hero h1 span{color:var(--d4-amber)!important}
+body.aio-design-v4 .aio-mc-card-chip{border-color:rgba(169,189,215,.34)!important}
+body.aio-design-v4 .aio-mc-maker{color:var(--d4-amber)!important}
+/* Current downloads already has complex filters. Only skin them; never replace controls. */
+body.aio-design-v4 .download-v2-search,
+body.aio-design-v4 :where(.aio-ia-field input,.aio-ia-field select,.latest-search input,.download-v2-search input,.aio-mc-search-row input){
+  border-color:rgba(111,180,207,.37)!important;background-color:#081e2d!important;
+  color:#f0fbff!important;
+}
+body.aio-design-v4 .download-v2-route,
+body.aio-design-v4 .download-v2-chip,
+body.aio-design-v4 .aio-mc-tabs button,
+body.aio-design-v4 .aio-ia-tabs button,
+body.aio-design-v4 .latest-tabs button{
+  border-radius:10px!important;border-color:var(--d4-line)!important;
+  background:#103043!important;color:#d3e7f1!important;
+  box-shadow:none!important;
+}
+body.aio-design-v4 :where(.download-v2-chip,.aio-mc-tabs button,.aio-ia-tabs button,.latest-tabs button).is-active,
+body.aio-design-v4 :where(.download-v2-chip,.aio-mc-tabs button,.aio-ia-tabs button,.latest-tabs button)[aria-pressed="true"]{
+  background:#155268!important;border-color:rgba(111,222,239,.6)!important;color:#f5fdff!important;
+}
+body.aio-design-v4 .download-v2-route .ico{
+  color:var(--d4-cyan)!important;font-size:0!important;display:inline-block!important;
+  width:25px!important;height:25px!important;
+  background:var(--d4-cyan)!important;
+  -webkit-mask:var(--d4-route-icon,url('/assets/icons/aio-v4/download.svg')) center/contain no-repeat!important;
+  mask:var(--d4-route-icon,url('/assets/icons/aio-v4/download.svg')) center/contain no-repeat!important;
+}
+body.aio-design-v4 .download-v2-route[data-dv2-category="Systemy"]{--d4-route-icon:url('/assets/icons/aio-v4/satellite.svg')}
+body.aio-design-v4 .download-v2-route[data-dv2-category="Wtyczki"]{--d4-route-icon:url('/assets/icons/aio-v4/layers.svg')}
+body.aio-design-v4 .download-v2-route[data-dv2-category="Listy kanałów"]{--d4-route-icon:url('/assets/icons/aio-v4/list.svg')}
+body.aio-design-v4 .download-v2-route[data-dv2-category="Android"]{--d4-route-icon:url('/assets/icons/aio-v4/smartphone.svg')}
+body.aio-design-v4 .download-v2-route[data-dv2-category="Poradniki"]{--d4-route-icon:url('/assets/icons/aio-v4/book.svg')}
+body.aio-design-v4 .aio-v2-help.accent{border-color:rgba(127,223,179,.31)!important}
+
+/* 6. Buttons. Specificity preserves tested loading and disabled states. */
+body.aio-design-v4 :where(.aio-v2-btn.primary,.aio-v2-hero-actions .primary,.aio-ia-action:not(.secondary),.download-actions .button.primary,.aio-mc-card-actions .aio-ia-action:not(.secondary)){
+  background:linear-gradient(110deg,#6de3ef,#40c3e4)!important;
+  border:1px solid #9beefa!important;color:#062333!important;
+  box-shadow:0 8px 20px rgba(20,113,150,.17)!important;
+  text-shadow:none!important;
+}
+body.aio-design-v4 :where(.aio-v2-btn,.aio-ia-action,.download-actions .button,.aio-v2-hero-actions .aio-v2-btn){
+  border-radius:10px!important;font-weight:750!important;
+}
+body.aio-design-v4 button:disabled{opacity:.6;cursor:not-allowed}
+
+/* 7. Ensure the overall page remains readable on mobile and at browser zoom. */
+@media(max-width:860px){
+  body.aio-design-v4.aio-home-v3 .aio-v2-hero::before{display:none}
+  body.aio-design-v4 .aio-ia-projects-hero::after{opacity:.15!important}
+}
+@media(max-width:650px){
+  body.aio-design-v4 .aio-v2-community-section{padding:18px!important}
+  body.aio-design-v4 :where(.aio-v2-hero,.latest-hero,.download-v2-hero,.aio-ia-projects-hero,.aio-mc-hero){border-radius:16px!important}
+  body.aio-design-v4 #aio-content-watermark{opacity:.035!important}
+}
+@media(prefers-reduced-motion:reduce){
+  body.aio-design-v4 a,
+  body.aio-design-v4 :where(.aio-v3-category,.aio-ia-group-card,.aio-ia-project-card,.download-card,.latest-card,.aio-mc-card){transition:none!important}
+}
