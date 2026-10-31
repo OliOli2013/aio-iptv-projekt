@@ -189,6 +189,7 @@ export async function onRequestGet({request, env}) {
     if (action === "feed") {
       const mode = url.searchParams.get("mode") || "latest";
       const category = url.searchParams.get("category") || "";
+      const postType = url.searchParams.get("postType") || "";
       const search = cleanText(url.searchParams.get("search") || "",80);
       const page = Math.max(0,Number(url.searchParams.get("page")||0));
       const pageSize = Math.min(30,Math.max(1,Number(url.searchParams.get("pageSize")||12)));
@@ -210,6 +211,7 @@ export async function onRequestGet({request, env}) {
         if (mode === "solved") where.push(`p.post_type='problem' AND p.kind='community' AND p.solved=1`);
       }
       if (category) { where.push(`p.category=?`); params.push(allowedCategory(category)); }
+      if (postType) { where.push(`p.post_type=?`); params.push(allowedPostType(postType)); }
       if (search) { where.push(user ? `(p.title LIKE ? OR p.content LIKE ?)` : `(p.title LIKE ? OR (p.kind='official' AND p.content LIKE ?))`); params.push(`%${search}%`,`%${search}%`); }
       let order=`p.pinned DESC, p.created_at DESC`;
       // True publication order for Najnowsze Posty. Other feeds keep existing pin priority.

@@ -151,7 +151,18 @@ if(initialQ){
   if(mainSearch)mainSearch.value=initialQ;
   updateSearch();
 }
-
+// Linkable deep categories from the homepage, e.g. ?category=Windows.
+const categoryFromUrl=params.get('category')||'';
+if(categoryFromUrl && category && [...category.options].some(o=>o.value===categoryFromUrl)){
+  setCategory(categoryFromUrl);
+  $$('[data-dv2-category]').forEach(b=>b.classList.toggle('is-active',b.dataset.dv2Category===categoryFromUrl));
+}
+// The old hero counter was static. Refresh from actual visible catalogue cards.
+const total=document.getElementById('aio-dynamic-catalog-total');
+if(total){
+  const updateTotal=()=>{total.textContent=String($$('[data-download-card]').length);};
+  updateTotal();document.addEventListener('aio:download-catalog-updated',updateTotal);
+}
 setMode('current');
 scheduleRefresh();
 })();

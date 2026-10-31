@@ -1,0 +1,63 @@
+name: AIO Information Architecture V1
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'downloads.html'
+      - 'latest-posts.html'
+      - 'projects-aio.html'
+      - 'assets/js/aio-ia-*'
+      - 'assets/js/aio-download-groups-v1.js'
+      - 'assets/js/aio-projects-hub-v1.js'
+      - 'assets/js/aio-header-v2.js'
+      - 'assets/js/aio-downloads-v2.js'
+      - 'assets/js/aio-latest-posts-v11.js'
+      - 'functions/api/community.js'
+      - 'tests/aio-ia-regression-v1.mjs'
+      - '.github/workflows/aio-ia-regression-v1.yml'
+  pull_request:
+    paths:
+      - 'index.html'
+      - 'downloads.html'
+      - 'latest-posts.html'
+      - 'projects-aio.html'
+      - 'assets/js/aio-ia-*'
+      - 'assets/js/aio-download-groups-v1.js'
+      - 'assets/js/aio-projects-hub-v1.js'
+      - 'assets/js/aio-header-v2.js'
+      - 'assets/js/aio-downloads-v2.js'
+      - 'assets/js/aio-latest-posts-v11.js'
+      - 'functions/api/community.js'
+      - 'tests/aio-ia-regression-v1.mjs'
+      - '.github/workflows/aio-ia-regression-v1.yml'
+permissions:
+  contents: read
+jobs:
+  site-ia-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify JS and Functions syntax
+        run: |
+          node --check assets/js/aio-ia-core-v1.mjs
+          node --check assets/js/aio-projects-hub-v1.js
+          node --check assets/js/aio-download-groups-v1.js
+          node --check assets/js/aio-header-v2.js
+          node --check assets/js/aio-downloads-v2.js
+          node --check assets/js/aio-latest-posts-v11.js
+          node --check functions/api/community.js
+      - name: Verify category, grouping and data contracts
+        run: node tests/aio-ia-regression-v1.mjs .
+      - name: Verify Cloudflare public build
+        run: |
+          python3 scripts/aio_pages_public_build_v1.py
+          python3 scripts/aio_pages_public_verify_v1.py
+          test -f dist/projects-aio.html
+          test -f dist/assets/js/aio-ia-core-v1.mjs
+          test -f dist/assets/css/aio-ia-v1.css

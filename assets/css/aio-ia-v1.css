@@ -1,0 +1,59 @@
+/* AIO Information Architecture V1: scoped, progressive, no access-flow overrides. */
+.aio-ia-page{margin:0;min-height:100vh;background:#071c28;color:#eaf6fc;font:15px/1.55 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+.aio-ia-page *{box-sizing:border-box}
+.aio-ia-page a{color:#aeefff}
+.aio-ia-skip{position:absolute;left:-999em;top:4px;z-index:900}.aio-ia-skip:focus{left:8px;background:#fff;color:#102839;padding:10px}
+.aio-ia-header{display:flex;justify-content:space-between;gap:18px;align-items:center;flex-wrap:wrap;background:#0b2a38;border-bottom:1px solid #24586a;padding:15px max(18px,calc((100vw - 1250px)/2))}
+.aio-ia-logo{font-size:1.15rem;font-weight:900;text-decoration:none!important;color:#f0fcff!important}
+.aio-ia-header nav{display:flex;flex-wrap:wrap;gap:12px 18px}.aio-ia-header nav a{font-size:.9rem;text-decoration:none;font-weight:700}.aio-ia-header nav a[aria-current=page]{text-decoration:underline;text-underline-offset:5px;color:#fff}
+.aio-ia-projects-main{width:min(1250px,calc(100% - 30px));margin:0 auto;padding-bottom:64px}
+.aio-ia-breadcrumb{padding:17px 0;color:#adcfdb;font-size:.85rem}
+.aio-ia-projects-hero{border:1px solid #275c70;border-radius:22px;padding:clamp(24px,4vw,48px);background:linear-gradient(125deg,#0a3b4a,#0c2433);margin-bottom:26px}
+.aio-ia-eyebrow{font-size:.72rem;font-weight:800;letter-spacing:.15em;color:#65ddec}
+.aio-ia-projects-hero h1{font-size:clamp(2rem,4.8vw,3.6rem);line-height:1.1;margin:8px 0 12px;color:#fff}
+.aio-ia-projects-hero p{color:#c1dae4;max-width:800px;margin:0 0 24px}
+.aio-ia-projects-panel{padding:clamp(16px,3vw,30px);background:#0a2836;border:1px solid #26536a;border-radius:20px}
+.aio-ia-projects-controls{display:grid;grid-template-columns:minmax(0,2fr) minmax(150px,1fr);gap:14px;margin-bottom:18px}
+.aio-ia-field{display:grid;gap:5px;color:#cfe6ed;font-weight:700}.aio-ia-field input,.aio-ia-field select{width:100%;min-height:46px;background:#061b29;border:1px solid #438098;border-radius:10px;color:#fff;padding:10px 12px;font:inherit}
+.aio-ia-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 16px}
+.aio-ia-tab{border:1px solid #386c7e;border-radius:10px;padding:9px 13px;background:#103648;color:#dcf2f8;cursor:pointer;font-weight:700}.aio-ia-tab.is-active,.aio-ia-tab[aria-pressed=true]{background:#17768d;border-color:#84e2f0;color:#fff}
+.aio-ia-result{color:#a9ccd9;font-size:.85rem;min-height:1.5em}
+.aio-ia-projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.aio-ia-project-card,.aio-ia-group-card{min-width:0;border-radius:15px;border:1px solid #356c7c;background:#0a3241;padding:19px;display:flex;flex-direction:column;gap:8px}
+.aio-ia-project-meta{display:flex;gap:6px;flex-wrap:wrap}
+.aio-ia-pill{display:inline-block;background:#19475a;color:#d4e9f0;border:1px solid #477181;padding:3px 8px;border-radius:20px;font-size:.7rem;font-weight:750}
+.aio-ia-pill-primary{background:#16586d;color:#d1f7ff}
+.aio-ia-card-title{font-size:1.14rem;line-height:1.27;margin:4px 0 0;color:#fff}
+.aio-ia-project-version{color:#9cd8e7;margin:0;font-size:.78rem}
+.aio-ia-project-summary{color:#d5e4e9;margin:0;flex:1;font-size:.87rem}
+.aio-ia-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:9px}
+.aio-ia-action{display:inline-flex;justify-content:center;align-items:center;text-align:center;min-height:38px;border-radius:10px;padding:9px 12px;background:#137c94;border:1px solid #49d5e4;color:#fff!important;text-decoration:none!important;font-size:.82rem;font-weight:800;cursor:pointer}
+.aio-ia-action.secondary{background:#173c4b;border-color:#367184}
+.aio-ia-footer{border-top:1px solid #285669;color:#aacbd7;padding:26px max(18px,calc((100vw - 1250px)/2));font-size:.84rem}
+/* Downloads: group view reuses the existing filtered, permission-controlled cards. */
+#aio-grouped-downloads{margin:20px 0 16px;padding:clamp(15px,2.6vw,25px);border:1px solid #2c6574;background:#092936;color:#eaf7fc;border-radius:18px}
+#aio-grouped-downloads *{box-sizing:border-box}
+.aio-ia-group-head{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;margin-bottom:12px}
+.aio-ia-group-head h2{color:#f3fdff;font-size:1.3rem;margin:0 0 4px}
+.aio-ia-group-head p{color:#adcbd6;margin:0;font-size:.88rem}
+.aio-ia-switch{display:flex;gap:7px;flex-wrap:wrap}
+.aio-ia-switch button{border:1px solid #4c8a99;border-radius:9px;padding:8px 11px;background:#103744;color:#dff9ff;font-weight:800;cursor:pointer}
+.aio-ia-switch button[aria-pressed=true]{background:#14758b;color:#fff;border-color:#66d8e8}
+#aio-grouped-count,#aio-grouped-current{color:#b8dce7;margin:8px 0;font-size:.82rem}
+#aio-grouped-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;margin-top:15px}
+.aio-ia-group-card{background:#103848;border-color:#3c7184;padding:17px}
+.aio-ia-group-card .aio-ia-card-title{font-size:1.03rem;overflow-wrap:anywhere}
+.aio-ia-group-category{font-size:.74rem;color:#84e0f1;text-transform:uppercase;letter-spacing:.05em;font-weight:800}
+.aio-ia-group-types{color:#bad6dd;margin:0;font-size:.82rem}
+.aio-ia-group-card .aio-ia-action{font:700 .79rem Inter,system-ui,sans-serif}
+body.aio-ia-grouped-view #downloadCatalog{display:none!important}
+body.aio-ia-files-view #aio-grouped-grid{display:none!important}
+body.aio-ia-files-view #downloadCatalog .aio-ia-other-group{display:none!important}
+#aio-group-reset{color:#bfefff;background:#143e4b;border:1px solid #397589;padding:7px 10px;border-radius:9px;cursor:pointer}
+.aio-ia-latest-filter{display:flex;gap:12px;flex-wrap:wrap;align-items:end;margin:12px 0 20px}
+.aio-ia-latest-filter label{display:grid;gap:4px;flex:1 1 190px;color:#d1e8f0;font-weight:700;font-size:.85rem}
+.aio-ia-latest-filter select{width:100%;min-height:42px;padding:8px 11px;border:1px solid #356c84;background:#0c2f40;color:#effcff;border-radius:10px;font:inherit}
+.aio-ia-latest-pill{font-size:.74rem;color:#7fe7f1;margin-left:6px;border:1px solid #29697c;border-radius:20px;padding:2px 7px;display:inline-block}
+.aio-ia-category-notes{display:flex;gap:9px;flex-wrap:wrap;margin:0 0 10px}
+.aio-ia-category-notes a{color:#c9f5ff;border-radius:8px;border:1px solid #32748b;padding:6px 10px;text-decoration:none;font-weight:700;font-size:.82rem}
+@media(max-width:670px){.aio-ia-projects-controls{grid-template-columns:1fr}.aio-ia-header{padding:14px}.aio-ia-header nav{gap:8px 12px}.aio-ia-group-card{padding:14px}}

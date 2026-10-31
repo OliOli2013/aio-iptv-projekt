@@ -57,15 +57,13 @@
   nav.classList.add('main-nav');
   nav.innerHTML=''+
     '<a href="index.html">Start</a>'+
-    '<a href="downloads.html">Pobierz</a>'+
-    '<a href="systems.html">Systemy</a>'+
-    '<a href="plugins.html">Wtyczki</a>'+
-    '<a href="channel-lists.html">Listy</a>'+
+    '<a href="downloads.html">Pobieranie</a>'+
+    '<a href="projects-aio.html">Projekty AIO</a>'+
+    '<a class="aio-nav-latest" href="latest-posts.html">Najnowsze posty</a>'+
     '<a href="guides.html">Poradniki</a>'+
     '<a class="nav-community" href="community.html">Społeczność</a>'+
-    '<a class="aio-nav-latest" href="latest-posts.html">Najnowsze Posty</a>'+
-    '<a class="aio-nav-account" href="konto.html">Moje konto</a>'+
     '<details class="nav-more"><summary>Więcej⌄</summary><div class="nav-more-menu">'+
+      '<a href="systems.html">Systemy Enigma2</a><a href="plugins.html">Wtyczki</a><a href="channel-lists.html">Listy kanałów</a><a href="downloads.html?category=Skórki">Skórki</a>'+
       '<a href="android-apps.html">Android</a><a href="windows-apps.html">Windows</a><a href="pro.html">Aplikacje PRO</a>'+
       '<a href="errors.html">Baza błędów</a><a href="one-liner.html">One-Liner / FTP</a><a href="start-here.html">Zacznij tutaj</a>'+
       '<a href="compatibility.html">Zgodność</a><a href="updates.html">Historia wydań</a><a href="project-status.html">Status projektów</a>'+
@@ -133,10 +131,12 @@
   /* Active section. */
   const current=(location.pathname.split('/').pop()||'index.html').toLowerCase();
   let section=current;
-  if(/^plugin-|^skin-/.test(current)) section='plugins.html';
+  if(/^plugin-|^skin-/.test(current) || current==='plugins.html') section='projects-aio.html';
   else if(/^guide-|^help-/.test(current)) section='guides.html';
-  else if(/^app-/.test(current)) section='downloads.html';
-  else if(['community-chat.html','post.html','profile.html'].includes(current)) section='community.html';
+  else if(/^app-/.test(current)) section='projects-aio.html';
+  else if(['systems.html','channel-lists.html','android-apps.html','windows-apps.html'].includes(current)) section='downloads.html';
+  else if(current==='post.html') section='latest-posts.html';
+  else if(['community-chat.html','profile.html'].includes(current)) section='community.html';
   nav.querySelectorAll(':scope > a[href]').forEach(a=>{
     const href=(a.getAttribute('href')||'').split('?')[0].toLowerCase();
     a.classList.toggle('is-active',href===section);

@@ -4,6 +4,11 @@
   const $ = id => document.getElementById(id);
   const list = $('latest-grid'), feedback = $('latest-feedback'), more = $('latest-more');
   const form = $('latest-search-form'), input = $('latest-search-input');
+  const topicSelect=$('latest-category'), typeSelect=$('latest-type');
+  const validId=x=>/^[a-z0-9-]{1,60}$/i.test(x||'')?x:'';
+  const urlState=new URLSearchParams(location.search);
+  let category=validId(urlState.get('category')||''),postType=validId(urlState.get('postType')||'');
+  let categoryLabels={},typeLabels={};
   if (!list || !feedback || !more || !form || !input) return;
   const buttons = [...document.querySelectorAll('[data-latest-mode]')];
   let mode = 'recent', search = '', page = 0, busy = false, hasMore = true, serial = 0, controller = null;
@@ -42,6 +47,8 @@
     const wrap = el('div','latest-card-main');
     const badge = el('span','latest-badge '+(official?'official':'community'),official?'✓ OFICJALNY':'◉ SPOŁECZNOŚĆ');
     wrap.append(badge);
+    if(p.category)wrap.append(el('span','aio-ia-latest-pill',categoryLabels[p.category]||p.category));
+    if(p.post_type)wrap.append(el('span','aio-ia-latest-pill',typeLabels[p.post_type]||p.post_type));
     wrap.append(el('time','latest-time',safeDate(p.published_at||p.created_at)));
     const h = el('h2','latest-title'); const link = el('a','',p.title||'Post Społeczności AIO'); link.href=href;h.append(link);wrap.append(h);
     if (teaser) {
@@ -74,6 +81,8 @@
     try {
       const params = new URLSearchParams({action:'feed',mode,page:String(requestedPage),pageSize:'12'});
       if (search) params.set('search',search);
+      if (category) params.set('category',category);
+      if (postType) params.set('postType',postType);
       const response = await fetch('/api/community?'+params,{credentials:'include',cache:'no-store',signal:ac.signal,headers:{accept:'application/json'}});
       const data = await response.json();
       if (!response.ok || !data?.ok) throw new Error(data?.error||'Nie udało się odczytać publikacji.');
@@ -96,6 +105,31 @@
   buttons.forEach(b=>b.addEventListener('click',()=>{if(b.dataset.latestMode===mode)return;mode=b.dataset.latestMode;setFilter();void load(true);}));
   form.addEventListener('submit',e=>{e.preventDefault();search=input.value.trim().slice(0,80);void load(true);});
   input.addEventListener('search',()=>{if(!input.value){search='';void load(true);}});
+  function syncFilterUrl(){
+    const u=new URL(location.href);
+    if(category)u.searchParams.set('category',category);else u.searchParams.delete('category');
+    if(postType)u.searchParams.set('postType',postType);else u.searchParams.delete('postType');
+    history.replaceState(null,'',u.pathname+u.search+u.hash);
+  }
+  topicSelect?.addEventListener('change',()=>{category=validId(topicSelect.value);syncFilterUrl();void load(true);});
+  typeSelect?.addEventListener('change',()=>{postType=validId(typeSelect.value);syncFilterUrl();void load(true);});
+  // The same definitions as the post creation form — no duplicated category list.
+  (async()=>{try{
+    const r=await fetch('data/community_config.json',{cache:'no-store'});
+    if(!r.ok)throw new Error('Config unavailable');
+    const cfg=await r.json();
+    const build=(node,items,labels,selected)=>{
+      if(!node||!Array.isArray(items))return '';
+      for(const item of items){if(!validId(item.id)||typeof item.label!=='string')continue;
+        labels[item.id]=item.label;const opt=document.createElement('option');opt.value=item.id;opt.textContent=item.label;node.append(opt);
+      }
+      node.value=Object.prototype.hasOwnProperty.call(labels,selected)?selected:'';
+      return node.value;
+    };
+    category=build(topicSelect,cfg.categories,categoryLabels,category);
+    postType=build(typeSelect,cfg.postTypes,typeLabels,postType);
+    void load(true);
+  }catch(_){category='';postType='';void load(true);}})();
   more.addEventListener('click',()=>void load(false));
   // Keep list in sync if login changes; the API decides what may be returned.
   document.addEventListener('aio-community-auth',()=>void load(true));

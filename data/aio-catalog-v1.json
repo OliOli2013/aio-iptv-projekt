@@ -235,6 +235,19 @@
       "summary": "Gotowe obrazy systemów wraz z instrukcjami instalacji.",
       "tested": "Modele wymienione na stronie systemów",
       "next": "Nowe wydania zależnie od dostępności obrazów."
+    },
+    {
+      "id": "aio-channel-editor",
+      "name": "AIO Channel Editor",
+      "version": "1.1.3",
+      "page": "app-aio-channel-editor.html",
+      "category": "Android",
+      "status": "active",
+      "statusLabel": "Dostępny",
+      "updated": "brak nowej daty",
+      "summary": "Aplikacja Android do edycji list kanałów i bukietów Enigma2 przez OpenWebif. Warianty Free / Pro.",
+      "tested": "Android; funkcje i dostępność zależą od wersji Free / Pro oraz konfiguracji tunera.",
+      "next": "Szczegóły wersji i pobieranie na stronie projektu."
     }
   ],
   "files": [
@@ -273,7 +286,7 @@
       "size": "123 KB",
       "sha256": "d4cca9d72a0359311ee395e075188af50171da5c022d806a6366e09ad0e07a71",
       "official": "Plik na AIO TunerHub",
-      "project_id": "app-aio-channel-editor",
+      "project_id": "aio-channel-editor",
       "release_id": "legacy-ce91bf01f79752d8",
       "origin": "legacy",
       "published_at": null,
@@ -315,7 +328,7 @@
       "size": "1.0 MB",
       "sha256": "8cdc2007f1ea9f3799c1e291aeb1ba2f26f0e20b8ba4fc98f2d9e8119a1913c3",
       "official": "Plik na AIO TunerHub",
-      "project_id": "app-aio-channel-editor",
+      "project_id": "aio-channel-editor",
       "release_id": "legacy-e321bef4453c2e95",
       "origin": "legacy",
       "published_at": null,
@@ -1183,12 +1196,12 @@
     },
     {
       "id": "legacy-ce91bf01f79752d8",
-      "project_id": "app-aio-channel-editor",
-      "project_name": "AIO Channel Editor 1.1.3",
+      "project_id": "aio-channel-editor",
+      "project_name": "AIO Channel Editor",
       "version": "1.1.3",
       "date": "2026-08-25",
       "title": "AIO Channel Editor 1.1.3 Free / Pro — APK",
-      "summary": "",
+      "summary": "Aplikacja Android do edycji list kanałów i bukietów Enigma2 przez OpenWebif. Warianty Free / Pro.",
       "page": "app-aio-channel-editor.html",
       "channel": "legacy",
       "origin": "legacy",
@@ -1217,12 +1230,12 @@
     },
     {
       "id": "legacy-e321bef4453c2e95",
-      "project_id": "app-aio-channel-editor",
-      "project_name": "AIO Channel Editor 1.1.3",
+      "project_id": "aio-channel-editor",
+      "project_name": "AIO Channel Editor",
       "version": "1.1.3",
       "date": "2026-08-25",
       "title": "AIO Channel Editor 1.1.3 — poradnik PDF",
-      "summary": "",
+      "summary": "Aplikacja Android do edycji list kanałów i bukietów Enigma2 przez OpenWebif. Warianty Free / Pro.",
       "page": "app-aio-channel-editor.html",
       "channel": "legacy",
       "origin": "legacy",
@@ -1914,7 +1927,7 @@
     }
   ],
   "counts": {
-    "projects": 18,
+    "projects": 19,
     "files": 44,
     "releases": 44,
     "new_publications": 0
