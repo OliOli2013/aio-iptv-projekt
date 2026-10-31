@@ -1,0 +1,167 @@
+/* AIO TunerHub Visual V3 — global color/icons/graphics layer for the whole site.
+ * Presentation only. Does not change routing, access limits, downloads, auth or data APIs.
+ */
+:root{
+  --aio-v3-cyan:#57e7ff;
+  --aio-v3-blue:#6ab6ff;
+  --aio-v3-violet:#b58cff;
+  --aio-v3-pink:#ff79bf;
+  --aio-v3-amber:#ffcf73;
+  --aio-v3-mint:#72f0c2;
+  --aio-v3-emerald:#49d9a5;
+  --aio-v3-panel:#081a2a;
+  --aio-v3-panel-2:#0d2437;
+  --aio-v3-text:#eaf7ff;
+  --aio-v3-border:rgba(101,210,255,.24);
+  --aio-v3-shadow:0 18px 48px rgba(1,9,24,.28), inset 0 1px rgba(255,255,255,.05);
+}
+body.aio-visual-v3{
+  background:
+    radial-gradient(circle at 12% 0%, rgba(87,231,255,.10), transparent 28rem),
+    radial-gradient(circle at 90% 10%, rgba(181,140,255,.13), transparent 32rem),
+    linear-gradient(180deg,#071625 0%, #071b2b 45%, #081824 100%);
+  color:var(--aio-v3-text);
+}
+body.aio-visual-v3::before,
+body.aio-visual-v3::after{
+  content:"";position:fixed;pointer-events:none;z-index:0;filter:blur(10px);opacity:.35;
+}
+body.aio-visual-v3::before{inset:auto auto 18% -120px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,var(--aio-v3-cyan),transparent 64%)}
+body.aio-visual-v3::after{inset:72px -80px auto auto;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,var(--aio-v3-violet),transparent 64%)}
+body.aio-visual-v3 :where(main,.page-shell,.page-wrap,.site-content,.content-wrap){position:relative;z-index:1}
+
+/* Shared decorative skin for content containers and cards across many pages. */
+body.aio-visual-v3 :where(section,article,.card,.panel,.box,.pro-panel,.pro-card,.latest-card,.download-card,.aio-ia-project-card,.aio-ia-group-card,.aio-mc-card,.guide-card,.system-card,.help-card,.faq-card,.community-card,.aio-v2-help){
+  box-shadow:var(--aio-v3-shadow);
+}
+body.aio-visual-v3 :where(.pro-panel,.pro-card,.latest-card,.download-card,.aio-ia-project-card,.aio-ia-group-card,.aio-mc-card,.guide-card,.system-card,.help-card,.faq-card,.community-card,.aio-v2-help){
+  border-color:var(--aio-v3-border)!important;
+  background-image:
+    radial-gradient(circle at 100% 0%, rgba(106,182,255,.10), transparent 34%),
+    radial-gradient(circle at 0% 100%, rgba(255,121,191,.08), transparent 28%),
+    linear-gradient(145deg, rgba(12,37,54,.96), rgba(7,24,36,.98));
+}
+body.aio-visual-v3 :where(.pro-panel,.pro-card,.latest-card,.download-card,.aio-ia-project-card,.aio-ia-group-card,.aio-mc-card,.guide-card,.system-card,.help-card,.faq-card,.community-card,.aio-v2-help):hover{
+  box-shadow:0 20px 60px rgba(0,14,35,.38), inset 0 1px rgba(255,255,255,.05);
+}
+
+/* Headings and section chrome */
+body.aio-visual-v3 :where(h1,h2).aio-v3-gradient,
+body.aio-visual-v3 :where(.latest-hero h1,.aio-ia-projects-hero h1,.aio-mc-hero h1,.hero h1,.pro-hero h1,.aio-v2-heading h2,.page-hero h1,.page-hero h2){
+  background:linear-gradient(92deg,#ffffff 8%, #91e8ff 48%, #c99eff 96%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+body.aio-visual-v3 :where(.aio-v2-heading,.section-head,.page-section-head){position:relative}
+body.aio-visual-v3 :where(.aio-v2-heading,.section-head,.page-section-head)::after{
+  content:"";display:block;width:86px;height:3px;border-radius:99px;margin-top:10px;
+  background:linear-gradient(90deg,var(--aio-v3-cyan),var(--aio-v3-violet),var(--aio-v3-pink));opacity:.9;
+}
+body.aio-visual-v3 :where(.aio-ia-eyebrow,.aio-v2-kicker,.kicker,.eyebrow){
+  color:#9fe8ff!important;letter-spacing:.13em;text-transform:uppercase;font-weight:800;
+}
+
+/* Nav, buttons, footer links. */
+body.aio-visual-v3 .site-header,
+body.aio-visual-v3 .site-header .brand-row,
+body.aio-visual-v3 .site-topbar{
+  box-shadow:0 10px 26px rgba(0,10,24,.26);
+}
+body.aio-visual-v3 .main-nav>a,
+body.aio-visual-v3 .site-nav>a,
+body.aio-visual-v3 .nav-more>summary,
+body.aio-visual-v3 .aio-v3-decor-link{
+  position:relative;overflow:hidden;
+}
+body.aio-visual-v3 .main-nav>a::after,
+body.aio-visual-v3 .site-nav>a::after,
+body.aio-visual-v3 .nav-more>summary::after,
+body.aio-visual-v3 .aio-v3-decor-link::after{
+  content:"";position:absolute;left:10px;right:10px;bottom:4px;height:2px;border-radius:99px;
+  background:linear-gradient(90deg,var(--aio-v3-cyan),var(--aio-v3-violet));opacity:0;transform:scaleX(.45);transition:transform .18s ease,opacity .18s ease;
+}
+body.aio-visual-v3 .main-nav>a:hover::after,
+body.aio-visual-v3 .main-nav>a.is-active::after,
+body.aio-visual-v3 .site-nav>a:hover::after,
+body.aio-visual-v3 .nav-more>summary:hover::after,
+body.aio-visual-v3 .aio-v3-decor-link:hover::after{opacity:.95;transform:scaleX(1)}
+body.aio-visual-v3 :where(button,.btn,.button,.aio-ia-action,.download-btn,.cta,a.button){
+  border-color:rgba(120,202,255,.32)!important;
+  box-shadow:0 10px 22px rgba(0,10,24,.14), inset 0 1px rgba(255,255,255,.05);
+}
+body.aio-visual-v3 :where(button,.btn,.button,.aio-ia-action,.download-btn,.cta,a.button):not(.ghost):not(.secondary){
+  background-image:linear-gradient(120deg, rgba(61,224,255,.18), rgba(127,116,255,.18));
+}
+body.aio-visual-v3 :where(.badge,.chip,.tag,.pill,.aio-v2-post-topics a,.latest-filter-chip,.aio-ia-tabs button,.aio-mc-tabs button){
+  box-shadow:inset 0 1px rgba(255,255,255,.06), 0 8px 18px rgba(1,9,24,.12);
+}
+body.aio-visual-v3 footer a,
+body.aio-visual-v3 .site-footer a{position:relative}
+body.aio-visual-v3 footer a:hover,
+body.aio-visual-v3 .site-footer a:hover{color:#fff}
+
+/* Global icon helpers injected by JS. */
+.aio-v3-icon{display:inline-flex;align-items:center;justify-content:center;min-width:1.05em;margin-right:.48em;font-size:1em;line-height:1;filter:drop-shadow(0 0 8px rgba(255,255,255,.22))}
+.aio-v3-has-icon{display:inline-flex;align-items:center;gap:.42em}
+.aio-v3-card-kicker{display:inline-flex;align-items:center;gap:.42em;padding:6px 10px;border-radius:999px;font-size:.68rem;font-weight:850;letter-spacing:.08em;text-transform:uppercase;border:1px solid rgba(140,225,255,.28);background:rgba(10,31,48,.86);color:#def5ff;margin:0 0 10px}
+.aio-v3-card-kicker .aio-v3-icon{margin:0}
+
+/* Subtle illustrated backgrounds on common hero sections. */
+body.aio-visual-v3 :where(.latest-hero,.aio-ia-projects-hero,.aio-mc-hero,.hero,.pro-hero,.page-hero,.aio-v2-community-section,.aio-v2-mc-spotlight){
+  position:relative;overflow:hidden;
+}
+body.aio-visual-v3 :where(.latest-hero,.aio-ia-projects-hero,.aio-mc-hero,.hero,.pro-hero,.page-hero,.aio-v2-community-section,.aio-v2-mc-spotlight)::before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.55;
+  background:
+    radial-gradient(circle at 90% 12%, rgba(255,214,115,.18), transparent 24%),
+    radial-gradient(circle at 18% 0%, rgba(87,231,255,.12), transparent 20%),
+    url('/assets/branding/aio-visual-orbits-v3.svg') right top/cover no-repeat;
+}
+body.aio-visual-v3 :where(.latest-hero,.aio-ia-projects-hero,.aio-mc-hero,.hero,.pro-hero,.page-hero,.aio-v2-community-section,.aio-v2-mc-spotlight)>*{position:relative;z-index:1}
+
+/* Decorative borders for category shortcuts, tabs and widgets */
+body.aio-visual-v3 :where(.aio-v3-categories .aio-v3-category,.quick-links a,.catalog-filter a,.aio-v2-post-topics a,.aio-ia-tabs button,.aio-mc-tabs button){
+  position:relative;
+}
+body.aio-visual-v3 :where(.aio-v3-categories .aio-v3-category,.quick-links a,.catalog-filter a,.aio-v2-post-topics a,.aio-ia-tabs button,.aio-mc-tabs button)::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(125deg,rgba(87,231,255,.55),rgba(181,140,255,.35),rgba(255,121,191,.3));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;opacity:.55;pointer-events:none;
+}
+
+/* Category color-coding by href or data type. */
+body.aio-visual-v3 a[href*="downloads"], body.aio-visual-v3 [data-category="Pobieranie"]{--aio-v3-accent:var(--aio-v3-cyan)}
+body.aio-visual-v3 a[href*="plugin"], body.aio-visual-v3 [data-category="Wtyczki"], body.aio-visual-v3 [data-type="Wtyczki"]{--aio-v3-accent:var(--aio-v3-violet)}
+body.aio-visual-v3 a[href*="systems"], body.aio-visual-v3 [data-category="Systemy"], body.aio-visual-v3 [data-type="Systemy"]{--aio-v3-accent:var(--aio-v3-amber)}
+body.aio-visual-v3 a[href*="channel-lists"], body.aio-visual-v3 [data-category="Listy kanałów"], body.aio-visual-v3 [data-type="Listy kanałów"]{--aio-v3-accent:var(--aio-v3-mint)}
+body.aio-visual-v3 a[href*="android"], body.aio-visual-v3 [data-category="Android"], body.aio-visual-v3 [data-type="Android"]{--aio-v3-accent:var(--aio-v3-emerald)}
+body.aio-visual-v3 a[href*="windows"], body.aio-visual-v3 [data-category="Windows"], body.aio-visual-v3 [data-type="Windows"]{--aio-v3-accent:var(--aio-v3-blue)}
+body.aio-visual-v3 a[href*="guide"], body.aio-visual-v3 a[href*="help"], body.aio-visual-v3 [data-category="Poradniki"], body.aio-visual-v3 [data-type="Poradniki"]{--aio-v3-accent:#ff9e74}
+body.aio-visual-v3 a[href*="community"], body.aio-visual-v3 a[href*="latest-posts"], body.aio-visual-v3 [data-category="Społeczność"]{--aio-v3-accent:#7bc4ff}
+body.aio-visual-v3 :where(.latest-card,.download-card,.aio-ia-project-card,.aio-ia-group-card,.aio-mc-card,.guide-card,.system-card,.help-card,.faq-card,.community-card,.aio-v2-help)[data-aio-accent]{
+  border-top:1px solid color-mix(in srgb, var(--aio-v3-accent, var(--aio-v3-cyan)) 65%, white 18%)!important;
+  box-shadow:0 18px 50px rgba(1,9,24,.26), inset 0 1px rgba(255,255,255,.05), 0 0 0 1px color-mix(in srgb, var(--aio-v3-accent, var(--aio-v3-cyan)) 24%, transparent);
+}
+
+/* Home, downloads and footer small improvements */
+body.aio-visual-v3 .aio-v2-projects a{position:relative;overflow:hidden}
+body.aio-visual-v3 .aio-v2-projects a::before{content:"";position:absolute;right:-18px;top:-18px;width:78px;height:78px;border-radius:22px;border:1px solid rgba(255,255,255,.10);transform:rotate(22deg)}
+body.aio-visual-v3 .download-card .download-card-actions,
+body.aio-visual-v3 .latest-card .latest-card-meta,
+body.aio-visual-v3 .aio-mc-card-actions{margin-top:auto}
+body.aio-visual-v3 .site-footer,body.aio-visual-v3 footer{background-image:linear-gradient(180deg, rgba(9,24,38,.84), rgba(6,16,28,.94))}
+body.aio-visual-v3 .site-footer .cols>*,
+body.aio-visual-v3 footer .cols>*{position:relative;padding-top:12px}
+body.aio-visual-v3 .site-footer .cols>*::before,
+body.aio-visual-v3 footer .cols>*::before{content:"";position:absolute;left:0;top:0;width:38px;height:2px;border-radius:99px;background:linear-gradient(90deg,var(--aio-v3-cyan),var(--aio-v3-violet));opacity:.9}
+
+/* Bring the colorful receiver art into the dedicated Multi-Click page when supported. */
+body.aio-visual-v3.aio-multiclick-page .aio-mc-hero::after{content:"";position:absolute;right:0;bottom:0;width:min(44%,420px);height:100%;background:url('/assets/branding/aio-receiver-color-v3.png') right bottom/contain no-repeat;opacity:.94;pointer-events:none}
+
+@media(max-width:760px){
+  body.aio-visual-v3::before,body.aio-visual-v3::after{display:none}
+  body.aio-visual-v3 .site-footer .cols>*,body.aio-visual-v3 footer .cols>*{padding-top:10px}
+  body.aio-visual-v3 .main-nav>a,body.aio-visual-v3 .site-nav>a,body.aio-visual-v3 .nav-more>summary{backdrop-filter:blur(8px)}
+}
+@media(prefers-reduced-motion:reduce){
+  body.aio-visual-v3 *{scroll-behavior:auto}
+}

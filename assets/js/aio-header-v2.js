@@ -133,6 +133,14 @@
     setMenu(!header.classList.contains('nav-open'));
   });
 
+  if(!d.querySelector('link[data-aio-visual-v3]')){
+    const css=d.createElement('link');css.rel='stylesheet';css.href='/assets/css/aio-visual-v3.css?v=20261031-v3';
+    css.setAttribute('data-aio-visual-v3','');d.head.appendChild(css);
+  }
+  if(!d.querySelector('script[data-aio-visual-v3]')){
+    const s=d.createElement('script');s.src='/assets/js/aio-visual-v3.js?v=20261031-v3';s.defer=true;
+    s.setAttribute('data-aio-visual-v3','');d.head.appendChild(s);
+  }
   /* Active section. */
   const current=(location.pathname.split('/').pop()||'index.html').toLowerCase();
   let section=current;
