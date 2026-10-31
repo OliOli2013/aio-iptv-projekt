@@ -1,0 +1,36 @@
+name: AIO Post Links & Stats V2
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'functions/_aio_post_links_v5.js'
+      - 'functions/api/aio-post-link.js'
+      - 'functions/_aio_owner_downloads.js'
+      - 'tests/aio-post-links-regression-v2.mjs'
+      - '.github/workflows/aio-post-links-regression-v2.yml'
+  pull_request:
+    paths:
+      - 'functions/_aio_post_links_v5.js'
+      - 'functions/api/aio-post-link.js'
+      - 'functions/_aio_owner_downloads.js'
+      - 'tests/aio-post-links-regression-v2.mjs'
+      - '.github/workflows/aio-post-links-regression-v2.yml'
+permissions:
+  contents: read
+jobs:
+  verify-post-links:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify Functions syntax
+        run: |
+          node --check functions/_aio_post_links_v5.js
+          node --check functions/api/aio-post-link.js
+          node --check functions/_aio_owner_downloads.js
+      - name: Verify classification, quota and attribution (mock D1)
+        run: node tests/aio-post-links-regression-v2.mjs .

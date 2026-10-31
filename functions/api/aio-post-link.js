@@ -74,6 +74,7 @@ export async function onRequestPost({request,env}){
     if(classified.kind==='local'){
       // No debit here: the actual Cloudflare /pliki/ handler validates and debits on GET.
       const local=new URL(clicked.href);local.searchParams.set('aio_post',postId);
+      if(commentId)local.searchParams.set('aio_comment',commentId); // already verified above
       return result({ok:true,kind:'local',href:local.href,counted:false,accounted_by:'file_server',stats_recorded:statsRecorded});
     }
     const fileKey=await externalFileKey(clicked.href,sha256);

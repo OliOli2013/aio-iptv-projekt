@@ -8,6 +8,27 @@ const FILE_EXT=/\.(?:ipk|apk|exe|msi|zip|7z|rar|deb|rpm|pdf|tar|tgz|gz|xz|img|bi
 const IMAGE_EXT=/\.(?:png|jpe?g|webp|gif|svg|avif)(?:$|[?#])/i;
 const DOWNLOAD_HINT=/(?:\/releases\/download\/|\/downloads?\/|\/archives?\/|[?&](?:download|attachment)=|(?:[?&]|^)id_attachment=|controller=attachment)/i;
 const EXTERNAL_KEY_PREFIX='/pliki/__aio_post_external_v5__/';
+// AIO Link Security V2: known file-host sharing routes without a file extension.
+// Do not classify provider home pages, news pages or lookalike domains as downloads.
+function onHost(host, domain) {
+  return host===domain || host.endsWith('.'+domain);
+}
+export function isKnownFileShareLink(url) {
+  const host=url.hostname.toLowerCase().replace(/\.$/,'');
+  const path=url.pathname;
+  if (onHost(host,'megawrzuta.pl')) return /^\/[a-z0-9]{8}(?:\/|$)/i.test(path);
+  if (onHost(host,'mediafire.com')) return /^\/(?:file|file_premium|download)\/[a-z0-9_-]{5,}(?:\/|$)/i.test(path);
+  if (onHost(host,'mega.nz')) return /^\/(?:file|folder)\/[a-z0-9_-]{5,}(?:\/|$)/i.test(path);
+  if (onHost(host,'gofile.io')) return /^\/d\/[a-z0-9_-]{5,}(?:\/|$)/i.test(path);
+  if (onHost(host,'pixeldrain.com')) return /^\/(?:u|l)\/[a-z0-9_-]{5,}(?:\/|$)/i.test(path);
+  if (onHost(host,'krakenfiles.com')) return /^\/(?:view|download)\/[a-z0-9_-]{5,}(?:\/|$)/i.test(path);
+  if (onHost(host,'dropbox.com')) return /^\/(?:s|scl\/fi)\/[a-z0-9_-]{5,}(?:\/|$)/i.test(path);
+  if (host==='drive.google.com') return /^\/file\/d\/[a-z0-9_-]{8,}(?:\/|$)/i.test(path) ||
+    (path==='/uc' && url.searchParams.has('id') && url.searchParams.get('id').length>=8);
+  if (host==='we.tl') return /^\/t-[a-z0-9_-]{5,}(?:\/|$)/i.test(path);
+  if (onHost(host,'1fichier.com')) return path==='/' && /^\?[a-z0-9]{5,}$/i.test(url.search);
+  return false;
+}
 
 export function normalizePostLink(input){
   try {
@@ -39,7 +60,8 @@ export function classifyPostLink(link,origin){
   if(IMAGE_EXT.test(path))return {kind:'info',url:url.href};
   // True external file/archive links, not ordinary editorial pages or GitHub repositories.
   const isFile=FILE_EXT.test(path)||DOWNLOAD_HINT.test(path)||
-    (/multi-click\.pl$/i.test(url.hostname)&&/attachment|id_attachment/i.test(path));
+    (/multi-click\.pl$/i.test(url.hostname)&&/attachment|id_attachment/i.test(path))||
+    isKnownFileShareLink(url);
   return {kind:isFile?'external':'info',url:url.href};
 }
 export async function ensurePostLinkSchema(env){

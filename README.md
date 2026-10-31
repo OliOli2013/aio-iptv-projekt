@@ -5,7 +5,7 @@
 ![Enigma2](https://img.shields.io/badge/Enigma2-OpenATV%20%7C%20OpenPLi-blue?style=for-the-badge&logo=linux)
 ![Python](https://img.shields.io/badge/Python-2%20%7C%203-yellow?style=for-the-badge&logo=python)
 ![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
-![AIO Panel](https://img.shields.io/badge/AIO%20Panel-17.0.2-00bcd4?style=for-the-badge)
+![AIO Panel](https://img.shields.io/badge/AIO%20Panel-17.0.3-00bcd4?style=for-the-badge)
 ![AIOHD NEXT](https://img.shields.io/badge/AIOHD%20NEXT-3.2.1-f0b84b?style=for-the-badge)
 
 ---
@@ -85,7 +85,7 @@ Aktualizacja **17.0.2 — 2026-10-23**
 - Usprawniono walidację instalatorów i pakiety IPK/DEB, sprawdzono SHA-256.
 - Zachowano dotychczasowe funkcje z wersji 17.0.1.
 
-[Pobierz IPK 17.0.2](pliki/enigma2-plugin-extensions-panelaio_17.0.2_all.ipk) • [Opis i instalacja](plugin-aio-panel.html)
+[Pobierz aktualny IPK 17.0.3](pliki/enigma2-plugin-extensions-panelaio_17.0.3_all.ipk) • [Opis i instalacja](plugin-aio-panel.html)
 
 ### 📹 OpenCamView 2.0.1 — Python 3
 

@@ -56,12 +56,22 @@ export async function recordIssuedFile(env, request, userId, audience, response,
   const bytes = Number.isSafeInteger(rawLength) && rawLength > 0 ? rawLength : null;
   await ensureOwnerDownloadSchema(env);
   let sourcePostId='';
-  const suppliedId=new URL(request.url).searchParams.get('aio_post')||'';
+  const requestedUrl=new URL(request.url);
+  const suppliedId=requestedUrl.searchParams.get('aio_post')||'';
+  const suppliedComment=requestedUrl.searchParams.get('aio_comment')||'';
   if(suppliedId.length>=8 && suppliedId.length<=100){
     const row=await env.COMMUNITY_DB.prepare("SELECT content FROM community_posts WHERE id=? AND status='published' LIMIT 1").bind(suppliedId).first();
     if(row){
-      const cleanUrl=new URL(request.url);cleanUrl.searchParams.delete('aio_post');
+      const cleanUrl=new URL(request.url);
+      cleanUrl.searchParams.delete('aio_post');
+      cleanUrl.searchParams.delete('aio_comment');
       if(linksInPost(row.content).includes(cleanUrl.href))sourcePostId=suppliedId;
+      else if(suppliedComment.length>=8 && suppliedComment.length<=100){
+        // Published comment, same post, exact file URL: no forged attribution.
+        const comment=await env.COMMUNITY_DB.prepare("SELECT content FROM community_comments WHERE id=? AND post_id=? AND status='published' LIMIT 1")
+          .bind(suppliedComment,suppliedId).first();
+        if(comment && linksInPost(comment.content).includes(cleanUrl.href))sourcePostId=suppliedId;
+      }
     }
   }
   const now = new Date();
