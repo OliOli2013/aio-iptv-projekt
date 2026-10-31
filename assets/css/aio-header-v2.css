@@ -767,3 +767,43 @@ body.aio-header-v4 .nav-more-menu>a.aio-nav-latest-extra{display:none!important}
     display: none !important;
   }
 }
+
+/* AIO FIX DESKTOP MENU WIECEJ — 31.10.2026 */
+@media (min-width: 761px) {
+
+  body.aio-header-v4 .site-header,
+  body.aio-header-v4 .site-header .main-nav,
+  body.aio-header-v4 .site-header .nav-more {
+    overflow: visible !important;
+  }
+
+  body.aio-header-v4 .site-header .nav-more {
+    position: relative !important;
+  }
+
+  body.aio-header-v4 .site-header .nav-more[open] > .nav-more-menu {
+    position: absolute !important;
+    top: calc(100% + 8px) !important;
+    right: 0 !important;
+    left: auto !important;
+    transform: none !important;
+
+    width: min(440px, calc(100vw - 32px)) !important;
+    min-width: 0 !important;
+    max-width: calc(100vw - 32px) !important;
+
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 6px 10px !important;
+
+    box-sizing: border-box !important;
+    overflow: visible !important;
+    z-index: 9999 !important;
+  }
+
+  body.aio-header-v4 .site-header .nav-more-menu a {
+    min-width: 0 !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+  }
+}
