@@ -184,15 +184,15 @@
   {
     "id": "simple-iptv-epg",
     "name": "Simple IPTV EPG",
-    "version": "3.2.0 RC5 AUTO",
+    "version": "3.2.6 RC11.1",
     "page": "plugin-simple-iptv-epg.html",
     "category": "Wtyczka Enigma2",
-    "status": "stable",
-    "statusLabel": "RC5 AUTO",
-    "updated": "2026-10-29",
-    "summary": "Automatyczne źródła XMLTV, dokładniejsze mapowanie kanałów IPTV, uzupełnianie piconów, prostszy interfejs i import w tle.",
-    "tested": "Enigma2 • Python 2 / Python 3 • zgodność zależna od image, list IPTV i źródła XMLTV",
-    "next": "Dalsze testy mapowania IPTV i źródeł XMLTV na różnych obrazach Enigma2."
+    "status": "active",
+    "statusLabel": "Nowa wersja RC11.1",
+    "updated": "2026-10-30",
+    "summary": "Nowy ekran PL/EN i status importu; lepsze uzgadnianie referencji IPTV, pełne XMLTV EPG.PW w AUTO i prawdziwe picony zamiast tekstowych atrap.",
+    "tested": "Enigma2 • deklarowana zgodność Python 2 / Python 3; działanie zależy od image, list i źródeł XMLTV",
+    "next": "Dalsza weryfikacja zgodności referencji i rzeczywistego pokrycia EPG na tunerach."
   },
   {
     "id": "dreamosatx",

@@ -4,8 +4,8 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <meta name="theme-color" content="#0d2633"/>
-<title>Simple IPTV EPG 3.2.0 RC5 AUTO | AIO TunerHub</title>
-<meta name="description" content="Simple IPTV EPG 3.2.0 RC5 AUTO: automatyczne XMLTV, EPG Autopilot, bezpieczne mapowanie kanałów, picony IPTV i import w tle."/>
+<title>Simple IPTV EPG 3.2.6 RC11.1 | AIO TunerHub</title>
+<meta name="description" content="Simple IPTV EPG 3.2.6 RC11.1: EPG XMLTV, rzeczywiste picony IPTV, naprawa i diagnostyka referencji, języki PL/EN oraz import w tle."/>
 <link href="pliki/logo.png?v=20261024-tunerhub-v11" rel="icon"/>
 <link href="manifest.json" rel="manifest"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -14,11 +14,11 @@
 <link href="assets/css/user-premium.css?v=20260724-v14" rel="stylesheet"/>
 <link href="assets/css/pro-suite.css?v=20260815-news1" rel="stylesheet"/>
 <meta name="color-scheme" content="dark"/>
-<meta property="og:title" content="Simple IPTV EPG 3.2.0 RC5 AUTO | AIO TunerHub"/>
-<meta property="og:description" content="RC5 AUTO: poprawione mapowanie EPG IPTV, picony, import 24 h i nowe zrodla XMLTV."/>
+<meta property="og:title" content="Simple IPTV EPG 3.2.6 RC11.1 | AIO TunerHub"/>
+<meta property="og:description" content="RC11.1: PL/EN, referencje IPTV, pełne XMLTV, prawdziwe picony i diagnostyka importu."/>
 <meta property="og:type" content="website"/>
 <meta property="og:url" content="https://aio-iptv-projekt.pages.dev/plugin-simple-iptv-epg">
-<meta property="og:image" content="https://aio-iptv-projekt.pages.dev/assets/branding/aio-iptv-share-20261010.png?v=20261024-tunerhub-v11"/>
+<meta property="og:image" content="https://aio-iptv-projekt.pages.dev/pliki/simple-iptv-epg-3.2.6-rc11.1-menu.webp?v=326rc111"/>
 <script src="assets/js/auto-language.js?v=20261012-rodo1"></script>
 <link rel="stylesheet" href="assets/css/aio-2026.css?v=20260816-community-first"/>
 <link rel="stylesheet" href="assets/css/content-protection.css?v=20261009-protect1"/>
@@ -26,14 +26,14 @@
 <link rel="canonical" href="https://aio-iptv-projekt.pages.dev/plugin-simple-iptv-epg">
 <link rel="stylesheet" href="assets/css/site-final.css?v=20261010-final1">
 <link rel="stylesheet" href="assets/css/aio-share.css?v=20261010-share1">
-<meta property="og:image:secure_url" content="https://aio-iptv-projekt.pages.dev/assets/branding/aio-iptv-share-20261010.png?v=20261024-tunerhub-v11">
-<meta name="twitter:image" content="https://aio-iptv-projekt.pages.dev/assets/branding/aio-iptv-share-20261010.png?v=20261024-tunerhub-v11">
-<meta itemprop="image" content="https://aio-iptv-projekt.pages.dev/assets/branding/aio-iptv-share-20261010.png?v=20261024-tunerhub-v11">
+<meta property="og:image:secure_url" content="https://aio-iptv-projekt.pages.dev/pliki/simple-iptv-epg-3.2.6-rc11.1-menu.webp?v=326rc111">
+<meta name="twitter:image" content="https://aio-iptv-projekt.pages.dev/pliki/simple-iptv-epg-3.2.6-rc11.1-menu.webp?v=326rc111">
+<meta itemprop="image" content="https://aio-iptv-projekt.pages.dev/pliki/simple-iptv-epg-3.2.6-rc11.1-menu.webp?v=326rc111">
 <meta name="twitter:card" content="summary_large_image">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
+<meta property="og:image:width" content="579">
+<meta property="og:image:height" content="360">
 <link rel="stylesheet" href="assets/css/aio-mascot-widget.css?v=20261014-mascot-v21-fix1">
-<style>.aio-epg-rc5-gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}.aio-epg-rc5-gallery figure{margin:0}.aio-epg-rc5-gallery img{width:100%;height:auto;object-fit:contain;border-radius:10px;display:block}.aio-epg-rc5-gallery figcaption{font-size:.87rem;line-height:1.45;margin-top:7px}</style>
+<style>.aio-epg-gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}.aio-epg-gallery figure{margin:0}.aio-epg-gallery img{width:100%;height:auto;object-fit:contain;border-radius:10px;display:block}.aio-epg-gallery figcaption{font-size:.87rem;line-height:1.45;margin-top:7px}</style>
 </head>
 <body class="aio-header-v2 aio-header-v3 aio-header-v4 site-final-v1">
 <a class="skip-link" href="#main-content">Przejdź do treści</a>
@@ -74,34 +74,66 @@
 <aside class="side-panel"><h2>Pomoc użytkownika</h2><nav><a href="plugins.html">Wtyczki</a><a class="news-side-highlight" href="updates.html">🔥 Nowości projektów</a><a href="android-apps.html">Aplikacje Android</a><a href="guides.html">Poradniki</a><a href="one-liner.html">One‑Liner / FTP</a><a href="channel-lists.html">Listy kanałów</a><a href="systems.html">Multi‑Click i systemy</a><a href="ai-chat.html">AI Chat</a><a href="contact.html">Kontakt i wsparcie</a></nav><div class="side-help"><strong>Szybka pomoc</strong><a href="guide-terminal-openwebif.html">Terminal / OpenWebif</a><a href="guide-oscam.html">Dane do OSCam</a><a href="guide-xstremity.html">IPTV do Xstremity</a><a href="help-softcam-feed.html">SoftCam feed</a><a href="help-picons-serviceref.html">Picony / ServiceRef</a><a href="help-restart-gui.html">Restart GUI</a></div></aside>
 <main class="content-main" id="main-content">
 <section class="hero-compact">
-<div>
-<p class="script-line">Projekt <span>Paweł Pawełek | AIO Team</span></p>
-<p class="eyebrow">29 października 2026 • Enigma2 • Python 2 / Python 3</p>
-<h1>Simple IPTV EPG 3.2.0 RC5 AUTO</h1>
-<p class="lead">Najnowsza wersja upraszcza korzystanie z EPG dla IPTV: automatycznie dobiera źródła XMLTV, dokładniej mapuje kanały, uzupełnia brakujące picony i pozwala wykonywać import w tle.</p>
-<div class="action-row"><a class="button primary" href="pliki/enigma2-plugin-extensions-simpleiptvepg_3.2.0-rc5-auto_all.ipk" download>Pobierz IPK 3.2.0 RC5 AUTO</a><a class="button" href="updates.html">Aktualizacje</a><a class="button" href="plugins.html">Wszystkie wtyczki</a></div>
-</div>
-<figure><a href="pliki/simple-iptv-epg-3.2.0-rc5-05-glowny.webp" target="_blank" rel="noopener"><img alt="Simple IPTV EPG 3.2.0 RC5 AUTO — ekran główny" src="pliki/simple-iptv-epg-3.2.0-rc5-05-glowny.webp"></a><figcaption>RC5 AUTO — prosty ekran główny i automatyczny import</figcaption></figure>
+  <div>
+    <p class="script-line">Projekt <span>Paweł Pawełek | AIO Team</span></p>
+    <p class="eyebrow">30 października 2026 • Enigma2 • Python 2 / Python 3</p>
+    <h1>Simple IPTV EPG 3.2.6 RC11.1</h1>
+    <p class="lead">Aktualizacja dla IPTV: pełniejsze mapowanie XMLTV, prawdziwe picony kanałów, rozpoznawanie referencji z bukietów i pamięci Enigma2, status pracy w tle oraz języki polski i angielski.</p>
+    <div class="action-row"><a class="button primary" href="pliki/enigma2-plugin-extensions-simpleiptvepg_3.2.6-rc11.1_all.ipk" download>Pobierz IPK 3.2.6 RC11.1</a><a class="button" href="updates.html">Aktualizacje</a><a class="button" href="plugins.html">Wszystkie wtyczki</a></div>
+  </div>
+  <figure><a href="pliki/simple-iptv-epg-3.2.6-rc11.1-menu.webp" target="_blank" rel="noopener"><img alt="Simple IPTV EPG 3.2.6 RC11.1 — aktualny ekran główny" src="pliki/simple-iptv-epg-3.2.6-rc11.1-menu.webp" loading="eager"></a><figcaption>RC11.1 — menu ustawień, status ostatniego importu i przyciski narzędzi</figcaption></figure>
 </section>
 <div class="detail-grid">
-<section class="module"><h2>Aktualne wydanie</h2><p><strong>Wersja:</strong> 3.2.0 RC5 AUTO</p><p><strong>Wydano:</strong> 29.10.2026</p><p><strong>Platforma:</strong> Enigma2 (Python 2 / Python 3; zgodność zależy od image)</p><p><strong>Plik:</strong> <a href="pliki/enigma2-plugin-extensions-simpleiptvepg_3.2.0-rc5-auto_all.ipk">enigma2-plugin-extensions-simpleiptvepg_3.2.0-rc5-auto_all.ipk</a></p><p><strong>Rozmiar:</strong> 82.3 KB</p><p><strong>SHA-256:</strong> <code>7da50cb73f2292df84ad0d38ac85dab11e3252d7fae64929f0d3d2b5c1eaba9a</code></p><p><strong>Autor:</strong> Paweł Pawełek | AIO Team</p></section>
-<section class="module"><h2>Zalecane ustawienia po instalacji</h2><ul class="clean-list"><li><strong>Źródło:</strong> AUTO AIO Polska</li><li><strong>Automatyczny import:</strong> co 24 godziny</li><li><strong>Uzupełnianie piconów IPTV:</strong> Tak</li></ul><p><strong>Pierwszy import:</strong> Narzędzia → Wymuś pełny import + nowe mapowanie.</p></section>
+  <section class="module"><h2>Aktualne wydanie</h2>
+    <p><strong>Wersja pakietu:</strong> 3.2.6-rc11.1-menu-cleanup</p>
+    <p><strong>Data wydania:</strong> 30.10.2026</p>
+    <p><strong>Platforma:</strong> Enigma2 (Python 2 / Python 3; zgodność zależy od image)</p>
+    <p><strong>Plik:</strong> <a href="pliki/enigma2-plugin-extensions-simpleiptvepg_3.2.6-rc11.1_all.ipk">enigma2-plugin-extensions-simpleiptvepg_3.2.6-rc11.1_all.ipk</a></p>
+    <p><strong>Rozmiar:</strong> 98.2 KB (100 510 bajtów)</p>
+    <p><strong>SHA-256:</strong> <code>0d737ca979f94b54eb55388ee5b309f714dc721066c89e0a7f1bae9ad4110abe</code></p>
+    <p><strong>Autor:</strong> Paweł Pawełek | AIO Team</p>
+  </section>
+  <section class="module"><h2>Ustawienia po instalacji</h2>
+    <ul class="clean-list">
+      <li><strong>Źródło EPG:</strong> AUTO AIO Polska (zgodność z ustawieniami 2.x).</li>
+      <li><strong>Automatyczny import:</strong> co 24 godziny.</li>
+      <li><strong>Uzupełnianie piconów IPTV:</strong> Tak, prawdziwymi logotypami.</li>
+      <li><strong>Język interfejsu:</strong> automatyczny, Polski lub English.</li>
+      <li><strong>Kopiuj EPG SAT → IPTV:</strong> w nowej instalacji domyślnie Tak; „Preferuj EPG z SAT” — Nie. Zmień według własnych potrzeb.</li>
+    </ul>
+    <p>Ustawienia starszej instalacji mogą zostać zachowane przy aktualizacji. Kopiowanie SAT → IPTV nie oznacza usuwania przewodnika satelitarnego.</p>
+  </section>
 </div>
-<section class="module"><h2>Co nowego w RC5 AUTO?</h2><ul class="clean-list">
-<li><strong>Prosty ekran główny:</strong> trzy najważniejsze ustawienia; pozostałe opcje przeniesione do Narzędzi.</li>
-<li><strong>EPG Autopilot:</strong> dodatkowe źródła XMLTV, także dla wybranych kanałów zagranicznych.</li>
-<li><strong>Dokładniejsze mapowanie:</strong> ostrożne dopasowanie identyfikatorów i nazw kanałów IPTV.</li>
-<li><strong>Źródła EPG:</strong> EPG.OVH, EPGShare, PolishTeam, IPTV-EPG.org oraz EPG.PW.</li>
-<li><strong>Picony IPTV:</strong> automatyczne wyszukiwanie i uzupełnianie logotypów.</li>
-<li><strong>Ochrona satelitarnego EPG:</strong> kopiowanie SAT → IPTV pozostaje domyślnie wyłączone.</li>
-<li><strong>Diagnostyka:</strong> raporty importu, dopasowania i użyte źródła dostępne w Narzędziach.</li>
-</ul></section>
-<section class="module" style="border-left:4px solid #4bc2b4"><h2>Import EPG działa w tle</h2><p>Po rozpoczęciu pobierania i mapowania możesz <strong>zamknąć okno wtyczki</strong> i normalnie korzystać z tunera. Pobieranie XMLTV, mapowanie i uzupełnianie piconów są kontynuowane w tle. Po zakończeniu możliwe jest powiadomienie.</p><p>Import trwa zwykle kilka minut, zależnie od liczby kanałów, wydajności tunera, łącza i dostępności źródeł. <strong>Nie restartuj wtedy tunera ani interfejsu Enigma2.</strong></p></section>
-<section class="module"><h2>Zdjęcia z działania na tunerze</h2><p>Rzeczywiste przykłady EPG i piconów: TVP, polskie kanały lokalne, kanały tematyczne oraz menu Narzędzia.</p><div class="guide-gallery aio-epg-rc5-gallery"><figure><a href="pliki/simple-iptv-epg-3.2.0-rc5-05-glowny.webp" target="_blank" rel="noopener"><img loading="lazy" src="pliki/simple-iptv-epg-3.2.0-rc5-05-glowny.webp" alt="Prosty ekran główny wtyczki — źródło, import i picony IPTV"></a><figcaption>Prosty ekran główny wtyczki — źródło, import i picony IPTV</figcaption></figure><figure><a href="pliki/simple-iptv-epg-3.2.0-rc5-01-tvp.webp" target="_blank" rel="noopener"><img loading="lazy" src="pliki/simple-iptv-epg-3.2.0-rc5-01-tvp.webp" alt="IPTV TVP — ramówka i picony w EPG"></a><figcaption>IPTV TVP — ramówka i picony w EPG</figcaption></figure><figure><a href="pliki/simple-iptv-epg-3.2.0-rc5-02-aio-polska.webp" target="_blank" rel="noopener"><img loading="lazy" src="pliki/simple-iptv-epg-3.2.0-rc5-02-aio-polska.webp" alt="AIO IPTV Polska — kanały informacyjne i regionalne"></a><figcaption>AIO IPTV Polska — kanały informacyjne i regionalne</figcaption></figure><figure><a href="pliki/simple-iptv-epg-3.2.0-rc5-03-wedkarstwo.webp" target="_blank" rel="noopener"><img loading="lazy" src="pliki/simple-iptv-epg-3.2.0-rc5-03-wedkarstwo.webp" alt="IPTV Wędkarstwo — EPG kanałów zagranicznych"></a><figcaption>IPTV Wędkarstwo — EPG kanałów zagranicznych</figcaption></figure><figure><a href="pliki/simple-iptv-epg-3.2.0-rc5-04-narzedzia.webp" target="_blank" rel="noopener"><img loading="lazy" src="pliki/simple-iptv-epg-3.2.0-rc5-04-narzedzia.webp" alt="Menu Narzędzia — ustawienia zaawansowane i diagnostyka"></a><figcaption>Menu Narzędzia — ustawienia zaawansowane i diagnostyka</figcaption></figure></div></section>
-<section class="module"><h2>Instalacja i aktualizacja</h2><p>Możesz zainstalować dostarczony IPK z katalogu <code>/tmp</code> albo skorzystać z instalatora projektu GitHub. Po instalacji może być potrzebny restart GUI.</p>
-<div class="command"><div><strong>Instalator online</strong><button data-copy="wget -qO - https://raw.githubusercontent.com/OliOli2013/SimpleIPTV_EPG/main/installer.sh | /bin/sh" type="button">Kopiuj</button></div><pre><code>wget -qO - https://raw.githubusercontent.com/OliOli2013/SimpleIPTV_EPG/main/installer.sh | /bin/sh</code></pre></div>
-<div class="command"><div><strong>Instalacja IPK z /tmp</strong><button data-copy="opkg install /tmp/enigma2-plugin-extensions-simpleiptvepg_3.2.0-rc5-auto_all.ipk" type="button">Kopiuj</button></div><pre><code>opkg install /tmp/enigma2-plugin-extensions-simpleiptvepg_3.2.0-rc5-auto_all.ipk</code></pre></div>
-<p><small>Nie każdy kanał IPTV ma wiarygodne EPG. Wynik zależy od treści źródeł XMLTV, nazw usług i konkretnego image Enigma2. Pokazane zdjęcia są przykładami działania, a nie gwarancją pokrycia wszystkich kanałów.</small></p>
+<section class="module"><h2>Co zmieniło się w RC6–RC11.1?</h2>
+  <ul class="clean-list">
+    <li><strong>PL/EN i status:</strong> automatyczny lub ręczny wybór języka, komunikaty pobierania, mapowania i importu również po ponownym otwarciu wtyczki.</li>
+    <li><strong>Referencje IPTV:</strong> porównywanie danych z plików bukietów i pamięci Enigma2; łączenie wariantów tego samego URL bez mieszania różnych strumieni o identycznej nazwie.</li>
+    <li><strong>XMLTV:</strong> większy zasięg źródeł, w tym pełny przewodnik EPG.PW jako dodatkowe źródło AUTO; zoptymalizowane indeksowanie dużych plików.</li>
+    <li><strong>Picony:</strong> zamiast tekstowych atrap pobierane są rzeczywiste logotypy, gdy są dostępne. Wcześniejsze atrapy RC8 mogą zostać zastąpione; nie ma automatycznego usuwania piconów.</li>
+    <li><strong>Diagnostyka:</strong> liczby i raporty referencji z plików i pamięci, dopasowania, źródła, rozbieżności DVB i przypomnienie o restarcie GUI po naprawie list.</li>
+    <li><strong>RC11.1:</strong> usunięto z menu Narzędzia pozycję „Usuń picony zastępcze RC8”; pozostały mechanizmy EPG i prawdziwych piconów.</li>
+  </ul>
+  <p><strong>Ważne:</strong> standardowy import nie edytuje bukietów. Opcjonalne naprawy referencji wymagają osobnej decyzji użytkownika; po naprawie może być potrzebny restart GUI. Samo pobranie źródła XMLTV nie gwarantuje EPG dla każdego kanału.</p>
+</section>
+<section class="module" style="border-left:4px solid #4bc2b4"><h2>Pobieranie i mapowanie EPG w tle</h2>
+  <p>Po włączeniu <strong>IMPORTUJ EPG</strong> możesz zamknąć ekran wtyczki i nadal korzystać z tunera. Status zadania można sprawdzić po ponownym otwarciu wtyczki; czas operacji zależy od tunera, liczby kanałów IPTV i wielkości XMLTV.</p>
+  <p><strong>Nie uruchamiaj ponownie interfejsu Enigma2 podczas importu.</strong> Przy pełnym źródle XMLTV wtyczka sprawdza wolną przestrzeń w <code>/tmp</code> (co najmniej 90 MiB przed pobraniem dużego przewodnika).</p>
+</section>
+<section class="module"><h2>Zrzut ekranu i starsze przykłady</h2>
+  <p>Aktualny ekran pochodzi z RC11.1 (30.10.2026). Pozostałe zdjęcia są archiwalnymi przykładami RC5 i nie stanowią potwierdzenia pokrycia EPG w najnowszym wydaniu.</p>
+  <div class="guide-gallery aio-epg-gallery">
+    <figure><a href="pliki/simple-iptv-epg-3.2.6-rc11.1-menu.webp" target="_blank" rel="noopener"><img loading="lazy" src="pliki/simple-iptv-epg-3.2.6-rc11.1-menu.webp" alt="Aktualny ekran Simple IPTV EPG 3.2.6 RC11.1"></a><figcaption>Nowy ekran RC11.1: status, język, EPG i picony</figcaption></figure>
+    <figure><a href="pliki/simple-iptv-epg-3.2.0-rc5-01-tvp.webp" target="_blank" rel="noopener"><img loading="lazy" src="pliki/simple-iptv-epg-3.2.0-rc5-01-tvp.webp" alt="Archiwum RC5 — EPG TVP"></a><figcaption>Archiwum RC5: TVP</figcaption></figure>
+    <figure><a href="pliki/simple-iptv-epg-3.2.0-rc5-02-aio-polska.webp" target="_blank" rel="noopener"><img loading="lazy" src="pliki/simple-iptv-epg-3.2.0-rc5-02-aio-polska.webp" alt="Archiwum RC5 — AIO Polska"></a><figcaption>Archiwum RC5: AIO Polska</figcaption></figure>
+    <figure><a href="pliki/simple-iptv-epg-3.2.0-rc5-03-wedkarstwo.webp" target="_blank" rel="noopener"><img loading="lazy" src="pliki/simple-iptv-epg-3.2.0-rc5-03-wedkarstwo.webp" alt="Archiwum RC5 — kanały tematyczne"></a><figcaption>Archiwum RC5: kanały tematyczne</figcaption></figure>
+    <figure><a href="pliki/simple-iptv-epg-3.2.0-rc5-04-narzedzia.webp" target="_blank" rel="noopener"><img loading="lazy" src="pliki/simple-iptv-epg-3.2.0-rc5-04-narzedzia.webp" alt="Archiwum RC5 — Narzędzia"></a><figcaption>Archiwum RC5: dawne menu Narzędzia</figcaption></figure>
+  </div>
+</section>
+<section class="module"><h2>Instalacja i aktualizacja</h2>
+  <p>Skopiuj IPK do <code>/tmp</code>, a następnie zainstaluj poleceniem poniżej. Możesz też użyć instalatora online z repozytorium SimpleIPTV_EPG — pobierana przez niego wersja może różnić się od pliku dostępnego na tej stronie.</p>
+  <div class="command"><div><strong>Instalator online z repozytorium projektu</strong><button data-copy="wget -qO - https://raw.githubusercontent.com/OliOli2013/SimpleIPTV_EPG/main/installer.sh | /bin/sh" type="button">Kopiuj</button></div><pre><code>wget -qO - https://raw.githubusercontent.com/OliOli2013/SimpleIPTV_EPG/main/installer.sh | /bin/sh</code></pre></div>
+  <div class="command"><div><strong>Instalacja aktualnego IPK z /tmp</strong><button data-copy="opkg install /tmp/enigma2-plugin-extensions-simpleiptvepg_3.2.6-rc11.1_all.ipk" type="button">Kopiuj</button></div><pre><code>opkg install /tmp/enigma2-plugin-extensions-simpleiptvepg_3.2.6-rc11.1_all.ipk</code></pre></div>
+  <p><small>W zależności od obrazu Enigma2 i sposobu instalacji może być potrzebne ponowne uruchomienie GUI. Nie każdy kanał ma wiarygodne źródło XMLTV ani dostępny picon.</small></p>
 </section>
 </main>
 </div>

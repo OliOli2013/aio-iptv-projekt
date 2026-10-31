@@ -23,14 +23,17 @@ W jednym miejscu znajdziesz wtyczki, skin, listy kanałów, narzędzia systemowe
 ## ⭐ Najnowsze aktualizacje
 
 
-### 📺 29.10.2026 — Simple IPTV EPG 3.2.0 RC5 AUTO
+### 📺 30.10.2026 — Simple IPTV EPG 3.2.6 RC11.1
 
-- EPG Autopilot: dobór źródeł XMLTV, również dla wybranych kanałów zagranicznych;
-- poprawione mapowanie IPTV oraz automatyczne uzupełnianie piconów;
-- uproszczony interfejs i import EPG co 24 godziny;
-- import działa w tle także po zamknięciu wtyczki (bez restartu GUI podczas pobierania).
+- automatyczny lub ręczny język polski i angielski oraz widoczny status pobierania, mapowania i importu;
+- uzgadnianie referencji z bukietów i pamięci Enigma2 bez łączenia różnych adresów URL;
+- pełny XMLTV EPG.PW jako dodatkowe źródło AUTO oraz wydajniejsze indeksowanie dużych przewodników;
+- autentyczne picony IPTV zamiast tekstowych atrap, bez automatycznego usuwania istniejących logotypów;
+- import EPG w tle i diagnostyka pokrycia kanałów; usunięto nieaktualną pozycję czyszczenia RC8 z Narzędzi.
 
-[Pobierz aktualny IPK](pliki/enigma2-plugin-extensions-simpleiptvepg_3.2.0-rc5-auto_all.ipk) • [Opis i zdjęcia](plugin-simple-iptv-epg.html)
+**Uwaga:** pakiet ma wersję `3.2.6-rc11.1-menu-cleanup`. W nowej instalacji kopiowanie EPG SAT → IPTV jest domyślnie włączone; istniejące ustawienia mogą być zachowane.
+
+[Pobierz aktualny IPK](pliki/enigma2-plugin-extensions-simpleiptvepg_3.2.6-rc11.1_all.ipk) • [Opis i aktualny zrzut ekranu](plugin-simple-iptv-epg.html)
 
 ### 🔄 09.10.2026 — Simple IPTV EPG 3.1.0 r1
 

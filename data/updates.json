@@ -1,5 +1,26 @@
 [
   {
+    "date": "2026-10-30",
+    "ts": 1793318400000,
+    "type": "release",
+    "title": "Simple IPTV EPG 3.2.6 RC11.1 — XMLTV, referencje i prawdziwe picony",
+    "desc": "Nowy ekran PL/EN i status importu; lepsze uzgadnianie referencji IPTV, pełne XMLTV EPG.PW w AUTO i prawdziwe picony zamiast tekstowych atrap.",
+    "details": "Simple IPTV EPG 3.2.6 RC11.1 — 30.10.2026\n\n• Języki: polski, angielski i tryb automatyczny. Status importu również po ponownym otwarciu ekranu.\n• RC11: lepsze uzgadnianie referencji odczytywanych z bukietów i pamięci Enigma2; różne URL zachowują odrębność.\n• RC10: pełny przewodnik EPG.PW jako dodatkowe źródło AUTO i szybkie indeksowanie dużych XMLTV.\n• RC9: prawdziwe picony zamiast tekstowych atrap; bez automatycznego kasowania piconów SAT lub IPTV.\n• RC11.1: usunięto z Narzędzi pozycję czyszczenia piconów zastępczych RC8.\n• Diagnostyka pokrycia XMLTV, wariantów referencji oraz rozbieżności DVB.\n\nDomyślnie: AUTO AIO Polska, import co 24 godziny, picony: Tak, kopia EPG SAT → IPTV: Tak, preferencja SAT: Nie. Istniejące ustawienia mogą być zachowane.\nPo rozpoczęciu importu można zamknąć ekran wtyczki. W trakcie importu nie restartuj GUI.\nPicon i EPG dla każdego kanału zależą od źródeł; nie gwarantujemy pełnego pokrycia.",
+    "url": "plugin-simple-iptv-epg.html",
+    "tags": [
+      "Simple IPTV EPG",
+      "3.2.6",
+      "RC11.1",
+      "IPTV",
+      "EPG",
+      "XMLTV",
+      "picony",
+      "Enigma2",
+      "PL/EN",
+      "aktualizacja"
+    ]
+  },
+  {
     "date": "2026-10-29",
     "ts": 1793232000000,
     "type": "release",
