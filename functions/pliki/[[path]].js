@@ -31,6 +31,15 @@ function protectedFile(req){
 }
 async function handle(context){
   const {request,env}=context;
+  // Temporary public mirrors: only these two AIO Panel packages bypass R2.
+  const mirrors = {
+    '/pliki/enigma2-plugin-extensions-panelaio_17.0.3_all.ipk': 'https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/v17.0.3/enigma2-plugin-extensions-panelaio_17.0.3_all.ipk',
+    '/pliki/enigma2-plugin-extensions-panelaio_17.0.3_all.deb': 'https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/v17.0.3/enigma2-plugin-extensions-panelaio_17.0.3_all.deb'
+  };
+  const mirror = mirrors[new URL(request.url).pathname];
+  if (mirror && (request.method === 'GET' || request.method === 'HEAD')) {
+    return new Response(null, {status: 302, headers: {Location: mirror, 'Cache-Control': 'no-store'}});
+  }
   if(!protectedFile(request))return context.next();
   try{
     await initAccess(env);

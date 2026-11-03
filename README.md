@@ -85,7 +85,7 @@ Aktualizacja **17.0.2 — 2026-10-23**
 - Usprawniono walidację instalatorów i pakiety IPK/DEB, sprawdzono SHA-256.
 - Zachowano dotychczasowe funkcje z wersji 17.0.1.
 
-[Pobierz aktualny IPK 17.0.3](pliki/enigma2-plugin-extensions-panelaio_17.0.3_all.ipk) • [Opis i instalacja](plugin-aio-panel.html)
+[Pobierz aktualny IPK 17.0.3](https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/v17.0.3/enigma2-plugin-extensions-panelaio_17.0.3_all.ipk) • [Opis i instalacja](plugin-aio-panel.html)
 
 ### 📹 OpenCamView 2.0.1 — Python 3
 

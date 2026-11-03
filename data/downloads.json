@@ -226,7 +226,7 @@
   },
   {
     "title": "AIO Panel 17.0.3 — IPK",
-    "href": "pliki/enigma2-plugin-extensions-panelaio_17.0.3_all.ipk",
+    "href": "https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/v17.0.3/enigma2-plugin-extensions-panelaio_17.0.3_all.ipk",
     "category": "Wtyczki",
     "platform": "Enigma2",
     "version": "17.0.3",
@@ -237,11 +237,11 @@
     "kind": "IPK",
     "size": "401.2 KB",
     "sha256": "f75c75e55c81fa65925c656d48c61df26b1bf3ed36bc745ba74f9e91b43f6660",
-    "official": "Plik na AIO TunerHub"
+    "official": "Plik na GitHub Releases"
   },
   {
     "title": "AIO Panel 17.0.3 — DEB",
-    "href": "pliki/enigma2-plugin-extensions-panelaio_17.0.3_all.deb",
+    "href": "https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/v17.0.3/enigma2-plugin-extensions-panelaio_17.0.3_all.deb",
     "category": "Wtyczki",
     "platform": "Enigma2",
     "version": "17.0.3",
@@ -252,7 +252,7 @@
     "kind": "DEB",
     "size": "401.2 KB",
     "sha256": "f75c75e55c81fa65925c656d48c61df26b1bf3ed36bc745ba74f9e91b43f6660",
-    "official": "Plik na AIO TunerHub"
+    "official": "Plik na GitHub Releases"
   },
   {
     "title": "Pobierz IPK 2.1.1",
