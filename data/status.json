@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-06T12:59:27.500232+00:00",
+  "generatedAt": "2026-11-07T11:45:59.819072+00:00",
   "items": [
     {
       "id": "e2-security-ipk",
@@ -8,7 +8,7 @@
       "category": "Pliki",
       "status": "warning",
       "httpStatus": 401,
-      "checkedAt": "2026-11-06T12:59:11.692410+00:00",
+      "checkedAt": "2026-11-07T11:45:47.758056+00:00",
       "message": "Serwer działa, ale blokuje test automatyczny (HTTP 401)."
     },
     {
@@ -18,7 +18,7 @@
       "category": "Strona",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-06T12:59:12.879681+00:00",
+      "checkedAt": "2026-11-07T11:45:48.873906+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     },
     {
@@ -28,7 +28,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-06T12:59:13.006132+00:00",
+      "checkedAt": "2026-11-07T11:45:49.029398+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 10517 B."
     },
     {
@@ -38,7 +38,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-06T12:59:13.165500+00:00",
+      "checkedAt": "2026-11-07T11:45:49.177883+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 9123 B."
     },
     {
@@ -48,7 +48,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-06T12:59:13.378710+00:00",
+      "checkedAt": "2026-11-07T11:45:49.349537+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 2469 B."
     },
     {
@@ -58,7 +58,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-06T12:59:13.543733+00:00",
+      "checkedAt": "2026-11-07T11:45:49.506447+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 11971 B."
     },
     {
@@ -68,17 +68,17 @@
       "category": "Listy kanałów",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-06T12:59:13.707555+00:00",
+      "checkedAt": "2026-11-07T11:45:49.688278+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 7607 B."
     },
     {
       "id": "aio-ipk",
       "name": "AIO Panel 17.0.3 — plik IPK",
-      "url": "https://release-assets.githubusercontent.com/github-production-release-asset/1056653095/6ae2f45d-1223-46a9-9bc5-3ee6adc27f0f?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-11-06T13%3A54%3A54Z&rscd=attachment%3B+filename%3Denigma2-plugin-extensions-panelaio_17.0.3_all.ipk&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-11-06T12%3A53%3A55Z&ske=2026-11-06T13%3A54%3A54Z&sks=b&skv=2018-11-09&sig=%2BVldVq8o15bts%2Bou%2BHDc110JxfcKC%2F%2BH9rezkitcCQI%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5Mzk3MDI1NCwibmJmIjoxNzkzOTY5OTU0LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.XSceOwaATLHcs0fHs_Aw_ADgVqvn8nubeXpxfljaEhg&response-content-disposition=attachment%3B%20filename%3Denigma2-plugin-extensions-panelaio_17.0.3_all.ipk&response-content-type=application%2Foctet-stream",
+      "url": "https://release-assets.githubusercontent.com/github-production-release-asset/1056653095/6ae2f45d-1223-46a9-9bc5-3ee6adc27f0f?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-11-07T12%3A40%3A06Z&rscd=attachment%3B+filename%3Denigma2-plugin-extensions-panelaio_17.0.3_all.ipk&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-11-07T11%3A39%3A54Z&ske=2026-11-07T12%3A40%3A06Z&sks=b&skv=2018-11-09&sig=KU3MacgZ3jHJ%2BVJ6sxvG7PRcC1ta888QlJkedIT0JEU%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5NDA1MjI1MCwibmJmIjoxNzk0MDUxOTUwLCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.sJCqrlawx25iolrzYcxfnJyzqob23jSffaVhA5EmwKI&response-content-disposition=attachment%3B%20filename%3Denigma2-plugin-extensions-panelaio_17.0.3_all.ipk&response-content-type=application%2Foctet-stream",
       "category": "Pliki",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-06T12:59:13.865945+00:00",
+      "checkedAt": "2026-11-07T11:45:49.863863+00:00",
       "message": "Usługa odpowiada prawidłowo • application/octet-stream • 410814 B."
     },
     {
@@ -88,7 +88,7 @@
       "category": "Pliki",
       "status": "warning",
       "httpStatus": 401,
-      "checkedAt": "2026-11-06T12:59:14.171694+00:00",
+      "checkedAt": "2026-11-07T11:45:50.169073+00:00",
       "message": "Serwer działa, ale blokuje test automatyczny (HTTP 401)."
     },
     {
@@ -98,7 +98,7 @@
       "category": "Pliki",
       "status": "warning",
       "httpStatus": 401,
-      "checkedAt": "2026-11-06T12:59:14.718723+00:00",
+      "checkedAt": "2026-11-07T11:45:51.285053+00:00",
       "message": "Serwer działa, ale blokuje test automatyczny (HTTP 401)."
     },
     {
@@ -108,7 +108,7 @@
       "category": "Pliki",
       "status": "warning",
       "httpStatus": 401,
-      "checkedAt": "2026-11-06T12:59:15.261426+00:00",
+      "checkedAt": "2026-11-07T11:45:52.491028+00:00",
       "message": "Serwer działa, ale blokuje test automatyczny (HTTP 401)."
     },
     {
@@ -118,7 +118,7 @@
       "category": "Systemy Multi-Click",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-06T12:59:15.816667+00:00",
+      "checkedAt": "2026-11-07T11:45:53.064911+00:00",
       "message": "Usługa odpowiada prawidłowo • application/zip • 214085499 B."
     },
     {
@@ -128,7 +128,7 @@
       "category": "Systemy Multi-Click",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-06T12:59:19.586091+00:00",
+      "checkedAt": "2026-11-07T11:45:55.506038+00:00",
       "message": "Usługa odpowiada prawidłowo • application/zip • 306874699 B."
     },
     {
@@ -138,7 +138,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-06T12:59:26.387995+00:00",
+      "checkedAt": "2026-11-07T11:45:58.373010+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     },
     {
@@ -148,7 +148,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-06T12:59:26.930855+00:00",
+      "checkedAt": "2026-11-07T11:45:59.026483+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     },
     {
@@ -158,7 +158,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-06T12:59:27.218993+00:00",
+      "checkedAt": "2026-11-07T11:45:59.556581+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     }
   ]
