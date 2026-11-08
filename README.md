@@ -5,7 +5,7 @@
 ![Enigma2](https://img.shields.io/badge/Enigma2-OpenATV%20%7C%20OpenPLi-blue?style=for-the-badge&logo=linux)
 ![Python](https://img.shields.io/badge/Python-2%20%7C%203-yellow?style=for-the-badge&logo=python)
 ![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
-![AIO Panel](https://img.shields.io/badge/AIO%20Panel-17.0.3-00bcd4?style=for-the-badge)
+![AIO Panel](https://img.shields.io/badge/AIO%20Panel-18.0.0-00bcd4?style=for-the-badge)
 ![AIOHD NEXT](https://img.shields.io/badge/AIOHD%20NEXT-3.2.1-f0b84b?style=for-the-badge)
 
 ---
@@ -85,7 +85,9 @@ Aktualizacja **17.0.2 — 2026-10-23**
 - Usprawniono walidację instalatorów i pakiety IPK/DEB, sprawdzono SHA-256.
 - Zachowano dotychczasowe funkcje z wersji 17.0.1.
 
-[Pobierz aktualny IPK 17.0.3](https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/v17.0.3/enigma2-plugin-extensions-panelaio_17.0.3_all.ipk) • [Opis i instalacja](plugin-aio-panel.html)
+[Pobierz aktualny IPK 18.0.0](https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/18.0.0/enigma2-plugin-extensions-panelaio_18.0.0_all.ipk) • [Pobierz DEB 18.0.0](https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/18.0.0/enigma2-plugin-extensions-panelaio_18.0.0_all.deb) • [Opis i instalacja](plugin-aio-panel.html)
+
+**Nowości 18.0.0 (07.11.2026):** aktualizacja SAT z zachowaniem własnych FAVOURITES, DVB-T/T2, DVB-C i IPTV; kilka list na tunerze, nowa sekcja „Moje projekty”, OSCam Levi45 11968 / Emu r803. Wcześniejsze wydania pozostają opisane poniżej.
 
 ### 📹 OpenCamView 2.0.1 — Python 3
 

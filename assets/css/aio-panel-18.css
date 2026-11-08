@@ -1,0 +1,29 @@
+/* AIO Panel 18.0.0: lokalne rozszerzenie istniejącego stylu strony, bez zmian globalnego UI. */
+.aio-panel18-hero .lead{max-width:72ch}
+.aio-panel18-hero .aio-panel-v2-visual img{max-width:100%;height:auto;display:block}
+.aio-panel18-modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:18px 0}
+.aio-panel18-mode{padding:20px;border:1px solid rgba(91,186,212,.27);border-radius:16px;background:rgba(18,45,68,.5)}
+.aio-panel18-mode.recommended{border-color:rgba(52,211,153,.6);background:linear-gradient(140deg,rgba(15,84,81,.3),rgba(16,40,62,.7))}
+.aio-panel18-mode-number{display:inline-block;color:#74dbe5;font-size:.78rem;font-weight:800;letter-spacing:.09em;margin-bottom:10px}
+.aio-panel18-mode h3{color:#edfaff;margin:0 0 12px;font-size:1.08rem}
+.aio-panel18-mode p{margin:0;line-height:1.65;color:#cce0ea}
+.aio-panel18-caution{border-left:3px solid #68daca;padding:12px 15px;background:rgba(17,87,92,.16);border-radius:0 10px 10px 0}
+.aio-panel18-screen{max-width:920px;margin:18px auto 20px}
+.aio-panel18-screen img{width:100%;height:auto;display:block;border:1px solid rgba(101,196,219,.28);border-radius:13px}
+.aio-panel18-screen p{text-align:center;color:#a9c3d2;font-size:.86rem;margin:10px 0 0}
+.aio-panel18-projects{display:flex;flex-wrap:wrap;gap:9px;margin:18px 0 20px}
+.aio-panel18-projects span{display:inline-flex;padding:9px 12px;background:rgba(48,116,150,.17);border:1px solid rgba(92,178,215,.25);border-radius:10px;color:#d7f2ff;font-weight:600;font-size:.88rem}
+.aio-panel18-thanks{margin-top:24px;padding:19px 22px;background:rgba(20,51,72,.55);border:1px solid rgba(94,174,202,.28);border-radius:14px}
+.aio-panel18-thanks h3{margin:0 0 8px;color:#daf9ff}
+.aio-panel18-thanks p{margin:0;line-height:1.67}
+.aio-panel18-thanks code{white-space:nowrap}
+.aio-panel-v2-fact.aio-panel-v2-sha code{overflow-wrap:anywhere;word-break:break-all}
+.aio-panel18-project-promo{display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,.85fr);gap:20px;padding:24px;margin:18px 0 28px;border:1px solid rgba(75,178,214,.32);border-radius:17px;background:linear-gradient(140deg,rgba(11,64,83,.35),rgba(16,31,54,.8));color:#d4edf5}
+.aio-panel18-project-promo h2{color:#e3f9ff;margin:5px 0 12px;font-size:clamp(1.4rem,2vw,1.8rem)}
+.aio-panel18-project-promo p{line-height:1.65}
+.aio-panel18-project-promo .aio-panel18-flag{font-weight:750;letter-spacing:.08em;text-transform:uppercase;font-size:.77rem;color:#70dbe7}
+.aio-panel18-project-promo img{width:100%;height:auto;display:block;border-radius:12px;border:1px solid rgba(115,197,229,.3)}
+.aio-panel18-project-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.aio-panel18-project-links a{display:inline-block;text-decoration:none;padding:10px 13px;border-radius:9px;border:1px solid rgba(87,187,222,.52);color:#d8faff;font-weight:700}
+.aio-panel18-project-links a:first-child{background:#067b9c;color:white}
+@media(max-width:760px){.aio-panel18-modes{grid-template-columns:1fr}.aio-panel18-project-promo{grid-template-columns:1fr}.aio-panel18-mode{padding:16px}}

@@ -18,15 +18,15 @@
     {
       "id": "aio-panel",
       "name": "AIO Panel",
-      "version": "17.0.3",
+      "version": "18.0.0",
       "page": "plugin-aio-panel.html",
       "category": "Wtyczka Enigma2",
       "status": "active",
-      "statusLabel": "Aktywnie rozwijany",
-      "updated": "28.10.2026",
-      "summary": "JediMakerXtream 6.37 i ChocholousekPicons 5.0.240904: instalacja IPK/DEB z zewnętrznych źródeł przy brakach w feedach; nowy PHub 18+, kontrola pakietów i pamięci FLASH. Enigma2 Python 2/3.",
-      "tested": "Enigma2: Python 2.7 i Python 3; alternatywne instalatory IPK/DEB. PHub 18+ i źródła zewnętrzne zależą od dostępności oraz zgodności obrazu.",
-      "next": "Dalsza weryfikacja alternatywnych źródeł instalacji, obsługiwanych obrazów i pamięci FLASH."
+      "statusLabel": "Nowa wersja 18.0.0",
+      "updated": "07.11.2026",
+      "summary": "Nowy mechanizm aktualizacji list SAT bez naruszania FAVOURITES, własnych bukietów, DVB-T/T2, DVB-C i IPTV; instalowanie kilku list obok siebie, zakładka Moje projekty, OSCam Levi45 11968 / Emu r803. Enigma2 Python 2/3, PL/EN.",
+      "tested": "Próby na Ustym 4K Pro: zachowanie FAVOURITES i numeracji; zgodność z pozostałymi obrazami Enigma2 zależy od tunera i konfiguracji. Obsługa Python 2 / Python 3, PL/EN.",
+      "next": "Dalsze testy synchronizacji SAT oraz odporności na różne struktury bukietów i list."
     },
     {
       "id": "aiohd-next",
@@ -554,46 +554,46 @@
       "access": "konto_AIO"
     },
     {
-      "title": "AIO Panel 17.0.3 — IPK",
-      "href": "https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/v17.0.3/enigma2-plugin-extensions-panelaio_17.0.3_all.ipk",
+      "title": "AIO Panel 18.0.0 — IPK",
+      "href": "https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/18.0.0/enigma2-plugin-extensions-panelaio_18.0.0_all.ipk",
       "category": "Wtyczki",
       "platform": "Enigma2",
-      "version": "17.0.3",
-      "date": "28.10.2026",
+      "version": "18.0.0",
+      "date": "07.11.2026",
       "status": "Aktualna",
       "sourcePage": "plugin-aio-panel.html",
-      "sourceTitle": "AIO Panel 17.0.3",
+      "sourceTitle": "AIO Panel 18.0.0",
       "kind": "IPK",
-      "size": "401.2 KB",
-      "sha256": "f75c75e55c81fa65925c656d48c61df26b1bf3ed36bc745ba74f9e91b43f6660",
-      "official": "Plik na GitHub Releases",
+      "size": "418.5 KiB",
+      "sha256": "2df6a2df207c9f6fe1e891199b7810d004a30823f46fd0a9339505b3ea7c22c3",
+      "official": "Oficjalny GitHub Releases",
       "project_id": "aio-panel",
-      "release_id": "legacy-cbcad5327b5ae652",
+      "release_id": "legacy-3b4eb4f2100abad0",
       "origin": "legacy",
       "published_at": null,
       "verified_at": null,
-      "access": "konto_AIO"
+      "access": "zgodnie_ze_zrodlem"
     },
     {
-      "title": "AIO Panel 17.0.3 — DEB",
-      "href": "https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/v17.0.3/enigma2-plugin-extensions-panelaio_17.0.3_all.deb",
+      "title": "AIO Panel 18.0.0 — DEB",
+      "href": "https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/18.0.0/enigma2-plugin-extensions-panelaio_18.0.0_all.deb",
       "category": "Wtyczki",
       "platform": "Enigma2",
-      "version": "17.0.3",
-      "date": "28.10.2026",
+      "version": "18.0.0",
+      "date": "07.11.2026",
       "status": "Aktualna",
       "sourcePage": "plugin-aio-panel.html",
-      "sourceTitle": "AIO Panel 17.0.3",
+      "sourceTitle": "AIO Panel 18.0.0",
       "kind": "DEB",
-      "size": "401.2 KB",
-      "sha256": "f75c75e55c81fa65925c656d48c61df26b1bf3ed36bc745ba74f9e91b43f6660",
-      "official": "Plik na GitHub Releases",
+      "size": "326.0 KiB",
+      "sha256": "9df6bed7b37500254b45b842d8825a0fc70b123a25aff071a8d202d00f1772b0",
+      "official": "Oficjalny GitHub Releases",
       "project_id": "aio-panel",
-      "release_id": "legacy-e7623162bedf4714",
+      "release_id": "legacy-8067698431044c4d",
       "origin": "legacy",
       "published_at": null,
       "verified_at": null,
-      "access": "konto_AIO"
+      "access": "zgodnie_ze_zrodlem"
     },
     {
       "title": "Pobierz IPK 2.1.1",
@@ -1420,37 +1420,37 @@
       ]
     },
     {
-      "id": "legacy-cbcad5327b5ae652",
+      "id": "legacy-3b4eb4f2100abad0",
       "project_id": "aio-panel",
       "project_name": "AIO Panel",
-      "version": "17.0.3",
-      "date": "2026-10-28",
-      "title": "AIO Panel 17.0.3 — IPK",
-      "summary": "JediMakerXtream 6.37 i ChocholousekPicons 5.0.240904: instalacja IPK/DEB z zewnętrznych źródeł przy brakach w feedach; nowy PHub 18+, kontrola pakietów i pamięci FLASH. Enigma2 Python 2/3.",
+      "version": "18.0.0",
+      "date": "2026-11-07",
+      "title": "AIO Panel 18.0.0 — IPK",
+      "summary": "Nowy mechanizm aktualizacji list SAT bez naruszania FAVOURITES, własnych bukietów, DVB-T/T2, DVB-C i IPTV; instalowanie kilku list obok siebie, zakładka Moje projekty, OSCam Levi45 11968 / Emu r803. Enigma2 Python 2/3, PL/EN.",
       "page": "plugin-aio-panel.html",
       "channel": "legacy",
       "origin": "legacy",
       "published_at": null,
       "verified_at": null,
       "files": [
-        "https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/v17.0.3/enigma2-plugin-extensions-panelaio_17.0.3_all.ipk"
+        "https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/18.0.0/enigma2-plugin-extensions-panelaio_18.0.0_all.ipk"
       ]
     },
     {
-      "id": "legacy-e7623162bedf4714",
+      "id": "legacy-8067698431044c4d",
       "project_id": "aio-panel",
       "project_name": "AIO Panel",
-      "version": "17.0.3",
-      "date": "2026-10-28",
-      "title": "AIO Panel 17.0.3 — DEB",
-      "summary": "JediMakerXtream 6.37 i ChocholousekPicons 5.0.240904: instalacja IPK/DEB z zewnętrznych źródeł przy brakach w feedach; nowy PHub 18+, kontrola pakietów i pamięci FLASH. Enigma2 Python 2/3.",
+      "version": "18.0.0",
+      "date": "2026-11-07",
+      "title": "AIO Panel 18.0.0 — DEB",
+      "summary": "Nowy mechanizm aktualizacji list SAT bez naruszania FAVOURITES, własnych bukietów, DVB-T/T2, DVB-C i IPTV; instalowanie kilku list obok siebie, zakładka Moje projekty, OSCam Levi45 11968 / Emu r803. Enigma2 Python 2/3, PL/EN.",
       "page": "plugin-aio-panel.html",
       "channel": "legacy",
       "origin": "legacy",
       "published_at": null,
       "verified_at": null,
       "files": [
-        "https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/v17.0.3/enigma2-plugin-extensions-panelaio_17.0.3_all.deb"
+        "https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/18.0.0/enigma2-plugin-extensions-panelaio_18.0.0_all.deb"
       ]
     },
     {

@@ -37,25 +37,26 @@
     ]
   },
   {
-    "title": "AIO Panel 17.0.3 — nowa aktualizacja",
-    "desc": "JediMakerXtream 6.37 i ChocholousekPicons 5.0.240904: instalacja IPK/DEB z zewnętrznych źródeł przy brakach w feedach; nowy PHub 18+, kontrola pakietów i pamięci FLASH. Enigma2 Python 2/3.",
+    "title": "AIO Panel 18.0.0 — najnowsza wersja Enigma2",
+    "desc": "Nowy mechanizm aktualizacji list SAT bez naruszania FAVOURITES, własnych bukietów, DVB-T/T2, DVB-C i IPTV; instalowanie kilku list obok siebie, zakładka Moje projekty, OSCam Levi45 11968 / Emu r803. Enigma2 Python 2/3, PL/EN.",
     "url": "plugin-aio-panel.html",
     "tags": [
       "AIO Panel",
-      "17.0.3",
+      "18.0.0",
       "Enigma2",
       "Python 2",
       "Python 3",
-      "JediMakerXtream 6.37",
-      "ChocholousekPicons 5.0.240904",
-      "PHub 18+",
-      "Dla dorosłych 18+",
-      "instalatory",
+      "FAVOURITES",
+      "SAT",
+      "DVB-T/T2",
+      "DVB-C",
+      "IPTV",
+      "bukiety",
+      "Moje projekty",
+      "OSCam Levi45",
       "IPK",
       "DEB",
-      "FLASH",
-      "listy kanałów",
-      "aktualizacje"
+      "aktualizacja"
     ]
   },
   {

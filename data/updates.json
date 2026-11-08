@@ -1,5 +1,31 @@
 [
   {
+    "date": "2026-11-07",
+    "ts": 1794009600000,
+    "type": "release",
+    "title": "AIO Panel 18.0.0 — aktualizacja SAT bez utraty FAVOURITES",
+    "desc": "Nowy mechanizm aktualizacji list SAT bez naruszania FAVOURITES, własnych bukietów, DVB-T/T2, DVB-C i IPTV; instalowanie kilku list obok siebie, zakładka Moje projekty, OSCam Levi45 11968 / Emu r803. Enigma2 Python 2/3, PL/EN.",
+    "details": "AIO Panel 18.0.0 — 7 listopada 2026\n\n• Nowy mechanizm aktualizacji list kanałów Enigma2 z trzema opcjami: zachowaj dane (zalecane), pełna wymiana lub anuluj.\n• Aktualizacja tej samej listy: odświeżenie SAT przy zachowaniu FAVOURITES, separatorów, kolejności, numeracji, DVB-T/T2, DVB-C i własnych IPTV.\n• Instalacja innej listy obok istniejącej — możliwe jest posiadanie kilku zestawów.\n• Weryfikacja danych, dodatkowe zabezpieczenia i możliwość wycofania zmian po wykryciu błędu.\n• Nowa zakładka „Moje projekty” pod „Listy kanałów”; projekty autorskie bez powtórek w innych sekcjach panelu.\n• OSCam Levi45: rewizja źródłowa 11968 / Emu r803; rozdzielenie wersji feedu i wersji zainstalowanej.\n• Poprawiona diagnostyka; utrzymane: Python 2/3, PL/EN, narzędzia, skórki, picony i instalatory.\n• Testy Leopolda Wójcika (Ustym 4K Pro): zachowano 100% własnego FAVOURITES, w tym numery 11130–11197.\n\nUwaga: przed aktualizacją wykonaj kopię konfiguracji i list kanałów.\nPliki IPK oraz DEB są dostępne w oficjalnym GitHub Releases 18.0.0.\nAutor: Paweł Pawełek / AIO Team.",
+    "url": "plugin-aio-panel.html",
+    "tags": [
+      "AIO Panel",
+      "18.0.0",
+      "Enigma2",
+      "Python 2",
+      "Python 3",
+      "FAVOURITES",
+      "DVB-T/T2",
+      "DVB-C",
+      "IPTV",
+      "SAT",
+      "Moje projekty",
+      "OSCam Levi45",
+      "11968",
+      "IPK",
+      "DEB"
+    ]
+  },
+  {
     "date": "2026-10-30",
     "ts": 1793318400000,
     "type": "release",

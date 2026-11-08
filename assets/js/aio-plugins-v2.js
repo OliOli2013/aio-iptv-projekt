@@ -15,7 +15,7 @@ let activeKind='';
 let freeQuery='';
 
 const DESC=[
-  {re:/aio\s*panel/i, kind:'Narzędzia AIO', icon:'AP', image:'pliki/aio-panel-17.0.2.png', desc:'Centrum instalacji i aktualizacji dla Enigma2. Ułatwia dostęp do list kanałów, piconów, narzędzi i dodatków AIO z poziomu samego tunera.', aio:true},
+  {re:/aio\s*panel/i, kind:'Narzędzia AIO', icon:'AP', image:'pliki/aio-panel-18.0.0-kanaly.png', desc:'AIO Panel 18.0.0: instalacja i aktualizacja list SAT z ochroną FAVOURITES, DVB-T/T2, DVB-C i IPTV; Moje projekty i nowe dane OSCam.', aio:true},
   {re:/simple\s*iptv\s*epg|iptv\s*epg/i, kind:'EPG / IPTV', icon:'EP', image:'pliki/simple-iptv-epg-3.2.6-rc11.1-menu.webp', desc:'Simple IPTV EPG RC11.1: XMLTV, rzeczywiste picony, PL/EN, uzgadnianie referencji i import w tle.', aio:true},
   {re:/e2\s*security|aio\s*security/i, kind:'Bezpieczeństwo', icon:'SE', image:'pliki/e2-security-interface-1.1.0.jpg', desc:'Wtyczka do zwiększenia bezpieczeństwa tunera Enigma2. Pomaga sprawdzić ustawienia dostępu i włącza dodatkową ochronę sieciową.', aio:true},
   {re:/e2\s*doctor/i, kind:'Diagnostyka', icon:'ED', image:'pliki/e2-doctor-2.3-main.png', desc:'Centrum diagnostyki i bezpiecznej naprawy Enigma2. Pomaga ocenić stan tunera i znaleźć typowe problemy systemowe.', aio:true},
