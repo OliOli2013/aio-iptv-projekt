@@ -3,6 +3,7 @@
  */
 import {requireUser,requireAdmin,moderationLog,getOwnerId} from '../_community.js';
 import {getStatus} from '../_aio_account_access.js';
+import {ensurePostNotifySchema,unreadPostCount,postInboxRows,openPostNotice} from '../_aio_post_notifications.js'; // AIO_POST_NOTIFY_V1
 
 const HEAD={'Content-Type':'application/json; charset=utf-8','Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff'};
 const respond=(data,status=200)=>new Response(JSON.stringify(data),{status,headers:HEAD});
@@ -53,9 +54,11 @@ async function unreadCount(db,userId,createdAt){
     WHERE m.revoked_at IS NULL AND r.message_id IS NULL
       AND (m.recipient_user_id=? OR (m.audience='all' AND m.created_at>=?))`)
     .bind(userId,userId,createdAt).first();
-  return Number(q?.n||0);
+  const postCount=await unreadPostCount(db,userId,createdAt).catch(e=>{console.error('[AIO post notify] unread',String(e?.message||e).slice(0,90));return 0;});
+  return Number(q?.n||0)+postCount;
 }
 async function inbox(db,userId,createdAt,offset){
+  const limit=offset+40;
   const q=await db.prepare(`SELECT m.id,m.subject,m.created_at,m.audience,r.read_at,
       COALESCE(p.display_name,'Administracja AIO') sender_name
     FROM aio_owner_messages m
@@ -63,9 +66,10 @@ async function inbox(db,userId,createdAt,offset){
     LEFT JOIN community_profiles p ON p.id=m.sender_user_id
     WHERE m.revoked_at IS NULL
       AND (m.recipient_user_id=? OR (m.audience='all' AND m.created_at>=?))
-    ORDER BY m.created_at DESC,m.id DESC LIMIT 40 OFFSET ?`)
-    .bind(userId,userId,createdAt,offset).all();
-  return q.results||[];
+    ORDER BY m.created_at DESC,m.id DESC LIMIT ?`)
+    .bind(userId,userId,createdAt,limit).all();
+  const notices=await postInboxRows(db,userId,createdAt,limit).catch(e=>{console.error('[AIO post notify] inbox',String(e?.message||e).slice(0,90));return [];});
+  return [...(q.results||[]),...notices].sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at))||String(b.id).localeCompare(String(a.id))).slice(offset,offset+40);
 }
 // This reminder is a normal private mailbox message. It is created lazily while the
 // recipient visits AIO during the final 24h. A stable request_id prevents duplicates.
@@ -139,6 +143,7 @@ export async function onRequestGet({request,env}){
       return respond({ok:true,rows:q.results||[]});
     }
     if(!['unread','inbox'].includes(view))fail(400,'Nieznany widok.');
+    await ensurePostNotifySchema(env).catch(e=>console.error('[AIO post notify] schema',String(e?.message||e).slice(0,100)));
     await syncMembershipReminder(env,s.user.id);
     const createdAt=await registeredAt(db,s.user.id);
     const unread=await unreadCount(db,s.user.id,createdAt);
@@ -163,6 +168,11 @@ export async function onRequestPost({request,env}){
     if(action==='open'){
       const id=String(body.id||'');if(!validId(id))fail(400,'Nieprawidłowe ID wiadomości.');
       const created=await registeredAt(db,s.user.id);
+      if(id.startsWith('p_')){
+        await ensurePostNotifySchema(env);
+        const post=await openPostNotice(db,s.user.id,created,id);
+        return respond({ok:true,message:post,unread:await unreadCount(db,s.user.id,created)});
+      }
       const msg=await db.prepare(`SELECT m.id,m.subject,m.body,m.created_at,m.audience,
           COALESCE(p.display_name,'Administracja AIO') sender_name
         FROM aio_owner_messages m LEFT JOIN community_profiles p ON p.id=m.sender_user_id

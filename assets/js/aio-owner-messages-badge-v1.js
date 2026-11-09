@@ -9,7 +9,7 @@
      let mark=a.querySelector('.aom1-envelope');
      if(!n){mark?.remove();a.removeAttribute('data-aom-unread');continue;}
      if(!mark){mark=document.createElement('span');mark.className='aom1-envelope';mark.setAttribute('aria-hidden','true');a.append(mark);}
-     mark.textContent='✉';mark.title=n+' nieprzeczytanych wiadomości od administracji';
+     mark.textContent='✉';mark.title=n+' nieprzeczytanych wiadomości i powiadomień';
      a.dataset.aomUnread=String(n);
      a.title=n+' nieprzeczytanych wiadomości — Moje konto';
    }

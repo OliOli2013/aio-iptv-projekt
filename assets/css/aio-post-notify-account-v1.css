@@ -1,0 +1,16 @@
+/* AIO Post Notifications V1 — account preferences. */
+.apn-settings{margin:1rem 0 1.25rem;padding:1.1rem;border:1px solid #25536a;border-radius:14px;background:rgba(5,30,45,.55);color:#eef9ff}
+.apn-settings[hidden]{display:none!important}
+.apn-title h3{font-size:1.1rem;margin:0 0 .35rem;color:#f0faff}
+.apn-title p{margin:.15rem 0 .85rem;color:#bad3df;font-size:.94rem;line-height:1.55}
+.apn-form{display:grid;gap:.7rem}
+.apn-toggle{display:flex;align-items:flex-start;gap:.7rem;cursor:pointer;line-height:1.45;font-weight:600}
+.apn-toggle input{width:19px;height:19px;flex:none;accent-color:#22d8f1;margin:.16rem 0 0}
+.apn-toggle:has(input:disabled){opacity:.65;cursor:not-allowed}
+.apn-note{margin:.1rem 0 .3rem;font-size:.87rem;line-height:1.5;color:#adcbd9}
+.apn-save{justify-self:start;border:0;border-radius:10px;padding:.65rem 1rem;cursor:pointer;background:#16a8ca;color:#001b29;font-weight:800}
+.apn-save:hover{background:#39d4ef}.apn-save:disabled{opacity:.5;cursor:wait}
+.apn-status{margin:0;min-height:1.3em;font-size:.9rem;color:#91e7b2}.apn-status.is-error{color:#ffb5b5}
+.apn-post-link{display:inline-block;margin:.65rem 0 0;padding:.5rem .75rem;border:1px solid #2bc6e5;border-radius:8px;color:#b6f5ff;text-decoration:none;font-weight:700}
+.apn-post-link:hover{background:rgba(43,198,229,.14)}
+@media(max-width:520px){.apn-settings{padding:.85rem}.apn-title h3{font-size:1rem}.apn-toggle{font-size:.92rem}}

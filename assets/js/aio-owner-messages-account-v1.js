@@ -17,14 +17,16 @@
    for(const msg of rows){
      const item=e('article','aom1-item'+(msg.read_at?'':' aom1-unread'));
      const head=e('div','aom1-item-head');head.append(e('strong','',msg.subject),e('time','',fmt(msg.created_at)));
-     const kind=e('div','aom1-muted',msg.audience==='all'?'Wiadomość do wszystkich • '+msg.sender_name:'Wiadomość indywidualna • '+msg.sender_name);
-     const action=e('button','aom1-button',msg.read_at?'Otwórz ponownie':'✉ Otwórz wiadomość');action.type='button';
+     const kind=e('div','aom1-muted',msg.kind==='post'?'Nowy post • '+msg.sender_name:(msg.audience==='all'?'Wiadomość do wszystkich • '+msg.sender_name:'Wiadomość indywidualna • '+msg.sender_name));
+     const action=e('button','aom1-button',msg.kind==='post'?'📄 Zobacz powiadomienie':(msg.read_at?'Otwórz ponownie':'✉ Otwórz wiadomość'));action.type='button';
      const body=e('div','aom1-body');body.hidden=true;
      action.addEventListener('click',async()=>{
        if(busy)return;busy=true;action.disabled=true;
        try{
          const data=await req(API,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({action:'open',id:msg.id})});
-         body.replaceChildren(e('p','aom1-text',data.message.body));body.hidden=false;
+         body.replaceChildren(e('p','aom1-text',data.message.body));
+         if(msg.kind==='post' && /^post\.html\?id=[a-z0-9_-]{8,100}$/i.test(String(data.message.post_url||''))){const link=e('a','apn-post-link','Otwórz pełny post →');link.href=data.message.post_url;body.append(link);}
+         body.hidden=false;
          item.classList.remove('aom1-unread');action.textContent='Wiadomość otwarta';
          unreadTag.textContent=data.unread?data.unread+' nieprzeczytanych':'Brak nowych wiadomości';
          notify();setStatus('Wiadomość została otwarta.');
@@ -47,7 +49,7 @@
  }
  function init(){const host=document.querySelector('.aio-account-main');if(!host)return;
    root=e('section','aom1-root aom1-inbox');root.id='aio-messages';
-   const top=e('div','aom1-top');const title=e('div');title.append(e('p','aom1-kicker','WIADOMOŚCI PRYWATNE'),e('h2','','✉ Wiadomości od administracji AIO'),e('p','aom1-muted','Wiadomości są przypisane do Twojego konta. Dopiero otwarcie oznacza je jako przeczytane.'));
+   const top=e('div','aom1-top');const title=e('div');title.append(e('p','aom1-kicker','WIADOMOŚCI PRYWATNE'),e('h2','','✉ Moje wiadomości i powiadomienia'),e('p','aom1-muted','Wiadomości od administracji i informacje o nowych postach. Dopiero otwarcie oznacza je jako przeczytane.'));
    unreadTag=e('span','aom1-count','—');top.append(title,unreadTag);
    const tools=e('div','aom1-actions');const reload=e('button','aom1-button','↻ Odśwież skrzynkę');reload.type='button';reload.addEventListener('click',()=>void load());tools.append(reload);
    status=e('p','aom1-status','');status.setAttribute('role','status');status.setAttribute('aria-live','polite');

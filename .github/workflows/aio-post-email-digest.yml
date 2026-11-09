@@ -1,0 +1,30 @@
+name: AIO - Powiadomienia e-mail o nowych postach
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: aio-post-email-digest
+  cancel-in-progress: false
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - name: Wyślij zestawienia dla subskrybentów
+        env:
+          TOKEN: ${{ secrets.AIO_POST_NOTIFY_TOKEN }}
+        run: |
+          if [ -z "$TOKEN" ]; then
+            echo 'Brak AIO_POST_NOTIFY_TOKEN w GitHub Actions Secrets.' >&2
+            exit 1
+          fi
+          curl --fail --silent --show-error --retry 2 --retry-delay 4 \
+            --connect-timeout 12 --max-time 180 \
+            -X POST 'https://aio-iptv-projekt.pages.dev/api/aio-post-notify' \
+            -H 'content-type: application/json' \
+            -H "Authorization: Bearer ${TOKEN}" \
+            --data '{"action":"dispatch"}' \
+            --output /dev/null
