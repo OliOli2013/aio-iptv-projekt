@@ -51,7 +51,7 @@
    }catch(error){
      if(generation!==epoch)return;
      if(error.status===401||error.status===403){canSend(false);history.replaceChildren();historyTitle.textContent='Moje wiadomości';status('Sesja wygasła. Zaloguj się ponownie.',true);}
-     else status('Nie udało się wczytać historii: '+error.message,true);
+     else status('Nie udało się wczytać historii. Spróbuj ponownie później.',true);
    }finally{loading=false;refreshButton.disabled=false;}
  }
  async function verifyAccount(){
@@ -86,7 +86,7 @@
    }catch(error){
      if(generation!==epoch)return;
      if(error.status===401||error.status===403){canSend(false);status('Wymagane ponowne zalogowanie i potwierdzenie e-maila.',true);}
-     else status('Nie udało się wysłać: '+error.message,true);
+     else status('Nie udało się wysłać wiadomości. Spróbuj ponownie później.',true);
    }finally{sending=false;send.disabled=!authorized;}
  }
  function init(){

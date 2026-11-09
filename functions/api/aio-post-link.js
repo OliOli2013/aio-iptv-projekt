@@ -59,18 +59,18 @@ export async function onRequestPost({request,env}){
     const statsRecorded=await recordClickSafely(env,{postId,userId:user?.id||null,kind:classified.kind,url:clicked.href});
     if(!user){
       const anon=await checkAnonymousFileBurst(env,request);
-      if(anon.blocked)return result({ok:false,restricted:true,error:'Zbyt wiele anonimowych żądań. Spróbuj ponownie później. Kontakt: /contact.html.'},anon.status||429);
+      if(anon.blocked)return result({ok:false,restricted:true,error:'Zbyt wiele prób. Spróbuj ponownie później.'},anon.status||429);
       return result({ok:false,login_required:true,error:'Pobieranie wymaga zalogowania do AIO.'},401);
     }
     // External-file handoffs also count toward the V6 authenticated burst threshold.
     const burst=await monitorDownload(env,request,user.id);
-    if(burst.blocked)return result({ok:false,restricted:true,error:'Konto czasowo zablokowane przez AIO Security V6. Kontakt: /contact.html.'},403);
+    if(burst.blocked)return result({ok:false,restricted:true,error:'Dostęp do pobierania jest obecnie ograniczony. Skontaktuj się z nami.'},403);
     const hold=await activeSharedHold(env,request,user.id);
-    if(hold)return result({ok:false,restricted:true,error:hold.message},403);
+    if(hold)return result({ok:false,restricted:true,error:'Dostęp do pobierania jest obecnie ograniczony. Skontaktuj się z nami.'},403);
     const status=await getStatus(env,user.id);
     if(status.email_verified===false)return result({ok:false,email_verification_required:true,error:'Najpierw potwierdź e-mail.'},403);
     const paidHold=await reviewPaidSessionSharing(env,request,user.id,status.active===true && status.owner!==true);
-    if(paidHold)return result({ok:false,restricted:true,error:paidHold.message},403);
+    if(paidHold)return result({ok:false,restricted:true,error:'Dostęp do pobierania jest obecnie ograniczony. Skontaktuj się z nami.'},403);
     if(classified.kind==='local'){
       // No debit here: the actual Cloudflare /pliki/ handler validates and debits on GET.
       const local=new URL(clicked.href);local.searchParams.set('aio_post',postId);
@@ -81,7 +81,7 @@ export async function onRequestPost({request,env}){
     const permit=await consumeFree(env,user.id,fileKey);
     if(!permit.allowed){
       await logSecurity(env,request,'download_denied',user.id,'Limit: link do pliku w poście');
-      return result({ok:false,limit_reached:true,error:'Wykorzystano 3 darmowe pobrania na 168 godzin.'},429);
+      return result({ok:false,limit_reached:true,error:'Wykorzystano bezpłatne pobrania w obecnym okresie 7 dni.'},429);
     }
     try {await ensurePostLinkSchema(env);
     await env.COMMUNITY_DB.prepare(`INSERT INTO aio_post_link_handoffs

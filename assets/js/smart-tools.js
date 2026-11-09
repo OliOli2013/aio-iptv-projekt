@@ -318,7 +318,7 @@
       payload = { generatedAt: '', items: [] };
     }
     const items = Array.isArray(payload.items) ? payload.items : [];
-    if (updated) updated.textContent = payload.generatedAt ? new Date(payload.generatedAt).toLocaleString('pl-PL') : 'oczekuje na pierwszy test GitHub Actions';
+    if (updated) updated.textContent = payload.generatedAt ? new Date(payload.generatedAt).toLocaleString('pl-PL') : 'czekamy na pierwszy raport';
 
     function render() {
       const category = filter?.value || '';
@@ -339,8 +339,8 @@
         const statusLabel = { online: 'DZIAŁA', warning: 'OSTRZEŻENIE', offline: 'NIEDOSTĘPNE', unknown: 'OCZEKUJE' }[status] || 'OCZEKUJE';
         return `<article class="service-card status-${status}">
           <div class="service-dot" aria-hidden="true"></div>
-          <div><span class="service-category">${escapeHtml(item.category || 'Usługa')}</span><h3>${escapeHtml(item.name || item.id)}</h3><p>${escapeHtml(item.message || 'Brak danych z testu.')}</p><small>${item.checkedAt ? `Test: ${escapeHtml(new Date(item.checkedAt).toLocaleString('pl-PL'))}` : 'Test zostanie wykonany automatycznie.'}</small></div>
-          <div class="service-meta"><strong>${statusLabel}</strong>${item.httpStatus ? `<span>HTTP ${escapeHtml(item.httpStatus)}</span>` : ''}${item.url ? `<a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer" data-support-bypass="true">Otwórz</a>` : ''}</div>
+          <div><span class="service-category">${escapeHtml(item.category || 'Usługa')}</span><h3>${escapeHtml(item.name || item.id)}</h3><p>${escapeHtml(status==='online'?'Usługa jest dostępna.':status==='warning'?'Usługa działa z ograniczeniami lub wymaga zalogowania.':status==='offline'?'Usługa jest chwilowo niedostępna.':'Trwa sprawdzanie dostępności.')}</p><small>${item.checkedAt ? `Test: ${escapeHtml(new Date(item.checkedAt).toLocaleString('pl-PL'))}` : 'Test zostanie wykonany automatycznie.'}</small></div>
+          <div class="service-meta"><strong>${statusLabel}</strong>${item.url ? `<a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer" data-support-bypass="true">Otwórz</a>` : ''}</div>
         </article>`;
       }).join('') || '<div class="empty-state">Brak pozycji dla wybranego filtra.</div>';
     }
@@ -409,7 +409,7 @@
         $('#qrResult')?.removeAttribute('hidden');
         const empty = $('#qrEmpty'); if (empty) empty.hidden = true;
       } catch (error) {
-        output.innerHTML = `<p class="form-error">${escapeHtml(error.message)}</p>`;
+        output.innerHTML = `<p class="form-error">Nie udało się przygotować kodu QR. Spróbuj ponownie.</p>`;
       }
     });
 
@@ -500,7 +500,7 @@
       modal.setAttribute('aria-hidden', 'false');
       document.body.classList.add('qr-modal-open');
       modal.querySelector('[data-qr-close]')?.focus();
-    }).catch(error => alert(error.message));
+    }).catch(error => alert('Nie udało się przygotować kodu QR. Spróbuj ponownie.'));
   }
 
   function closeQrModal() {

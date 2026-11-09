@@ -40,13 +40,13 @@
      if(type==='report'&&!confirm('Czy rzeczywiście dokonano wpłaty? Samo wysłanie zgłoszenia nie przyznaje dostępu.'))return;
      busy=true;send.disabled=true;msg.textContent='Zapisywanie…';
      try{const body=type==='edit'?{action:'update',id:item.id,purpose:purpose.value,method:method.value}:{action:'report',id:item.id,payer_identifier:payer.value.trim(),declared_pln:amount.value};const d=await api(body);close();await refresh();message(d.message||'Zapisano.');}
-     catch(e){msg.textContent=e.message;send.disabled=false;}finally{busy=false;}
+     catch(e){msg.textContent='Nie udało się zapisać zmian. Spróbuj ponownie.';send.disabled=false;}finally{busy=false;}
    });
    document.body.append(dialog);dialog.showModal();
  }
  async function perform(item,action){if(busy)return;const isDelete=action==='delete';const text=isDelete?'Usunąć na stałe nieopłacony wybór? Tej czynności nie można cofnąć.':'Anulować zgłoszenie wpłaty? Nie będzie już oczekiwało na zatwierdzenie. Potwierdzonych płatności to nie zmienia.';
    if(!confirm(text))return;busy=true;message('Zapisywanie zmiany…');
-   try{const d=await api({action,id:item.id});await refresh();message(d.message||'Zapisano.');}catch(e){message(e.message,true);}finally{busy=false;}
+   try{const d=await api({action,id:item.id});await refresh();message(d.message||'Zapisano.');}catch(e){message('Nie udało się zapisać zmian. Spróbuj ponownie.',true);}finally{busy=false;}
  }
  function card(item){const box=el('article',undefined,'asm-item status-'+item.status);
    const heading=el('div',undefined,'asm-item-heading');const identity=el('div',undefined,'asm-item-title');identity.append(el('strong',PURPOSE[item.purpose]||item.purpose));identity.append(el('span',item.reference+' · '+(METHOD[item.method]||item.method)+' · '+date(item.created_at)));
@@ -75,7 +75,7 @@
      list.replaceChildren();const rows=d.rows||[];count.textContent=String(rows.length);
      if(!rows.length){const empty=el('div',undefined,'asm-empty');empty.append(el('strong','Brak zgłoszeń dotyczących dostępu'));empty.append(el('p','Wybór 7 dni lub VIP zapiszesz na stronie wsparcia. Dobrowolne darowizny nie wymagają zgłoszenia.'));const a=el('a','Wybierz wsparcie →','asm-btn primary');a.href='/support.html#wesprzyj-projekt';empty.append(a);list.append(empty);}
      else for(const item of rows)list.append(card(item));message('');
-   }catch(e){if(seq!==requestNo)return;root.hidden=false;message('Nie udało się pobrać zgłoszeń: '+e.message,true);}
+   }catch(e){if(seq!==requestNo)return;root.hidden=false;message('Nie udało się pobrać zgłoszeń. Spróbuj ponownie później.',true);}
  }
  const start=()=>{void refresh();document.addEventListener('aio-community-auth',()=>void refresh());document.addEventListener('aio-community-ready',()=>void refresh());root.querySelector('[data-asm-refresh]')?.addEventListener('click',()=>void refresh());};
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();

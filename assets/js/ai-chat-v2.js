@@ -54,7 +54,7 @@
       if(label){
         if(state === 'online') label.textContent = 'Asystent online';
         else if(state === 'loading') label.textContent = 'Łączenie / analiza';
-        else if(state === 'offline') label.textContent = 'Tryb awaryjny';
+        else if(state === 'offline') label.textContent = 'Chwilowo niedostępny';
         else label.textContent = 'Status asystenta';
       }
     }

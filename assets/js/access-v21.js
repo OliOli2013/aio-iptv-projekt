@@ -57,7 +57,7 @@
   function accessTrack(eventType){if(!flow)return;let visitorId='';try{visitorId=localStorage.getItem('aio_site_visitor_v1')||'';}catch(error){}try{fetch('/api/access-activity',{method:'POST',credentials:'include',cache:'no-store',keepalive:true,headers:{'content-type':'application/json'},body:JSON.stringify({event:eventType,kind:flow.kind||'download',target:flow.label||safeFileName(flow.href),method:flow.method||'',path:location.pathname,visitorId})}).catch(()=>{});}catch(error){}}
 
   function loadFlow() {
-    if (!token) return invalid('Brak aktywnej sesji AIO Access. Otwórz plik z normalnej strony AIO-IPTV.pl.');
+    if (!token) return invalid('To zgłoszenie nie jest już aktywne. Wróć do pobierania i spróbuj ponownie.');
     try { flow = JSON.parse(sessionStorage.getItem(FLOW_PREFIX + token) || 'null'); }
     catch (error) { flow = null; }
     if (!flow || flow.token !== token || flow.v !== 21) return invalid('Ta sesja nie istnieje albo została już zakończona. Wróć do wybranego pliku i rozpocznij ponownie.');
@@ -216,7 +216,7 @@
       back.href='downloads.html';back.textContent='Wróć do pobierania';
       window.dispatchEvent(new CustomEvent('aio-access-pending-approval',{detail:{id:d.request_id}}));
     }catch(e){
-      status.textContent='AIO Access: '+String(e?.message||e);
+      status.textContent='Nie udało się wysłać zgłoszenia. Spróbuj ponownie lub skontaktuj się z nami.';
       status.classList.add('is-error');
       unlock.disabled=false;
     }

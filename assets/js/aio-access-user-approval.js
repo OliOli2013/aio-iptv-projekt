@@ -21,7 +21,7 @@
       e.preventDefault();if(!latest)return;
       if(!textarea.value.trim()||textarea.value.trim().length<20){status.textContent='Wpisz co najmniej 20 znaków.';return;}
       send.disabled=true;
-      try{const r=await api({action:'expedite',id:latest.id,message:textarea.value.trim()});status.textContent=r.message;await refresh();setTimeout(()=>dlg.close(),1500);}catch(x){status.textContent=x.message;}finally{send.disabled=false;}
+      try{const r=await api({action:'expedite',id:latest.id,message:textarea.value.trim()});status.textContent=r.message;await refresh();setTimeout(()=>dlg.close(),1500);}catch(x){status.textContent='Nie udało się wysłać wiadomości. Spróbuj ponownie.';}finally{send.disabled=false;}
     });
     document.body.append(dlg);return dlg;
   }
@@ -30,7 +30,7 @@
     root.replaceChildren();latest=(items||[]).find(x=>x.status==='pending')||null;
     if(!latest){
       const approved=(items||[]).find(x=>x.status==='approved');
-      if(approved)root.append(el('p','Twoje zgłoszenie wsparcia zostało zatwierdzone. Odśwież stronę, aby zobaczyć dostęp AIO Access.')); else { const rejected=(items||[]).find(x=>x.status==='rejected'); if(rejected)root.append(el('p','Zgłoszenie odrzucono: '+(rejected.review_reason||'Nie potwierdzono wpłaty. Skontaktuj się z administratorem.'))); }
+      if(approved)root.append(el('p','Twoje zgłoszenie wsparcia zostało zatwierdzone. Odśwież stronę, aby sprawdzić dostęp do pobierania.')); else { const rejected=(items||[]).find(x=>x.status==='rejected'); if(rejected)root.append(el('p','Zgłoszenie odrzucono: '+(rejected.review_reason||'Nie potwierdzono wpłaty. Skontaktuj się z administratorem.'))); }
       return;
     }
     const heading=el('strong','Wpłata oczekuje na akceptację — skontaktuj się z administratorem');root.append(heading);

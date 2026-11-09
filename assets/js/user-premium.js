@@ -772,10 +772,10 @@
         accessIndicator.innerHTML='<span class="aio-access-dot">!</span><div><strong>Potwierdź e-mail</strong><small>Przed pobieraniem plików musisz potwierdzić adres e-mail konta AIO. Zaloguj się ponownie, aby wysłać link.</small></div><a href="community.html?email_verification=1">Potwierdź adres</a>';
       }else if(info.owner===true && info.unlimited===true && info.active===true){
         accessIndicator.className='aio-access-indicator is-unlocked';
-        accessIndicator.innerHTML='<span class="aio-access-dot">★</span><div><strong>AIO — konto właściciela</strong><small>Stały, nielimitowany dostęp do pobierania. Limit 3 plików na 168 godzin nie dotyczy właściciela strony.</small></div><a href="konto.html">Moje konto</a>';
+        accessIndicator.innerHTML='<span class="aio-access-dot">★</span><div><strong>AIO — konto właściciela</strong><small>Stały, nielimitowany dostęp do pobierania. Standardowe limity pobierania nie dotyczą konta właściciela.</small></div><a href="konto.html">Moje konto</a>';
       }else if(info.restricted===true){
         accessIndicator.className='aio-access-indicator is-locked';
-        accessIndicator.innerHTML='<span class="aio-access-dot">!</span><div><strong>AIO — ostrzeżenie o wspólnym IP</strong><small>Pobieranie czasowo wstrzymane. Jeżeli korzystasz z domowej sieci z innym użytkownikiem, zgłoś to administratorowi w Moim koncie.</small></div><a href="konto.html">Moje konto</a>';
+        accessIndicator.innerHTML='<span class="aio-access-dot">!</span><div><strong>Pobieranie wstrzymane</strong><small>Jeśli uważasz to za pomyłkę, skontaktuj się z nami przez Moje konto.</small></div><a href="konto.html">Moje konto</a>';
       }else if(info.vip && info.active){
         accessIndicator.className='aio-access-indicator is-unlocked';
         const until=new Intl.DateTimeFormat('pl-PL',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(info.expires_at));
@@ -783,15 +783,15 @@
       }else if(info.active){
         accessIndicator.className='aio-access-indicator is-unlocked';
         const until=new Intl.DateTimeFormat('pl-PL',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(info.expires_at));
-        accessIndicator.innerHTML='<span class="aio-access-dot">✓</span><div><strong>AIO Access — dostęp aktywny</strong><small>7 dni liczone od odblokowania. Ważność: '+until+'. Uprawnienie przypisane do konta.</small></div><a href="support.html">Wsparcie projektu</a>';
+        accessIndicator.innerHTML='<span class="aio-access-dot">✓</span><div><strong>Dostęp aktywny</strong><small>7 dni liczone od odblokowania. Ważność: '+until+'. Uprawnienie przypisane do konta.</small></div><a href="support.html">Wsparcie projektu</a>';
       }else if(info.free_remaining>0){
         accessIndicator.className='aio-access-indicator is-free';
-        accessIndicator.innerHTML='<span class="aio-access-dot">'+info.free_remaining+'</span><div><strong>AIO Access — darmowe pobrania</strong><small>Pozostało '+info.free_remaining+' z 3 darmowych pobrań w okresie 7 dni.</small></div><a href="support.html">Zasady</a>';
+        accessIndicator.innerHTML='<span class="aio-access-dot">'+info.free_remaining+'</span><div><strong>Dostępne pobrania</strong><small>Pozostało '+info.free_remaining+' z 3 darmowych pobrań w okresie 7 dni.</small></div><a href="support.html">Zasady</a>';
       }else{
         accessIndicator.className='aio-access-indicator is-locked';
-        accessIndicator.innerHTML='<span class="aio-access-dot">!</span><div><strong>AIO Access — limit 7-dniowy wykorzystany</strong><small>Po potwierdzeniu wpłaty administrator przyzna Ci 7 dni dostępu na konto.</small></div><a href="support.html">Wsparcie</a>';
+        accessIndicator.innerHTML='<span class="aio-access-dot">!</span><div><strong>Limit pobierania wykorzystany</strong><small>Po potwierdzeniu wpłaty administrator przyzna Ci 7 dni dostępu na konto.</small></div><a href="support.html">Wsparcie</a>';
       }
-    }).catch(()=>{accessIndicator.textContent='AIO Access: chwilowo nie można sprawdzić uprawnień. Spróbuj ponownie później.';});
+    }).catch(()=>{accessIndicator.textContent='Nie można teraz sprawdzić dostępnych pobrań. Spróbuj ponownie później.';});
   }
 
   function createSupportModal() {
@@ -804,7 +804,7 @@
       <section class="support-gate-dialog" role="dialog" aria-modal="true" aria-labelledby="support-gate-title" aria-describedby="support-gate-description">
         <button class="support-gate-x" type="button" aria-label="Zamknij" data-support-close>×</button>
         <div class="support-gate-icon" aria-hidden="true">♥</div>
-        <p class="support-gate-eyebrow">AIO ACCESS 2.1 • WSPARCIE PROJEKTÓW</p>
+        <p class="support-gate-eyebrow">WSPARCIE PROJEKTÓW AIO</p>
         <h2 id="support-gate-title">Pomóż rozwijać projekty dla Enigma2</h2>
         <p id="support-gate-description">Trzy pobrania na 7 dni od pierwszego pobrania są bezpłatne. Po potwierdzonym wsparciu kawą otrzymasz 7 dni dostępu przypisane do konta. Wsparcie pomaga rozwijać stronę oraz projekty AIO.</p>
         <div class="aio-access-v31-support-note" role="note" hidden>
@@ -940,7 +940,7 @@ async function accountDownload(item,kind){
       }
       trackAccessActivity('limit_reached',item,{kind});
       openSupportModal(item,kind==='community'?'community-link-limit':'limit');
-    }catch(e){console.error('AIO Access',e);alert('AIO Access: '+e.message);}
+    }catch(e){console.error('AIO Access',e);alert('Nie udało się rozpocząć pobierania. Spróbuj ponownie lub skontaktuj się z nami.');}
   }
 
   // AIO Access V5: post links are checked against published D1 text on the server.
@@ -967,7 +967,7 @@ async function accountDownload(item,kind){
       if(info.kind==='external')trackAccessActivity('free_access',item,{kind:'community',source:'post'});
       openDownloadTarget({...item,href:info.href});
       if(info.kind==='external')updateAccessIndicator();
-    }catch(err){console.error('AIO V5 post link',err);alert('AIO: '+String(err.message||err));}
+    }catch(err){console.error('AIO V5 post link',err);alert('Nie udało się otworzyć wybranego pliku. Spróbuj ponownie lub skontaktuj się z nami.');}
   }
   function handleCommunityLinkAccess(item) {
     if(!item||!item.href)return false;

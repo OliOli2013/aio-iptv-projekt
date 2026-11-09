@@ -60,26 +60,26 @@ async function handle(context){
     // V6: konto właściciela zawsze wyłączone; decyzje tylko po uwierzytelnionym ID konta.
     if(request.method==='GET'){
       const burst=await monitorDownload(env,request,user.id);
-      if(burst.blocked)return accessDenied('Konto zablokowane przez AIO Security V6. Jeśli to pomyłka, skontaktuj się przez /contact.html.',403);
+      if(burst.blocked)return accessDenied('Dostęp do pobierania jest obecnie ograniczony. Skontaktuj się z nami.',403);
     }
     const hold=await activeSharedHold(env,request,user.id);
     if(hold){
       if(request.method==='GET'){
         const burst=await monitorDownload(env,request,user.id,{denied:true});
-        if(burst.blocked)return accessDenied('Konto zablokowane przez AIO Security V6. Kontakt: /contact.html.',403);
+        if(burst.blocked)return accessDenied('Dostęp do pobierania jest obecnie ograniczony. Skontaktuj się z nami.',403);
       }
       if(request.method!=="HEAD")await logSecurity(env,request,"download_hold",user.id);
-      return accessDenied(hold.message,403);
+      return accessDenied('Dostęp do pobierania jest obecnie ograniczony. Skontaktuj się z nami.',403);
     }
     const state=await getStatus(env,user.id);
     if(request.method==='GET' && state.active===true && state.owner!==true){
       const sharing=await reviewPaidSessionSharing(env,request,user.id,true);
-      if(sharing){await logSecurity(env,request,'download_hold',user.id,'Płatne konto — współdzielenie');return accessDenied(sharing.message,403);}
+      if(sharing){await logSecurity(env,request,'download_hold',user.id,'Płatne konto — współdzielenie');return accessDenied('Dostęp do pobierania jest obecnie ograniczony. Skontaktuj się z nami.',403);}
     }
     if(state.email_verified===false){
       if(request.method==='GET'){
         const burst=await monitorDownload(env,request,user.id,{denied:true});
-        if(burst.blocked)return accessDenied('Konto zablokowane przez AIO Security V6. Kontakt: /contact.html.',403);
+        if(burst.blocked)return accessDenied('Dostęp do pobierania jest obecnie ograniczony. Skontaktuj się z nami.',403);
       }
       if(request.method!=="HEAD")await logSecurity(env,request,"download_denied",user.id,"E-mail niezweryfikowany");
       if(request.method==='HEAD')return accessDenied('Najpierw potwierdź adres e-mail.',403);
@@ -90,7 +90,7 @@ async function handle(context){
     if(!state.active && state.free_remaining<=0 && !retry){
       if(request.method==='GET'){
         const burst=await monitorDownload(env,request,user.id,{denied:true});
-        if(burst.blocked)return accessDenied('Konto zablokowane przez AIO Security V6. Kontakt: /contact.html.',403);
+        if(burst.blocked)return accessDenied('Dostęp do pobierania jest obecnie ograniczony. Skontaktuj się z nami.',403);
       }
       if(request.method==='HEAD')return accessDenied('Limit 7-dniowy wykorzystany.',429);
       await logSecurity(env,request,"download_denied",user.id,"Limit pobierania");

@@ -28,7 +28,7 @@
          item.classList.remove('aom1-unread');action.textContent='Wiadomość otwarta';
          unreadTag.textContent=data.unread?data.unread+' nieprzeczytanych':'Brak nowych wiadomości';
          notify();setStatus('Wiadomość została otwarta.');
-       }catch(err){setStatus(err.message,true);}finally{busy=false;action.disabled=false;}
+       }catch(err){setStatus('Nie udało się otworzyć wiadomości. Spróbuj ponownie.',true);}finally{busy=false;action.disabled=false;}
      });
      item.append(head,kind,action,body);items.append(item);
    }
@@ -42,7 +42,7 @@
    try{const d=await req(API+'?view=inbox&offset='+page);authenticated=true;render(d);setStatus('Ostatnia aktualizacja: '+new Date().toLocaleTimeString('pl-PL'));}
    catch(err){authenticated=false;items.replaceChildren();unreadTag.textContent='—';
      if(err.status===401||err.status===403){setStatus('Zaloguj się i potwierdź e-mail, aby przeczytać wiadomości od administracji.');}
-     else setStatus('Nie udało się pobrać wiadomości: '+err.message,true);
+     else setStatus('Nie udało się pobrać wiadomości. Spróbuj ponownie później.',true);
    }
  }
  function init(){const host=document.querySelector('.aio-account-main');if(!host)return;

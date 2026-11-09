@@ -363,22 +363,21 @@
     });
 
     if (best && bestScore > 0) {
-      let text = 'Tryb lokalny — ' + best.title + ': ' + (best.summary || '');
+      let text = 'Wskazówka — ' + best.title + ': ' + (best.summary || '');
       if (Array.isArray(best.commands) && best.commands.length) {
         text += '\n\nKomenda:\n' + best.commands[0];
       }
-      if (best.link) text += '\n\nWięcej: ' + best.link;
+      if (best.link) text += '\n\nWięcej informacji znajdziesz w Poradnikach lub Społeczności AIO.';
       return text;
     }
 
     return [
-      'Tryb lokalny: backend AI jest chwilowo niedostępny i lokalna baza nie ma dokładnej odpowiedzi.',
+      'Asystent jest chwilowo niedostępny, a w dostępnych wskazówkach nie znalazłem dokładnej odpowiedzi.',
       '',
       'Możesz od razu użyć:',
-      '• Analizator logów: log-analyzer.html',
-      '• Baza błędów: errors.html',
-      '• Asystent doboru: assistant.html',
-      '• Społeczność AIO: community.html'
+      '• Analizator logów w dziale Narzędzia',
+       '• Baza błędów w Poradnikach',
+       '• Społeczność AIO — pytania i pomoc'
     ].join('\n');
   }
 
@@ -387,13 +386,13 @@
     const input = byId('inlineAiInput');
     if (!form || !input) return;
 
-    setStatus('Sprawdzanie backendu Asystenta AIO Panel…', 'loading');
+    setStatus('Uruchamiam Asystenta AIO…', 'loading');
 
     try {
       state.config = await fetchJsonNoCache(CONFIG_URL);
     } catch (error) {
       state.config = {};
-      setStatus('Błąd konfiguracji AI — działa tylko tryb lokalny.', 'offline');
+      setStatus('Asystent jest chwilowo niedostępny. Dostępne są podstawowe wskazówki.', 'offline');
       console.error('[AIO AI Chat] Config:', error);
     }
 
@@ -408,12 +407,11 @@
     const supa = configSupabase();
 
     if (state.cloudflareProbe && state.cloudflareProbe.configured) {
-      const model = state.cloudflareProbe.model ? ' • ' + state.cloudflareProbe.model : '';
-      setStatus('Asystent AIO Panel ONLINE — Cloudflare' + model, 'online');
+      setStatus('Asystent AIO jest gotowy.', 'online');
     } else if (supa.enabled && supa.url && supa.anonKey) {
-      setStatus('Cloudflare AI czeka na konfigurację — Supabase działa jako backend zapasowy.', 'info');
+      setStatus('Asystent AIO jest dostępny.', 'info');
     } else {
-      setStatus('Asystent AIO Panel OFFLINE — dostępny jest tylko tryb lokalny.', 'offline');
+      setStatus('Asystent jest chwilowo niedostępny. Sprawdź dostępne wskazówki.', 'offline');
     }
 
     form.addEventListener('submit', async function (event) {
@@ -439,20 +437,16 @@
         const result = await sendQuestion(query);
         if (waiting) waiting.remove();
         appendMessage('bot', result.reply);
-        const suffix = [result.backend, result.provider, result.model].filter(Boolean).join(' • ');
-        setStatus('Asystent AIO Panel ONLINE' + (suffix ? ' — ' + suffix : ''), 'online');
+        setStatus('Asystent AIO jest gotowy.', 'online');
         scheduleSupportReminder();
       } catch (error) {
         if (waiting) waiting.remove();
         const reason = String(error && error.message || error || 'Nieznany błąd');
         appendMessage(
           'bot',
-          'Backend AI nie odpowiedział.\n\n' +
-          reason +
-          '\n\n' +
-          localFallback(query)
+          'Nie udało się teraz uzyskać odpowiedzi.\n\n' + localFallback(query)
         );
-        setStatus('Backend AI niedostępny — uruchomiono tryb lokalny.', 'offline');
+        setStatus('Asystent jest chwilowo niedostępny.', 'offline');
         console.error('[AIO AI Chat] Request:', error);
       } finally {
         state.busy = false;

@@ -48,7 +48,7 @@
   const actions=el('div',undefined,'asp-actions'),go=el('button','Zapisz wybór','asp-primary');go.type='submit';const cancel=el('button','Nie teraz');cancel.type='button';cancel.addEventListener('click',close);actions.append(go,cancel);f.append(actions);body.append(f);dialog.append(body);document.body.append(dialog);dialog.showModal();
   f.addEventListener('submit',async e=>{e.preventDefault();const chosen=f.querySelector('input[name=asp-purpose]:checked')?.value;if(!chosen){msg.textContent='Najpierw wybierz cel wpłaty.';return;}
     if(chosen==='donation'){openDonation(method);return;}
-    go.disabled=true;msg.textContent='Zapisywanie celu w AIO…';try{const d=await api({action:'create',purpose:chosen,method});pending={id:d.id,reference:d.reference,purpose:chosen,method};showCreated(body,pending);}catch(err){msg.textContent=String(err.message||err);if(/Zaloguj|Brak dostępu|401|nie zalogowano/i.test(msg.textContent)){const link=el('a','Zaloguj się do AIO →');link.href='/community.html';msg.append(' ',link);}}finally{go.disabled=false;}
+    go.disabled=true;msg.textContent='Zapisuję Twój wybór…';try{const d=await api({action:'create',purpose:chosen,method});pending={id:d.id,reference:d.reference,purpose:chosen,method};showCreated(body,pending);}catch(err){msg.textContent='Nie udało się zapisać zgłoszenia. Spróbuj ponownie później.';if(/Zaloguj|Brak dostępu|401|nie zalogowano/i.test(String(err.message||err))){const link=el('a','Zaloguj się do AIO →');link.href='/community.html';msg.append(' ',link);}}finally{go.disabled=false;}
   });
  }
  function showCreated(body,item){
@@ -85,9 +85,9 @@
   const send=el('button','➤ Zgłoś wykonaną wpłatę','asp-submit');send.type='submit';form.append(send);
   section.append(form);body.append(section);
   body.append(el('p','Zgłoszenie nie odblokowuje plików automatycznie. Właściciel sprawdza wpłatę i dopiero wtedy przyznaje dostęp.','asp-verification-hint'));
-  form.addEventListener('submit',async e=>{e.preventDefault();send.disabled=true;msg.textContent='Zapisuję zgłoszenie w Centrum Właściciela…';
+  form.addEventListener('submit',async e=>{e.preventDefault();send.disabled=true;msg.textContent='Wysyłam zgłoszenie…';
     try{const d=await api({action:'report',id:item.id,payer_identifier:who.value,declared_pln:amt.value});msg.textContent='✓ '+d.message;msg.classList.add('asp-ok');send.hidden=true;}
-    catch(err){msg.textContent=String(err.message||err);send.disabled=false;}
+    catch(err){msg.textContent='Nie udało się zapisać zgłoszenia. Spróbuj ponownie później.';send.disabled=false;}
   });
  }
  function providerFromLink(a){if(!a||a.dataset.aioPurposeDirect)return null;let u;try{u=new URL(a.href,location.href);}catch(_){return null;}
@@ -99,7 +99,7 @@
   close();pending=null;dialog=el('dialog',undefined,'asp-dialog');dialog.id='aio-support-purpose-dialog';
   const body=el('div',undefined,'asp-body');dialog.append(body);document.body.append(dialog);dialog.showModal();
   const heading=el('div',undefined,'asp-head');heading.append(el('strong','Przygotowuję zgłoszenie'));const x=el('button','×','asp-close');x.type='button';x.addEventListener('click',close);heading.append(x);body.append(heading);
-  const message=el('p',NAMES[purpose]+' · '+METHODS[method]+' — zapisuję cel w Centrum Właściciela…','asp-loading');body.append(message);
+  const message=el('p',NAMES[purpose]+' · '+METHODS[method]+' — zapisuję zgłoszenie…','asp-loading');body.append(message);
   const loadingDialog=dialog;
   void api({action:'create',purpose,method}).then(d=>{
     // If dialog closed during request, do not resurrect it.
@@ -107,8 +107,8 @@
     pending={id:d.id,reference:d.reference,purpose,method};showCreated(body,pending);
   }).catch(err=>{
     if(dialog!==loadingDialog)return;
-    message.textContent=String(err.message||err);
-    if(/Zaloguj|Brak dostępu|401|nie zalogowano/i.test(message.textContent)){
+    message.textContent='Nie udało się rozpocząć zgłoszenia. Spróbuj ponownie później.';
+    if(/Zaloguj|Brak dostępu|401|nie zalogowano/i.test(String(err.message||err))){
       message.append(' ',el('a','Zaloguj się do AIO →'));message.querySelector('a').href='/community.html';
     }
   });

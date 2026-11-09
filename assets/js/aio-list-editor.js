@@ -15,7 +15,7 @@ function validFilename(f){return /^userbouquet\.[A-Za-z0-9_.-]+\.tv$/.test(f);}
 function stamp(){const d=new Date(),s=n=>String(n).padStart(2,'0');return `${d.getFullYear()}${s(d.getMonth()+1)}${s(d.getDate())}-${s(d.getHours())}${s(d.getMinutes())}`;}
 async function fetchManifestList(id){
  const response=await fetch(MANIFEST,{cache:'no-store'});
- if(!response.ok)throw Error('Nie udało się odczytać manifestu AIO Team (HTTP '+response.status+').');
+ if(!response.ok)throw Error('Nie udało się wczytać list kanałów. Spróbuj ponownie później.');
  const manifest=await response.json();if(!Array.isArray(manifest))throw Error('Nieprawidłowy manifest list.');
  const rec=manifest.find(x=>x.id===id && x.author==='AIO Team');
  if(!rec||!IDS.has(id))throw Error('Wybrana lista nie należy do 3 list AIO Team.');
@@ -31,7 +31,7 @@ async function loadList(){
  try{
   const {rec,url,filename}=await fetchManifestList(id);
   const response=await fetch(url,{cache:'no-store'});
-  if(!response.ok)throw Error('Nie udało się pobrać archiwum ZIP ('+response.status+').');
+  if(!response.ok)throw Error('Nie udało się pobrać listy kanałów. Spróbuj ponownie później.');
   const data=await response.arrayBuffer();if(data.byteLength>38*1024*1024)throw Error('Archiwum przekracza bezpieczny limit 38 MB.');
   const z=await Zip.loadAsync(data,{checkCRC32:true});
   const files=Object.values(z.files).filter(f=>!f.dir);
@@ -125,7 +125,7 @@ async function archiveBlob(){
 }
 async function download(){setBusy(true);try{const b=await archiveBlob();const url=URL.createObjectURL(b);const a=document.createElement('a');a.href=url;a.download=state.zipName;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);setStatus('Zapisano ZIP: '+state.zipName+' ('+(b.size/1024/1024).toFixed(2)+' MB).');}catch(e){setStatus(e.message,true);}finally{setBusy(false);}}
 function bridgeHeaders(){const token=$('leBridgeToken').value.trim();if(!token)throw Error('Uruchom AIO List Bridge i wpisz kod wyświetlony w terminalu.');return {'X-AIO-Bridge-Token':token};}
-function bridgeError(e){return `Lokalny most nie odpowiada (${e.message}). Upewnij się, że program jest uruchomiony na tym samym komputerze. Jeśli przeglądarka blokuje połączenie z 127.0.0.1, wybierz eksport ZIP.`;}
+function bridgeError(e){return 'Nie można połączyć się z programem przesyłania listy. Sprawdź, czy jest uruchomiony na tym komputerze, albo pobierz plik ZIP.';}
 async function checkBridge(){try{const response=await fetch('http://127.0.0.1:8765/health',{headers:bridgeHeaders(),cache:'no-store'});const result=await response.json();if(!response.ok)throw Error(result.error||'Kod mostu jest nieprawidłowy.');setStatus('Połączenie z lokalnym mostem AIO działa. Możesz wysłać listę na tuner.');}catch(e){setStatus(bridgeError(e),true);}}
 function ipValid(ip){const x=ip.split('.').map(Number);return /^\d{1,3}(?:\.\d{1,3}){3}$/.test(ip)&&x.length===4&&x.every(v=>Number.isInteger(v)&&v>=0&&v<256)&&((x[0]===10)||(x[0]===172&&x[1]>=16&&x[1]<=31)||(x[0]===192&&x[1]===168));}
 function blobBase64(blob){return blob.arrayBuffer().then(buffer=>{const a=new Uint8Array(buffer);let out='';for(let i=0;i<a.length;i+=32768)out+=String.fromCharCode(...a.subarray(i,i+32768));return btoa(out);});}

@@ -18,7 +18,7 @@
     const allowed=new Set(['latest','questions','unanswered','solved','popular','official','mine']);
     state.mode=news?'official':(allowed.has(requested)?requested:'latest');
     fillCategories();syncTabs();bind();renderAccess();renderCompose();
-    if(!AIOCommunity.backendReady){feed.innerHTML='<div class="community-error">Backend Społeczności jest niedostępny.</div>';return;}
+    if(!AIOCommunity.backendReady){feed.innerHTML='<div class="community-error">Społeczność jest chwilowo niedostępna. Spróbuj ponownie później.</div>';return;}
     await load(true);await loadStats();
   }
   function fillCategories(){

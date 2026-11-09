@@ -8,7 +8,7 @@
       const r=await fetch('/api/community?action=stats',{cache:'no-store',credentials:'include'}),d=await r.json();
       if(!r.ok||!d.ok)throw new Error(d.error||'Błąd API');
       root.querySelectorAll('[data-community-home-stat]').forEach(el=>{const k=el.dataset.communityHomeStat;el.textContent=Number(d.stats?.[k]||0).toLocaleString('pl-PL');});
-      if(status)status.textContent='Dane Społeczności AIO • Cloudflare';
+      if(status)status.textContent='Dane Społeczności AIO';
     }catch(e){if(status)status.textContent='Społeczność chwilowo niedostępna';}
   }
   // Site statistics live near the page footer; skip D1 work for short visits.

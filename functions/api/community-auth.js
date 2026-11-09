@@ -102,7 +102,7 @@ export async function onRequestGet({request, env}) {
     }
     const ev=await emailVerificationStatus(env,session.user.id);
     const hold=session.user.is_owner?null:await activeSharedHold(env,request,session.user.id).catch(()=>null);
-    return json({ok:true, authenticated:true, user:session.user, profile:session.user, email_verified:ev.verified, email_verification_required:ev.required, security_warning:hold?.message||null});
+    return json({ok:true, authenticated:true, user:session.user, profile:session.user, email_verified:ev.verified, email_verification_required:ev.required, security_warning:hold?'Dostęp do części funkcji jest obecnie ograniczony. Skontaktuj się z nami.':null});
   } catch (e) { return errorResponse(e); }
 }
 
@@ -273,12 +273,12 @@ export async function onRequestPost({request, env}) {
     await throttle(env, throttleKey, request);
     if(await emailIsBlocked(env,email)){
       await logSecurity(env,request,'login_throttled',null,'Adres zablokowany administracyjnie');
-      return json({ok:false,error:'Ten adres e-mail został zablokowany przez administratora.'},403);
+      return json({ok:false,error:'Nie można korzystać z tego adresu e-mail. Skontaktuj się z nami.'},403);
     }
 
     if (action === "register") {
       // No fake-email registration while outbound verification is unavailable.
-      if(!emailSendingReady(env))return json({ok:false,error:"Rejestracja jest chwilowo wstrzymana: administrator konfiguruje potwierdzenia e-mail."},503);
+      if(!emailSendingReady(env))return json({ok:false,error:"Rejestracja jest chwilowo niedostępna. Spróbuj ponownie później."},503);
       const registerIpKey = `register-ip:${ip || "noip"}`;
       await consumeWindowLimit(env, registerIpKey, 5, 30 * 60 * 1000);
 
@@ -353,12 +353,12 @@ export async function onRequestPost({request, env}) {
     }
     if (auth.banned_until && Date.parse(auth.banned_until) > Date.now()) {
       await logSecurity(env,request,"login_throttled",auth.user_id,"Konto zablokowane");
-      return json({ok:false,error:"Konto zostało zablokowane. Jeśli uważasz to za pomyłkę, skontaktuj się z administracją: /contact.html"}, 403);
+      return json({ok:false,error:"Twoje konto zostało zablokowane. Jeśli uważasz to za pomyłkę, skontaktuj się z nami."}, 403);
     }
 
     // Executed only after a valid password and the existing V6 ban check.
     const ipRestriction=await checkAfterValidLogin(env,request,auth.user_id,auth.role);
-    if(ipRestriction)return json({ok:false,code:'AIO_IP_POLICY',error:ipRestriction.reason+' Kontakt: /contact.html?topic=account-security'},403);
+    if(ipRestriction)return json({ok:false,code:'AIO_IP_POLICY',error:'Dostęp do konta z tej sieci jest obecnie ograniczony. Skontaktuj się z nami.'},403);
     await clearAttempt(env, throttleKey);
     const token = randomToken();
     const tokenHash = await sha256(token);
@@ -384,7 +384,7 @@ export async function onRequestPost({request, env}) {
     const verification=await emailVerificationStatus(env,loginUser.id);
     return json(
       {ok:true,authenticated:true,user:loginUser,email_verified:verification.verified,
-        email_verification_required:verification.required,security_warning:(paidHold||securityHold)?.message||null},
+        email_verification_required:verification.required,security_warning:(paidHold||securityHold)?'Dostęp do części funkcji jest obecnie ograniczony. Skontaktuj się z nami.':null},
       200,
       {"Set-Cookie":sessionCookie(token)}
     );
@@ -392,7 +392,7 @@ export async function onRequestPost({request, env}) {
     // Registration denied because this IP has no free additional-account permit.
     // No profile, session or successful login is created in this branch.
     if(e?.status===409 && e?.message===IP_POLICY_NOTICE)
-      return json({ok:false,code:'AIO_IP_POLICY',error:IP_POLICY_NOTICE,
+      return json({ok:false,code:'AIO_IP_POLICY',error:'Dostęp do konta z tej sieci jest obecnie ograniczony. Skontaktuj się z nami.',
         contact:'/contact.html?topic=account-security'},409);
     return errorResponse(e);
   }

@@ -187,10 +187,10 @@
         dialog.innerHTML=`
           <form class="community-dialog-card" data-aio-auth-form>
             <button class="community-dialog-close" type="button" aria-label="Zamknij">✕</button>
-            <p class="eyebrow">Społeczność AIO • Cloudflare</p>
+            <p class="eyebrow">Społeczność AIO</p>
             <h2>Zaloguj się lub utwórz konto</h2>
             <div data-aio-auth-error role="alert" aria-live="assertive" hidden style="background:#53272d;color:#fff0f0;border:2px solid #ff9191;border-radius:10px;padding:15px;margin:14px 0;font-size:15px;line-height:1.5;white-space:pre-wrap;font-weight:600;"></div>
-            <p data-aio-auth-message class="community-side-note">Konto działa już na Cloudflare. Hasło musi mieć co najmniej 10 znaków.</p>
+            <p data-aio-auth-message class="community-side-note">Zaloguj się lub utwórz bezpłatne konto. Hasło musi mieć co najmniej 10 znaków.</p>
             <div class="community-field"><label>E-mail</label><input type="email" name="email" required autocomplete="email"></div>
             <div class="community-field"><label>Hasło</label><input type="password" name="password" required minlength="10" autocomplete="current-password"></div>
             <div class="community-auth-recovery-actions">
@@ -204,14 +204,14 @@
               <button class="button" type="button" data-register-toggle>Utwórz konto</button>
             </div>
             <p class="community-muted" data-aio-privacy-registration>Informacja o danych konta: <a href="privacy-community.html" target="_blank" rel="noopener noreferrer">polityka prywatności</a> i <a href="community-rules.html" target="_blank" rel="noopener noreferrer">regulamin</a>. Utworzenie konta wymaga podania e-maila i hasła, nie wymaga zgody na statystyki.</p>
-            <small class="community-muted">Stare konta Supabase nie przenoszą haseł. Przy pierwszym wejściu do nowej Społeczności utwórz nowe konto.</small>
+            <small class="community-muted">Korzystałeś z wcześniejszej wersji Społeczności? Jeśli nie możesz się zalogować, skontaktuj się z nami.</small>
           </form>
           <section data-aio-ip-refused hidden style="display:none;width:min(580px,94vw);max-height:85vh;overflow-y:auto;box-sizing:border-box;background:#0b2d40;color:#f0faff;padding:clamp(22px,4vw,36px);border:2px solid #d98282;border-radius:16px;box-shadow:0 18px 70px #0008;line-height:1.65;">
             <h2 data-aio-ip-refused-title tabindex="-1" style="margin:0 0 15px;font-size:clamp(1.25rem,3vw,1.8rem);">⛔ Dostęp do konta wstrzymany</h2>
             <p data-aio-ip-refused-reason style="font-weight:600;white-space:pre-wrap;overflow-wrap:anywhere;"></p>
-            <p>W tej sieci obowiązuje zasada jednego zwykłego konta AIO. Sam wspólny adres IP nie oznacza nadużycia — jeśli jest to łącze rodzinne, firmowe lub operatora mobilnego, możesz poprosić o indywidualną zgodę.</p>
-            <p><a href="/contact.html?topic=account-security" style="color:#b1efff;text-decoration:underline;font-weight:700;">✉ Skontaktuj się z administratorem i odwołaj od blokady</a></p>
-            <p style="font-size:.9em;opacity:.85;">Nie wysyłaj hasła. Konto nie zostało usunięte, a limity pobierania pozostają przypisane do konta.</p>
+            <p>Dostęp jest ograniczony. Jeśli korzystasz ze wspólnej sieci lub uważasz to za pomyłkę, skontaktuj się z nami, aby wyjaśnić sytuację.</p>
+            <p><a href="/contact.html?topic=account-security" style="color:#b1efff;text-decoration:underline;font-weight:700;">✉ Skontaktuj się z nami</a></p>
+            <p style="font-size:.9em;opacity:.85;">Nie przesyłaj nam swojego hasła.</p>
             <button type="button" data-aio-ip-refused-close style="border:1px solid #93dcea;border-radius:8px;padding:10px 20px;background:#16546b;color:#fff;cursor:pointer;">Zamknij</button>
           </section>`;
         document.body.appendChild(dialog);
@@ -276,14 +276,19 @@
               form.reset();form.hidden=true;form.style.display='none';
               const notice=dialog.querySelector('[data-aio-ip-refused]');
               notice.querySelector('[data-aio-ip-refused-reason]').textContent=
-                err?.message?.startsWith('Z tego publicznego adresu IP')
-                  ?'Z tego adresu IP korzysta już konto AIO. Dodatkowe logowanie lub rejestracja wymaga zgody administratora.'
-                  :'Dostęp do dodatkowego konta AIO z tej sieci został odmówiony.';
+                'Dostęp do konta z tej sieci jest obecnie ograniczony.';
               notice.hidden=false;notice.style.display='block';
               notice.querySelector('[data-aio-ip-refused-title]').focus();
             }else{
               errorBox.textContent=this.friendlyError(err);
-              errorBox.hidden=false;errorBox.scrollIntoView({block:'nearest',behavior:'auto'});
+               if (/konto.{0,60}zablokowan|dostęp.{0,60}(wstrzyman|ograniczon)/i.test(errorBox.textContent)) {
+                 const contact=document.createElement('a');
+                 contact.href='/contact.html?topic=account-security';
+                 contact.textContent='Skontaktuj się z nami';
+                 contact.style.cssText='display:block;margin-top:10px;color:#d3f7ff;text-decoration:underline;font-weight:700;';
+                 errorBox.appendChild(contact);
+               }
+               errorBox.hidden=false;errorBox.scrollIntoView({block:'nearest',behavior:'auto'});
             }
           }
           finally{button.disabled=false;}
@@ -431,7 +436,7 @@
             '<button class="button" type="button" data-community-logout>Wyloguj</button>';
         }else{
           main.innerHTML='<span class="community-avatar">AIO</span><div class="community-account-copy"><strong>Społeczność AIO</strong><small>'+
-            (error?'Backend chwilowo niedostępny':'Zaloguj się, aby czytać i publikować')+'</small></div>';
+            (error?'Społeczność jest chwilowo niedostępna':'Zaloguj się, aby czytać i publikować')+'</small></div>';
           actions.innerHTML='<button class="button primary" type="button" data-community-login>Zaloguj się / utwórz konto</button>';
         }
       });
@@ -529,7 +534,14 @@
     },
     formatDate(value){const t=Date.parse(value);return t?new Intl.DateTimeFormat('pl-PL',{dateStyle:'medium',timeStyle:'short'}).format(new Date(t)):'';},
     characterLabel(n,max){return Number(n||0).toLocaleString('pl-PL')+' / '+Number(max||0).toLocaleString('pl-PL');},
-    friendlyError(error){return String(error?.message||error||'Wystąpił błąd.').replace(/^Error:\s*/,'');},
+    friendlyError(error){
+       const raw=String(error?.message||error||'').replace(/^Error:\s*/,'').trim();
+       if (/konto.{0,60}zablokowan/i.test(raw)) return 'Twoje konto zostało zablokowane. Jeśli uważasz to za pomyłkę, skontaktuj się z nami.';
+       if (/adres e-mail.{0,80}zablokowan/i.test(raw)) return 'Nie można korzystać z tego adresu e-mail. Skontaktuj się z nami.';
+       if (/Cloudflare|Supabase|\bD1\b|\bR2\b|backend|\/api\/|\/contact\.html|\bHTTP\s*[45]\d\d|SQL|stack|TypeError|ReferenceError|SyntaxError|AIO Security V\d|AIO_IP_POLICY/i.test(raw))
+         return 'Nie udało się wykonać operacji. Spróbuj ponownie lub skontaktuj się z nami.';
+       return raw.slice(0,350)||'Wystąpił problem. Spróbuj ponownie.';
+     },
     avatarHtml(profile,name,link=true){
       const p=profile||{},label=this.escape(name||p.display_name||'Użytkownik'),src=p.avatar_url||'';
       const body=src?`<img class="community-avatar" src="${this.escapeAttr(src)}" alt="${label}" loading="lazy">`:`<span class="community-avatar">${this.escape((name||p.display_name||'A').slice(0,2).toUpperCase())}</span>`;

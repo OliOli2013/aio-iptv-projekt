@@ -397,8 +397,10 @@ export function errorResponse(error) {
   const status = Number(error && error.status || 500);
   // Avoid exposing stack traces, SQL details and Cloudflare binding names to visitors.
   const safeStatus = status >= 400 && status <= 599 ? status : 500;
-  const message = safeStatus >= 500 ? "Wystąpił błąd serwera. Spróbuj ponownie później." :
-    (error && error.message ? error.message : "Nie można wykonać operacji.");
+  const raw = String(error && error.message || '');
+  const hiddenDetail = /Cloudflare|Supabase|\bD1\b|\bR2\b|SQL|binding|stack|TypeError|ReferenceError|\/api\/|\bHTTP\s*[45]\d\d|\/contact\.html|AIO Security V\d/i.test(raw);
+  const message = safeStatus >= 500 ? "Ta funkcja jest chwilowo niedostępna. Spróbuj ponownie później." :
+    (hiddenDetail ? "Nie można wykonać operacji. Spróbuj ponownie lub skontaktuj się z nami." : (raw || "Nie można wykonać operacji."));
   if (safeStatus >= 500) console.error('[AIO community] Internal error:',error);
   return json({ok:false,error:message}, safeStatus);
 }

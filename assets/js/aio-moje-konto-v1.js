@@ -48,13 +48,13 @@
       catch(error){show({title:'Konto zweryfikowane',description:'Witaj, '+name+'. Twoja sesja działa i adres e-mail jest potwierdzony.',more:'Nie udało się odczytać limitu pobierania. Możesz go sprawdzić później.',icon:'✓',state:'verified'});return;}
       const ends=access.expires_at?formatDate(access.expires_at):'';
       let description='';let more='';
-      if(access.restricted===true){description='Ograniczenie bezpieczeństwa — pobieranie wstrzymane na 24 godziny.';more=access.restriction_message||'Jeżeli korzystasz ze wspólnej sieci, poproś administratora o weryfikację.';}
+      if(access.restricted===true){description='Pobieranie jest obecnie ograniczone.';more='Jeśli uważasz to za pomyłkę, skontaktuj się z nami w zakładce Kontakt.';}
       else if(access.owner===true&&access.unlimited===true&&access.active===true){description='Konto właściciela AIO — dostęp do plików bez limitu.';more='';}
       else if(access.vip&&access.active){description='AIO VIP — aktywny dostęp bez limitu pobierania.';more=ends?'VIP ważny do: '+ends:'';}
       else if(access.active){description='Aktywny dostęp po zatwierdzonym wsparciu — bez limitu pobierania.';more=ends?'Dostęp do: '+ends:'';}
-      else{description='Pozostało '+Math.max(0,Number(access.free_remaining)||0)+' z 3 darmowych pobrań na 168 godzin.';more=access.free_resets_at?'Odnowienie limitu: '+formatDate(access.free_resets_at):'Okres rozpoczyna się od pierwszego darmowego pobrania.';}
+      else{description='Pozostało '+Math.max(0,Number(access.free_remaining)||0)+' z 3 darmowych pobrań w okresie 7 dni.';more=access.free_resets_at?'Odnowienie limitu: '+formatDate(access.free_resets_at):'Okres rozpoczyna się od pierwszego darmowego pobrania.';}
       show({title:'Witaj, '+name+' — e-mail potwierdzony',description,more,icon:'✓',state:'verified'});
-    }catch(error){document.body.classList.remove('aio-owner-clean');show({title:'Nie udało się sprawdzić konta',description:'Sprawdź połączenie ze stroną i spróbuj ponownie.',more:String(error.message||''),icon:'!'});}
+    }catch(error){document.body.classList.remove('aio-owner-clean');show({title:'Nie udało się sprawdzić konta',description:'Sprawdź połączenie ze stroną i spróbuj ponownie.',more:'Spróbuj ponownie później.',icon:'!'});}
     finally{busy=false;if(pending){pending=false;refresh();}}
   }
   resend.addEventListener('click',async()=>{
@@ -62,7 +62,7 @@
     try{
       const r=await json('/api/community-auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'resend_verification'})});
       message(r.message||'Wysłaliśmy wiadomość. Sprawdź e-mail oraz folder Spam.');
-    }catch(e){message(e.message||'Nie udało się wysłać wiadomości.',true);}
+    }catch(e){message('Nie udało się wysłać wiadomości. Spróbuj ponownie później.',true);}
     finally{resend.disabled=false;}
   });
   q('[data-account-refresh]').addEventListener('click',()=>{message('');refresh();});
