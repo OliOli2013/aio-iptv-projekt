@@ -116,21 +116,24 @@
         </div></div></article>`;
     }
     const a=post.author||{},cat=AIOCommunity.category(post.category),type=AIOCommunity.postType(post.post_type);
-    const images=(post.attachments||[]).filter(x=>x?.url).slice(0,4);
+    const allImages=(post.attachments||[]).filter(x=>x?.url);
+     const images=allImages.slice(0,4);
     const canDelete=AIOCommunity.isOwner(post.author_id)||AIOCommunity.isAdmin();
     const limit=Number(post.kind==='official'?(AIOCommunity.config?.officialPreviewLength||3200):(AIOCommunity.config?.postPreviewLength||1400));
-    return `<article class="community-post-card ${post.pinned?'pinned ':''}${post.kind==='official'?'official':''}" data-post-id="${AIOCommunity.escapeAttr(post.id)}">
+    return `<article class="community-post-card ${post.pinned?'pinned ':''}${post.kind==='official'?'official':''}${post.featured?' featured':''}" data-post-id="${AIOCommunity.escapeAttr(post.id)}">
       <header class="community-post-head">${AIOCommunity.avatarHtml(a,a.display_name)}<div class="community-post-author"><strong><a href="profile.html?id=${AIOCommunity.escapeAttr(post.author_id)}">${AIOCommunity.escape(a.display_name||'Użytkownik')}</a>${a.role&&a.role!=='user'?` <span class="community-role ${AIOCommunity.escapeAttr(a.role)}">${AIOCommunity.escape(AIOCommunity.roleLabel(a.role))}</span>`:''}</strong><small>${AIOCommunity.escape([a.tuner_model,a.system_name].filter(Boolean).join(' • ')||(post.kind==='official'?'Oficjalny wpis AIO TunerHub':'Użytkownik Społeczności AIO'))}</small></div><div class="community-post-meta">${AIOCommunity.escape(AIOCommunity.timeAgo(post.created_at))}</div></header>
-      <div class="community-post-content"><div class="community-post-tags">${post.kind==='official'?'<span class="community-status-pill official">✓ Oficjalne</span>':''}${post.pinned?'<span class="community-status-pill pinned">📌 Przypięte</span>':''}<span class="community-status-pill post-type ${AIOCommunity.escapeAttr(type.id)}">${AIOCommunity.escape(type.icon+' '+type.label)}</span>${post.solved?'<span class="community-status-pill solved">✅ Rozwiązane</span>':''}<span class="community-category">${AIOCommunity.escape(cat.icon+' '+cat.label)}</span></div>
+      <div class="community-post-content"><div class="community-post-tags">${post.kind==='official'?'<span class="community-status-pill official">✓ Oficjalne</span>':''}${post.pinned?'<span class="community-status-pill pinned">📌 Przypięte</span>':''}${post.featured?'<span class="community-status-pill featured">★ Wyróżnione</span>':''}<span class="community-status-pill post-type ${AIOCommunity.escapeAttr(type.id)}">${AIOCommunity.escape(type.icon+' '+type.label)}</span>${post.solved?'<span class="community-status-pill solved">✅ Rozwiązane</span>':''}<span class="community-category">${AIOCommunity.escape(cat.icon+' '+cat.label)}</span></div>
       <h2><a href="post.html?id=${AIOCommunity.escapeAttr(post.id)}">${AIOCommunity.escape(post.title)}</a></h2>
-      <div class="community-post-text">${AIOCommunity.formatText(post.content,limit)}</div>${images.length?`<div class="community-media-grid ${images.length===1?'one':''}">${images.map(x=>`<img src="${AIOCommunity.escapeAttr(x.url)}" alt="Zdjęcie do wpisu" loading="lazy" decoding="async" data-community-image>`).join('')}</div>`:''}</div>
-      <footer class="community-post-footer">${reaction(post,'helpful','👍 Pomocne')}${reaction(post,'works','✅ Działa')}${reaction(post,'thanks','❤️ Dziękuję')}<a class="community-action community-open" href="post.html?id=${AIOCommunity.escapeAttr(post.id)}">${AIOCommunity.user?'💬 '+Number(post.comment_count||0)+' odpowiedzi':'🔐 Dyskusja po zalogowaniu'}</a>${AIOCommunity.user?'<button class="community-action" type="button" data-report-post>⚑ Zgłoś</button>':''}${canDelete?'<button class="community-action danger" type="button" data-delete-post>Usuń</button>':''}</footer>
+      <div class="community-post-text">${AIOCommunity.formatText(post.content,limit)}</div>${images.length?`<div class="community-media-grid ${images.length===1?'one':''}">${images.map(x=>`<img src="${AIOCommunity.escapeAttr(x.url)}" alt="Zdjęcie do wpisu" loading="lazy" decoding="async" data-community-image>`).join('')}${allImages.length>4?`<a class="aio-media-more" href="post.html?id=${AIOCommunity.escapeAttr(post.id)}">+${allImages.length-4} zdjęć · Zobacz galerię</a>`:''}</div>`:''}</div>
+      <footer class="community-post-footer">${reaction(post,'helpful','👍 Pomocne')}${reaction(post,'works','✅ Działa')}${reaction(post,'thanks','❤️ Dziękuję')}<a class="community-action community-open" href="post.html?id=${AIOCommunity.escapeAttr(post.id)}">${AIOCommunity.user?'💬 '+Number(post.comment_count||0)+' odpowiedzi':'🔐 Dyskusja po zalogowaniu'}</a>${AIOCommunity.user?'<button class="community-action" type="button" data-report-post>⚑ Zgłoś</button>':''}${AIOCommunity.isAdmin()?`<button class="community-action" type="button" data-pin-post>${post.pinned?'📌 Odepnij':'📌 Przypnij'}</button><button class="community-action" type="button" data-feature-post>${post.featured?'★ Usuń wyróżnienie':'★ Wyróżnij'}</button>`:''}${canDelete?'<button class="community-action danger" type="button" data-delete-post>Usuń</button>':''}</footer>
     </article>`;
   }
   function reaction(post,type,label){const r=post.reactions||{};return `<button class="community-reaction ${r.mine===type?'active':''}" type="button" data-reaction="${type}">${label} <span>${Number(r[type]||0)}</span></button>`;}
   async function handleAction(e){
     const row=e.target.closest('[data-post-id]');if(!row)return;const id=row.dataset.postId;
-    const react=e.target.closest('[data-reaction]');if(react){if(!AIOCommunity.requireAuth())return;try{await AIOCommunity.api('reaction',{postId:id,type:react.dataset.reaction});await load(true);}catch(err){AIOCommunity.showToast(AIOCommunity.friendlyError(err),'error');}return;}
+    const pin=e.target.closest('[data-pin-post],[data-feature-post]');
+     if(pin){if(!AIOCommunity.isAdmin())return;try{await AIOCommunity.api('admin_action',{target:'post',id,op:pin.hasAttribute('data-pin-post')?'pin':'feature'});await load(true);}catch(err){AIOCommunity.showToast(AIOCommunity.friendlyError(err),'error');}return;}
+     const react=e.target.closest('[data-reaction]');if(react){if(!AIOCommunity.requireAuth())return;try{await AIOCommunity.api('reaction',{postId:id,type:react.dataset.reaction});await load(true);}catch(err){AIOCommunity.showToast(AIOCommunity.friendlyError(err),'error');}return;}
     if(e.target.closest('[data-delete-post]')){if(!confirm('Usunąć ten wpis?'))return;try{await AIOCommunity.api('delete_post',{id});await load(true);}catch(err){AIOCommunity.showToast(AIOCommunity.friendlyError(err),'error');}return;}
     if(e.target.closest('[data-report-post]')){const reason=prompt('Powód zgłoszenia:');if(!reason)return;try{await AIOCommunity.api('report',{targetType:'post',targetId:id,reason});AIOCommunity.showToast('Zgłoszenie wysłane.','success');}catch(err){AIOCommunity.showToast(AIOCommunity.friendlyError(err),'error');}}
   }
@@ -138,8 +141,24 @@
     e.preventDefault();if(!AIOCommunity.requireAuth())return;
     const form=e.currentTarget,button=form.querySelector('button[type="submit"]');button.disabled=true;
     try{
-      const files=Array.from(q('[data-compose-images]',form)?.files||[]).slice(0,Number(AIOCommunity.config?.maxImagesPerPost||4));
-      const attachments=[];for(const f of files)attachments.push(await AIOCommunity.uploadMedia(f,'post'));
+      const files=Array.from(q('[data-compose-images]',form)?.files||[]);
+       const limit=12;
+       if(files.length>limit)throw new Error(`Możesz dodać maksymalnie ${limit} zdjęć do wpisu.`);
+      const attachments=[];
+       // Clean uploaded-but-unlinked files only if upload itself failed.
+       // Do not remove them after an ambiguous create timeout: the post may exist.
+       try{
+         for(let i=0;i<files.length;i++){
+           button.textContent=`Przesyłanie zdjęć ${i+1}/${files.length}…`;
+           attachments.push(await AIOCommunity.uploadMedia(files[i],'post'));
+         }
+       }catch(uploadError){
+         for(const a of attachments){
+           try{await fetch('/api/community-media?key='+encodeURIComponent(a.key),{method:'DELETE',credentials:'include'});}catch(_){}
+         }
+         throw uploadError;
+       }
+       button.textContent='Publikuję…';
       const d=await AIOCommunity.api('create_post',{
         title:q('[data-compose-title]',form).value.trim(),content:q('[data-compose-content]',form).value.trim(),
         category:q('[data-compose-category]',form).value,postType:q('[data-compose-post-type]',form)?.value||'problem',
@@ -147,11 +166,13 @@
       });
       form.reset();q('[data-compose-preview]',form).innerHTML='';AIOCommunity.showToast(d.status==='pending'?'Wpis oczekuje na zatwierdzenie.':'Wpis opublikowany.','success');await load(true);await loadStats();
     }catch(err){AIOCommunity.showToast(AIOCommunity.friendlyError(err),'error');}
-    finally{button.disabled=false;}
+    finally{button.disabled=false;button.textContent='Opublikuj wpis';}
   }
   function previewImages(e){
     const root=q('[data-compose-preview]');if(!root)return;root.innerHTML='';
-    Array.from(e.target.files||[]).slice(0,4).forEach(f=>{const img=document.createElement('img');img.src=URL.createObjectURL(f);img.alt='Podgląd';root.appendChild(img);});
+    const files=Array.from(e.target.files||[]);
+     if(files.length>12)AIOCommunity.showToast('Maksymalnie 12 zdjęć. Usuń nadmiarowe pliki przed publikacją.','warning');
+     files.slice(0,12).forEach(f=>{const img=document.createElement('img');const url=URL.createObjectURL(f);img.src=url;img.alt='Podgląd '+f.name;img.onload=img.onerror=()=>URL.revokeObjectURL(url);root.appendChild(img);});
   }
   function applyTemplate(type){
     const content=q('[data-compose-content]'),cat=q('[data-compose-category]'),pt=q('[data-compose-post-type]');if(!content)return;

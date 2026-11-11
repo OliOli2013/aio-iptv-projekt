@@ -96,7 +96,7 @@
         if(r.ok) return await r.json();
       }catch(_){}
       return {
-        enabled:true, postsPerPage:12, maxImageSizeMb:5, maxImagesPerPost:4,
+        enabled:true, postsPerPage:12, maxImageSizeMb:5, maxImagesPerPost:12,
         maxPostLength:50000,maxCommentLength:10000,postPreviewLength:1400,officialPreviewLength:3200,
         categories:[
           {id:'pomoc',label:'Pomoc techniczna',icon:'🛠️'},{id:'aio-panel',label:'AIO Panel',icon:'🧩'},
@@ -481,8 +481,22 @@
     escapeAttr(value){return this.escape(value);},
 
     formatText(text,limit,publicLinks=false){
-      let value=String(text||'');
-      if(limit&&value.length>limit)value=value.slice(0,limit).trimEnd()+'…';
+       let value=String(text||'');
+       if(limit&&value.length>limit)value=value.slice(0,limit).trimEnd()+'…';
+       // AIO_COMMUNITY_POSTS_V3_20261111: format ONLY escaped text chunks, never generated links.
+       // HTML entered by users stays escaped; this is a deliberately small Markdown subset.
+       const formatSafeText = chunk => this.escape(chunk).split(/\r?\n/).map(rawLine=>{
+         let line=rawLine;
+         line=line.replace(/`([^`\n]{1,300})`/g,'<code>$1</code>');
+         line=line.replace(/\*\*([^*\n]{1,1000})\*\*/g,'<strong>$1</strong>');
+         line=line.replace(/__([^_\n]{1,1000})__/g,'<u>$1</u>');
+         line=line.replace(/~~([^~\n]{1,1000})~~/g,'<s>$1</s>');
+         line=line.replace(/(^|[^*])\*([^*\n]{1,1000})\*(?!\*)/g,'$1<em>$2</em>');
+         if(/^\s*#{1,3}\s+/.test(line))return '<strong class="aio-rich-heading">'+line.replace(/^\s*#{1,3}\s+/,'')+'</strong>';
+         if(/^\s*[-•]\s+/.test(line))return '<span class="aio-rich-bullet">• '+line.replace(/^\s*[-•]\s+/,'')+'</span>';
+         if(/^\s*>\s?/.test(line))return '<span class="aio-rich-quote">'+line.replace(/^\s*>\s?/,'')+'</span>';
+         return line;
+       }).join('\n');
 
       const pattern=/(?:https?:\/\/|www\.)[^\s<>"']+|\b(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+(?:pl|com|net|org|eu|io|tv|dev|app|info|me)(?:\/[^\s<>"']*)?/gi;
       let html='';
@@ -490,7 +504,7 @@
       let match;
 
       while((match=pattern.exec(value))!==null){
-        html+=this.escape(value.slice(last,match.index));
+        html+=formatSafeText(value.slice(last,match.index));
 
         let shown=match[0];
         let trailing='';
@@ -522,7 +536,7 @@
         last=match.index+match[0].length;
       }
 
-      html+=this.escape(value.slice(last));
+      html+=formatSafeText(value.slice(last));
       return html.replace(/\r?\n/g,'<br>');
     },
 

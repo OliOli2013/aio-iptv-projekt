@@ -30,7 +30,7 @@
     } catch (_) { return ''; }
   };
   function card(p) {
-    const article = el('article','latest-card');
+    const article = el('article','latest-card'+(p.pinned?' is-pinned':'')+(p.featured?' is-featured':''));
     const teaser = p.teaser === true;
     const official = p.kind === 'official';
     const id = String(p.id || '');
@@ -47,6 +47,8 @@
     const wrap = el('div','latest-card-main');
     const badge = el('span','latest-badge '+(official?'official':'community'),official?'✓ OFICJALNY':'◉ SPOŁECZNOŚĆ');
     wrap.append(badge);
+     if(p.pinned)wrap.append(el('span','latest-badge aio-latest-pinned','📌 PRZYPIĘTY'));
+     if(p.featured)wrap.append(el('span','latest-badge aio-latest-featured','★ WYRÓŻNIONY'));
     if(p.category)wrap.append(el('span','aio-ia-latest-pill',categoryLabels[p.category]||p.category));
     if(p.post_type)wrap.append(el('span','aio-ia-latest-pill',typeLabels[p.post_type]||p.post_type));
     wrap.append(el('time','latest-time',safeDate(p.published_at||p.created_at)));

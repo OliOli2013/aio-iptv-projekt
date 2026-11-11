@@ -58,8 +58,8 @@
 
     root.innerHTML=`<article data-post-id="${AIOCommunity.escapeAttr(post.id)}" class="community-post-card ${post.kind==='official'?'official':''}">
       <header class="community-post-head">${AIOCommunity.avatarHtml(a,a.display_name)}<div class="community-post-author"><strong><a href="profile.html?id=${AIOCommunity.escapeAttr(post.author_id)}">${AIOCommunity.escape(a.display_name||'Użytkownik')}</a></strong><small>${AIOCommunity.escape(AIOCommunity.timeAgo(post.created_at))}</small></div></header>
-      <div class="community-post-content"><div class="community-post-tags">${post.kind==='official'?'<span class="community-status-pill official">✓ Oficjalne</span>':''}<span class="community-status-pill post-type ${AIOCommunity.escapeAttr(type.id)}">${AIOCommunity.escape(type.icon+' '+type.label)}</span>${post.solved?'<span class="community-status-pill solved">✅ Rozwiązane</span>':''}<span class="community-category">${AIOCommunity.escape(cat.icon+' '+cat.label)}</span></div><h1>${AIOCommunity.escape(post.title)}</h1><div class="community-post-text">${AIOCommunity.formatText(post.content)}</div>${post.edited_at?`<p class="community-edit-note">✏️ Wpis edytowany ${AIOCommunity.escape(AIOCommunity.timeAgo(post.edited_at))}${post.edit_reason?' • '+AIOCommunity.escape(post.edit_reason):''}</p>`:''}${imgs.length?`<div class="community-media-grid ${imgs.length===1?'one':''}">${imgs.map(x=>`<img src="${AIOCommunity.escapeAttr(x.url)}" alt="Zdjęcie do wpisu" loading="lazy" data-community-image>`).join('')}</div>`:''}</div>
-      <footer class="community-post-footer">${reaction('helpful','👍 Pomocne')}${reaction('works','✅ Działa')}${reaction('thanks','❤️ Dziękuję')}${canSolve?`<button class="community-action solution-action" type="button" data-toggle-solved>${post.solved?'↩ Otwórz ponownie':'✅ Oznacz jako rozwiązane'}</button>`:''}${AIOCommunity.user?`<button class="community-action" type="button" data-follow-post>${post.following?'🔔 Obserwujesz':'🔕 Obserwuj'}</button><button class="community-action" type="button" data-report-current-post>⚑ Zgłoś</button>`:''}${canManage?'<button class="community-action" type="button" data-edit-current-post>✏️ Edytuj wpis</button><button class="community-action danger" type="button" data-delete-current-post>Usuń wpis</button>':''}</footer>
+      <div class="community-post-content"><div class="community-post-tags">${post.kind==='official'?'<span class="community-status-pill official">✓ Oficjalne</span>':''}${post.pinned?'<span class="community-status-pill pinned">📌 Przypięte</span>':''}${post.featured?'<span class="community-status-pill featured">★ Wyróżnione</span>':''}<span class="community-status-pill post-type ${AIOCommunity.escapeAttr(type.id)}">${AIOCommunity.escape(type.icon+' '+type.label)}</span>${post.solved?'<span class="community-status-pill solved">✅ Rozwiązane</span>':''}<span class="community-category">${AIOCommunity.escape(cat.icon+' '+cat.label)}</span></div><h1>${AIOCommunity.escape(post.title)}</h1><div class="community-post-text">${AIOCommunity.formatText(post.content)}</div>${post.edited_at?`<p class="community-edit-note">✏️ Wpis edytowany ${AIOCommunity.escape(AIOCommunity.timeAgo(post.edited_at))}${post.edit_reason?' • '+AIOCommunity.escape(post.edit_reason):''}</p>`:''}${imgs.length?`<div class="community-media-grid ${imgs.length===1?'one':''}">${imgs.map(x=>`<img src="${AIOCommunity.escapeAttr(x.url)}" alt="Zdjęcie do wpisu" loading="lazy" data-community-image>`).join('')}</div>`:''}</div>
+      <footer class="community-post-footer">${reaction('helpful','👍 Pomocne')}${reaction('works','✅ Działa')}${reaction('thanks','❤️ Dziękuję')}${canSolve?`<button class="community-action solution-action" type="button" data-toggle-solved>${post.solved?'↩ Otwórz ponownie':'✅ Oznacz jako rozwiązane'}</button>`:''}${AIOCommunity.user?`<button class="community-action" type="button" data-follow-post>${post.following?'🔔 Obserwujesz':'🔕 Obserwuj'}</button><button class="community-action" type="button" data-report-current-post>⚑ Zgłoś</button>`:''}${AIOCommunity.isAdmin()?`<button class="community-action" type="button" data-pin-current-post>${post.pinned?'📌 Odepnij':'📌 Przypnij'}</button><button class="community-action" type="button" data-feature-current-post>${post.featured?'★ Usuń wyróżnienie':'★ Wyróżnij'}</button>`:''}${canManage?'<button class="community-action" type="button" data-edit-current-post>✏️ Edytuj wpis</button><button class="community-action danger" type="button" data-delete-current-post>Usuń wpis</button>':''}</footer>
     </article>`;
   }
 
@@ -146,7 +146,7 @@
         <div class="community-field">
           <label>Dodaj nowe zdjęcia</label>
           <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple data-edit-new-images>
-          <small>Łącznie po zapisaniu wpis może mieć maksymalnie 4 zdjęcia.</small>
+          <small>Łącznie po zapisaniu wpis może mieć maksymalnie 12 zdjęć.</small>
           <div class="community-image-preview" data-edit-preview></div>
         </div>
 
@@ -223,7 +223,7 @@
     if(!dialog)return;
     const root=dialog.querySelector('[data-edit-preview]');
     root.innerHTML='';
-    const files=Array.from(e.target.files||[]).slice(0,4);
+    const files=Array.from(e.target.files||[]).slice(0,12);
     files.forEach(file=>{
       const figure=document.createElement('figure');
       const img=document.createElement('img');
@@ -263,8 +263,8 @@
     });
 
     const files=Array.from(form.querySelector('[data-edit-new-images]').files||[]);
-    if(kept.length+files.length>4){
-      AIOCommunity.showToast(`Po zapisaniu wpis może mieć maksymalnie 4 zdjęcia. Obecnie wybrano ${kept.length+files.length}.`,'error');
+    if(kept.length+files.length>12){
+      AIOCommunity.showToast(`Po zapisaniu wpis może mieć maksymalnie 12 zdjęć. Obecnie wybrano ${kept.length+files.length}.`,'error');
       return;
     }
 
@@ -326,7 +326,9 @@
     const rep=e.target.closest('[data-comment-reply]');
     if(rep){replyTo=comments.find(x=>x.id===rep.dataset.commentReply)||null;q('[data-comment-content]')?.focus();return;}
 
-    const edit=e.target.closest('[data-edit-current-post]');
+    const ownerAction=e.target.closest('[data-pin-current-post],[data-feature-current-post]');
+     if(ownerAction){if(!AIOCommunity.isAdmin())return;try{await AIOCommunity.api('admin_action',{target:'post',id:post.id,op:ownerAction.hasAttribute('data-pin-current-post')?'pin':'feature'});await load();}catch(err){AIOCommunity.showToast(AIOCommunity.friendlyError(err),'error');}return;}
+     const edit=e.target.closest('[data-edit-current-post]');
     if(edit){e.preventDefault();openEditDialog();return;}
 
     const report=e.target.closest('[data-report-current-post]');

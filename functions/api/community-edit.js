@@ -60,12 +60,13 @@ export async function onRequestPost({request,env}){
     const oldAttachments=parseAttachments(row.attachments).map(normalizeAttachment).filter(Boolean);
     const oldKeys=keySet(oldAttachments);
 
-    const attachments=(Array.isArray(body.attachments)?body.attachments:[])
-      .slice(0,5)
-      .map(normalizeAttachment)
-      .filter(Boolean);
-
-    if(attachments.length>4) return json({ok:false,error:"Wpis może mieć maksymalnie 4 zdjęcia."},400);
+    // AIO_COMMUNITY_POSTS_V3_20261111: reject instead of silently dropping beyond limit.
+     if(body.attachments!=null&&!Array.isArray(body.attachments)) return json({ok:false,error:"Nieprawidłowa lista zdjęć."},400);
+     if((body.attachments||[]).length>12) return json({ok:false,error:"Wpis może mieć maksymalnie 12 zdjęć."},400);
+     const attachments=(Array.isArray(body.attachments)?body.attachments:[])
+       .map(normalizeAttachment)
+       .filter(Boolean);
+     if(attachments.length!==(body.attachments||[]).length) return json({ok:false,error:"Nieprawidłowe dane załącznika."},400);
 
     const seen=new Set();
     for(const item of attachments){

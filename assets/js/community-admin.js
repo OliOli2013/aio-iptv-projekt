@@ -185,7 +185,7 @@
                   ? '<button class="button primary" data-admin-action="approve">Zatwierdź</button><button class="button" data-admin-action="reject">Odrzuć</button>'
                   : `<a class="button" href="post.html?id=${AIOCommunity.escapeAttr(p.id)}">Otwórz</a>
                      <button class="button" data-admin-action="official">${p.kind==='official'?'Zmień na społecznościowy':'Oznacz jako oficjalny'}</button>
-                     <button class="button" data-admin-action="pin">${p.pinned?'Odepnij':'Przypnij'}</button>
+                     <button class="button" data-admin-action="pin">${p.pinned?'Odepnij':'Przypnij'}</button><button class="button" data-admin-action="feature">${p.featured?'Usuń wyróżnienie':'★ Wyróżnij'}</button>
                      <button class="button" data-admin-action="lock">${p.locked?'Odblokuj komentarze':'Zablokuj komentarze'}</button>
                      <button class="button danger" data-admin-action="hide">Ukryj</button>`}
                 <button class="button" data-admin-action="edit">✏️ Edytuj wpis</button>
@@ -423,7 +423,7 @@
         <div class="community-field">
           <label>Dodaj nowe zdjęcia</label>
           <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple data-edit-new-images>
-          <small>Po zapisaniu wpis może mieć maksymalnie 4 zdjęcia.</small>
+          <small>Po zapisaniu wpis może mieć maksymalnie 12 zdjęć.</small>
           <div class="community-image-preview" data-edit-image-preview></div>
         </div>
         <div class="community-form-actions">
@@ -514,7 +514,7 @@
     const root=dialog.querySelector('[data-edit-image-preview]');
     root.innerHTML='';
 
-    Array.from(event.target.files||[]).slice(0,4).forEach(file=>{
+    Array.from(event.target.files||[]).slice(0,12).forEach(file=>{
       const fig=document.createElement('figure');
       const img=document.createElement('img');
       const url=URL.createObjectURL(file);
@@ -564,9 +564,9 @@
     });
 
     const files=Array.from(form.querySelector('[data-edit-new-images]').files||[]);
-    if(kept.length+files.length>4){
+    if(kept.length+files.length>12){
       AIOCommunity.showToast(
-        `Po zapisaniu wpis może mieć maksymalnie 4 zdjęcia. Wybrano ${kept.length+files.length}.`,
+        `Po zapisaniu wpis może mieć maksymalnie 12 zdjęć. Wybrano ${kept.length+files.length}.`,
         'error'
       );
       return;

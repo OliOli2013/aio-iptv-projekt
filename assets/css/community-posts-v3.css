@@ -1,0 +1,39 @@
+/* AIO Community Posts V3 — scoped visuals, no access / auth / download changes. */
+body .aio-rich-editor{margin:7px 0 9px;max-width:100%;min-width:0}
+body .aio-rich-toolbar{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:9px;background:#0b2939;border:1px solid #367083;border-radius:11px}
+body .aio-rich-tool{display:inline-flex;align-items:center;justify-content:center;min-height:39px;min-width:39px;padding:7px 10px;border:1px solid #426f80;border-radius:9px;background:#123c4d;color:#ecfaff;font-weight:850;font-size:13px;cursor:pointer}
+body .aio-rich-tool:hover,body .aio-rich-tool:focus-visible{background:#1c5266;border-color:#7dd4ed;outline:2px solid transparent}
+body .aio-rich-preview-toggle{margin-left:auto;color:#bff6db;border-color:#4b9a89}
+body .aio-rich-preview-toggle.is-active{background:#17584d;border-color:#80d7bd}
+body .aio-rich-help{margin:7px 3px!important;font-size:12px;line-height:1.5;color:#b4cdda}
+body .aio-rich-preview{margin:9px 0;padding:18px;border-radius:11px;border:1px solid #52a3b6;background:#061e2a;color:#eaf8fb;line-height:1.7;white-space:normal;overflow-wrap:anywhere}
+body .aio-rich-preview[hidden]{display:none!important}
+body .aio-rich-heading{display:inline-block;font-weight:900;font-size:1.12em;color:#e8fbff;margin:7px 0 3px}
+body .aio-rich-bullet{display:inline-block;padding-left:12px}
+body .aio-rich-quote{display:inline-block;border-left:3px solid #74d7eb;padding:3px 9px;color:#bde6f0;background:#0b3343;border-radius:4px}
+body .community-post-text code,body .aio-rich-preview code{font:600 .89em/1.5 ui-monospace,monospace;background:#113746;color:#b5f3de;border:1px solid #2d7083;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere}
+body .community-post-text strong,body .community-post-text em,body .community-post-text u,body .community-post-text s{color:inherit}
+body .community-post-card.featured,body .community-post-card.is-featured{border-color:#bd9d5e!important;box-shadow:inset 4px 0 rgba(255,211,118,.5)}
+body .community-status-pill.featured,body .latest-badge.aio-latest-featured{border:1px solid #9f7e43;background:#41331c;color:#ffe2a3;font-weight:800}
+body .community-status-pill.pinned,body .latest-badge.aio-latest-pinned{border:1px solid #57b3bb;background:#103e43;color:#bff4f4;font-weight:800}
+body .latest-card.is-pinned{border-color:#4eafbb!important}
+body .latest-card.is-featured{border-color:#bd9d5e!important}
+body .community-media-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(160px,100%),1fr));gap:9px;align-items:stretch}
+body .community-media-grid img{width:100%;height:190px;object-fit:cover;border-radius:10px;cursor:zoom-in}
+body .community-media-grid.one img{height:auto;max-height:480px;object-fit:contain}
+body .community-media-grid .aio-media-more{display:flex;align-items:center;justify-content:center;min-height:44px;padding:10px 14px;grid-column:1/-1;border:1px solid #397987;border-radius:10px;background:#123d4b;color:#d8faff;text-decoration:none;font-weight:800}
+body .community-media-grid .aio-media-more:hover{background:#1b5163;color:#fff}
+body .community-image-preview{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+body .community-image-preview img{min-width:0;width:100%;height:120px;object-fit:cover;border-radius:10px}
+body .community-post-footer .community-action{min-height:38px}
+body .community-admin-actions [data-admin-action="feature"]{border-color:#ab8a4d;color:#ffe2a4}
+@media(max-width:760px){
+ body .aio-rich-toolbar{padding:7px;gap:5px}
+ body .aio-rich-tool{min-height:42px;min-width:42px;font-size:12px}
+ body .aio-rich-preview-toggle{margin-left:0}
+ body .community-image-preview{grid-template-columns:repeat(3,minmax(0,1fr))}
+ body .community-media-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ body .community-media-grid img{height:145px}
+}
+@media(max-width:440px){body .community-image-preview{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){body .aio-rich-tool{transition:none}}

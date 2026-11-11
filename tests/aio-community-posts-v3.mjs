@@ -1,0 +1,37 @@
+#!/usr/bin/env node
+/* AIO COMMUNITY POSTS V3: static regression and safety guards, offline. */
+import {readFileSync} from 'node:fs';
+import {resolve} from 'node:path';
+import assert from 'node:assert/strict';
+const root=resolve(process.argv[2]||'.');
+const read=p=>readFileSync(resolve(root,p),'utf8');
+const core=read('assets/js/community-core.js'), api=read('functions/api/community.js');
+const edit=read('functions/api/community-edit.js');
+const feed=read('assets/js/community-feed.js'), detail=read('assets/js/community-post.js');
+const owner=read('assets/js/community-admin.js');
+const config=JSON.parse(read('data/community_config.json'));
+assert.equal(config.maxImagesPerPost,12);
+assert.match(core,/maxImagesPerPost:12/);
+assert.match(api,/if\(attachments\.length>12\)/);
+assert.match(api,/!key\.startsWith\(`\$\{s\.user\.id\}\/post\/`\)/);
+assert.match(api,/imageKeys\.has\(key\)/);
+assert.match(edit,/\.length>12/);
+assert.match(edit,/oldKeys\.has\(item\.key\)/);
+assert.match(edit,/item\.key\.startsWith\(`\$\{s\.user\.id\}\/post\/`\)/);
+assert.match(api,/requireAdmin\(request,env\)/);
+assert.match(api,/op==="pin"/);
+assert.match(api,/op==="feature"/);
+assert.match(api,/p\.pinned DESC, p\.featured DESC, COALESCE/);
+assert.match(feed,/data-pin-post/);assert.match(feed,/data-feature-post/);
+assert.match(detail,/data-pin-current-post/);assert.match(detail,/data-feature-current-post/);
+assert.match(owner,/data-admin-action="feature"/);
+assert.match(core,/formatSafeText/);
+assert.match(core,/this\.escape\(chunk\)/);
+assert.match(core,/storeProtectedCommunityLink\(href\)/);
+assert.match(read('assets/js/aio-latest-posts-v11.js'),/aio-latest-pinned/);
+assert.match(read('assets/js/aio-latest-posts-v11.js'),/aio-latest-featured/);
+for(const p of ['community.html','post.html','community-admin.html'])assert.match(read(p),/community-editor-v3\.js/);
+for(const p of ['community.html','post.html','community-admin.html','latest-posts.html'])assert.match(read(p),/community-posts-v3\.css/);
+assert.doesNotMatch(read('assets/js/community-editor-v3.js'),/contenteditable|execCommand\(/i);
+assert.doesNotMatch(read('assets/js/community-editor-v3.js'),/api\/(?:access|owner)/i);
+console.log('AIO COMMUNITY POSTS V3: PASS — limit, owner controls, sort, moderation, escapes, protected URLs, UI links.');

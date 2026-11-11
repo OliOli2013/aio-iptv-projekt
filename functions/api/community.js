@@ -100,7 +100,7 @@ function guestPostTeaser(row){
   });
   const key=image?String(image.key||image.path):'';
   return {
-    id:row.id,kind:'community',teaser:true,title:cleanText(row.title,140),
+    id:row.id,kind:'community',teaser:true,pinned:Boolean(row.pinned),featured:Boolean(row.featured),title:cleanText(row.title,140),
     category:row.category,post_type:row.post_type,created_at:row.created_at,
     attachments:key?[{url:'/api/community-media?key='+encodeURIComponent(key),type:String(image.type)}]:[]
   };
@@ -213,10 +213,10 @@ export async function onRequestGet({request, env}) {
       if (category) { where.push(`p.category=?`); params.push(allowedCategory(category)); }
       if (postType) { where.push(`p.post_type=?`); params.push(allowedPostType(postType)); }
       if (search) { where.push(user ? `(p.title LIKE ? OR p.content LIKE ?)` : `(p.title LIKE ? OR (p.kind='official' AND p.content LIKE ?))`); params.push(`%${search}%`,`%${search}%`); }
-      let order=`p.pinned DESC, p.created_at DESC`;
+      let order=`p.pinned DESC, p.featured DESC, p.created_at DESC, p.id DESC`;
       // True publication order for Najnowsze Posty. Other feeds keep existing pin priority.
-      if (mode === "recent") order=`COALESCE(p.published_at,p.created_at) DESC, p.created_at DESC, p.id DESC`;
-      if (mode==="popular") order=`p.pinned DESC,p.reaction_count DESC,p.comment_count DESC,p.created_at DESC`;
+      if (mode === "recent") order=`p.pinned DESC, p.featured DESC, COALESCE(p.published_at,p.created_at) DESC, p.created_at DESC, p.id DESC`;
+      if (mode==="popular") order=`p.pinned DESC,p.featured DESC,p.reaction_count DESC,p.comment_count DESC,p.created_at DESC`;
       const sql=`
         SELECT ${authorSelect()}
         FROM community_posts p LEFT JOIN community_profiles pr ON pr.id=p.author_id
@@ -507,10 +507,15 @@ export async function onRequestPost({request,env}) {
       const s=await requireUser(request,env);
       const title=cleanText(body.title,140), content=cleanText(body.content,50000);
       if(title.length<6||content.length<20) return json({ok:false,error:"Tytuł lub treść są za krótkie."},400);
-      const attachments=Array.isArray(body.attachments)?body.attachments.slice(0,4):[];
+      // AIO_COMMUNITY_POSTS_V3_20261111: never silently truncate uploaded images.
+       if(body.attachments!=null && !Array.isArray(body.attachments)) return json({ok:false,error:"Nieprawidłowa lista zdjęć."},400);
+       const attachments=Array.isArray(body.attachments)?body.attachments:[];
+       if(attachments.length>12) return json({ok:false,error:"Maksymalnie 12 zdjęć w jednym wpisie."},400);
+       const imageKeys=new Set();
       for(const a of attachments){
         const key=String(a?.key||"");
-        if(!key.startsWith(`${s.user.id}/`)) return json({ok:false,error:"Nieprawidłowy załącznik."},400);
+        if(!key.startsWith(`${s.user.id}/post/`) || imageKeys.has(key)) return json({ok:false,error:"Nieprawidłowy lub powtórzony załącznik."},400);
+         imageKeys.add(key);
       }
       const id=crypto.randomUUID();
       const official=Boolean(body.official)&&isAdmin(s);
@@ -668,7 +673,14 @@ export async function onRequestPost({request,env}) {
         if(op==="approve") await db.prepare(`UPDATE community_posts SET status='published',published_at=COALESCE(published_at,?),updated_at=? WHERE id=?`).bind(now,now,id).run();
         else if(op==="reject") await db.prepare(`UPDATE community_posts SET status='rejected',updated_at=? WHERE id=?`).bind(now,id).run();
         else if(op==="hide") await db.prepare(`UPDATE community_posts SET status='hidden',updated_at=? WHERE id=?`).bind(now,id).run();
-        else if(op==="pin") await db.prepare(`UPDATE community_posts SET pinned=CASE pinned WHEN 1 THEN 0 ELSE 1 END,updated_at=? WHERE id=?`).bind(now,id).run();
+        else if(op==="pin") {
+           if(row.status!=="published") return json({ok:false,error:"Można przypinać tylko opublikowane posty."},400);
+           await db.prepare(`UPDATE community_posts SET pinned=CASE pinned WHEN 1 THEN 0 ELSE 1 END,updated_at=? WHERE id=?`).bind(now,id).run();
+         }
+         else if(op==="feature") {
+           if(row.status!=="published") return json({ok:false,error:"Można wyróżniać tylko opublikowane posty."},400);
+           await db.prepare(`UPDATE community_posts SET featured=CASE featured WHEN 1 THEN 0 ELSE 1 END,updated_at=? WHERE id=?`).bind(now,id).run();
+         }
         else if(op==="lock") await db.prepare(`UPDATE community_posts SET locked=CASE locked WHEN 1 THEN 0 ELSE 1 END,updated_at=? WHERE id=?`).bind(now,id).run();
         else if(op==="official") await db.prepare(`UPDATE community_posts SET kind=CASE kind WHEN 'official' THEN 'community' ELSE 'official' END,updated_at=? WHERE id=?`).bind(now,id).run();
         else if(op==="edit"){

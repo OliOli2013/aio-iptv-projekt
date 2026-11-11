@@ -5,7 +5,7 @@
   "siteUrl": "https://aio-iptv-projekt.pages.dev/",
   "mediaBucket": "community-media",
   "maxImageSizeMb": 5,
-  "maxImagesPerPost": 4,
+  "maxImagesPerPost": 12,
   "postsPerPage": 12,
   "firstPostRequiresApproval": true,
   "categories": [
