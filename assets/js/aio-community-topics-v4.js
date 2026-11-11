@@ -99,8 +99,24 @@
     return html;
   }
   let state={category:params.get('category')||'',subcategory:params.get('subcategory')||'',deviceBrand:params.get('brand')||'',deviceModel:params.get('model')||'',listingStatus:params.get('listingStatus')||''};
-  let controls;
-  function publishFilter(changes){
+  let controls,topicBoard,topicGrid,changeButton;
+  // V4.1: kafelki sluza do wyboru dzialu; wyniki sa w istniejacym feedzie ponizej.
+  function setBoardExpanded(expanded){
+    if(!topicBoard||!topicGrid)return;
+    topicGrid.hidden=!expanded;
+    topicBoard.classList.toggle('aio-topics-compact',!expanded);
+    if(changeButton)changeButton.hidden=expanded;
+  }
+  function scrollToNode(node){
+    if(!node||typeof node.scrollIntoView!=='function')return;
+    const reduced=window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
+    const frame=window.requestAnimationFrame?.bind(window)||((callback)=>setTimeout(callback,0));
+    frame(()=>frame(()=>node.scrollIntoView({behavior:reduced?'auto':'smooth',block:'start'})));
+  }
+  function showResults(){
+    scrollToNode($('.community-main [data-community-feed]')||$('[data-community-feed]')||$('.community-main .community-panel')||controls);
+  }
+  function publishFilter(changes,{emit=true}={}){
     state={...state,...changes};
     if(changes.category!==undefined && changes.category!==state._lastCategory){
       state.subcategory='';state.deviceBrand='';state.deviceModel='';state.listingStatus='';
@@ -113,7 +129,7 @@
     Object.entries(query).forEach(([key,val])=>val?url.searchParams.set(key,val):url.searchParams.delete(key));
     history.replaceState(null,'',url.pathname+url.search+url.hash);
     updateCards();
-    document.dispatchEvent(new CustomEvent('aio:topics-filter',{detail:query}));
+    if(emit)document.dispatchEvent(new CustomEvent('aio:topics-filter',{detail:query}));
   }
   function updateCards(){
     document.querySelectorAll('[data-aio-topic-card]').forEach(el=>{
@@ -124,25 +140,27 @@
       updateSelectGroup(controls,state.category,state,true);
       const label=$('[data-aio-topic-current]');
       const cat=labels().find(x=>x.id===state.category);
-      if(label)label.textContent=cat?`Dział: ${cat.label}`:'Wszystkie działy';
+      if(label)label.textContent=cat?cat.label:'Wszystkie działy';
     }
   }
   function makeBoard(){
     const host=$('.community-main');if(!host||$('#aio-topics-v4'))return;
-    const section=E('section','aio-topics-v4 community-panel');section.id='aio-topics-v4';section.setAttribute('aria-label','Centrum tematyczne Społeczności AIO');
+    const section=E('section','aio-topics-v4 community-panel');section.id='aio-topics-v4';section.setAttribute('aria-label','Centrum tematyczne Społeczności AIO');topicBoard=section;
     const header=E('div','aio-topics-head');
     const headerText=E('div');headerText.append(E('p','eyebrow','ODKRYWAJ TEMATY'),E('h2','','Centrum tematyczne AIO'),E('p','aio-topics-subtitle','Wybierz dział zamiast przeszukiwać wszystkie wpisy. Możesz też zawęzić wyniki do marki i modelu tunera.'));
-    const all=E('button','aio-topic-all','Wszystkie posty');all.type='button';all.onclick=()=>{publishFilter({category:'',subcategory:'',deviceBrand:'',deviceModel:'',listingStatus:''});$('#aio-topics-v4').scrollIntoView({behavior:'smooth',block:'start'});};
-    header.append(headerText,all);section.append(header);
-    const grid=E('div','aio-topics-grid');
-    const summary=[
-      'Wtyczki, problemy i nowe wydania','Gotowe backupy, image, Multi-Click',
-      'Instrukcje krok po kroku','Ogłoszenia użytkowników'
-    ];
+    const all=E('button','aio-topic-all','Wszystkie posty');all.type='button';all.onclick=()=>{
+      publishFilter({category:'',subcategory:'',deviceBrand:'',deviceModel:'',listingStatus:''});
+      setBoardExpanded(false);showResults();
+    };
+    const choose=E('button','aio-topic-change','Zmień dział');choose.type='button';choose.hidden=true;changeButton=choose;
+    choose.onclick=()=>{setBoardExpanded(true);scrollToNode(section);};
+    const actions=E('div','aio-topics-actions');actions.append(choose,all);
+    header.append(headerText,actions);section.append(header);
+    const grid=E('div','aio-topics-grid');topicGrid=grid;
     for(const cat of labels()){
       const b=E('button','aio-topic-card');b.type='button';b.dataset.aioTopicCard=cat.id;b.setAttribute('aria-pressed','false');
       b.append(E('span','aio-topic-icon',cat.icon||'•'),E('span','aio-topic-label',cat.label),E('small','aio-topic-count','Zobacz wpisy'));
-      b.onclick=()=>{publishFilter({category:cat.id});controls?.scrollIntoView({behavior:'smooth',block:'center'});};
+      b.onclick=()=>{publishFilter({category:cat.id});setBoardExpanded(false);showResults();};
       grid.append(b);
     }
     section.append(grid);
@@ -158,12 +176,15 @@
         const changes={[key]:v};
         if(key==='deviceBrand')changes.deviceModel='';
         publishFilter(changes);
+        setBoardExpanded(false);showResults();
       });
       wrap.append(select);row.append(wrap);
     }
     filter.append(row);
     section.append(filter);host.insertBefore(section,host.firstElementChild);
     state._lastCategory=state.category;updateCards();
+    // Bezposrednie linki ?category=... od razu otwieraja liste postow.
+    if(state.category){setBoardExpanded(false);showResults();}
     fetch('/api/community?action=topic_counts',{credentials:'include',cache:'no-store'})
       .then(r=>r.ok?r.json():null).then(d=>{
         const counts=new Map((d?.rows||[]).map(r=>[r.category,Number(r.n||0)]));
@@ -178,8 +199,10 @@
     const init=()=>{makeBoard();bindForm($('[data-compose-form]'));
       document.addEventListener('aio:topics-category-changed',e=>{
         const v=e.detail?.category||'';
-        state._lastCategory=state.category;
-        publishFilter({category:v});
+        // Lista w community-feed.js juz laduje nowe wpisy przy zmianie selecta.
+        // Nie wysylamy drugi raz aio:topics-filter, aby uniknac podwojnego fetch.
+        publishFilter({category:v},{emit:false});
+        setBoardExpanded(false);showResults();
       });
     };
     if(window.AIOCommunity.ready)init();else document.addEventListener('aio-community-ready',init,{once:true});

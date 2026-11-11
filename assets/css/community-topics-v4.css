@@ -23,3 +23,15 @@
 
 .aio-topic-market-warning{grid-column:1/-1;margin:0;padding:11px 12px;border-radius:9px;border:1px solid #977046;background:#322b20;color:#ffebce;font-size:.81rem;line-height:1.5}
 .aio-topic-market-warning[hidden]{display:none!important}
+
+/* AIO Topics V4.1 — zwijany wybor dzialu, widoczne wyniki po kliknieciu. */
+.aio-topics-actions{display:flex;flex-wrap:wrap;gap:9px;align-items:center}
+.aio-topic-change{cursor:pointer;border:1px solid #7fbbb6;background:#1e5057;color:#f3ffff;padding:10px 15px;border-radius:10px;font-weight:800;min-height:44px}
+.aio-topic-change[hidden],.aio-topics-grid[hidden]{display:none!important}
+.aio-topic-change:focus-visible,.aio-topic-all:focus-visible{outline:2px solid #a9faf2;outline-offset:3px}
+.aio-topics-v4.aio-topics-compact{padding:clamp(12px,1.5vw,18px)}
+.aio-topics-v4.aio-topics-compact .aio-topics-head{margin-bottom:6px}
+.aio-topics-v4.aio-topics-compact .aio-topics-subtitle{display:none}
+.aio-topics-v4.aio-topics-compact .aio-topic-filters{margin-top:7px;padding-top:9px}
+body[data-community-page="feed"] .community-main [data-community-feed]{scroll-margin-top:90px}
+@media(max-width:600px){.aio-topics-v4.aio-topics-compact .aio-topics-head h2{font-size:1.15rem}.aio-topics-actions{width:100%}.aio-topics-actions button{flex:1}}
