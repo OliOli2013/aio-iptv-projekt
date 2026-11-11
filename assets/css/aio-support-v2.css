@@ -433,3 +433,18 @@ body.aio-support-v2 .support-page{
   }
   .aio-support-v2-other-links a{justify-content:center}
 }
+
+/* AIO Support: transparent maintenance costs, November 2026. */
+body.aio-support-v2 .aio-support-v2-funding .aio-support-cost-note {
+  padding:13px 15px;
+  margin:12px 0 14px;
+  border:1px solid rgba(78,205,207,.4);
+  border-left:4px solid #43d6ca;
+  border-radius:11px;
+  background:linear-gradient(112deg,#0b3543,#122f47);
+  color:#d8f4f5;
+  font-size:.91rem;
+  line-height:1.58;
+}
+body.aio-support-v2 .aio-support-v2-funding .aio-support-cost-note strong {color:#b3fff0}
+body.aio-support-v2 #wesprzyj-projekt {scroll-margin-top:125px}
