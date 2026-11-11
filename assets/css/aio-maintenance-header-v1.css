@@ -112,3 +112,44 @@ body.aio-home-v2.aio-header-v4 .site-header .aio-h4-maintenance-cta-short {displ
   body.aio-home-v2.aio-header-v4 .site-header .aio-h4-maintenance-copy small {display:none}
   body.aio-home-v2.aio-header-v4 .site-header .aio-h4-maintenance-cta {font-size:10px;padding:7px}
 }
+
+/* AIO HEADER WSPARCIE PELNA SZEROKOSC V2 — START */
+/* Desktop: logo + one wide support panel; the old third CTA is removed in JS. */
+@media (min-width: 761px) {
+  body.aio-home-v2.aio-header-v4 .site-header .brand-row {
+    grid-template-columns: minmax(280px, 315px) minmax(0, 1fr) !important;
+    column-gap: clamp(12px, 1.6vw, 22px) !important;
+  }
+  body.aio-home-v2.aio-header-v4 .site-header .brand-row > .aio-h4-maintenance-banner {
+    grid-column: 2 / -1 !important;
+    grid-row: 1 !important;
+    min-height: 72px !important;
+    max-width: none !important;
+  }
+  body.aio-home-v2.aio-header-v4 .site-header .aio-h4-maintenance-copy strong {
+    font-size: 13px;
+  }
+  body.aio-home-v2.aio-header-v4 .site-header .aio-h4-maintenance-copy small {
+    font-size: 11px;
+  }
+  /* Defense against an older header script injecting the old CTA again. */
+  body.aio-home-v2.aio-header-v4 .site-header .brand-row > .aio-h4-support {
+    display: none !important;
+  }
+}
+@media (min-width: 761px) and (max-width: 1170px) {
+  body.aio-home-v2.aio-header-v4 .site-header .brand-row {
+    grid-template-columns: minmax(225px, 250px) minmax(0, 1fr) !important;
+  }
+}
+@media (min-width: 930px) and (max-width: 1170px) {
+  body.aio-home-v2.aio-header-v4 .site-header .aio-h4-maintenance-cta-full { display: inline !important; }
+  body.aio-home-v2.aio-header-v4 .site-header .aio-h4-maintenance-cta-short { display: none !important; }
+}
+/* Mobile layout stays 3 controls on row one + full-width banner on row two. */
+@media (max-width: 760px) {
+  body.aio-home-v2.aio-header-v4 .site-header .brand-row > .aio-h4-support {
+    display: none !important;
+  }
+}
+/* AIO HEADER WSPARCIE PELNA SZEROKOSC V2 — END */

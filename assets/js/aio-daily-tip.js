@@ -8,7 +8,7 @@
     if (!document.body || !document.body.classList.contains('aio-home-v2')) return;
     const row = document.querySelector('.site-header .brand-row');
     const support = row && row.querySelector('.aio-h4-support');
-    if (!row || !support || row.querySelector('.aio-h4-maintenance-banner')) return;
+    if (!row || row.querySelector('.aio-h4-maintenance-banner')) return;
     row.querySelectorAll('.aio-h4-daily-tip,.aio-h4-vip-banner').forEach(el => el.remove());
 
     const banner = document.createElement('a');
@@ -24,7 +24,8 @@
       '</span>' +
       '<span class="aio-h4-maintenance-cta"><span class="aio-h4-maintenance-cta-full">3 sposoby wsparcia</span>' +
         '<span class="aio-h4-maintenance-cta-short">Wesprzyj</span> <span aria-hidden="true">↗</span></span>';
-    row.insertBefore(banner, support);
+    row.insertBefore(banner, support || null);
+    if (support) support.remove(); // Home: banner replaces the redundant side CTA.
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', renderMaintenance, {once: true});
