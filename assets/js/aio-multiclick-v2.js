@@ -32,9 +32,9 @@
     art.append(el('span','aio-mc-card-chip','Enigma2'));
     article.append(art);
     const body=el('div','aio-mc-card-content');
-    body.append(el('span','aio-mc-maker',who+' · '+(item.version||'image')));
+    body.append(el('span','aio-mc-maker',who+' · '+(item.version||'image')+(item.date?' · '+String(item.date).split('-').reverse().join('.') : '')));
     body.append(el('h3','aio-mc-card-title',name));
-    body.append(el('p','aio-mc-card-description','Gotowy obraz systemu Multi-Click. Sprawdź model tunera przed instalacją.'));
+    body.append(el('p','aio-mc-card-description','Gotowiec Enigma2: lista kanałów, wybrane wtyczki i narzędzia OSCam. Po instalacji start na 4Fun TV. Sprawdź model tunera.'));
     const actions=el('div','aio-mc-card-actions');
     const href=safeDownload(item.href);
     if(href){const download=el('a','aio-ia-action','Pobierz system');download.href=href;

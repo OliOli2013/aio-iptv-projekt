@@ -81,6 +81,15 @@ body.aio-multiclick-page{background:radial-gradient(circle at 18% 0,#092e59 0,tr
 .aio-mc-receiver{width:min(100%,460px);max-height:330px;object-fit:contain;justify-self:center;filter:drop-shadow(0 14px 20px #0a032e)}
 .aio-mc-info-strip{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0 25px}
 .aio-mc-info-strip span{padding:8px 13px;background:#0b354a;border:1px solid #32647e;border-radius:9px;font-size:.81rem;color:#c1e5f5;font-weight:750}
+
+/* AIO Multi-Click: clearly explain preconfigured receiver images */
+.aio-mc-ready{margin:0 0 26px;padding:clamp(20px,3vw,30px);border:1px solid #397b90;border-radius:20px;background:linear-gradient(120deg,#0d3449,#122849 75%);box-shadow:0 12px 28px #0003}
+.aio-mc-ready h2{margin:5px 0 12px;color:#fff;font-size:clamp(1.3rem,2.5vw,1.9rem);letter-spacing:-.02em}
+.aio-mc-ready>p:not(.aio-ia-eyebrow){color:#d5e9f5;line-height:1.6;margin:0 0 12px}
+.aio-mc-ready ul{list-style:none;padding:0;margin:16px 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+.aio-mc-ready li{position:relative;padding:12px 12px 12px 36px;border:1px solid #386f89;border-radius:10px;color:#e9faff;background:#0b2740;font-weight:650}
+.aio-mc-ready li::before{content:"✓";position:absolute;left:12px;color:#7eedd6;font-weight:900}
+.aio-mc-ready .aio-mc-ready-note{font-size:.91rem;color:#b7d7e8}
 .aio-mc-panel{border:1px solid #32617f;border-radius:22px;padding:clamp(18px,3vw,30px);background:linear-gradient(150deg,#0b2a40,#071b30)}
 .aio-mc-panel-head{display:flex;align-items:end;justify-content:space-between;gap:22px;flex-wrap:wrap}
 .aio-mc-panel-head h2{color:#fff;font-size:clamp(1.6rem,3vw,2.25rem);margin:0 0 4px}
