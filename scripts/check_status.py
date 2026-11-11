@@ -20,7 +20,6 @@ def check(target: dict) -> dict:
     checked_at = dt.datetime.now(dt.timezone.utc).isoformat()
     headers = {"User-Agent": USER_AGENT, "Accept": "*/*"}
     status_code = None
-    final_url = url
     message = ""
     try:
         request = urllib.request.Request(url, headers=headers, method="HEAD")
@@ -34,7 +33,6 @@ def check(target: dict) -> dict:
             response = urllib.request.urlopen(request, timeout=25, context=ssl.create_default_context())
         with response:
             status_code = int(response.getcode() or 0)
-            final_url = response.geturl()
             content_type = response.headers.get("Content-Type", "").split(";", 1)[0]
             length = response.headers.get("Content-Length", "")
         if 200 <= status_code < 400:
@@ -64,7 +62,7 @@ def check(target: dict) -> dict:
 
     return {
         **target,
-        "url": final_url,
+        "url": url,
         "status": status,
         "httpStatus": status_code,
         "checkedAt": checked_at,

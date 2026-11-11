@@ -74,7 +74,7 @@
     {
       "id": "aio-ipk",
       "name": "AIO Panel 18.0.0 — plik IPK",
-      "url": "https://release-assets.githubusercontent.com/github-production-release-asset/1056653095/b94037a1-8ce6-44aa-9424-fb05c692d42a?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-11-10T14%3A29%3A48Z&rscd=attachment%3B+filename%3Denigma2-plugin-extensions-panelaio_18.0.0_all.ipk&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-11-10T13%3A29%3A24Z&ske=2026-11-10T14%3A29%3A48Z&sks=b&skv=2018-11-09&sig=ND6eFBs18B%2FT1bozqj90ctBIt2vCXsNbNEeyLZUKBIQ%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5NDMxNzc0NSwibmJmIjoxNzk0MzE3NDQ1LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.IT9s15YWANjNq1IWD6HKV5FC6W2_lbvycrckgB_ehQ8&response-content-disposition=attachment%3B%20filename%3Denigma2-plugin-extensions-panelaio_18.0.0_all.ipk&response-content-type=application%2Foctet-stream",
+      "url": "https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/18.0.0/enigma2-plugin-extensions-panelaio_18.0.0_all.ipk",
       "category": "Pliki",
       "status": "online",
       "httpStatus": 200,

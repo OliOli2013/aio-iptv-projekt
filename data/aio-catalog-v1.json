@@ -932,15 +932,15 @@
       "access": "zgodnie_ze_zrodlem"
     },
     {
-      "title": "Zgemma H8.2H — OpenATV 7.6",
-      "href": "https://multi-click.pl/index.php?controller=attachment&id_attachment=151",
+      "title": "Zgemma H8.2H — OpenATV 8.0.1",
+      "href": "https://multi-click.pl/index.php?controller=attachment&id_attachment=160",
       "category": "Systemy",
       "platform": "Enigma2",
-      "version": "7.6",
-      "date": "",
-      "status": "Stabilna",
+      "version": "8.0.1",
+      "date": "2026-11-09",
+      "status": "Aktualna",
       "sourcePage": "systems.html",
-      "sourceTitle": "Zgemma H8.2H — OpenATV 7.6",
+      "sourceTitle": "Zgemma H8.2H — OpenATV 8.0.1",
       "kind": "LINK",
       "size": "zewnętrzny link",
       "sha256": "",
@@ -1728,10 +1728,10 @@
     {
       "id": "legacy-167eaf4605b111d1",
       "project_id": "systems",
-      "project_name": "Zgemma H8.2H — OpenATV 7.6",
-      "version": "7.6",
-      "date": null,
-      "title": "Zgemma H8.2H — OpenATV 7.6",
+      "project_name": "Zgemma H8.2H — OpenATV 8.0.1",
+      "version": "8.0.1",
+      "date": "2026-11-09",
+      "title": "Zgemma H8.2H — OpenATV 8.0.1",
       "summary": "",
       "page": "systems.html",
       "channel": "legacy",
@@ -1739,7 +1739,7 @@
       "published_at": null,
       "verified_at": null,
       "files": [
-        "https://multi-click.pl/index.php?controller=attachment&id_attachment=151"
+        "https://multi-click.pl/index.php?controller=attachment&id_attachment=160"
       ]
     },
     {
