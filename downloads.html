@@ -2,7 +2,7 @@
 
 <html lang="pl"><head><title>Centrum pobierania | AIO TunerHub</title><meta content="Wszystkie aktualne wtyczki i skiny Enigma2, aplikacje Android i Windows, systemy Multi-Click, listy kanałów, poradniki i dodatki w jednym katalogu." name="description"/><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="#071a24" name="theme-color"/><link href="pliki/logo.png?v=20261024-tunerhub-v11" rel="icon"/><link href="manifest.json" rel="manifest"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Caveat:wght@700&amp;display=swap" rel="stylesheet"/><link href="assets/css/user-premium.css?v=20260826-portal-ux3" rel="stylesheet"/><link href="assets/css/pro-suite.css?v=20260724-pro3" rel="stylesheet"/>
 <script src="assets/js/auto-language.js?v=20261012-rodo1"></script><link href="assets/css/aio-2026.css?v=20261014-uxperf-v1" rel="stylesheet"/>
-<link rel="stylesheet" href="assets/css/aio-downloads-v2.css?v=20261010-downloadsv2">
+<link rel="stylesheet" href="assets/css/aio-downloads-v2.css?v=20261111-uxv3">
 <link rel="stylesheet" href="assets/css/content-protection.css?v=20261009-protect1"/>
 <link rel="stylesheet" href="assets/css/aio-header-v2.css?v=20261031-menu-layout-v5">
 <link rel="canonical" href="https://aio-iptv-projekt.pages.dev/downloads">
@@ -48,9 +48,10 @@
 <nav aria-label="Ścieżka" class="portal-breadcrumbs"><a href="index.html">Start</a><span>›</span><strong>Centrum pobierania</strong></nav>
 <section class="download-v2-hero">
   <p class="download-v2-kicker">CENTRUM POBIERANIA AIO TunerHub</p>
-  <h1>Czego szukasz?</h1>
-  <p class="download-v2-lead">Wpisz model tunera, nazwę systemu, wtyczki albo problem. Możesz też wybrać gotową kategorię, tuner lub system.</p>
+  <h1>Znajdź właściwy plik.</h1>
+  <p class="download-v2-lead">Wyszukaj wtyczkę, system, listę kanałów lub aplikację. Wybierz kategorię, a w razie potrzeby doprecyzuj tuner i image.</p>
 
+  <label class="download-v3-search-label" for="downloadV2Search">Wyszukaj w katalogu</label>
   <div class="download-v2-search">
     <span>⌕</span>
     <input id="downloadV2Search" type="search" autocomplete="off" placeholder="Np. Zgemma H7S OpenATV, AIO Panel, EPG, lista kanałów…">
@@ -68,6 +69,8 @@
     <button class="download-v2-route" type="button" data-dv2-category="Dodatki"><span class="ico">⚙</span><span><strong>Dodatki</strong><small>elementy systemu</small></span><i>→</i></button>
   </div>
 
+  <details class="download-v3-device-panel" id="downloadV3DevicePanel">
+    <summary><strong>Dobierz do tunera i systemu</strong><small>Opcjonalne filtry — rozwiń, jeśli szukasz konkretnego image.</small></summary>
   <div class="download-v2-tools">
     <div class="download-v2-toolbox">
       <strong>Szybki wybór tunera</strong>
@@ -92,8 +95,20 @@
       </div>
     </div>
   </div>
+  </details>
 </section>
 
+<section class="download-v3-origins" aria-label="Pochodzenie plików">
+  <a class="download-v3-origin-link" href="projects-aio.html">
+    <strong>◆ Autorskie projekty AIO Team</strong>
+    <span>Wtyczki i narzędzia tworzone w ramach AIO — sprawdź opis i zgodność z tunerem.</span>
+  </a>
+  <a class="download-v3-origin-link" href="systems-multiclick.html">
+    <strong>◉ Gotowe systemy Multi-Click</strong>
+    <span>Zewnętrzne, skonfigurowane obrazy Enigma2 — wybierz dokładny model odbiornika.</span>
+  </a>
+  <p class="download-v3-origin-hint">W katalogu są również dodatki innych autorów. Oznaczenie źródła nie zmienia zasad pobierania ani odpowiedzialności autorów plików.</p>
+</section>
 <div class="download-v2-bar">
   <div class="download-v2-modes" aria-label="Widok katalogu">
     <button class="download-v2-mode" type="button" data-dv2-mode="latest">Najnowsze</button>
@@ -101,7 +116,8 @@
     <button class="download-v2-mode" type="button" data-dv2-mode="all">Wszystkie</button>
     <button class="download-v2-mode" type="button" data-dv2-mode="archive">Archiwalne</button>
   </div>
-  <div class="download-v2-result"><strong id="downloadV2Count">0</strong><span>pasujących pozycji</span></div>
+  <div class="download-v2-result" aria-live="polite" aria-atomic="true"><strong id="downloadV2Count">0</strong><span>pasujących pozycji</span></div>
+  <div class="download-v3-active" id="downloadV3Selection" aria-live="polite" hidden></div>
   <button class="download-v2-advanced" id="downloadV2Advanced" type="button" aria-expanded="false">Więcej filtrów</button>
 </div>
 <div class="download-v2-empty-note" id="downloadV2Empty">Nie znaleziono pasujących pozycji. Wyczyść filtry albo spróbuj krótszej frazy.</div>
@@ -384,7 +400,7 @@
 </article></section>
 <section class="portal-community-bridge"><div class="community-bridge-icon">◎</div><div><small>NIE WIESZ, KTÓRY PLIK WYBRAĆ?</small><strong>Zapytaj Społeczność AIO przed instalacją.</strong><p>Podaj model tunera, system i to, co chcesz osiągnąć. Łatwiej dobrać właściwy plik niż później naprawiać błędną instalację.</p></div><div class="community-bridge-actions"><a class="portal-btn primary" href="community.html">Zadaj pytanie</a><a class="portal-btn" href="start-here.html">Zacznij tutaj</a></div></section><section class="module trust-explainer"><h2>Jak bezpiecznie pobierać?</h2><div class="choice-grid three"><div class="mini-card"><strong>1. Sprawdź wersję</strong><p>Wybieraj pozycję oznaczoną jako aktualna lub stabilna. Starsze pliki są schowane jako archiwalne.</p></div><div class="mini-card"><strong>2. Przeczytaj wymagania</strong><p>Przed instalacją otwórz opis projektu i sprawdź Python, system, model tunera lub wersję Androida/Windows.</p></div><div class="mini-card"><strong>3. Zachowaj kopię</strong><p>Przed zmianą systemu, listy kanałów lub konfiguracji wykonaj kopię ustawień i ważnych plików.</p></div></div></section>
 </main><footer class="site-footer"><div><strong>AIO TunerHub</strong><span>Profesjonalne centrum projektów Enigma2 by Paweł Pawełek.</span></div><nav><a href="downloads.html">Pobieranie</a><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Android</a><a href="windows-apps.html">Windows</a><a href="guides.html">Poradniki</a><a href="systems.html">Systemy</a><a href="compatibility.html">Zgodność</a><a href="report-error.html">Zgłoś błąd</a><a href="contact.html">Kontakt</a></nav><p>© <span id="year"></span> Paweł Pawełek • <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a></p></footer></div><script defer="" src="assets/js/user-premium.js?v=20261019-email-verify-v1"></script><script defer="" src="assets/js/pro-suite.js?v=20261018-katalog-v1"></script><script defer="" src="assets/js/aio-experience.js?v=20261008-cloudflare-clean1"></script>
-<script defer="True" src="assets/js/portal-ux3.js?v=20260826-ux3"></script><script defer src="assets/js/aio-downloads-v2.js?v=20261018-katalog-v1"></script><script defer src="assets/js/content-protection.js?v=20261009-protect1"></script>
+<script defer="True" src="assets/js/portal-ux3.js?v=20260826-ux3"></script><script defer src="assets/js/aio-downloads-v2.js?v=20261111-uxv3"></script><script defer src="assets/js/content-protection.js?v=20261009-protect1"></script>
 <script defer src="assets/js/aio-header-v2.js?v=20261031-design-v4"></script>
 <script defer src="assets/js/aio-share.js?v=20261010-share2"></script>
   <script defer src="assets/js/aio-mascot-widget.js?v=20261014-mascot-v21-fix1"></script>

@@ -42,6 +42,17 @@ if(catalog&&container&&grid&&count&&current&&groupButton&&filesButton){
       const article=el('article','aio-ia-group-card');
       article.dataset.category=group.category;
       const label=el('div','aio-ia-group-category',group.category);article.append(label);
+      // Source badge is derived from the actual external download target or the
+      // canonical AIO projects mapping. No authorship is guessed from category.
+      const external=group.items.some(item=>[...item.card.querySelectorAll('.download-actions a[href]')].some(a=>{
+        try{return new URL(a.href,location.href).hostname.toLowerCase()==='multi-click.pl';}catch(_){return false;}
+      }));
+      const authored=Boolean(group.page && projectNames.has(group.page.split('#')[0]));
+      if(external||authored){
+        const info=el('div','download-v3-provenance');
+        const badge=el('span',external?'external':'aio',external?'System zewnętrzny · Multi-Click':'Autorski projekt AIO Team');
+        info.append(badge);article.append(info);
+      }
       article.append(el('h3','aio-ia-card-title',group.label));
       article.append(el('p','aio-ia-group-types',[...group.types].join(' · ')+' · '+group.items.length+' '+(group.items.length===1?'pozycja':'pozycje')));
       const row=el('div','aio-ia-actions');

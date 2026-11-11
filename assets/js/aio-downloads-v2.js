@@ -117,7 +117,8 @@ $$('[data-dv2-category]').forEach(b=>b.addEventListener('click',()=>{
   $$('[data-dv2-category]').forEach(x=>x.classList.remove('is-active'));
   b.classList.toggle('is-active',!active);
   setCategory(active?'':value);
-  $('#downloadCatalog')?.scrollIntoView({behavior:'smooth',block:'start'});
+  const destination=document.body.classList.contains('aio-ia-grouped-view')?$('#aio-grouped-downloads'):$('#downloadCatalog');
+  destination?.scrollIntoView({behavior:'smooth',block:'start'});
 }));
 
 $$('[data-dv2-tuner]').forEach(b=>b.addEventListener('click',()=>{
@@ -165,4 +166,80 @@ if(total){
 }
 setMode('current');
 scheduleRefresh();
+})();
+
+/* AIO TunerHub Downloads UX V3 — read-only source badges + active filter hints.
+ * No download routing, session, quota, or permissions handling.
+ */
+(()=>{'use strict';
+  if(!document.body.classList.contains('aio-downloads-v2') || window.__aioDownloadsUXV3)return;
+  window.__aioDownloadsUXV3=true;
+  const q=(s,root=document)=>root.querySelector(s);
+  const qa=(s,root=document)=>[...root.querySelectorAll(s)];
+  const root=q('#downloadCatalog');
+  if(!root)return;
+  const active=q('#downloadV3Selection');
+  const text=(s)=>String(s||'').trim();
+  const pagePath=(url)=>{try{const u=new URL(url,location.href);if(u.origin!==location.origin)return '';return u.pathname.replace(/^\//,'').split('/').pop().toLowerCase();}catch(_){return '';}};
+  const isMultiClick=(card)=>qa('.download-actions a[href]',card).some(a=>{
+    try{return new URL(a.href,location.href).hostname.toLowerCase()==='multi-click.pl';}catch(_){return false;}
+  });
+  let aioPages=new Set();
+  function addBadge(card){
+    if(card.querySelector('.download-v3-provenance'))return;
+    const external=isMultiClick(card);
+    const page=pagePath(card.dataset.aioUrl||card.querySelector('.download-source a')?.getAttribute('href'));
+    const isAio=Boolean(page&&aioPages.has(page));
+    if(!external&&!isAio)return;
+    const top=q('.download-card-top',card);if(!top)return;
+    const item=document.createElement('div');item.className='download-v3-provenance';
+    const span=document.createElement('span');span.className=external?'external':'aio';
+    span.textContent=external?'System zewnętrzny · Multi-Click':'Autorski projekt AIO Team';
+    item.append(span);top.insertAdjacentElement('afterend',item);
+  }
+  function decorate(){qa('[data-download-card]',root).forEach(addBadge);}
+  let queued=false;
+  function queueDecorate(){if(queued)return;queued=true;queueMicrotask(()=>{queued=false;decorate();});}
+  const watch=new MutationObserver(records=>{
+    // Only direct additions to the catalogue, never a full subtree observer.
+    if(records.some(x=>x.addedNodes.length))queueDecorate();
+  });
+  watch.observe(root,{childList:true});
+  decorate();
+  fetch('data/projects.json',{credentials:'same-origin',cache:'default'}).then(r=>r.ok?r.json():[])
+    .then(items=>{if(!Array.isArray(items))return;aioPages=new Set(items.map(x=>pagePath(x.page)).filter(Boolean));decorate();})
+    .catch(()=>{});
+
+  function updateState(){
+    qa('[data-dv2-category]').forEach(btn=>btn.setAttribute('aria-pressed',String(btn.classList.contains('is-active'))));
+    qa('[data-dv2-tuner],[data-dv2-system]').forEach(btn=>btn.setAttribute('aria-pressed',String(btn.classList.contains('is-active'))));
+    qa('[data-dv2-mode]').forEach(btn=>btn.setAttribute('aria-pressed',String(btn.classList.contains('is-active'))));
+    if(!active)return;
+    const tags=[];
+    const phrase=text(q('#downloadV2Search')?.value);
+    if(phrase)tags.push('Szukasz: '+phrase.slice(0,70));
+    const selectedCategory=q('[data-dv2-category].is-active');
+    const legacyCategory=text(q('#downloadCategory')?.value);
+    if(selectedCategory)tags.push('Kategoria: '+selectedCategory.dataset.dv2Category);
+    else if(legacyCategory)tags.push('Kategoria: '+legacyCategory);
+    const tuner=q('[data-dv2-tuner].is-active');if(tuner)tags.push('Tuner: '+tuner.dataset.dv2Tuner);
+    const system=q('[data-dv2-system].is-active');if(system)tags.push('System: '+system.dataset.dv2System);
+    const state=q('[data-dv2-mode].is-active');if(state&&state.dataset.dv2Mode!=='current')tags.push('Widok: '+state.textContent.trim());
+    for(const [selector,label] of [['#downloadPlatform','Platforma'],['#downloadLicense','Licencja'],['#downloadStatus','Status']]){
+      const v=text(q(selector)?.value);if(v&&v!=='ALL')tags.push(label+': '+v);
+    }
+    active.replaceChildren();active.hidden=!tags.length;
+    if(!tags.length)return;
+    for(const s of tags){const badge=document.createElement('span');badge.textContent=s;active.append(badge);}
+    const button=document.createElement('button');button.type='button';button.textContent='Wyczyść filtry';
+    button.addEventListener('click',()=>q('#downloadV2Reset')?.click());active.append(button);
+  }
+  let task=0;
+  function schedule(){cancelAnimationFrame(task);task=requestAnimationFrame(updateState);}
+  document.addEventListener('input',ev=>{if(ev.target?.matches('#downloadV2Search,#downloadSearch'))schedule();});
+  document.addEventListener('change',ev=>{if(ev.target?.matches('#downloadCategory,#downloadStatus,#downloadArchive,#downloadPlatform,#downloadLicense'))schedule();});
+  document.addEventListener('click',ev=>{if(ev.target?.closest('[data-dv2-category],[data-dv2-tuner],[data-dv2-system],[data-dv2-mode],#downloadV2Reset,#downloadReset'))schedule();});
+  document.addEventListener('aio:download-catalog-updated',()=>{queueDecorate();schedule();});
+  // Existing search is delegated to old filter input. Do not register a second filter implementation.
+  updateState();
 })();

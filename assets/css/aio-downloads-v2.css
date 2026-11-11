@@ -279,3 +279,128 @@ button.download-v2-route{font:inherit}
 @media(max-width:460px){
   .download-v2-routes{grid-template-columns:1fr}
 }
+
+/* AIO TunerHub — Centrum pobierania UX V3, 11.11.2026.
+   Scoped visual upgrade only. Legacy selectors and protected download links stay intact.
+*/
+body.aio-downloads-v2{
+  --dv3-ink:#f1f9fc;--dv3-muted:#b7d1dc;--dv3-line:rgba(114,195,212,.26);
+  --dv3-cyan:#74dceb;--dv3-violet:#c7b2ff;--dv3-amber:#ffd18b;
+}
+body.aio-downloads-v2 .download-v2-hero{
+  padding:clamp(21px,2.6vw,36px)!important;
+  margin:8px 0 12px!important;
+  border-color:var(--dv3-line)!important;
+  border-radius:19px!important;
+  background:linear-gradient(130deg,#0b3142,#092535 64%,#0a2934)!important;
+  box-shadow:0 12px 34px rgba(0,11,21,.16)!important;
+}
+body.aio-downloads-v2 .download-v2-hero h1{
+  font-size:clamp(2rem,3.8vw,3.3rem)!important;
+  line-height:1.08!important;
+  letter-spacing:-.04em!important;
+}
+body.aio-downloads-v2 .download-v2-lead{max-width:870px;margin:10px 0 0!important;color:var(--dv3-muted)!important;font-size:.95rem!important;line-height:1.6!important}
+body.aio-downloads-v2 .download-v3-search-label{display:block;margin:19px 0 7px;color:#e2f7fd;font-weight:800;font-size:.83rem}
+body.aio-downloads-v2 .download-v2-search{
+  margin-top:0!important;min-height:58px!important;
+  border:1px solid rgba(116,220,235,.57)!important;border-radius:13px!important;
+  background:#061e2c!important;box-shadow:0 0 0 3px rgba(46,181,209,.045)!important;
+}
+body.aio-downloads-v2 .download-v2-search:focus-within{border-color:#a3eef1!important;box-shadow:0 0 0 3px rgba(80,220,235,.18)!important}
+body.aio-downloads-v2 .download-v2-search input{font-size:.95rem!important;font-weight:600!important}
+body.aio-downloads-v2 .download-v2-search input::placeholder{color:#9dbdc9!important;opacity:1}
+body.aio-downloads-v2 .download-v2-search button{min-width:75px!important;min-height:38px!important;color:#e2f8fc!important}
+body.aio-downloads-v2 .download-v2-routes{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:9px!important;margin-top:16px!important}
+body.aio-downloads-v2 .download-v2-route{
+  min-height:70px!important;border:1px solid var(--dv3-line)!important;
+  border-radius:12px!important;background:#0e3042!important;
+  padding:10px 12px!important;transform:none!important;
+  transition:background .15s,border-color .15s,box-shadow .15s!important;
+}
+body.aio-downloads-v2 .download-v2-route strong{color:#f0faff!important;font-size:.85rem!important}
+body.aio-downloads-v2 .download-v2-route small{color:#b0cbd7!important;font-size:.7rem!important}
+body.aio-downloads-v2 .download-v2-route .ico{border-radius:9px!important;flex-shrink:0}
+body.aio-downloads-v2 .download-v2-route:is(:hover,:focus-visible,.is-active){border-color:#7ce3ed!important;background:#154559!important;box-shadow:inset 3px 0 #63dfee!important}
+body.aio-downloads-v2 .download-v2-route:focus-visible,body.aio-downloads-v2 .download-v2-chip:focus-visible,
+body.aio-downloads-v2 .download-v2-mode:focus-visible,body.aio-downloads-v2 .download-v2-advanced:focus-visible{outline:2px solid #b3f4ee!important;outline-offset:2px!important}
+/* Device/image chips are useful but should not occupy the whole screen by default. */
+body.aio-downloads-v2 .download-v3-device-panel{margin:14px 0 0;border:1px solid var(--dv3-line);border-radius:13px;background:#092838;overflow:hidden}
+body.aio-downloads-v2 .download-v3-device-panel>summary{
+  cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;padding:12px 15px;
+  color:var(--dv3-ink);font-weight:800;font-size:.86rem;min-height:46px;
+}
+body.aio-downloads-v2 .download-v3-device-panel>summary::-webkit-details-marker{display:none}
+body.aio-downloads-v2 .download-v3-device-panel>summary::before{content:'⌄';font-size:1.2rem;color:var(--dv3-cyan);transition:transform .15s}
+body.aio-downloads-v2 .download-v3-device-panel[open]>summary::before{transform:rotate(180deg)}
+body.aio-downloads-v2 .download-v3-device-panel>summary small{color:var(--dv3-muted);font-size:.74rem;font-weight:550;line-height:1.25}
+body.aio-downloads-v2 .download-v3-device-panel>summary:focus-visible{outline:2px solid var(--dv3-cyan);outline-offset:-2px}
+body.aio-downloads-v2 .download-v3-device-panel .download-v2-tools{margin:0!important;padding:0 12px 12px!important}
+body.aio-downloads-v2 .download-v3-device-panel .download-v2-toolbox{background:#0a2f41!important}
+body.aio-downloads-v2 .download-v2-chip{min-height:38px!important;color:#c8e0e9!important}
+/* Distinguish publication types without claiming that all external material is authored by AIO. */
+body.aio-downloads-v2 .download-v3-origins{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0 0 12px}
+body.aio-downloads-v2 .download-v3-origin-link{display:grid;gap:3px;min-width:0;padding:13px 15px;border-radius:13px;border:1px solid rgba(109,210,221,.25);background:#0b2a3c;color:#ecf9ff;text-decoration:none!important}
+body.aio-downloads-v2 .download-v3-origin-link:first-child{border-left:3px solid #8bcefa}
+body.aio-downloads-v2 .download-v3-origin-link:last-child{border-left:3px solid #f0bd7c}
+body.aio-downloads-v2 .download-v3-origin-link strong{font-size:.86rem;color:#f2fbff}
+body.aio-downloads-v2 .download-v3-origin-link span{font-size:.75rem;line-height:1.4;color:var(--dv3-muted)}
+body.aio-downloads-v2 .download-v3-origin-link:is(:hover,:focus-visible){border-color:#80d9e9;background:#12384d}
+body.aio-downloads-v2 .download-v3-origin-hint{grid-column:1/-1;margin:0;color:var(--dv3-muted);font-size:.73rem;line-height:1.45}
+body.aio-downloads-v2 .download-v2-bar{position:relative!important;top:auto!important;margin:0 0 12px!important;border-color:var(--dv3-line)!important;background:#0b2f40!important;padding:10px!important}
+body.aio-downloads-v2 .download-v2-mode,body.aio-downloads-v2 .download-v2-advanced{min-height:42px!important;font-size:.79rem!important;color:#d7ecf4!important}
+body.aio-downloads-v2 .download-v2-mode.is-active{background:#155e74!important;border-color:#80dbe9!important;color:#fff!important}
+body.aio-downloads-v2 .download-v2-result{font-size:.79rem!important;color:var(--dv3-muted)!important}
+body.aio-downloads-v2 .download-v3-active{display:flex;flex-wrap:wrap;gap:6px;align-items:center;flex:1 0 100%;order:3;padding:5px 2px 0}
+body.aio-downloads-v2 .download-v3-active[hidden]{display:none!important}
+body.aio-downloads-v2 .download-v3-active>span{padding:5px 9px;border:1px solid rgba(108,218,236,.3);border-radius:999px;background:#123e4d;color:#c8f4ff;font-size:.73rem;font-weight:700}
+body.aio-downloads-v2 .download-v3-active>button{margin-left:auto;border:1px solid rgba(123,212,226,.4);border-radius:8px;padding:6px 10px;background:#0f3446;color:#eafaff;cursor:pointer;font-size:.74rem;font-weight:750}
+body.aio-downloads-v2 .download-v3-active>button:hover{background:#1b536a}
+/* Hide the duplicate legacy search field, not the legacy input itself. JS still updates it. */
+body.aio-downloads-v2 .download-controls .filter-field.wide{display:none!important}
+body.aio-downloads-v2 .download-controls{padding:12px!important;margin-bottom:12px!important}
+body.aio-downloads-v2 .download-controls label{color:#d4e8ee!important}
+body.aio-downloads-v2 #aio-grouped-downloads{border-color:var(--dv3-line)!important;background:#092b3b!important;box-shadow:0 9px 24px rgba(0,10,22,.12)!important}
+body.aio-downloads-v2 #aio-grouped-grid{grid-template-columns:repeat(auto-fill,minmax(265px,1fr))!important;gap:13px!important}
+body.aio-downloads-v2 .aio-ia-group-card{border:1px solid rgba(113,199,218,.28)!important;border-radius:14px!important;background:linear-gradient(140deg,#12394b,#0d3041)!important;gap:9px!important}
+body.aio-downloads-v2 .aio-ia-group-card:hover{border-color:rgba(141,231,237,.66)!important}
+body.aio-downloads-v2 .aio-ia-group-card .aio-ia-card-title{font-size:1.06rem!important;line-height:1.38!important}
+body.aio-downloads-v2 .aio-ia-group-card .aio-ia-group-types{color:#b4d4e0!important}
+body.aio-downloads-v2 #downloadCatalog{scroll-margin-top:20px!important;gap:13px!important}
+body.aio-downloads-v2 #downloadCatalog .download-card{background:linear-gradient(150deg,#103246,#092939)!important;border:1px solid var(--dv3-line)!important;border-radius:15px!important;padding:16px!important;box-shadow:none!important;transform:none!important;min-width:0}
+body.aio-downloads-v2 #downloadCatalog .download-card:hover{border-color:#81dfea!important;box-shadow:0 8px 22px rgba(0,8,20,.16)!important}
+body.aio-downloads-v2 #downloadCatalog .download-card h3{line-height:1.35!important;overflow-wrap:anywhere;color:#f2fbff!important}
+body.aio-downloads-v2 #downloadCatalog .download-source{color:#bdd5df!important}
+body.aio-downloads-v2 #downloadCatalog .download-source a{color:#b5edff!important}
+body.aio-downloads-v2 #downloadCatalog .download-meta{gap:7px!important}
+body.aio-downloads-v2 #downloadCatalog .download-meta span{min-width:0;overflow-wrap:anywhere}
+body.aio-downloads-v2 #downloadCatalog .download-actions{margin-top:auto}
+body.aio-downloads-v2 #downloadCatalog .download-actions .button{min-height:40px!important;display:inline-flex;align-items:center;justify-content:center}
+body.aio-downloads-v2 #downloadCatalog .download-actions .button:focus-visible{outline:2px solid #b8f3fd;outline-offset:2px}
+body.aio-downloads-v2 .download-v3-provenance{display:flex;align-items:center;gap:5px;margin:1px 0 6px;flex-wrap:wrap}
+body.aio-downloads-v2 .download-v3-provenance>span{border-radius:999px;border:1px solid #4c87a2;background:#173a52;color:#bce7fa;padding:4px 9px;font-size:.69rem;line-height:1.3;font-weight:800}
+body.aio-downloads-v2 .download-v3-provenance .external{border-color:rgba(255,201,130,.55);background:rgba(155,103,38,.15);color:#ffdfa9}
+body.aio-downloads-v2 .download-v3-provenance .aio{border-color:rgba(121,222,243,.52);color:#b4f6ff}
+@media(max-width:1050px){body.aio-downloads-v2 .download-v2-routes{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+@media(max-width:730px){
+  body.aio-downloads-v2 .download-v2-hero{padding:19px 13px!important}
+  body.aio-downloads-v2 .download-v2-routes{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  body.aio-downloads-v2 .download-v3-origins{grid-template-columns:1fr!important}
+  body.aio-downloads-v2 .download-v2-search{grid-template-columns:auto minmax(0,1fr) auto!important;gap:7px!important;padding:0 9px!important}
+  body.aio-downloads-v2 .download-v2-search input{font-size:.84rem!important}
+  body.aio-downloads-v2 .download-v2-search button{display:inline-flex!important;align-items:center;justify-content:center;min-width:57px!important;padding:0 7px!important;font-size:.72rem!important}
+  body.aio-downloads-v2 .download-v3-device-panel>summary{flex-wrap:wrap;gap:4px 8px}
+  body.aio-downloads-v2 .download-v3-device-panel>summary small{flex:1 1 100%;padding-left:21px}
+  body.aio-downloads-v2 .download-v2-bar{gap:7px!important}
+  body.aio-downloads-v2 .download-v2-modes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%}
+  body.aio-downloads-v2 .download-v2-mode{min-height:39px!important}
+  body.aio-downloads-v2 .download-v2-result{margin-left:0!important;width:auto!important;order:1!important;flex:1!important}
+  body.aio-downloads-v2 .download-v2-advanced{order:2!important}
+  body.aio-downloads-v2 #aio-grouped-grid{grid-template-columns:1fr!important}
+  body.aio-downloads-v2 .download-v3-active{order:3}
+}
+@media(max-width:390px){body.aio-downloads-v2 .download-v2-route{padding:9px!important;gap:6px!important}body.aio-downloads-v2 .download-v2-route .ico{width:29px;height:29px}}
+@media(prefers-reduced-motion:reduce){
+  body.aio-downloads-v2 .download-v2-route,
+  body.aio-downloads-v2 .download-v3-device-panel>summary::before{transition:none!important}
+}
