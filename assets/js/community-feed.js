@@ -41,6 +41,11 @@
     };
     document.addEventListener('aio:topics-filter',e=>{
       const d=e.detail||{};
+      // Nowy kafelek pokazuje caly dzial, bez odziedziczonych filtrow 'Pytania' lub szukania.
+      if(d.resetContext&&!news){
+        state.mode='latest';syncTabs();state.search='';
+        if(search)search.value='';
+      }
       state.category=d.category||'';state.subcategory=d.subcategory||'';
       state.brand=d.brand||'';state.model=d.model||'';state.listingStatus=d.listingStatus||'';
       if(cat)cat.value=state.category;
@@ -96,9 +101,16 @@
         mode:state.mode,category:state.category,subcategory:state.subcategory,brand:state.brand,model:state.model,listingStatus:state.listingStatus,search:state.search,page,pageSize:state.pageSize
       },{signal:controller.signal});
       if(controller.signal.aborted||seq!==state.requestSeq)return;
-      state.rows=reset?(d.rows||[]):state.rows.concat(d.rows||[]);
+      // AIO Topics V4.2: fail-closed guard. A post from another category never appears.
+      const received=Array.isArray(d.rows)?d.rows:[];
+      const matching=state.category?received.filter(post=>post&&post.category===state.category):received;
+      const mismatch=matching.length!==received.length;
+      state.rows=reset?matching:state.rows.concat(matching);
       render();
-      if(more)more.hidden=!d.hasMore;
+      document.dispatchEvent(new CustomEvent('aio:topics-results',{
+        detail:{category:state.category,shown:state.rows.length,hasMore:Boolean(d.hasMore)&&!mismatch}
+      }));
+      if(more)more.hidden=!d.hasMore||mismatch;
       if(d.hasMore)state.page=page+1;
     }catch(e){
       if(controller.signal.aborted||seq!==state.requestSeq)return;
@@ -112,7 +124,16 @@
   }
   function render(){
     const feed=q('[data-community-feed]');
-    if(!state.rows.length){feed.innerHTML='<div class="community-empty"><strong>Brak wpisów.</strong><p>Dodaj pierwszy wpis albo zmień filtr.</p></div>';return;}
+    if(!state.rows.length){
+      const cat=(AIOCommunity.config?.categories||[]).find(x=>x.id===state.category);
+      const title=cat?`Brak wpisów w dziale „${AIOCommunity.escape(cat.label)}”.`:'Brak opublikowanych wpisów.';
+      const narrowed=Boolean(state.search||state.subcategory||state.brand||state.model||state.listingStatus||state.mode!=='latest');
+      const message=cat
+        ?(narrowed?'Żaden wpis nie spełnia wybranych filtrów. Zmień filtry lub wybierz inny dział.':'W tym dziale nie opublikowano jeszcze żadnego postu. Możesz dodać pierwszy wpis.')
+        :'Na razie nie ma wpisów do wyświetlenia.';
+      feed.innerHTML=`<div class="community-empty" role="status"><strong>${title}</strong><p>${message}</p></div>`;
+      return;
+    }
     feed.innerHTML=state.rows.map(card).join('');
   }
   function card(post){
