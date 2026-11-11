@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-08T11:58:14.681956+00:00",
+  "generatedAt": "2026-11-10T13:31:01.170974+00:00",
   "items": [
     {
       "id": "e2-security-ipk",
@@ -8,7 +8,7 @@
       "category": "Pliki",
       "status": "warning",
       "httpStatus": 401,
-      "checkedAt": "2026-11-08T11:57:59.290981+00:00",
+      "checkedAt": "2026-11-10T13:30:42.958216+00:00",
       "message": "Serwer działa, ale blokuje test automatyczny (HTTP 401)."
     },
     {
@@ -18,7 +18,7 @@
       "category": "Strona",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-08T11:58:00.605740+00:00",
+      "checkedAt": "2026-11-10T13:30:44.341235+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     },
     {
@@ -28,7 +28,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-08T11:58:00.762465+00:00",
+      "checkedAt": "2026-11-10T13:30:44.523190+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 8648 B."
     },
     {
@@ -38,7 +38,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-08T11:58:00.898878+00:00",
+      "checkedAt": "2026-11-10T13:30:44.671476+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 9123 B."
     },
     {
@@ -48,7 +48,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-08T11:58:01.036399+00:00",
+      "checkedAt": "2026-11-10T13:30:44.849363+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 2469 B."
     },
     {
@@ -58,7 +58,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-08T11:58:01.221633+00:00",
+      "checkedAt": "2026-11-10T13:30:45.109710+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 11971 B."
     },
     {
@@ -68,18 +68,18 @@
       "category": "Listy kanałów",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-08T11:58:01.356508+00:00",
+      "checkedAt": "2026-11-10T13:30:45.249772+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 7607 B."
     },
     {
       "id": "aio-ipk",
       "name": "AIO Panel 18.0.0 — plik IPK",
-      "url": "https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/18.0.0/enigma2-plugin-extensions-panelaio_18.0.0_all.ipk",
+      "url": "https://release-assets.githubusercontent.com/github-production-release-asset/1056653095/b94037a1-8ce6-44aa-9424-fb05c692d42a?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-11-10T14%3A29%3A48Z&rscd=attachment%3B+filename%3Denigma2-plugin-extensions-panelaio_18.0.0_all.ipk&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-11-10T13%3A29%3A24Z&ske=2026-11-10T14%3A29%3A48Z&sks=b&skv=2018-11-09&sig=ND6eFBs18B%2FT1bozqj90ctBIt2vCXsNbNEeyLZUKBIQ%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5NDMxNzc0NSwibmJmIjoxNzk0MzE3NDQ1LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.IT9s15YWANjNq1IWD6HKV5FC6W2_lbvycrckgB_ehQ8&response-content-disposition=attachment%3B%20filename%3Denigma2-plugin-extensions-panelaio_18.0.0_all.ipk&response-content-type=application%2Foctet-stream",
       "category": "Pliki",
-      "status": "warning",
-      "httpStatus": null,
-      "checkedAt": null,
-      "message": "Wydanie 18.0.0 — oczekuje na ponowne sprawdzenie automatycznym monitorem."
+      "status": "online",
+      "httpStatus": 200,
+      "checkedAt": "2026-11-10T13:30:45.421520+00:00",
+      "message": "Usługa odpowiada prawidłowo • application/octet-stream • 428524 B."
     },
     {
       "id": "aiohd-next-ipk",
@@ -88,7 +88,7 @@
       "category": "Pliki",
       "status": "warning",
       "httpStatus": 401,
-      "checkedAt": "2026-11-08T11:58:01.699252+00:00",
+      "checkedAt": "2026-11-10T13:30:45.810698+00:00",
       "message": "Serwer działa, ale blokuje test automatyczny (HTTP 401)."
     },
     {
@@ -98,7 +98,7 @@
       "category": "Pliki",
       "status": "warning",
       "httpStatus": 401,
-      "checkedAt": "2026-11-08T11:58:02.929385+00:00",
+      "checkedAt": "2026-11-10T13:30:47.066026+00:00",
       "message": "Serwer działa, ale blokuje test automatyczny (HTTP 401)."
     },
     {
@@ -108,7 +108,7 @@
       "category": "Pliki",
       "status": "warning",
       "httpStatus": 401,
-      "checkedAt": "2026-11-08T11:58:03.566891+00:00",
+      "checkedAt": "2026-11-10T13:30:48.398340+00:00",
       "message": "Serwer działa, ale blokuje test automatyczny (HTTP 401)."
     },
     {
@@ -118,7 +118,7 @@
       "category": "Systemy Multi-Click",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-08T11:58:04.387480+00:00",
+      "checkedAt": "2026-11-10T13:30:49.701171+00:00",
       "message": "Usługa odpowiada prawidłowo • application/zip • 214085499 B."
     },
     {
@@ -128,7 +128,7 @@
       "category": "Systemy Multi-Click",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-08T11:58:07.349883+00:00",
+      "checkedAt": "2026-11-10T13:30:52.845404+00:00",
       "message": "Usługa odpowiada prawidłowo • application/zip • 306874699 B."
     },
     {
@@ -138,7 +138,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-08T11:58:13.576900+00:00",
+      "checkedAt": "2026-11-10T13:30:59.924271+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     },
     {
@@ -148,7 +148,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-08T11:58:14.218681+00:00",
+      "checkedAt": "2026-11-10T13:31:00.609607+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     },
     {
@@ -158,7 +158,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-08T11:58:14.375773+00:00",
+      "checkedAt": "2026-11-10T13:31:00.867908+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     }
   ]
