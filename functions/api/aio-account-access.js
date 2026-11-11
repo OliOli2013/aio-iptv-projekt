@@ -1,4 +1,4 @@
-/* Authenticated 7-day/VIP access and 3 free items per account/day. */
+/* Authenticated 7-day/VIP access and 3 free items per account, month from third counted handoff. */
 import {requireAdmin} from '../_community.js';
 import {activeSharedHold,logSecurity} from '../_aio_security_journal.js';
 import {initAccess,sessionUser,getStatus,consumeFree,startFlow,flowOpened,flowComplete,registerReceipt,response,fail,ROLLOUT,LEGACY_END} from '../_aio_account_access.js';
@@ -30,7 +30,7 @@ export async function onRequestPost({request,env}){
       const hold=await activeSharedHold(env,request,user.id);
       if(hold){await logSecurity(env,request,'download_hold',user.id,'Zewnętrzny limit');throw fail(403,'Dostęp do pobierania jest obecnie ograniczony. Skontaktuj się z nami.');}
       const r=await consumeFree(env,user.id);
-      return response({ok:r.allowed,...r},r.allowed?200:429);
+      return response({ok:r.allowed,limit_reached:!r.allowed,support_url:'/support.html#wesprzyj-projekt',...r},r.allowed?200:429);
     }
     if(action==='start')return response({ok:true,...await startFlow(env,user.id,String(body.method||''))});
     if(action==='opened')return response(await flowOpened(env,user.id,String(body.flow_id||'')));

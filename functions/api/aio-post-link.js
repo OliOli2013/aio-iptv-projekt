@@ -81,7 +81,7 @@ export async function onRequestPost({request,env}){
     const permit=await consumeFree(env,user.id,fileKey);
     if(!permit.allowed){
       await logSecurity(env,request,'download_denied',user.id,'Limit: link do pliku w poście');
-      return result({ok:false,limit_reached:true,error:'Wykorzystano bezpłatne pobrania w obecnym okresie 7 dni.'},429);
+      return result({ok:false,limit_reached:true,free_resets_at:permit.free_resets_at||null,support_url:'/support.html#wesprzyj-projekt',error:'Wykorzystano 3 darmowe pobrania. Kolejny limit odnawia się miesiąc po trzecim pobraniu.'},429);
     }
     try {await ensurePostLinkSchema(env);
     await env.COMMUNITY_DB.prepare(`INSERT INTO aio_post_link_handoffs

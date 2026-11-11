@@ -3,7 +3,7 @@ import {getSession,ensureSchema,sha256,isOwnerId} from './_community.js';
 import {createListNotice} from './_aio_list_notice.js';
 import {getVipStatus} from './_aio_vip.js';
 import {emailVerificationStatus} from './_aio_email_verification.js';
-import {weeklyStatus,consumeWeekly,FREE_WEEKLY_LIMIT,FILE_RETRY_MS} from './_aio_weekly_access.js';
+import {monthlyStatus,consumeMonthly,FREE_MONTHLY_LIMIT} from './_aio_monthly_access.js';
 export const SUPPORT_MS = 7 * 24 * 60 * 60 * 1000;
 export const ROLLOUT = '2026-10-14T21:42:50.000Z';
 /* Immutable upper boundary for historical browser-flow events. No future client-submitted event can manufacture a legacy grant. */
@@ -81,7 +81,7 @@ export async function recoverForUser(env,userId){
     if(receipt) await putGrant(env,userId,receipt.paid_at,'verified_receipt',receipt.reference);
   }
 }
-export const FREE_DAILY_LIMIT = FREE_WEEKLY_LIMIT; // retained API name; period is now rolling 168h
+export const FREE_DAILY_LIMIT = FREE_MONTHLY_LIMIT; // legacy exported symbol; per-account reset is a calendar month after third download
 
 /** Path keys are taken from URL.pathname, never from an unsigned browser token. */
 export function validLocalFileKey(value){
@@ -89,11 +89,7 @@ export function validLocalFileKey(value){
     !/[\\\x00-\x1f\x7f]/.test(value) && !/\.(?:png|jpe?g|webp|gif|svg|avif)$/i.test(value);
 }
 
-export async function hasActiveFileRetry(env,userId,fileKey,now=Date.now()){
-  if(!validLocalFileKey(fileKey))return false;
-  const status=await weeklyStatus(env,userId,now);
-  return status.retry_files.includes(fileKey);
-}
+export async function hasActiveFileRetry(){return false;} // No same-file exemptions.
 /* Sole site owner: derive both account role and owner ID from server-side D1/config.
  * Never trust email, display name, browser flags or a generic moderator role.
  */
@@ -105,8 +101,8 @@ export async function getStatus(env,userId){
   await initAccess(env);
   const ev=await emailVerificationStatus(env,userId);
   if(ev.required) return {authenticated:true,email_verified:false,email_verification_required:true,
-    active:false,vip:false,expires_at:null,source:null,free_limit:FREE_WEEKLY_LIMIT,
-    free_remaining:0,free_period_hours:168,retry_files:[],free_resets_at:null};
+    active:false,vip:false,expires_at:null,source:null,free_limit:FREE_MONTHLY_LIMIT,
+    free_remaining:0,free_period_hours:null,retry_files:[],free_resets_at:null};
   // Owner bypasses ALL rolling quota and 7/30-day expiry checks.
   // Email verification above remains mandatory for the owner too.
   if(await isDownloadOwner(env,userId))return {
@@ -116,23 +112,23 @@ export async function getStatus(env,userId){
     free_window_started_at:null,free_resets_at:null,retry_files:[]
   };
   await recoverForUser(env,userId);
-  const free=await weeklyStatus(env,userId);
+  const free=await monthlyStatus(env,userId);
   const vip=await getVipStatus(env,userId);
   if(vip.active)return {authenticated:true,email_verified:true,active:true,vip:true,expires_at:vip.expires_at,
-    source:'owner_vip',...free,free_remaining:FREE_WEEKLY_LIMIT,free_period_hours:168};
+    source:'owner_vip',...free,free_remaining:FREE_MONTHLY_LIMIT,free_period_hours:null};
   const grant=await env.COMMUNITY_DB.prepare('SELECT expires_at,source FROM aio_access_account_grants WHERE user_id=?').bind(userId).first();
   const trusted=['verified_receipt','owner_verified_support','owner_manual_grant'].includes(String(grant?.source||''));
   const active=!!grant&&trusted&&Date.parse(grant.expires_at)>Date.now();
   return {authenticated:true,email_verified:true,active,vip:false,expires_at:active?grant.expires_at:null,
-    source:active?grant.source:null,...free,free_remaining:active?FREE_WEEKLY_LIMIT:free.free_remaining,
-    free_period_hours:168};
+    source:active?grant.source:null,...free,free_remaining:active?FREE_MONTHLY_LIMIT:free.free_remaining,
+    free_period_hours:null};
 }
 export async function consumeFree(env,userId,fileKey=null){
   const status=await getStatus(env,userId);
   if(status.email_verified===false)throw fail(403,'Potwierdź adres e-mail przed pobraniem plików.');
   if(status.active)return {...status,allowed:true,reason:status.owner===true?'owner':(status.vip?'vip':'grant')};
   if(fileKey!==null&&!validLocalFileKey(fileKey))throw fail(400,'Nieprawidłowa ścieżka pliku.');
-  return consumeWeekly(env,userId,fileKey);
+  return consumeMonthly(env,userId,fileKey);
 }
 
 export async function startFlow(env,userId,method){

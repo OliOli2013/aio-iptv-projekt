@@ -52,7 +52,7 @@
       else if(access.owner===true&&access.unlimited===true&&access.active===true){description='Konto właściciela AIO — dostęp do plików bez limitu.';more='';}
       else if(access.vip&&access.active){description='AIO VIP — aktywny dostęp bez limitu pobierania.';more=ends?'VIP ważny do: '+ends:'';}
       else if(access.active){description='Aktywny dostęp po zatwierdzonym wsparciu — bez limitu pobierania.';more=ends?'Dostęp do: '+ends:'';}
-      else{description='Pozostało '+Math.max(0,Number(access.free_remaining)||0)+' z 3 darmowych pobrań w okresie 7 dni.';more=access.free_resets_at?'Odnowienie limitu: '+formatDate(access.free_resets_at):'Okres rozpoczyna się od pierwszego darmowego pobrania.';}
+      else{description='Pozostało '+Math.max(0,Number(access.free_remaining)||0)+' z 3 darmowych pobrań. Każde pobranie, także ponowne tego samego pliku, zużywa limit.';more=access.free_resets_at?'Odnowienie limitu: '+formatDate(access.free_resets_at):'Odliczanie miesiąca rozpocznie się od trzeciego darmowego pobrania.';}
       show({title:'Witaj, '+name+' — e-mail potwierdzony',description,more,icon:'✓',state:'verified'});
     }catch(error){document.body.classList.remove('aio-owner-clean');show({title:'Nie udało się sprawdzić konta',description:'Sprawdź połączenie ze stroną i spróbuj ponownie.',more:'Spróbuj ponownie później.',icon:'!'});}
     finally{busy=false;if(pending){pending=false;refresh();}}

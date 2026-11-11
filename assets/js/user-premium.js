@@ -760,13 +760,14 @@
     updateAccessIndicator();
   }
 
+  function freeResetLabel(info){const raw=info?.free_resets_at;const d=raw?new Date(raw):null;return d&&Number.isFinite(d.getTime())?new Intl.DateTimeFormat('pl-PL',{timeZone:'Europe/Warsaw',day:'2-digit',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'}).format(d):'po upływie miesiąca od trzeciego pobrania';}
   function updateAccessIndicator() {
     if(!accessIndicator)return;
     accountApi().then(info=>{
       if(!accessIndicator)return;
        if(!info.authenticated){
          accessIndicator.className='aio-access-indicator is-locked';
-         accessIndicator.innerHTML='<span class="aio-access-dot">!</span><div><strong>Pobieranie tylko dla zalogowanych</strong><small>Rejestracja jest bezpłatna. Po zalogowaniu: 3 darmowe pobrania na 7 dni, a po potwierdzonym wsparciu — 7 dni dodatkowego dostępu.</small></div><a href="community.html">Zaloguj się / Dołącz</a>';
+         accessIndicator.innerHTML='<span class="aio-access-dot">!</span><div><strong>Pobieranie tylko dla zalogowanych</strong><small>Rejestracja jest bezpłatna. Po zalogowaniu: 3 darmowe pobrania na miesiąc od trzeciego pobrania, a po potwierdzonym wsparciu — 7 dni dodatkowego dostępu.</small></div><a href="community.html">Zaloguj się / Dołącz</a>';
       }else if(info.email_verified===false){
         accessIndicator.className='aio-access-indicator is-locked';
         accessIndicator.innerHTML='<span class="aio-access-dot">!</span><div><strong>Potwierdź e-mail</strong><small>Przed pobieraniem plików musisz potwierdzić adres e-mail konta AIO. Zaloguj się ponownie, aby wysłać link.</small></div><a href="community.html?email_verification=1">Potwierdź adres</a>';
@@ -786,10 +787,10 @@
         accessIndicator.innerHTML='<span class="aio-access-dot">✓</span><div><strong>Dostęp aktywny</strong><small>7 dni liczone od odblokowania. Ważność: '+until+'. Uprawnienie przypisane do konta.</small></div><a href="support.html">Wsparcie projektu</a>';
       }else if(info.free_remaining>0){
         accessIndicator.className='aio-access-indicator is-free';
-        accessIndicator.innerHTML='<span class="aio-access-dot">'+info.free_remaining+'</span><div><strong>Dostępne pobrania</strong><small>Pozostało '+info.free_remaining+' z 3 darmowych pobrań w okresie 7 dni.</small></div><a href="support.html">Zasady</a>';
+        accessIndicator.innerHTML='<span class="aio-access-dot">'+info.free_remaining+'</span><div><strong>Dostępne pobrania</strong><small>Pozostało '+info.free_remaining+' z 3 darmowych pobrań; każdy kolejny zapis pliku zużywa limit.</small></div><a href="support.html">Zasady</a>';
       }else{
         accessIndicator.className='aio-access-indicator is-locked';
-        accessIndicator.innerHTML='<span class="aio-access-dot">!</span><div><strong>Limit pobierania wykorzystany</strong><small>Po potwierdzeniu wpłaty administrator przyzna Ci 7 dni dostępu na konto.</small></div><a href="support.html">Wsparcie</a>';
+        accessIndicator.innerHTML='<span class="aio-access-dot">!</span><div><strong>Limit pobierania wykorzystany</strong><small>Kolejne 3 darmowe pobrania: '+freeResetLabel(info)+'. Każde ponowne pobranie też liczy się do limitu.</small></div><a href="support.html#wesprzyj-projekt">3 sposoby wsparcia</a>';
       }
     }).catch(()=>{accessIndicator.textContent='Nie można teraz sprawdzić dostępnych pobrań. Spróbuj ponownie później.';});
   }
@@ -806,7 +807,7 @@
         <div class="support-gate-icon" aria-hidden="true">♥</div>
         <p class="support-gate-eyebrow">WSPARCIE PROJEKTÓW AIO</p>
         <h2 id="support-gate-title">Pomóż rozwijać projekty dla Enigma2</h2>
-        <p id="support-gate-description">Trzy pobrania na 7 dni od pierwszego pobrania są bezpłatne. Po potwierdzonym wsparciu kawą otrzymasz 7 dni dostępu przypisane do konta. Wsparcie pomaga rozwijać stronę oraz projekty AIO.</p>
+        <p id="support-gate-description">Trzy pobrania są bezpłatne, a kolejny limit odnawia się miesiąc po trzecim pobraniu. Po potwierdzonym wsparciu kawą otrzymasz 7 dni dostępu przypisane do konta. Wsparcie pomaga rozwijać stronę oraz projekty AIO.</p>
         <div class="aio-access-v31-support-note" role="note" hidden>
           <strong>☕ DOWOLNA KWOTA WSPARCIA — TY DECYDUJESZ</strong>
           <span>Nie ma ustalonej kwoty. Wpłać tyle, ile chcesz i na ile Cię stać — tak, jak doceniasz moją pracę. Po zatwierdzeniu wpłaty otrzymasz 7 dni dodatkowych pobrań.</span>
@@ -864,7 +865,7 @@
     const options=body?{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)}:{};
     const r=await fetch('/api/aio-account-access',{credentials:'include',cache:'no-store',...options});
     const d=await r.json().catch(()=>({error:'Błąd odczytu uprawnień.'}));
-    if(!r.ok||d.ok===false)throw new Error(d.error||'Nie udało się sprawdzić dostępu.');
+    if(!r.ok||d.ok===false){const e=new Error(d.error||'Nie udało się sprawdzić dostępu.');e.limit_reached=d.limit_reached===true||r.status===429;e.free_resets_at=d.free_resets_at||null;throw e;}
     return d;
   }
   function requireAccessLogin(){
@@ -884,7 +885,7 @@
     notice.append(strong,subtitle);
     const file=document.createElement('p');file.textContent=item?.label?'Wybrany plik: '+String(item.label).slice(0,110):'Wybrany materiał AIO';
     const rules=document.createElement('p');
-    rules.textContent='Po zalogowaniu masz 3 darmowe pobrania na 7 dni od pierwszego pobrania. Dalsze pobrania przez 7 dni są dostępne po zatwierdzeniu wpłaty przez administratora. Każde zgłoszenie trafia do kolejki; możesz też poprosić o szybszą weryfikację. Wsparcie pomaga utrzymywać stronę i bezpłatne projekty AIO. Dostęp przypisujemy do konta.';
+    rules.textContent='Po zalogowaniu masz 3 darmowe pobrania na miesiąc od trzeciego pobrania od pierwszego pobrania. Dalsze pobrania przez 7 dni są dostępne po zatwierdzeniu wpłaty przez administratora. Każde zgłoszenie trafia do kolejki; możesz też poprosić o szybszą weryfikację. Wsparcie pomaga utrzymywać stronę i bezpłatne projekty AIO. Dostęp przypisujemy do konta.';
     rules.style.lineHeight='1.6';
     const buttons=document.createElement('div');buttons.className='aio-access-v31-buttons';
     const join=document.createElement('button');join.type='button';join.className='is-primary';join.textContent='Zaloguj się / Załóż konto';
@@ -900,7 +901,7 @@
     const panel=document.createElement('aside');panel.id='aio-member-welcome-v4';
     panel.setAttribute('role','status');panel.style.cssText='position:fixed;z-index:99999;bottom:20px;right:20px;width:min(92vw,410px);padding:18px;background:#103b48;color:#f1fcff;border:1px solid #56c9d2;border-radius:13px;box-shadow:0 15px 40px #0008;line-height:1.5';
     const title=document.createElement('strong');title.textContent=owner?'Witaj właścicielu AIO! Pobieranie bez limitu.':'Witaj w AIO! Twoje pobieranie jest aktywne.';title.style.display='block';
-    const copy=document.createElement('p');copy.textContent=owner?'Konto właściciela ma stały dostęp do wszystkich chronionych plików AIO. Pobrania nie zużywają limitu 168 godzin i nie wymagają aktywnego VIP-a.':'Masz 3 bezpłatne pobrania na 7 dni liczonych od pierwszego pobrania. Po potwierdzonym wsparciu kawą otrzymasz 7 dni dostępu przypisane do konta. Dziękujemy za pomoc w rozwijaniu projektów AIO.';
+    const copy=document.createElement('p');copy.textContent=owner?'Konto właściciela ma stały dostęp do wszystkich chronionych plików AIO. Pobrania nie zużywają limitu 168 godzin i nie wymagają aktywnego VIP-a.':'Masz 3 bezpłatne pobrania; kolejny limit za miesiąc od trzeciego pobrania liczonych od pierwszego pobrania. Po potwierdzonym wsparciu kawą otrzymasz 7 dni dostępu przypisane do konta. Dziękujemy za pomoc w rozwijaniu projektów AIO.';
     const close=document.createElement('button');close.type='button';close.textContent='Rozumiem';close.style.cssText='padding:8px 14px;background:#077986;border:0;color:white;border-radius:7px;cursor:pointer';
     close.addEventListener('click',()=>panel.remove());panel.append(title,copy,close);document.body.append(panel);
   }
@@ -931,16 +932,15 @@ async function accountDownload(item,kind){
       const target=new URL(item.href,location.href);
       const localFile=target.origin===location.origin && /^\/pliki\//i.test(target.pathname);
       if(info.active){trackAccessActivity('unlocked_access',item,{kind});openDownloadTarget(item);return;}
-      const canRetry=localFile && Array.isArray(info.retry_files) && info.retry_files.includes(target.pathname);
-      if(info.free_remaining>0 || canRetry){
+      if(info.free_remaining>0){
         // /pliki/ is accounted for atomically by the server when GET is served.
         if(!localFile)await accountApi({action:'consume'});
         trackAccessActivity('free_access',item,{kind});openDownloadTarget(item);
         updateAccessIndicator();return;
       }
       trackAccessActivity('limit_reached',item,{kind});
-      openSupportModal(item,kind==='community'?'community-link-limit':'limit');
-    }catch(e){console.error('AIO Access',e);alert('Nie udało się rozpocząć pobierania. Spróbuj ponownie lub skontaktuj się z nami.');}
+      openSupportModal(item,kind==='community'?'community-link-limit':'limit',info);
+    }catch(e){if(e.limit_reached){openSupportModal(item,'limit',{free_resets_at:e.free_resets_at});return;}console.error('AIO Access',e);alert('Nie udało się rozpocząć pobierania. Spróbuj ponownie lub skontaktuj się z nami.');}
   }
 
   // AIO Access V5: post links are checked against published D1 text on the server.
@@ -1077,7 +1077,7 @@ async function accountDownload(item,kind){
     return fileNameFromUrl(getDownloadHref(anchor));
   }
 
-  function openSupportModal(download, mode) {
+  function openSupportModal(download, mode, quotaInfo) {
     if (!modal) createSupportModal();
     if (mode === 'limit' || mode === 'community-link-limit') trackAccessActivity('access_gate_shown',download,{kind:mode === 'community-link-limit'?'community':'download'});
     pendingDownload = download;
@@ -1098,8 +1098,8 @@ async function accountDownload(item,kind){
     if(accountNotice) accountNotice.hidden = !(modalMode === 'limit' || modalMode === 'community-link-limit');
 
     if (modalMode === 'community-link-limit' && download) {
-      title.textContent = 'Wykorzystano 3 darmowe pobrania na 7 dni';
-      description.textContent = 'Wykorzystano bezpłatny limit w bieżącym okresie 7 dni. Dodatkowe linki będą dostępne po wpłacie i jej zatwierdzeniu przez administratora.';
+      title.textContent = 'Wykorzystano 3 darmowe pobrania';
+      description.textContent = 'Kolejne darmowe pobrania: '+freeResetLabel(quotaInfo)+'. Aby pobierać wcześniej, wybierz wsparcie na 7 dni lub VIP 30 dni (minimum 30 zł), a następnie zgłoś wpłatę do zatwierdzenia.';
       note.textContent = 'Wybierz metodę wsparcia dla tego linku.';
       fileBox.hidden = false; methods.hidden = false;
       fileBox.querySelector('span').textContent = 'Wybrany link:';
@@ -1107,8 +1107,8 @@ async function accountDownload(item,kind){
       cancel.textContent = 'Anuluj';
       continueButton.textContent = 'Wybierz metodę wsparcia'; continueButton.disabled = true;
     } else if (modalMode === 'limit' && download) {
-      title.textContent = 'Wykorzystano 3 darmowe pobrania na 7 dni';
-      description.textContent = 'Wykorzystano bezpłatny limit w bieżącym okresie 7 dni. Dodatkowe pobierania przez 7 dni udostępnimy po wpłacie i jej zatwierdzeniu przez administratora.';
+      title.textContent = 'Wykorzystano 3 darmowe pobrania';
+      description.textContent = 'Kolejne darmowe pobrania: '+freeResetLabel(quotaInfo)+'. Dodatkowy dostęp na 7 dni lub VIP 30 dni (minimum 30 zł) wymaga potwierdzenia wsparcia przez właściciela.';
       note.textContent = 'Wybierz metodę wsparcia dla tego pliku.';
       fileBox.hidden = false; methods.hidden = false;
       fileBox.querySelector('span').textContent = 'Wybrany plik:';
@@ -1117,7 +1117,7 @@ async function accountDownload(item,kind){
       continueButton.textContent = 'Wybierz metodę wsparcia'; continueButton.disabled = true;
     } else {
       title.textContent = 'Jak działa AIO Access 2.1?';
-      description.textContent = 'Trzy pobrania na kolejne 7 dni od pierwszego darmowego pobrania są bezpłatne. Wysokość wsparcia wybierasz sam. Po zatwierdzeniu wpłaty uzyskasz 7 dni dodatkowych pobrań.';
+      description.textContent = 'Trzy pobrania są bezpłatne; kolejne 3 zostaną udostępnione miesiąc po trzecim pobraniu. Wysokość wsparcia wybierasz sam. Po zatwierdzeniu wpłaty uzyskasz 7 dni dodatkowych pobrań.';
       note.textContent = 'Samo odwiedzenie strony płatności nie potwierdza wsparcia. Do czasu automatycznego połączenia z operatorem płatności wpłaty weryfikuje administrator.';
       fileBox.hidden = true; methods.hidden = true;
       fileNameElement.textContent = '';
@@ -1125,6 +1125,12 @@ async function accountDownload(item,kind){
       continueButton.textContent = 'Rozumiem'; continueButton.disabled = false;
     }
 
+    if((modalMode==='limit'||modalMode==='community-link-limit')){
+      let link=modal.querySelector('[data-monthly-support-link]');
+      if(!link){link=document.createElement('a');link.dataset.monthlySupportLink='';link.href='/support.html#wesprzyj-projekt';link.textContent='Zobacz 3 sposoby wsparcia: BuyCoffee, Ko-fi, Revolut';link.style.cssText='display:block;margin:12px 0;color:#9defff;font-weight:800;text-decoration:underline';description.insertAdjacentElement('afterend',link);}
+      link.hidden=false;
+      if(!quotaInfo?.free_resets_at)void accountApi().then(state=>{if(modal?.classList.contains('is-open')&&description)description.textContent='Kolejne darmowe pobrania: '+freeResetLabel(state)+'. Wcześniejszy dostęp: wsparcie na 7 dni albo VIP 30 dni (minimum 30 zł), po zatwierdzeniu wpłaty.';}).catch(()=>{});
+    }else{const link=modal.querySelector('[data-monthly-support-link]');if(link)link.hidden=true;}
     modal.classList.add('is-open'); modal.setAttribute('aria-hidden', 'false'); document.body.classList.add('support-gate-open');
     window.setTimeout(() => (methods.hidden ? continueButton : modal.querySelector('[data-access-method]'))?.focus(), 30);
   }

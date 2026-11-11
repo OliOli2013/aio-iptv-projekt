@@ -1,7 +1,7 @@
 /* AIO Access V4 — lokalne pobieranie wyłącznie po zalogowaniu.
- * Uprawnienia 7D i 168-godzinny limit pochodzą z D1, nie z IP ani cookies klienta.
+ * Uprawnienia 7D i miesięczny limit od trzeciego pobrania pochodzą z D1, nie z IP ani cookies klienta.
  */
-import {initAccess,sessionUser,getStatus,consumeFree,hasActiveFileRetry} from '../_aio_account_access.js';
+import {initAccess,sessionUser,getStatus,consumeFree} from '../_aio_account_access.js';
 import {queueIssuedFileAudit} from '../_aio_owner_downloads.js';
 import {activeSharedHold,logSecurity,reviewPaidSessionSharing} from '../_aio_security_journal.js';
 import {monitorDownload} from '../_aio_security_v6.js';
@@ -36,10 +36,7 @@ async function handle(context){
     '/pliki/enigma2-plugin-extensions-panelaio_17.0.3_all.ipk': 'https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/v17.0.3/enigma2-plugin-extensions-panelaio_17.0.3_all.ipk',
     '/pliki/enigma2-plugin-extensions-panelaio_17.0.3_all.deb': 'https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/v17.0.3/enigma2-plugin-extensions-panelaio_17.0.3_all.deb'
   };
-  const mirror = mirrors[new URL(request.url).pathname];
-  if (mirror && (request.method === 'GET' || request.method === 'HEAD')) {
-    return new Response(null, {status: 302, headers: {Location: mirror, 'Cache-Control': 'no-store'}});
-  }
+  const mirror = mirrors[new URL(request.url).pathname]; // Redirect only AFTER authorization and quota check.
   if(!protectedFile(request))return context.next();
   try{
     await initAccess(env);
@@ -86,15 +83,23 @@ async function handle(context){
       return redirectToInformation(request,'aio_verify_email');
     }
     const fileKey=new URL(request.url).pathname;
-    const retry=!state.active && await hasActiveFileRetry(env,user.id,fileKey);
-    if(!state.active && state.free_remaining<=0 && !retry){
+    if(!state.active && state.free_remaining<=0){
       if(request.method==='GET'){
         const burst=await monitorDownload(env,request,user.id,{denied:true});
         if(burst.blocked)return accessDenied('Dostęp do pobierania jest obecnie ograniczony. Skontaktuj się z nami.',403);
       }
-      if(request.method==='HEAD')return accessDenied('Limit 7-dniowy wykorzystany.',429);
+      if(request.method==='HEAD')return accessDenied('Limit 3 darmowych pobrań wykorzystany. Odnowienie miesiąc po trzecim pobraniu.',429);
       await logSecurity(env,request,"download_denied",user.id,"Limit pobierania");
       return redirectToInformation(request,'aio_limit');
+    }
+    // Legacy GitHub mirrors were previously public redirects; do NOT bypass access
+    // checks with these file URLs. Charge each GET, including repeat requests.
+    if(mirror){
+      if(request.method==='HEAD')return new Response(null,{status:302,headers:{Location:mirror,'Cache-Control':'no-store'}});
+      const permit=await consumeFree(env,user.id,fileKey);
+      if(!permit.allowed)return redirectToInformation(request,'aio_limit');
+      await logSecurity(env,request,'download_issued',user.id,permit.reason);
+      return new Response(null,{status:302,headers:{Location:mirror,'Cache-Control':'no-store'}});
     }
     // Private R2 is the only file source in r2 mode. Missing binding/object fails CLOSED.
     // Legacy mode retains Pages files until R2 uploads have been verified.
@@ -105,8 +110,8 @@ async function handle(context){
     if(asset.status!==200 && asset.status!==206)return asset;
     const contentType=String(asset.headers.get('content-type')||'').toLowerCase();
     if(contentType.startsWith('text/html'))return asset; // np. fallback strony, nie materiał
-    const permit=await consumeFree(env,user.id,fileKey); // atomowe pobranie lub wznowienie
-    if(!permit.allowed)return accessDenied('Wykorzystano 3 darmowe pobrania na 7 dni od pierwszego pobrania. Po zatwierdzeniu wsparcia otrzymasz dodatkowy dostęp.',429);
+    const permit=await consumeFree(env,user.id,fileKey); // każde pobranie liczone osobno, również tego samego pliku
+    if(!permit.allowed)return redirectToInformation(request,'aio_limit');
     const headers=new Headers(asset.headers);headers.set('Cache-Control','private, no-store');
     const issued=new Response(asset.body,{status:asset.status,statusText:asset.statusText,headers});
     queueIssuedFileAudit(context,user.id,(permit.reason==='grant'||permit.reason==='vip')?'account_7d':'account_free',issued,permit.reason);
