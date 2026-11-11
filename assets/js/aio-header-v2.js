@@ -63,11 +63,11 @@
     '<a href="index.html">Start</a>'+
     '<a href="downloads.html">Pobieranie</a>'+
     '<a href="projects-aio.html">Projekty AIO</a>'+
-    '<a href="systems-multiclick.html">Systemy Multi-Click</a>'+
-    '<a class="aio-nav-latest" href="latest-posts.html">Najnowsze posty</a>'+
+    '<a href="systems-multiclick.html" aria-label="Systemy Multi-Click — gotowe obrazy Enigma2">Multi-Click</a>'+
+    '<a class="aio-nav-latest" href="latest-posts.html">Nowe posty</a>'+
     '<a href="guides.html">Poradniki</a>'+
     '<a class="nav-community" href="community.html">Społeczność</a>'+
-    '<details class="nav-more"><summary>Więcej⌄</summary><div class="nav-more-menu">'+
+    '<details class="nav-more"><summary aria-label="Więcej działów serwisu">Więcej</summary><div class="nav-more-menu">'+
       '<a href="systems.html">Systemy Enigma2</a><a href="plugins.html">Wtyczki</a><a href="channel-lists.html">Listy kanałów</a><a href="downloads.html?category=Skórki">Skórki</a>'+
       '<a href="android-apps.html">Android</a><a href="windows-apps.html">Windows</a><a href="pro.html">Aplikacje PRO</a>'+
       '<a href="errors.html">Baza błędów</a><a href="one-liner.html">One-Liner / FTP</a><a href="start-here.html">Zacznij tutaj</a>'+
@@ -147,6 +147,13 @@
       d.head.appendChild(css);
     }
   }
+  /* AIO NAV & HOME V2: shared presentation layer for public pages. */
+  if(d4public && !d.querySelector('link[data-aio-navigation-home-v2]')){
+    const css=d.createElement('link');css.rel='stylesheet';
+    css.href='/assets/css/aio-navigation-home-v1.css?v=20261111-navhome-v2';
+    css.setAttribute('data-aio-navigation-home-v2','');d.head.appendChild(css);
+  }
+
   /* Active section. */
   const current=(location.pathname.split('/').pop()||'index.html').toLowerCase();
   let section=current;

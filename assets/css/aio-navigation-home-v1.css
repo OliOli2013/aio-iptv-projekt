@@ -1,0 +1,164 @@
+/* AIO TunerHub — Navigation & Start V2, 2026-11-11.
+   Presentation only. No changes to authentication, downloads, payment or D1/R2. */
+
+/* Sharper hierarchy and legible navigation without adding a fourth header row. */
+@media (min-width:761px) {
+  html body.aio-design-v4.aio-header-v4 .site-header .main-nav {
+    gap:3px!important;
+    padding:5px 10px!important;
+    min-height:58px!important;
+    align-items:stretch!important;
+  }
+  html body.aio-design-v4.aio-header-v4 .site-header .main-nav > a[href] {
+    min-height:49px!important;
+    padding:8px 9px!important;
+    font-size:11px!important;
+    font-weight:790!important;
+    line-height:1.25!important;
+    letter-spacing:.012em!important;
+    border-radius:10px!important;
+  }
+  html body.aio-design-v4.aio-header-v4 .site-header .main-nav > a[href]::before {
+    flex-basis:17px!important;
+    width:17px!important;
+    height:17px!important;
+  }
+  html body.aio-design-v4.aio-header-v4 .site-header .main-nav > .nav-more {
+    flex:0 0 90px!important;
+    width:90px!important;
+    min-width:90px!important;
+  }
+  html body.aio-design-v4.aio-header-v4 .site-header .main-nav > .nav-more > summary {
+    min-height:49px!important;
+    padding:8px 9px!important;
+    font-size:11px!important;
+    border-radius:10px!important;
+    gap:5px!important;
+  }
+  html body.aio-design-v4.aio-header-v4 .site-header .nav-more-menu a {
+    min-height:42px!important;
+    font-size:12px!important;
+    line-height:1.35!important;
+    font-weight:640!important;
+  }
+}
+@media (min-width:761px) and (max-width:1150px) {
+  html body.aio-design-v4.aio-header-v4 .site-header .main-nav > a[href] {
+    font-size:10px!important;
+    padding:7px 5px!important;
+    gap:5px!important;
+  }
+  html body.aio-design-v4.aio-header-v4 .site-header .main-nav > .nav-more > summary {
+    font-size:10px!important;
+  }
+}
+body.aio-design-v4.aio-header-v4 .main-nav > .nav-more > summary::after {
+  content:'⌄';
+  display:inline-block;
+  margin-left:4px;
+  font-size:15px;
+  line-height:1;
+  transition:transform .16s ease;
+}
+body.aio-design-v4.aio-header-v4 .main-nav > .nav-more[open] > summary::after {
+  transform:rotate(180deg);
+}
+body.aio-design-v4.aio-header-v4 .main-nav > .nav-more > summary:focus-visible,
+body.aio-design-v4.aio-header-v4 .main-nav > a:focus-visible {
+  outline:2px solid #87e7f4!important;
+  outline-offset:-2px!important;
+}
+@media(max-width:760px) {
+  html body.aio-design-v4.aio-header-v4 .site-header.nav-open .main-nav > a[href],
+  html body.aio-design-v4.aio-header-v4 .site-header.nav-open .nav-more > summary {
+    min-height:47px!important;
+    font-size:11px!important;
+    letter-spacing:.005em!important;
+    line-height:1.3!important;
+  }
+  html body.aio-design-v4.aio-header-v4 .site-header.nav-open .nav-more-menu a {
+    min-height:43px!important;
+    font-size:12px!important;
+  }
+}
+
+/* Homepage: content hierarchy and generous tap targets, without moving live post sections. */
+body.aio-design-v4.aio-home-v3 .aio-v2-main {
+  row-gap:clamp(14px,1.5vw,22px);
+}
+body.aio-design-v4.aio-home-v3 .aio-v2-hero-copy > p:not(.aio-v2-kicker) {
+  max-width:620px;
+  font-size:clamp(.94rem,1.05vw,1.07rem);
+  line-height:1.62;
+  color:#c4dbe6!important;
+}
+body.aio-design-v4.aio-home-v3 .aio-v2-hero h1 {
+  max-width:760px;
+  letter-spacing:-.035em!important;
+  line-height:1.11!important;
+}
+body.aio-design-v4.aio-home-v3 .aio-v2-searchbox {
+  min-height:57px;
+  border:1px solid rgba(130,228,241,.53)!important;
+  background:#071f2e!important;
+}
+body.aio-design-v4.aio-home-v3 .aio-v2-searchbox:focus-visible {
+  outline:2px solid #91f0ef!important;
+  outline-offset:2px!important;
+}
+body.aio-design-v4.aio-home-v3 .aio-v3-categories .aio-v3-category {
+  min-height:47px!important;
+  padding:9px 13px!important;
+  font-weight:750!important;
+  border-radius:12px!important;
+}
+body.aio-design-v4.aio-home-v3 .aio-v2-community-section,
+body.aio-design-v4.aio-home-v3 .aio-v2-block {
+  border:1px solid rgba(127,202,215,.19)!important;
+}
+body.aio-design-v4.aio-home-v3 .aio-v2-heading h2 {
+  line-height:1.17!important;
+}
+body.aio-design-v4.aio-home-v3 .aio-v2-heading > div > p:not(.aio-v2-kicker) {
+  line-height:1.5!important;
+}
+body.aio-design-v4.aio-home-v3 .aio-v2-post-topics a,
+body.aio-design-v4.aio-home-v3 .aio-v2-heading > a {
+  text-underline-offset:3px;
+}
+body.aio-design-v4.aio-home-v3 .aio-v2-mc-spotlight {
+  border:1px solid rgba(234,185,111,.35)!important;
+  background:linear-gradient(105deg,#152c3c 0%,#102a38 58%,#202e3b 100%)!important;
+}
+body.aio-design-v4.aio-home-v3 .aio-v2-mc-spotlight h2 {
+  color:#f3f8fa!important;
+}
+body.aio-design-v4.aio-home-v3 .aio-v2-mc-spotlight p:not(.aio-ia-eyebrow) {
+  color:#c3d9e3!important;
+  line-height:1.55!important;
+}
+body.aio-design-v4.aio-home-v3 .aio-v2-mc-spotlight > a {
+  min-height:44px;
+  align-content:center;
+}
+body.aio-design-v4.aio-home-v3 .aio-v2-projects > a {
+  border:1px solid rgba(122,192,206,.16)!important;
+  min-height:94px;
+}
+body.aio-design-v4.aio-home-v3 .aio-v2-projects > a:hover,
+body.aio-design-v4.aio-home-v3 .aio-v2-projects > a:focus-visible {
+  border-color:rgba(134,226,237,.55)!important;
+}
+@media(max-width:760px) {
+  body.aio-design-v4.aio-home-v3 .aio-v2-main {row-gap:13px}
+  body.aio-design-v4.aio-home-v3 .aio-v2-hero {padding:19px 16px!important}
+  body.aio-design-v4.aio-home-v3 .aio-v2-hero h1 {font-size:clamp(1.85rem,8vw,2.55rem)!important}
+  body.aio-design-v4.aio-home-v3 .aio-v2-searchbox {min-height:52px!important}
+  body.aio-design-v4.aio-home-v3 .aio-v3-categories .aio-v3-category {min-height:44px!important}
+  body.aio-design-v4.aio-home-v3 .aio-v2-community-section,
+  body.aio-design-v4.aio-home-v3 .aio-v2-block {padding:17px 14px!important}
+  body.aio-design-v4.aio-home-v3 .aio-v2-mc-spotlight > a {min-height:44px}
+}
+@media(prefers-reduced-motion:reduce) {
+  body.aio-design-v4.aio-header-v4 .main-nav > .nav-more > summary::after {transition:none}
+}
