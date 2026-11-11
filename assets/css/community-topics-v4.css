@@ -77,3 +77,86 @@ body[data-community-page="feed"] .community-main [data-community-feed]{scroll-ma
   .aio-topic-fields{grid-template-columns:1fr}
 }
 @media(max-width:340px){.aio-topics-grid{grid-template-columns:1fr}.aio-topic-card{min-height:64px}}
+
+
+/* AIO Topics V4.3 — widoki rozdzielone, bez przesuwania katalogu nad posty. */
+body[data-community-page="feed"] .aio-topics-v4[hidden],
+body[data-community-page="feed"] .aio-topics-grid[hidden] {display:none!important}
+body[data-community-page="feed"].aio-topic-directory-open .community-main > :not(#aio-topics-v4){display:none!important}
+body[data-community-page="feed"].aio-topic-directory-open .aio-topics-v4{display:block!important}
+body[data-community-page="feed"] .aio-topic-filters:not([hidden]){
+  padding:13px 15px;margin:0 0 12px;border:1px solid #315c6e;border-radius:12px;
+  background:#092937;min-width:0;max-width:100%;box-sizing:border-box;
+}
+body[data-community-page="feed"] .aio-topic-results-heading{margin-top:0}
+body[data-community-page="feed"] .aio-topics-v4 .aio-topic-card.is-active{border-color:#82e8cf}
+body[data-community-page="feed"] .aio-topics-v4{width:100%;max-width:100%}
+
+/* AIO V4.3 — usuniecie zrodla rozciagania listy wpisow na telefonie.
+   1fr z domyslnym min-width:auto nie jest bezpieczne dla dlugich tresci. */
+@media (max-width:980px){
+  body[data-community-page="feed"] .community-layout{display:grid;grid-template-columns:minmax(0,1fr)!important}
+  body[data-community-page="feed"] .community-main{display:grid;grid-template-columns:minmax(0,1fr)!important}
+  body[data-community-page="feed"] .community-main > *,
+  body[data-community-page="feed"] .community-sidebar,
+  body[data-community-page="feed"] .community-feed{
+    min-width:0!important;max-width:100%;width:100%;box-sizing:border-box;
+  }
+}
+@media (max-width:760px){
+  body[data-community-page="feed"] .community-shell,
+  body[data-community-page="feed"] .community-layout,
+  body[data-community-page="feed"] .community-main,
+  body[data-community-page="feed"] .community-feed,
+  body[data-community-page="feed"] .community-panel,
+  body[data-community-page="feed"] [data-community-private-content],
+  .community-post-page,.community-post-card,.community-post-content,.community-post-text{
+    min-width:0!important;max-width:100%!important;box-sizing:border-box;
+  }
+  body[data-community-page="feed"] .community-feed,
+  .community-post-page{display:grid;grid-template-columns:minmax(0,1fr)!important}
+  .community-post-card{width:100%;overflow:hidden}
+  .community-post-head{min-width:0;max-width:100%;flex-wrap:wrap}
+  .community-post-author{min-width:0!important;flex:1 1 125px;overflow-wrap:anywhere}
+  .community-post-author strong,.community-post-meta{min-width:0;max-width:100%;overflow-wrap:anywhere}
+  .community-post-content{width:100%;padding-left:12px;padding-right:12px}
+  .community-post-content h2,.community-post-content h3,
+  .community-post-text,.community-comment-body{overflow-wrap:anywhere;word-break:break-word;white-space:normal}
+  .community-post-content img,.community-post-content video,
+  .community-post-content iframe,.community-comment-body img,
+  .community-media-grid img{
+    display:block;max-width:100%!important;height:auto;box-sizing:border-box;
+  }
+  .community-post-content pre,.community-comment-body pre{
+    display:block;max-width:100%;overflow-x:auto;white-space:pre-wrap;overflow-wrap:anywhere;overscroll-behavior-x:contain;
+  }
+  .community-post-content code,.community-comment-body code{overflow-wrap:anywhere}
+  .community-post-content table,.community-comment-body table{
+    display:block;max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;
+  }
+  .community-media-grid,.community-media-grid.one{min-width:0;max-width:100%;grid-template-columns:minmax(0,1fr)}
+  .community-toolbar{min-width:0;width:100%;box-sizing:border-box}
+  .community-toolbar input,.community-toolbar select{max-width:100%;min-width:0}
+  .community-tabs,.community-post-tags,.community-post-actions{max-width:100%;min-width:0}
+  .community-comment,.community-comments{min-width:0;max-width:100%;box-sizing:border-box}
+  .aio-topic-results-heading{width:100%;min-width:0;max-width:100%;box-sizing:border-box}
+}
+@media(max-width:420px){
+  body[data-community-page="feed"] .aio-topics-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  body[data-community-page="feed"] .aio-topic-results-change{min-height:44px;width:100%}
+  body[data-community-page="feed"] .aio-topic-filters:not([hidden]){padding:12px}
+}
+
+/* V4.3 — ograniczenie mediów/tekstu także na tabletach i w pojedynczych postach. */
+.community-post-text,.community-comment-body{min-width:0;max-width:100%;overflow-wrap:anywhere;word-break:break-word}
+.community-post-text img,.community-post-text video,.community-post-text iframe,
+.community-comment-body img,.community-comment-body video,.community-comment-body iframe{
+  max-width:100%!important;height:auto;box-sizing:border-box;
+}
+.community-post-text pre,.community-comment-body pre{
+  display:block;max-width:100%;overflow-x:auto;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;
+}
+.community-post-text table,.community-comment-body table{
+  display:block;max-width:100%;overflow-x:auto;
+}
+.community-post-author strong,.community-post-meta{overflow-wrap:anywhere;min-width:0}

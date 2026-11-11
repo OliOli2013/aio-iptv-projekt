@@ -99,15 +99,18 @@
     return html;
   }
   let state={category:params.get('category')||'',subcategory:params.get('subcategory')||'',deviceBrand:params.get('brand')||'',deviceModel:params.get('model')||'',listingStatus:params.get('listingStatus')||''};
-  let controls,topicBoard,topicGrid,changeButton,resultHeader,resultName,resultInfo;
-  // V4.2: wybor dzialow jest jawny; klikniecie kafelka nie zmienia wysokosci siatki.
+  let controls,topicBoard,topicGrid,changeButton,resultHeader,resultName,resultInfo,resultChangeButton;
+  // V4.3: oddzielne widoki wyboru dzialu i listy postow.
+  // Nie ukrywaj pojedynczych wpisow przez przesuwanie ogromnej siatki.
   function setBoardExpanded(expanded){
     if(!topicBoard||!topicGrid)return;
-    topicGrid.hidden=!expanded;
-    topicBoard.classList.toggle('aio-topics-compact',!expanded);
+    const directoryOpen=Boolean(expanded);
+    topicBoard.hidden=!directoryOpen;
+    topicGrid.hidden=false;
+    document.body.classList.toggle('aio-topic-directory-open',directoryOpen);
     if(changeButton){
-      changeButton.textContent=expanded?'Zwiń działy':'Wybierz dział';
-      changeButton.setAttribute('aria-expanded',String(expanded));
+      changeButton.textContent='Pokaż wpisy';
+      changeButton.setAttribute('aria-expanded',String(directoryOpen));
     }
   }
   function scrollToNode(node){
@@ -146,7 +149,8 @@
       const label=$('[data-aio-topic-current]');
       const cat=labels().find(x=>x.id===state.category);
       if(label)label.textContent=cat?cat.label:'Wszystkie działy';
-      if(resultName)resultName.textContent=cat?`Wpisy: ${cat.label}`:'Wszystkie wpisy Społeczności';
+      if(resultName)resultName.textContent=cat?`Dział: ${cat.label}`:'Wszystkie wpisy Społeczności';
+      if(resultChangeButton)resultChangeButton.textContent=cat?'Wróć do działów':'Przeglądaj działy';
       if(resultInfo)resultInfo.textContent=cat?'Wyświetlam wyłącznie wpisy z wybranego działu.':'Przeglądaj posty ze wszystkich działów.';
       const filter=controls.closest('.aio-topic-filters')||controls;
       filter.hidden=!state.category;
@@ -159,18 +163,23 @@
     const headerText=E('div');headerText.append(E('p','eyebrow','ODKRYWAJ TEMATY'),E('h2','','Działy tematyczne Społeczności AIO'),E('p','aio-topics-subtitle','Wybierz dział zamiast przeszukiwać wszystkie wpisy. Możesz też zawęzić wyniki do marki i modelu tunera.'));
     const all=E('button','aio-topic-all','Wszystkie posty');all.type='button';all.onclick=()=>{
       publishFilter({category:'',subcategory:'',deviceBrand:'',deviceModel:'',listingStatus:''},{resetContext:true});
+      setBoardExpanded(false);
       showResults();
     };
-    const choose=E('button','aio-topic-change','Wybierz dział');choose.type='button';changeButton=choose;
+    const choose=E('button','aio-topic-change','Pokaż wpisy');choose.type='button';changeButton=choose;
     choose.setAttribute('aria-controls','aio-topics-v4-grid');
-    choose.onclick=()=>{const expanded=topicGrid.hidden;setBoardExpanded(expanded);if(expanded)scrollToNode(section);};
+    choose.onclick=()=>{setBoardExpanded(false);showResults();};
     const actions=E('div','aio-topics-actions');actions.append(choose,all);
     header.append(headerText,actions);section.append(header);
     const grid=E('div','aio-topics-grid');grid.id='aio-topics-v4-grid';topicGrid=grid;
     for(const cat of labels()){
       const b=E('button','aio-topic-card');b.type='button';b.dataset.aioTopicCard=cat.id;b.setAttribute('aria-pressed','false');
       b.append(E('span','aio-topic-icon',cat.icon||'•'),E('span','aio-topic-label',cat.label),E('small','aio-topic-count','Zobacz wpisy'));
-      b.onclick=()=>{publishFilter({category:cat.id},{resetContext:true});showResults();};
+      b.onclick=()=>{
+        publishFilter({category:cat.id},{resetContext:true});
+        setBoardExpanded(false);
+        showResults();
+      };
       grid.append(b);
     }
     section.append(grid);
@@ -191,6 +200,7 @@
       wrap.append(select);row.append(wrap);
     }
     filter.append(row);
+    // Filtry szczegolowe musza zostac przy wynikach, a nie w ukrytym katalogu.
     section.append(filter);host.insertBefore(section,host.firstElementChild);
     const feed=$('[data-community-feed]',host);
     if(feed){
@@ -198,11 +208,12 @@
       resultHeader.dataset.aioTopicResults='';
       resultName=E('h2','aio-topic-results-title','Wszystkie wpisy Społeczności');
       resultInfo=E('p','aio-topic-results-info','Przeglądaj posty ze wszystkich działów.');
-      const change=E('button','aio-topic-results-change','Zmień dział');change.type='button';
+      const change=E('button','aio-topic-results-change','Przeglądaj działy');change.type='button';resultChangeButton=change;
       change.onclick=()=>{setBoardExpanded(true);scrollToNode(section);};
       const copy=E('div','aio-topic-results-copy');copy.append(resultName,resultInfo);
       resultHeader.append(copy,change);
       feed.parentNode.insertBefore(resultHeader,feed);
+      feed.parentNode.insertBefore(filter,feed);
     }
     state._lastCategory=state.category;
     updateCards();
@@ -235,6 +246,7 @@
         // Lista w community-feed.js juz laduje nowe wpisy przy zmianie selecta.
         // Nie wysylamy drugi raz aio:topics-filter, aby uniknac podwojnego fetch.
         publishFilter({category:v},{emit:false});
+        setBoardExpanded(false);
         showResults();
       });
     };
