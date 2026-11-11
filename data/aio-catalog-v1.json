@@ -946,7 +946,7 @@
       "sha256": "",
       "official": "Link zewnętrzny",
       "project_id": "systems",
-      "release_id": "legacy-167eaf4605b111d1",
+      "release_id": "legacy-4261e2fe955c8292",
       "origin": "legacy",
       "published_at": null,
       "verified_at": null,
@@ -1726,7 +1726,7 @@
       ]
     },
     {
-      "id": "legacy-167eaf4605b111d1",
+      "id": "legacy-4261e2fe955c8292",
       "project_id": "systems",
       "project_name": "Zgemma H8.2H — OpenATV 8.0.1",
       "version": "8.0.1",
