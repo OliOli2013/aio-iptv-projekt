@@ -13,6 +13,7 @@ import {
   allowedPostType, parseAttachments, errorResponse, isoNow, clientIp,
   moderationLog
 } from "../_community.js";
+import {ensureTopicsV4,topicWriteV4} from "../_aio_post_taxonomy_v4.js"; // AIO_TOPICS_V4_20261111
 
 function normalizeAttachment(item){
   if(!item || typeof item!=="object") return null;
@@ -36,6 +37,7 @@ export async function onRequestPost({request,env}){
     {status:403,headers:{"content-type":"application/json; charset=utf-8","cache-control":"no-store"}});
   try{
     await ensureSchema(env);
+    await ensureTopicsV4(env);
     const s=await requireUser(request,env);
 
     const type=request.headers.get("content-type")||"";
@@ -87,7 +89,7 @@ export async function onRequestPost({request,env}){
     let reason=cleanText(body.reason||"",500);
     if(!reason) reason=owner ? "Edycja autora" : "Edycja administratora";
 
-    await env.COMMUNITY_DB.prepare(`
+    await env.COMMUNITY_DB.batch([env.COMMUNITY_DB.prepare(`
       UPDATE community_posts
       SET title=?,content=?,category=?,post_type=?,kind=?,attachments=?,
           edited_at=?,edited_by=?,edit_reason=?,updated_at=?
@@ -104,7 +106,7 @@ export async function onRequestPost({request,env}){
       reason,
       now,
       id
-    ).run();
+    ),topicWriteV4(env.COMMUNITY_DB,id,allowedCategory(body.category),body)]);
 
     // Dopiero po udanym zapisie bazy usuwamy z R2 zdjęcia usunięte z wpisu.
     const newKeys=keySet(attachments);

@@ -2,7 +2,9 @@
 /* Społeczność AIO — Cloudflare feed, 2026-10-08 */
 (function(){
   'use strict';
-  const state={page:0,search:'',category:'',mode:'latest',loading:false,rows:[],pageSize:12,requestSeq:0,activeController:null};
+  // AIO_TOPICS_V4_20261111: server-side filters, shareable URLs.
+  const urlFilters=new URLSearchParams(location.search);
+  const state={page:0,search:'',category:urlFilters.get('category')||'',subcategory:urlFilters.get('subcategory')||'',brand:urlFilters.get('brand')||'',model:urlFilters.get('model')||'',listingStatus:urlFilters.get('listingStatus')||'',mode:'latest',loading:false,rows:[],pageSize:12,requestSeq:0,activeController:null};
   const q=(s,c=document)=>c.querySelector(s), qa=(s,c=document)=>Array.from(c.querySelectorAll(s));
   let news=false;
 
@@ -24,14 +26,26 @@
   function fillCategories(){
     const select=q('[data-community-category]');
     const opts=(AIOCommunity.config?.categories||[]).map(x=>`<option value="${AIOCommunity.escapeAttr(x.id)}">${AIOCommunity.escape(x.icon+' '+x.label)}</option>`).join('');
-    if(select)select.innerHTML='<option value="">Wszystkie kategorie</option>'+opts;
+    if(select){select.innerHTML='<option value="">Wszystkie kategorie</option>'+opts;select.value=state.category;}
     const compose=q('[data-compose-category]');if(compose)compose.innerHTML=opts;
   }
   function syncTabs(){qa('[data-community-mode]').forEach(b=>b.classList.toggle('active',b.dataset.communityMode===state.mode));}
   function bind(){
     const search=q('[data-community-search]'),cat=q('[data-community-category]'),more=q('[data-community-more]');
     if(search){let t;search.oninput=()=>{clearTimeout(t);t=setTimeout(()=>{state.search=search.value.trim();load(true);},300);};}
-    if(cat)cat.onchange=()=>{state.category=cat.value;load(true);};
+    if(cat)cat.onchange=()=>{
+      state.category=cat.value;
+      state.subcategory='';state.brand='';state.model='';state.listingStatus='';
+      document.dispatchEvent(new CustomEvent('aio:topics-category-changed',{detail:{category:cat.value}}));
+      load(true);
+    };
+    document.addEventListener('aio:topics-filter',e=>{
+      const d=e.detail||{};
+      state.category=d.category||'';state.subcategory=d.subcategory||'';
+      state.brand=d.brand||'';state.model=d.model||'';state.listingStatus=d.listingStatus||'';
+      if(cat)cat.value=state.category;
+      load(true);
+    });
     qa('[data-community-mode]').forEach(b=>b.onclick=()=>{state.mode=b.dataset.communityMode;syncTabs();load(true);});
     if(more)more.onclick=()=>load(false);
     document.addEventListener('aio-community-auth',async()=>{renderAccess();renderCompose();await load(true);await loadStats();});
@@ -79,7 +93,7 @@
     state.loading=true;
     try{
       const d=await AIOCommunity.apiGet('feed',{
-        mode:state.mode,category:state.category,search:state.search,page,pageSize:state.pageSize
+        mode:state.mode,category:state.category,subcategory:state.subcategory,brand:state.brand,model:state.model,listingStatus:state.listingStatus,search:state.search,page,pageSize:state.pageSize
       },{signal:controller.signal});
       if(controller.signal.aborted||seq!==state.requestSeq)return;
       state.rows=reset?(d.rows||[]):state.rows.concat(d.rows||[]);
@@ -123,7 +137,7 @@
     return `<article class="community-post-card ${post.pinned?'pinned ':''}${post.kind==='official'?'official':''}${post.featured?' featured':''}" data-post-id="${AIOCommunity.escapeAttr(post.id)}">
       <header class="community-post-head">${AIOCommunity.avatarHtml(a,a.display_name)}<div class="community-post-author"><strong><a href="profile.html?id=${AIOCommunity.escapeAttr(post.author_id)}">${AIOCommunity.escape(a.display_name||'Użytkownik')}</a>${a.role&&a.role!=='user'?` <span class="community-role ${AIOCommunity.escapeAttr(a.role)}">${AIOCommunity.escape(AIOCommunity.roleLabel(a.role))}</span>`:''}</strong><small>${AIOCommunity.escape([a.tuner_model,a.system_name].filter(Boolean).join(' • ')||(post.kind==='official'?'Oficjalny wpis AIO TunerHub':'Użytkownik Społeczności AIO'))}</small></div><div class="community-post-meta">${AIOCommunity.escape(AIOCommunity.timeAgo(post.created_at))}</div></header>
       <div class="community-post-content"><div class="community-post-tags">${post.kind==='official'?'<span class="community-status-pill official">✓ Oficjalne</span>':''}${post.pinned?'<span class="community-status-pill pinned">📌 Przypięte</span>':''}${post.featured?'<span class="community-status-pill featured">★ Wyróżnione</span>':''}<span class="community-status-pill post-type ${AIOCommunity.escapeAttr(type.id)}">${AIOCommunity.escape(type.icon+' '+type.label)}</span>${post.solved?'<span class="community-status-pill solved">✅ Rozwiązane</span>':''}<span class="community-category">${AIOCommunity.escape(cat.icon+' '+cat.label)}</span></div>
-      <h2><a href="post.html?id=${AIOCommunity.escapeAttr(post.id)}">${AIOCommunity.escape(post.title)}</a></h2>
+      <div class="aio-topic-meta">${window.AIOTopicsV4?.badge(post)||''}</div><h2><a href="post.html?id=${AIOCommunity.escapeAttr(post.id)}">${AIOCommunity.escape(post.title)}</a></h2>
       <div class="community-post-text">${AIOCommunity.formatText(post.content,limit)}</div>${images.length?`<div class="community-media-grid ${images.length===1?'one':''}">${images.map(x=>`<img src="${AIOCommunity.escapeAttr(x.url)}" alt="Zdjęcie do wpisu" loading="lazy" decoding="async" data-community-image>`).join('')}${allImages.length>4?`<a class="aio-media-more" href="post.html?id=${AIOCommunity.escapeAttr(post.id)}">+${allImages.length-4} zdjęć · Zobacz galerię</a>`:''}</div>`:''}</div>
       <footer class="community-post-footer">${reaction(post,'helpful','👍 Pomocne')}${reaction(post,'works','✅ Działa')}${reaction(post,'thanks','❤️ Dziękuję')}<a class="community-action community-open" href="post.html?id=${AIOCommunity.escapeAttr(post.id)}">${AIOCommunity.user?'💬 '+Number(post.comment_count||0)+' odpowiedzi':'🔐 Dyskusja po zalogowaniu'}</a>${AIOCommunity.user?'<button class="community-action" type="button" data-report-post>⚑ Zgłoś</button>':''}${AIOCommunity.isAdmin()?`<button class="community-action" type="button" data-pin-post>${post.pinned?'📌 Odepnij':'📌 Przypnij'}</button><button class="community-action" type="button" data-feature-post>${post.featured?'★ Usuń wyróżnienie':'★ Wyróżnij'}</button>`:''}${canDelete?'<button class="community-action danger" type="button" data-delete-post>Usuń</button>':''}</footer>
     </article>`;
@@ -162,6 +176,7 @@
       const d=await AIOCommunity.api('create_post',{
         title:q('[data-compose-title]',form).value.trim(),content:q('[data-compose-content]',form).value.trim(),
         category:q('[data-compose-category]',form).value,postType:q('[data-compose-post-type]',form)?.value||'problem',
+        ...(window.AIOTopicsV4?.fields(form)||{}),
         official:Boolean(q('[data-compose-official]',form)?.checked),attachments
       });
       form.reset();q('[data-compose-preview]',form).innerHTML='';AIOCommunity.showToast(d.status==='pending'?'Wpis oczekuje na zatwierdzenie.':'Wpis opublikowany.','success');await load(true);await loadStats();

@@ -406,7 +406,7 @@ export function errorResponse(error) {
 }
 
 export function allowedCategory(v) {
-  return ["pomoc","aio-panel","iptv","kanaly","picony","oscam","systemy","wtyczki","aplikacje","testy","inne"].includes(v) ? v : "inne";
+  return ["pomoc","aio-panel","iptv","kanaly","picony","oscam","systemy","wtyczki","aplikacje","testy","inne","backupy","porady","gielda"].includes(v) ? v : "inne";
 }
 export function allowedPostType(v) {
   return ["problem","information","update","guide","discussion"].includes(v) ? v : "problem";

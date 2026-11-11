@@ -1,5 +1,5 @@
 {
-  "version": "20261008-authreset2",
+  "version": "20261111-topics-v4",
   "enabled": true,
   "siteName": "Społeczność AIO",
   "siteUrl": "https://aio-iptv-projekt.pages.dev/",
@@ -9,17 +9,76 @@
   "postsPerPage": 12,
   "firstPostRequiresApproval": true,
   "categories": [
-    {"id":"pomoc","label":"Pomoc techniczna","icon":"🛠️"},
-    {"id":"aio-panel","label":"AIO Panel","icon":"🧩"},
-    {"id":"iptv","label":"IPTV i listy M3U","icon":"📺"},
-    {"id":"kanaly","label":"Listy kanałów","icon":"📡"},
-    {"id":"picony","label":"Picony i EPG","icon":"🖼️"},
-    {"id":"oscam","label":"OSCam i softcam","icon":"🔐"},
-    {"id":"systemy","label":"Systemy Enigma2","icon":"💿"},
-    {"id":"wtyczki","label":"Wtyczki","icon":"🔌"},
-    {"id":"aplikacje","label":"Aplikacje","icon":"📱"},
-    {"id":"testy","label":"Testy i opinie","icon":"✅"},
-    {"id":"inne","label":"Inne","icon":"💬"}
+    {
+      "id": "pomoc",
+      "label": "Pomoc techniczna",
+      "icon": "🛠️"
+    },
+    {
+      "id": "aio-panel",
+      "label": "AIO Panel",
+      "icon": "🧩"
+    },
+    {
+      "id": "iptv",
+      "label": "IPTV i listy M3U",
+      "icon": "📺"
+    },
+    {
+      "id": "kanaly",
+      "label": "Listy kanałów",
+      "icon": "📡"
+    },
+    {
+      "id": "picony",
+      "label": "Picony i EPG",
+      "icon": "🖼️"
+    },
+    {
+      "id": "oscam",
+      "label": "OSCam i softcam",
+      "icon": "🔐"
+    },
+    {
+      "id": "systemy",
+      "label": "Systemy Enigma2",
+      "icon": "💿"
+    },
+    {
+      "id": "wtyczki",
+      "label": "Wtyczki",
+      "icon": "🔌"
+    },
+    {
+      "id": "aplikacje",
+      "label": "Aplikacje",
+      "icon": "📱"
+    },
+    {
+      "id": "testy",
+      "label": "Testy i opinie",
+      "icon": "✅"
+    },
+    {
+      "id": "inne",
+      "label": "Inne",
+      "icon": "💬"
+    },
+    {
+      "id": "backupy",
+      "label": "Kopie systemów",
+      "icon": "💿"
+    },
+    {
+      "id": "porady",
+      "label": "Poradniki",
+      "icon": "📖"
+    },
+    {
+      "id": "gielda",
+      "label": "Kup / Sprzedaj",
+      "icon": "🛍️"
+    }
   ],
   "privacyMode": "authenticated-community-public-official",
   "maxPostLength": 50000,
@@ -36,14 +95,336 @@
     "contactAdminUrl": "contact.html"
   },
   "postTypes": [
-    {"id":"problem","label":"Problem / pytanie","icon":"❓"},
-    {"id":"information","label":"Informacja / komunikat","icon":"ℹ️"},
-    {"id":"update","label":"Aktualizacja / nowość","icon":"📢"},
-    {"id":"guide","label":"Poradnik / rozwiązanie","icon":"💡"},
-    {"id":"discussion","label":"Dyskusja / opinia","icon":"💬"}
+    {
+      "id": "problem",
+      "label": "Problem / pytanie",
+      "icon": "❓"
+    },
+    {
+      "id": "information",
+      "label": "Informacja / komunikat",
+      "icon": "ℹ️"
+    },
+    {
+      "id": "update",
+      "label": "Aktualizacja / nowość",
+      "icon": "📢"
+    },
+    {
+      "id": "guide",
+      "label": "Poradnik / rozwiązanie",
+      "icon": "💡"
+    },
+    {
+      "id": "discussion",
+      "label": "Dyskusja / opinia",
+      "icon": "💬"
+    }
   ],
   "moderationFeatures": {
     "editPosts": true,
     "editReasonRequired": false
+  },
+  "topicHierarchy": {
+    "subcategories": {
+      "pomoc": [
+        {
+          "id": "awarie",
+          "label": "Awarie i błędy"
+        },
+        {
+          "id": "sieci",
+          "label": "Sieć i Wi-Fi"
+        },
+        {
+          "id": "glowice",
+          "label": "Głowice i odbiór"
+        },
+        {
+          "id": "inne-problemy",
+          "label": "Pozostałe problemy"
+        }
+      ],
+      "aio-panel": [
+        {
+          "id": "wydania",
+          "label": "Nowe wersje"
+        },
+        {
+          "id": "konfiguracja",
+          "label": "Konfiguracja"
+        },
+        {
+          "id": "bledy",
+          "label": "Błędy i zgłoszenia"
+        }
+      ],
+      "iptv": [
+        {
+          "id": "m3u",
+          "label": "Listy M3U"
+        },
+        {
+          "id": "xtream",
+          "label": "Xtream / portale"
+        },
+        {
+          "id": "odtwarzacze",
+          "label": "Odtwarzacze IPTV"
+        }
+      ],
+      "kanaly": [
+        {
+          "id": "sat",
+          "label": "Listy SAT"
+        },
+        {
+          "id": "dvbt",
+          "label": "DVB-T / T2"
+        },
+        {
+          "id": "iptv",
+          "label": "Bukiety IPTV"
+        },
+        {
+          "id": "aktualizacje",
+          "label": "Aktualizacje list"
+        }
+      ],
+      "picony": [
+        {
+          "id": "picony",
+          "label": "Picony"
+        },
+        {
+          "id": "epg-sat",
+          "label": "EPG SAT"
+        },
+        {
+          "id": "xmltv",
+          "label": "EPG / XMLTV IPTV"
+        }
+      ],
+      "oscam": [
+        {
+          "id": "instalacja",
+          "label": "Instalacja i konfiguracja"
+        },
+        {
+          "id": "diagnostyka",
+          "label": "Diagnostyka"
+        }
+      ],
+      "systemy": [
+        {
+          "id": "openatv",
+          "label": "OpenATV"
+        },
+        {
+          "id": "openpli",
+          "label": "OpenPLi"
+        },
+        {
+          "id": "openvix",
+          "label": "OpenViX"
+        },
+        {
+          "id": "hdsatelit",
+          "label": "HD Satelit"
+        },
+        {
+          "id": "inne",
+          "label": "Inne systemy"
+        }
+      ],
+      "backupy": [
+        {
+          "id": "gotowy-backup",
+          "label": "Gotowy backup"
+        },
+        {
+          "id": "czysty-image",
+          "label": "Czysty image"
+        },
+        {
+          "id": "multiclick",
+          "label": "Multi-Click"
+        },
+        {
+          "id": "aktualizacja",
+          "label": "Aktualizacja obrazu"
+        }
+      ],
+      "wtyczki": [
+        {
+          "id": "wydania",
+          "label": "Wydania i aktualizacje"
+        },
+        {
+          "id": "iptv",
+          "label": "Wtyczki IPTV"
+        },
+        {
+          "id": "multimedia",
+          "label": "Multimedia"
+        },
+        {
+          "id": "narzedzia",
+          "label": "Narzędzia"
+        },
+        {
+          "id": "problemy",
+          "label": "Zgłoszenia błędów"
+        }
+      ],
+      "aplikacje": [
+        {
+          "id": "android",
+          "label": "Android"
+        },
+        {
+          "id": "windows",
+          "label": "Windows"
+        },
+        {
+          "id": "pilot",
+          "label": "Zdalne sterowanie"
+        }
+      ],
+      "testy": [
+        {
+          "id": "recenzje",
+          "label": "Recenzje"
+        },
+        {
+          "id": "kompatybilnosc",
+          "label": "Testy kompatybilności"
+        },
+        {
+          "id": "nowosci",
+          "label": "Nowości"
+        }
+      ],
+      "porady": [
+        {
+          "id": "instalacja",
+          "label": "Instalacja"
+        },
+        {
+          "id": "konfiguracja",
+          "label": "Konfiguracja"
+        },
+        {
+          "id": "ratowanie",
+          "label": "Odzyskiwanie tunera"
+        },
+        {
+          "id": "krok-po-kroku",
+          "label": "Krok po kroku"
+        }
+      ],
+      "gielda": [
+        {
+          "id": "sprzedam",
+          "label": "Sprzedam"
+        },
+        {
+          "id": "kupie",
+          "label": "Kupię"
+        },
+        {
+          "id": "zamienie",
+          "label": "Zamienię"
+        },
+        {
+          "id": "oddam",
+          "label": "Oddam"
+        }
+      ],
+      "inne": [
+        {
+          "id": "dyskusja",
+          "label": "Dyskusje"
+        },
+        {
+          "id": "sugestie",
+          "label": "Sugestie dla AIO"
+        },
+        {
+          "id": "ogloszenia",
+          "label": "Inne ogłoszenia"
+        }
+      ]
+    },
+    "brands": {
+      "zgemma": {
+        "label": "Zgemma",
+        "models": [
+          "H7S",
+          "H8.2H",
+          "H8.2H SE",
+          "H9 Twin",
+          "H9 Twin SE",
+          "H9S",
+          "H11S",
+          "H17 Combo"
+        ]
+      },
+      "octagon": {
+        "label": "Octagon",
+        "models": [
+          "SF8008",
+          "SF8008 Supreme",
+          "SX V2 WL 4K"
+        ]
+      },
+      "vuplus": {
+        "label": "Vu+",
+        "models": [
+          "Zero 4K",
+          "Uno 4K SE",
+          "Duo 4K SE"
+        ]
+      },
+      "ustym": {
+        "label": "Ustym",
+        "models": [
+          "4K Pro",
+          "4K Combo"
+        ]
+      },
+      "gigablue": {
+        "label": "GigaBlue",
+        "models": [
+          "UHD Quad 4K",
+          "UHD Trio 4K"
+        ]
+      },
+      "nbox": {
+        "label": "NBox",
+        "models": [
+          "BSKA",
+          "BZZB"
+        ]
+      },
+      "inne": {
+        "label": "Inna marka",
+        "models": []
+      }
+    },
+    "listingStatuses": [
+      {
+        "id": "dostepne",
+        "label": "Dostępne"
+      },
+      {
+        "id": "zarezerwowane",
+        "label": "Zarezerwowane"
+      },
+      {
+        "id": "sprzedane",
+        "label": "Sprzedane"
+      }
+    ]
   }
 }

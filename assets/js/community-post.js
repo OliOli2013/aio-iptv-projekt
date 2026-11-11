@@ -58,7 +58,7 @@
 
     root.innerHTML=`<article data-post-id="${AIOCommunity.escapeAttr(post.id)}" class="community-post-card ${post.kind==='official'?'official':''}">
       <header class="community-post-head">${AIOCommunity.avatarHtml(a,a.display_name)}<div class="community-post-author"><strong><a href="profile.html?id=${AIOCommunity.escapeAttr(post.author_id)}">${AIOCommunity.escape(a.display_name||'Użytkownik')}</a></strong><small>${AIOCommunity.escape(AIOCommunity.timeAgo(post.created_at))}</small></div></header>
-      <div class="community-post-content"><div class="community-post-tags">${post.kind==='official'?'<span class="community-status-pill official">✓ Oficjalne</span>':''}${post.pinned?'<span class="community-status-pill pinned">📌 Przypięte</span>':''}${post.featured?'<span class="community-status-pill featured">★ Wyróżnione</span>':''}<span class="community-status-pill post-type ${AIOCommunity.escapeAttr(type.id)}">${AIOCommunity.escape(type.icon+' '+type.label)}</span>${post.solved?'<span class="community-status-pill solved">✅ Rozwiązane</span>':''}<span class="community-category">${AIOCommunity.escape(cat.icon+' '+cat.label)}</span></div><h1>${AIOCommunity.escape(post.title)}</h1><div class="community-post-text">${AIOCommunity.formatText(post.content)}</div>${post.edited_at?`<p class="community-edit-note">✏️ Wpis edytowany ${AIOCommunity.escape(AIOCommunity.timeAgo(post.edited_at))}${post.edit_reason?' • '+AIOCommunity.escape(post.edit_reason):''}</p>`:''}${imgs.length?`<div class="community-media-grid ${imgs.length===1?'one':''}">${imgs.map(x=>`<img src="${AIOCommunity.escapeAttr(x.url)}" alt="Zdjęcie do wpisu" loading="lazy" data-community-image>`).join('')}</div>`:''}</div>
+      <div class="community-post-content"><div class="community-post-tags">${post.kind==='official'?'<span class="community-status-pill official">✓ Oficjalne</span>':''}${post.pinned?'<span class="community-status-pill pinned">📌 Przypięte</span>':''}${post.featured?'<span class="community-status-pill featured">★ Wyróżnione</span>':''}<span class="community-status-pill post-type ${AIOCommunity.escapeAttr(type.id)}">${AIOCommunity.escape(type.icon+' '+type.label)}</span>${post.solved?'<span class="community-status-pill solved">✅ Rozwiązane</span>':''}<span class="community-category">${AIOCommunity.escape(cat.icon+' '+cat.label)}</span></div><div class="aio-topic-meta">${window.AIOTopicsV4?.badge(post)||''}</div><h1>${AIOCommunity.escape(post.title)}</h1><div class="community-post-text">${AIOCommunity.formatText(post.content)}</div>${post.edited_at?`<p class="community-edit-note">✏️ Wpis edytowany ${AIOCommunity.escape(AIOCommunity.timeAgo(post.edited_at))}${post.edit_reason?' • '+AIOCommunity.escape(post.edit_reason):''}</p>`:''}${imgs.length?`<div class="community-media-grid ${imgs.length===1?'one':''}">${imgs.map(x=>`<img src="${AIOCommunity.escapeAttr(x.url)}" alt="Zdjęcie do wpisu" loading="lazy" data-community-image>`).join('')}</div>`:''}</div>
       <footer class="community-post-footer">${reaction('helpful','👍 Pomocne')}${reaction('works','✅ Działa')}${reaction('thanks','❤️ Dziękuję')}${canSolve?`<button class="community-action solution-action" type="button" data-toggle-solved>${post.solved?'↩ Otwórz ponownie':'✅ Oznacz jako rozwiązane'}</button>`:''}${AIOCommunity.user?`<button class="community-action" type="button" data-follow-post>${post.following?'🔔 Obserwujesz':'🔕 Obserwuj'}</button><button class="community-action" type="button" data-report-current-post>⚑ Zgłoś</button>`:''}${AIOCommunity.isAdmin()?`<button class="community-action" type="button" data-pin-current-post>${post.pinned?'📌 Odepnij':'📌 Przypnij'}</button><button class="community-action" type="button" data-feature-current-post>${post.featured?'★ Usuń wyróżnienie':'★ Wyróżnij'}</button>`:''}${canManage?'<button class="community-action" type="button" data-edit-current-post>✏️ Edytuj wpis</button><button class="community-action danger" type="button" data-delete-current-post>Usuń wpis</button>':''}</footer>
     </article>`;
   }
@@ -215,6 +215,7 @@
     dialog.querySelector('[data-edit-new-images]').value='';
     dialog.querySelector('[data-edit-preview]').innerHTML='';
 
+    window.AIOTopicsV4?.bindForm(dialog,post); // AIO_TOPICS_V4_20261111
     if(typeof dialog.showModal==='function')dialog.showModal();else dialog.setAttribute('open','');
   }
 
@@ -289,6 +290,7 @@
           title,
           content,
           category:form.querySelector('[data-edit-category]').value,
+          ...(window.AIOTopicsV4?.fields(form)||{}),
           postType:form.querySelector('[data-edit-post-type]').value,
           official:Boolean(form.querySelector('[data-edit-official]')?.checked),
           reason:'',

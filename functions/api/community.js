@@ -16,6 +16,7 @@ import {
   isoNow, clientIp, recordIp, moderationLog, countRows, randomToken
 } from "../_community.js";
 import {deleteAccountSafely} from "../_aio_delete_account_v1.js";
+import {ensureTopicsV4,topicWriteV4,taxonomyColumns,validTopicFilterV4} from "../_aio_post_taxonomy_v4.js"; // AIO_TOPICS_V4_20261111
 
 async function optionalSession(request, env) {
   try { return await getSession(request, env); } catch (_) { return null; }
@@ -79,9 +80,10 @@ async function stats(env) {
 }
 async function fetchPost(env, id) {
   return env.COMMUNITY_DB.prepare(`
-    SELECT ${authorSelect()}
+    SELECT ${authorSelect()}${taxonomyColumns}
     FROM community_posts p
     LEFT JOIN community_profiles pr ON pr.id=p.author_id
+    LEFT JOIN aio_post_taxonomy_v4 t ON t.post_id=p.id
     WHERE p.id=? LIMIT 1
   `).bind(id).first();
 }
@@ -158,6 +160,7 @@ async function deleteChatMedia(env,row){
 export async function onRequestGet({request, env}) {
   try {
     await ensureSchema(env);
+    await ensureTopicsV4(env);
     const url = new URL(request.url);
     const action = url.searchParams.get("action") || "health";
     const session = await optionalSession(request, env);
@@ -173,6 +176,14 @@ export async function onRequestGet({request, env}) {
     }
 
     if (action === "stats") return json({ok:true,stats:await stats(env)});
+
+    if (action === "topic_counts") {
+      // Only aggregated counts of published items, never the body or author.
+      const rr=await db.prepare(`SELECT category,COUNT(*) AS n FROM community_posts
+        WHERE status='published' GROUP BY category`).all();
+      return json({ok:true,rows:rr.results||[]});
+    }
+
 
     if (action === "latest") {
       const row = await db.prepare(`
@@ -190,6 +201,10 @@ export async function onRequestGet({request, env}) {
       const mode = url.searchParams.get("mode") || "latest";
       const category = url.searchParams.get("category") || "";
       const postType = url.searchParams.get("postType") || "";
+      const subcategory=String(url.searchParams.get('subcategory')||'');
+      const brand=String(url.searchParams.get('brand')||'');
+      const model=String(url.searchParams.get('model')||'');
+      const listingStatus=String(url.searchParams.get('listingStatus')||'');
       const search = cleanText(url.searchParams.get("search") || "",80);
       const page = Math.max(0,Number(url.searchParams.get("page")||0));
       const pageSize = Math.min(30,Math.max(1,Number(url.searchParams.get("pageSize")||12)));
@@ -211,6 +226,18 @@ export async function onRequestGet({request, env}) {
         if (mode === "solved") where.push(`p.post_type='problem' AND p.kind='community' AND p.solved=1`);
       }
       if (category) { where.push(`p.category=?`); params.push(allowedCategory(category)); }
+      for(const [key,value,column] of [
+        ['subcategory',subcategory,'subcategory'],['brand',brand,'brand'],
+        ['model',model,'model'],['listingStatus',listingStatus,'listing_status']
+      ]){
+        if(!value)continue;
+        if(!category || validTopicFilterV4(category,key,value)!==value)
+          return json({ok:false,error:'Nieprawidłowy filtr działu.'},400);
+        if(key==='model' && brand){
+          // Inconsistent brand/model combinations only return an empty result.
+        }
+        where.push(`t.${column}=?`);params.push(value);
+      }
       if (postType) { where.push(`p.post_type=?`); params.push(allowedPostType(postType)); }
       if (search) { where.push(user ? `(p.title LIKE ? OR p.content LIKE ?)` : `(p.title LIKE ? OR (p.kind='official' AND p.content LIKE ?))`); params.push(`%${search}%`,`%${search}%`); }
       let order=`p.pinned DESC, p.featured DESC, p.created_at DESC, p.id DESC`;
@@ -218,8 +245,8 @@ export async function onRequestGet({request, env}) {
       if (mode === "recent") order=`p.pinned DESC, p.featured DESC, COALESCE(p.published_at,p.created_at) DESC, p.created_at DESC, p.id DESC`;
       if (mode==="popular") order=`p.pinned DESC,p.featured DESC,p.reaction_count DESC,p.comment_count DESC,p.created_at DESC`;
       const sql=`
-        SELECT ${authorSelect()}
-        FROM community_posts p LEFT JOIN community_profiles pr ON pr.id=p.author_id
+        SELECT ${authorSelect()}${taxonomyColumns}
+        FROM community_posts p LEFT JOIN community_profiles pr ON pr.id=p.author_id LEFT JOIN aio_post_taxonomy_v4 t ON t.post_id=p.id
         WHERE ${where.length?where.join(" AND "):"1=1"}
         ORDER BY ${order}
         LIMIT ? OFFSET ?
@@ -338,8 +365,8 @@ export async function onRequestGet({request, env}) {
       if(tab==="pending"||tab==="published"){
         const status=tab==="pending"?"pending":"published";
         const rr=await db.prepare(`
-          SELECT ${authorSelect()}
-          FROM community_posts p LEFT JOIN community_profiles pr ON pr.id=p.author_id
+          SELECT ${authorSelect()}${taxonomyColumns}
+          FROM community_posts p LEFT JOIN community_profiles pr ON pr.id=p.author_id LEFT JOIN aio_post_taxonomy_v4 t ON t.post_id=p.id
           WHERE p.status=? ORDER BY p.created_at DESC LIMIT 100
         `).bind(status).all();
         rows=(rr.results||[]).map(decoratePost);
@@ -459,6 +486,7 @@ export async function onRequestPost({request,env}) {
     {status:403,headers:{"content-type":"application/json; charset=utf-8","cache-control":"no-store"}});
   try {
     await ensureSchema(env);
+    await ensureTopicsV4(env);
     const body=await bodyJson(request);
     const action=String(body.action||"");
     const db=env.COMMUNITY_DB;
@@ -521,12 +549,14 @@ export async function onRequestPost({request,env}) {
       const official=Boolean(body.official)&&isAdmin(s);
       const status=(isAdmin(s)||s.user.trusted)?"published":"pending";
       const now=isoNow();
-      await db.prepare(`
+      await db.batch([db.prepare(`
         INSERT INTO community_posts
         (id,author_id,kind,post_type,category,title,content,status,pinned,featured,locked,attachments,solved,comment_count,reaction_count,created_at,updated_at,published_at)
         VALUES(?,?,?,?,?,?,?,?,0,0,0,?,0,0,0,?,?,?)
       `).bind(id,s.user.id,official?"official":"community",allowedPostType(body.postType),allowedCategory(body.category),
-        title,content,status,JSON.stringify(attachments),now,now,status==="published"?now:null).run();
+        title,content,status,JSON.stringify(attachments),now,now,status==="published"?now:null),
+        topicWriteV4(db,id,allowedCategory(body.category),body)
+      ]);
       await recordIp(env,s.user.id,clientIp(request),"post");
       return json({ok:true,id,status});
     }
@@ -620,6 +650,7 @@ export async function onRequestPost({request,env}) {
         db.prepare(`DELETE FROM community_subscriptions WHERE post_id=?`).bind(id),
         db.prepare(`DELETE FROM community_reactions WHERE post_id=?`).bind(id),
         db.prepare(`DELETE FROM community_comments WHERE post_id=?`).bind(id),
+        db.prepare(`DELETE FROM aio_post_taxonomy_v4 WHERE post_id=?`).bind(id),
         db.prepare(`DELETE FROM community_posts WHERE id=?`).bind(id)
       ]);
       return json({ok:true});

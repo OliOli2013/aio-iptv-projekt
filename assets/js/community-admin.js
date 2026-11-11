@@ -481,6 +481,7 @@
     newInput.value='';
     dialog.querySelector('[data-edit-image-preview]').innerHTML='';
 
+    window.AIOTopicsV4?.bindForm(dialog,item); // AIO_TOPICS_V4_20261111
     if(typeof dialog.showModal==='function')dialog.showModal();
     else dialog.setAttribute('open','');
   }
@@ -602,6 +603,7 @@
           title,
           content,
           category:form.querySelector('[data-edit-category]').value,
+          ...(window.AIOTopicsV4?.fields(form)||{}),
           postType:form.querySelector('[data-edit-post-type]').value,
           official:Boolean(form.querySelector('[data-edit-official]')?.checked),
           attachments
