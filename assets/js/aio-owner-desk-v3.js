@@ -30,6 +30,7 @@
    {id:'security-center-v1',name:'Centrum Bezpieczeństwa — pełen obraz',icon:'🛡',desc:'Logowania, pobrania, masowe żądania, V6, IP i VIP w jednym miejscu',url:'/aio-security-center.html',tags:'bezpieczenstwo dashboard ip logowania pobrania anonimy alerty raporty'},
    {id:'v6-blocks',name:'Security V6 — zablokowane konta',icon:'⛔',desc:'Automatyczne blokady, odwołania i ręczne decyzje',url:'/aio-security-v6.html',tags:'v6 bot skrypt ban blokady nadużycia odwołania'},
     {id:'ip-policy-v7',name:'Jedno konto na IP • V10',icon:'⛨',desc:'Blokowanie duplikatów, zgody na rejestrację, przegląd historyczny',url:'/aio-ip-policy.html',tags:'ip jedno konto blokady duplikaty rejestracja administracja'},
+   ...((window.AIO_OWNER_TOOLS_CATALOG_V1||[]).map(x=>({id:x.id,name:x.name,icon:x.icon,desc:x.desc,url:x.url,tags:x.tags}))),
    {id:'security-journal',name:'Dziennik bezpieczeństwa',icon:'⬡',desc:'Wspólne IP, udostępniane konta i decyzje',native:'aio-security-journal',tags:'logowania alerty blokady wspólne ip vip'},
    {id:'security',name:'Ochrona administratora',icon:'⛨',desc:'Uprawnienia, dostęp właściciela i kontrole',target:'security',tags:'administracja bezpieczeństwo'},
    {id:'logs',name:'Dziennik administracyjny',icon:'≡',desc:'Historia operacji na kontach i treściach',target:'logs',tags:'moderacja audyt log'}
@@ -58,7 +59,7 @@
  const ICON={dashboard:'⌂'};
  const baseLink=(item)=>item.target?('/community-admin.html?aio_section='+encodeURIComponent(item.target)):(item.url||('/owner-hub#'+item.native));
  const renderLink=(item,wide=false)=>`<button type="button" class="aop-shortcut ${wide?'aop-shortcut-wide':''}" data-aop-go="${esc(item.id)}"><span class="aop-shortcut-icon" aria-hidden="true">${esc(item.icon)}</span><span class="aop-shortcut-copy"><strong>${esc(item.name)}</strong><small>${esc(item.desc)}</small></span><span aria-hidden="true" class="aop-shortcut-arrow">→</span></button>`;
- const important=['approvals','pending','inbox','admin-messages','users','vip','security-journal'];
+ const important=['approvals','pending','inbox','admin-messages','users','vip','security-journal','multikonta-audyt','multikonta-blokady'];
  function changeHash(id){try{history.pushState({aop:id},'',location.pathname+location.search+'#panel='+encodeURIComponent(id));}catch(_){/* Keep module usable if history is disabled. */}}
  function parseHash(){const value=location.hash;if(value==='#aio-security-journal')return 'security-journal';if(value==='#aio-post-links-history')return 'post-links';if(value==='#aio-admin-messages')return 'admin-messages';if(value.startsWith('#panel='))return decodeURIComponent(value.slice(7));return 'dashboard';}
  function validate(id){return id==='dashboard'||byId.has(id)?id:'dashboard';}

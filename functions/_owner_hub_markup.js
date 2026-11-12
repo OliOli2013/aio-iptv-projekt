@@ -13,7 +13,8 @@ export const OWNER_HTML = String.raw`<!doctype html>
 <link rel="stylesheet" href="/assets/css/aio-owner-overview-v2.css?v=20261019-owner-overview-v2">
 <link rel="stylesheet" href="/assets/css/aio-security-journal-v1.css?v=20261020-asj2">
 <link rel="stylesheet" href="/assets/css/aio-owner-security-v5.css?v=20261021-mobilefix-1">
-<script defer src="/assets/js/owner-hub.js?v=20261017-aio-vip-v1"></script>
+<script defer src="/assets/js/aio-owner-tools-catalog-v1.js?v=20261112-owner-tools-v1"></script>
+<script defer src="/assets/js/owner-hub.js?v=20261112-owner-tools-v1"></script>
 <script defer src="/assets/js/aio-owner-overview-v2.js?v=20261019-owner-overview-v2"></script>
 <script defer src="/assets/js/aio-security-journal-v1.js?v=20261021-mobilefix-1"></script>
 <script defer src="/assets/js/aio-owner-security-v4.js?v=20261021-mobilefix-1"></script>
@@ -22,7 +23,7 @@ export const OWNER_HTML = String.raw`<!doctype html>
 <script defer src="/assets/js/aio-post-links-owner-v5.js?v=20261020-aplv5"></script>
 <script defer src="/assets/js/aio-post-file-stats-owner-v1.js?v=20261024-post-file-stats-v1"></script>
 <link rel="stylesheet" href="/assets/css/aio-owner-desk-v3.css?v=20261023-owner-mobile-v10">
-<script defer src="/assets/js/aio-owner-desk-v3.js?v=20261028-account-cleanup-nav-v1"></script>
+<script defer src="/assets/js/aio-owner-desk-v3.js?v=20261112-owner-tools-v1"></script>
 <link rel="stylesheet" href="/assets/css/aio-owner-messages-v1.css?v=20261021-owner-messages-v1">
 </head>
 <body>

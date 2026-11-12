@@ -27,6 +27,7 @@
    {id:'account-cleanup',name:'Niezweryfikowane konta — czyszczenie',icon:'⌫',description:'Podgląd kont bez potwierdzenia e-mail po 7 dniach i ręczne usuwanie z ochroną IP.',href:'/aio-account-cleanup',keywords:'email weryfikacja sprzątanie retencja czyszczenie konta usuwanie' },
    {id:'resets',name:'Prośby o reset hasła',icon:'⚿',description:'Obsługa kodów oraz zgłoszeń odzyskiwania dostępu do konta.',href:'/community-admin.html?aio_section=password-resets',keywords:'hasło logowanie' },
    {id:'security-journal',name:'Trwały dziennik logowań i wspólne IP',icon:'◷',description:'Zdarzenia serwera, kolizje IP, ostrzeżenia i ręczne odblokowanie pobierania.',href:'/owner-hub#aio-security-journal',keywords:'ip logowania bezpieczeństwo ostrzeżenie historia'},
+   ...((window.AIO_OWNER_TOOLS_CATALOG_V1||[]).map(x=>({id:x.id,name:x.name,icon:x.icon,description:x.desc,href:x.url,keywords:x.tags}))),
    {id:'security',name:'Bezpieczeństwo systemu',icon:'⚑',description:'Kontrole bezpieczeństwa, uprawnienia i wydarzenia administracyjne.',href:'/community-admin.html?aio_section=security',keywords:'audyt zagrożenia admin' },
    {id:'sessions',name:'Aktywne sesje',icon:'◷',description:'Sesje użytkowników i narzędzia do ich nadzorowania.',href:'/community-admin.html?aio_section=sessions',keywords:'logowanie urządzenia sesje' },
    {id:'ip',name:'Blokady adresów IP',icon:'⛨',description:'Blokowanie i odblokowywanie adresów naruszających zasady.',href:'/community-admin.html?aio_section=ip',keywords:'ban ip zapora' },
@@ -42,7 +43,7 @@
    {id:'privacy',name:'Polityka prywatności i RODO',icon:'§',description:'Przejrzyj dokumenty o danych, plikach cookies i prawach użytkownika.',href:'/privacy-community.html',keywords:'rodo dokumenty regulamin ochrona danych' }
   ]}
  ];
- const icons={all:'⌑'};const quick=['approvals','posts','inbox','downloads'];
+ const icons={all:'⌑'};const quick=['approvals','posts','inbox','downloads','multikonta-audyt','multikonta-blokady'];
  const records=groups.flatMap(g=>g.items.map(item=>({...item,groupId:g.id,group:g.name})));
  let active='all',query='';
  const make=(tag,txt,cls)=>{const n=document.createElement(tag);if(txt!==undefined)n.textContent=txt;if(cls)n.className=cls;return n;};
