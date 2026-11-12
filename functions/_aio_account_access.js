@@ -1,3 +1,4 @@
+import {pendingMultikontaReview} from './_aio_multikonta_guard_v2.js';
 /* AIO Access — server-side account entitlements. No entitlement is inferred from an IP or an unsigned browser cookie. */
 import {getSession,ensureSchema,sha256,isOwnerId} from './_community.js';
 import {createListNotice} from './_aio_list_notice.js';
@@ -112,6 +113,7 @@ export async function getStatus(env,userId){
     free_window_started_at:null,free_resets_at:null,retry_files:[]
   };
   await recoverForUser(env,userId);
+  const netReview=await pendingMultikontaReview(env,userId);
   const free=await monthlyStatus(env,userId);
   const vip=await getVipStatus(env,userId);
   if(vip.active)return {authenticated:true,email_verified:true,active:true,vip:true,expires_at:vip.expires_at,
@@ -120,13 +122,14 @@ export async function getStatus(env,userId){
   const trusted=['verified_receipt','owner_verified_support','owner_manual_grant'].includes(String(grant?.source||''));
   const active=!!grant&&trusted&&Date.parse(grant.expires_at)>Date.now();
   return {authenticated:true,email_verified:true,active,vip:false,expires_at:active?grant.expires_at:null,
-    source:active?grant.source:null,...free,free_remaining:active?FREE_MONTHLY_LIMIT:free.free_remaining,
+    source:active?grant.source:null,...free,free_remaining:active?FREE_MONTHLY_LIMIT:(netReview?0:free.free_remaining),review_pending:!!netReview,
     free_period_hours:null};
 }
 export async function consumeFree(env,userId,fileKey=null){
   const status=await getStatus(env,userId);
   if(status.email_verified===false)throw fail(403,'Potwierdź adres e-mail przed pobraniem plików.');
   if(status.active)return {...status,allowed:true,reason:status.owner===true?'owner':(status.vip?'vip':'grant')};
+  if(status.review_pending)return {...status,allowed:false,reason:'review'};
   if(fileKey!==null&&!validLocalFileKey(fileKey))throw fail(400,'Nieprawidłowa ścieżka pliku.');
   return consumeMonthly(env,userId,fileKey);
 }

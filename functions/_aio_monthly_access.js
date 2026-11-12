@@ -1,3 +1,4 @@
+import {linkedMonthlyStatus,consumeLinkedMonthly} from './_aio_multikonta_guard_v2.js';
 /* AIO Free Monthly V1 — 3 counted handoffs per account. Every subsequent GET/handoff
  * (including the same file) consumes a ticket. Third ticket starts ONE calendar month
  * of cooldown. Old D1 free events are migrated lazily, once per account.
@@ -145,6 +146,8 @@ async function refreshCycle(env,userId,now){
   return await env.COMMUNITY_DB.prepare('SELECT * FROM aio_access_monthly_cycles WHERE user_id=?').bind(userId).first();
 }
 export async function monthlyStatus(env,userId,now=Date.now()){
+  const linked=await linkedMonthlyStatus(env,userId,now);
+  if(linked)return linked;
   const row=await refreshCycle(env,userId,now);
   const used=Math.max(0,Math.min(3,Number(row?.used||0)));
   const reset=used===3?asNum(row.resets_ms):0;
@@ -157,6 +160,8 @@ export async function monthlyStatus(env,userId,now=Date.now()){
 export async function consumeMonthly(env,userId,fileKey=null,now=Date.now()){
   if(fileKey!==null && (typeof fileKey!=='string'||fileKey.length>2100))
     throw Object.assign(new Error('Nieprawidłowy klucz pobrania.'),{status:400});
+  const linked=await consumeLinkedMonthly(env,userId,now);
+  if(linked)return linked;
   await refreshCycle(env,userId,now);
   const next=nextCalendarMonth(now);
   // One conditional D1 UPDATE is the sole authorization decision. No same-file

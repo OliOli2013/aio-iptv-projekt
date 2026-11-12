@@ -71,6 +71,8 @@ export async function onRequestPost({request,env}){
     if(status.email_verified===false)return result({ok:false,email_verification_required:true,error:'Najpierw potwierdź e-mail.'},403);
     const paidHold=await reviewPaidSessionSharing(env,request,user.id,status.active===true && status.owner!==true);
     if(paidHold)return result({ok:false,restricted:true,error:'Dostęp do pobierania jest obecnie ograniczony. Skontaktuj się z nami.'},403);
+    // AIO_MULTIKONTA_V2 — zablokowany jest również zewnętrzny darmowy link.
+    if(status.review_pending&&!status.active)return result({ok:false,restricted:true,error:'Darmowe pobieranie wstrzymano do wyjaśnienia powiązań kont. Skontaktuj się z administratorem.'},403);
     if(classified.kind==='local'){
       // No debit here: the actual Cloudflare /pliki/ handler validates and debits on GET.
       const local=new URL(clicked.href);local.searchParams.set('aio_post',postId);

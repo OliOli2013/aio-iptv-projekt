@@ -1,3 +1,4 @@
+import {registrationPreflight,registrationReviewStatement} from '../_aio_multikonta_guard_v2.js';
 import {ensureRelatedReviewV1,isRelatedReviewTarget} from '../_aio_related_review_v1.js';
 /* aioSameOriginWrite: reject cross-site browser mutation requests. */
 function aioSameOriginWrite(request) {
@@ -300,6 +301,8 @@ export async function onRequestPost({request, env}) {
       const displayName = cleanText(body.displayName || email.split("@")[0], 60);
       if (displayName.length < 2) return json({ok:false,error:"Nazwa użytkownika jest za krótka."}, 400);
 
+      // AIO_MULTIKONTA_V2: kontrola sieci/e-mail i opcjonalny Turnstile przed zapisem konta.
+      const netRisk=ownerAccount?null:await registrationPreflight(env,request,{email,displayName,turnstileToken:String(body.turnstileToken||'')});
       const pw = await hashPassword(password);
       // Hard gate before creating an account: prevents multiple registrations on one IP.
       const lease = await reserveRegistrationIp(env,request,id);
@@ -314,7 +317,8 @@ export async function onRequestPost({request, env}) {
           (user_id,email,password_hash,password_salt,password_iterations,created_at)
           VALUES(?,?,?,?,?,?)
         `).bind(id,email,pw.hash,pw.salt,pw.iterations,isoNow()),
-        permitRegistrationStatement(env,lease,id)
+        permitRegistrationStatement(env,lease,id),
+        registrationReviewStatement(env,id,netRisk)
       ].filter(Boolean));}catch(e){await rollbackRegistrationIp(env,lease,id);throw e;}
 
       const token = randomToken();
@@ -326,7 +330,7 @@ export async function onRequestPost({request, env}) {
       `).bind(tokenHash,id,expires,isoNow(),isoNow(),ip,request.headers.get("user-agent")||"").run();
       await recordIp(env,id,ip,"access");
       await logSecurity(env,request,"register_ok",id);
-      const securityHold=null; // V7 checks IP before registration; no temporary shared-IP hold.
+      const securityHold=netRisk?.hold?{message:'Rejestracja wymaga weryfikacji. Darmowe pobieranie jest czasowo wstrzymane. Możesz skontaktować się z administratorem.'}:null;
       const profile = await db.prepare(`SELECT * FROM community_profiles WHERE id=?`).bind(id).first();
       const publicUser = publicProfile(profile);
       publicUser.is_owner = await isOwnerId(env, publicUser.id, publicUser.role);

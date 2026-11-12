@@ -83,6 +83,8 @@ async function handle(context){
       return redirectToInformation(request,'aio_verify_email');
     }
     const fileKey=new URL(request.url).pathname;
+    // AIO_MULTIKONTA_V2 — tylko darmowe pliki; VIP/grant zachowuje uprawnienia.
+    if(!state.active&&state.review_pending)return accessDenied('Darmowe pobieranie wstrzymano do weryfikacji konta. Skontaktuj się z administratorem AIO.',403);
     if(!state.active && state.free_remaining<=0){
       if(request.method==='GET'){
         const burst=await monitorDownload(env,request,user.id,{denied:true});

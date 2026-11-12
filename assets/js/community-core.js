@@ -202,6 +202,7 @@
               <button class="community-auth-forgot" type="button" data-resend-verification hidden>Wyślij ponownie link potwierdzający e-mail</button>
             </div>
             <div class="community-field" data-register-name hidden><label>Nazwa wyświetlana</label><input type="text" name="displayName" minlength="2" maxlength="60"></div>
+            <div data-aio-turnstile-wrap hidden><div data-aio-turnstile-widget></div><small>Ochrona rejestracji przed automatyzacją.</small></div>
             <div class="community-form-actions">
               <button class="button primary" type="submit" data-login-submit>Zaloguj</button>
               <button class="button" type="button" data-register-toggle>Utwórz konto</button>
@@ -221,6 +222,30 @@
         const form=dialog.querySelector('[data-aio-auth-form]');
         dialog.querySelector('[data-aio-ip-refused-close]').addEventListener('click',()=>dialog.close());
         const regWrap=dialog.querySelector('[data-register-name]');
+        // AIO_MULTIKONTA_V2 — Turnstile tylko dla formularza rejestracji.
+        const turnstileWrap=dialog.querySelector('[data-aio-turnstile-wrap]');
+        let turnstileWidgetId=null,turnstileInit=null;
+        const setupTurnstile=()=>{
+          if(turnstileInit)return turnstileInit;
+          turnstileInit=(async()=>{
+            const resp=await fetch('/api/aio-multikonta-public-v2',{credentials:'include',cache:'no-store'});
+            const cfg=await resp.json();
+            if(!resp.ok||!cfg.ok)throw new Error('Nie można sprawdzić Turnstile.');
+            if(!cfg.turnstile_enabled){turnstileWrap.hidden=true;return;}
+            turnstileWrap.hidden=false;
+            if(!window.turnstile){await new Promise((resolve,reject)=>{
+              const script=document.createElement('script');
+              script.src='https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+              script.async=true;script.onload=resolve;script.onerror=()=>reject(new Error('Brak połączenia z Turnstile.'));
+              document.head.appendChild(script);
+            });}
+            turnstileWidgetId=window.turnstile.render(turnstileWrap.querySelector('[data-aio-turnstile-widget]'),{sitekey:cfg.site_key,theme:'auto'});
+          })().catch(err=>{turnstileInit=null;turnstileWrap.hidden=false;
+            turnstileWrap.querySelector('small').textContent='Nie udało się uruchomić ochrony formularza: '+err.message;
+          });
+          return turnstileInit;
+        };
+
         const toggle=dialog.querySelector('[data-register-toggle]');
         const submit=dialog.querySelector('[data-login-submit]');
         const resend=dialog.querySelector('[data-resend-verification]');
@@ -239,6 +264,7 @@
           submit.textContent=register?'Utwórz konto':'Zaloguj';
           toggle.textContent=register?'Mam już konto':'Utwórz konto';
           form.querySelector('[name="displayName"]').required=register;
+          if(register)void setupTurnstile();else turnstileWrap.hidden=true;
         });
         dialog.querySelector('.community-dialog-close').addEventListener('click',()=>dialog.close());
         dialog.querySelector('[data-forgot-password]').addEventListener('click',()=>{const email=form.email.value.trim();dialog.close();this.openPasswordReset(email);});
@@ -254,7 +280,7 @@
           try{
             const email=form.email.value.trim(), password=form.password.value;
             const d=await this.auth(register?'register':'login',{
-              email,password,displayName:form.displayName.value.trim()
+              email,password,displayName:form.displayName.value.trim(),turnstileToken:(register&&turnstileWidgetId!==null&&window.turnstile)?window.turnstile.getResponse(turnstileWidgetId):''
             });
             this.user=d.user;this.profile=d.user;
             this.emailVerified=!d.email_verification_required;
@@ -273,6 +299,7 @@
             document.dispatchEvent(new CustomEvent('aio-community-auth',{detail:{user:this.user,profile:this.profile}}));
             this.showToast(d.user?.is_owner?'Zalogowano jako właściciel / administrator AIO.':'Zalogowano.','success');
           }catch(err){
+            if(register&&turnstileWidgetId!==null&&window.turnstile)window.turnstile.reset(turnstileWidgetId);
             if(err?.code==='AIO_REVIEW_BLOCK'){
               form.reset();form.hidden=true;form.style.display='none';
               const notice=dialog.querySelector('[data-aio-ip-refused]');
