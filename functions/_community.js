@@ -1,3 +1,4 @@
+import {ensureRelatedReviewV1} from './_aio_related_review_v1.js';
 
 import {emailVerificationStatus} from './_aio_email_verification.js';
 import {activeIpHold} from './_aio_ip_one_account_v7.js';
@@ -216,6 +217,7 @@ export function addDays(days) {
 
 export async function getSession(request, env, {touch=true,allowUnverified=false} = {}) {
   await ensureSchema(env);
+  await ensureRelatedReviewV1(env);
   const token = cookieValue(request, "aio_community_session");
   if (!token) return null;
   const tokenHash = await sha256(token);

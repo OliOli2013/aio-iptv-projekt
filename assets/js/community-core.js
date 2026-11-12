@@ -149,6 +149,9 @@
     },
 
     initGlobalUi(){
+      if(new URLSearchParams(location.search).get('appeal')==='1'&&!this.user){
+        setTimeout(()=>this.openAuth('Zaloguj się na zablokowane konto, aby wysłać odwołanie.'),0);
+      }
       document.addEventListener('click',e=>{
         const login=e.target.closest('[data-community-login]');
         if(login){e.preventDefault();this.openAuth();}
@@ -270,7 +273,17 @@
             document.dispatchEvent(new CustomEvent('aio-community-auth',{detail:{user:this.user,profile:this.profile}}));
             this.showToast(d.user?.is_owner?'Zalogowano jako właściciel / administrator AIO.':'Zalogowano.','success');
           }catch(err){
-            if(err?.code==='AIO_IP_POLICY'){
+            if(err?.code==='AIO_REVIEW_BLOCK'){
+              form.reset();form.hidden=true;form.style.display='none';
+              const notice=dialog.querySelector('[data-aio-ip-refused]');
+              notice.querySelector('[data-aio-ip-refused-title]').textContent='Dostęp wstrzymany do weryfikacji';
+              notice.querySelector('[data-aio-ip-refused-reason]').textContent=
+                'Wykryto powiązania kont wymagające wyjaśnienia. Możesz skontaktować się z administratorem bez podawania hasła.';
+              const appeal=notice.querySelector('a[href^="/contact.html"]');
+              if(appeal){appeal.href='/appeal.html';appeal.textContent='✉ Wyślij odwołanie przez stronę';}
+              notice.hidden=false;notice.style.display='block';
+              notice.querySelector('[data-aio-ip-refused-title]').focus();
+            }else if(err?.code==='AIO_IP_POLICY'){
               // No session was created by the server. Replace the entire login form
               // with a readable refusal notice inside the active modal top layer.
               form.reset();form.hidden=true;form.style.display='none';

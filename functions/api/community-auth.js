@@ -1,3 +1,4 @@
+import {ensureRelatedReviewV1,isRelatedReviewTarget} from '../_aio_related_review_v1.js';
 /* aioSameOriginWrite: reject cross-site browser mutation requests. */
 function aioSameOriginWrite(request) {
   const origin=request.headers.get('Origin');
@@ -111,6 +112,7 @@ export async function onRequestPost({request, env}) {
     {status:403,headers:{"content-type":"application/json; charset=utf-8","cache-control":"no-store"}});
   try {
     await ensureSchema(env);
+    await ensureRelatedReviewV1(env);
     const body = await request.json().catch(()=>({}));
     const action = String(body.action || "");
     const db = env.COMMUNITY_DB;
@@ -272,8 +274,13 @@ export async function onRequestPost({request, env}) {
     const throttleKey = `${ip || "noip"}:${email}`;
     await throttle(env, throttleKey, request);
     if(await emailIsBlocked(env,email)){
-      await logSecurity(env,request,'login_throttled',null,'Adres zablokowany administracyjnie');
-      return json({ok:false,error:'Nie można korzystać z tego adresu e-mail. Skontaktuj się z nami.'},403);
+      // Poprawne hasło konta objętego przeglądem może służyć WYŁĄCZNIE do odwołania.
+      // Inne blokady e-mail nadal odrzucają logowanie/rejestrację.
+      const identified=action==='login'?await db.prepare('SELECT user_id FROM community_auth WHERE email=? LIMIT 1').bind(email).first():null;
+      if(!isRelatedReviewTarget(identified?.user_id)){
+        await logSecurity(env,request,'login_throttled',null,'Adres zablokowany administracyjnie');
+        return json({ok:false,error:'Nie można korzystać z tego adresu e-mail. Skontaktuj się z nami.'},403);
+      }
     }
 
     if (action === "register") {
@@ -351,7 +358,21 @@ export async function onRequestPost({request, env}) {
       await logSecurity(env,request,"login_failed",auth.user_id,"Błędne hasło");
       return json({ok:false,error:"Nieprawidłowy e-mail lub hasło."}, 401);
     }
+    // AIO_RELATED_REVIEW_LOGIN_V1 — poprawne haslo: tylko 30-minutowa sesja do wyslania odwolania.
     if (auth.banned_until && Date.parse(auth.banned_until) > Date.now()) {
+      if (isRelatedReviewTarget(auth.user_id)) {
+        await clearAttempt(env,throttleKey);
+        const reviewToken=randomToken(), reviewHash=await sha256(reviewToken);
+        const issued=isoNow(),expires=new Date(Date.now()+30*60*1000).toISOString();
+        await db.prepare(`INSERT INTO community_sessions
+          (token_hash,user_id,expires_at,created_at,last_seen_at,ip_address,user_agent)
+          VALUES(?,?,?,?,?,?,?)`).bind(reviewHash,auth.user_id,expires,issued,issued,ip,
+          request.headers.get('user-agent')||'').run();
+        await logSecurity(env,request,'login_review_blocked',auth.user_id,'Dostep tylko do odwolania');
+        return json({ok:false,code:'AIO_REVIEW_BLOCK',
+          error:'Konto wstrzymane do weryfikacji powiązań. Możesz przesłać odwołanie do administratora.',
+          contact:'/appeal.html'},403,{"Set-Cookie":sessionCookie(reviewToken)});
+      }
       await logSecurity(env,request,"login_throttled",auth.user_id,"Konto zablokowane");
       return json({ok:false,error:"Twoje konto zostało zablokowane. Jeśli uważasz to za pomyłkę, skontaktuj się z nami."}, 403);
     }
