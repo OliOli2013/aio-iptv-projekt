@@ -3,6 +3,8 @@
  */
 import {sha256,getOwnerId} from './_community.js';
 import {isIpPolicyExemptV8} from './_aio_ip_policy_exempt_v8.js';
+/* AIO_STRICT_1IP_V4_INTEGRATION */
+import {strictSessionGate,reserveStrictV4,rollbackStrictV4} from './_aio_strict_ip_v4.js';
 let schemaReady=null;
 const now=()=>new Date().toISOString();
 export const NOTICE='Ten publiczny adres IP jest już przypisany do innego konta AIO. Obowiązuje zasada: jeden adres IP — jedno konto, niezależnie od urządzenia. Użyj istniejącego konta lub skontaktuj się z administracją: /contact.html?topic=account-security.';
@@ -73,6 +75,8 @@ export async function activeIpHold(env,userId,requestOrIp){
   // not erase the account, its grants, VIP entitlement, or its download quota.
   if(!ip)return null;
   await ensureIpPolicy(env);
+  const strict=await strictSessionGate(env,userId,ip);
+  if(strict)return strict;
   const key=await keyFor(ip);
   const db=env.COMMUNITY_DB;
   const currentHold=await db.prepare("SELECT ip_key,reason,created_at FROM aio_ip_policy_holds_v8 WHERE user_id=? AND ip_key=? AND status='active' LIMIT 1").bind(userId,key).first();
@@ -236,10 +240,20 @@ export async function reserveRegistrationIp(env,request,newUserId){
     await noteIpDenial(env,request,'register').catch(e=>console.error('[AIO IP denial registration]',String(e?.message||e).slice(0,100)));
     throw error(409,NOTICE);
   }
-  return {key,existing:false,permit:false};
+  // V4.1: enforce one account per exact IPv4 or IPv6 /64 at registration.
+  // If V4 reservation fails, undo the V7 reservation made for this attempt.
+  try{
+    const strictLease=await reserveStrictV4(env,ip,newUserId);
+    return {key,existing:false,permit:false,strictLease};
+  }catch(e){
+    await db.prepare("DELETE FROM aio_ip_policy_claims WHERE ip_key=? AND user_id=? AND source='register'")
+      .bind(key,newUserId).run();
+    throw e;
+  }
 }
 export async function rollbackRegistrationIp(env,lease,newUserId){
   if(!lease)return;
+  await rollbackStrictV4(env,lease.strictLease,newUserId);
   if(lease.permit){await env.COMMUNITY_DB.prepare('UPDATE aio_ip_policy_signup_permits SET remaining=remaining+1 WHERE ip_key=?').bind(lease.key).run();}
   else if(!lease.existing)await env.COMMUNITY_DB.prepare("DELETE FROM aio_ip_policy_claims WHERE ip_key=? AND user_id=? AND source='register'").bind(lease.key,newUserId).run();
 }

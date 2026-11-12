@@ -316,7 +316,7 @@
               form.reset();form.hidden=true;form.style.display='none';
               const notice=dialog.querySelector('[data-aio-ip-refused]');
               notice.querySelector('[data-aio-ip-refused-reason]').textContent=
-                'Dostęp do konta z tej sieci jest obecnie ograniczony.';
+                String(err?.message||'Dostęp do konta z tej sieci jest obecnie ograniczony.').slice(0,500);
               notice.hidden=false;notice.style.display='block';
               notice.querySelector('[data-aio-ip-refused-title]').focus();
             }else{

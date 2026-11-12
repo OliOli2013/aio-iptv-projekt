@@ -383,7 +383,7 @@ export async function onRequestPost({request, env}) {
 
     // Executed only after a valid password and the existing V6 ban check.
     const ipRestriction=await checkAfterValidLogin(env,request,auth.user_id,auth.role);
-    if(ipRestriction)return json({ok:false,code:'AIO_IP_POLICY',error:'Dostęp do konta z tej sieci jest obecnie ograniczony. Skontaktuj się z nami.'},403);
+    if(ipRestriction)return json({ok:false,code:'AIO_IP_POLICY',error:ipRestriction.strict_v4?ipRestriction.reason:'Dostęp do konta z tej sieci jest obecnie ograniczony. Skontaktuj się z nami.'},403);
     await clearAttempt(env, throttleKey);
     const token = randomToken();
     const tokenHash = await sha256(token);
