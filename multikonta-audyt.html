@@ -10,5 +10,15 @@
 <div class="card"><h2>Szersze powiązania /56 oraz /48</h2><p class="notice">Sygnały do weryfikacji — same w sobie nie mogą powodować blokad.</p><div class="scroll" id="v56"></div><div class="scroll" id="v48"></div></div>
 <div class="card"><h2>Powiązania e-mail i nazw</h2><div id="emails"></div><div id="gmail"></div><div id="names"></div></div>
 <div class="card"><h2>Rotacja IPv6 jednego konta</h2><p class="notice">Użytkowanie kilku /64 przez jedno konto nie oznacza multikonta.</p><div class="scroll" id="rotations"></div></div>
+<div class="card" id="aio-history-v3">
+<h2>V3 — historyczne powiązania kont (IPv4 + IPv6 /64)</h2>
+<p class="notice">Wyszukiwanie obejmuje także starsze wspólne adresy IPv4, niezależnie od daty ostatniego logowania. Wyniki są wskazówką do rozmowy z użytkownikiem, a nie dowodem tożsamości.</p>
+<p><label for="aio-v3-query">Szukaj nazwy konta, fragmentu ID lub wspólnego IPv4:</label>
+<input id="aio-v3-query" placeholder="np. Payner, mario lub 91.232.191.109" maxlength="100" style="background:#082435;color:#edfaff;border:1px solid #438da9;padding:10px;border-radius:8px;max-width:95%;width:300px"></p>
+<button id="aio-v3-search" type="button">Przeanalizuj historię</button>
+<p id="aio-v3-status" role="status">Odczyt danych D1…</p>
+<p id="aio-v3-summary"></p><p id="aio-v3-warning" class="bad"></p><div id="aio-v3-results"></div>
+<p class="notice">Decyzja o ograniczeniu darmowych pobrań wymaga ręcznego uzasadnienia i potwierdzenia. Zwolnienie kontroli jest dostępne obok sprawy.</p>
+</div>
 <div id="guard-v2-slot"></div><p class="notice">Nie publikuj na forum danych z tej strony. Dostęp do API wymaga uprawnień właściciela.</p></main>
-<script defer src="/assets/js/aio-multikonta-audyt-v1.js?v=20261112"></script><script defer src="/assets/js/aio-multikonta-owner-v2.js?v=20261112"></script></body></html>
+<script defer src="/assets/js/aio-multikonta-audyt-v1.js?v=20261112"></script><script defer src="/assets/js/aio-multikonta-owner-v2.js?v=20261112"></script><script defer src="/assets/js/aio-multikonta-history-v3.js?v=20261112-v3"></script></body></html>
