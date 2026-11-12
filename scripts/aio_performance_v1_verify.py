@@ -12,7 +12,10 @@ checks=[
  ('Legacy projects version fallback retained', "fetch('data/projects.json'" in S['assets/js/aio-catalog-version-v1.js']),
  ('Feed images use native lazy loading', 'alt="Zdjęcie do wpisu" loading="lazy" decoding="async" data-community-image' in S['assets/js/community-feed.js']),
  ('No modification to VIP, auth and access', all('user-premium.js' in S[p] for p in ['index.html','community.html','news.html'])),
- ('Home cache busts', all('v=20261018-performance-v1' in S[p] for p in ['index.html','community.html','news.html'])),
+ ('Home cache busts',
+  all('assets/js/'+asset+'.js?v=20261018-performance-v1' in S['index.html']
+      for asset in ('community-home','aio-home-v2','aio-catalog-version-v1'))
+  and all('community-feed.js?v=' in S[p] for p in ('community.html','news.html'))),
  ('Access still defined only by login in feed', 'Boolean(AIOCommunity.user)' in S['assets/js/community-feed.js']),
 ]
 for label,ok in checks:
