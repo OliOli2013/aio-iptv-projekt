@@ -4,6 +4,7 @@
 import {json,getSession,cleanText,isoNow,errorResponse} from '../_community.js';
 import {ensureListInbox,sendListNoticeEmail} from '../_aio_list_notice.js';
 import {ensureRelatedReviewV1,isRelatedReviewTarget} from '../_aio_related_review_v1.js';
+import {strictGlobalHold} from '../_aio_strict_ip_v4.js'; // V4.2
 
 const SUBJECT='[ODWOŁANIE AIO] Weryfikacja powiązanych kont';
 function sameOrigin(req){
@@ -15,8 +16,11 @@ async function reviewSession(req,env){
   await ensureRelatedReviewV1(env);
   const session=await getSession(req,env,{touch:false,allowUnverified:true});
   const p=session?.user;
-  if(!p||!isRelatedReviewTarget(p.id)||
-     !(p.banned_until&&Date.parse(p.banned_until)>Date.now()))return null;
+  if(!p)return null;
+  const oldReview=isRelatedReviewTarget(p.id)&&
+    !!(p.banned_until&&Date.parse(p.banned_until)>Date.now());
+  const ipReview=!!(await strictGlobalHold(env,p.id));
+  if(!oldReview&&!ipReview)return null;
   // Nawet przy aktywnej sesji nie udzielaj normalnych uprawnień.
   return {id:p.id,name:String(p.display_name||'Użytkownik').slice(0,60)};
 }

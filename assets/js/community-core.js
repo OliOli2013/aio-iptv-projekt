@@ -305,7 +305,7 @@
               const notice=dialog.querySelector('[data-aio-ip-refused]');
               notice.querySelector('[data-aio-ip-refused-title]').textContent='Dostęp wstrzymany do weryfikacji';
               notice.querySelector('[data-aio-ip-refused-reason]').textContent=
-                'Wykryto powiązania kont wymagające wyjaśnienia. Możesz skontaktować się z administratorem bez podawania hasła.';
+                String(err?.message||'Wykryto więcej niż jedno konto korzystające z tego samego IP. Dostęp wstrzymany do wyjaśnienia.').slice(0,600);
               const appeal=notice.querySelector('a[href^="/contact.html"]');
               if(appeal){appeal.href='/appeal.html';appeal.textContent='✉ Wyślij odwołanie przez stronę';}
               notice.hidden=false;notice.style.display='block';

@@ -5,7 +5,7 @@ const H={'content-type':'application/json; charset=utf-8','cache-control':'priva
 const out=(data,status=200)=>new Response(JSON.stringify(data),{status,headers:H});
 const err=e=>out({ok:false,error:[400,401,403,409].includes(e?.status)?e.message:'Błąd audytu. Sprawdź dziennik Cloudflare.'},[400,401,403,409].includes(e?.status)?e.status:503);
 export async function onRequestGet({request,env}){
-  try{await requireAdmin(request,env,true);return out({ok:true,version:'AIO_1IP_1ACCOUNT_V4',...(await strictStatus(env))});}
+  try{await requireAdmin(request,env,true);return out({ok:true,version:'AIO_1IP_1ACCOUNT_V4_2',...(await strictStatus(env))});}
   catch(e){console.error('[AIO strict GET]',String(e));return err(e);}
 }
 export async function onRequestPost({request,env}){
@@ -22,10 +22,14 @@ export async function onRequestPost({request,env}){
       const released=await releaseStrictV4(env,userId);
       await moderationLog(env,admin.user.id,{targetUserId:userId,targetType:'user',targetId:userId,
         action:'aio_strict_v4_release',reason:'Usunięto kolizję IP; ręczne zwolnienie po wyjaśnieniu'});
-      return out({ok:true,version:'AIO_1IP_1ACCOUNT_V4',...released,...(await strictStatus(env))});
+      return out({ok:true,version:'AIO_1IP_1ACCOUNT_V4_2',...released,...(await strictStatus(env))});
+    }
+    if(body.action==='preview_history'){
+      const preview=await applyHistoricalStrictV4(env,{dryRun:true});
+      return out({ok:true,version:'AIO_1IP_1ACCOUNT_V4_2',...preview});
     }
     if(body.action!=='apply_history')return out({ok:false,error:'Nieznana operacja.'},400);
     const scan=await applyHistoricalStrictV4(env);
-    return out({ok:true,version:'AIO_1IP_1ACCOUNT_V4',...scan,...(await strictStatus(env))});
+    return out({ok:true,version:'AIO_1IP_1ACCOUNT_V4_2',...scan,...(await strictStatus(env))});
   }catch(e){console.error('[AIO strict POST]',String(e));return err(e);}
 }

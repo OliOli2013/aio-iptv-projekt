@@ -1,4 +1,5 @@
 import {registrationPreflight,registrationReviewStatement} from '../_aio_multikonta_guard_v2.js';
+import {strictSessionGate,strictGlobalHold} from '../_aio_strict_ip_v4.js'; // V4.2 GLOBAL
 import {ensureRelatedReviewV1,isRelatedReviewTarget} from '../_aio_related_review_v1.js';
 /* aioSameOriginWrite: reject cross-site browser mutation requests. */
 function aioSameOriginWrite(request) {
@@ -364,7 +365,7 @@ export async function onRequestPost({request, env}) {
     }
     // AIO_RELATED_REVIEW_LOGIN_V1 — poprawne haslo: tylko 30-minutowa sesja do wyslania odwolania.
     if (auth.banned_until && Date.parse(auth.banned_until) > Date.now()) {
-      if (isRelatedReviewTarget(auth.user_id)) {
+      if (isRelatedReviewTarget(auth.user_id) || await strictGlobalHold(env,auth.user_id)) {
         await clearAttempt(env,throttleKey);
         const reviewToken=randomToken(), reviewHash=await sha256(reviewToken);
         const issued=isoNow(),expires=new Date(Date.now()+30*60*1000).toISOString();
@@ -374,13 +375,28 @@ export async function onRequestPost({request, env}) {
           request.headers.get('user-agent')||'').run();
         await logSecurity(env,request,'login_review_blocked',auth.user_id,'Dostep tylko do odwolania');
         return json({ok:false,code:'AIO_REVIEW_BLOCK',
-          error:'Konto wstrzymane do weryfikacji powiązań. Możesz przesłać odwołanie do administratora.',
+          error:(await strictGlobalHold(env,auth.user_id))?.reason||'Konto wstrzymane do weryfikacji powiązań. Możesz przesłać odwołanie do administratora.',
           contact:'/appeal.html'},403,{"Set-Cookie":sessionCookie(reviewToken)});
       }
       await logSecurity(env,request,"login_throttled",auth.user_id,"Konto zablokowane");
       return json({ok:false,error:"Twoje konto zostało zablokowane. Jeśli uważasz to za pomyłkę, skontaktuj się z nami."}, 403);
     }
 
+    // V4.2: correct password allows ONLY an appeal session for an IP collision.
+    // Rejected signups do not suspend existing accounts; only persisted collisions do.
+    const multiIpHold=await strictSessionGate(env,auth.user_id,ip);
+    if(multiIpHold){
+      await clearAttempt(env,throttleKey);
+      const token=randomToken(),tokenHash=await sha256(token),issued=isoNow();
+      const expires=new Date(Date.now()+30*60000).toISOString();
+      await db.prepare(`INSERT INTO community_sessions
+        (token_hash,user_id,expires_at,created_at,last_seen_at,ip_address,user_agent)
+        VALUES(?,?,?,?,?,?,?)`).bind(tokenHash,auth.user_id,expires,issued,issued,ip,
+        request.headers.get('user-agent')||'').run();
+      await logSecurity(env,request,'login_review_blocked',auth.user_id,'AIO IP V4.2 — dostęp tylko do odwołania');
+      return json({ok:false,code:'AIO_REVIEW_BLOCK',error:multiIpHold.reason,
+        contact:'/appeal.html'},403,{"Set-Cookie":sessionCookie(token)});
+    }
     // Executed only after a valid password and the existing V6 ban check.
     const ipRestriction=await checkAfterValidLogin(env,request,auth.user_id,auth.role);
     if(ipRestriction)return json({ok:false,code:'AIO_IP_POLICY',error:ipRestriction.strict_v4?ipRestriction.reason:'Dostęp do konta z tej sieci jest obecnie ograniczony. Skontaktuj się z nami.'},403);
