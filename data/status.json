@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-11T12:45:57.505689+00:00",
+  "generatedAt": "2026-11-12T13:48:46.584201+00:00",
   "items": [
     {
       "id": "e2-security-ipk",
@@ -8,7 +8,7 @@
       "category": "Pliki",
       "status": "warning",
       "httpStatus": 401,
-      "checkedAt": "2026-11-11T12:45:42.261148+00:00",
+      "checkedAt": "2026-11-12T13:48:31.822883+00:00",
       "message": "Serwer działa, ale blokuje test automatyczny (HTTP 401)."
     },
     {
@@ -18,7 +18,7 @@
       "category": "Strona",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-11T12:45:43.281710+00:00",
+      "checkedAt": "2026-11-12T13:48:32.772023+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     },
     {
@@ -28,7 +28,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-11T12:45:43.411812+00:00",
+      "checkedAt": "2026-11-12T13:48:32.928638+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 8648 B."
     },
     {
@@ -38,7 +38,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-11T12:45:43.536728+00:00",
+      "checkedAt": "2026-11-12T13:48:33.073094+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 9123 B."
     },
     {
@@ -48,7 +48,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-11T12:45:43.660307+00:00",
+      "checkedAt": "2026-11-12T13:48:33.221854+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 2469 B."
     },
     {
@@ -58,7 +58,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-11T12:45:43.769610+00:00",
+      "checkedAt": "2026-11-12T13:48:33.366061+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 11971 B."
     },
     {
@@ -68,7 +68,7 @@
       "category": "Listy kanałów",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-11T12:45:43.888906+00:00",
+      "checkedAt": "2026-11-12T13:48:33.483343+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 7607 B."
     },
     {
@@ -78,7 +78,7 @@
       "category": "Pliki",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-11T12:45:43.995452+00:00",
+      "checkedAt": "2026-11-12T13:48:33.593211+00:00",
       "message": "Usługa odpowiada prawidłowo • application/octet-stream • 428524 B."
     },
     {
@@ -88,7 +88,7 @@
       "category": "Pliki",
       "status": "warning",
       "httpStatus": 401,
-      "checkedAt": "2026-11-11T12:45:44.115067+00:00",
+      "checkedAt": "2026-11-12T13:48:33.770833+00:00",
       "message": "Serwer działa, ale blokuje test automatyczny (HTTP 401)."
     },
     {
@@ -98,7 +98,7 @@
       "category": "Pliki",
       "status": "warning",
       "httpStatus": 401,
-      "checkedAt": "2026-11-11T12:45:45.064274+00:00",
+      "checkedAt": "2026-11-12T13:48:34.679213+00:00",
       "message": "Serwer działa, ale blokuje test automatyczny (HTTP 401)."
     },
     {
@@ -108,7 +108,7 @@
       "category": "Pliki",
       "status": "warning",
       "httpStatus": 401,
-      "checkedAt": "2026-11-11T12:45:45.976713+00:00",
+      "checkedAt": "2026-11-12T13:48:35.624441+00:00",
       "message": "Serwer działa, ale blokuje test automatyczny (HTTP 401)."
     },
     {
@@ -118,7 +118,7 @@
       "category": "Systemy Multi-Click",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-11T12:45:46.853065+00:00",
+      "checkedAt": "2026-11-12T13:48:36.068219+00:00",
       "message": "Usługa odpowiada prawidłowo • application/zip • 214085499 B."
     },
     {
@@ -128,7 +128,7 @@
       "category": "Systemy Multi-Click",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-11T12:45:49.934257+00:00",
+      "checkedAt": "2026-11-12T13:48:38.849317+00:00",
       "message": "Usługa odpowiada prawidłowo • application/zip • 306874699 B."
     },
     {
@@ -138,7 +138,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-11T12:45:56.374042+00:00",
+      "checkedAt": "2026-11-12T13:48:45.521292+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     },
     {
@@ -148,7 +148,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-11T12:45:56.890654+00:00",
+      "checkedAt": "2026-11-12T13:48:46.018500+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     },
     {
@@ -158,7 +158,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-11T12:45:57.349963+00:00",
+      "checkedAt": "2026-11-12T13:48:46.371880+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     }
   ]
