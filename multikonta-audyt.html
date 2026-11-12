@@ -1,0 +1,14 @@
+<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>AIO TunerHub — audyt multikont</title>
+<style>:root{color-scheme:dark}body{margin:0;background:#071c2b;color:#edfaff;font:15px/1.5 system-ui,sans-serif}.wrap{max-width:1180px;margin:auto;padding:26px 16px}.card{background:#102d40;border:1px solid #38647a;border-radius:14px;padding:18px;margin:16px 0}button,a{color:#9feaff}button{background:#185a70;color:white;border:1px solid #438da9;border-radius:8px;padding:10px;cursor:pointer}.notice{color:#cee1ec}.bad{color:#ffc1b6}h1{font-size:1.65rem}h2{font-size:1.2rem}table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:8px 9px;border-bottom:1px solid #335367}td{overflow-wrap:anywhere}code{color:#c8f2ed;font-size:.9em}.scroll{overflow:auto}.tag{display:inline-block;border-radius:9px;background:#204a5c;padding:3px 7px;margin:2px}</style>
+</head><body><main class="wrap"><a href="/community-admin.html">← Centrum właściciela</a>
+<h1>AIO Security — audyt powiązanych kont IPv6</h1><p class="notice">Wyłącznie właściciel · dane z D1 · analiza tylko do odczytu · bez automatycznych blokad.</p>
+<div class="card"><button id="scan">Przeanalizuj aktualne dane D1</button> <span id="status" role="status">Gotowe do kontroli.</span></div>
+<div class="card"><h2>Podsumowanie</h2><div id="metrics"></div></div>
+<div class="card"><h2>Wspólne prefiksy IPv6 /64</h2><p class="notice">Najważniejsza przesłanka sieciowa, ale nie dowód tej samej osoby.</p><div class="scroll" id="v64"></div></div>
+<div class="card"><h2>Wspólne pełne adresy IPv4</h2><p class="notice">Badane jako dokładnie ten sam adres publiczny; domownicy lub CGNAT mogą współdzielić IP.</p><div class="scroll" id="v4"></div></div>
+<div class="card"><h2>Szersze powiązania /56 oraz /48</h2><p class="notice">Sygnały do weryfikacji — same w sobie nie mogą powodować blokad.</p><div class="scroll" id="v56"></div><div class="scroll" id="v48"></div></div>
+<div class="card"><h2>Powiązania e-mail i nazw</h2><div id="emails"></div><div id="gmail"></div><div id="names"></div></div>
+<div class="card"><h2>Rotacja IPv6 jednego konta</h2><p class="notice">Użytkowanie kilku /64 przez jedno konto nie oznacza multikonta.</p><div class="scroll" id="rotations"></div></div>
+<div id="guard-v2-slot"></div><p class="notice">Nie publikuj na forum danych z tej strony. Dostęp do API wymaga uprawnień właściciela.</p></main>
+<script defer src="/assets/js/aio-multikonta-audyt-v1.js?v=20261112"></script></body></html>
