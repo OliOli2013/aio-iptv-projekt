@@ -5,6 +5,10 @@
  const make=(tag,cls,text)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=String(text);return e;};
  const fmt=x=>{if(!x)return '—';const d=new Date(x);return Number.isNaN(+d)?String(x):d.toLocaleString('pl-PL',{dateStyle:'short',timeStyle:'short'});};
  const number=n=>Number(n||0).toLocaleString('pl-PL');
+ const sourceReady=(d,name)=>Array.isArray(d[name]);
+ const sourceNum=(d,name)=>sourceReady(d,name)?(d[name][0]?.n??0):'—';
+ const sourceLen=(d,name)=>sourceReady(d,name)?d[name].length:'—';
+ const metricSafe=(host,title,count,note)=>{const b=make('div','sec-metric');b.append(make('small','',title),make('strong','',count==='—'?'—':number(count)),make('span','',note));host.append(b);};
  const metric=(host,title,count,note)=>{const box=make('div','sec-metric');box.append(make('small','',title),make('strong','',number(count)),make('span','',note||''));host.append(box);};
  const title=(host,text)=>host.append(make('h2','',text));
  const row=(host,head,detail,date,badge)=>{const e=make('div','sec-row'),inside=make('div');inside.append(make('strong','',head),make('p','',detail));e.append(inside,make('time','',fmt(date)));if(badge)e.append(make('span','sec-pill',badge));host.append(e);return e;};
@@ -23,13 +27,15 @@
  function render(data){root.replaceChildren();const d=data.data||{};
   const totals=Object.fromEntries((d.kinds||[]).map(x=>[x.event,Number(x.n)]));
   const metrics=make('div','sec-metrics');root.append(metrics);
-  metric(metrics,'Odmowy pobrań / 7 dni',totals.download_denied||0,'Rejestr zdarzeń D1');
-  metric(metrics,'Błędne logowania / 7 dni',totals.login_failed||0,'Nie utożsamiać z osobami');
-  metric(metrics,'Blokady anonimów — aktywne',d.active_anonymous?.[0]?.n||0,'Tylko /pliki/, czasowe 15 min');
-  metric(metrics,'Fale do zapoznania',d.unread_anonymous?.[0]?.n||0,'Anonimowe jedno-IP');
-  metric(metrics,'Rozproszone fale — do przeglądu',d.unread_distributed?.[0]?.n||0,'Jedna kategoria w dzwonku');
-  metric(metrics,'Aktywne V6',d.v6?.length||0,'Wyniki: maksymalnie 80 kont');
-  metric(metrics,'Aktywne blokady IP',d.ip?.length||0,'Wyniki: maksymalnie 80 kont');
+  metricSafe(metrics,'Odmowy pobrań / 7 dni',sourceReady(d,'kinds')?(totals.download_denied||0):'—','Rejestr zdarzeń D1');
+  metricSafe(metrics,'Błędne logowania / 7 dni',sourceReady(d,'kinds')?(totals.login_failed||0):'—','Nie utożsamiać z osobami');
+  metricSafe(metrics,'Blokady anonimów — aktywne',sourceNum(d,'active_anonymous'),'Tylko /pliki/, czasowe 15 min');
+  metricSafe(metrics,'Fale do zapoznania',sourceNum(d,'unread_anonymous'),'Anonimowe jedno-IP');
+  metricSafe(metrics,'Rozproszone fale — do przeglądu',sourceNum(d,'unread_distributed'),'Jedna kategoria w dzwonku');
+  metricSafe(metrics,'Aktywne V6',sourceLen(d,'v6'),'Wyniki: maksymalnie 80 kont');
+  metricSafe(metrics,'Aktywne ograniczenia IP V8.2',sourceLen(d,'ip'),'Wyniki: maksymalnie 80 wpisów');
+  metricSafe(metrics,'Multikonta V4 — konta wstrzymane',sourceNum(d,'strict_v4_count'),'Wszystkie aktywne blokady V4');
+  metricSafe(metrics,'Konta z ograniczeniami — unikalne',sourceNum(d,'restricted_unique'),'V4, V8.2, V6, starsze, VIP i blokady profilu');
   const bar=make('p','sec-muted','Dane z serwera: '+fmt(data.checked_at)+' • analiza dziennika: 7 dni • '+data.note);
   root.append(bar);
   if(data.unavailable?.length)root.append(make('p','sec-warning','Część źródeł jest niedostępna: '+data.unavailable.join(', ')+'. Liczniki mogą być niepełne.'));
@@ -56,8 +62,17 @@
   collection(v6,d.v6,x=>row(v6,x.name||'Konto','Powód: '+x.reason+' • do '+fmt(x.expires_at),x.created_at,x.origin));auth.append(v6);
   const ip=make('details','sec-history');ip.append(make('summary','','Polityka IP V8.2 ('+(d.ip||[]).length+')'));
   collection(ip,d.ip,x=>row(ip,x.name||'Konto',x.reason,x.created_at,x.reviewed?'Przejrzana':'Do przejrzenia'));auth.append(ip);
-  const other=make('details','sec-history');other.append(make('summary','','Starsze/VIP ograniczenia ('+(d.other_holds||[]).length+')'));
-  collection(other,d.other_holds,x=>row(other,x.name||'Konto',x.kind+' • do '+fmt(x.expires_at),x.created_at));auth.append(other);
+  const v4=make('details','sec-history');v4.open=true;v4.append(make('summary','','Multikonta V4 — wstrzymane konta ('+(sourceReady(d,'strict_v4_count')?sourceNum(d,'strict_v4_count'):'brak odczytu')+')'));
+  if(sourceReady(d,'strict_v4'))collection(v4,d.strict_v4,x=>row(v4,x.name||x.user_id,x.reason||'Wstrzymano do wyjaśnienia',x.created_at,'Do wyjaśnienia'));
+  else v4.append(make('p','sec-warning','Nie udało się odczytać listy blokad V4.'));
+  auth.append(v4);
+  for(const [key,label] of [['shared_holds','Starsze — wspólna sieć'],['paid_holds','Starsze — płatne/VIP']]){
+    const panel=make('details','sec-history');panel.append(make('summary','',label+' ('+sourceLen(d,key)+')'));
+    if(sourceReady(d,key))collection(panel,d[key],x=>row(panel,x.name||x.user_id,'Czasowe ograniczenie do '+fmt(x.expires_at),x.created_at));
+    else panel.append(make('p','sec-warning','Odczyt tej kategorii nie powiódł się.'));
+    auth.append(panel);
+  }
+  const tools=make('p','sec-muted');const toV4=make('a','','Otwórz zarządzanie Multikontami V4');toV4.href='/aio-jeden-ip.html';tools.append(toV4);auth.append(tools);
   const patterns=block(root,'Wzorce z dziennika — do weryfikacji');
   patterns.append(make('p','sec-muted','Duża liczba żądań, błędów lub wiele kont za jedną siecią stanowią sygnał do analizy. NIE są dowodem tożsamości ani podstawą automatycznej blokady.'));
   collection(patterns,d.fingerprint_patterns,x=>row(patterns,'Skrót sieci: '+x.network,'Zdarzenia: '+x.requests+' • odmowy: '+x.denied+' • błędne logowania: '+x.failed+' • limit logowania: '+x.throttled+' • ID kont: '+x.accounts,x.last_seen));

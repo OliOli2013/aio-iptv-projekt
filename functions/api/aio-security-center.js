@@ -7,6 +7,7 @@ import {ensureDistributedMonitor} from '../_aio_distributed_monitor_v1.js';
 import {ensureV6} from '../_aio_security_v6.js';
 import {ensureIpPolicy} from '../_aio_ip_one_account_v7.js';
 import {ensureSecurityJournal} from '../_aio_security_journal.js';
+/* AIO_SECURITY_CENTER_V2_20261112 — isolated read-only security sources */
 const HEAD={'cache-control':'private, no-store','x-content-type-options':'nosniff','vary':'Cookie'};
 const reply=(data,status=200)=>new Response(JSON.stringify(data),{status,headers:{...HEAD,'content-type':'application/json; charset=utf-8'}});
 const cut=v=>String(v??'').slice(0,160);
@@ -34,12 +35,24 @@ const sources=(cutoff,now,ownerId)=>({
       FROM aio_ip_policy_holds_v8 h LEFT JOIN community_profiles p ON p.id=h.user_id
       LEFT JOIN aio_ip_policy_hold_reviews_v9 r ON r.user_id=h.user_id AND r.ip_key=h.ip_key AND r.hold_created_at=h.created_at
       WHERE h.status='active' AND h.user_id NOT IN (?,?,?) ORDER BY h.created_at DESC LIMIT 80`,args:[ownerId,'c2847d96-0867-4b6c-a53b-700059b1a403','8ff5c4f0-2742-4a10-b4b0-20c9713d708a']},
-  other_holds:{sql:`SELECT 'Wspólna sieć' kind,h.user_id,p.display_name name,h.created_at,h.expires_at
+  shared_holds:{sql:`SELECT h.user_id,p.display_name name,h.created_at,h.expires_at
       FROM aio_security_shared_holds h LEFT JOIN community_profiles p ON p.id=h.user_id
-      WHERE h.status='active' AND h.expires_at>?
-      UNION ALL SELECT 'Konto płatne/VIP',h.user_id,p.display_name,h.created_at,h.expires_at
+      WHERE h.status='active' AND h.expires_at>? ORDER BY h.created_at DESC LIMIT 80`,args:[now]},
+  paid_holds:{sql:`SELECT h.user_id,p.display_name name,h.created_at,h.expires_at
       FROM aio_security_paid_holds h LEFT JOIN community_profiles p ON p.id=h.user_id
-      WHERE h.status='active' AND h.expires_at>? ORDER BY created_at DESC LIMIT 80`,args:[now,now]},
+      WHERE h.status='active' AND h.expires_at>? ORDER BY h.created_at DESC LIMIT 80`,args:[now]},
+  strict_v4:{sql:`SELECT h.user_id,p.display_name name,h.primary_user_id,h.reason,h.created_at
+      FROM aio_strict_ip_holds_v4 h LEFT JOIN community_profiles p ON p.id=h.user_id
+      WHERE h.status='active' ORDER BY h.created_at DESC LIMIT 150`,args:[]},
+  strict_v4_count:{sql:`SELECT COUNT(DISTINCT user_id) n FROM aio_strict_ip_holds_v4 WHERE status='active'`,args:[]},
+  restricted_unique:{sql:`SELECT COUNT(DISTINCT user_id) n FROM (
+      SELECT user_id FROM aio_strict_ip_holds_v4 WHERE status='active'
+      UNION ALL SELECT user_id FROM aio_ip_policy_holds_v8 WHERE status='active'
+      UNION ALL SELECT user_id FROM aio_v6_blocks WHERE status='active' AND expires_at>?
+      UNION ALL SELECT user_id FROM aio_security_shared_holds WHERE status='active' AND expires_at>?
+      UNION ALL SELECT user_id FROM aio_security_paid_holds WHERE status='active' AND expires_at>?
+      UNION ALL SELECT id AS user_id FROM community_profiles WHERE banned_until>?
+    )`,args:[now,now,now,now]},
   active_anonymous:{sql:'SELECT COUNT(*) n FROM aio_anon_shield_bans WHERE blocked_until_ms>?',args:[Date.now()]},
   distributed_incidents:{sql:`SELECT id,created_at,requests,networks,window_seconds,reviewed_at
     FROM aio_distributed_file_incidents_v1 ORDER BY created_ms DESC LIMIT 100`,args:[]},
@@ -55,12 +68,14 @@ export async function onRequestGet({request,env}){
     const rows=await Promise.allSettled(Object.entries(defs).map(async([name,spec])=>{
       const stmt=db.prepare(spec.sql);const rs=await (spec.args.length?stmt.bind(...spec.args):stmt).all();return [name,rs.results||[]];
     }));
-    Object.keys(defs).forEach((name,i)=>{if(rows[i].status==='fulfilled')info[name]=rows[i].value[1];else unavailable.push(name);});
+    Object.keys(defs).forEach((name,i)=>{if(rows[i].status==='fulfilled')info[name]=rows[i].value[1];else {unavailable.push(name);console.error('[AIO Security Center V2] failed source '+name+':',String(rows[i].reason?.message||rows[i].reason||'SQL error').slice(0,200));}});
     if(query.get('format')==='csv'){
       const all=[['Sekcja','Data','Konto/Źródło','Typ','Status','Informacja']];
       for(const r of info.v6||[])all.push(['V6',r.created_at,r.name||r.user_id,r.origin,'aktywna',r.reason]);
       for(const r of info.ip||[])all.push(['IP V8.2',r.created_at,r.name||r.user_id,'blokada',r.reviewed?'przejrzana':'do przejrzenia',r.reason]);
-      for(const r of info.other_holds||[])all.push(['Pozostałe',r.created_at,r.name||r.user_id,r.kind,'aktywna','Ważność: '+r.expires_at]);
+      for(const r of info.shared_holds||[])all.push(['Starsze: wspólne IP',r.created_at,r.name||r.user_id,'czasowe','aktywna','Ważność: '+r.expires_at]);
+      for(const r of info.paid_holds||[])all.push(['Dostęp VIP',r.created_at,r.name||r.user_id,'czasowe','aktywna','Ważność: '+r.expires_at]);
+      for(const r of info.strict_v4||[])all.push(['Multikonta V4',r.created_at,r.name||r.user_id,'globalna','aktywna',r.reason]);
       for(const r of info.incidents||[])all.push(['Anonim',r.created_at,r.network,'anonimowa fala',r.reviewed_at?'przejrzana':'do przejrzenia','10s: '+r.hits_10s+', 60s: '+r.hits_60s]);
       for(const r of info.distributed_incidents||[])all.push(['Rozproszony ruch',r.created_at,'Wiele sieci','zbiorcza fala',r.reviewed_at?'przejrzana':'do przejrzenia',r.requests+' odmów / maks. '+r.window_seconds+' s, '+r.networks+' skrótów sieci; bez blokady globalnej']);
       const body='\ufeff'+all.map(row=>row.map(cell).join(',')).join('\r\n');
