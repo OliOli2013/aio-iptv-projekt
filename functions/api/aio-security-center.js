@@ -45,14 +45,6 @@ const sources=(cutoff,now,ownerId)=>({
       FROM aio_strict_ip_holds_v4 h LEFT JOIN community_profiles p ON p.id=h.user_id
       WHERE h.status='active' ORDER BY h.created_at DESC LIMIT 150`,args:[]},
   strict_v4_count:{sql:`SELECT COUNT(DISTINCT user_id) n FROM aio_strict_ip_holds_v4 WHERE status='active'`,args:[]},
-  restricted_unique:{sql:`SELECT COUNT(DISTINCT user_id) n FROM (
-      SELECT user_id FROM aio_strict_ip_holds_v4 WHERE status='active'
-      UNION ALL SELECT user_id FROM aio_ip_policy_holds_v8 WHERE status='active'
-      UNION ALL SELECT user_id FROM aio_v6_blocks WHERE status='active' AND expires_at>?
-      UNION ALL SELECT user_id FROM aio_security_shared_holds WHERE status='active' AND expires_at>?
-      UNION ALL SELECT user_id FROM aio_security_paid_holds WHERE status='active' AND expires_at>?
-      UNION ALL SELECT id AS user_id FROM community_profiles WHERE banned_until>?
-    )`,args:[now,now,now,now]},
   active_anonymous:{sql:'SELECT COUNT(*) n FROM aio_anon_shield_bans WHERE blocked_until_ms>?',args:[Date.now()]},
   distributed_incidents:{sql:`SELECT id,created_at,requests,networks,window_seconds,reviewed_at
     FROM aio_distributed_file_incidents_v1 ORDER BY created_ms DESC LIMIT 100`,args:[]},
@@ -69,6 +61,36 @@ export async function onRequestGet({request,env}){
       const stmt=db.prepare(spec.sql);const rs=await (spec.args.length?stmt.bind(...spec.args):stmt).all();return [name,rs.results||[]];
     }));
     Object.keys(defs).forEach((name,i)=>{if(rows[i].status==='fulfilled')info[name]=rows[i].value[1];else {unavailable.push(name);console.error('[AIO Security Center V2] failed source '+name+':',String(rows[i].reason?.message||rows[i].reason||'SQL error').slice(0,200));}});
+    // AIO_SECURITY_CENTER_V2_1_UNIQUE_FIX: each distinct-ID read is independent.
+    // A failure of ANY source means the aggregate must be unavailable, never a false zero.
+    const uniqueQueries=[
+      ['strict_v4',`SELECT DISTINCT user_id FROM aio_strict_ip_holds_v4 WHERE status='active'`,[]],
+      ['ip_v8',`SELECT DISTINCT user_id FROM aio_ip_policy_holds_v8 WHERE status='active'`,[]],
+      ['v6',`SELECT DISTINCT user_id FROM aio_v6_blocks WHERE status='active' AND expires_at>?`,[now]],
+      ['shared',`SELECT DISTINCT user_id FROM aio_security_shared_holds WHERE status='active' AND expires_at>?`,[now]],
+      ['paid',`SELECT DISTINCT user_id FROM aio_security_paid_holds WHERE status='active' AND expires_at>?`,[now]],
+      ['profiles',`SELECT DISTINCT id AS user_id FROM community_profiles WHERE banned_until>?`,[now]]
+    ];
+    const uniqueResults=await Promise.allSettled(uniqueQueries.map(async ([name,sql,args])=>{
+      const statement=db.prepare(sql);
+      const result=await (args.length?statement.bind(...args):statement).all();
+      return result.results||[];
+    }));
+    if(uniqueResults.every(result=>result.status==='fulfilled')){
+      const ids=new Set();
+      for(const result of uniqueResults){
+        for(const record of result.value){if(record.user_id)ids.add(String(record.user_id));}
+      }
+      info.restricted_unique=[{n:ids.size}];
+    }else{
+      unavailable.push('restricted_unique');
+      uniqueResults.forEach((result,i)=>{
+        if(result.status!=='rejected')return;
+        console.error('[AIO Security Center V2.1] restricted_unique / '+uniqueQueries[i][0]+':',
+          String(result.reason?.message||result.reason||'SQL error').slice(0,220));
+      });
+    }
+
     if(query.get('format')==='csv'){
       const all=[['Sekcja','Data','Konto/Źródło','Typ','Status','Informacja']];
       for(const r of info.v6||[])all.push(['V6',r.created_at,r.name||r.user_id,r.origin,'aktywna',r.reason]);
