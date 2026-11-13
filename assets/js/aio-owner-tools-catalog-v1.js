@@ -8,6 +8,12 @@
   if(window.AIO_OWNER_TOOLS_CATALOG_V1)return;
   const tools=[
     {
+      id:'owner-security-guide', name:'Mapa funkcji i zabezpieczeń — przewodnik', icon:'⌑',
+      desc:'Prosta, uporządkowana mapa narzędzi właściciela: gdzie sprawdzić blokady, reset haseł i dzienniki. Tylko do odczytu.',
+      url:'/owner-security-guide',
+      tags:'przewodnik mapa panel wlasciciela bezpieczenstwo porzadek narzedzia pomoc gdzie jest reset hasla blokady'
+    },
+    {
       id:'wyszukiwarka-blokad', name:'Blokady kont — wyszukiwarka', icon:'⌕',
       desc:'Osobna wyszukiwarka blokad po nazwie, e-mailu i ID; aktywne i historyczne wpisy wszystkich systemów.',
       url:'/owner-block-search',

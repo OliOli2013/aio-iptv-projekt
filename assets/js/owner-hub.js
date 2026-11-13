@@ -43,7 +43,7 @@
    {id:'privacy',name:'Polityka prywatności i RODO',icon:'§',description:'Przejrzyj dokumenty o danych, plikach cookies i prawach użytkownika.',href:'/privacy-community.html',keywords:'rodo dokumenty regulamin ochrona danych' }
   ]}
  ];
- const icons={all:'⌑'};const quick=['approvals','posts','inbox','downloads','multikonta-audyt','multikonta-blokady'];
+ const icons={all:'⌑'};const quick=['owner-security-guide','approvals','posts','inbox','downloads','multikonta-audyt','multikonta-blokady'];
  const records=groups.flatMap(g=>g.items.map(item=>({...item,groupId:g.id,group:g.name})));
  let active='all',query='';
  const make=(tag,txt,cls)=>{const n=document.createElement(tag);if(txt!==undefined)n.textContent=txt;if(cls)n.className=cls;return n;};

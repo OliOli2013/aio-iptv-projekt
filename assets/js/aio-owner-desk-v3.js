@@ -59,7 +59,7 @@
  const ICON={dashboard:'⌂'};
  const baseLink=(item)=>item.target?('/community-admin.html?aio_section='+encodeURIComponent(item.target)):(item.url||('/owner-hub#'+item.native));
  const renderLink=(item,wide=false)=>`<button type="button" class="aop-shortcut ${wide?'aop-shortcut-wide':''}" data-aop-go="${esc(item.id)}"><span class="aop-shortcut-icon" aria-hidden="true">${esc(item.icon)}</span><span class="aop-shortcut-copy"><strong>${esc(item.name)}</strong><small>${esc(item.desc)}</small></span><span aria-hidden="true" class="aop-shortcut-arrow">→</span></button>`;
- const important=['approvals','pending','inbox','admin-messages','users','vip','security-journal','multikonta-audyt','multikonta-blokady'];
+ const important=['owner-security-guide','approvals','pending','inbox','admin-messages','users','vip','security-journal','multikonta-audyt','multikonta-blokady'];
  function changeHash(id){try{history.pushState({aop:id},'',location.pathname+location.search+'#panel='+encodeURIComponent(id));}catch(_){/* Keep module usable if history is disabled. */}}
  function parseHash(){const value=location.hash;if(value==='#aio-security-journal')return 'security-journal';if(value==='#aio-post-links-history')return 'post-links';if(value==='#aio-admin-messages')return 'admin-messages';if(value.startsWith('#panel='))return decodeURIComponent(value.slice(7));return 'dashboard';}
  function validate(id){return id==='dashboard'||byId.has(id)?id:'dashboard';}
