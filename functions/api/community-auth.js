@@ -1,5 +1,6 @@
 import {registrationPreflight,registrationReviewStatement} from '../_aio_multikonta_guard_v2.js';
 import {strictSessionGate,strictGlobalHold} from '../_aio_strict_ip_v4.js'; // V4.2 GLOBAL
+import {ACCOUNT_RESTRICTED,REGISTRATION_RESTRICTED} from '../_aio_public_notices_v1.js';
 import {ensureRelatedReviewV1,isRelatedReviewTarget} from '../_aio_related_review_v1.js';
 /* aioSameOriginWrite: reject cross-site browser mutation requests. */
 function aioSameOriginWrite(request) {
@@ -375,7 +376,7 @@ export async function onRequestPost({request, env}) {
           request.headers.get('user-agent')||'').run();
         await logSecurity(env,request,'login_review_blocked',auth.user_id,'Dostep tylko do odwolania');
         return json({ok:false,code:'AIO_REVIEW_BLOCK',
-          error:(await strictGlobalHold(env,auth.user_id))?.reason||'Konto wstrzymane do weryfikacji powiązań. Możesz przesłać odwołanie do administratora.',
+          error:ACCOUNT_RESTRICTED,
           contact:'/appeal.html'},403,{"Set-Cookie":sessionCookie(reviewToken)});
       }
       await logSecurity(env,request,"login_throttled",auth.user_id,"Konto zablokowane");
@@ -394,12 +395,12 @@ export async function onRequestPost({request, env}) {
         VALUES(?,?,?,?,?,?,?)`).bind(tokenHash,auth.user_id,expires,issued,issued,ip,
         request.headers.get('user-agent')||'').run();
       await logSecurity(env,request,'login_review_blocked',auth.user_id,'AIO IP V4.2 — dostęp tylko do odwołania');
-      return json({ok:false,code:'AIO_REVIEW_BLOCK',error:multiIpHold.reason,
+      return json({ok:false,code:'AIO_REVIEW_BLOCK',error:ACCOUNT_RESTRICTED,
         contact:'/appeal.html'},403,{"Set-Cookie":sessionCookie(token)});
     }
     // Executed only after a valid password and the existing V6 ban check.
     const ipRestriction=await checkAfterValidLogin(env,request,auth.user_id,auth.role);
-    if(ipRestriction)return json({ok:false,code:'AIO_IP_POLICY',error:ipRestriction.strict_v4?ipRestriction.reason:'Dostęp do konta z tej sieci jest obecnie ograniczony. Skontaktuj się z nami.'},403);
+    if(ipRestriction)return json({ok:false,code:'AIO_ACCESS_RESTRICTED',error:ACCOUNT_RESTRICTED,contact:'/contact.html?topic=account-security'},403);
     await clearAttempt(env, throttleKey);
     const token = randomToken();
     const tokenHash = await sha256(token);
@@ -433,7 +434,7 @@ export async function onRequestPost({request, env}) {
     // Registration denied because this IP has no free additional-account permit.
     // No profile, session or successful login is created in this branch.
     if(e?.status===409 && e?.message===IP_POLICY_NOTICE)
-      return json({ok:false,code:'AIO_IP_POLICY',error:'Dostęp do konta z tej sieci jest obecnie ograniczony. Skontaktuj się z nami.',
+      return json({ok:false,code:'AIO_ACCESS_RESTRICTED',error:REGISTRATION_RESTRICTED,
         contact:'/contact.html?topic=account-security'},409);
     return errorResponse(e);
   }

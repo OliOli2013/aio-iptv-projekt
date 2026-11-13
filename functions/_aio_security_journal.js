@@ -5,6 +5,7 @@
 import {sha256,clientIp,isOwnerId} from './_community.js';
 import {isIpPolicyExemptV8} from './_aio_ip_policy_exempt_v8.js';
 import {isApprovedOnCurrentIp} from './_aio_ip_one_account_v7.js';
+import {FEATURE_RESTRICTED,SECURITY_ACTIVITY} from './_aio_public_notices_v1.js';
 let ready;
 const HOLD_MS=24*60*60*1000;
 function iso(){return new Date().toISOString();}
@@ -70,7 +71,7 @@ export async function activeSharedHold(env,request,userId){
   const paid=await env.COMMUNITY_DB.prepare(`SELECT id,created_at,expires_at FROM aio_security_paid_holds
     WHERE user_id=? AND status='active' AND expires_at>? LIMIT 1`).bind(userId,iso()).first();
   if(paid)return {id:paid.id,kind:'paid',expires_at:paid.expires_at,
-    message:'Wykryto jednoczesne korzystanie z płatnego konta AIO w różnych sieciach i na różnych urządzeniach. Pobieranie zostało wstrzymane na czas weryfikacji. Jeżeli to Twoje urządzenia, wyjaśnij sytuację przez formularz Kontakt z administratorem: /contact.html.'};
+    message:FEATURE_RESTRICTED};
   // Legacy shared-IP restrictions are network-scoped. Test accounts and
   // owner-approved users cannot be held for the same connection alone.
   if(isIpPolicyExemptV8(userId,env))return null;
@@ -80,7 +81,7 @@ export async function activeSharedHold(env,request,userId){
     WHERE user_id=? AND ip_fingerprint=? AND status='active' AND expires_at>? ORDER BY expires_at DESC LIMIT 1`)
     .bind(userId,fingerprint,iso()).first();
   if(row && await isApprovedOnCurrentIp(env,request,userId))return null;
-  return row?{id:row.id,expires_at:row.expires_at,message:'Wykryto korzystanie z tego samego połączenia przez inne konto AIO. Dla bezpieczeństwa pobieranie z tego konta jest czasowo wstrzymane. Skontaktuj się z administratorem; pozostałe funkcje konta działają.'}:null;
+  return row?{id:row.id,expires_at:row.expires_at,message:FEATURE_RESTRICTED}:null;
 }
 export async function reviewSharedIpAtLogin(env,request,userId,role='user'){
   // This check runs only after successful authenticated register/login.
@@ -114,7 +115,7 @@ export async function reviewSharedIpAtLogin(env,request,userId,role='user'){
       const seen=await db.prepare(`SELECT id FROM aio_security_journal
         WHERE user_id=? AND event='shared_ip_historical' AND ip_fingerprint=? LIMIT 1`).bind(userId,finger).first();
       if(!seen)await logSecurity(env,request,'shared_ip_historical',userId,'Dawna aktywność innego konta na tym IP; bez blokady');
-      return {message:'Ostrzeżenie AIO: z tego połączenia korzystano wcześniej z innego konta. Nie ograniczamy pobierania, ale przypominamy o używaniu własnego konta i zakazie obchodzenia limitów.'};
+      return {message:SECURITY_ACTIVITY};
     }
     return activeSharedHold(env,request,userId);
   }

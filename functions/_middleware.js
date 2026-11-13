@@ -1,8 +1,9 @@
 /* V6: block a signed-in, suspended account before returning an HTML page or API response. */
 import {getSession} from './_community.js';
-const notice='Dostęp do Twojego konta AIO został wstrzymany. Jeżeli ograniczenie jest wynikiem pomyłki albo dotyczy wspólnego korzystania ze strony, możesz złożyć odwołanie. Skontaktuj się z nami, jeśli uważasz blokadę za niesłuszną.';
+import {ACCOUNT_RESTRICTED} from './_aio_public_notices_v1.js';
+const notice=ACCOUNT_RESTRICTED;
 const safe=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const html=reason=>`<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>AIO — dostęp wstrzymany</title><style>body{box-sizing:border-box;min-height:100vh;margin:0;padding:24px;display:grid;place-items:center;background:#061e2b;color:#ebf8ff;font:16px/1.6 system-ui}main{width:min(600px,100%);border:1px solid #5a99b1;border-radius:18px;padding:clamp(20px,5vw,38px);background:#0a2c3e;box-shadow:0 20px 70px #0007}h1{font-size:1.6rem}a{color:#7cdef4}p{overflow-wrap:anywhere}.note{background:#143b4f;padding:12px;border-radius:8px}</style></head><body><main><h1>⛔ Dostęp do konta AIO został zablokowany</h1><p>${notice}</p><p class="note">${safe(reason)}</p><p><a href="/appeal.html">Formularz odwołania</a> · <a href="mailto:aio-iptv@wp.pl?subject=AIO%20%E2%80%94%20odwo%C5%82anie%20od%20blokady">Napisz e-mail</a></p><p>Podaj nazwę konta i przybliżoną godzinę zdarzenia. Nie wysyłaj haseł ani tokenów.</p></main></body></html>`;
+const html=()=>`<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>AIO — dostęp wstrzymany</title><style>body{box-sizing:border-box;min-height:100vh;margin:0;padding:24px;display:grid;place-items:center;background:#061e2b;color:#ebf8ff;font:16px/1.6 system-ui}main{width:min(600px,100%);border:1px solid #5a99b1;border-radius:18px;padding:clamp(20px,5vw,38px);background:#0a2c3e;box-shadow:0 20px 70px #0007}h1{font-size:1.6rem}a{color:#7cdef4}p{overflow-wrap:anywhere}.note{background:#143b4f;padding:12px;border-radius:8px}</style></head><body><main><h1>⛔ Dostęp do konta AIO został zablokowany</h1><p>${notice}</p><p><a href="/appeal.html">Formularz odwołania</a> · <a href="mailto:aio-iptv@wp.pl?subject=AIO%20%E2%80%94%20odwo%C5%82anie%20od%20blokady">Napisz e-mail</a></p><p>Podaj nazwę konta i przybliżoną godzinę zdarzenia. Nie wysyłaj haseł ani tokenów.</p></main></body></html>`;
 /* AIO Pages Public Isolation V1: extra fail-closed gate for legacy root deployments.
  * Full asset isolation requires Cloudflare Pages output directory = dist.
  * No cookies, D1, R2, authorization logic or public website routing are changed.
@@ -28,10 +29,10 @@ export async function onRequest(context){
   try{
     const s=await getSession(request,env,{touch:false,allowUnverified:true});
     if(s&&!s.user?.is_owner&&(s.banned||s.blocked)){
-      const reason=s.banned?(s.user?.ban_reason||'Blokada konta'):(s.block?.reason||'Blokada adresu IP');
+      // Internal reason is intentionally never rendered in the public response.
       const headers={'cache-control':'private, no-store','x-content-type-options':'nosniff'};
       if(api)return new Response(JSON.stringify({ok:false,restricted:true,error:notice,contact:'/contact.html?topic=account-security'}),{status:403,headers:{...headers,'content-type':'application/json; charset=utf-8'}});
-      return new Response(request.method==='HEAD'?null:html(reason),{status:403,headers:{...headers,'content-type':'text/html; charset=utf-8'}});
+      return new Response(request.method==='HEAD'?null:html(),{status:403,headers:{...headers,'content-type':'text/html; charset=utf-8'}});
     }
   }catch(e){
     console.error('[AIO V6 middleware]',String(e?.message||e).slice(0,140));

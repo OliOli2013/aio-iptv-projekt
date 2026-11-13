@@ -3,6 +3,7 @@ import {ensureRelatedReviewV1} from './_aio_related_review_v1.js';
 import {emailVerificationStatus} from './_aio_email_verification.js';
 import {activeIpHold} from './_aio_ip_one_account_v7.js';
 import {strictGlobalHold} from './_aio_strict_ip_v4.js'; // V4.2 GLOBAL
+import {ACCOUNT_RESTRICTED} from './_aio_public_notices_v1.js';
 const enc = new TextEncoder();
 let schemaReadyPromise = null;
 
@@ -238,12 +239,15 @@ export async function getSession(request, env, {touch=true,allowUnverified=false
 
   const profile = publicProfile(row);
   profile.is_owner = await isOwnerId(env, profile.id, profile.role);
+  // Hide internal ban reasons from the user's session/profile API. Owner-only
+  // security reports continue reading the full reason directly from D1.
+  if(!profile.is_owner && profile.ban_reason)profile.ban_reason=ACCOUNT_RESTRICTED;
   if(!profile.is_owner){
     // V4.2: enforce persistent account hold regardless of the current IP.
     const strict=await strictGlobalHold(env,profile.id);
-    if(strict){profile.ban_reason=strict.reason;return {banned:true,tokenHash,user:profile,strict_v42:true};}
+    if(strict){profile.ban_reason=ACCOUNT_RESTRICTED;return {banned:true,tokenHash,user:profile,strict_v42:true};}
     const ipHold=await activeIpHold(env,profile.id,request);
-    if(ipHold){profile.ban_reason=ipHold.reason;return {banned:true,tokenHash,user:profile,ip_policy:true};}
+    if(ipHold){profile.ban_reason=ACCOUNT_RESTRICTED;return {banned:true,tokenHash,user:profile,ip_policy:true};}
   }
   if(!allowUnverified){
     const ev=await emailVerificationStatus(env,profile.id);
@@ -324,7 +328,7 @@ export function isFullAdmin(session) {
 export async function requireUser(request, env) {
   const session = await getSession(request, env);
   if (!session) throw Object.assign(new Error("Zaloguj się do Społeczności AIO."), {status:401});
-  if (session.blocked) throw Object.assign(new Error(session.block?.reason || "Ten adres IP jest zablokowany."), {status:403});
+  if (session.blocked) throw Object.assign(new Error(ACCOUNT_RESTRICTED), {status:403});
   if (session.banned) throw Object.assign(new Error("Konto jest zablokowane."), {status:403});
   return session;
 }

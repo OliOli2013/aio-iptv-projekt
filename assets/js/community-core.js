@@ -1,6 +1,8 @@
 /* Społeczność AIO — Cloudflare D1/R2 backend, 2026-10-08 */
 (function(){
   'use strict';
+  // Never display detailed server-side security reasons to visitors.
+  const AIO_PUBLIC_BLOCK_NOTICE='Dostęp do konta został wstrzymany ze względów bezpieczeństwa. Aby wyjaśnić sprawę, skorzystaj z formularza odwołania lub skontaktuj się z administracją.';
 
   // Linki publikowane w Społeczności AIO są przechowywane tylko w pamięci JS.
   // W DOM nie ma bezpośredniego adresu URL, dzięki czemu zwykłe
@@ -213,7 +215,7 @@
           <section data-aio-ip-refused hidden style="display:none;width:min(580px,94vw);max-height:85vh;overflow-y:auto;box-sizing:border-box;background:#0b2d40;color:#f0faff;padding:clamp(22px,4vw,36px);border:2px solid #d98282;border-radius:16px;box-shadow:0 18px 70px #0008;line-height:1.65;">
             <h2 data-aio-ip-refused-title tabindex="-1" style="margin:0 0 15px;font-size:clamp(1.25rem,3vw,1.8rem);">⛔ Dostęp do konta wstrzymany</h2>
             <p data-aio-ip-refused-reason style="font-weight:600;white-space:pre-wrap;overflow-wrap:anywhere;"></p>
-            <p>Dostęp jest ograniczony. Jeśli korzystasz ze wspólnej sieci lub uważasz to za pomyłkę, skontaktuj się z nami, aby wyjaśnić sytuację.</p>
+            <p>Dostęp do konta został wstrzymany. Skontaktuj się z administracją, aby wyjaśnić sytuację.</p>
             <p><a href="/contact.html?topic=account-security" style="color:#b1efff;text-decoration:underline;font-weight:700;">✉ Skontaktuj się z nami</a></p>
             <p style="font-size:.9em;opacity:.85;">Nie przesyłaj nam swojego hasła.</p>
             <button type="button" data-aio-ip-refused-close style="border:1px solid #93dcea;border-radius:8px;padding:10px 20px;background:#16546b;color:#fff;cursor:pointer;">Zamknij</button>
@@ -305,18 +307,18 @@
               const notice=dialog.querySelector('[data-aio-ip-refused]');
               notice.querySelector('[data-aio-ip-refused-title]').textContent='Dostęp wstrzymany do weryfikacji';
               notice.querySelector('[data-aio-ip-refused-reason]').textContent=
-                String(err?.message||'Wykryto więcej niż jedno konto korzystające z tego samego IP. Dostęp wstrzymany do wyjaśnienia.').slice(0,600);
+                AIO_PUBLIC_BLOCK_NOTICE;
               const appeal=notice.querySelector('a[href^="/contact.html"]');
               if(appeal){appeal.href='/appeal.html';appeal.textContent='✉ Wyślij odwołanie przez stronę';}
               notice.hidden=false;notice.style.display='block';
               notice.querySelector('[data-aio-ip-refused-title]').focus();
-            }else if(err?.code==='AIO_IP_POLICY'){
+            }else if((err?.code==='AIO_ACCESS_RESTRICTED'||err?.code==='AIO_IP_POLICY')){
               // No session was created by the server. Replace the entire login form
               // with a readable refusal notice inside the active modal top layer.
               form.reset();form.hidden=true;form.style.display='none';
               const notice=dialog.querySelector('[data-aio-ip-refused]');
               notice.querySelector('[data-aio-ip-refused-reason]').textContent=
-                String(err?.message||'Dostęp do konta z tej sieci jest obecnie ograniczony.').slice(0,500);
+                (register?'Nie można obecnie zakończyć rejestracji. Jeśli potrzebujesz wyjaśnień, skontaktuj się z administracją.':AIO_PUBLIC_BLOCK_NOTICE);
               notice.hidden=false;notice.style.display='block';
               notice.querySelector('[data-aio-ip-refused-title]').focus();
             }else{

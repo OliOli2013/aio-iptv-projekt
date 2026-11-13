@@ -3,11 +3,12 @@
  */
 import {sha256,getOwnerId} from './_community.js';
 import {isIpPolicyExemptV8} from './_aio_ip_policy_exempt_v8.js';
+import {REGISTRATION_RESTRICTED,TEMPORARY_RESTRICTION} from './_aio_public_notices_v1.js';
 /* AIO_STRICT_1IP_V4_INTEGRATION */
 import {strictSessionGate,reserveStrictV4,rollbackStrictV4} from './_aio_strict_ip_v4.js';
 let schemaReady=null;
 const now=()=>new Date().toISOString();
-export const NOTICE='Ten publiczny adres IP jest już przypisany do innego konta AIO. Obowiązuje zasada: jeden adres IP — jedno konto, niezależnie od urządzenia. Użyj istniejącego konta lub skontaktuj się z administracją: /contact.html?topic=account-security.';
+export const NOTICE=REGISTRATION_RESTRICTED;
 const error=(code,message)=>Object.assign(new Error(message),{status:code});
 const getIp=request=>{const ip=String(request.headers.get('CF-Connecting-IP')||'').trim();return /^(?:[a-f\d:.]{2,45}|(?:\d{1,3}\.){3}\d{1,3})$/i.test(ip)?ip:'';};
 const keyFor=async ip=>sha256('aio-unique-ip-v7:'+ip);
@@ -222,7 +223,7 @@ export async function reserveRegistrationIp(env,request,newUserId){
     .bind(key,stamp).first();
   if(cooldown){
     await noteIpDenial(env,request,'register').catch(()=>{});
-    throw error(429,'Rejestracja z tej sieci jest czasowo niedostępna po usunięciu niezweryfikowanego konta. Spróbuj później lub skontaktuj się z administracją.');
+    throw error(429,TEMPORARY_RESTRICTION);
   }
   // Remove expired cooldown rows opportunistically; the lock is never permanent.
   await db.prepare('DELETE FROM aio_ip_policy_cleanup_cooldowns_v1 WHERE expires_at<=?').bind(stamp).run();

@@ -7,6 +7,7 @@
  */
 import {ipv6Prefix} from './_aio_network_prefix_v1.js';
 import {sha256,getOwnerId} from './_community.js';
+import {REGISTRATION_RESTRICTED} from './_aio_public_notices_v1.js';
 
 let ready=null;
 const now=()=>new Date().toISOString();
@@ -157,13 +158,13 @@ export async function reserveStrictV4(env,ip,userId){
   const net=await fingerprint(ip);if(!net)throw bad(503,'Nie można poprawnie ustalić sieci użytkownika.');
   const db=env.COMMUNITY_DB,owner=await getOwnerId(env);
   const known=await knownUsers(env,net,owner);
-  if(known.some(x=>x.id!==userId))throw bad(409,STRICT_NOTICE);
+  if(known.some(x=>x.id!==userId))throw bad(409,REGISTRATION_RESTRICTED);
   const exists=await validOwnerClaim(env,net.key);
-  if(exists&&exists.user_id!==userId)throw bad(409,STRICT_NOTICE);
+  if(exists&&exists.user_id!==userId)throw bad(409,REGISTRATION_RESTRICTED);
   if(exists)return {key:net.key,userId,created:false};
   const inserted=await db.prepare(`INSERT OR IGNORE INTO aio_strict_ip_claims_v4
     (network_key,user_id,created_at,source) VALUES(?,?,?,'register')`).bind(net.key,userId,now()).run();
-  if(Number(inserted.meta?.changes||0)!==1)throw bad(409,STRICT_NOTICE);
+  if(Number(inserted.meta?.changes||0)!==1)throw bad(409,REGISTRATION_RESTRICTED);
   return {key:net.key,userId,created:true};
 }
 export async function rollbackStrictV4(env,lease,userId){

@@ -3,6 +3,7 @@
  * MODE=monitor (default) or enforce (requires AIO_MULTIKONTA_HMAC_SECRET).
  */
 import {ipv6Prefix,normalizeLogin,safeEmailLocal,gmailMailbox} from './_aio_network_prefix_v1.js';
+import {TEMPORARY_RESTRICTION} from './_aio_public_notices_v1.js';
 let ready=null;
 const stamp=()=>new Date().toISOString();
 const MODE=env=>String(env?.AIO_MULTIKONTA_MODE||'monitor').toLowerCase()==='enforce'?'enforce':'monitor';
@@ -71,7 +72,7 @@ async function networkHourlyLimit(env,ip){
     VALUES(?,?,1) ON CONFLICT(network_key,bucket_start) DO UPDATE SET hits=hits+1
     RETURNING hits`).bind(key,bucket).first();
   // Scopes are intentionally moderate to avoid blocking normal households.
-  if(Number(row?.hits||0)>5)throw invalid(429,'Z tej sieci było zbyt wiele rejestracji. Spróbuj później lub skontaktuj się z administratorem.');
+  if(Number(row?.hits||0)>5)throw invalid(429,TEMPORARY_RESTRICTION);
   if(Math.random()<0.01)await env.COMMUNITY_DB.prepare('DELETE FROM aio_multikonta_signup_windows_v2 WHERE bucket_start<?')
     .bind(Date.now()-2*86400000).run().catch(()=>{});
 }
