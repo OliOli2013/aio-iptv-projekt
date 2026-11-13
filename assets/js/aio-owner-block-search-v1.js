@@ -6,7 +6,7 @@
  const el=(tag,className,text)=>{const n=document.createElement(tag);if(className)n.className=className;if(text!==undefined)n.textContent=String(text);return n};
  const stat=(label,num)=>{const n=el('div','stat');n.append(el('strong','',num),el('span','muted',label));return n};
  function render(d){
-  data=d;ui.summary.replaceChildren(stat('Pasujących wpisów',d.totals.records),stat('Unikalnych kont',d.totals.accounts),stat('Aktywnych wpisów w wynikach',d.totals.active_records));
+  data=d;ui.summary.replaceChildren(stat('Pasujących wpisów'+(!d.complete?' (częściowe)':''),d.totals.records),stat('Unikalnych kont'+(!d.complete?' (częściowe)':''),d.totals.accounts),stat('Aktywnych wpisów w wynikach',d.totals.active_records));
   ui.results.replaceChildren();const users=new Map();for(const r of d.rows){if(!users.has(r.user_id))users.set(r.user_id,[]);users.get(r.user_id).push(r)}
   for(const rows of users.values()){
    const u=rows[0],box=el('article','user'),head=el('div','userhead'),info=el('div');
@@ -19,7 +19,10 @@
     const reason=el('div','reason',r.reason||'Brak opisu');rec.append(title,tag,date,reason);box.append(rec);
    }ui.results.append(box);
   }
-  ui.feedback.textContent='Ostatni odczyt: '+fmt(d.checked_at)+(d.rows.length?'. Wyświetlono '+d.rows.length+' wpisów.':'. Brak wyników dla podanych filtrów.');
+  const issues=[...(d.unavailable||[]).map(x=>x+' (błąd odczytu)'),...(d.truncated_sources||[]).map(x=>x+' (limit wyników)')];
+  const report=d.rows.length?'Wyświetlono '+d.rows.length+' wpisów.':'Brak wyników w dostępnych rejestrach.';
+  ui.feedback.textContent=(d.complete?'Odczyt kompletny. ':'UWAGA: Wyniki częściowe. Niektórych blokad może brakować. ')+report+
+    (issues.length?' Niedostępne/niepełne: '+issues.join(', ')+'.':'')+' Ostatni odczyt: '+fmt(d.checked_at);
   ui.prev.disabled=d.offset<=0;ui.next.disabled=!d.has_more;ui.page.textContent=d.totals.records?(Math.floor(d.offset/d.limit)+1)+' / '+Math.max(1,Math.ceil(d.totals.records/d.limit)):'0 wyników';
  }
  async function load(){const token=++seq,form=$('block-search');const q=$('q').value.trim(),state=$('state').value,source=$('source').value;
