@@ -25,6 +25,8 @@ export const OWNER_HTML = String.raw`<!doctype html>
 <link rel="stylesheet" href="/assets/css/aio-owner-desk-v3.css?v=20261023-owner-mobile-v10">
 <script defer src="/assets/js/aio-owner-desk-v3.js?v=20261113-owner-guide-v1"></script>
 <link rel="stylesheet" href="/assets/css/aio-owner-messages-v1.css?v=20261021-owner-messages-v1">
+<link rel="stylesheet" href="/assets/css/aio-owner-layout-v4.css?v=20261113-etap2-v4">
+<script defer src="/assets/js/aio-owner-layout-v4.js?v=20261113-etap2-v4"></script>
 </head>
 <body>
 <div class="oh-loading" id="oh-guard" role="status" aria-live="polite">Sprawdzam uprawnienia właściciela…</div>
