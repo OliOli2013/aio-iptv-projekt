@@ -8,6 +8,12 @@
   if(window.AIO_OWNER_TOOLS_CATALOG_V1)return;
   const tools=[
     {
+      id:'wyszukiwarka-blokad', name:'Blokady kont — wyszukiwarka', icon:'⌕',
+      desc:'Osobna wyszukiwarka blokad po nazwie, e-mailu i ID; aktywne i historyczne wpisy wszystkich systemów.',
+      url:'/owner-block-search',
+      tags:'blokady kont wyszukiwarka historia email identyfikator id multikonta v4 v8.2 v6 VIP wstrzymane ograniczenia'
+    },
+    {
       id:'multikonta-audyt', name:'Multikonta — audyt IPv4 / IPv6', icon:'⌕',
       desc:'V1–V3: wspólne adresy IP, sieci IPv6 /64, historia, adresy e-mail i nazwy.',
       url:'/multikonta-audyt.html',
