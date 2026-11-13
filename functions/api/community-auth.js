@@ -19,6 +19,7 @@ import {
   clientIp, isoNow, addDays, getSession, publicProfile, errorResponse, recordIp, isOwnerId
 } from "../_community.js";
 import {emailSendingReady,sendVerificationEmail,emailVerificationStatus} from "../_aio_email_verification.js";
+import {automaticResetEnabled,verifyResetChallenge,sendAutomaticPasswordReset,queueManualPasswordReset} from '../_aio_password_reset_auto_v1.js'; // AIO_AUTO_RESET_WP_V1
 import {logSecurity,reviewSharedIpAtLogin,activeSharedHold,reviewPaidSessionSharing} from "../_aio_security_journal.js";
 import {reserveRegistrationIp,rollbackRegistrationIp,permitRegistrationStatement,checkAfterValidLogin,NOTICE as IP_POLICY_NOTICE} from '../_aio_ip_one_account_v7.js';
 import {getStatus} from "../_aio_account_access.js";
@@ -144,121 +145,63 @@ export async function onRequestPost({request, env}) {
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         return json({ok:false,error:"Podaj poprawny adres e-mail."},400);
       }
-
-      const resetIpKey = `reset-ip:${ip || "noip"}`;
-      await consumeWindowLimit(env, resetIpKey, 8, 15 * 60 * 1000);
-
-      const resetThrottleKey = `reset:${ip || "noip"}:${email}`;
-      await throttle(env, resetThrottleKey);
-
-      const auth = await db.prepare(
-        `SELECT user_id,email FROM community_auth WHERE email=? LIMIT 1`
-      ).bind(email).first();
-
-      if (!auth) {
-        await failAttempt(env, resetThrottleKey);
-        return json({ok:true,message:"Jeżeli konto istnieje, prośba o reset została przekazana administratorowi."});
-      }
-
-      await clearAttempt(env, resetThrottleKey);
-
-      const existing = await db.prepare(`
-        SELECT id FROM community_password_reset_requests
-        WHERE user_id=? AND status IN ('pending','approved')
-        ORDER BY created_at DESC LIMIT 1
-      `).bind(auth.user_id).first();
-
-      /* aio-reset-optional-mail-v1 */
-      if (!existing) {
-        const requestId = crypto.randomUUID();
-        await db.prepare(`
-          INSERT INTO community_password_reset_requests
-            (id,user_id,email_snapshot,requested_ip,status,created_at)
-          VALUES(?,?,?,?, 'pending', ?)
-        `).bind(requestId,auth.user_id,auth.email,ip,isoNow()).run();
-
-        // Optional: Resend API (verified sender domain required).
-        // Without configured secrets the existing owner-approved reset remains active.
-        // Never expose the token in an HTTP response or a log.
-        const apiKey=String(env.RESEND_API_KEY||'').trim();
-        const from=String(env.AIO_RESET_FROM_EMAIL||'').trim();
-        if(apiKey && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(from)) {
-          const token=randomToken();
-          const codeHash=await sha256(token);
-          const expiresAt=new Date(Date.now()+60*60*1000).toISOString();
-          try {
-            const response=await fetch('https://api.resend.com/emails',{
-              method:'POST',
-              headers:{'Authorization':'Bearer '+apiKey,'Content-Type':'application/json'},
-              body:JSON.stringify({
-                from,
-                to:[auth.email],
-                subject:'AIO TunerHub — jednorazowy kod resetowania hasla',
-                text:'Otrzymalismy prosbe o reset hasla. Jezeli to Ty, otworz https://aio-iptv-projekt.pages.dev/community.html i wybierz „Mam kod resetu”.\n\nKod: '+token+'\n\nKod wygasa za 60 minut. Jezeli nie skladales prosby, zignoruj wiadomosc.'
-              })
-            });
-            if(response.ok) {
-              await db.prepare(`
-                UPDATE community_password_reset_requests
-                SET status='approved', code_hash=?, expires_at=?, approved_at=?
-                WHERE id=? AND status='pending'
-              `).bind(codeHash,expiresAt,isoNow(),requestId).run();
-            }
-            // On mail failure leave the pending request for owner approval.
-          } catch(_) { /* Keep pending request; never leak email credentials. */ }
+      const generic='Jeśli konto istnieje, a adres e-mail został potwierdzony, otrzymasz kod do zmiany hasła. W wyjątkowych przypadkach prośba trafi do administracji.';
+      // The request is rate-limited before any existence check. Never enumerate accounts.
+      await consumeWindowLimit(env,`reset-ip:${ip || 'noip'}`,8,15*60*1000);
+      await verifyResetChallenge(env,request,body.turnstileToken);
+      const auth=await db.prepare('SELECT user_id,email FROM community_auth WHERE email=? LIMIT 1')
+        .bind(email).first();
+      if(!auth)return json({ok:true,message:generic});
+      // Do not generate codes or owner queue entries for administratively blocked email.
+      if(await emailIsBlocked(env,email))return json({ok:true,message:generic});
+      // Only a proven mailbox qualifies. Reset NEVER unlocks a banned account.
+      const verified=await emailVerificationStatus(env,auth.user_id);
+      const profile=await db.prepare('SELECT role,banned_until FROM community_profiles WHERE id=? LIMIT 1')
+        .bind(auth.user_id).first();
+      const isHeld=Boolean(profile?.banned_until&&Date.parse(profile.banned_until)>Date.now()) ||
+        Boolean(await strictGlobalHold(env,auth.user_id));
+      const canAuto=verified.verified && !isHeld && automaticResetEnabled(env);
+      if(canAuto){
+        const outcome=await sendAutomaticPasswordReset(env,auth.user_id,auth.email);
+        if(outcome.state==='sent'){
+          await logSecurity(env,request,'password_reset_auto_sent',auth.user_id).catch(()=>{});
+          return json({ok:true,message:generic});
         }
+        // Do not queue manual requests simply because user retried during cooldown.
+        if(outcome.state==='limited')return json({ok:true,message:generic});
+        // SMTP failure: fall through to the owner's original queue.
       }
-
-      return json({ok:true,message:"Jeżeli konto istnieje, prośba o reset została przekazana administratorowi."});
+      await queueManualPasswordReset(env,auth.user_id,auth.email,ip);
+      return json({ok:true,message:generic});
     }
 
     if (action === "reset_password") {
-      const code = String(body.code || "").trim();
-      const password = String(body.password || "");
-
-      if (code.length < 8 || code.length > 80) {
-        return json({ok:false,error:"Kod resetu jest nieprawidłowy."},400);
-      }
-      if (!validPassword(password)) {
-        return json({ok:false,error:"Nowe hasło musi mieć co najmniej 10 znaków."},400);
-      }
-
-      const codeHash = await sha256(code);
-      const reset = await db.prepare(`
-        SELECT id,user_id,expires_at,status
-        FROM community_password_reset_requests
-        WHERE code_hash=? AND status='approved'
-        ORDER BY approved_at DESC LIMIT 1
-      `).bind(codeHash).first();
-
-      if (!reset || !reset.expires_at || Date.parse(reset.expires_at) <= Date.now()) {
-        return json({ok:false,error:"Kod resetu jest nieprawidłowy albo wygasł."},400);
-      }
-
-      const pw = await hashPassword(password);
-      const now = isoNow();
-
+      const code=String(body.code||'').trim();
+      const password=String(body.password||'');
+      if(code.length<8||code.length>80)return json({ok:false,error:'Kod resetu jest nieprawidłowy.'},400);
+      if(!validPassword(password))return json({ok:false,error:'Nowe hasło musi mieć co najmniej 10 znaków.'},400);
+      // Limits guessing even for manually approved reset codes. No account lookup is exposed.
+      await consumeWindowLimit(env,`reset-code-ip:${ip || 'noip'}`,5,15*60*1000);
+      const pw=await hashPassword(password);
+      const hash=await sha256(code),stamp=isoNow();
+      // Atomic claim: one code can change at most one password even under concurrent requests.
+      const reset=await db.prepare(`UPDATE community_password_reset_requests
+        SET status='used',used_at=?
+        WHERE code_hash=? AND status='approved' AND expires_at>?
+        RETURNING id,user_id`).bind(stamp,hash,stamp).first();
+      if(!reset)return json({ok:false,error:'Kod resetu jest nieprawidłowy albo wygasł.'},400);
+      // Password and session changes are transactional. Existing bans and VIP data are untouched.
       await db.batch([
-        db.prepare(`
-          UPDATE community_auth
-          SET password_hash=?,password_salt=?,password_iterations=?
-          WHERE user_id=?
-        `).bind(pw.hash,pw.salt,pw.iterations,reset.user_id),
-        db.prepare(`
-          UPDATE community_password_reset_requests
-          SET status='used',used_at=?
-          WHERE id=?
-        `).bind(now,reset.id),
-        db.prepare(`DELETE FROM community_sessions WHERE user_id=?`).bind(reset.user_id),
-        db.prepare(`
-          UPDATE community_password_reset_requests
+        db.prepare(`UPDATE community_auth SET password_hash=?,password_salt=?,password_iterations=?
+          WHERE user_id=?`).bind(pw.hash,pw.salt,pw.iterations,reset.user_id),
+        db.prepare('DELETE FROM community_sessions WHERE user_id=?').bind(reset.user_id),
+        db.prepare(`UPDATE community_password_reset_requests
           SET status='cancelled',cancelled_at=?
-          WHERE user_id=? AND status IN ('pending','approved') AND id<>?
-        `).bind(now,reset.user_id,reset.id)
+          WHERE user_id=? AND status IN ('pending','approved') AND id<>?`)
+          .bind(stamp,reset.user_id,reset.id)
       ]);
-
-      await logSecurity(env,request,"password_reset_ok",reset.user_id);
-      return json({ok:true,message:"Hasło zostało zmienione. Możesz się zalogować."});
+      await logSecurity(env,request,'password_reset_ok',reset.user_id).catch(()=>{});
+      return json({ok:true,message:'Hasło zostało zmienione. Możesz się zalogować.'});
     }
 
     if (action !== "login" && action !== "register") {

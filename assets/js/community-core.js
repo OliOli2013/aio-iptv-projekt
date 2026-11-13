@@ -359,12 +359,16 @@
             <p class="eyebrow">Społeczność AIO</p>
             <h2>Nie pamiętam hasła</h2>
             <p class="community-side-note">
-              Podaj e-mail użyty przy rejestracji. Jeżeli w serwisie włączono automatyczną wysyłkę,
-              otrzymasz jednorazowy kod e-mailem. W innym przypadku prośba trafi do administratora.
+              Podaj e-mail użyty przy rejestracji. Jeśli konto istnieje, a adres został potwierdzony,
+              otrzymasz jednorazowy kod e-mailem. W wyjątkowych przypadkach sprawa trafi do administracji.
             </p>
             <div class="community-field">
               <label>E-mail</label>
               <input type="email" name="email" required autocomplete="email">
+            </div>
+            <div data-aio-reset-turnstile-wrap hidden>
+              <div data-aio-reset-turnstile-widget></div>
+              <small>Potwierdź formularz przed wysłaniem prośby.</small>
             </div>
             <div class="community-form-actions">
               <button class="button" type="button" data-reset-have-code>Mam już kod</button>
@@ -378,20 +382,54 @@
           dialog.close();
           this.openPasswordResetConfirm();
         };
+        // AIO_AUTO_RESET_WP_V1: Turnstile on password reset requests, same site key as signup.
+        const resetTurnstileWrap=dialog.querySelector('[data-aio-reset-turnstile-wrap]');
+        let resetWidgetId=null,resetInitPromise=null;
+        const initResetTurnstile=()=>{
+          if(resetInitPromise)return resetInitPromise;
+          resetInitPromise=(async()=>{
+            const response=await fetch('/api/aio-multikonta-public-v2',{credentials:'include',cache:'no-store'});
+            const cfg=await response.json();
+            if(!response.ok||!cfg.ok)throw new Error('Weryfikacja formularza jest niedostępna.');
+            if(!cfg.turnstile_enabled){resetTurnstileWrap.hidden=true;return;}
+            resetTurnstileWrap.hidden=false;
+            if(!window.turnstile){await new Promise((resolve,reject)=>{
+              const script=document.createElement('script');
+              script.src='https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+              script.async=true;script.onload=resolve;
+              script.onerror=()=>reject(new Error('Nie udało się uruchomić zabezpieczenia formularza.'));
+              document.head.appendChild(script);
+            });}
+            resetWidgetId=window.turnstile.render(
+              resetTurnstileWrap.querySelector('[data-aio-reset-turnstile-widget]'),
+              {sitekey:cfg.site_key,theme:'auto'});
+          })().catch(e=>{resetInitPromise=null;resetTurnstileWrap.hidden=false;
+            resetTurnstileWrap.querySelector('small').textContent=e.message;
+            throw e;
+          });
+          return resetInitPromise;
+        };
+        void initResetTurnstile().catch(()=>{});
         form.addEventListener('submit',async e=>{
           e.preventDefault();
           const button=form.querySelector('[type="submit"]');
           button.disabled=true;
           button.textContent='Wysyłam…';
           try{
-            await this.auth('request_reset',{email:form.email.value.trim()});
+            await initResetTurnstile();
+            const proof=resetWidgetId!==null?String(window.turnstile?.getResponse(resetWidgetId)||''):'';
+            if(resetWidgetId!==null&&!proof)throw new Error('Potwierdź zabezpieczenie formularza.');
+            await this.auth('request_reset',{email:form.email.value.trim(),turnstileToken:proof});
             dialog.close();
-            this.showToast('Jeśli konto istnieje, otrzymasz kod e-mailem (gdy wysyłka jest aktywna) albo możesz otrzymać go od administratora AIO.','success');
+            this.showToast('Jeżeli konto istnieje i adres jest zweryfikowany, sprawdź e-mail. W wyjątkowych przypadkach skontaktuje się z Tobą administrator.','success');
           }catch(err){
             this.showToast(this.friendlyError(err),'error');
           }finally{
             button.disabled=false;
             button.textContent='Wyślij prośbę';
+            if(resetWidgetId!==null && window.turnstile){
+              try{window.turnstile.reset(resetWidgetId);}catch(_){}
+            }
           }
         });
       }
