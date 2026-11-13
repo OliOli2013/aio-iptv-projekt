@@ -3,6 +3,23 @@
   'use strict';
 
   const q=(s,c=document)=>c.querySelector(s);
+  // AIO_RESET_REASONS_V1_1: internal reason data, never shown to public visitors.
+  const resetReasonLabel=code=>({
+    account_blocked:'Konto miało aktywne ograniczenie w chwili zgłoszenia',
+    email_unverified:'Adres e-mail nie był potwierdzony',
+    auto_unavailable:'Automatyczna wysyłka była niedostępna',
+    delivery_failed:'Nie udała się wysyłka lub aktywacja automatycznego kodu',
+    manual_review:'Wymagana ręczna obsługa'
+  }[String(code||'')]||'Brak zapisanego powodu — zgłoszenie sprzed tej aktualizacji');
+  const currentResetAccountState=r=>{
+    const parts=[];
+    if(r.current_banned_until&&Date.parse(r.current_banned_until)>Date.now())
+      parts.push('Konto jest obecnie zablokowane');
+    if(Number(r.email_verified_now)!==1)
+      parts.push('E-mail obecnie niepotwierdzony');
+    return parts.join(' • ');
+  };
+
   const qa=(s,c=document)=>Array.from(c.querySelectorAll(s));
   let tab='pending',rows=[],role='user',userSearch='',loadSerial=0,userSearchTimer=null;
 
@@ -353,12 +370,16 @@
               </div>
             </div>
             <p><strong>E-mail:</strong> ${AIOCommunity.escape(r.email_snapshot||'')}</p>
-            <p class="community-side-note">${r.status==='approved'
-              ? 'Kod został już wygenerowany. Jeśli nie został przekazany użytkownikowi, wygeneruj nowy.'
-              : 'Użytkownik oczekuje na jednorazowy kod umożliwiający ustawienie nowego hasła.'}</p>
+            ${r.approved_by==='AIO_AUTO_WP_V1'
+              ? '<p class="community-side-note"><strong>Automatycznie:</strong> Kod przekazano do wysyłki przez WP SMTP; nie wymaga ręcznego zatwierdzania.</p>'
+              : `<p class="community-side-note"><strong>Powód ręcznej obsługi:</strong> ${AIOCommunity.escape(resetReasonLabel(r.manual_reason_code))}</p>`}
+            ${currentResetAccountState(r)?`<p class="community-side-note"><strong>Stan konta teraz:</strong> ${AIOCommunity.escape(currentResetAccountState(r))}</p>`:''}
+            ${r.status==='approved' && r.approved_by!=='AIO_AUTO_WP_V1'
+              ? '<p class="community-side-note">Kod wygenerowano ręcznie. W razie potrzeby wygeneruj nowy.</p>'
+              : r.status==='pending' ? '<p class="community-side-note">Prośba oczekuje na ręczną obsługę.</p>' : ''}
             ${r.expires_at?`<small>Kod ważny do: ${AIOCommunity.escape(AIOCommunity.formatDate(r.expires_at))}</small>`:''}
             <div class="community-admin-actions">
-              <button class="button primary" data-password-reset-action="approve">${r.status==='approved'?'Wygeneruj nowy kod':'Wygeneruj kod resetu'}</button>
+              ${r.approved_by==='AIO_AUTO_WP_V1'?'':`<button class="button primary" data-password-reset-action="approve">${r.status==='approved'?'Wygeneruj nowy kod':'Wygeneruj kod resetu'}</button>`}
               <button class="button danger" data-password-reset-action="cancel">Anuluj prośbę</button>
             </div>
           </article>`).join('')+'</div>'

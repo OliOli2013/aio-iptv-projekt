@@ -16,6 +16,8 @@ import {
   isoNow, clientIp, recordIp, moderationLog, countRows, randomToken
 } from "../_community.js";
 import {deleteAccountSafely} from "../_aio_delete_account_v1.js";
+import {ensureManualResetReasonSchema} from '../_aio_password_reset_auto_v1.js'; // AIO_RESET_REASONS_V1_1
+import {ensureEmailVerificationSchema} from '../_aio_email_verification.js';
 import {ensureTopicsV4,topicWriteV4,taxonomyColumns,validTopicFilterV4} from "../_aio_post_taxonomy_v4.js"; // AIO_TOPICS_V4_20261111
 
 async function optionalSession(request, env) {
@@ -455,11 +457,18 @@ export async function onRequestGet({request, env}) {
         }];
       } else if(tab==="password-resets"){
         if(!isFullAdmin(s)) return json({ok:false,error:"Tylko administrator może obsługiwać reset haseł."},403);
+        // Owner-only: reason recorded at the time of request, plus current status.
+        await ensureManualResetReasonSchema(env);
+        await ensureEmailVerificationSchema(env);
         const rr=await db.prepare(`
-          SELECT r.id,r.user_id,r.email_snapshot,r.status,r.expires_at,r.created_at,r.approved_at,
-                 p.display_name
+          SELECT r.id,r.user_id,r.email_snapshot,r.status,r.expires_at,r.created_at,r.approved_at,r.approved_by,
+                  p.display_name,p.banned_until AS current_banned_until,
+                  CASE WHEN v.verified_at IS NOT NULL THEN 1 ELSE 0 END AS email_verified_now,
+                  m.reason_code AS manual_reason_code
           FROM community_password_reset_requests r
           LEFT JOIN community_profiles p ON p.id=r.user_id
+          LEFT JOIN aio_email_verifications v ON v.user_id=r.user_id
+          LEFT JOIN aio_reset_manual_reasons_v1 m ON m.request_id=r.id
           WHERE r.status IN ('pending','approved')
           ORDER BY CASE r.status WHEN 'pending' THEN 0 ELSE 1 END, r.created_at DESC
           LIMIT 200

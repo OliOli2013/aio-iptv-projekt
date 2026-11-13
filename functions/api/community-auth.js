@@ -161,6 +161,10 @@ export async function onRequestPost({request, env}) {
       const isHeld=Boolean(profile?.banned_until&&Date.parse(profile.banned_until)>Date.now()) ||
         Boolean(await strictGlobalHold(env,auth.user_id));
       const canAuto=verified.verified && !isHeld && automaticResetEnabled(env);
+      // AIO_RESET_REASONS_V1_1: store an internal reason only for the owner panel.
+      let manualReason=isHeld?'account_blocked':
+        !verified.verified?'email_unverified':
+        !automaticResetEnabled(env)?'auto_unavailable':'manual_review';
       if(canAuto){
         const outcome=await sendAutomaticPasswordReset(env,auth.user_id,auth.email);
         if(outcome.state==='sent'){
@@ -169,9 +173,10 @@ export async function onRequestPost({request, env}) {
         }
         // Do not queue manual requests simply because user retried during cooldown.
         if(outcome.state==='limited')return json({ok:true,message:generic});
-        // SMTP failure: fall through to the owner's original queue.
+        // Sending or code activation failed; queue an exceptional manual request.
+        if(outcome.state==='delivery_failed')manualReason='delivery_failed';
       }
-      await queueManualPasswordReset(env,auth.user_id,auth.email,ip);
+      await queueManualPasswordReset(env,auth.user_id,auth.email,ip,manualReason);
       return json({ok:true,message:generic});
     }
 

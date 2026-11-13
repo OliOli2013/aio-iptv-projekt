@@ -14,10 +14,13 @@ const BASE_URL='https://aio-iptv-projekt.pages.dev';
 let schemaReady=null;
 const nowIso=()=>new Date().toISOString();
 
+// AIO_RESET_REASONS_V1_1: use the same URL-safe base64 SHA-256 as community-auth.js.
+// Previously automatic reset stored HEX, while verification expected base64url.
 async function sha256(s){
   const bytes=new TextEncoder().encode(s);
-  const digest=await crypto.subtle.digest('SHA-256',bytes);
-  return Array.from(new Uint8Array(digest),x=>x.toString(16).padStart(2,'0')).join('');
+  const digest=new Uint8Array(await crypto.subtle.digest('SHA-256',bytes));
+  let raw='';for(const value of digest)raw+=String.fromCharCode(value);
+  return btoa(raw).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/g,'');
 }
 function newCode(){
   const bytes=new Uint8Array(CODE_BYTES);
@@ -134,17 +137,36 @@ export async function sendAutomaticPasswordReset(env,userId,email){
   }
 }
 
+/* AIO_RESET_REASONS_V1_1: private, owner-only reason for manual fallback.
+ * This is NEVER returned by the public auth endpoint. */
+let manualReasonSchema=null;
+export async function ensureManualResetReasonSchema(env){
+  if(!env?.COMMUNITY_DB)throw new Error('Brak bazy D1.');
+  if(!manualReasonSchema)manualReasonSchema=env.COMMUNITY_DB.prepare(`CREATE TABLE IF NOT EXISTS aio_reset_manual_reasons_v1 (
+    request_id TEXT PRIMARY KEY,
+    reason_code TEXT NOT NULL,
+    created_at TEXT NOT NULL,
+    FOREIGN KEY(request_id) REFERENCES community_password_reset_requests(id) ON DELETE CASCADE
+  )`).run().catch(e=>{manualReasonSchema=null;throw e;});
+  await manualReasonSchema;
+}
 /** Non-enumerating fallback, for accounts without verified email or mail outage. */
-export async function queueManualPasswordReset(env,userId,email,ip){
+export async function queueManualPasswordReset(env,userId,email,ip,reasonCode='manual_review'){
   const db=env.COMMUNITY_DB;
-  // Idempotent manual request; do not erase an existing valid manual code.
+  await ensureManualResetReasonSchema(env);
   const existing=await db.prepare(`SELECT id FROM community_password_reset_requests
     WHERE user_id=? AND status IN ('pending','approved')
     ORDER BY created_at DESC LIMIT 1`).bind(userId).first();
   if(existing)return {queued:false};
-  await db.prepare(`INSERT INTO community_password_reset_requests
-    (id,user_id,email_snapshot,requested_ip,status,created_at)
-    VALUES (?,?,?,?,'pending',?)`)
-    .bind(crypto.randomUUID(),userId,email,ip||null,nowIso()).run();
+  const requestId=crypto.randomUUID(), stamp=nowIso();
+  const allowed=new Set(['account_blocked','email_unverified','auto_unavailable','delivery_failed','manual_review']);
+  const safeCode=allowed.has(reasonCode)?reasonCode:'manual_review';
+  await db.batch([
+    db.prepare(`INSERT INTO community_password_reset_requests
+      (id,user_id,email_snapshot,requested_ip,status,created_at)
+      VALUES (?,?,?,?,'pending',?)`).bind(requestId,userId,email,ip||null,stamp),
+    db.prepare(`INSERT INTO aio_reset_manual_reasons_v1(request_id,reason_code,created_at)
+      VALUES(?,?,?)`).bind(requestId,safeCode,stamp)
+  ]);
   return {queued:true};
 }
