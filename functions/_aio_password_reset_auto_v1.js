@@ -96,16 +96,32 @@ export async function sendAutomaticPasswordReset(env,userId,email){
     VALUES (?,?,?,NULL,'pending',?,?,?)`)
     .bind(id,userId,email,codeHash,expiresAt,createdAt).run();
   try {
+    // AIO_RESET_EMAIL_AUTO_CLARITY_V1_20261114: jeden komunikat wysyłany przez SMTP.
     await sendWpSmtp(env,{
       to:email,
-      subject:'AIO TunerHub — jednorazowy kod zmiany hasła',
-      text:'Otrzymaliśmy prośbę o zmianę hasła do konta AIO TunerHub.\n\n'+
-        'Twój jednorazowy kod:\n'+code+'\n\n'+
-        'Kod jest ważny przez 15 minut i można użyć go tylko raz.\n'+
-        'Aby ustawić nowe hasło, otwórz '+BASE_URL+'/community.html, '+
-        'wybierz „Mam kod resetu”, a następnie wpisz kod i nowe hasło.\n\n'+
-        'Jeśli nie prosiłeś o zmianę hasła, zignoruj wiadomość. '+
-        'Nie udostępniaj kodu innym osobom.'
+      subject:'AIO TunerHub — kod zmiany hasła',
+      text:[
+        'Dzień dobry,',
+        '',
+        'Otrzymaliśmy prośbę o zmianę hasła do konta AIO TunerHub.',
+        '',
+        'TWÓJ JEDNORAZOWY KOD RESETU HASŁA',
+        code,
+        '',
+        'Jak ustawić nowe hasło:',
+        '1. Otwórz: '+BASE_URL+'/community.html',
+        '2. Wybierz „Mam kod resetu”.',
+        '3. Wprowadź kod i ustaw nowe hasło.',
+        '',
+        'Kod jest ważny przez 15 minut od wygenerowania i działa tylko jeden raz.',
+        '',
+        'Jeśli nie prosiłeś o zmianę hasła, zignoruj tę wiadomość.',
+        'Nie przekazuj nikomu tego kodu.',
+        '',
+        'Pozdrawiam',
+        'AIO TunerHub',
+        'Wiadomość wygenerowana automatycznie.'
+      ].join('\n')
     });
   } catch(e){
     await db.prepare(`UPDATE community_password_reset_requests

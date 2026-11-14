@@ -657,23 +657,28 @@
       return;
     }
 
-    const subject='Kod resetu hasła — AIO TunerHub';
+    // AIO_RESET_EMAIL_CLARITY_V1_20261114: jeden czytelny szablon, bez podwójnego podpisu.
+    const subject='AIO TunerHub — kod zmiany hasła';
     const message=[
       `Dzień dobry${safeName&&safeName!=='Użytkownik'?', '+safeName:''},`,
       '',
-      'otrzymaliśmy prośbę o zresetowanie hasła do Społeczności AIO TunerHub.',
+      'Otrzymaliśmy prośbę o zmianę hasła do konta AIO TunerHub.',
       '',
-      'Twój jednorazowy kod resetu:',
+      'TWÓJ JEDNORAZOWY KOD RESETU HASŁA',
       safeCode,
       '',
-      'Kod jest ważny przez 24 godziny i może zostać użyty tylko jeden raz.',
-      'Na stronie AIO TunerHub wybierz „Mam kod resetu”, wpisz powyższy kod i ustaw nowe hasło.',
+      'Jak ustawić nowe hasło:',
+      '1. Otwórz: https://aio-iptv-projekt.pages.dev/community.html',
+      '2. Wybierz „Mam kod resetu”.',
+      '3. Wprowadź kod i ustaw nowe hasło.',
       '',
-      'Jeżeli nie prosiłeś o zmianę hasła, zignoruj tę wiadomość.',
+      'Kod jest ważny przez 24 godziny od wygenerowania i działa tylko jeden raz.',
+      '',
+      'Jeśli nie prosiłeś o zmianę hasła, zignoruj tę wiadomość.',
+      'Nie przekazuj nikomu tego kodu.',
       '',
       'Pozdrawiam',
-      'Paweł Pawełek',
-      'Administrator strony AIO TunerHub'
+      'AIO TunerHub'
     ].join('\n');
 
     const dialog=document.createElement('dialog');
@@ -684,8 +689,9 @@
         <p class="eyebrow">Reset hasła</p>
         <h2>Kod został wygenerowany</h2>
         <p class="community-side-note">
-          Możesz skopiować sam kod, skopiować gotową wiadomość albo przygotować e-mail
-          do użytkownika w domyślnym programie pocztowym.
+          Wybierz jedną metodę: „Przygotuj e-mail” otwiera gotową wiadomość albo
+          „Kopiuj wiadomość” pozwala wkleić ją samodzielnie. Nie wklejaj drugi raz
+          tekstu do e-maila przygotowanego automatycznie.
         </p>
         <div class="community-field">
           <label>Odbiorca</label>
