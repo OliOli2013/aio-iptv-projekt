@@ -554,21 +554,21 @@
       "access": "konto_AIO"
     },
     {
-      "title": "AIO Panel 18.0.0 — IPK",
-      "href": "https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/18.0.0/enigma2-plugin-extensions-panelaio_18.0.0_all.ipk",
+      "title": "AIO Panel — najnowszy IPK, bez limitów",
+      "href": "api/aio-panel-ipk",
       "category": "Wtyczki",
       "platform": "Enigma2",
-      "version": "18.0.0",
+      "version": "latest",
       "date": "07.11.2026",
       "status": "Aktualna",
       "sourcePage": "plugin-aio-panel.html",
-      "sourceTitle": "AIO Panel 18.0.0",
+      "sourceTitle": "AIO Panel — zawsze aktualny IPK",
       "kind": "IPK",
-      "size": "418.5 KiB",
-      "sha256": "2df6a2df207c9f6fe1e891199b7810d004a30823f46fd0a9339505b3ea7c22c3",
-      "official": "Oficjalny GitHub Releases",
+      "size": "zależnie od wersji",
+      "sha256": "",
+      "official": "Oficjalny GitHub Releases · bez logowania i limitów",
       "project_id": "aio-panel",
-      "release_id": "legacy-3b4eb4f2100abad0",
+      "release_id": "legacy-89a1c38ef2b80ae1",
       "origin": "legacy",
       "published_at": null,
       "verified_at": null,
@@ -1420,12 +1420,12 @@
       ]
     },
     {
-      "id": "legacy-3b4eb4f2100abad0",
+      "id": "legacy-89a1c38ef2b80ae1",
       "project_id": "aio-panel",
       "project_name": "AIO Panel",
-      "version": "18.0.0",
+      "version": "latest",
       "date": "2026-11-07",
-      "title": "AIO Panel 18.0.0 — IPK",
+      "title": "AIO Panel — najnowszy IPK, bez limitów",
       "summary": "Nowy mechanizm aktualizacji list SAT bez naruszania FAVOURITES, własnych bukietów, DVB-T/T2, DVB-C i IPTV; instalowanie kilku list obok siebie, zakładka Moje projekty, OSCam Levi45 11968 / Emu r803. Enigma2 Python 2/3, PL/EN.",
       "page": "plugin-aio-panel.html",
       "channel": "legacy",
@@ -1433,7 +1433,7 @@
       "published_at": null,
       "verified_at": null,
       "files": [
-        "https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/18.0.0/enigma2-plugin-extensions-panelaio_18.0.0_all.ipk"
+        "api/aio-panel-ipk"
       ]
     },
     {

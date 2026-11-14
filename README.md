@@ -85,7 +85,7 @@ Aktualizacja **17.0.2 — 2026-10-23**
 - Usprawniono walidację instalatorów i pakiety IPK/DEB, sprawdzono SHA-256.
 - Zachowano dotychczasowe funkcje z wersji 17.0.1.
 
-[Pobierz aktualny IPK 18.0.0](https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/18.0.0/enigma2-plugin-extensions-panelaio_18.0.0_all.ipk) • [Pobierz DEB 18.0.0](https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/18.0.0/enigma2-plugin-extensions-panelaio_18.0.0_all.deb) • [Opis i instalacja](plugin-aio-panel.html)
+[Pobierz zawsze aktualny IPK — bez logowania i limitów](https://aio-iptv-projekt.pages.dev/api/aio-panel-ipk) • [Pobierz DEB 18.0.0](https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/18.0.0/enigma2-plugin-extensions-panelaio_18.0.0_all.deb) • [Opis i instalacja](plugin-aio-panel.html)
 
 **Nowości 18.0.0 (07.11.2026):** aktualizacja SAT z zachowaniem własnych FAVOURITES, DVB-T/T2, DVB-C i IPTV; kilka list na tunerze, nowa sekcja „Moje projekty”, OSCam Levi45 11968 / Emu r803. Wcześniejsze wydania pozostają opisane poniżej.
 

@@ -1034,6 +1034,10 @@ async function accountDownload(item,kind){
 
     let url;
     try { url = new URL(rawHref, window.location.href); } catch (error) { return false; }
+    // AIO_PUBLIC_PANEL_V1: do not turn the public official IPK into an AIO Access login prompt.
+    if(url.origin===window.location.origin && (url.pathname==='/api/aio-panel-ipk'||
+      /^\/pliki\/enigma2-plugin-extensions-panelaio_[0-9][0-9a-z.+-]*_all\.ipk$/i.test(url.pathname) &&
+      !/hds|satelit|test|beta|rc/i.test(url.pathname)))return false;
     if (SUPPORT_HOSTS.test(url.hostname)) return false;
 
     const full = `${url.pathname}${url.search}${url.hash}`;

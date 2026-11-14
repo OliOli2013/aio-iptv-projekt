@@ -94,3 +94,39 @@ export function queueIssuedFileAudit(context, userId, audience, response, access
     else void task;
   } catch (_) { /* logging must never prevent serving files */ }
 }
+
+/* AIO_PUBLIC_PANEL_V1 — the public IPK counts GitHub handoffs, not completed downloads.
+ * Reuses the owner's existing download journal and a non-expiring total counter.
+ * Never logs an IP, email, user account, cookie, or individual external URL.
+ */
+let panelSchemaPromise;
+async function ensurePublicPanelSchema(env){
+  await ensureOwnerDownloadSchema(env);
+  if(!panelSchemaPromise)panelSchemaPromise=env.COMMUNITY_DB.prepare(`CREATE TABLE IF NOT EXISTS aio_public_panel_stats_v1 (
+    metric TEXT PRIMARY KEY, handoffs INTEGER NOT NULL DEFAULT 0,
+    last_handoff_at TEXT NOT NULL)`).run().catch(e=>{panelSchemaPromise=null;throw e;});
+  await panelSchemaPromise;
+}
+export async function readPublicPanelCount(env){
+  await ensurePublicPanelSchema(env);
+  const row=await env.COMMUNITY_DB.prepare("SELECT handoffs FROM aio_public_panel_stats_v1 WHERE metric='all' LIMIT 1").first();
+  return Math.max(0,Number(row?.handoffs||0));
+}
+export async function recordPublicPanelHandoff(env,filename){
+  if(!/^enigma2-plugin-extensions-panelaio_[0-9][0-9A-Za-z.+-]*_all\.ipk$/.test(String(filename||'')))
+    throw new Error('Niedozwolona nazwa wydania AIO Panel.');
+  await ensurePublicPanelSchema(env);
+  const db=env.COMMUNITY_DB,now=new Date();
+  await db.batch([
+    db.prepare(`INSERT INTO aio_owner_downloads
+      (id,user_id,audience,file_name,file_path,status_code,declared_bytes,created_at,access_reason,source_post_id)
+      VALUES (?,NULL,'guest',?,'/api/aio-panel-ipk',302,NULL,?,'aio_panel_public','')`)
+      .bind(crypto.randomUUID(),filename,now.toISOString()),
+    db.prepare(`INSERT INTO aio_public_panel_stats_v1(metric,handoffs,last_handoff_at)
+      VALUES('all',1,?) ON CONFLICT(metric) DO UPDATE SET
+      handoffs=aio_public_panel_stats_v1.handoffs+1,last_handoff_at=excluded.last_handoff_at`)
+      .bind(now.toISOString())
+  ]);
+  await db.prepare('DELETE FROM aio_owner_downloads WHERE created_at < ?')
+    .bind(new Date(now.getTime()-90*86400000).toISOString()).run();
+}

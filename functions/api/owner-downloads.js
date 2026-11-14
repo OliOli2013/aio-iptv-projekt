@@ -43,6 +43,7 @@ export async function onRequestGet({ request, env }) {
     const [totalsRows, dailyRows, filesRows, usersRows, eventRows, activeRows] = await Promise.all([
       run(`SELECT COUNT(*) AS n,
         SUM(CASE WHEN d.user_id IS NULL THEN 1 ELSE 0 END) AS guests,
+        SUM(CASE WHEN d.access_reason='aio_panel_public' THEN 1 ELSE 0 END) AS aio_panel_public, // AIO_PUBLIC_PANEL_V1
         SUM(CASE WHEN d.user_id IS NOT NULL THEN 1 ELSE 0 END) AS accounts,
         SUM(CASE WHEN d.audience='account_7d' AND d.access_reason='grant' THEN 1 ELSE 0 END) AS on_7d,
         SUM(CASE WHEN d.access_reason='vip' THEN 1 ELSE 0 END) AS on_vip,
@@ -65,10 +66,11 @@ export async function onRequestGet({ request, env }) {
     const totals = totalsRows.results?.[0] || {};
     return json({ok:true,days,all,day:selectedDay,offset,page_size:100,has_more:(offset+(eventRows.results||[]).length)<Number(totals.n||0),retention_days:90,
       totals:{issued:Number(totals.n||0),guests:Number(totals.guests||0),accounts:Number(totals.accounts||0),
+        aio_panel_public:Number(totals.aio_panel_public||0), // AIO_PUBLIC_PANEL_V1
         on_7d:Number(totals.on_7d||0),on_vip:Number(totals.on_vip||0),legacy_unclassified:Number(totals.legacy_unclassified||0),partials:Number(totals.partials||0),from_posts:Number(totals.from_posts||0),
         active_grants:activeRows?.n === null ? null : Number(activeRows?.n||0)},
       daily:dailyRows.results||[],files:filesRows.results||[],users:usersRows.results||[],events:eventRows.results||[],
-      note:'Odpowiedź 200/206 wydana przez serwer nie potwierdza ukończenia pobrania. Pole from_posts wskazuje wydania lokalnych plików z postów. Zewnętrzne przekazania mają osobną historię w Centrum Właściciela.'},200,{'cache-control':'no-store'});
+      note:'Odpowiedź 200/206 oznacza wydanie lokalnego pliku. Publiczny AIO Panel IPK jest rejestrowany jako 302 (przekazanie do oficjalnego GitHub), nie ukończone pobranie. Zewnętrzne linki z postów mają osobną historię.'},200,{'cache-control':'no-store'});
   } catch (e) {
     return json({ok:false,error:e?.status === 401 || e?.status === 403 ? 'Brak uprawnień właściciela.' : 'Nie można odczytać statystyk pobierania.'},
       e?.status===401?401:e?.status===403?403:500,{'cache-control':'no-store'});

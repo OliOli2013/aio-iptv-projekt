@@ -9,6 +9,7 @@ import {monitorDownload} from '../_aio_security_v6.js';
 import {checkAnonymousFileBurst} from '../_aio_anon_shield_v1.js';
 import {recordPostFileClickV1} from '../_aio_post_file_stats_v1.js';
 import {linksInPost,normalizePostLink,classifyPostLink,ensurePostLinkSchema,safePostFileName,externalFileKey} from '../_aio_post_links_v5.js';
+import {isOfficialAioPanelIpkUrl,PUBLIC_IPK_PATH} from '../_aio_panel_public_v1.js'; // AIO_PUBLIC_PANEL_V1
 const HEADERS={'Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff'};
 function result(obj,code=200){return json(obj,code,HEADERS)}
 function sameOrigin(req){const origin=req.headers.get('Origin');return (!origin||origin===new URL(req.url).origin)&&req.headers.get('Sec-Fetch-Site')!=='cross-site'}
@@ -49,6 +50,13 @@ export async function onRequestPost({request,env}){
     if(!linksInPost(sourceContent).includes(clicked.href))return result({ok:false,error:'Link nie występuje w aktualnej treści posta.'},403);
     const classified=classifyPostLink(clicked.href,new URL(request.url).origin);
     if(classified.kind==='invalid')return result({ok:false,error:'Nieprawidłowy link.'},400);
+    // AIO_PUBLIC_PANEL_V1: only a verified link in a published post/comment to
+    // the official standard AIO Panel IPK is exempt; count at destination GET.
+    if(isOfficialAioPanelIpkUrl(clicked.href,new URL(request.url).origin)){
+      const recorded=await recordClickSafely(env,{postId,userId:null,kind:classified.kind,url:clicked.href});
+      return result({ok:true,kind:'public',href:PUBLIC_IPK_PATH,counted:false,stats_recorded:recorded,
+        note:'Najnowszy AIO Panel IPK — bez logowania, bez limitu. Przekazanie zostanie policzone na serwerze.'});
+    }
     // Editorial links are navigation, never a download. No quota, login or audit.
     if(classified.kind==='info'){
       const statsRecorded=await recordClickSafely(env,{postId,userId:null,kind:'info',url:clicked.href});

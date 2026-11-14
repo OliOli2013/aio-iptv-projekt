@@ -225,19 +225,19 @@
     "official": "Plik na AIO TunerHub"
   },
   {
-    "title": "AIO Panel 18.0.0 — IPK",
-    "href": "https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/18.0.0/enigma2-plugin-extensions-panelaio_18.0.0_all.ipk",
+    "title": "AIO Panel — najnowszy IPK, bez limitów",
+    "href": "api/aio-panel-ipk",
     "category": "Wtyczki",
     "platform": "Enigma2",
-    "version": "18.0.0",
+    "version": "latest",
     "date": "07.11.2026",
     "status": "Aktualna",
     "sourcePage": "plugin-aio-panel.html",
-    "sourceTitle": "AIO Panel 18.0.0",
+    "sourceTitle": "AIO Panel — zawsze aktualny IPK",
     "kind": "IPK",
-    "size": "418.5 KiB",
-    "sha256": "2df6a2df207c9f6fe1e891199b7810d004a30823f46fd0a9339505b3ea7c22c3",
-    "official": "Oficjalny GitHub Releases"
+    "size": "zależnie od wersji",
+    "sha256": "",
+    "official": "Oficjalny GitHub Releases · bez logowania i limitów"
   },
   {
     "title": "AIO Panel 18.0.0 — DEB",

@@ -73,6 +73,7 @@
       <div>
         <p class="aio-panel-v2-kicker">AIO TEAM · ENIGMA2 · WYDANIE 07.11.2026</p>
         <h1>AIO Panel 18.0.0</h1>
+        <p id="aio-panel-public-info" aria-live="polite" style="padding:10px 13px;border:1px solid #47ab98;border-radius:9px;background:#0b3940;color:#d7fff6;font-weight:750">AIO Panel IPK: zawsze najnowsza wersja — bez logowania, bez limitów i bez zużycia darmowej puli.</p>
         <p class="lead">Nowy, bezpieczniejszy sposób instalowania i aktualizowania list kanałów. Zaktualizuj kanały satelitarne bez usuwania własnych FAVOURITES, bukietów, DVB-T/T2, DVB-C i IPTV. Nowa zakładka „Moje projekty”, poprawki OSCam oraz dopracowana obsługa Enigma2.</p>
         <div class="aio-panel-v2-badges">
           <span class="aio-panel-v2-badge green">● wydanie stabilne</span>
@@ -82,7 +83,7 @@
           <span class="aio-panel-v2-badge">7 listopada 2026</span>
         </div>
         <div class="aio-panel-v2-actions">
-          <a class="button primary" href="https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/18.0.0/enigma2-plugin-extensions-panelaio_18.0.0_all.ipk" target="_blank" rel="noopener noreferrer">Pobierz AIO Panel 18.0.0 · IPK</a>
+          <a class="button primary" href="/api/aio-panel-ipk" target="_blank" rel="noopener noreferrer">Pobierz AIO Panel · najnowszy IPK (bez limitów)</a>
           <a class="button" href="https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/18.0.0/enigma2-plugin-extensions-panelaio_18.0.0_all.deb" target="_blank" rel="noopener noreferrer">Pobierz DEB</a>
           <a class="button" href="#instalacja">Jak zainstalować?</a>
         </div>
@@ -151,6 +152,7 @@
 
   <section class="aio-panel-v2-panel" id="informacje">
     <div class="aio-panel-v2-heading"><div><p class="eyebrow">Oficjalne wydanie GitHub</p><h2>Pliki AIO Panel 18.0.0 i kontrola integralności</h2><p>Dwa osobne pakiety — suma SHA-256 jest inna dla IPK i DEB. Pliki pochodzą z wydania 18.0.0 w repozytorium PanelAIO-Plugin.</p></div></div>
+    <p class="aio-panel18-caution"><strong>Uwaga dotycząca sum kontrolnych:</strong> poniższe wartości SHA-256, rozmiary i nazwy plików odnoszą się do historycznie opisanego wydania 18.0.0. Przycisk „Pobierz najnowszy IPK” zawsze kieruje do najnowszej stabilnej wersji, która może mieć inną sumę i nazwę. Sprawdź informacje o właściwej wersji w GitHub Releases.</p>
     <div class="aio-panel-v2-facts">
       <div class="aio-panel-v2-fact"><span>Wersja</span><strong>18.0.0 stable</strong></div>
       <div class="aio-panel-v2-fact"><span>Data wydania</span><strong>07.11.2026</strong></div>
@@ -161,7 +163,7 @@
       <div class="aio-panel-v2-fact aio-panel-v2-sha"><span>SHA-256 — IPK</span><div class="aio-panel-v2-copy-row"><code>2df6a2df207c9f6fe1e891199b7810d004a30823f46fd0a9339505b3ea7c22c3</code><button type="button" data-copy="2df6a2df207c9f6fe1e891199b7810d004a30823f46fd0a9339505b3ea7c22c3">Kopiuj SHA</button></div></div>
       <div class="aio-panel-v2-fact aio-panel-v2-sha"><span>SHA-256 — DEB</span><div class="aio-panel-v2-copy-row"><code>9df6bed7b37500254b45b842d8825a0fc70b123a25aff071a8d202d00f1772b0</code><button type="button" data-copy="9df6bed7b37500254b45b842d8825a0fc70b123a25aff071a8d202d00f1772b0">Kopiuj SHA</button></div></div>
     </div>
-    <div class="aio-panel-v2-actions"><a class="button primary" href="https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/18.0.0/enigma2-plugin-extensions-panelaio_18.0.0_all.ipk" target="_blank" rel="noopener noreferrer">Pobierz IPK 18.0.0</a><a class="button" href="https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/18.0.0/enigma2-plugin-extensions-panelaio_18.0.0_all.deb" target="_blank" rel="noopener noreferrer">Pobierz DEB 18.0.0</a><a class="button" href="https://github.com/OliOli2013/PanelAIO-Plugin/releases/tag/18.0.0" target="_blank" rel="noopener noreferrer">Strona wydania</a></div>
+    <div class="aio-panel-v2-actions"><a class="button primary" href="/api/aio-panel-ipk" target="_blank" rel="noopener noreferrer">Pobierz zawsze najnowszy IPK</a><a class="button" href="https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/18.0.0/enigma2-plugin-extensions-panelaio_18.0.0_all.deb" target="_blank" rel="noopener noreferrer">Pobierz DEB 18.0.0</a><a class="button" href="https://github.com/OliOli2013/PanelAIO-Plugin/releases/tag/18.0.0" target="_blank" rel="noopener noreferrer">Strona wydania</a></div>
   </section>
 
   <section class="aio-panel-v2-panel" id="instalacja">
@@ -172,7 +174,7 @@
       <button class="aio-panel-v2-tab" type="button" data-install-tab="deb">Pakiet DEB przez FTP</button>
     </div>
     <div class="aio-panel-v2-install-panel" data-install-panel="direct"><div class="command"><div><strong>Instalacja / aktualizacja z oficjalnego instalatora</strong><button type="button" data-copy='wget -q -O - "https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh?$(date +%s)" | /bin/sh'>Kopiuj</button></div><pre><code>wget -q -O - "https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh?$(date +%s)" | /bin/sh</code></pre></div></div>
-    <div class="aio-panel-v2-install-panel" data-install-panel="ftp" hidden><p>Wgraj plik IPK do katalogu <code>/tmp/</code> tunera przez FTP/SFTP. Następnie uruchom:</p><div class="command"><div><strong>OpenATV / OpenPLi (opkg)</strong><button type="button" data-copy="opkg install --force-reinstall /tmp/enigma2-plugin-extensions-panelaio_18.0.0_all.ipk">Kopiuj</button></div><pre><code>opkg install --force-reinstall /tmp/enigma2-plugin-extensions-panelaio_18.0.0_all.ipk</code></pre></div></div>
+    <div class="aio-panel-v2-install-panel" data-install-panel="ftp" hidden><p>Wgraj plik IPK do katalogu <code>/tmp/</code> tunera przez FTP/SFTP. W poleceniu poniżej zastąp numer 18.0.0 rzeczywistą wersją pobranego pliku. Następnie uruchom:</p><div class="command"><div><strong>OpenATV / OpenPLi (opkg)</strong><button type="button" data-copy="opkg install --force-reinstall /tmp/enigma2-plugin-extensions-panelaio_18.0.0_all.ipk">Kopiuj</button></div><pre><code>opkg install --force-reinstall /tmp/enigma2-plugin-extensions-panelaio_18.0.0_all.ipk</code></pre></div></div>
     <div class="aio-panel-v2-install-panel" data-install-panel="deb" hidden><p>Wgraj plik DEB do <code>/tmp/</code> na obrazie Enigma2 używającym menedżera <code>dpkg</code>. Następnie uruchom:</p><div class="command"><div><strong>Instalacja DEB (dpkg)</strong><button type="button" data-copy="dpkg -i /tmp/enigma2-plugin-extensions-panelaio_18.0.0_all.deb">Kopiuj</button></div><pre><code>dpkg -i /tmp/enigma2-plugin-extensions-panelaio_18.0.0_all.deb</code></pre></div></div>
   </section>
 
@@ -193,5 +195,6 @@
 <script defer src="assets/js/aio-header-v2.js?v=20261031-design-v4"></script>
 <script defer src="assets/js/aio-share.js?v=20261010-share2"></script>
 <script defer src="assets/js/aio-mascot-widget.js?v=20261014-mascot-v21-fix1"></script>
+<script defer src="assets/js/aio-panel-public-v1.js?v=20261114-public-v1"></script>
 </body>
 </html>

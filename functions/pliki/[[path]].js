@@ -8,6 +8,7 @@ import {monitorDownload} from '../_aio_security_v6.js';
 import {checkAnonymousFileBurst,anonymousDeniedResponse} from '../_aio_anon_shield_v1.js';
 import {recordDistributedAnonymousDenied} from '../_aio_distributed_monitor_v1.js';
 import {privateStorageEnabled,readPrivateFile} from '../_aio_private_files.js';
+import {isAioPanelIpkAlias,PUBLIC_IPK_PATH} from '../_aio_panel_public_v1.js'; // AIO_PUBLIC_PANEL_V1
 const IMG=/\.(?:png|jpe?g|webp|gif|svg|avif)$/i;
 const NO_CACHE={'Cache-Control':'private, no-store'};
 function accessDenied(message,status=403){
@@ -31,6 +32,10 @@ function protectedFile(req){
 }
 async function handle(context){
   const {request,env}=context;
+  // AIO_PUBLIC_PANEL_V1: standard AIO Panel IPK (also old /pliki/ aliases)
+  // goes to the public counted gateway before any login/quota check. DEB is unchanged.
+  if(isAioPanelIpkAlias(new URL(request.url).pathname))
+    return new Response(null,{status:302,headers:{Location:PUBLIC_IPK_PATH,'Cache-Control':'private, no-store'}});
   // Temporary public mirrors: only these two AIO Panel packages bypass R2.
   const mirrors = {
     '/pliki/enigma2-plugin-extensions-panelaio_17.0.3_all.ipk': 'https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/v17.0.3/enigma2-plugin-extensions-panelaio_17.0.3_all.ipk',
