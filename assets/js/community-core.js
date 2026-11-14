@@ -309,7 +309,7 @@
               notice.querySelector('[data-aio-ip-refused-reason]').textContent=
                 AIO_PUBLIC_BLOCK_NOTICE;
               const appeal=notice.querySelector('a[href^="/contact.html"]');
-              if(appeal){appeal.href='/appeal.html';appeal.textContent='✉ Wyślij odwołanie przez stronę';}
+              if(appeal){appeal.href='/appeal.html#porzadkowanie-kont';appeal.textContent='Sprawdź powód blokady i dostępne działania';}
               notice.hidden=false;notice.style.display='block';
               notice.querySelector('[data-aio-ip-refused-title]').focus();
             }else if((err?.code==='AIO_ACCESS_RESTRICTED'||err?.code==='AIO_IP_POLICY')){

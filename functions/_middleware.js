@@ -26,7 +26,7 @@ export async function onRequest(context){
   // This does NOT exempt any other /api/, /pliki/, login, or admin route.
   if(path===PUBLIC_IPK_PATH||isAioPanelIpkAlias(path)||path==='/plugin-aio-panel.html'||path==='/plugin-aio-panel')return context.next();
   if(!request.headers.get('cookie')?.includes('aio_community_session='))return context.next();
-  if(path==='/contact'||path==='/contact.html'||path==='/api/community-auth'||path==='/appeal.html'||path==='/api/aio-review-appeal')return context.next();
+  if(path==='/contact'||path==='/contact.html'||path==='/api/community-auth'||path==='/appeal.html'||path==='/api/aio-review-appeal'||path==='/api/aio-self-resolve')return context.next();
   const api=path.startsWith('/api/')||path.startsWith('/pliki/');
   const documentRequest=!api && (request.method==='GET'||request.method==='HEAD') && !/\.[a-z0-9]{2,8}$/i.test(path.replace(/\.html$/,''));
   if(!api&&!documentRequest)return context.next();

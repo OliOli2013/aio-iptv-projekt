@@ -1,0 +1,17 @@
+#aio-self-resolve{margin:22px 0 28px;padding:18px;background:#082c3a;border:1px solid #3e92a8;border-radius:14px}
+#aio-self-resolve[hidden],.sr-delete-form[hidden],.sr-delete[hidden]{display:none!important}
+#aio-self-resolve h2{margin:0 0 12px;font-size:1.25rem}
+#aio-self-resolve p{overflow-wrap:anywhere}
+#aio-self-resolve-status{font-size:.93rem;padding:10px 12px;border-radius:9px;background:#0a3d4c;color:#e5faff}
+#aio-self-resolve-status.error{background:#4c252d;border:1px solid #ce8990}
+.sr-keeper,.sr-account{padding:14px;margin:10px 0;border:1px solid #345c6b;border-radius:10px;background:#0c3545}
+.sr-keeper{font-weight:800;border-color:#388d77}
+.sr-name{display:block;margin-bottom:10px}
+.sr-delete{background:#f6beaf;color:#3a1113}
+.sr-delete-form{display:grid;gap:12px}
+.sr-delete-form label{display:grid;gap:7px}
+.sr-delete-form p{margin:0}
+.sr-input{padding:12px;min-height:43px;width:100%;border:1px solid #66a7ba;border-radius:8px;color:#fff;background:#09232f;font:inherit}
+.sr-cancel{padding:10px 16px;background:transparent;color:#cdf7ff;border:1px solid #6a97aa;border-radius:9px;cursor:pointer}
+#aio-self-resolve .appeal-button{justify-self:start}
+@media(max-width:480px){#aio-self-resolve{padding:14px}#aio-self-resolve .appeal-button{width:100%}}
