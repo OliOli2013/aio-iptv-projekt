@@ -29,7 +29,8 @@ export async function onRequestPost({request,env}){
     if(action==='consume'){
       const hold=await activeSharedHold(env,request,user.id);
       if(hold){await logSecurity(env,request,'download_hold',user.id,'Zewnętrzny limit');throw fail(403,'Dostęp do pobierania jest obecnie ograniczony. Skontaktuj się z nami.');}
-      const r=await consumeFree(env,user.id);
+      const r=await consumeFree(env,user.id,null,request);
+      if(!r.allowed&&r.reason!=='limit')return response({ok:false,restricted:true,error:'Dostęp do pobierania jest obecnie ograniczony.'},403);
       return response({ok:r.allowed,limit_reached:!r.allowed,support_url:'/support.html#wesprzyj-projekt',...r},r.allowed?200:429);
     }
     if(action==='start')return response({ok:true,...await startFlow(env,user.id,String(body.method||''))});

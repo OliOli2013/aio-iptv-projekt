@@ -13,6 +13,7 @@
 !/.env.example
 /node_modules/
 /dist/
+/.aio-local-backups/
 /.cache/
 __pycache__/
 *.pyc

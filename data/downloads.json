@@ -226,7 +226,7 @@
   },
   {
     "title": "AIO Panel — najnowszy IPK, bez limitów",
-    "href": "api/aio-panel-ipk",
+    "href": "/api/aio-panel-ipk",
     "category": "Wtyczki",
     "platform": "Enigma2",
     "version": "latest",

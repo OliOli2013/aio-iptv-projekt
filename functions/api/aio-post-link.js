@@ -88,8 +88,9 @@ export async function onRequestPost({request,env}){
       return result({ok:true,kind:'local',href:local.href,counted:false,accounted_by:'file_server',stats_recorded:statsRecorded});
     }
     const fileKey=await externalFileKey(clicked.href,sha256);
-    const permit=await consumeFree(env,user.id,fileKey);
+    const permit=await consumeFree(env,user.id,fileKey,request);
     if(!permit.allowed){
+      if(permit.reason!=='limit')return result({ok:false,restricted:true,error:'Dostęp do pobierania jest obecnie ograniczony.'},403);
       await logSecurity(env,request,'download_denied',user.id,'Limit: link do pliku w poście');
       return result({ok:false,limit_reached:true,free_resets_at:permit.free_resets_at||null,support_url:'/support.html#wesprzyj-projekt',error:'Wykorzystano 3 darmowe pobrania. Kolejny limit odnawia się miesiąc po trzecim pobraniu.'},429);
     }

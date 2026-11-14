@@ -1,0 +1,51 @@
+name: AIO Security Core V1 — regression
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'functions/_aio_security_core_v1.js'
+      - 'functions/_aio_account_access.js'
+      - 'functions/_aio_monthly_access.js'
+      - 'functions/pliki/**'
+      - 'functions/api/aio-post-link.js'
+      - 'functions/api/aio-account-access.js'
+      - 'functions/api/aio-security-core.js'
+      - 'functions/_middleware.js'
+      - 'aio-security-core.html'
+      - 'tests/aio-security-core-v1-regression.mjs'
+      - 'scripts/aio_security_core_audit_v1.py'
+      - '.github/workflows/aio-security-core-v1.yml'
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  core-policy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: JS syntax
+        run: |
+          node --check functions/_aio_security_core_v1.js
+          node --check functions/_aio_account_access.js
+          node --check functions/pliki/'[[path]].js'
+          node --check functions/api/aio-post-link.js
+          node --check functions/api/aio-account-access.js
+          node --check functions/api/aio-security-core.js
+          node --check assets/js/aio-security-core-v1.js
+      - name: Security admission tests
+        run: node tests/aio-security-core-v1-regression.mjs .
+      - name: Static coverage audit
+        run: python3 scripts/aio_security_core_audit_v1.py
+      - name: Existing post link regression
+        run: node tests/aio-post-links-regression-v2.mjs .
+      - name: Public build isolation
+        run: |
+          python3 scripts/aio_pages_public_build_v1.py
+          python3 scripts/aio_pages_public_verify_v1.py

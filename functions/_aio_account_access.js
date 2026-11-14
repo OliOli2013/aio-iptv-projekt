@@ -1,4 +1,5 @@
 import {pendingMultikontaReview} from './_aio_multikonta_guard_v2.js';
+import {coreAdmitDownload} from './_aio_security_core_v1.js'; // AIO_SECURITY_CORE_V1
 /* AIO Access — server-side account entitlements. No entitlement is inferred from an IP or an unsigned browser cookie. */
 import {getSession,ensureSchema,sha256,isOwnerId} from './_community.js';
 import {createListNotice} from './_aio_list_notice.js';
@@ -125,11 +126,15 @@ export async function getStatus(env,userId){
     source:active?grant.source:null,...free,free_remaining:active?FREE_MONTHLY_LIMIT:(netReview?0:free.free_remaining),review_pending:!!netReview,
     free_period_hours:null};
 }
-export async function consumeFree(env,userId,fileKey=null){
+export async function consumeFree(env,userId,fileKey=null,request=null){
   const status=await getStatus(env,userId);
-  if(status.email_verified===false)throw fail(403,'Potwierdź adres e-mail przed pobraniem plików.');
+  // AIO_SECURITY_CORE_V1: single admission policy before EVERY debit / handoff.
+  const admission=await coreAdmitDownload(env,request,userId,status);
+  if(!admission.allowed){
+    if(admission.reason==='email')throw fail(403,'Potwierdź adres e-mail przed pobraniem plików.');
+    return {...status,allowed:false,reason:admission.reason};
+  }
   if(status.active)return {...status,allowed:true,reason:status.owner===true?'owner':(status.vip?'vip':'grant')};
-  if(status.review_pending)return {...status,allowed:false,reason:'review'};
   if(fileKey!==null&&!validLocalFileKey(fileKey))throw fail(400,'Nieprawidłowa ścieżka pliku.');
   return consumeMonthly(env,userId,fileKey);
 }

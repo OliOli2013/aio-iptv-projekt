@@ -102,9 +102,10 @@ async function handle(context){
     // Legacy GitHub mirrors were previously public redirects; do NOT bypass access
     // checks with these file URLs. Charge each GET, including repeat requests.
     if(mirror){
-      if(request.method==='HEAD')return new Response(null,{status:302,headers:{Location:mirror,'Cache-Control':'no-store'}});
-      const permit=await consumeFree(env,user.id,fileKey);
-      if(!permit.allowed)return redirectToInformation(request,'aio_limit');
+      // AIO_SECURITY_CORE_V1: HEAD must never disclose the protected external mirror.
+      if(request.method==='HEAD')return new Response(null,{status:204,headers:{'Cache-Control':'private, no-store'}});
+      const permit=await consumeFree(env,user.id,fileKey,request);
+      if(!permit.allowed)return permit.reason==='limit'?redirectToInformation(request,'aio_limit'):accessDenied('Dostęp do pobierania jest obecnie ograniczony.',403);
       await logSecurity(env,request,'download_issued',user.id,permit.reason);
       return new Response(null,{status:302,headers:{Location:mirror,'Cache-Control':'no-store'}});
     }
@@ -117,8 +118,8 @@ async function handle(context){
     if(asset.status!==200 && asset.status!==206)return asset;
     const contentType=String(asset.headers.get('content-type')||'').toLowerCase();
     if(contentType.startsWith('text/html'))return asset; // np. fallback strony, nie materiał
-    const permit=await consumeFree(env,user.id,fileKey); // każde pobranie liczone osobno, również tego samego pliku
-    if(!permit.allowed)return redirectToInformation(request,'aio_limit');
+    const permit=await consumeFree(env,user.id,fileKey,request); // każde pobranie liczone osobno, również tego samego pliku
+    if(!permit.allowed)return permit.reason==='limit'?redirectToInformation(request,'aio_limit'):accessDenied('Dostęp do pobierania jest obecnie ograniczony.',403);
     const headers=new Headers(asset.headers);headers.set('Cache-Control','private, no-store');
     const issued=new Response(asset.body,{status:asset.status,statusText:asset.statusText,headers});
     queueIssuedFileAudit(context,user.id,(permit.reason==='grant'||permit.reason==='vip')?'account_7d':'account_free',issued,permit.reason);
