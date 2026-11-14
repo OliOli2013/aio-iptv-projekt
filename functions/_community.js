@@ -255,7 +255,9 @@ export async function getSession(request, env, {touch=true,allowUnverified=false
   }
 
   const ip = clientIp(request);
-  if (ip) {
+  // The server-verified owner must not lose their own administration session
+  // because their current network has a user-facing IP block.
+  if (ip && !profile.is_owner) {
     const block = await env.COMMUNITY_DB.prepare(`
       SELECT id, reason, permanent, expires_at
       FROM community_ip_blocks
@@ -265,7 +267,7 @@ export async function getSession(request, env, {touch=true,allowUnverified=false
     `).bind(ip).first();
     if (block) return { blocked: true, block, tokenHash, user: profile };
   }
-  if (row.banned_until && Date.parse(row.banned_until) > Date.now()) {
+  if (!profile.is_owner && row.banned_until && Date.parse(row.banned_until) > Date.now()) {
     return { banned: true, tokenHash, user: profile };
   }
 

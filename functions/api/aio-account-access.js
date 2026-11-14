@@ -27,7 +27,7 @@ export async function onRequestPost({request,env}){
     const body=await request.json().catch(()=>({}));const action=String(body.action||'');
     if(!user)throw fail(401,'Pobieranie tylko dla zalogowanych. Zaloguj się lub załóż bezpłatne konto AIO.');
     if(action==='consume'){
-      const hold=await activeSharedHold(env,request,user.id);
+      const hold=(user.is_owner===true&&user.role==='admin')?null:await activeSharedHold(env,request,user.id);
       if(hold){await logSecurity(env,request,'download_hold',user.id,'Zewnętrzny limit');throw fail(403,'Dostęp do pobierania jest obecnie ograniczony. Skontaktuj się z nami.');}
       const r=await consumeFree(env,user.id,null,request);
       if(!r.allowed&&r.reason!=='limit')return response({ok:false,restricted:true,error:'Dostęp do pobierania jest obecnie ograniczony.'},403);

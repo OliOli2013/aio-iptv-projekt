@@ -555,7 +555,7 @@
     },
     {
       "title": "AIO Panel — najnowszy IPK, bez limitów",
-      "href": "api/aio-panel-ipk",
+      "href": "/api/aio-panel-ipk",
       "category": "Wtyczki",
       "platform": "Enigma2",
       "version": "latest",
@@ -568,7 +568,7 @@
       "sha256": "",
       "official": "Oficjalny GitHub Releases · bez logowania i limitów",
       "project_id": "aio-panel",
-      "release_id": "legacy-89a1c38ef2b80ae1",
+      "release_id": "legacy-b4122cf71d85f723",
       "origin": "legacy",
       "published_at": null,
       "verified_at": null,
@@ -1420,7 +1420,7 @@
       ]
     },
     {
-      "id": "legacy-89a1c38ef2b80ae1",
+      "id": "legacy-b4122cf71d85f723",
       "project_id": "aio-panel",
       "project_name": "AIO Panel",
       "version": "latest",
@@ -1433,7 +1433,7 @@
       "published_at": null,
       "verified_at": null,
       "files": [
-        "api/aio-panel-ipk"
+        "/api/aio-panel-ipk"
       ]
     },
     {

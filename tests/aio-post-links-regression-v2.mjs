@@ -8,6 +8,8 @@ const root=resolve(process.argv[2]||'.');
 const src=(path)=>readFileSync(resolve(root,path),'utf8');
 const moduleUrl=(js)=>'data:text/javascript;base64,'+Buffer.from(js).toString('base64');
 const linksUrl=moduleUrl(src('functions/_aio_post_links_v5.js'));
+// The public AIO Panel module is an additional dependency of aio-post-link.
+const panelUrl=moduleUrl(src('functions/_aio_panel_public_v1.js'));
 const links=await import(linksUrl);
 const ORIGIN='https://aio-iptv-projekt.pages.dev';
 let count=0;
@@ -94,6 +96,8 @@ for(const path of ['../_community.js','../_aio_account_access.js','../_aio_secur
 }
 assert.ok(apiText.includes("from '../_aio_post_links_v5.js'"));
 apiText=apiText.replace("from '../_aio_post_links_v5.js'",'from '+JSON.stringify(linksUrl));
+assert.ok(apiText.includes("from '../_aio_panel_public_v1.js'"));
+apiText=apiText.replace("from '../_aio_panel_public_v1.js'",'from '+JSON.stringify(panelUrl));
 const api=await import(moduleUrl(apiText));
 async function openPostLink(href,{member=true,commentRef=''}={}){
  const request=new Request(ORIGIN+'/api/aio-post-link',{

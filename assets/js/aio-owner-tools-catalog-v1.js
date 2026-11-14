@@ -8,6 +8,12 @@
   if(window.AIO_OWNER_TOOLS_CATALOG_V1)return;
   const tools=[
     {
+      id:'security-core-v1', name:'AIO Security Core V1 — kontrola pobrań', icon:'⛨',
+      desc:'Bieżący podgląd blokad i chronionych ścieżek. Dostępy VIP, 7D i 3 darmowe pobrania.',
+      url:'/aio-security-core.html',
+      tags:'core security download pobierania v1 uprawnienia właściciel VIP 7 dni limit 3 diagnostyka'
+    },
+    {
       id:'owner-security-guide', name:'Mapa funkcji i zabezpieczeń — przewodnik', icon:'⌑',
       desc:'Prosta, uporządkowana mapa narzędzi właściciela: gdzie sprawdzić blokady, reset haseł i dzienniki. Tylko do odczytu.',
       url:'/owner-security-guide',

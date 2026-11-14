@@ -27,6 +27,7 @@ export const OWNER_HTML = String.raw`<!doctype html>
 <link rel="stylesheet" href="/assets/css/aio-owner-messages-v1.css?v=20261021-owner-messages-v1">
 <link rel="stylesheet" href="/assets/css/aio-owner-layout-v4.css?v=20261113-etap2-v4">
 <script defer src="/assets/js/aio-owner-layout-v4.js?v=20261113-etap2-v4"></script>
+<script defer src="/assets/js/aio-owner-core-preview-v1.js?v=20261114-core-v12"></script>
 <link rel="stylesheet" href="/assets/css/aio-owner-attention-markers-v1.css?v=20261113-v1">
 <script defer src="/assets/js/aio-owner-attention-markers-v1.js?v=20261113-v1"></script>
 </head>

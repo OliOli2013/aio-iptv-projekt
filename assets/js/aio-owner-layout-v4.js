@@ -47,6 +47,7 @@
       ].join(''),true)}
       ${navGroup('Bezpieczeństwo',[
         navItem('security-center-v1','Centrum Bezpieczeństwa','⬡'),
+        navItem('security-core-v1','AIO Security Core V1','⛨'),
         navItem('wyszukiwarka-blokad','Wyszukiwarka blokad','⌕'),
         navItem('multikonta-blokady','Kolizje kont / IP','⛨'),
         navItem('multikonta-audyt','Audyt IP','◉'),

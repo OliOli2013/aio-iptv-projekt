@@ -34,6 +34,13 @@ export async function coreAdmitDownload(env,request,userId,status){
   const session=await getSession(request,env,{touch:false,allowUnverified:true});
   const authenticated=Boolean(session&&session.user?.id===userId);
   const accountBlocked=Boolean(session?.blocked||session?.banned);
+  // V1.2: ONLY the authenticated server-verified site owner is exempt from
+  // inherited anti-abuse holds. A claimed role or client-provided status alone
+  // is never sufficient; all three independent server flags must agree.
+  const verifiedOwner=authenticated&&session.user?.is_owner===true&&
+    session.user?.role==='admin'&&status?.owner===true&&
+    status?.unlimited===true&&status?.active===true;
+  if(verifiedOwner)return {allowed:true,reason:'owner'};
   if(!authenticated||accountBlocked)return coreDecision({authenticated,accountBlocked,status});
   // All three existing policies are enforced, without adding new restrictions.
   const strict=await strictGlobalHold(env,userId);

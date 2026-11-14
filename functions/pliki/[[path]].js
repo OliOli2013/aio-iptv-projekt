@@ -64,7 +64,7 @@ async function handle(context){
       const burst=await monitorDownload(env,request,user.id);
       if(burst.blocked)return accessDenied('Dostęp do pobierania jest obecnie ograniczony. Skontaktuj się z nami.',403);
     }
-    const hold=await activeSharedHold(env,request,user.id);
+    const hold=(user.is_owner===true&&user.role==='admin')?null:await activeSharedHold(env,request,user.id);
     if(hold){
       if(request.method==='GET'){
         const burst=await monitorDownload(env,request,user.id,{denied:true});

@@ -73,7 +73,7 @@ export async function onRequestPost({request,env}){
     // External-file handoffs also count toward the V6 authenticated burst threshold.
     const burst=await monitorDownload(env,request,user.id);
     if(burst.blocked)return result({ok:false,restricted:true,error:'Dostęp do pobierania jest obecnie ograniczony. Skontaktuj się z nami.'},403);
-    const hold=await activeSharedHold(env,request,user.id);
+    const hold=(user.is_owner===true&&user.role==='admin')?null:await activeSharedHold(env,request,user.id);
     if(hold)return result({ok:false,restricted:true,error:'Dostęp do pobierania jest obecnie ograniczony. Skontaktuj się z nami.'},403);
     const status=await getStatus(env,user.id);
     if(status.email_verified===false)return result({ok:false,email_verification_required:true,error:'Najpierw potwierdź e-mail.'},403);
