@@ -5,23 +5,24 @@ import {json,getSession,cleanText,isoNow,errorResponse} from '../_community.js';
 import {ensureListInbox,sendListNoticeEmail} from '../_aio_list_notice.js';
 import {ensureRelatedReviewV1,isRelatedReviewTarget} from '../_aio_related_review_v1.js';
 import {strictGlobalHold} from '../_aio_strict_ip_v4.js'; // V4.2
+import {readAppealSession} from '../_aio_appeal_session_v2.js'; // AIO_BLOCKED_APPEAL_V2
 
-const SUBJECT='[ODWOŁANIE AIO] Weryfikacja powiązanych kont';
+const SUBJECT='[ODWOŁANIE AIO] Prośba o weryfikację blokady';
+const LEGACY_SUBJECT='[ODWOŁANIE AIO] Weryfikacja powiązanych kont';
 function sameOrigin(req){
   const o=req.headers.get('Origin');
   if(o){try{if(new URL(o).origin!==new URL(req.url).origin)return false;}catch(_){return false;}}
   return req.headers.get('Sec-Fetch-Site')!=='cross-site';
 }
 async function reviewSession(req,env){
-  await ensureRelatedReviewV1(env);
+  // Dedicated 30-minute cookie, issued ONLY after a correct password on a held account.
+  // It cannot authenticate any other API, even if the account has no profile ban.
+  const limited=await readAppealSession(req,env);
+  if(limited)return limited;
+  // Backward compatibility: older V4.2 restricted community sessions remain usable.
   const session=await getSession(req,env,{touch:false,allowUnverified:true});
   const p=session?.user;
-  if(!p)return null;
-  const oldReview=isRelatedReviewTarget(p.id)&&
-    !!(p.banned_until&&Date.parse(p.banned_until)>Date.now());
-  const ipReview=!!(await strictGlobalHold(env,p.id));
-  if(!oldReview&&!ipReview)return null;
-  // Nawet przy aktywnej sesji nie udzielaj normalnych uprawnień.
+  if(!p || (!session.banned && !session.blocked))return null;
   return {id:p.id,name:String(p.display_name||'Użytkownik').slice(0,60)};
 }
 export async function onRequestGet({request,env}){
@@ -30,8 +31,8 @@ export async function onRequestGet({request,env}){
     if(!u)return json({ok:true,eligible:false,message:'Aby wysłać odwołanie, zaloguj się na zablokowane konto lub napisz e-mail.'});
     await ensureListInbox(env);
     const rows=await env.COMMUNITY_DB.prepare(`SELECT id,created_at,status,admin_reply,replied_at
-      FROM aio_list_inbox WHERE sender_id=? AND subject=? ORDER BY created_at DESC LIMIT 20`)
-      .bind(u.id,SUBJECT).all();
+      FROM aio_list_inbox WHERE sender_id=? AND subject IN (?,?) ORDER BY created_at DESC LIMIT 20`)
+      .bind(u.id,SUBJECT,LEGACY_SUBJECT).all();
     return json({ok:true,eligible:true,account_name:u.name,items:rows.results||[]});
   }catch(e){return errorResponse(e);}
 }
@@ -49,7 +50,7 @@ export async function onRequestPost({request,env}){
     await ensureListInbox(env);
     const now=isoNow(),since=new Date(Date.now()-24*3600000).toISOString(),short=new Date(Date.now()-5*60000).toISOString();
     const id=crypto.randomUUID(),db=env.COMMUNITY_DB;
-    const fullBody='Odwołanie dotyczące blokady powiązanych kont.\nID konta: '+u.id+ '\nNazwa: '+u.name+'\n\n'+message;
+    const fullBody='Odwołanie dotyczące blokady konta AIO TunerHub.\nID konta: '+u.id+'\nNazwa: '+u.name+'\n\n'+message;
     const inserted=await db.prepare(`INSERT INTO aio_list_inbox
       (id,sender_id,kind,subject,body,status,created_at,email_status)
       SELECT ?,?,'contact',?,?,'new',?,'disabled'

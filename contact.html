@@ -30,6 +30,7 @@
 <meta property="og:image:height" content="630">
 <link rel="stylesheet" href="assets/css/aio-legal.css?v=20261012-rodo1">
 <link rel="stylesheet" href="assets/css/aio-mascot-widget.css?v=20261014-mascot-v21-fix1">
+<link rel="stylesheet" href="assets/css/aio-blocked-contact-v2.css?v=20261114-blocked-appeal-v2">
 </head>
 <body class="aio-header-v2 aio-header-v3 aio-header-v4 aio-contact-v2 site-final-v1">
 <a class="skip-link" href="#main-content">Przejdź do treści</a>
@@ -85,6 +86,26 @@
     <div><b>?</b><span><strong>Problem techniczny</strong><span>Społeczność, poradniki, baza błędów i generator zgłoszenia.</span></span></div>
     <div><b>✓</b><span><strong>Lepsza diagnoza</strong><span>Przy problemie podaj tuner, system, wersję i dokładny objaw.</span></span></div>
   </div>
+</section>
+
+<!-- AIO_BLOCKED_APPEAL_V2: accessible, abuse-limited contact for restricted accounts. -->
+<section class="aio-contact-appeal" id="odwolanie-od-blokady" aria-labelledby="appeal-title">
+  <p class="aio-contact-v2-kicker">KONTAKT PRZY BLOKADZIE KONTA</p>
+  <h2 id="appeal-title">Odwołanie od blokady konta</h2>
+  <p>Jeśli Twoje konto jest zablokowane, możesz napisać do właściciela AIO bez dostępu do zwykłej skrzynki i bez odblokowywania konta. Najpierw potwierdź tożsamość poprawnym hasłem. Nie przesyłaj hasła w wiadomości.</p>
+  <div id="appeal-status" class="appeal-status" role="status" aria-live="polite">Sprawdzam możliwość wysłania odwołania…</div>
+  <div id="appeal-login-hint" hidden>
+    <p>W przypadku aktywnej blokady zaloguj się na to samo konto. Po poprawnym haśle system umożliwi wyłącznie wysłanie odwołania.</p>
+    <a class="appeal-button" href="community.html?appeal=1">Zaloguj się na zablokowane konto</a>
+  </div>
+  <form id="appeal-form" hidden>
+    <label for="appeal-message">Opis problemu lub odwołanie</label>
+    <textarea id="appeal-message" name="message" minlength="20" maxlength="2000" rows="7" required placeholder="Opisz sytuację i poproś o sprawdzenie blokady. Nie podawaj hasła, danych płatniczych ani kodów."></textarea>
+    <button class="appeal-button" type="submit" id="appeal-submit">Wyślij do właściciela AIO</button>
+    <p>Limit: 3 wiadomości na dobę, co najmniej 5 minut odstępu. Wysłanie odwołania nie zdejmuje blokady.</p>
+  </form>
+  <section id="appeal-history" hidden aria-label="Historia odwołań"><h3>Twoje odwołania</h3><div id="appeal-items"></div></section>
+  <div class="appeal-alt"><strong>Alternatywny kontakt</strong><p>Jeśli nie pamiętasz hasła lub dostęp do strony jest zablokowany na poziomie sieci, napisz na <a href="mailto:aio-iptv@wp.pl">aio-iptv@wp.pl</a>.</p></div>
 </section>
 
 <section class="aio-contact-v2-grid">
@@ -165,5 +186,6 @@
 <script defer src="assets/js/aio-header-v2.js?v=20261031-design-v4"></script>
 <script defer src="assets/js/aio-share.js?v=20261010-share2"></script>
 <script defer src="assets/js/aio-mascot-widget.js?v=20261014-mascot-v21-fix1"></script>
+<script defer src="assets/js/aio-review-appeal-v1.js?v=20261114-blocked-appeal-v2"></script>
 </body>
 </html>

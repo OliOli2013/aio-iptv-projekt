@@ -1,6 +1,7 @@
 import {registrationPreflight,registrationReviewStatement} from '../_aio_multikonta_guard_v2.js';
 import {strictSessionGate,strictGlobalHold} from '../_aio_strict_ip_v4.js'; // V4.2 GLOBAL
 import {ACCOUNT_RESTRICTED,REGISTRATION_RESTRICTED} from '../_aio_public_notices_v1.js';
+import {issueAppealSession} from '../_aio_appeal_session_v2.js'; // AIO_BLOCKED_APPEAL_V2
 import {ensureRelatedReviewV1,isRelatedReviewTarget} from '../_aio_related_review_v1.js';
 /* aioSameOriginWrite: reject cross-site browser mutation requests. */
 function aioSameOriginWrite(request) {
@@ -98,6 +99,14 @@ async function consumeWindowLimit(env, key, limit, windowMs) {
 }
 
 
+// AIO_BLOCKED_APPEAL_V2: a separate cookie; no community session or ordinary permissions.
+async function blockedAppealResponse(env,request,db,userId,throttleKey){
+  await clearAttempt(env,throttleKey);
+  const cookie=await issueAppealSession(env,userId);
+  await logSecurity(env,request,'login_review_blocked',userId,'Dostep wylacznie do formularza odwolania').catch(()=>{});
+  return json({ok:false,code:'AIO_REVIEW_BLOCK',error:ACCOUNT_RESTRICTED,
+    contact:'/appeal.html'},403,{'Set-Cookie':cookie});
+}
 export async function onRequestGet({request, env}) {
   try {
     await ensureSchema(env);
@@ -224,14 +233,11 @@ export async function onRequestPost({request, env}) {
 
     const throttleKey = `${ip || "noip"}:${email}`;
     await throttle(env, throttleKey, request);
-    if(await emailIsBlocked(env,email)){
-      // Poprawne hasło konta objętego przeglądem może służyć WYŁĄCZNIE do odwołania.
-      // Inne blokady e-mail nadal odrzucają logowanie/rejestrację.
-      const identified=action==='login'?await db.prepare('SELECT user_id FROM community_auth WHERE email=? LIMIT 1').bind(email).first():null;
-      if(!isRelatedReviewTarget(identified?.user_id)){
-        await logSecurity(env,request,'login_throttled',null,'Adres zablokowany administracyjnie');
-        return json({ok:false,error:'Nie można korzystać z tego adresu e-mail. Skontaktuj się z nami.'},403);
-      }
+    // AIO_BLOCKED_APPEAL_V2: blocked email still requires valid credentials for an appeal.
+    const emailBlocked=await emailIsBlocked(env,email);
+    if(emailBlocked && action==='register'){
+      await logSecurity(env,request,'login_throttled',null,'Adres zablokowany administracyjnie');
+      return json({ok:false,error:'Nie można korzystać z tego adresu e-mail. Skontaktuj się z nami.'},403);
     }
 
     if (action === "register") {
@@ -312,43 +318,26 @@ export async function onRequestPost({request, env}) {
       await logSecurity(env,request,"login_failed",auth.user_id,"Błędne hasło");
       return json({ok:false,error:"Nieprawidłowy e-mail lub hasło."}, 401);
     }
-    // AIO_RELATED_REVIEW_LOGIN_V1 — poprawne haslo: tylko 30-minutowa sesja do wyslania odwolania.
-    if (auth.banned_until && Date.parse(auth.banned_until) > Date.now()) {
-      if (isRelatedReviewTarget(auth.user_id) || await strictGlobalHold(env,auth.user_id)) {
-        await clearAttempt(env,throttleKey);
-        const reviewToken=randomToken(), reviewHash=await sha256(reviewToken);
-        const issued=isoNow(),expires=new Date(Date.now()+30*60*1000).toISOString();
-        await db.prepare(`INSERT INTO community_sessions
-          (token_hash,user_id,expires_at,created_at,last_seen_at,ip_address,user_agent)
-          VALUES(?,?,?,?,?,?,?)`).bind(reviewHash,auth.user_id,expires,issued,issued,ip,
-          request.headers.get('user-agent')||'').run();
-        await logSecurity(env,request,'login_review_blocked',auth.user_id,'Dostep tylko do odwolania');
-        return json({ok:false,code:'AIO_REVIEW_BLOCK',
-          error:ACCOUNT_RESTRICTED,
-          contact:'/appeal.html'},403,{"Set-Cookie":sessionCookie(reviewToken)});
-      }
-      await logSecurity(env,request,"login_throttled",auth.user_id,"Konto zablokowane");
-      return json({ok:false,error:"Twoje konto zostało zablokowane. Jeśli uważasz to za pomyłkę, skontaktuj się z nami."}, 403);
+    // AIO_BLOCKED_APPEAL_V2: valid password, but active ban / blocked email.
+    if(emailBlocked || (auth.banned_until && Date.parse(auth.banned_until)>Date.now())){
+      return blockedAppealResponse(env,request,db,auth.user_id,throttleKey);
     }
-
     // V4.2: correct password allows ONLY an appeal session for an IP collision.
     // Rejected signups do not suspend existing accounts; only persisted collisions do.
     const multiIpHold=await strictSessionGate(env,auth.user_id,ip);
     if(multiIpHold){
-      await clearAttempt(env,throttleKey);
-      const token=randomToken(),tokenHash=await sha256(token),issued=isoNow();
-      const expires=new Date(Date.now()+30*60000).toISOString();
-      await db.prepare(`INSERT INTO community_sessions
-        (token_hash,user_id,expires_at,created_at,last_seen_at,ip_address,user_agent)
-        VALUES(?,?,?,?,?,?,?)`).bind(tokenHash,auth.user_id,expires,issued,issued,ip,
-        request.headers.get('user-agent')||'').run();
-      await logSecurity(env,request,'login_review_blocked',auth.user_id,'AIO IP V4.2 — dostęp tylko do odwołania');
-      return json({ok:false,code:'AIO_REVIEW_BLOCK',error:ACCOUNT_RESTRICTED,
-        contact:'/appeal.html'},403,{"Set-Cookie":sessionCookie(token)});
+      return blockedAppealResponse(env,request,db,auth.user_id,throttleKey);
     }
     // Executed only after a valid password and the existing V6 ban check.
     const ipRestriction=await checkAfterValidLogin(env,request,auth.user_id,auth.role);
-    if(ipRestriction)return json({ok:false,code:'AIO_ACCESS_RESTRICTED',error:ACCOUNT_RESTRICTED,contact:'/contact.html?topic=account-security'},403);
+    // An IP block must not grant a normal login session either.
+    const activeIpBlock=ip ? await db.prepare(`SELECT id FROM community_ip_blocks
+      WHERE ip_address=? AND active=1 AND
+      (permanent=1 OR expires_at IS NULL OR datetime(expires_at)>datetime('now')) LIMIT 1`)
+      .bind(ip).first() : null;
+    if(ipRestriction || activeIpBlock){
+      return blockedAppealResponse(env,request,db,auth.user_id,throttleKey);
+    }
     await clearAttempt(env, throttleKey);
     const token = randomToken();
     const tokenHash = await sha256(token);

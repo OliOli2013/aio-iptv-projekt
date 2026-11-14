@@ -105,6 +105,11 @@
    const hint=el('p','aac1-hint','Do 3 wiadomości w ciągu 24 godzin. Minimum 5 minut przerwy między wysyłkami. Nie podawaj haseł ani danych płatniczych.');
    actions.append(send,hint);form.append(labelSubject,labelMessage,actions);form.addEventListener('submit',submit);section.append(form);
    notice=el('p','aac1-status','Sprawdzam status konta…');notice.setAttribute('role','status');notice.setAttribute('aria-live','polite');section.append(notice);
+   // AIO_BLOCKED_APPEAL_V2: separate restricted contact; never enable regular inbox for held users.
+   const appealLink=el('a','aac1-appeal-link','Formularz odwołania od blokady konta →');
+   appealLink.href='/contact.html#odwolanie-od-blokady';
+   const appealHint=el('p','aac1-hint','Masz zablokowane konto?');
+   appealHint.append(' ',appealLink);section.append(appealHint);
    const histHeader=el('div','aac1-history-head');historyTitle=el('h3','', 'Moje wiadomości');refreshButton=el('button','aac1-refresh','↻ Odśwież');refreshButton.type='button';refreshButton.addEventListener('click',()=>{if(authorized)void loadHistory(true);else void verifyAccount();});histHeader.append(historyTitle,refreshButton);
    history=el('div','aac1-history');section.append(histHeader,history);
    const before=host.querySelector('.aio-account-panels');if(before)before.before(section);else host.append(section);

@@ -1,0 +1,19 @@
+/* AIO BLOCKED APPEAL V2: style scoped to the contact page appeal panel. */
+.aio-contact-appeal{border:1px solid #428c9a;background:#0e303f;border-radius:16px;padding:clamp(18px,3vw,28px);margin:24px 0;color:#e5f8fa;scroll-margin-top:24px}
+.aio-contact-appeal h2{margin:0 0 8px;font-size:clamp(1.2rem,3vw,1.65rem);color:#f5ffff}
+.aio-contact-appeal p{line-height:1.6;max-width:850px;color:#b9d9e2}
+.aio-contact-appeal a{color:#87f5e2;text-underline-offset:3px}
+.aio-contact-appeal .appeal-status{padding:11px 14px;border:1px solid #416e7e;border-radius:10px;background:#0a2531;margin:13px 0;color:#e3f3ff;line-height:1.6}
+.aio-contact-appeal .appeal-status.error{border-color:#dc8383;color:#ffd6d6}
+.aio-contact-appeal #appeal-form{display:grid;gap:11px;max-width:760px;margin-top:14px}
+.aio-contact-appeal [hidden]{display:none!important}
+.aio-contact-appeal label{font-weight:700;font-size:.91rem}
+.aio-contact-appeal textarea{width:100%;min-height:135px;padding:13px;border:1px solid #6599a4;background:#071f2d;color:#fff;border-radius:9px;resize:vertical;font:inherit;box-sizing:border-box}
+.aio-contact-appeal .appeal-button{display:inline-block;width:fit-content;max-width:100%;border:1px solid #73d6c8;background:#1f7882;color:#fff;border-radius:9px;padding:11px 16px;font:inherit;font-weight:750;text-decoration:none;cursor:pointer}
+.aio-contact-appeal .appeal-button:hover{background:#2395a0}
+.aio-contact-appeal .appeal-button:disabled{cursor:wait;opacity:.6}
+.aio-contact-appeal .appeal-button:focus-visible,.aio-contact-appeal textarea:focus-visible{outline:3px solid #aaf2e9;outline-offset:3px}
+.aio-contact-appeal .appeal-item{padding:14px;margin:11px 0;background:#0a2532;border:1px solid #345969;border-radius:10px;display:grid;gap:8px}
+.aio-contact-appeal .appeal-item strong,.aio-contact-appeal .appeal-item small{display:block}
+.aio-contact-appeal .appeal-item p{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+.aio-contact-appeal .appeal-alt{margin-top:19px;border-top:1px solid #376674;padding-top:13px}
