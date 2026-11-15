@@ -1,0 +1,43 @@
+name: AIO VPN Guard V1 — rejestracja i audyt kont
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'functions/_aio_vpn_guard_v1.js'
+      - 'functions/api/aio-vpn-guard.js'
+      - 'functions/api/community-auth.js'
+      - 'assets/js/aio-vpn-guard-v1.js'
+      - 'assets/js/aio-owner-tools-catalog-v1.js'
+      - 'assets/js/aio-owner-layout-v4.js'
+      - 'aio-vpn-guard.html'
+      - 'privacy-community.html'
+      - 'tests/aio-vpn-guard-v1.mjs'
+      - '.github/workflows/aio-vpn-guard-v1.yml'
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  vpn-guard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: JavaScript syntax
+        run: |
+          node --check functions/_aio_vpn_guard_v1.js
+          node --check functions/api/aio-vpn-guard.js
+          node --check functions/api/community-auth.js
+          node --check assets/js/aio-vpn-guard-v1.js
+          node --check assets/js/aio-owner-tools-catalog-v1.js
+          node --check assets/js/aio-owner-layout-v4.js
+      - name: VPN registration and owner scans — mocked D1 and provider
+        run: node tests/aio-vpn-guard-v1.mjs .
+      - name: Cloudflare public output
+        run: |
+          python3 scripts/aio_pages_public_build_v1.py
+          python3 scripts/aio_pages_public_verify_v1.py
+          test -f dist/aio-vpn-guard.html
+          test -f dist/assets/js/aio-vpn-guard-v1.js

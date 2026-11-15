@@ -1,4 +1,5 @@
 import {registrationPreflight,registrationReviewStatement} from '../_aio_multikonta_guard_v2.js';
+import {checkVpnAtRegistration} from '../_aio_vpn_guard_v1.js'; // AIO_VPN_GUARD_V1_20261115
 import {strictSessionGate,strictGlobalHold} from '../_aio_strict_ip_v4.js'; // V4.2 GLOBAL
 import {ACCOUNT_RESTRICTED,REGISTRATION_RESTRICTED} from '../_aio_public_notices_v1.js';
 import {issueAppealSession} from '../_aio_appeal_session_v2.js'; // AIO_BLOCKED_APPEAL_V2
@@ -259,6 +260,10 @@ export async function onRequestPost({request, env}) {
 
       // AIO_MULTIKONTA_V2: kontrola sieci/e-mail i opcjonalny Turnstile przed zapisem konta.
       const netRisk=ownerAccount?null:await registrationPreflight(env,request,{email,displayName,turnstileToken:String(body.turnstileToken||'')});
+      // AIO_VPN_GUARD_V1: only NEW registrations; existing accounts are scanned on owner request.
+      const vpnRisk=ownerAccount?null:await checkVpnAtRegistration(env,request);
+      if(vpnRisk?.deny)return json({ok:false,code:'AIO_ACCESS_RESTRICTED',
+        error:REGISTRATION_RESTRICTED,contact:'/contact.html?topic=account-security'},403);
       const pw = await hashPassword(password);
       // Hard gate before creating an account: prevents multiple registrations on one IP.
       const lease = await reserveRegistrationIp(env,request,id);

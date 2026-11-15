@@ -47,6 +47,7 @@
       ].join(''),true)}
       ${navGroup('Bezpieczeństwo',[
         navItem('security-center-v1','Centrum Bezpieczeństwa','⬡'),
+        navItem('vpn-guard-v1','VPN / proxy — audyt kont','⛨'), // AIO_VPN_GUARD_V1_20261115
         navItem('security-core-v1','AIO Security Core V1','⛨'),
         navItem('wyszukiwarka-blokad','Wyszukiwarka blokad','⌕'),
         navItem('multikonta-blokady','Kolizje kont / IP','⛨'),
@@ -115,6 +116,7 @@
           <article class="aop4-feature aop4-feature-lead"><span class="aop4-feature-kicker">Zacznij tutaj</span><h3>Centrum Bezpieczeństwa</h3><p>Jeden zbiorczy obraz zdarzeń i ograniczeń. Do analizy przed podjęciem decyzji.</p>${tile('security-center-v1','Otwórz centrum','Zobacz dane zbiorcze','⬡')}</article>
           <article class="aop4-feature"><span class="aop4-feature-kicker">Użytkownik ma problem z kontem</span><h3>Blokady kont</h3><p>Znajdź konto, sprawdź aktywne oraz wcześniejsze ograniczenia.</p>${tile('wyszukiwarka-blokad','Wyszukaj blokadę','Nazwa, e-mail lub ID','⌕')}</article>
           <article class="aop4-feature"><span class="aop4-feature-kicker">Podejrzenie powiązanych kont</span><h3>Multikonta i IP</h3><p>Sprawdź kolizje oraz wyniki audytu IPv4/IPv6.</p>${tile('multikonta-blokady','Kolizje kont','Wstrzymania i odwołania','⛨')}</article>
+          <article class="aop4-feature" data-feature="aop4-vpn-link"><span class="aop4-feature-kicker">AIO_VPN_GUARD_V1_20261115</span><h3>VPN / proxy — audyt kont</h3><p>Na żądanie sprawdź historyczne sieci kont. Bez automatycznego blokowania.</p>${tile('vpn-guard-v1','Otwórz audyt VPN','Weryfikacja kont w partiach','⛨')}</article>
           <article class="aop4-feature"><span class="aop4-feature-kicker">Chcesz poznać przebieg zdarzeń</span><h3>Dziennik bezpieczeństwa</h3><p>Historia operacji, decyzji i wykrytych zdarzeń.</p>${tile('security-journal','Otwórz dziennik','Weryfikacja przed zmianą','≡')}</article>
         </div>
         <p class="aop4-footnote">Wersje V4, V6, V7 i inne pozostają osobnymi mechanizmami. Ten widok ich nie łączy i niczego nie odblokowuje.</p>

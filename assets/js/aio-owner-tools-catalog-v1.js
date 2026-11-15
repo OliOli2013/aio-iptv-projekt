@@ -7,6 +7,11 @@
 (()=>{'use strict';
   if(window.AIO_OWNER_TOOLS_CATALOG_V1)return;
   const tools=[
+    // AIO_VPN_GUARD_V1_20261115 — owner-only VPN/proxy classification and existing-account audits.
+    {id:'vpn-guard-v1',name:'VPN Guard — kontrola rejestracji i kont',icon:'⛨',
+      desc:'Na żądanie sprawdź dotychczasowe konta pod kątem VPN, proxy i Tor. Nowe rejestracje: monitorowanie lub kontrola.',
+      url:'/aio-vpn-guard.html',
+      tags:'vpn proxy tor rejestracja skanowanie kont bezpieczeństwo Core klasyfikacja IP'},
     {
       id:'security-core-v1', name:'AIO Security Core V1 — kontrola pobrań', icon:'⛨',
       desc:'Bieżący podgląd blokad i chronionych ścieżek. Dostępy VIP, 7D i 3 darmowe pobrania.',
