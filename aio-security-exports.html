@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive"><title>AIO — Eksporty bezpieczeństwa</title>
+<style>
+:root{color-scheme:dark;--bg:#061c29;--panel:#0d3040;--edge:#326579;--accent:#a2edff;--txt:#e8f7fc;--muted:#b6d5e0}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1120px;margin:0 auto;padding:clamp(16px,3.5vw,35px)}h1{margin:15px 0 9px;font-size:clamp(1.6rem,3.5vw,2.15rem)}h2{font-size:1.16rem}
+a{color:var(--accent)}.top{display:flex;flex-wrap:wrap;gap:12px;align-items:center}.muted{color:var(--muted)}.note{margin:18px 0;padding:14px 17px;border-radius:10px;border:1px solid var(--edge);background:#102d3c}
+.group{margin:19px 0;padding:18px;border:1px solid var(--edge);border-radius:14px;background:var(--panel)}
+.group h2{margin:0 0 13px}.item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px solid #2c5463}.item:first-of-type{border-top:none}
+.name{flex:1;min-width:170px}.buttons{display:flex;flex-wrap:wrap;gap:7px}
+button{border-radius:9px;border:1px solid #53a1bb;background:#14536a;color:white;padding:9px 13px;font:650 .9rem system-ui;cursor:pointer}
+button:hover{background:#206a80}button:disabled{opacity:.45;cursor:not-allowed}button.secondary{background:#234252}
+#status{padding:12px 15px;border:1px solid #326579;border-radius:9px;min-height:2.8em;overflow-wrap:anywhere}
+#status.warn{border-color:#b68a48;color:#ffdfa3}
+small{font-size:.8rem}.intro{max-width:930px}
+@media(max-width:600px){.item{align-items:flex-start;flex-direction:column}.buttons{width:100%}.buttons button{flex:1}.group{padding:13px}}
+</style></head><body><main>
+<nav class="top" aria-label="Nawigacja"><a href="/owner-hub#panel=security-exports-v1">← Centrum Właściciela</a><a href="/aio-security-center.html">Centrum Bezpieczeństwa</a><a href="/aio-vpn-guard.html">VPN Guard</a><a href="/aio-security-core.html">Security Core</a></nav>
+<h1>↓ Eksporty bezpieczeństwa</h1>
+<p class="muted intro">Jedno miejsce do pobierania raportów CSV i JSON z modułów AIO. Tylko zweryfikowany właściciel. Każdy eksport odczytuje bieżącą bazę D1 — nie zmienia kont, blokad ani limitów.</p>
+<div class="note"><strong>Ważne:</strong> eksporty obejmują dane aplikacyjne. Nie pobierają osobnych kolumn z jawnymi IP, e-mailami, hasłami, tokenami ani sekretami. Opisy zdarzeń mogą zawierać dane wprowadzone wcześniej do dziennika. Nie jest to raport Cloudflare WAF. Wykrycie wspólnej sieci nie dowodzi, że kontami zarządza jedna osoba. Rejestr VPN nowych rejestracji zapisuje tylko wykryte sygnały ryzyka od chwili wdrożenia.</div>
+<p id="status" role="status" aria-live="polite">Sprawdzam uprawnienia i listę dostępnych eksportów…</p>
+<div id="list"></div>
+<p class="muted"><small>Raport jest pobierany strona po stronie (400 rekordów na żądanie) i składany lokalnie w przeglądarce. Maksymalnie 40 000 rekordów na jeden plik. Jeśli źródło nie działa, zobaczysz błąd, a nie pusty plik sugerujący brak zdarzeń.</small></p>
+</main><script defer src="/assets/js/aio-security-exports-v1.js?v=20261115-1"></script></body></html>

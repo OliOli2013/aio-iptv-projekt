@@ -1,0 +1,29 @@
+name: AIO Security Exports V1
+on:
+  push:
+    paths:
+      - 'functions/api/aio-security-exports-v1.js'
+      - 'assets/js/aio-security-exports-v1.js'
+      - 'tests/aio-security-exports-v1.mjs'
+      - '.github/workflows/aio-security-exports-v1.yml'
+  pull_request:
+    paths:
+      - 'functions/api/aio-security-exports-v1.js'
+      - 'assets/js/aio-security-exports-v1.js'
+      - 'tests/aio-security-exports-v1.mjs'
+      - '.github/workflows/aio-security-exports-v1.yml'
+  workflow_dispatch:
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check syntax and owner-only export policy
+        run: |
+          node --check functions/api/aio-security-exports-v1.js
+          node --check assets/js/aio-security-exports-v1.js
+          node tests/aio-security-exports-v1.mjs .

@@ -45,6 +45,7 @@ footer{border-top:1px solid var(--edge);padding-top:18px;color:var(--muted);font
 <a class="tool" href="/owner-hub#panel=pending"><small class="tag">Obsługa</small><strong>Posty do zatwierdzenia</strong><span>Moderacja nowych wpisów Społeczności</span></a>
 <a class="tool" href="/owner-hub#panel=reports"><small class="tag">Obsługa</small><strong>Zgłoszenia naruszeń</strong><span>Decyzje w sprawach zgłoszonych treści</span></a>
 </div></section>
+<!-- AIO_SECURITY_EXPORTS_V1_20261115 --><p><a class="btn" href="/aio-security-exports.html">↓ Eksporty bezpieczeństwa (CSV / JSON)</a></p>
 <section class="group" id="overview"><div class="grouphead"><h2>2. Ogólny obraz bezpieczeństwa</h2><p>Zacznij od zbiorczego raportu, potem przejdź do szczegółów</p></div><div class="tools">
 <a class="tool" href="/owner-hub#panel=security-center-v1"><small class="tag readonly">Podgląd</small><strong>Centrum Bezpieczeństwa</strong><span>Zbiorczy raport blokad, logowań, pobrań i ostrzeżeń z różnych mechanizmów</span></a>
 <a class="tool" href="/owner-hub#panel=wyszukiwarka-blokad"><small class="tag readonly">Podgląd</small><strong>Wyszukiwarka blokad kont</strong><span>Jedno konto, wiele rejestrów; wyszukaj nazwę, e-mail lub ID</span></a>
