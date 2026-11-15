@@ -4,7 +4,7 @@
  * Brak odpowiedzi lub błąd API = pozostawienie obecnej strony, nigdy błędne uprawnienia.
  */
 (()=>{'use strict';
-  if(!/^\/konto\.html$/i.test(location.pathname))return;
+  if(!/^\/konto(?:\.html)?\/?$/i.test(location.pathname))return; /* AIO_OWNER_JEDEN_PANEL_V5_20261115 */
   const params=new URLSearchParams(location.search);
   if(params.get('widok')==='konto')return;
   const controller=new AbortController();

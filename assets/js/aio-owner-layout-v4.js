@@ -22,7 +22,7 @@
     document.querySelectorAll('[data-aop4-mode]').forEach(button=>{
       const next=name==='simple'?'advanced':'simple';
       button.dataset.aop4Mode=next;
-      button.textContent=name==='simple'?'Pełne menu i dawny pulpit':'Widok uproszczony';
+      button.textContent=name==='simple'?'Widok zaawansowany':'Widok prosty'; /* AIO_OWNER_JEDEN_PANEL_V5_20261115 */
       button.setAttribute('aria-label',name==='simple'?'Przełącz na pełny układ Centrum właściciela':'Przełącz na uproszczony układ Centrum właściciela');
     });
   }

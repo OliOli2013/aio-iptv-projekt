@@ -6,11 +6,11 @@
  */
 (()=>{'use strict';
   if(window.AIO_OWNER_TOOLS_CATALOG_V1)return;
+  const tools=[
     // AIO_SECURITY_EXPORTS_V1_20261115 — owner-only reports, no changes to policies.
     {id:'security-exports-v1',name:'Eksporty bezpieczeństwa — CSV / JSON',icon:'↓',
       desc:'Raporty VPN Guard, blokad, multikont, IP, Shield i dzienników — w jednym miejscu.',
       url:'/aio-security-exports.html',tags:'eksporty pobieranie raporty csv json VPN IP multikonta strict V4 V6 Security Core Shield dziennik'},
-  const tools=[
     // AIO_VPN_GUARD_V1_20261115 — owner-only VPN/proxy classification and existing-account audits.
     {id:'vpn-guard-v1',name:'VPN Guard — kontrola rejestracji i kont',icon:'⛨',
       desc:'Na żądanie sprawdź dotychczasowe konta pod kątem VPN, proxy i Tor. Nowe rejestracje: monitorowanie lub kontrola.',
