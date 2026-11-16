@@ -5,7 +5,7 @@ import re
 import sys
 root=Path(__file__).resolve().parent.parent
 required={
- 'functions/api/community-media.js':['aio-maint-media-check-v1','canReadMember','Nie masz dostępu do tego pliku'],
+ 'functions/api/community-media.js':['async function canReadPublic(', 'async function canReadMember(', 'containsExactKey(', 'Nie masz dostępu do tego pliku.'],
  'functions/api/owner-admin.js':['aio-maintenance-owner-v1','maintenance_cleanup_expired','tab === "maintenance"','tab === "media_audit"'],
  'assets/js/site.js':['aio-maint-analytics-consent-v1'],
  'assets/js/stats-nav.js':['aio-maint-analytics-consent-v1'],
