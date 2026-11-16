@@ -22,8 +22,44 @@
       .then(async r=>{const d=await r.json().catch(()=>null);return {status:r.status,ok:r.ok,data:d};})
       .finally(()=>clearTimeout(timer));
   };
-  let root=null,owner=false,epoch=0,working=false,pending=false,last=0;
+  let root=null,owner=false,epoch=0,working=false,pending=false,last=0,ownerId="";
   let fields={};
+  let currentAttentionItems=[];
+  let latestSnapshot=null;
+  /* Read/acknowledged OWNER BELL items: presentation only, never a D1 decision. */
+  const READ_PREFIX='aio_owner_attention_read_v1:';
+  const fingerprint=item=>String(item?.latest||'') || ('count:'+String(Math.max(0,Number(item?.count)||0)));
+  const seenKey=()=>ownerId?READ_PREFIX+ownerId:'';
+  function readSeen(){
+    if(!seenKey())return {};
+    try{const d=JSON.parse(localStorage.getItem(seenKey())||'{}');return d&&typeof d==='object'&&!Array.isArray(d)?d:{};}
+    catch(_){return {};}
+  }
+  function unreadCount(items){
+    const read=readSeen();
+    return (Array.isArray(items)?items:[]).reduce((n,item)=>{
+      if(!item||!item.id||read[item.id]===fingerprint(item))return n;
+      return n+Math.max(0,Number(item.count)||0);
+    },0);
+  }
+  function acknowledge(){
+    if(!owner||!ownerId||!currentAttentionItems.length)return;
+    const key=seenKey();
+    try{
+      const data=readSeen();
+      for(const item of currentAttentionItems){
+        if(item?.id)data[String(item.id)]=fingerprint(item);
+      }
+      // Keep only the 100 newest source keys; sources are fixed server-side.
+      const limited=Object.fromEntries(Object.entries(data).slice(-100));
+      localStorage.setItem(key,JSON.stringify(limited));
+      if(latestSnapshot)showData(...latestSnapshot);
+      document.dispatchEvent(new Event('aio-owner-attention-read-v1'));
+    }catch(_){
+      if(fields.state){fields.state.textContent='Nie udało się zapisać odczytu w przeglądarce. Sprawdź uprawnienia do pamięci witryny.';fields.state.classList.add('aod3-warning');}
+    }
+  }
+
   function link(label,href,cls=''){
     const a=el('a','aod3-link '+cls,label);a.href=href;return a;
   }
@@ -50,6 +86,9 @@
       const number=el('strong','aod3-counter-value','—');number.dataset.aodCount=key;card.append(number);counters.append(card);}
     root.append(counters);
     const state=el('p','aod3-state','Sprawdzam aktualne zgłoszenia…');state.dataset.aodState='';state.setAttribute('role','status');state.setAttribute('aria-live','polite');root.append(state);
+    const acknowledgeButton=el('button','aod3-button','✓ Zapoznano się — wycisz dzwonek');
+    acknowledgeButton.type='button';acknowledgeButton.disabled=true;acknowledgeButton.style.marginBottom='14px';
+    acknowledgeButton.addEventListener('click',acknowledge);root.append(acknowledgeButton);
     const msgs=section('✉ Nowe wiadomości od użytkowników','messages');
     msgs.append(el('div','aod3-entries'));msgs.append(link('Otwórz skrzynkę w Pełnym Centrum →','/owner-hub#panel=inbox','aod3-section-footer'));
     const sec=section('⛨ Bezpieczeństwo — wymaga uwagi','security');sec.append(el('div','aod3-entries'));
@@ -60,10 +99,10 @@
     const health=el('p','aod3-health','Stan D1 i R2: sprawdzanie…');health.dataset.aodHealth='';
     footer.append(health,link('Przejdź do Pełnego Centrum →',FULL,'aod3-secondary'));root.append(footer);
     anchor.after(root);
-    fields={state,health,grid,msgs,sec,tasks,reload};
+    fields={state,health,grid,msgs,sec,tasks,reload,acknowledgeButton};
     if(location.hash==='#aio-owner-attention-panel')requestAnimationFrame(()=>root?.scrollIntoView({block:'start'}));
   }
-  function reset(){root?.remove();root=null;fields={};owner=false;working=false;pending=false;last=0;document.body.classList.remove('aio-owner-dashboard-v3-active');}
+  function reset(){root?.remove();root=null;fields={};currentAttentionItems=[];latestSnapshot=null;ownerId='';owner=false;working=false;pending=false;last=0;document.body.classList.remove('aio-owner-dashboard-v3-active');}
   function counter(key,text){const n=$('[data-aod-count="'+key+'"]',root);if(n)n.textContent=text;}
   function messageRow(msg){
     const a=link('', '/owner-hub#panel=inbox','aod3-item');a.setAttribute('aria-label','Otwórz nową wiadomość');
@@ -93,6 +132,10 @@
     if(a && Array.isArray(a.unavailable) && a.unavailable.length)missing.push('części źródeł zgłoszeń');
     const all=a?Math.max(0,Number(a.total)||0):null;
     const items=a&&Array.isArray(a.items)?a.items.filter(x=>Number(x.count)>0):[];
+    currentAttentionItems=items;latestSnapshot=[att,inbox,health];
+    const toRead=unreadCount(items);
+    if(fields.acknowledgeButton){fields.acknowledgeButton.disabled=!ownerId||!toRead;
+      fields.acknowledgeButton.textContent=toRead?'✓ Zapoznano się — wycisz dzwonek ('+digits(toRead)+')':'✓ Powiadomienia przeczytane';}
     const messageItem=items.find(x=>x.id==='messages');
     const security=items.filter(x=>SECURITY.has(x.id));
     const other=items.filter(x=>x.id!=='messages'&&!SECURITY.has(x.id));
@@ -117,7 +160,8 @@
     fields.health.textContent=health?.ok&&h?.ok===true?'● D1 i magazyn R2 odpowiadają prawidłowo.':'⚠ Stan D1/R2 niepotwierdzony lub usługi zgłaszają problem.';
     fields.health.classList.toggle('aod3-warning',!(health?.ok&&h?.ok===true));
     fields.state.textContent=(a?'Odczyt '+new Date().toLocaleTimeString('pl-PL')+'. ':'Nie udało się odczytać zgłoszeń. ')+
-      (missing.length?'Uwaga: dane niepełne ('+[...new Set(missing)].join(', ')+').':'Pokazano tylko bieżące sprawy. Otwarcie pulpitu niczego nie oznacza jako przeczytane.');
+      (missing.length?'Uwaga: dane niepełne ('+[...new Set(missing)].join(', ')+').':(toRead?'Masz '+digits(toRead)+' nowych powiadomień. Możesz je oznaczyć jako przeczytane.':'Wszystkie wykryte powiadomienia zostały przeczytane.'))+
+      ' Sprawy nadal wymagające decyzji pozostają w Centrum Właściciela.';
     fields.state.classList.toggle('aod3-warning',missing.length>0);
   }
   async function refresh(force=false){
@@ -143,6 +187,7 @@
       const d=response.data;
       const allowed=!!(response.ok&&d?.authenticated===true&&d?.user?.is_owner===true&&d?.email_verified===true);
       if(!allowed){reset();return;}
+      ownerId=String(d.user?.id||'');
       owner=true;document.body.classList.add('aio-owner-dashboard-v3-active');build();void refresh(true);
     }catch(_){if(current===epoch)reset();}
   }

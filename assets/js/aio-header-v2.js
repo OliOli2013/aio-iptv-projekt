@@ -204,7 +204,7 @@
   if(window.__aioOwnerBellHeaderLoaderV1)return;
   window.__aioOwnerBellHeaderLoaderV1=true;
   const script=document.createElement('script');
-  script.src='/assets/js/aio-owner-bell-v1.js?v=20261022-owner-bell-v1';
+  script.src='/assets/js/aio-owner-bell-v1.js?v=20261116-bell-read-v1';
   script.async=false;
   document.head.append(script);
 })();

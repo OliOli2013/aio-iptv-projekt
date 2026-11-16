@@ -8,9 +8,25 @@
   const API='/api/aio-owner-attention';
   const HEALTH='/api/aio-health';
   const TARGET='/konto.html#aio-owner-attention-panel';
-  let owner=false,busy=false,epoch=0,lastRefresh=0,link=null,pill=null,attempt=0,lastTotal=0,rerun=false;
+  let owner=false,busy=false,epoch=0,lastRefresh=0,link=null,pill=null,attempt=0,lastTotal=0,rerun=false,ownerId="";
   const cssHref='/assets/css/aio-owner-bell-v1.css?v=20261022-owner-bell-v1';
   const $=s=>document.querySelector(s);
+  /* Read/acknowledged OWNER BELL items: presentation only, never a D1 decision. */
+  const READ_PREFIX='aio_owner_attention_read_v1:';
+  const fingerprint=item=>String(item?.latest||'') || ('count:'+String(Math.max(0,Number(item?.count)||0)));
+  const seenKey=()=>ownerId?READ_PREFIX+ownerId:'';
+  function readSeen(){
+    if(!seenKey())return {};
+    try{const d=JSON.parse(localStorage.getItem(seenKey())||'{}');return d&&typeof d==='object'&&!Array.isArray(d)?d:{};}
+    catch(_){return {};}
+  }
+  function unreadCount(items){
+    const read=readSeen();
+    return (Array.isArray(items)?items:[]).reduce((n,item)=>{
+      if(!item||!item.id||read[item.id]===fingerprint(item))return n;
+      return n+Math.max(0,Number(item.count)||0);
+    },0);
+  }
   const capped=n=>n>99?'99+':String(n);
 
   async function get(url){
@@ -80,12 +96,13 @@
         paint(lastTotal,true);return;
       }
       const result=a.value;
-      if(result.status===401||result.status===403){owner=false;epoch++;remove();return;}
+      if(result.status===401||result.status===403){owner=false;ownerId='';epoch++;remove();return;}
       if(!result.ok||result.data?.ok!==true){paint(lastTotal,true);return;}
-      let total=Number(result.data.total)||0;
+      // The bell shows NEW, not ALL active cases; acknowledged cases stay in the owner dashboard.
+    let total=unreadCount(result.data.items);
       let partial=result.data.complete===false||(Array.isArray(result.data.unavailable)&&result.data.unavailable.length>0);
       if(h.status==='fulfilled'){
-        if(h.value.status>=500)total+=1;
+        if(h.value.status>=500)partial=true; // Health failures are warnings, not fake unread messages.
         else if(!h.value.ok||h.value.data?.ok===false)partial=true;
       }else partial=true;
       lastTotal=total;paint(total,partial);
@@ -99,12 +116,15 @@
       const auth=await get(AUTH);
       if(current!==epoch)return;
       if(!auth.ok||auth.data?.authenticated!==true||auth.data?.email_verified!==true||auth.data?.user?.is_owner!==true)return;
+      ownerId=String(auth.data?.user?.id||'');
       owner=true;ensureUI();void refresh(true);
     }catch(_){if(current===epoch){owner=false;remove();}}
   }
   function boot(){
     void sync();
     document.addEventListener('aio-community-auth',()=>void sync());
+    document.addEventListener('aio-owner-attention-read-v1',()=>{if(owner)void refresh(true);});
+    window.addEventListener('storage',event=>{if(owner&&event.key===seenKey())void refresh(true);});
     document.addEventListener('aio-community-ready',()=>{if(!owner&&attempt++<2)void sync();});
     window.addEventListener('focus',()=>{if(owner)void refresh();});
     document.addEventListener('visibilitychange',()=>{if(!document.hidden){if(owner)void refresh();else void sync();}});
