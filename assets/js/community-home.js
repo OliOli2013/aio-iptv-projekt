@@ -1,6 +1,7 @@
 
 (function(){
   'use strict';
+  let retries=0;
   async function run(){
     const root=document.querySelector('[data-community-home-stats]');if(!root)return;
     const status=root.querySelector('[data-community-home-status]');
@@ -9,7 +10,9 @@
       if(!r.ok||!d.ok)throw new Error(d.error||'Błąd API');
       root.querySelectorAll('[data-community-home-stat]').forEach(el=>{const k=el.dataset.communityHomeStat;el.textContent=Number(d.stats?.[k]||0).toLocaleString('pl-PL');});
       if(status)status.textContent='Dane Społeczności AIO';
-    }catch(e){if(status)status.textContent='Społeczność chwilowo niedostępna';}
+    }catch(e){if(status)status.textContent='Społeczność chwilowo niedostępna';
+      if(retries<2){const attempt=++retries;setTimeout(()=>{if(!document.hidden)void run();},attempt*4500);}
+    }
   }
   // Site statistics live near the page footer; skip D1 work for short visits.
   function schedule(){

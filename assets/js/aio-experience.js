@@ -41,5 +41,10 @@
       });
     }, { threshold: 0.08, rootMargin: '0px 0px -35px 0px' });
     revealTargets.forEach((el) => observer.observe(el));
+    // Never leave valid page content invisible if the observer fails or is delayed.
+    setTimeout(() => {
+      revealTargets.forEach((el) => el.classList.add('aio-visible'));
+      observer.disconnect();
+    }, 1800);
   }
 })();

@@ -48,6 +48,7 @@ function safeCatalogLink(value){
   if(!url || /^\/\//.test(url) || /[\\\u0000-\u001f]/.test(url))return '';
   try{const parsed=new URL(url,location.href);return /^https?:$/.test(parsed.protocol)?url:''}catch(_){return ''}
 }
+let latestDownloadsRetries=0;
 async function latestDownloads(){
   const box=$('[data-aio-latest-downloads]');
   if(!box)return;
@@ -76,9 +77,11 @@ async function latestDownloads(){
     }).join('');
   }catch(_){
     box.innerHTML='<a class="aio-v2-file-card" href="downloads.html"><h3>Centrum pobierania</h3><p>Przejdź do pełnego katalogu plików.</p><footer>Otwórz →</footer></a>';
+    if(latestDownloadsRetries<2){const attempt=++latestDownloadsRetries;setTimeout(()=>{if(!document.hidden)void latestDownloads();},attempt*4000);}
   }
 }
 
+let latestCommunityRetries=0;
 async function latestCommunity(){
   const box=$('[data-aio-community-latest]');
   if(!box)return;
@@ -103,6 +106,7 @@ async function latestCommunity(){
     }).join('');
   }catch(_){
     box.innerHTML='<a class="aio-v2-post" href="community.html"><div class="aio-v2-post-preview"><span>SPOŁECZNOŚĆ AIO</span></div><h3>Zobacz najnowsze wpisy</h3><p>Pytania, rozwiązania i aktualizacje Społeczności AIO.</p><footer>Przejdź →</footer></a>';
+    if(latestCommunityRetries<2){const attempt=++latestCommunityRetries;setTimeout(()=>{if(!document.hidden)void latestCommunity();},attempt*4500);}
   }
 }
 

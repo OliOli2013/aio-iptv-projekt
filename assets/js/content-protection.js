@@ -180,16 +180,15 @@
       }
     },true);
 
-    document.addEventListener('visibilitychange',()=>{
-      if (document.hidden) document.documentElement.classList.add('aio-screen-guard');
-      else setTimeout(()=>document.documentElement.classList.remove('aio-screen-guard'),180);
+    // Do not darken or blur the page merely because the user switches tabs/windows.
+
+    // Batch DOM protection passes to at most one per animation frame.
+    let protectionFramePending=false;
+    const observer=new MutationObserver(()=>{
+      if(protectionFramePending)return;
+      protectionFramePending=true;
+      requestAnimationFrame(()=>{protectionFramePending=false;protectMainContent();});
     });
-
-    window.addEventListener('blur',()=>{
-      if (CONFIG.guardPrintScreen) activateScreenGuard(500);
-    },{passive:true});
-
-    const observer=new MutationObserver(protectMainContent);
     observer.observe(document.body,{subtree:true,childList:true});
   }
 

@@ -11,7 +11,7 @@
   Cache-Control: no-store, no-cache, must-revalidate
 
 /assets/*
-  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+  Cache-Control: public, max-age=300, must-revalidate
 
 /pliki/*
   Cache-Control: public, max-age=604800, stale-while-revalidate=86400
