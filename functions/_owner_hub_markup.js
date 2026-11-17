@@ -32,6 +32,8 @@ export const OWNER_HTML = String.raw`<!doctype html>
 <script defer src="/assets/js/aio-owner-core-preview-v1.js?v=20261114-core-v12"></script>
 <link rel="stylesheet" href="/assets/css/aio-owner-attention-markers-v1.css?v=20261113-v1">
 <script defer src="/assets/js/aio-owner-attention-markers-v1.js?v=20261113-v1"></script>
+<link rel="stylesheet" href="/assets/css/aio-owner-unified-shortcut-v1.css?v=20261117-v1-2">
+<script defer src="/assets/js/aio-owner-unified-shortcut-v1.js?v=20261117-v1-2"></script>
 </head>
 <body>
 <div class="oh-loading" id="oh-guard" role="status" aria-live="polite">Sprawdzam uprawnienia właściciela…</div>

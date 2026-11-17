@@ -1,0 +1,15 @@
+/* Unified access V1.2 — visible launcher in both Owner Hub modes; owner-scoped UI */
+.aou12-sidebtn{display:block;width:calc(100% - 20px);margin:10px;padding:12px 9px;border:1px solid #7bc6df;border-radius:10px;background:#194b62;color:#fff;font:inherit;font-weight:800;cursor:pointer}
+.aou12-sidebtn:hover,.aou12-action:hover{filter:brightness(1.13)}
+.aou12-dashboard{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:15px;margin:16px 0;padding:17px;border:1px solid #4086a1;border-radius:13px;background:#102c3e;color:#e8f9ff}
+.aou12-dashboard strong{font-size:1.06rem}.aou12-dashboard p{margin:6px 0 0;color:#b6d9e6;font-size:.9rem}
+.aou12-action{border:1px solid #9edcef;border-radius:9px;background:#185579;color:white;padding:11px 15px;min-height:43px;font-weight:800;font-size:.95rem;cursor:pointer}
+.aou12-dialog{width:min(740px,calc(100vw - 18px));max-width:none;max-height:90dvh;overflow:auto;box-sizing:border-box;padding:0;border:1px solid #63aec6;border-radius:16px;background:#0a2230;color:#edfaff;box-shadow:0 20px 70px #000b}
+.aou12-dialog::backdrop{background:#000c}
+.aou12-inner{padding:clamp(15px,3vw,24px);display:grid;gap:13px;font-family:inherit}
+.aou12-top{display:flex;align-items:center;justify-content:space-between;gap:10px}.aou12-top h2{font-size:1.17rem;margin:0}.aou12-hint,.aou12-fine{color:#afd0df;font-size:.88rem;line-height:1.5;margin:0}
+.aou12-close,.aou12-secondary{border:1px solid #7098a9;border-radius:9px;background:#224355;color:white;cursor:pointer;padding:9px 13px;font:inherit}
+.aou12-search{display:flex;gap:9px;flex-wrap:wrap}.aou12-input{background:#0c3447;border:1px solid #678b9c;color:white;border-radius:9px;padding:11px;width:100%;min-width:180px;box-sizing:border-box;font:inherit}.aou12-search .aou12-input{flex:1}.aou12-feedback{font-size:.87rem;margin:0;min-height:1.3rem;color:#e7c99b}
+.aou12-result{display:grid;gap:12px;padding:14px;border:1px solid #355c71;border-radius:12px;background:#0d2a3b}.aou12-result[hidden]{display:none}.aou12-result h3{font-size:1rem;margin:0;overflow-wrap:anywhere}.aou12-sub{font-size:.8rem;color:#b7d2df;margin:0;overflow-wrap:anywhere}.aou12-verdict{font-size:.97rem;font-weight:800;margin:0}
+.aou12-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 18px}.aou12-line{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 0;border-bottom:1px solid #355365;font-size:.83rem}.aou12-line strong{text-align:right;font-size:.8rem}.aou12-alert{color:#f5c994}.aou12-clean{color:#9ee4c5}.aou12-issues p{border-left:3px solid #dea668;padding:7px 10px;margin:5px 0;font-size:.86rem}.aou12-label{display:grid;gap:6px;color:#c3dfeb;font-size:.88rem}.aou12-controls{display:flex;flex-wrap:wrap;gap:10px}.aou12-release{flex:1}.aou12-dialog button:disabled{cursor:not-allowed;opacity:.53}
+@media(max-width:600px){.aou12-dashboard{align-items:stretch;flex-direction:column}.aou12-dashboard button{width:100%}.aou12-grid{grid-template-columns:1fr}.aou12-controls>*{width:100%}.aou12-search button{width:100%}}
