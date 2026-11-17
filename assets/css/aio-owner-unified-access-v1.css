@@ -1,0 +1,14 @@
+/* AIO OWNER unified access: scoped to existing owner modal */
+.aos4-modal .aos4-unified{border:1px solid #4c8799;border-radius:12px;padding:14px;display:grid;gap:12px;background:#0b2735}
+.aos4-modal .aos4-unified h3{margin:0;font-size:1.04rem;color:#def8ff}
+.aos4-modal .aos4-unified-status{font-weight:760;margin:0;line-height:1.5;overflow-wrap:anywhere}
+.aos4-modal .aos4-unified-list{list-style:none;margin:0;padding:0;display:grid;gap:0;border-top:1px solid #2c5364}
+.aos4-modal .aos4-unified-line{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #2c5364;font-size:.88rem}
+.aos4-modal .aos4-unified-line strong{font-size:.79rem;text-align:right}
+.aos4-modal .aos4-unified-clean{color:#9accd5}
+.aos4-modal .aos4-unified-alert{color:#ffcf91}
+.aos4-modal .aos4-unified-warnings{display:grid;gap:5px}
+.aos4-modal .aos4-unified-warnings p{margin:0;padding:6px 8px;border-left:2px solid #d8a765;font-size:.83rem;line-height:1.5;overflow-wrap:anywhere}
+.aos4-modal .aos4-unified .aos4-unified-primary{width:100%;background:#12486c;border-color:#8cd2e6;font-size:1rem;font-weight:800;min-height:49px}
+.aos4-modal .aos4-unified-primary:disabled{opacity:.5}
+@media(max-width:550px){.aos4-modal .aos4-unified-line{align-items:flex-start;flex-direction:column;gap:3px}}

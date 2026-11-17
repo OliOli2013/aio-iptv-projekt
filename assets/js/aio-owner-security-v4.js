@@ -30,6 +30,48 @@
    const head=e('div','aos4-modal-head');head.append(e('strong','','Zarządzanie kontem i siecią'),actionButton('✕','',close));body.append(head);
    const status=e('p','aos4-status','');status.setAttribute('role','status');
    const user=d.user;body.append(e('p','',user.name+' • '+(user.email||'brak e-maila')));
+
+   /* AIO_OWNER_UNIFIED_ACCESS_V1_UI */
+   const unified=e('section','aos4-unified'),uTitle=e('h3','','Rzeczywisty status dostępu');
+   const uState=e('p','aos4-unified-status','Odczytywanie wszystkich rejestrów…');
+   uState.setAttribute('role','status');
+   const uList=e('ul','aos4-unified-list'),uWarn=e('div','aos4-unified-warnings');
+   const uMeta=e('p','aos4-muted','Status obejmuje ostatnio zapisane adresy IP. Bieżący adres urządzenia może być inny.');
+   const uButton=actionButton('Odblokuj dostęp — wszystkie warstwy','aos4-unified-primary',async()=>{
+     const reason=input.value.trim();if(reason.length<8){uState.textContent='Podaj uzasadnienie (min. 8 znaków).';return;}
+     if(!confirm('Zwolnić WSZYSTKIE znane blokady konta?\n'+user.name+'\n'+(user.email||'')+'\nID: '+user.id+'\nPowód: '+reason+'\n\nBlokady innych kont i wspólnych sieci nie zostaną automatycznie zwolnione.'))return;
+     uButton.disabled=true;uState.textContent='Weryfikowanie i zwalnianie blokad…';
+     try{
+       const result=await api('/api/owner-unified-access',{action:'release_all',confirm:'ODBLOKUJ',user_id:user.id,email:user.email,reason});
+       uState.textContent=result.message||'Operacja zakończona.';
+       state.textContent='Odblokowanie zapisane. Pełny wynik znajduje się w raporcie powyżej.';
+       await loadUnified();
+     }catch(error){await loadUnified();uState.textContent='Nie odblokowano: '+error.message;}
+   });
+   uButton.disabled=true;
+   const labels=[['profile','Blokada profilu'],['strict_v42','Strict V4.2'],['ip_v8','IP Policy V8'],
+     ['ip_v7','IP Policy V7'],['blocked_ip','Blokada IP'],['ip_claim_conflict','Konflikt przypisania sieci'],
+     ['email_block','Blokada e-mail'],['security_v6','Security V6'],['shared_download','Współdzielony dostęp'],
+     ['paid_download','Dostęp płatny'],['manual_review','Weryfikacja AIO Review'],
+     ['multikonta_review','Weryfikacja multikonta'],['email_verification','Brak weryfikacji e-mail']];
+   async function loadUnified(){
+     try{
+       const data=await api('/api/owner-unified-access?user_id='+encodeURIComponent(userId));
+       uList.replaceChildren();uWarn.replaceChildren();
+       for(const [key,label] of labels){const n=Number(data.signals?.[key]||0);const li=e('li','aos4-unified-line');
+         li.append(e('span','',label),e('strong',n?'aos4-unified-alert':'aos4-unified-clean',n?'WYMAGA UWAGI ('+n+')':'Brak'));
+         uList.append(li);}
+       const caption=data.status==='no_known_blocks'?'Brak znanych ograniczeń':data.status==='blocked'?'Wykryto blokady':'Wymaga wyjaśnienia';
+       uState.textContent=caption+' · Ostatni znany IP: '+(data.last_known_ip||'brak danych');
+       if(data.issues?.length){for(const msg of data.issues)uWarn.append(e('p','',msg));}
+       uButton.disabled=!data.can_release;
+       uButton.title=data.can_release?'Zwolnij blokady wskazanego konta w jednej operacji':'Konflikt sieci lub brak danych — przeczytaj wskazówki powyżej';
+     }catch(error){uState.textContent='Nie można ustalić pełnego statusu: '+error.message;
+       uButton.disabled=true;uList.replaceChildren();uWarn.replaceChildren();}
+   }
+   unified.append(uTitle,uState,uList,uWarn,uMeta,uButton);body.append(unified);
+   void loadUnified();
+
    const state=e('p','aos4-muted','Blokada konta: '+(user.banned_until||'brak')+' · E-mail: '+(user.email_blocked?'zablokowany':'bez blokady'));body.append(state);
    const note=e('label','aos4-label','Powód operacji (wymagany)');const input=e('input','aos4-input');input.maxLength=300;input.value='Weryfikacja bezpieczeństwa konta i korzystania z AIO';note.append(input);body.append(note);
    const actions=e('div','aos4-buttons');body.append(actions);
@@ -46,8 +88,8 @@
     }catch(err){status.textContent='Błąd: '+err.message;}
    }
    actions.append(actionButton('Blokuj konto — 30 dni','aos4-warning',()=>mutate('block_account')));
-   actions.append(actionButton('Odblokuj konto','',()=>mutate('unblock_account')));
-   if(user.email){actions.append(actionButton('Blokuj e-mail i rejestrację','aos4-warning',()=>mutate('block_email')));actions.append(actionButton('Odblokuj e-mail','',()=>mutate('unblock_email')));}
+   // Profile-only unban removed: unified status above is the single canonical release action.
+   if(user.email){actions.append(actionButton('Blokuj e-mail i rejestrację','aos4-warning',()=>mutate('block_email')));actions.append(actionButton('Odblokuj tylko e-mail','',()=>mutate('unblock_email')));}
    const ipSection=e('div','aos4-ip');ipSection.append(e('h3','','Adresy IP powiązane z kontem'));
    if(!d.ips?.length)ipSection.append(e('p','aos4-muted','Brak znanych adresów IP dla tego konta.'));
    else{
@@ -58,7 +100,7 @@
       const ip=d.ips.find(x=>x.ip===list.value);if(!ip)return;
       if(ip.other_accounts>0){const typed=prompt('Sieć jest współdzielona. Aby ją zablokować, wpisz dokładnie adres IP: '+ip.ip);if(typed!==ip.ip)return;}
       void mutate('block_ip',ip.ip,ip.other_accounts>0);
-     }),actionButton('Odblokuj wybrany IP','',()=>mutate('unblock_ip',list.value)));ipSection.append(ipButtons);
+     }),actionButton('Odblokuj tylko wybrany IP','',()=>mutate('unblock_ip',list.value)));ipSection.append(ipButtons);
    }
    body.append(ipSection);
    const del=e('div','aos4-delete');del.append(e('strong','','Strefa nieodwracalna'));
@@ -95,6 +137,7 @@
  const observer=new MutationObserver(()=>{const root=document.getElementById('aio-security-journal');if(root&&$('[data-asj-content]',root))enhance(root);});
  function boot(){
    const css=document.createElement('link');css.rel='stylesheet';css.href='/assets/css/aio-owner-security-v4.css?v=20261021-v4';document.head.append(css);
+   const unifiedCss=document.createElement('link');unifiedCss.rel='stylesheet';unifiedCss.href='/assets/css/aio-owner-unified-access-v1.css?v=20261117-v1-1';document.head.append(unifiedCss);
    observer.observe(document.body,{childList:true,subtree:true});
    const root=document.getElementById('aio-security-journal');if(root)enhance(root);
    enhanceOverview();

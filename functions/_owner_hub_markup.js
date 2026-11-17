@@ -17,7 +17,7 @@ export const OWNER_HTML = String.raw`<!doctype html>
 <script defer src="/assets/js/owner-hub.js?v=20261113-owner-guide-v1"></script>
 <script defer src="/assets/js/aio-owner-overview-v2.js?v=20261019-owner-overview-v2"></script>
 <script defer src="/assets/js/aio-security-journal-v1.js?v=20261021-mobilefix-1"></script>
-<script defer src="/assets/js/aio-owner-security-v4.js?v=20261021-mobilefix-1"></script>
+<script defer src="/assets/js/aio-owner-security-v4.js?v=20261117-owner-unified-v1-1"></script>
 <script defer src="/assets/js/aio-owner-security-v5.js?v=20261021-mobilefix-1"></script>
 <script defer src="/assets/js/aio-owner-messages-admin-v1.js?v=20261021-owner-messages-v1"></script>
 <script defer src="/assets/js/aio-post-links-owner-v5.js?v=20261020-aplv5"></script>
