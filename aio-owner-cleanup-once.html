@@ -1,0 +1,29 @@
+<!doctype html><html lang="pl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AIO — jednorazowe czyszczenie kont</title>
+<style>body{font-family:system-ui,-apple-system,sans-serif;max-width:1100px;margin:35px auto;padding:0 16px;background:#101624;color:#e6ebf5;line-height:1.5}h1{font-size:27px}p{max-width:90ch}.panel{border:1px solid #405070;background:#192236;border-radius:12px;padding:20px;margin:15px 0}.note{color:#fbce87}button{background:#2c78d4;border:0;border-radius:7px;color:white;font-weight:600;padding:11px 18px;cursor:pointer}button:disabled{opacity:.4;cursor:not-allowed}.danger{background:#bf3434}input{padding:10px;color:white;background:#101624;border:1px solid #65789c;border-radius:7px;width:310px;max-width:90%}table{border-collapse:collapse;min-width:850px;font-size:13px}td,th{padding:9px;border-bottom:1px solid #37435b;text-align:left;vertical-align:top}th{background:#273650;position:sticky;top:0}.scroll{overflow:auto;max-height:540px}.muted{color:#aab6ca}.success{color:#83dca9}.failed{color:#ff9999}code{overflow-wrap:anywhere}</style></head>
+<body><h1>AIO TunerHub — jednorazowe czyszczenie kont</h1>
+<p class="note">Uwaga: wspólne IP nie dowodzi wspólnego właściciela kont. Zatwierdzisz usunięcie wszystkich nieuprzywilejowanych profili z wykrytych grup IP, bez względu na historię postów czy blokad. Usunięcie jest nieodwracalne bez przywrócenia kopii D1. Najpierw wykonaj backup.</p>
+<section class="panel"><h2>1. Podgląd przed usunięciem</h2><p>Weryfikacja wyłącznie po ID, pełnym e-mailu oraz dokładnym IP. Nazwa konta jest tylko informacyjna. Zachowujemy administratora <strong>pawelzarzycki61@gmail.com</strong>.</p><button id="preview">Odczytaj aktualną listę kont</button><div id="status" role="status"></div><div id="list" class="scroll"></div></section>
+<section class="panel"><h2>2. Potwierdzenie</h2><p>Po sprawdzeniu całej listy wpisz dokładnie <strong>USUN WSKAZANE KONTA</strong>. Operacja użyje serwerowej procedury kasowania, uwzględniającej zależności w D1.</p><input id="confirm" autocomplete="off" placeholder="USUN WSKAZANE KONTA" aria-label="Potwierdzenie usunięcia"> <button class="danger" id="run" disabled>Usuń wskazane konta</button><div id="result" role="status"></div></section>
+<script>
+'use strict';const url='/api/aio-owner-cleanup-once';let snapshot=null;const preview=document.getElementById('preview'),run=document.getElementById('run'),confirmText=document.getElementById('confirm'),status=document.getElementById('status'),listing=document.getElementById('list'),result=document.getElementById('result');
+function esc(x){return String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function canRun(){run.disabled=!snapshot||snapshot.candidate_count===0||confirmText.value!=='USUN WSKAZANE KONTA';}
+confirmText.addEventListener('input',canRun);
+preview.addEventListener('click',async()=>{snapshot=null;canRun();listing.innerHTML='';result.textContent='';status.textContent='Sprawdzam aktualne dane…';preview.disabled=true;try{
+ const r=await fetch(url,{credentials:'same-origin',cache:'no-store'});const j=await r.json();if(!r.ok||!j.ok)throw Error(j.error||'Błąd odpowiedzi.');
+ snapshot=j;status.innerHTML='<p class="success"><strong>Wskazanych do usunięcia: '+j.candidate_count+'</strong>. Konto właściciela '+esc(j.owner_email)+' jest wykluczone.</p>';
+ let html='<table><thead><tr><th>ID</th><th>Nazwa informacyjna</th><th>E-mail profilu / logowania</th><th>Powody</th><th>Wspólne IP</th><th>Posty / komentarze / sesje</th></tr></thead><tbody>';
+ for(const x of j.items){html+='<tr><td><code>'+esc(x.id)+'</code></td><td>'+esc(x.display_name)+'</td><td>'+esc(x.email_profilu)+'<br>'+esc(x.email_logowania)+'</td><td>'+x.powody.map(esc).join('; ')+'</td><td>'+x.wspolne_ip.map(esc).join('<br>')+'</td><td>'+esc(x.posty)+' / '+esc(x.komentarze)+' / '+esc(x.sesje)+'</td></tr>';}
+ listing.innerHTML=html+'</tbody></table>';canRun();
+ }catch(e){status.innerHTML='<p class="failed">'+esc(e.message)+'</p>';}finally{preview.disabled=false;}});
+run.addEventListener('click',async()=>{if(!snapshot||confirmText.value!=='USUN WSKAZANE KONTA')return;
+ if(!window.confirm('Czy na pewno usunąć '+snapshot.candidate_count+' wskazanych kont? Operacja jest nieodwracalna bez backupu D1.'))return;
+ run.disabled=true;preview.disabled=true;result.textContent='Wykonywanie usunięcia…';try{
+ const r=await fetch(url,{method:'POST',credentials:'same-origin',headers:{'content-type':'application/json'},body:JSON.stringify({action:'delete',confirm:'USUN WSKAZANE KONTA',hash:snapshot.hash})});
+ const j=await r.json();if(!r.ok||!j.ok)throw Error((j.error||'Błąd')+(j.partial?' Usunięto już: '+j.deleted_count+'; zatrzymano na ID: '+j.failed_id:''));
+ result.innerHTML='<p class="success">Usunięto <strong>'+esc(j.deleted_count)+'</strong> kont. Konto właściciela zachowane. Po operacji usuń tymczasowe pliki z repozytorium.</p>';
+ snapshot=null;listing.innerHTML='';status.textContent='Operacja zakończona. Możesz odświeżyć podgląd, aby sprawdzić stan.';
+ }catch(e){result.innerHTML='<p class="failed">'+esc(e.message)+'</p>';snapshot=null;status.textContent='Odśwież podgląd przed następną próbą.';
+ }finally{preview.disabled=false;canRun();}});
+</script></body></html>

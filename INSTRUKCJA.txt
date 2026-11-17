@@ -1,0 +1,42 @@
+AIO TunerHub — JEDNORAZOWE czyszczenie kont / 17.11.2026
+==========================================================
+Zawartość paczki:
+- functions/api/aio-owner-cleanup-once.js (endpoint wyłącznie dla właściciela)
+- aio-owner-cleanup-once.html (panel podglądu i świadomej decyzji)
+
+INSTALACJA (GitKraken):
+1. Wykonaj kopię bezpieczeństwa produkcyjnej bazy Cloudflare D1.
+2. Wypakuj ZIP do katalogu głównego repozytorium aio-iptv-projekt,
+   zachowując podkatalog functions/api/. Przykład:
+   cd "$HOME/AIO projekt/aio-iptv-projekt"
+   unzip -oq "$HOME/Pobrane/AIO_KONTA_CZYSZCZENIE_KONTROLWANE_V5.zip" -d .
+3. W GitKraken sprawdź dwa dodane pliki, commit i push.
+4. Poczekaj na wdrożenie Cloudflare Pages i zaloguj się jako konto właściciela.
+5. Otwórz: https://aio-iptv-projekt.pages.dev/aio-owner-cleanup-once.html
+6. Kliknij "Odczytaj aktualną listę kont". Sprawdź KAŻDY ID, e-mail i wspólne IP.
+7. Wpisz dokładnie: USUN WSKAZANE KONTA. Potwierdź ostrzeżenie.
+8. Jeśli pojawi się błąd częściowego wykonania, NIE ponawiaj starej listy:
+   odśwież podgląd i sprawdź pozostałe konta.
+9. Po zakończeniu usuń oba dodane pliki z repozytorium,
+   wykonaj commit i push, aby zlikwidować tymczasowy mechanizm.
+
+KRYTERIA:
+- Jeden pusty stary profil o ustalonym ID, tylko jeśli nadal jest pusty.
+- Wszystkie konta z e-mailem msisystem@t.pl, niezależnie od nicku.
+- Wszystkie nieuprzywilejowane profile mające pełny e-mail powtórzony
+  przy INNYM identyfikatorze (dokładny e-mail po trim/lowercase).
+- Wszystkie nieuprzywilejowane profile powiązane dokładnie wspólnym IP
+  (IPv4 lub pełnym IPv6) z innym istniejącym profilem, także z właścicielem.
+- NIGDY nie porównuje ani nie usuwa po display_name.
+- Właściciel: zablokowany na stałe przez ID + e-mail + rolę admin.
+- Dane z bieżącej bazy, nie z archiwalnej migawki.
+- UWAGA: wspólne IP NIE DOWODZI multikonta; dwa konta różnych osób z
+  dynamicznym IP lub CGNAT również zostaną oznaczone do usunięcia.
+- Usuwane są też wpisy historyczne konta / sesje / posty itp. wg
+  istniejącej funkcji _aio_delete_account_v1.js.
+- Osierocone claimy Strict IP V4 po poprzednich operacjach (2 szt.)
+  nie są czyszczone automatycznie, gdyż nie należą do wskazanych kont.
+
+ZASTRZEŻENIE:
+Zdalny asystent NIE ma dostępu do produkcyjnego D1 i NIE uruchamia usuwania.
+Backend wykonuje jednoznaczne usuwanie dopiero po potwierdzeniu w panelu.
