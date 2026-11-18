@@ -287,6 +287,14 @@
             this.user=d.user;this.profile=d.user;
             this.emailVerified=!d.email_verification_required;
             this.renderAccountBars();
+            // AIO_USERNAME_PROTECTION_V1_2_20261118: od razu po zalogowaniu pokaż obowiązkową zmianę nazwy.
+            if(d.username_rename_required===true){
+              try{dialog.close();}catch(_){/* kolejny modal otworzy skrypt nazw */}
+              form.reset();
+              document.dispatchEvent(new CustomEvent('aio-username-rename-login',{detail:{required:true}}));
+              if(window.AIOUsernamePolicyV12?.check)void window.AIOUsernamePolicyV12.check();
+              return;
+            }
             if(d.security_warning)window.alert("AIO — OSTRZEŻENIE BEZPIECZEŃSTWA\n"+d.security_warning);
             if(d.email_verification_required){
               dialog.querySelector('[data-aio-auth-message]').textContent=d.verification_mail_sent===false
@@ -662,4 +670,4 @@
 })();
 
 /* AIO_USERNAME_PROTECTION_V1_20261118: owner-only branded names are checked server-side; UI only explains. */
-(function(){const s=document.createElement('script');s.src='/assets/js/aio-username-policy-v1.js?v=20261118';s.async=true;document.head.appendChild(s);})();
+(function(){const s=document.createElement('script');s.src='/assets/js/aio-username-policy-v1.js?v=20261118-v12';s.async=true;document.head.appendChild(s);})();

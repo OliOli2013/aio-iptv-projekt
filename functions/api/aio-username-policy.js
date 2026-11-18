@@ -19,6 +19,14 @@ export async function onRequestGet({request,env}){
     if(!s)return respond({ok:true,required:false,authenticated:false});
     const review=await usernameRenameReview(env,s.user.id,s.user.display_name,s.user.role);
     if(!review)return respond({ok:true,required:false,authenticated:true});
+    // AIO_USERNAME_PROTECTION_V1_2_20261118: dostępność nazwy tylko dla zalogowanego konta z obowiązkiem zmiany.
+    const candidate=new URL(request.url).searchParams.get('check');
+    if(candidate!==null){
+      if(candidate.length>120)return respond({ok:true,required:true,available:false,message:'Nazwa jest za długa.'});
+      const verdict=await checkUsername(env,candidate,s.user.id,false);
+      return respond({ok:true,required:true,available:!!verdict.ok,
+        message:verdict.ok?'Nazwa jest dostępna. Możesz ją zapisać.':(verdict.error||'Nazwa niedostępna.')});
+    }
     return respond({ok:true,required:true,authenticated:true,current_name:s.user.display_name,
       deadline_at:review.deadline_at,grace_used:!!review.grace_used_at,
       reason:'Nazwa konta jest zastrzeżona albo już wykorzystywana przez inne konto.'});
