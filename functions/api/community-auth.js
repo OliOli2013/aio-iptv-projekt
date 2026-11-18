@@ -1,4 +1,5 @@
 import {registrationPreflight,registrationReviewStatement} from '../_aio_multikonta_guard_v2.js';
+import {ensureUsernamePolicy,checkUsername,claimUsernameStatement,usernameRenameReview,consumeLegacyLogin} from '../_aio_username_policy_v1.js'; // AIO_USERNAME_PROTECTION_V1_20261118
 import {checkVpnAtRegistration} from '../_aio_vpn_guard_v1.js'; // AIO_VPN_GUARD_V1_20261115
 import {strictSessionGate,strictGlobalHold} from '../_aio_strict_ip_v4.js'; // V4.2 GLOBAL
 import {ACCOUNT_RESTRICTED,REGISTRATION_RESTRICTED} from '../_aio_public_notices_v1.js';
@@ -257,6 +258,9 @@ export async function onRequestPost({request, env}) {
       const id = crypto.randomUUID();
       const displayName = cleanText(body.displayName || email.split("@")[0], 60);
       if (displayName.length < 2) return json({ok:false,error:"Nazwa użytkownika jest za krótka."}, 400);
+      await ensureUsernamePolicy(env);
+      const checkedName=await checkUsername(env,displayName,"",ownerAccount);
+      if(!checkedName.ok)return json({ok:false,code:'AIO_USERNAME_UNAVAILABLE',error:checkedName.error},409);
 
       // AIO_MULTIKONTA_V2: kontrola sieci/e-mail i opcjonalny Turnstile przed zapisem konta.
       const netRisk=ownerAccount?null:await registrationPreflight(env,request,{email,displayName,turnstileToken:String(body.turnstileToken||'')});
@@ -278,6 +282,7 @@ export async function onRequestPost({request, env}) {
           (user_id,email,password_hash,password_salt,password_iterations,created_at)
           VALUES(?,?,?,?,?,?)
         `).bind(id,email,pw.hash,pw.salt,pw.iterations,isoNow()),
+        claimUsernameStatement(env,id,checkedName.key),
         permitRegistrationStatement(env,lease,id),
         registrationReviewStatement(env,id,netRisk)
       ].filter(Boolean));}catch(e){await rollbackRegistrationIp(env,lease,id);throw e;}
@@ -343,6 +348,10 @@ export async function onRequestPost({request, env}) {
     if(ipRestriction || activeIpBlock){
       return blockedAppealResponse(env,request,db,auth.user_id,throttleKey);
     }
+    // Existing reserved/duplicate names get ONE valid-password sign-in to rename.
+    const renameReview=await usernameRenameReview(env,auth.user_id,auth.display_name,auth.role,{fullScan:true});
+    if(renameReview && !(await consumeLegacyLogin(env,auth.user_id)))
+      return json({ok:false,code:'AIO_USERNAME_GRACE_USED',error:'Jednorazowe logowanie w celu zmiany nazwy zostało już wykorzystane. Skontaktuj się z administracją AIO.'},403);
     await clearAttempt(env, throttleKey);
     const token = randomToken();
     const tokenHash = await sha256(token);
@@ -359,7 +368,7 @@ export async function onRequestPost({request, env}) {
     await logSecurity(env,request,"login_ok",auth.user_id);
     const securityHold=null; // Replaced by indefinite V7 hold and owner review.
     // Premium/VIP: distinct live sessions on different networks and device classes.
-    const paidHold=await (async()=>{
+    const paidHold=renameReview?null:await (async()=>{
       const access=await getStatus(env,auth.user_id);
       return reviewPaidSessionSharing(env,request,auth.user_id,access.active===true && access.owner!==true);
     })().catch(e=>{console.error('AIO paid sharing review',String(e?.message||e));return null;});
@@ -368,11 +377,13 @@ export async function onRequestPost({request, env}) {
     const verification=await emailVerificationStatus(env,loginUser.id);
     return json(
       {ok:true,authenticated:true,user:loginUser,email_verified:verification.verified,
-        email_verification_required:verification.required,security_warning:(paidHold||securityHold)?'Dostęp do części funkcji jest obecnie ograniczony. Skontaktuj się z nami.':null},
+        email_verification_required:verification.required,username_rename_required:!!renameReview,security_warning:(paidHold||securityHold)?'Dostęp do części funkcji jest obecnie ograniczony. Skontaktuj się z nami.':null},
       200,
       {"Set-Cookie":sessionCookie(token)}
     );
   } catch (e) {
+    if(/aio_username_claims_v1|UNIQUE constraint failed: aio_username_claims_v1/i.test(String(e?.message||'')))
+      return json({ok:false,code:'AIO_USERNAME_UNAVAILABLE',error:'Ten login jest już zajęty. Wybierz inny.'},409);
     // Registration denied because this IP has no free additional-account permit.
     // No profile, session or successful login is created in this branch.
     if(e?.status===409 && e?.message===IP_POLICY_NOTICE)

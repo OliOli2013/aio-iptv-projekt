@@ -660,3 +660,6 @@
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>AIOCommunity.init());
   else AIOCommunity.init();
 })();
+
+/* AIO_USERNAME_PROTECTION_V1_20261118: owner-only branded names are checked server-side; UI only explains. */
+(function(){const s=document.createElement('script');s.src='/assets/js/aio-username-policy-v1.js?v=20261118';s.async=true;document.head.appendChild(s);})();

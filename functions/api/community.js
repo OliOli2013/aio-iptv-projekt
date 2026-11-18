@@ -16,6 +16,7 @@ import {
   isoNow, clientIp, recordIp, moderationLog, countRows, randomToken
 } from "../_community.js";
 import {deleteAccountSafely} from "../_aio_delete_account_v1.js";
+import {checkUsername,claimUsernameStatement} from '../_aio_username_policy_v1.js'; // AIO_USERNAME_PROTECTION_V1_20261118
 import {ensureManualResetReasonSchema} from '../_aio_password_reset_auto_v1.js'; // AIO_RESET_REASONS_V1_1
 import {ensureEmailVerificationSchema} from '../_aio_email_verification.js';
 import {ensureTopicsV4,topicWriteV4,taxonomyColumns,validTopicFilterV4} from "../_aio_post_taxonomy_v4.js"; // AIO_TOPICS_V4_20261111
@@ -638,13 +639,18 @@ export async function onRequestPost({request,env}) {
       const s=await requireUser(request,env);
       const display=cleanText(body.display_name,60);
       if(display.length<2) return json({ok:false,error:"Nazwa użytkownika jest za krótka."},400);
+      const checkedName=await checkUsername(env,display,s.user.id,s.user.is_owner===true);
+      if(!checkedName.ok)return json({ok:false,error:checkedName.error},409);
       const avatarKey=cleanText(body.avatar_key||s.user.avatar_key||"",500);
       if(avatarKey&&!avatarKey.startsWith(`${s.user.id}/`)) return json({ok:false,error:"Nieprawidłowy avatar."},400);
-      await db.prepare(`
-        UPDATE community_profiles SET display_name=?,tuner_model=?,system_name=?,system_version=?,python_version=?,bio=?,avatar_key=?,updated_at=?
-        WHERE id=?
-      `).bind(display,cleanText(body.tuner_model,80),cleanText(body.system_name,50),cleanText(body.system_version,30),
-        cleanText(body.python_version,20),cleanText(body.bio,600),avatarKey||null,isoNow(),s.user.id).run();
+      await db.batch([
+        claimUsernameStatement(env,s.user.id,checkedName.key),
+        db.prepare(`
+          UPDATE community_profiles SET display_name=?,tuner_model=?,system_name=?,system_version=?,python_version=?,bio=?,avatar_key=?,updated_at=?
+          WHERE id=?
+        `).bind(checkedName.name,cleanText(body.tuner_model,80),cleanText(body.system_name,50),cleanText(body.system_version,30),
+          cleanText(body.python_version,20),cleanText(body.bio,600),avatarKey||null,isoNow(),s.user.id)
+      ]);
       return json({ok:true});
     }
 

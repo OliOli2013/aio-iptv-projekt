@@ -1,4 +1,5 @@
 import {ensureRelatedReviewV1} from './_aio_related_review_v1.js';
+import {usernameRenameReview} from './_aio_username_policy_v1.js'; // AIO_USERNAME_PROTECTION_V1_20261118
 
 import {emailVerificationStatus} from './_aio_email_verification.js';
 import {activeIpHold} from './_aio_ip_one_account_v7.js';
@@ -217,7 +218,7 @@ export function addDays(days) {
   return new Date(Date.now() + days * 86400000).toISOString();
 }
 
-export async function getSession(request, env, {touch=true,allowUnverified=false} = {}) {
+export async function getSession(request, env, {touch=true,allowUnverified=false,allowRename=false} = {}) {
   await ensureSchema(env);
   await ensureRelatedReviewV1(env);
   const token = cookieValue(request, "aio_community_session");
@@ -269,6 +270,11 @@ export async function getSession(request, env, {touch=true,allowUnverified=false
   }
   if (!profile.is_owner && row.banned_until && Date.parse(row.banned_until) > Date.now()) {
     return { banned: true, tokenHash, user: profile };
+  }
+  // Legacy account may access only /api/aio-username-policy until it changes its name.
+  if(!allowRename && !profile.is_owner){
+    const pending=await usernameRenameReview(env,profile.id,profile.display_name,profile.role);
+    if(pending)return {banned:true,rename_required:true,tokenHash,user:profile};
   }
 
   if (touch) {
