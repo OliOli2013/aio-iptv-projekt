@@ -97,9 +97,9 @@ async function nearbyIpv6Peers(db,p64){
   }
   return peers;
 }
-export async function registrationPreflight(env,request,{email,displayName,turnstileToken}){
+export async function registrationPreflight(env,request,{email,displayName,turnstileToken,turnstileAlreadyVerified=false}){ // AIO_SOCIAL_REGISTRATION_V1_20261119
   await ensureMultikontaGuard(env);
-  await checkTurnstile(env,request,turnstileToken);
+  if(!turnstileAlreadyVerified)await checkTurnstile(env,request,turnstileToken); // Social flow verified Turnstile at start; trust only one-time server-side D1 flow.
   const mode=MODE(env),ip=String(request.headers.get('CF-Connecting-IP')||'');
   if(mode==='enforce'&&String(env.AIO_MULTIKONTA_HMAC_SECRET||'').length<32)throw invalid(503,'Brak konfiguracji ochrony rejestracji.');
   if(mode==='enforce')await networkHourlyLimit(env,ip);
