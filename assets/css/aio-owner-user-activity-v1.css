@@ -1,0 +1,12 @@
+/* AIO Owner Last Activity V1 — extension of existing owner card styling. */
+.aoua-info strong{overflow-wrap:anywhere;word-break:break-word}
+.aoua-caption{font-size:.79rem;line-height:1.55;color:#a9c9d6;margin:12px 0}
+.aoua-sessions{margin:9px 0 15px;border:1px solid #397083;border-radius:10px;background:#0a2230;color:#e6f8ff;padding:12px 15px}
+.aoua-sessions summary{cursor:pointer;font-weight:730;line-height:1.5;color:#bceefb}
+.aoua-sessions summary:focus-visible{outline:2px solid #aaeef4;outline-offset:4px}
+.aoua-session-list{display:grid;gap:8px;margin-top:12px}
+.aoua-session{display:grid;gap:5px;padding:12px;border:1px solid #2e5a69;border-radius:8px;background:#0c3040;font-size:.81rem;overflow-wrap:anywhere}
+.aoua-session strong{color:#f0faff}
+.aoua-session span{color:#b8d6df}
+.aoua-error{font-size:.82rem;color:#ffb7b7;margin:10px 0}
+@media(max-width:680px){.aoua-sessions{padding:10px}.aoua-session{padding:10px}}
