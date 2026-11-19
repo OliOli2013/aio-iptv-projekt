@@ -9,8 +9,8 @@
  const make=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};
  const groups=[
   {id:'action',name:'Do załatwienia',icon:'◈',items:[
-   {id:'support-purpose',name:'Cele wpłat: darowizna, 7 dni, VIP',icon:'♥',desc:'Weryfikacja celu, operatora i kwoty przed przyznaniem dostępu',url:'/owner-support-intents.html',tags:'darowizna vip 30 zł kawa buycoffee ko-fi revolut wpłaty',stat:'support'},
-   {id:'approvals',name:'Zgłoszenia wsparcia',icon:'♡',desc:'Sprawdź deklaracje wpłat i podejmij decyzję',target:'approvals',tags:'płatność kawa buycoffee revolut ko-fi',stat:'support'},
+    {id:'support-purpose',name:'Starsze wnioski AIO Access — 7 dni',icon:'♥',desc:'Archiwalna kolejka zatwierdzania dostępu; nie obejmuje nowych zgłoszeń VIP i darowizn',target:'approvals',tags:'starsze zgłoszenia legacy a io access 7 dni',},
+    {id:'approvals',name:'Zgłoszenia wsparcia',icon:'♡',desc:'Nowe deklaracje: 7 dni, VIP, darowizny; weryfikacja wpłat i historia zgłoszeń',url:'/owner-support-intents.html',tags:'płatność wsparcie 7 dni vip 30 zł buycoffee revolut ko-fi',stat:'support'}, // AIO_SUPPORT_QUEUE_FIX_V1
    {id:'pending',name:'Posty do zatwierdzenia',icon:'▤',desc:'Moderacja nowych wpisów',target:'pending',tags:'wpisy publikowanie',stat:'posts'},
    {id:'inbox',name:'Skrzynka AIO',icon:'✉',desc:'Wiadomości i korespondencja',target:'inbox',tags:'kontakt odpowiedzi skrzynka',stat:'inbox'},
     {id:'admin-messages',name:'Wiadomości do użytkowników',icon:'✉',desc:'Wysyłaj wiadomości do konta lub wszystkich użytkowników',native:'aio-admin-messages',tags:'wysyłka poczta wiadomość prywatna komunikat ogłoszenie koperta konto'},

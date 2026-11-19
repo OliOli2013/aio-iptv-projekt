@@ -8,14 +8,14 @@
   const sections=[
     {id:'lists',name:'Listy kanałów',icon:'▦',href:'/aio-list-upload.html#aluAdmin',description:'Zgłoszenia ZIP, aktualizacje i moderacja'},
     {id:'messages',name:'Wiadomości',icon:'✉',href:'/community-admin.html?aio_section=inbox',description:'Wiadomości i korespondencja użytkowników'},
-    {id:'support',name:'Wsparcie AIO',icon:'♡',href:'/community-admin.html?aio_section=approvals',description:'Deklaracje wsparcia wymagające weryfikacji'},
+    {id:'support',name:'Wsparcie AIO',icon:'♡',href:'/owner-support-intents.html',description:'Nowe deklaracje wsparcia i historyczne wnioski'}, // AIO_SUPPORT_QUEUE_FIX_V1
     {id:'posts',name:'Posty',icon:'▤',href:'/community-admin.html?aio_section=pending',description:'Wpisy do moderacji'},
     {id:'reports',name:'Zgłoszenia',icon:'⚑',href:'/community-admin.html?aio_section=reports',description:'Zgłoszone naruszenia zasad'},
     {id:'resets',name:'Reset haseł',icon:'⚿',href:'/community-admin.html?aio_section=password-resets',description:'Wnioski o odzyskanie dostępu'}
   ];
   const tools=[
     {name:'Dostęp i wsparcie',items:[
-      ['Zgłoszenia wsparcia','/community-admin.html?aio_section=approvals'],
+      ['Zgłoszenia wsparcia','/owner-support-intents.html'],
       ['Dostępy 7 dni','/community-admin.html?aio_section=grants'],
       ['Konta VIP (30 dni)','/community-admin.html?aio_section=vip'],
       ['Historia pobrań','/community-admin.html?aio_section=downloads'],
@@ -50,7 +50,7 @@
   const sources=[
     {id:'lists',url:'/api/list-submissions?view=admin',extract:d=>d.items||[]},
     {id:'messages',url:'/api/list-inbox?scope=admin',extract:d=>d.items||[]},
-    {id:'support',url:'/api/aio-access-approvals?scope=admin',extract:d=>d.requests||[]},
+    {id:'support',url:'/api/aio-support-intent?scope=admin',extract:d=>d.rows||[]},
     {id:'posts',url:'/api/community?action=admin&tab=pending',extract:d=>d.rows||[]},
     {id:'reports',url:'/api/community?action=admin&tab=reports',extract:d=>d.rows||[]},
     {id:'resets',url:'/api/community?action=admin&tab=password-resets',extract:d=>d.rows||[]}
@@ -72,9 +72,9 @@
       details=({submission:'Lista ZIP',update:'Aktualizacja listy',contact:'Wiadomość'})[item.kind]||'Wiadomość';
       pending=item.status==='new';
     }else if(group==='support'){
-      person=item.display_name||'Użytkownik';title='Zgłoszenie wsparcia AIO Access';
-      details=(item.method||'Metoda niepodana')+' • deklaracja, nie potwierdzona płatność';
-      pending=item.status==='pending';
+      person=item.user_name||'Użytkownik';title=({donation:'Darowizna',access7:'Wsparcie — 7 dni',vip30:'Wsparcie — VIP 30 dni'})[item.purpose]||'Zgłoszenie wsparcia';
+      details=(item.method||'Metoda niepodana')+' • status: '+(item.status||'nieznany')+' • zgłoszenie nie potwierdza wpłaty';
+      pending=item.status==='reported';
     }else if(group==='posts'){
       person=item.author?.display_name||item.author_name||'Użytkownik';title=item.title||'Post do zatwierdzenia';
       details='Oczekuje na moderację';pending=true;
@@ -101,7 +101,7 @@
     const feed=create('div','aov2-feed');const feedHead=create('div','aov2-feed-head');const h=create('h3','','Najnowsze zgłoszenia i działania');
     const tabs=create('div','aov2-tabs');for(const [id,label] of [['pending','Do załatwienia'],['all','Ostatnie sprawy']]){const b=create('button','aov2-tab',label);b.type='button';b.dataset.aovFilter=id;b.setAttribute('aria-pressed',String(id===active));b.addEventListener('click',()=>{active=id;drawItems();});tabs.append(b);}feedHead.append(h,tabs);
     const hint=create('p','aov2-hint');hint.dataset.aovState='';hint.textContent='Wczytywanie zgłoszeń…';const rows=create('div','aov2-rows');rows.dataset.aovRows='';feed.append(feedHead,hint,rows);
-    const note=create('p','aov2-explain','Zgłoszenie wsparcia nie oznacza otrzymanej wpłaty. Decyzję podejmujesz w module AIO Access. Starsze sprawy i pełną historię otworzysz w odpowiednich działach.');feed.append(note);wrap.append(feed);
+    const note=create('p','aov2-explain','Zgłoszenie wsparcia nie oznacza otrzymanej wpłaty. Decyzję podejmujesz w module weryfikacji wpłat; starsze wnioski AIO Access mają osobną kolejkę.');feed.append(note);wrap.append(feed);
     if(inAccount){
       const quick=create('section','aov2-tools');quick.append(create('h3','','Wszystkie narzędzia administracyjne'));
       const grid=create('div','aov2-tools-grid');for(const g of tools){const col=create('section','aov2-tools-group');col.append(create('h4','',g.name));for(const [name,href] of g.items){const a=create('a','',name+' ↗');a.href=href;col.append(a);}grid.append(col);}quick.append(grid);wrap.append(quick);
@@ -131,7 +131,7 @@
       if(r.status==='rejected'){busySources.push(src.id);if(badge&&!lastRefresh)badge.textContent='!';events.push(...currentItems.filter(x=>x.group===src.id));continue;}
       const list=src.extract(r.value);let count=0;
       for(const item of list){const e=entry(src.id,item);events.push(e);if(e.pending)count++;}
-      if(badge)badge.textContent=String(src.id==='messages'&&Number.isFinite(Number(r.value.unread))?r.value.unread:count);
+      if(badge)badge.textContent=String(src.id==='support'?Number(r.value.pending_total??count):(src.id==='messages'&&Number.isFinite(Number(r.value.unread))?r.value.unread:count)); // AIO_SUPPORT_QUEUE_FIX_V1
       $(`[data-aov-metric="${src.id}"]`,container)?.setAttribute('title',src.description+' — '+count+' widocznych spraw wymagających działania');
     }
     currentItems=events.sort((a,b)=>Date.parse(b.date||'')-Date.parse(a.date||''));
