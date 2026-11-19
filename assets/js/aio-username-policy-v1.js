@@ -1,4 +1,4 @@
-/* AIO USERNAME PROTECTION V1.2 — mandatory saveable rename dialog after login.
+/* AIO USERNAME PROTECTION V1.3 — repeatable, rename-only sign-in for legacy duplicates. AIO_USERNAME_PROTECTION_V1_3_1_20261119
  * Existing users with reserved/duplicate names receive this form. Server decides
  * whether the session is eligible; never infer identity/permissions in the UI.
  */
@@ -38,7 +38,7 @@
       <form data-aio-username-form style="display:grid;gap:13px;line-height:1.5;">
         <p style="margin:0;color:#88d9e8;font-weight:750;letter-spacing:.05em;font-size:.76rem;">AIO TUNERHUB · BEZPIECZEŃSTWO KONTA</p>
         <h2 id="aio-username-title" style="margin:0;color:#fff;font-size:clamp(1.2rem,4vw,1.65rem);">Wymagana zmiana nazwy użytkownika</h2>
-        <p style="margin:0;">Twoja dotychczasowa nazwa jest zastrzeżona albo zajęta. Aby dalej korzystać z serwisu, zapisz nową nazwę. To jednorazowy dostęp do zmiany nazwy.</p>
+        <p style="margin:0;">Twoja dotychczasowa nazwa jest zastrzeżona albo zajęta. Aby dalej korzystać z serwisu, zapisz nową, dostępną nazwę. Możesz ponownie zalogować się swoim dotychczasowym hasłem, by dokończyć tę zmianę. Do tego czasu pozostałe funkcje AIO są ograniczone.</p>
         <div style="padding:11px 13px;background:#103a4e;border:1px solid #376a80;border-radius:10px;">
           <small style="display:block;color:#b9dce8;">Obecna nazwa</small>
           <strong data-aio-rename-old style="overflow-wrap:anywhere;"></strong>

@@ -7,3 +7,6 @@
 .aou-actions{display:flex;flex-wrap:wrap;gap:9px}.aou-btn{padding:10px 13px;border:1px solid #4a7b8d;border-radius:9px;background:#17445a;color:#effaff;font-weight:760;cursor:pointer;font-size:.81rem;line-height:1.25;max-width:100%}
 .aou-btn.primary{background:#176c73;border-color:#5db8ad}.aou-btn.danger{background:#552c36;border-color:#bd6875}.aou-btn.secondary{background:#103847}.aou-btn:disabled{opacity:.5;cursor:wait}.aou-btn.aou-open{background:#16586c;border-color:#62b6c5}.aou-btn:focus-visible{outline:3px solid #aaeef4;outline-offset:2px}
 @media(max-width:680px){.aou-detail{padding:12px}.aou-stats{grid-template-columns:1fr}.aou-title{align-items:stretch}.aou-actions{display:grid;grid-template-columns:1fr}.aou-btn{width:100%;text-align:center}.aio-owner-user-search-row{display:grid!important;grid-template-columns:1fr 1fr;gap:8px}.aio-owner-user-search-row input{grid-column:1/-1;min-width:0;width:100%;font-size:16px!important}.aio-owner-user-search-row button{width:100%;min-width:0}.community-user-card .community-admin-actions{flex-wrap:wrap}}
+
+/* AIO_USERNAME_PROTECTION_V1_3_1_20261119 — owner-only rename status. */
+.aou-username-warning{padding:12px 14px;margin:12px 0 6px;border:1px solid #ddac6f;border-left:4px solid #f3bd74;border-radius:9px;background:#392d23;color:#fff1dd;font-size:.86rem;line-height:1.5;overflow-wrap:anywhere}

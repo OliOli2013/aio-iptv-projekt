@@ -670,7 +670,7 @@
 })();
 
 /* AIO_USERNAME_PROTECTION_V1_20261118: owner-only branded names are checked server-side; UI only explains. */
-(function(){const s=document.createElement('script');s.src='/assets/js/aio-username-policy-v1.js?v=20261118-v12';s.async=true;document.head.appendChild(s);})();
+(function(){const s=document.createElement('script');s.src='/assets/js/aio-username-policy-v1.js?v=20261119-v131'; /* AIO_USERNAME_PROTECTION_V1_3_1_20261119 */s.async=true;document.head.appendChild(s);})();
 
 /* AIO_SOCIAL_REGISTRATION_V1_20261119: optional social login UI. */
 (function(){

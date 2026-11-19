@@ -22,16 +22,26 @@
  }
  function line(label,value){const x=el('div','aou-info'),a=el('span','',label),b=el('strong','',value);x.append(a,b);return x;}
  function show(card,box,d){
-   box.replaceChildren();const u=d.user||{},access=d.entitlement||{},vip=d.vip||{},grant=d.grant||{};
+   box.replaceChildren();const u=d.user||{},access=d.entitlement||{},vip=d.vip||{},grant=d.grant||{},namePolicy=d.username_policy||{}; // AIO_USERNAME_PROTECTION_V1_3_1_20261119
    const h=el('div','aou-title');h.append(el('h3','','Dostępy i bezpieczeństwo'),button('Zamknij','secondary',()=>{box.remove();activeCard=null;}));box.append(h);
    const status=el('div','aou-stats');
    status.append(line('E-mail',access.email_verified?'Zweryfikowany':'Niezweryfikowany'),
      line('VIP',vip.active?'Aktywny do '+dt(vip.expires_at):'Nieaktywny'),
      line('Dostęp 7 dni',grant.active?((grant.source==='owner_manual_grant'?'Ręczny':grant.source==='verified_receipt'||grant.source==='owner_verified_support'?'Potwierdzone wsparcie':'Inny')+' • do '+dt(grant.expires_at)):'Brak aktywnego'),
      line('Darmowy limit',access.free_remaining===null?'Bez limitu':(access.free_remaining===undefined?'—':access.free_remaining+' / '+(access.free_limit||3))),
+     line('Status nazwy użytkownika',namePolicy.required?(namePolicy.reason==='duplicate'?'Zmiana wymagana — zajęta nazwa':'Zmiana wymagana — nazwa zastrzeżona'):'Bez wymogu zmiany'),
      line('Sesje',String(d.active_sessions??0)),
      line('Ostatnie logowanie',dt(u.last_login_at)));
    box.append(status);
+   if(namePolicy.required){
+     const note=el('p','aou-username-warning',
+       'Wymagana zmiana nazwy do: '+dt(namePolicy.deadline_at)+
+       '. Prawidłowe hasło pozwala ponownie wejść wyłącznie do formularza zmiany nazwy. '+
+       'Do czasu zmiany zwykły dostęp do AIO pozostaje ograniczony. '+
+       'Data pierwszego wejścia do formularza: '+dt(namePolicy.first_rename_login_at)+
+       '. Nie jest to blokada IP ani powód do przyznawania zaufania/VIP.');
+     note.setAttribute('role','status');box.append(note);
+   }
    const sub=el('p','aou-muted','VIP obejmuje 30 dni od aktywacji. Dostęp ręczny obejmuje 7 dni i nie jest potwierdzeniem wpłaty. Nie omija blokad bezpieczeństwa ani wymaganej weryfikacji e-mail.');box.append(sub);
    const feedback=el('p','aou-feedback');feedback.setAttribute('role','status');box.append(feedback);
    const actions=el('div','aou-actions');box.append(actions);

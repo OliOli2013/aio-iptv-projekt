@@ -348,10 +348,13 @@ export async function onRequestPost({request, env}) {
     if(ipRestriction || activeIpBlock){
       return blockedAppealResponse(env,request,db,auth.user_id,throttleKey);
     }
-    // Existing reserved/duplicate names get ONE valid-password sign-in to rename.
+    // AIO_USERNAME_PROTECTION_V1_3_1_20261119:
+    // A valid password may always create a rename-only session for a legacy duplicate.
+    // Do NOT use grace_used_at as a login block: the ordinary session gate in
+    // _community.js still denies all normal AIO features until the name is changed.
+    // All profile / IP / VPN / ban checks above remain effective.
     const renameReview=await usernameRenameReview(env,auth.user_id,auth.display_name,auth.role,{fullScan:true});
-    if(renameReview && !(await consumeLegacyLogin(env,auth.user_id)))
-      return json({ok:false,code:'AIO_USERNAME_GRACE_USED',error:'Jednorazowe logowanie w celu zmiany nazwy zostało już wykorzystane. Skontaktuj się z administracją AIO.'},403);
+    if(renameReview) await consumeLegacyLogin(env,auth.user_id); // first-use audit only; never a refusal
     await clearAttempt(env, throttleKey);
     const token = randomToken();
     const tokenHash = await sha256(token);
