@@ -1,7 +1,7 @@
 /* AIO USERNAME PROTECTION V1 — reserved identities, unique names, legacy one-time rename. */
 const DAY = 86400000;
 const NOTICE_DAYS = 14;
-let schemaReady;
+let __aioCFReady_schemaReady = false;
 
 export const USERNAME_POLICY_NOTICE = 'Ta nazwa użytkownika jest zastrzeżona lub zajęta. Wybierz inną nazwę.';
 const RESERVED = new Set([
@@ -45,6 +45,10 @@ export function validateUsernameSyntax(raw){
   return {ok:true,name:value,key:usernameKey(value)};
 }
 export async function ensureUsernamePolicy(env){
+  // AIO_CF_PROMISE_LOGIN_FIX_V1_20261119: request-bound D1 Promise is NEVER cached between HTTP requests.
+  if (__aioCFReady_schemaReady) return true;
+  let schemaReady = null;
+
   if(!schemaReady) schemaReady=(async()=>{
     await env.COMMUNITY_DB.batch([
       env.COMMUNITY_DB.prepare(`CREATE TABLE IF NOT EXISTS aio_username_rename_v1 (
@@ -66,7 +70,9 @@ export async function ensureUsernamePolicy(env){
       env.COMMUNITY_DB.prepare('CREATE INDEX IF NOT EXISTS idx_aio_display_name_nocase ON community_profiles(display_name COLLATE NOCASE)')
     ]);
   })().catch(e=>{schemaReady=null;throw e;});
-  return schemaReady;
+  await schemaReady;
+  __aioCFReady_schemaReady = true; // AIO_CF_PROMISE_LOGIN_FIX_V1_20261119
+  return true;
 }
 // All historical display names count. A claimed name cannot be reassigned even during parallel writes.
 export async function checkUsername(env,raw,excludeUserId='',isOwner=false){

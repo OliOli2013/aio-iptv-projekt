@@ -8,7 +8,7 @@ export const VPN_GUARD_VERSION='AIO_VPN_GUARD_V1_20261115';
 const API='https://api.ipapi.is';
 const HOUR=3600000, DAY=24*HOUR, TTL=DAY, LIMIT_BATCH=20;
 const encoder=new TextEncoder();
-let readyPromise=null;
+let __aioCFReady_readyPromise = false;
 const nowIso=()=>new Date().toISOString();
 const txt=(v,n=70)=>String(v??'').replace(/[\x00-\x1f<>]/g,' ').trim().slice(0,n);
 const fail=(message,status=503)=>Object.assign(new Error(message),{status});
@@ -70,6 +70,10 @@ async function keyFor(ip,secret){
   return [...new Uint8Array(signature)].map(x=>x.toString(16).padStart(2,'0')).join('');
 }
 export async function ensureVpnGuard(env){
+  // AIO_CF_PROMISE_LOGIN_FIX_V1_20261119: request-bound D1 Promise is NEVER cached between HTTP requests.
+  if (__aioCFReady_readyPromise) return true;
+  let readyPromise = null;
+
   if(!env?.COMMUNITY_DB)throw fail('Brak COMMUNITY_DB');
   if(!readyPromise)readyPromise=env.COMMUNITY_DB.batch([
     env.COMMUNITY_DB.prepare(`CREATE TABLE IF NOT EXISTS aio_vpn_guard_cache_v1 (
@@ -89,6 +93,7 @@ export async function ensureVpnGuard(env){
     env.COMMUNITY_DB.prepare('CREATE INDEX IF NOT EXISTS idx_vpn_guard_reviews_v1 ON aio_vpn_guard_reviews_v1(verdict,checked_at DESC)')
   ]).catch(e=>{readyPromise=null;throw e;});
   await readyPromise;
+  __aioCFReady_readyPromise = true; // AIO_CF_PROMISE_LOGIN_FIX_V1_20261119
 }
 async function reserveBudget(db,amount,max){
   if(amount<1)return true;

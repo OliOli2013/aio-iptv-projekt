@@ -4,11 +4,15 @@
  */
 import {ipv6Prefix,normalizeLogin,safeEmailLocal,gmailMailbox} from './_aio_network_prefix_v1.js';
 import {TEMPORARY_RESTRICTION} from './_aio_public_notices_v1.js';
-let ready=null;
+let __aioCFReady_ready = false;
 const stamp=()=>new Date().toISOString();
 const MODE=env=>String(env?.AIO_MULTIKONTA_MODE||'monitor').toLowerCase()==='enforce'?'enforce':'monitor';
 const invalid=(code,msg)=>Object.assign(new Error(msg),{status:code});
 export async function ensureMultikontaGuard(env){
+  // AIO_CF_PROMISE_LOGIN_FIX_V1_20261119: request-bound D1 Promise is NEVER cached between HTTP requests.
+  if (__aioCFReady_ready) return true;
+  let ready = null;
+
   if(!env.COMMUNITY_DB)throw invalid(503,'Baza D1 niedostępna.');
   if(!ready)ready=env.COMMUNITY_DB.batch([
     env.COMMUNITY_DB.prepare(`CREATE TABLE IF NOT EXISTS aio_multikonta_reviews_v2 (
@@ -30,7 +34,9 @@ export async function ensureMultikontaGuard(env){
       FOREIGN KEY(group_id) REFERENCES aio_multikonta_quota_groups_v2(group_id) ON DELETE CASCADE)`),
     env.COMMUNITY_DB.prepare('CREATE INDEX IF NOT EXISTS idx_aio_multi_quota_group_v2 ON aio_multikonta_quota_members_v2(group_id)')
   ]).catch(e=>{ready=null;throw e;});
-  return ready;
+  await ready;
+  __aioCFReady_ready = true; // AIO_CF_PROMISE_LOGIN_FIX_V1_20261119
+  return true;
 }
 function monthLater(ms){
   const d=new Date(ms),year=d.getUTCFullYear(),month=d.getUTCMonth();

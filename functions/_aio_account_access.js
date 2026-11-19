@@ -10,10 +10,14 @@ export const SUPPORT_MS = 7 * 24 * 60 * 60 * 1000;
 export const ROLLOUT = '2026-10-14T21:42:50.000Z';
 /* Immutable upper boundary for historical browser-flow events. No future client-submitted event can manufacture a legacy grant. */
 export const LEGACY_END = '2026-10-16T07:15:00.000Z';
-let schemaInit;
+let __aioCFReady_schemaInit = false;
 export function response(data,status=200) {return new Response(JSON.stringify(data),{status,headers:{'content-type':'application/json; charset=utf-8','cache-control':'no-store','x-content-type-options':'nosniff'}});}
 export function fail(status,message){return Object.assign(new Error(message),{status});}
 export async function initAccess(env){
+  // AIO_CF_PROMISE_LOGIN_FIX_V1_20261119: request-bound D1 Promise is NEVER cached between HTTP requests.
+  if (__aioCFReady_schemaInit) return true;
+  let schemaInit = null;
+
   await ensureSchema(env);
   if(!schemaInit) schemaInit=(async()=>env.COMMUNITY_DB.batch([
     env.COMMUNITY_DB.prepare(`CREATE TABLE IF NOT EXISTS aio_access_account_grants (
@@ -49,6 +53,7 @@ export async function initAccess(env){
     env.COMMUNITY_DB.prepare('CREATE INDEX IF NOT EXISTS idx_aio_free_retries_file ON aio_access_account_file_retries(user_id,file_key,expires_ms)')
   ]))().catch(e=>{schemaInit=null;throw e;});
   await schemaInit;
+  __aioCFReady_schemaInit = true; // AIO_CF_PROMISE_LOGIN_FIX_V1_20261119
 }
 export function warsawDay(date=new Date()){
   const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Warsaw',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(date);

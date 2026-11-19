@@ -7,7 +7,7 @@ import {sendWpSmtp,wpSmtpReady} from './_aio_wp_smtp.js';
 const TTL_MS = 24 * 60 * 60 * 1000;
 const COOLDOWN_MS = 3 * 60 * 1000;
 const LIMIT_DAY = 5;
-let schemaPromise;
+let __aioCFReady_schemaPromise = false;
 function problem(status, message) { return Object.assign(new Error(message), {status}); }
 function emailFormat(v){return /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(String(v||''));}
 function hashBytes(bytes) {
@@ -20,6 +20,10 @@ async function hashToken(token) {
 function newToken() { const a = new Uint8Array(32); crypto.getRandomValues(a); return hashBytes(a); }
 export function emailSendingReady(env) { return wpSmtpReady(env); }
 export async function ensureEmailVerificationSchema(env) {
+  // AIO_CF_PROMISE_LOGIN_FIX_V1_20261119: request-bound D1 Promise is NEVER cached between HTTP requests.
+  if (__aioCFReady_schemaPromise) return true;
+  let schemaPromise = null;
+
   if (!schemaPromise) schemaPromise=(async()=>{
     if (!env.COMMUNITY_DB) throw problem(503,'Brak połączenia D1.');
     await env.COMMUNITY_DB.batch([
@@ -38,6 +42,7 @@ export async function ensureEmailVerificationSchema(env) {
     ]);
   })().catch(e=>{schemaPromise=null;throw e;});
   await schemaPromise;
+  __aioCFReady_schemaPromise = true; // AIO_CF_PROMISE_LOGIN_FIX_V1_20261119
 }
 export async function emailVerificationStatus(env, userId) {
   await ensureEmailVerificationSchema(env);

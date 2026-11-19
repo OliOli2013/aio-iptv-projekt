@@ -27,9 +27,13 @@ const ITEMS = [
  ];
 const IDS=new Set(ITEMS.map(x=>x[0]));
 const REASON='AIO_REVIEW_V1: Powiązane konta — dostęp wstrzymany do ręcznej weryfikacji. Kontakt: /appeal.html lub aio-iptv@wp.pl';
-let initPromise=null;
+let __aioCFReady_initPromise = false;
 export function isRelatedReviewTarget(id){return IDS.has(String(id||''));}
 export async function ensureRelatedReviewV1(env){
+  // AIO_CF_PROMISE_LOGIN_FIX_V1_20261119: request-bound D1 Promise is NEVER cached between HTTP requests.
+  if (__aioCFReady_initPromise) return true;
+  let initPromise = null;
+
   if(!env?.COMMUNITY_DB)throw new Error('Brak bazy COMMUNITY_DB dla kontroli powiązań.');
   if(initPromise)return initPromise;
   initPromise=(async()=>{
@@ -66,5 +70,7 @@ export async function ensureRelatedReviewV1(env){
     ]);
     return true;
   })().catch(e=>{initPromise=null;throw e;});
-  return initPromise;
+  await initPromise;
+  __aioCFReady_initPromise = true; // AIO_CF_PROMISE_LOGIN_FIX_V1_20261119
+  return true;
 }

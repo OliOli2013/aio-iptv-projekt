@@ -1,8 +1,12 @@
 /* AIO VIP V1: one calendar month of owner-controlled unlimited local downloads.
  * Independent of 7-day grants and free daily quotas. Never accepts a browser-side VIP flag.
  */
-let vipSchemaPromise;
+let __aioCFReady_vipSchemaPromise = false;
 export async function ensureVipSchema(env) {
+  // AIO_CF_PROMISE_LOGIN_FIX_V1_20261119: request-bound D1 Promise is NEVER cached between HTTP requests.
+  if (__aioCFReady_vipSchemaPromise) return true;
+  let vipSchemaPromise = null;
+
   if (!env.COMMUNITY_DB) throw new Error('Brak COMMUNITY_DB.');
   if (!vipSchemaPromise) vipSchemaPromise = (async () => {
     await env.COMMUNITY_DB.batch([
@@ -22,6 +26,7 @@ export async function ensureVipSchema(env) {
     ]);
   })().catch(error => { vipSchemaPromise = null; throw error; });
   await vipSchemaPromise;
+  __aioCFReady_vipSchemaPromise = true; // AIO_CF_PROMISE_LOGIN_FIX_V1_20261119
 }
 export function oneCalendarMonth(started) {
   // Product policy: exactly 30 x 24h, NOT a variable calendar month.

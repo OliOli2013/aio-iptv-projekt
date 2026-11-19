@@ -9,7 +9,7 @@ import {ipv6Prefix} from './_aio_network_prefix_v1.js';
 import {sha256,getOwnerId} from './_community.js';
 import {REGISTRATION_RESTRICTED} from './_aio_public_notices_v1.js';
 
-let ready=null;
+let __aioCFReady_ready = false;
 const now=()=>new Date().toISOString();
 const bad=(status,message)=>Object.assign(new Error(message),{status});
 export const STRICT_NOTICE='Wykryto kilka kont korzystających z tego samego publicznego adresu IPv4 lub tej samej sieci IPv6 /64. Zgodnie z zasadą AIO TunerHub (1 IP = 1 konto) dostęp do kont z tej grupy został wstrzymany do wyjaśnienia. Skontaktuj się z administratorem: /appeal.html lub aio-iptv@wp.pl. Nie przesyłaj hasła.';
@@ -20,6 +20,10 @@ export function networkIdentity(ip){
 }
 async function fingerprint(ip){const n=networkIdentity(ip);return n?{...n,key:await sha256('aio-strict-ip-v4:'+n.kind+':'+n.canonical)}:null;}
 export async function ensureStrictV4(env){
+  // AIO_CF_PROMISE_LOGIN_FIX_V1_20261119: request-bound D1 Promise is NEVER cached between HTTP requests.
+  if (__aioCFReady_ready) return true;
+  let ready = null;
+
   if(!env.COMMUNITY_DB)throw bad(503,'Baza D1 nie jest dostępna.');
   if(!ready)ready=env.COMMUNITY_DB.batch([
     env.COMMUNITY_DB.prepare(`CREATE TABLE IF NOT EXISTS aio_strict_ip_claims_v4 (
@@ -34,6 +38,7 @@ export async function ensureStrictV4(env){
     env.COMMUNITY_DB.prepare('CREATE INDEX IF NOT EXISTS idx_aio_strict_history_ip_v4 ON community_user_ips(ip_address,user_id)')
   ]).catch(e=>{ready=null;throw e;});
   await ready;
+  __aioCFReady_ready = true; // AIO_CF_PROMISE_LOGIN_FIX_V1_20261119
 }
 const ordinary=(row,owner)=>row&&row.role==='user'&&row.id!==owner;
 // Historical look-up for the CURRENT network (no trust in client-provided account IDs).

@@ -8,7 +8,7 @@ export const FREE_MONTHLY_LIMIT=3;
 export const FREE_MONTHLY_POLICY='calendar_month_from_third';
 const DAY=86400000;
 const LOOKBACK_MS=75*DAY;
-let schemaPromise;
+let __aioCFReady_schemaPromise = false;
 
 export function nextCalendarMonth(ms){
   const date=new Date(ms);
@@ -20,6 +20,10 @@ export function nextCalendarMonth(ms){
 function asNum(x){const v=Number(x);return Number.isFinite(v)&&v>0?v:0;}
 function utcMs(raw){const t=Date.parse(String(raw||''));return Number.isFinite(t)?t:0;}
 async function ensureSchema(env){
+  // AIO_CF_PROMISE_LOGIN_FIX_V1_20261119: request-bound D1 Promise is NEVER cached between HTTP requests.
+  if (__aioCFReady_schemaPromise) return true;
+  let schemaPromise = null;
+
   if(!schemaPromise)schemaPromise=(async()=>{
     await env.COMMUNITY_DB.prepare(`CREATE TABLE IF NOT EXISTS aio_access_monthly_cycles (
       user_id TEXT PRIMARY KEY, started_ms INTEGER NOT NULL DEFAULT 0,
@@ -28,6 +32,7 @@ async function ensureSchema(env){
       updated_at TEXT NOT NULL)`).run();
   })().catch(e=>{schemaPromise=null;throw e;});
   await schemaPromise;
+  __aioCFReady_schemaPromise = true; // AIO_CF_PROMISE_LOGIN_FIX_V1_20261119
 }
 async function safeAll(db,sql,values){
   try{return (await db.prepare(sql).bind(...values).all()).results||[];}

@@ -11,7 +11,7 @@ const HOUR_MS=60*60*1000;
 const CODE_TTL_MS=15*60*1000;
 const CODE_BYTES=16; // 128-bit secret: robust even if a database backup leaks
 const BASE_URL='https://aio-iptv-projekt.pages.dev';
-let schemaReady=null;
+let __aioCFReady_schemaReady = false;
 const nowIso=()=>new Date().toISOString();
 
 // AIO_RESET_REASONS_V1_1: use the same URL-safe base64 SHA-256 as community-auth.js.
@@ -50,6 +50,10 @@ export function automaticResetEnabled(env){
   return String(env?.AIO_PASSWORD_RESET_MODE||'auto').toLowerCase()!=='manual' && wpSmtpReady(env);
 }
 export async function ensureResetAutoSchema(env){
+  // AIO_CF_PROMISE_LOGIN_FIX_V1_20261119: request-bound D1 Promise is NEVER cached between HTTP requests.
+  if (__aioCFReady_schemaReady) return true;
+  let schemaReady = null;
+
   if(!env?.COMMUNITY_DB)throw new Error('Reset: brak bazy D1');
   if(!schemaReady)schemaReady=env.COMMUNITY_DB.batch([
     env.COMMUNITY_DB.prepare(`CREATE TABLE IF NOT EXISTS aio_reset_auto_dispatch_v1 (
@@ -60,6 +64,7 @@ export async function ensureResetAutoSchema(env){
       FOREIGN KEY(user_id) REFERENCES community_profiles(id) ON DELETE CASCADE)`)
   ]).catch(e=>{schemaReady=null;throw e;});
   await schemaReady;
+  __aioCFReady_schemaReady = true; // AIO_CF_PROMISE_LOGIN_FIX_V1_20261119
 }
 async function reserveDispatch(db,userId){
   const stamp=Date.now(),current=new Date(stamp).toISOString();

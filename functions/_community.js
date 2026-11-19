@@ -6,7 +6,7 @@ import {activeIpHold} from './_aio_ip_one_account_v7.js';
 import {strictGlobalHold} from './_aio_strict_ip_v4.js'; // V4.2 GLOBAL
 import {ACCOUNT_RESTRICTED} from './_aio_public_notices_v1.js';
 const enc = new TextEncoder();
-let schemaReadyPromise = null;
+let __aioCFReady_schemaReadyPromise = false;
 
 export function json(data, status = 200, extraHeaders = {}) {
   return new Response(JSON.stringify(data), {
@@ -20,6 +20,10 @@ export function json(data, status = 200, extraHeaders = {}) {
 }
 
 export async function ensureSchema(env) {
+  // AIO_CF_PROMISE_LOGIN_FIX_V1_20261119: request-bound D1 Promise is NEVER cached between HTTP requests.
+  if (__aioCFReady_schemaReadyPromise) return true;
+  let schemaReadyPromise = null;
+
   const db = env.COMMUNITY_DB;
   if (!db) throw new Error("Brak bindingu COMMUNITY_DB.");
   const sql = [
@@ -140,6 +144,7 @@ export async function ensureSchema(env) {
     });
   }
   await schemaReadyPromise;
+  __aioCFReady_schemaReadyPromise = true; // AIO_CF_PROMISE_LOGIN_FIX_V1_20261119
 }
 
 function b64(bytes) {

@@ -4,8 +4,12 @@
 import {randomToken,sha256} from './_community.js';
 const COOKIE='aio_appeal_session';
 const TTL_MS=30*60*1000;
-let schemaPromise=null;
+let __aioCFReady_schemaPromise = false;
 async function ensureSchema(env){
+  // AIO_CF_PROMISE_LOGIN_FIX_V1_20261119: request-bound D1 Promise is NEVER cached between HTTP requests.
+  if (__aioCFReady_schemaPromise) return true;
+  let schemaPromise = null;
+
   if(!env?.COMMUNITY_DB)throw new Error('Appeal: missing D1');
   if(!schemaPromise){
     schemaPromise=env.COMMUNITY_DB.prepare(`CREATE TABLE IF NOT EXISTS aio_appeal_sessions_v2 (
@@ -15,6 +19,7 @@ async function ensureSchema(env){
     )`).run().catch(e=>{schemaPromise=null;throw e;});
   }
   await schemaPromise;
+  __aioCFReady_schemaPromise = true; // AIO_CF_PROMISE_LOGIN_FIX_V1_20261119
 }
 function readCookie(request,name){
   const cookie=request.headers.get('Cookie')||'';

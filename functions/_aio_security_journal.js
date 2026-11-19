@@ -6,7 +6,7 @@ import {sha256,clientIp,isOwnerId} from './_community.js';
 import {isIpPolicyExemptV8} from './_aio_ip_policy_exempt_v8.js';
 import {isApprovedOnCurrentIp} from './_aio_ip_one_account_v7.js';
 import {FEATURE_RESTRICTED,SECURITY_ACTIVITY} from './_aio_public_notices_v1.js';
-let ready;
+let __aioCFReady_ready = false;
 const HOLD_MS=24*60*60*1000;
 function iso(){return new Date().toISOString();}
 function safe(v,cap=120){return String(v||'').replace(/[\u0000-\u001f<>]/g,' ').slice(0,cap);}
@@ -17,6 +17,10 @@ function deviceClass(request){
   return os+' / '+browser;
 }
 export async function ensureSecurityJournal(env){
+  // AIO_CF_PROMISE_LOGIN_FIX_V1_20261119: request-bound D1 Promise is NEVER cached between HTTP requests.
+  if (__aioCFReady_ready) return true;
+  let ready = null;
+
   if(!env.COMMUNITY_DB)throw new Error('Brak COMMUNITY_DB');
   if(!ready)ready=env.COMMUNITY_DB.batch([
     env.COMMUNITY_DB.prepare(`CREATE TABLE IF NOT EXISTS aio_security_journal (
@@ -50,6 +54,7 @@ export async function ensureSecurityJournal(env){
       FOREIGN KEY(user_id) REFERENCES community_profiles(id) ON DELETE CASCADE)`)
   ]).catch(e=>{ready=null;throw e;});
   await ready;
+  __aioCFReady_ready = true; // AIO_CF_PROMISE_LOGIN_FIX_V1_20261119
 }
 export async function ipFingerprint(request){
   const ip=clientIp(request);

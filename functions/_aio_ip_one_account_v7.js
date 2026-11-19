@@ -6,13 +6,17 @@ import {isIpPolicyExemptV8} from './_aio_ip_policy_exempt_v8.js';
 import {REGISTRATION_RESTRICTED,TEMPORARY_RESTRICTION} from './_aio_public_notices_v1.js';
 /* AIO_STRICT_1IP_V4_INTEGRATION */
 import {strictSessionGate,reserveStrictV4,rollbackStrictV4} from './_aio_strict_ip_v4.js';
-let schemaReady=null;
+let __aioCFReady_schemaReady = false;
 const now=()=>new Date().toISOString();
 export const NOTICE=REGISTRATION_RESTRICTED;
 const error=(code,message)=>Object.assign(new Error(message),{status:code});
 const getIp=request=>{const ip=String(request.headers.get('CF-Connecting-IP')||'').trim();return /^(?:[a-f\d:.]{2,45}|(?:\d{1,3}\.){3}\d{1,3})$/i.test(ip)?ip:'';};
 const keyFor=async ip=>sha256('aio-unique-ip-v7:'+ip);
 export async function ensureIpPolicy(env){
+  // AIO_CF_PROMISE_LOGIN_FIX_V1_20261119: request-bound D1 Promise is NEVER cached between HTTP requests.
+  if (__aioCFReady_schemaReady) return true;
+  let schemaReady = null;
+
   if(!env.COMMUNITY_DB)throw error(503,'Brak powiązania z bazą danych.');
   if(!schemaReady)schemaReady=env.COMMUNITY_DB.batch([
     env.COMMUNITY_DB.prepare(`CREATE TABLE IF NOT EXISTS aio_ip_policy_claims(
@@ -68,6 +72,7 @@ export async function ensureIpPolicy(env){
       WHERE status='active' AND user_id IN ('c2847d96-0867-4b6c-a53b-700059b1a403','8ff5c4f0-2742-4a10-b4b0-20c9713d708a')`)
   ]).catch(e=>{schemaReady=null;throw e;});
   await schemaReady;
+  __aioCFReady_schemaReady = true; // AIO_CF_PROMISE_LOGIN_FIX_V1_20261119
 }
 export async function activeIpHold(env,userId,requestOrIp){
   if(!userId || isIpPolicyExemptV8(userId,env))return null;
