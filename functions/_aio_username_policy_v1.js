@@ -66,6 +66,12 @@ export async function ensureUsernamePolicy(env){
         user_id TEXT NOT NULL UNIQUE,
         created_at TEXT NOT NULL,
         FOREIGN KEY(user_id) REFERENCES community_profiles(id) ON DELETE CASCADE)`),
+      // AIO_USERNAME_POLICY_V1_4_20261120: one selection per normalized legacy-name collision.
+      env.COMMUNITY_DB.prepare(`CREATE TABLE IF NOT EXISTS aio_username_duplicate_login_choice_v1 (
+        name_key TEXT PRIMARY KEY,
+        selected_user_id TEXT NOT NULL,
+        selected_at TEXT NOT NULL,
+        FOREIGN KEY(selected_user_id) REFERENCES community_profiles(id) ON DELETE CASCADE)`),
       env.COMMUNITY_DB.prepare('CREATE INDEX IF NOT EXISTS idx_aio_username_review_completed ON aio_username_rename_v1(completed_at,deadline_at)'),
       env.COMMUNITY_DB.prepare('CREATE INDEX IF NOT EXISTS idx_aio_display_name_nocase ON community_profiles(display_name COLLATE NOCASE)')
     ]);
@@ -93,34 +99,87 @@ export function claimUsernameStatement(env,userId,key){
     name_key=excluded.name_key,created_at=excluded.created_at`)
     .bind(key,userId,new Date().toISOString());
 }
+/** AIO_USERNAME_POLICY_V1_4_20261120
+ * Existing ordinary duplicates are NOT account bans. Only the first successful
+ * eligible sign-in in each legacy collision must rename. Other users keep access.
+ * Persist the choice atomically; never use registration age or a previous
+ * "duplicate" review as an ownership signal.
+ * Banned historical profiles do not trigger an ordinary-name collision.
+ */
 async function reviewRow(env,id){
   return await env.COMMUNITY_DB.prepare('SELECT * FROM aio_username_rename_v1 WHERE user_id=? LIMIT 1').bind(id).first();
 }
-export async function usernameRenameReview(env,userId,displayName,role,{fullScan=false}={}){
-  if(role==='admin')return null; // Owner/admin IDs must not be trapped in migration.
-  await ensureUsernamePolicy(env);
-  const existing=await reviewRow(env,userId);
-  if(existing)return existing.completed_at?null:existing;
-  let reason=reservedUsername(displayName)?'reserved':null;
-  if(!reason){
-    if(fullScan){
-      const rows=await env.COMMUNITY_DB.prepare('SELECT id,display_name,created_at FROM community_profiles ORDER BY created_at,id').all();
-      const key=usernameKey(displayName);
-      const matches=(rows.results||[]).filter(r=>usernameKey(r.display_name)===key);
-      if(matches.length>1 && String(matches[0].id)!==String(userId))reason='duplicate';
-    }else{
-      const rows=await env.COMMUNITY_DB.prepare(`SELECT id FROM community_profiles
-        WHERE display_name=? COLLATE NOCASE ORDER BY created_at,id LIMIT 2`).bind(displayName).all();
-      if((rows.results||[]).length>1 && String(rows.results[0].id)!==String(userId))reason='duplicate';
-    }
-  }
-  if(!reason)return null;
-  const now=Date.now(),stamp=new Date(now).toISOString();
-  await env.COMMUNITY_DB.prepare(`INSERT OR IGNORE INTO aio_username_rename_v1
-    (user_id,original_name,reason,created_at,deadline_at)
-    VALUES(?,?,?,?,?)`).bind(userId,displayName,reason,stamp,new Date(now+NOTICE_DAYS*DAY).toISOString()).run();
-  return await reviewRow(env,userId);
+async function chosenDuplicate(env,key){
+  return env.COMMUNITY_DB.prepare('SELECT selected_user_id FROM aio_username_duplicate_login_choice_v1 WHERE name_key=? LIMIT 1').bind(key).first();
 }
+async function eligibleNamePeers(env,key){
+  const rows=await env.COMMUNITY_DB.prepare(`SELECT id,display_name,banned_until
+    FROM community_profiles WHERE role='user'`).all();
+  const now=Date.now();
+  return (rows.results||[]).filter(p=>usernameKey(p.display_name)===key &&
+    !(p.banned_until && Date.parse(p.banned_until)>now));
+}
+async function pickFirstSuccessfulLogin(env,key,userId,peers){
+  const db=env.COMMUNITY_DB;
+  let chosen=await chosenDuplicate(env,key);
+  if(chosen && peers.some(p=>p.id===chosen.selected_user_id))return chosen.selected_user_id;
+  const stamp=new Date().toISOString();
+  if(!chosen){
+    // D1 UNIQUE(name_key) makes concurrent first sign-ins deterministic.
+    await db.prepare(`INSERT OR IGNORE INTO aio_username_duplicate_login_choice_v1
+      (name_key,selected_user_id,selected_at) VALUES(?,?,?)`)
+      .bind(key,userId,stamp).run();
+  }else{
+    // The previous chosen account was deleted, banned or renamed. CAS prevents
+    // two later sign-ins from replacing one another's newly selected account.
+    await db.prepare(`UPDATE aio_username_duplicate_login_choice_v1
+      SET selected_user_id=?,selected_at=?
+      WHERE name_key=? AND selected_user_id=?`)
+      .bind(userId,stamp,key,chosen.selected_user_id).run();
+  }
+  chosen=await chosenDuplicate(env,key);
+  return chosen && peers.some(p=>p.id===chosen.selected_user_id)?chosen.selected_user_id:null;
+}
+async function activateRenameReview(env,userId,displayName,reason,prior){
+  const db=env.COMMUNITY_DB,stamp=new Date().toISOString();
+  const deadline=new Date(Date.now()+NOTICE_DAYS*DAY).toISOString();
+  if(!prior){
+    await db.prepare(`INSERT OR IGNORE INTO aio_username_rename_v1
+      (user_id,original_name,reason,created_at,deadline_at)
+      VALUES(?,?,?,?,?)`).bind(userId,displayName,reason,stamp,deadline).run();
+  }else if(prior.completed_at || prior.reason!==reason || prior.original_name!==displayName){
+    // Keep the original review if still relevant. Reopen only on a new condition.
+    await db.prepare(`UPDATE aio_username_rename_v1 SET
+      original_name=?,reason=?,created_at=?,deadline_at=?,
+      grace_used_at=NULL,completed_at=NULL,new_name=NULL WHERE user_id=?`)
+      .bind(displayName,reason,stamp,deadline,userId).run();
+  }
+  return reviewRow(env,userId);
+}
+export async function usernameRenameReview(env,userId,displayName,role,{fullScan=false,assignOnLogin=false}={}){
+  if(role==='admin')return null; // An owner/admin is never trapped by the rename gate.
+  await ensureUsernamePolicy(env);
+  const prior=await reviewRow(env,userId);
+  if(reservedUsername(displayName)){
+    return activateRenameReview(env,userId,displayName,'reserved',prior);
+  }
+  const key=usernameKey(displayName);
+  if(!key)return null;
+  // Critical V1.4 behavior: old duplicate-review rows do NOT authorize a gate.
+  // No authenticated successful sign-in has chosen a rename target yet.
+  let chosen=await chosenDuplicate(env,key);
+  if(!assignOnLogin && (!chosen || chosen.selected_user_id!==userId))return null;
+  const peers=await eligibleNamePeers(env,key);
+  if(peers.length<2 || !peers.some(p=>p.id===userId))return null;
+  if(assignOnLogin){
+    const picked=await pickFirstSuccessfulLogin(env,key,userId,peers);
+    if(picked!==userId)return null;
+  }else if(!chosen || chosen.selected_user_id!==userId){
+    return null;
+  }
+  return activateRenameReview(env,userId,displayName,'duplicate',prior);
+}
+
 export async function consumeLegacyLogin(env,userId){
   await ensureUsernamePolicy(env);
   const stamp=new Date().toISOString();

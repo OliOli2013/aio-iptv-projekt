@@ -353,7 +353,7 @@ export async function onRequestPost({request, env}) {
     // Do NOT use grace_used_at as a login block: the ordinary session gate in
     // _community.js still denies all normal AIO features until the name is changed.
     // All profile / IP / VPN / ban checks above remain effective.
-    const renameReview=await usernameRenameReview(env,auth.user_id,auth.display_name,auth.role,{fullScan:true});
+    const renameReview=await usernameRenameReview(env,auth.user_id,auth.display_name,auth.role,{fullScan:true,assignOnLogin:true}); // AIO_USERNAME_POLICY_V1_4_20261120
     if(renameReview) await consumeLegacyLogin(env,auth.user_id); // first-use audit only; never a refusal
     await clearAttempt(env, throttleKey);
     const token = randomToken();

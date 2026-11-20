@@ -272,8 +272,10 @@ async function blockLoginByPolicy(env,req,account){
         AND (permanent=1 OR expires_at IS NULL OR datetime(expires_at)>datetime('now')) LIMIT 1`).bind(ip).first();
       if(b)throw msg(403,'Dostęp do konta wymaga weryfikacji.');
     }
-    const review=await usernameRenameReview(env,id,account.display_name,account.role,{fullScan:true});
-    if(review && !(await consumeLegacyLogin(env,id)))throw msg(403,'Zmień nazwę konta przez formularz logowania lub skontaktuj się z administracją.');
+    // AIO_USERNAME_POLICY_V1_4_20261120 — social login uses the same chosen-user gate.
+    // Normal features remain guarded by getSession until any required rename finishes.
+    const review=await usernameRenameReview(env,id,account.display_name,account.role,{fullScan:true,assignOnLogin:true});
+    if(review)await consumeLegacyLogin(env,id); // audit first use; never lock a repeat sign-in
   }
 }
 

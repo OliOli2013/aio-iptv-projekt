@@ -4,7 +4,7 @@
 import {requireAdmin,moderationLog,json} from '../_community.js';
 import {initAccess,getStatus,SUPPORT_MS} from '../_aio_account_access.js';
 import {ensureVipSchema} from '../_aio_vip.js';
-import {ensureUsernamePolicy} from '../_aio_username_policy_v1.js'; // AIO_USERNAME_PROTECTION_V1_3_1_20261119
+import {ensureUsernamePolicy,usernameRenameReview} from '../_aio_username_policy_v1.js'; // AIO_USERNAME_POLICY_V1_4_20261120
 
 const HEADERS={'Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff'};
 const answer=(data,status=200)=>json(data,status,HEADERS);
@@ -30,13 +30,14 @@ export async function onRequestGet({request,env}){
     const p=await person(db,id);
     if(!p)throw problem(404,'Konto nie istnieje.');
     const now=new Date().toISOString();
-    const [state,vip,grant,sessions,rename]=await Promise.all([
+    const [state,vip,grant,sessions,rename,liveRename]=await Promise.all([
       getStatus(env,id),
       db.prepare(`SELECT status,issued_at,expires_at,note FROM aio_vip_grants WHERE user_id=? LIMIT 1`).bind(id).first(),
       db.prepare(`SELECT source,issued_at,expires_at,reference FROM aio_access_account_grants WHERE user_id=? LIMIT 1`).bind(id).first(),
       db.prepare(`SELECT COUNT(*) n FROM community_sessions WHERE user_id=? AND expires_at>?`).bind(id,now).first(),
       db.prepare(`SELECT reason,original_name,created_at,deadline_at,grace_used_at,completed_at
-        FROM aio_username_rename_v1 WHERE user_id=? LIMIT 1`).bind(id).first()
+        FROM aio_username_rename_v1 WHERE user_id=? LIMIT 1`).bind(id).first(),
+      usernameRenameReview(env,id,p.display_name,p.role)
     ]);
     const vipActive=!!(vip?.status==='active'&&vip.expires_at>now);
     const grantActive=!!(grant?.expires_at>now);
@@ -49,10 +50,11 @@ export async function onRequestGet({request,env}){
       vip:{active:vipActive,issued_at:vip?.issued_at||null,expires_at:vip?.expires_at||null},
       grant:{active:grantActive,source:grant?.source||'',issued_at:grant?.issued_at||null,expires_at:grant?.expires_at||null},
       active_sessions:Number(sessions?.n||0),
-      username_policy:{required:!!(rename&&!rename.completed_at),
-        reason:rename?.reason||null, original_name:rename?.original_name||null,
-        created_at:rename?.created_at||null, deadline_at:rename?.deadline_at||null,
-        first_rename_login_at:rename?.grace_used_at||null, completed_at:rename?.completed_at||null}});
+      username_policy:{required:!!liveRename,
+        reason:liveRename?.reason||null, original_name:liveRename?.original_name||null,
+        created_at:liveRename?.created_at||null, deadline_at:liveRename?.deadline_at||null,
+        first_rename_login_at:liveRename?.grace_used_at||null, completed_at:rename?.completed_at||null,
+        historical_duplicate_without_gate:!!(rename?.reason==='duplicate'&&!rename?.completed_at&&!liveRename)}});
   }catch(e){return friendlyError(e);}
 }
 export async function onRequestPost({request,env}){
