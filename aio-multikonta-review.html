@@ -1,0 +1,29 @@
+<!DOCTYPE html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Kontrola powiązań kont — AIO TunerHub</title>
+<style>
+:root{color-scheme:dark;font-family:Inter,system-ui,-apple-system,Arial,sans-serif;background:#071c28;color:#ecf8ff}
+*{box-sizing:border-box}body{margin:0;background:#071c28}main{width:min(1120px,96%);margin:32px auto 72px}
+a{color:#83e7fc}h1{font-size:clamp(1.55rem,3vw,2.3rem);margin:10px 0}h2{font-size:1.1rem;margin:0 0 12px}p{line-height:1.55}
+small,.muted{color:#a9c7d4}.top{display:flex;gap:15px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.panel{border:1px solid #2b5968;border-radius:15px;background:#0b2b3b;padding:clamp(15px,3vw,24px);margin-top:17px}
+.button,button{font:inherit;border:1px solid #66baca;border-radius:9px;padding:10px 14px;background:#165970;color:#effaff;font-weight:700;cursor:pointer}
+button:disabled{opacity:.55;cursor:wait}.button{display:inline-block;text-decoration:none}button.secondary{background:#193746;border-color:#406777}
+button.reject{background:#413944;border-color:#987a85}.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+input,select{font:inherit;color:#ecf8ff;background:#09222f;border:1px solid #4a7889;border-radius:8px;padding:10px;min-width:190px;max-width:100%}
+label{display:flex;align-items:center;gap:9px;flex-wrap:wrap}.result{display:grid;gap:13px}
+.finding{border:1px solid #335e70;border-radius:13px;padding:18px;background:#0a2533;display:grid;gap:12px}
+.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.account{border:1px solid #345a69;border-radius:10px;padding:12px;min-width:0;overflow-wrap:anywhere}
+.account strong{display:block;font-size:1.05rem;margin-bottom:4px}.account span{display:block;color:#b5d0db}
+.signals{margin:0;padding-left:22px;line-height:1.6}.tag{font-weight:700;padding:5px 10px;border:1px solid #517f8e;border-radius:20px;font-size:.78rem}
+.tag.strong{border-color:#cc9c67;color:#ffdfa8}.tag.pending{border-color:#b7a477;color:#ffe6aa}
+.warn{border-left:4px solid #d7a96c;padding:10px 13px;background:#302c24;color:#fff1d9;border-radius:6px}
+.error{color:#ffb5b5}#content[hidden],#login-required[hidden],#scan-result[hidden]{display:none!important}
+@media(max-width:650px){.pair{grid-template-columns:1fr}.row{align-items:stretch}.row>button,.row>input,.row>label{width:100%}}
+</style><script defer src="/assets/js/aio-multikonta-review-v1.js?v=20261120-v1"></script></head><body><main>
+<div class="top"><div><small>AIO TUNERHUB / CENTRUM WŁAŚCICIELA</small><h1>Weryfikacja powiązań kont</h1></div><div class="row"><a class="button" href="/community-admin.html">Użytkownicy</a><a class="button" href="/owner-hub">Centrum właściciela</a></div></div>
+<section id="login-required" class="panel" hidden role="alert"><h2>Dostęp wyłącznie dla właściciela</h2><p>Zaloguj się na konto właściciela AIO, a następnie ponownie otwórz tę stronę. Dane użytkowników nie są udostępniane publicznie.</p></section>
+<div id="content" hidden>
+<section class="panel"><h2>O czym informuje ten raport?</h2><p>System wyszukuje <strong>sygnały podobieństwa</strong>: fragmenty nazw i adresów e-mail, zbieżne części lokalne skrzynek oraz wspólne historyczne IP. <strong>Wynik nie jest dowodem, że konta należą do jednej osoby.</strong> Przy adresach sieci komórkowych i współdzielonych możliwe są przypadkowe powiązania.</p>
+<p class="warn">Żaden skan ani oznaczenie „Potwierdzone” nie blokuje kont, nie zmienia VIP ani darmowych limitów. Decyzję o rzeczywistym nadużyciu i ewentualnej blokadzie podejmujesz ręcznie w panelu użytkowników.</p>
+<div class="row"><button id="scan" type="button">Przeskanuj wszystkie konta</button><span id="counts" class="muted"></span></div><p id="scan-result" role="status" hidden></p></section>
+<section class="panel"><div class="row" style="justify-content:space-between;margin-bottom:14px"><h2>Lista powiązań</h2><div class="row"><label>Status <select id="status"><option value="pending">Do sprawdzenia</option><option value="confirmed">Potwierdzone</option><option value="dismissed">Niepotwierdzone</option><option value="all">Wszystkie</option></select></label><label>Szukaj <input id="search" type="search" placeholder="Nazwa lub e-mail" maxlength="80"></label><button id="refresh" class="secondary" type="button">Odśwież</button></div></div><p id="message" class="muted" role="status">Ładowanie…</p><div class="result" id="list"></div></section>
+</div></main></body></html>

@@ -32,6 +32,7 @@ function validPassword(p) {
 }
 /* Owner Security V4: hashed e-mail denylist shared by sign-in and sign-up. */
 import {emailIsBlocked} from '../_aio_email_blocks.js';
+import {scanSimilarityForUser} from '../_aio_account_similarity_v1.js'; // AIO_SIMILARITY_V1
 async function throttle(env, key, request) {
   const row = await env.COMMUNITY_DB.prepare(
     `SELECT attempts, blocked_until FROM community_login_attempts WHERE key=?`
@@ -295,6 +296,8 @@ export async function onRequestPost({request, env}) {
         VALUES(?,?,?,?,?,?,?)
       `).bind(tokenHash,id,expires,isoNow(),isoNow(),ip,request.headers.get("user-agent")||"").run();
       await recordIp(env,id,ip,"access");
+      // Post-registration observation: never blocks account creation or changes entitlements.
+      if(!ownerAccount) await scanSimilarityForUser(env,id).catch(e=>console.error('[AIO similarity signup]',String(e?.message||e).slice(0,120)));
       await logSecurity(env,request,"register_ok",id);
       const securityHold=netRisk?.hold?{message:'Rejestracja wymaga weryfikacji. Darmowe pobieranie jest czasowo wstrzymane. Możesz skontaktować się z administratorem.'}:null;
       const profile = await db.prepare(`SELECT * FROM community_profiles WHERE id=?`).bind(id).first();

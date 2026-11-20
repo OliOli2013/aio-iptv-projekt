@@ -1,3 +1,4 @@
+import {scanSimilarityForUser} from './_aio_account_similarity_v1.js'; // AIO_SIMILARITY_V1
 /* AIO Social Registration V1: OAuth/OIDC code flow; strictly optional and fail-closed.
  * NO social identity is trusted from browser data. D1 state is one-time and expires after 10 min.
  */
@@ -314,6 +315,7 @@ async function newSocialAccount(env,req,flow,person){
     ].filter(Boolean));
   }catch(error){await rollbackRegistrationIp(env,lease,id);throw error;}
   await recordIp(env,id,ip,'access').catch(()=>{});
+  await scanSimilarityForUser(env,id).catch(e=>console.error('[AIO similarity social signup]',String(e?.message||e).slice(0,120)));
   await logSecurity(env,req,'register_ok',id,'social:'+person.provider).catch(()=>{});
   if(!person.verifiedEmail){
     try{await sendVerificationEmail(env,id,email);}catch(e){console.error('AIO Social: email verification send failed',Number(e.status||500));}
