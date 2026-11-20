@@ -7,6 +7,12 @@
 (()=>{'use strict';
   if(window.AIO_OWNER_TOOLS_CATALOG_V1)return;
   const tools=[
+    // AIO_POWIAZANIA_KONT_V1_FIX4_20261120 — ręczna weryfikacja podejrzanych powiązań.
+    {id:'multikonta-powiazania-v1', name:'Kontrola powiązań kont — podobieństwa', icon:'⌕',
+      desc:'Przeskanuj istniejące konta oraz przejrzyj podobne nazwy, e-maile i wspólne IP. Tylko ręczna ocena, bez automatycznych blokad.',
+      url:'/aio-multikonta-review.html',
+      tags:'multikonta powiazania powiązania kont kontrola podobieństwo smolus smolny email nazwy IP właściciel ręczna weryfikacja'
+    },
     // AIO_SECURITY_EXPORTS_V1_20261115 — owner-only reports, no changes to policies.
     {id:'security-exports-v1',name:'Eksporty bezpieczeństwa — CSV / JSON',icon:'↓',
       desc:'Raporty VPN Guard, blokad, multikont, IP, Shield i dzienników — w jednym miejscu.',
