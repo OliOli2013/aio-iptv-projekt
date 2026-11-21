@@ -1,0 +1,35 @@
+/* AIO Panel 18.2.1 – tylko układ i archiwum wcześniejszych funkcji. */
+.aio-panel1821-history {
+  margin:22px 0 28px;
+  border:1px solid rgba(101,191,209,.32);
+  background:linear-gradient(145deg,rgba(11,39,52,.9),rgba(8,25,39,.85));
+  border-radius:16px;
+  overflow:hidden;
+}
+.aio-panel1821-history > summary {
+  display:flex;
+  gap:6px 20px;
+  flex-wrap:wrap;
+  align-items:center;
+  cursor:pointer;
+  padding:18px 24px;
+  color:#ecfaff;
+  font-size:1.02rem;
+  line-height:1.5;
+  list-style-position:inside;
+}
+.aio-panel1821-history > summary::marker {color:#5ce4bd;}
+.aio-panel1821-history > summary strong {font-weight:750;}
+.aio-panel1821-history > summary span {font-size:.9rem;color:#b2d4de;}
+.aio-panel1821-history > summary:focus-visible {outline:3px solid #77e2ff;outline-offset:-4px;}
+.aio-panel1821-history[open] > summary {border-bottom:1px solid rgba(101,191,209,.28);}
+.aio-panel1821-history-content {padding:12px 15px 18px;}
+.aio-panel1821-history-content .aio-panel-v2-panel {margin:14px 0;}
+.aio-panel1821-history-fact {display:grid;align-content:center;gap:10px;padding:20px;border:1px solid rgba(123,204,182,.32);border-radius:12px;text-align:center;background:rgba(8,37,38,.6);}
+.aio-panel1821-history-fact strong {font-size:clamp(1.35rem,2vw,1.9rem);color:#76e6b8;line-height:1.25;}
+.aio-panel1821-history-fact span {font-size:.9rem;color:#dae9e7;}
+.aio-panel1821-history-note {padding:14px 16px;border-left:3px solid #64ceb1;background:rgba(3,24,35,.55);border-radius:5px;}
+@media (max-width: 650px) {
+ .aio-panel1821-history > summary {padding:15px 16px;}
+ .aio-panel1821-history-content {padding:8px 10px 12px;}
+}

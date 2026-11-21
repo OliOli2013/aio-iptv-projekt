@@ -20,6 +20,7 @@
 <link rel="stylesheet" href="assets/css/aio-panel-page-v2.css?v=20261010-aiopanelpagev2">
 <link rel="stylesheet" href="assets/css/aio-panel-18.css?v=20261108-release18">
 <link rel="stylesheet" href="assets/css/aio-panel-1821.css?v=20261121-1821">
+<link rel="stylesheet" href="assets/css/aio-panel-1821-final.css?v=20261121-final2">
 <link rel="canonical" href="https://aio-iptv-projekt.pages.dev/plugin-aio-panel">
 <link rel="stylesheet" href="assets/css/site-final.css?v=20261010-final1">
 <link rel="stylesheet" href="assets/css/aio-share.css?v=20261010-share1">
@@ -99,12 +100,9 @@
 
   <nav class="aio-panel-v2-nav" aria-label="Sekcje AIO Panel">
     <a href="#nowosci1821">Nowości 18.2.1</a>
-    <a href="#najwazniejsze">Listy SAT</a>
-    <a href="#tryby">Tryby instalacji</a>
-    <a href="#moje-projekty">Moje projekty</a>
-    <a href="#zmiany">Pozostałe poprawki</a>
-    <a href="#informacje">Pliki i SHA-256</a>
-    <a href="#instalacja">Instalacja</a>
+    <a href="#informacje">Pobierz IPK / DEB</a>
+    <a href="#instalacja">Instalacja i aktualizacja</a>
+    <a href="#historia-funkcji">Pozostałe funkcje</a>
   </nav>
 
   <section class="aio-panel-v2-panel" id="nowosci1821">
@@ -124,51 +122,6 @@
       <figure><a href="pliki/aio-panel-18.2.1-wtyczki.png" target="_blank" rel="noopener noreferrer"><img src="pliki/aio-panel-18.2.1-wtyczki.png" alt="AIO Panel 18.2.1: wybór instalatora XStreamity" width="814" height="473" loading="lazy"></a><figcaption>IPTV / Odtwarzacze — grafika instalatora.</figcaption></figure>
       <figure><a href="pliki/aio-panel-18.2.1-motyw-zielony.png" target="_blank" rel="noopener noreferrer"><img src="pliki/aio-panel-18.2.1-motyw-zielony.png" alt="AIO Panel 18.2.1: zielona paleta motywu" width="798" height="464" loading="lazy"></a><figcaption>Jeden z dziewięciu motywów kolorystycznych.</figcaption></figure>
     </div>
-  </section>
-
-  <section class="aio-panel-v2-panel aio-panel-v2-highlight" id="najwazniejsze">
-    <div class="aio-panel-v2-highlight-grid">
-      <div>
-        <p class="eyebrow">Funkcja wprowadzona w wersji 18.0.0</p>
-        <h2>Aktualizacja SAT bez utraty własnej konfiguracji</h2>
-        <p>Nowy mechanizm podczas aktualizacji <strong>tej samej listy</strong> odświeża jej część satelitarną. Zachowuje własne bukiety FAVOURITES, ich układ, kolejność, separatory i numerację, a także lokalne kanały DVB-T/T2, DVB-C oraz IPTV.</p>
-        <p>Można też instalować kolejne, różne listy obok już posiadanych, bez wymuszonego usuwania poprzednich zestawów. Mechanizm weryfikuje dane i przewiduje wycofanie zmian po wykryciu błędu.</p>
-      </div>
-      <div><div class="big-number">18.0.0</div><p>Więcej kontroli nad kanałami i bukietami · Enigma2 Python 2 / 3</p></div>
-    </div>
-  </section>
-
-  <section class="aio-panel-v2-panel" id="tryby">
-    <div class="aio-panel-v2-heading"><div><p class="eyebrow">Listy kanałów</p><h2>Trzy opcje podczas instalacji listy</h2></div></div>
-    <div class="aio-panel18-modes">
-      <article class="aio-panel18-mode recommended"><span class="aio-panel18-mode-number">01 · ZALECANE</span><h3>Uaktualnij, zachowując dane</h3><p>Zachowaj FAVOURITES, własne bukiety, separatory, kolejność i numerację. DVB-T/T2, DVB-C i własne IPTV pozostają bez zmian. Aktualizacja tej samej listy dotyczy SAT; instalując inną, możesz zachować oba zestawy bukietów.</p></article>
-      <article class="aio-panel18-mode"><span class="aio-panel18-mode-number">02 · PEŁNA WYMIANA</span><h3>Zastąp poprzednią listę</h3><p>Tradycyjny sposób instalacji: poprzedni zestaw bukietów zastępuje nowa lista. Wybierz tylko wtedy, gdy świadomie chcesz rozpocząć od nowego układu.</p></article>
-      <article class="aio-panel18-mode"><span class="aio-panel18-mode-number">03 · ANULUJ</span><h3>Bez wprowadzania zmian</h3><p>Przerwanie operacji. Żadna lista ani konfiguracja tunera nie zostanie celowo zmieniona.</p></article>
-    </div>
-    <p class="aio-panel18-caution"><strong>Przed aktualizacją wykonaj kopię konfiguracji tunera.</strong> Zachowanie FAVOURITES zostało potwierdzone w testach na Ustym 4K Pro, ale nie stanowi gwarancji identycznego działania na każdym obrazie Enigma2.</p>
-  </section>
-
-  <section class="aio-panel-v2-panel" id="moje-projekty">
-    <div class="aio-panel-v2-heading"><div><p class="eyebrow">Nowa zakładka w panelu</p><h2>„Moje projekty” — jedno miejsce dla autorskich dodatków</h2><p>Nową sekcję znajdziesz bezpośrednio pod „Listy kanałów”. Autorskie projekty nie są już powielane w pozostałych kategoriach samej wtyczki.</p></div></div>
-    <div class="aio-panel18-screen"><a href="pliki/aio-panel-18.0.0-moje-projekty.png" target="_blank" rel="noopener noreferrer"><img src="pliki/aio-panel-18.0.0-moje-projekty.png" alt="AIO Panel 18.0.0 — zakładka Moje projekty z dziesięcioma pozycjami" width="848" height="499" loading="lazy"></a><p>Rzeczywisty ekran nowej zakładki „Moje projekty” w AIO Panel 18.0.0.</p></div>
-    <div class="aio-panel18-projects">
-      <span>AIO Panel</span><span>IPTV Dream</span><span>MyUpdater</span><span>PiconUpdater</span><span>Simple IPTV EPG</span>
-      <span>NeoRadio</span><span>PP Channel Sync</span><span>E2 Doctor (Python 3)</span><span>AIOHD NEXT</span><span>OpenCamView</span>
-    </div>
-    <p>Przy każdym projekcie dostępna jest opcja instalacji lub aktualizacji, zależnie od stanu tunera i dostępnych pakietów. <a href="projects-aio.html">Zobacz także katalog projektów na stronie</a>.</p>
-  </section>
-
-  <section class="aio-panel-v2-panel" id="zmiany">
-    <div class="aio-panel-v2-heading"><div><p class="eyebrow">Lista zmian</p><h2>Zmiany z wydania 18.0.0 — nadal dostępne w 18.2.1</h2></div></div>
-    <div class="aio-panel-v2-changes">
-      <div class="aio-panel-v2-change"><b>✓</b><span><strong>OSCam Levi45</strong> — zaktualizowane informacje o źródłowej rewizji 11968 / Emu r803.</span></div>
-      <div class="aio-panel-v2-change"><b>✓</b><span>Oddzielono numer wersji OSCam-Emu <strong>dostępnej w feedzie</strong> od wersji rzeczywiście <strong>zainstalowanej</strong> w odbiorniku.</span></div>
-      <div class="aio-panel-v2-change"><b>✓</b><span>Dodatkowe kontrole instalacji i aktualizacji list, weryfikacja danych oraz możliwość wycofania zmian w razie błędu.</span></div>
-      <div class="aio-panel-v2-change"><b>✓</b><span>Uporządkowane menu i usunięcie powtórzonych autorskich projektów z innych zakładek AIO Panel.</span></div>
-      <div class="aio-panel-v2-change"><b>✓</b><span>Poprawione komunikaty diagnostyczne i czytelniejsze oznaczenia wersji.</span></div>
-      <div class="aio-panel-v2-change"><b>✓</b><span>Utrzymana obsługa PL/EN oraz Python 2 / Python 3; pozostałe instalatory, picony, skórki i narzędzia systemowe pozostają dostępne.</span></div>
-    </div>
-    <div class="aio-panel18-thanks"><h3>Podziękowania za testy</h3><p>Szczególne podziękowania dla <strong>Leopolda Wójcika</strong> za testy wydań 17.0.4, r1, r2 i r3 na Ustym 4K Pro oraz precyzyjne zgłoszenia, m.in. błędu nazw kanałów <code>&lt;n/a&gt;</code>. W teście końcowym potwierdził zachowanie 100% własnej listy FAVOURITES, wraz z separatorami i numeracją 11130–11197, bez ponownego importu.</p></div>
   </section>
 
   <section class="aio-panel-v2-panel" id="informacje">
@@ -205,6 +158,57 @@
     <div class="aio-panel-v2-install-panel" data-install-panel="ftp" hidden><p>Wgraj plik IPK do katalogu <code>/tmp/</code> tunera przez FTP/SFTP. Poniższe polecenie dotyczy aktualnej wersji 18.2.1. Następnie uruchom:</p><div class="command"><div><strong>OpenATV / OpenPLi (opkg)</strong><button type="button" data-copy="opkg install --force-reinstall /tmp/enigma2-plugin-extensions-panelaio_18.2.1_all.ipk">Kopiuj</button></div><pre><code>opkg install --force-reinstall /tmp/enigma2-plugin-extensions-panelaio_18.2.1_all.ipk</code></pre></div></div>
     <div class="aio-panel-v2-install-panel" data-install-panel="deb" hidden><p>Wgraj plik DEB do <code>/tmp/</code> na obrazie Enigma2 używającym menedżera <code>dpkg</code>. Następnie uruchom:</p><div class="command"><div><strong>Instalacja DEB (dpkg)</strong><button type="button" data-copy="dpkg -i /tmp/enigma2-plugin-extensions-panelaio_18.2.1_all.deb">Kopiuj</button></div><pre><code>dpkg -i /tmp/enigma2-plugin-extensions-panelaio_18.2.1_all.deb</code></pre></div></div>
   </section>
+
+<details class="aio-panel1821-history" id="historia-funkcji">
+    <summary><strong>Pozostałe funkcje AIO Panel 18.2.1</strong><span>Listy SAT, Moje projekty, OSCam i historia wcześniejszych usprawnień</span></summary>
+    <div class="aio-panel1821-history-content">
+  <section class="aio-panel-v2-panel aio-panel-v2-highlight" id="najwazniejsze">
+    <div class="aio-panel-v2-highlight-grid">
+      <div>
+        <p class="eyebrow">Funkcja z wcześniejszych wydań, nadal dostępna w 18.2.1</p>
+        <h2>Aktualizacja SAT bez utraty własnej konfiguracji</h2>
+        <p>Mechanizm podczas aktualizacji <strong>tej samej listy</strong> odświeża jej część satelitarną. Zachowuje własne bukiety FAVOURITES, ich układ, kolejność, separatory i numerację, a także lokalne kanały DVB-T/T2, DVB-C oraz IPTV.</p>
+        <p>Można też instalować kolejne, różne listy obok już posiadanych, bez wymuszonego usuwania poprzednich zestawów. Mechanizm weryfikuje dane i przewiduje wycofanie zmian po wykryciu błędu.</p>
+      </div>
+      <div class="aio-panel1821-history-fact"><strong>Aktualnie: 18.2.1</strong><span>Funkcja dostępna od wydania 18.0.0</span></div>
+    </div>
+  </section>
+
+  <section class="aio-panel-v2-panel" id="tryby">
+    <div class="aio-panel-v2-heading"><div><p class="eyebrow">Listy kanałów</p><h2>Trzy opcje podczas instalacji listy</h2></div></div>
+    <div class="aio-panel18-modes">
+      <article class="aio-panel18-mode recommended"><span class="aio-panel18-mode-number">01 · ZALECANE</span><h3>Uaktualnij, zachowując dane</h3><p>Zachowaj FAVOURITES, własne bukiety, separatory, kolejność i numerację. DVB-T/T2, DVB-C i własne IPTV pozostają bez zmian. Aktualizacja tej samej listy dotyczy SAT; instalując inną, możesz zachować oba zestawy bukietów.</p></article>
+      <article class="aio-panel18-mode"><span class="aio-panel18-mode-number">02 · PEŁNA WYMIANA</span><h3>Zastąp poprzednią listę</h3><p>Tradycyjny sposób instalacji: poprzedni zestaw bukietów zastępuje nowa lista. Wybierz tylko wtedy, gdy świadomie chcesz rozpocząć od nowego układu.</p></article>
+      <article class="aio-panel18-mode"><span class="aio-panel18-mode-number">03 · ANULUJ</span><h3>Bez wprowadzania zmian</h3><p>Przerwanie operacji. Żadna lista ani konfiguracja tunera nie zostanie celowo zmieniona.</p></article>
+    </div>
+    <p class="aio-panel18-caution"><strong>Przed aktualizacją wykonaj kopię konfiguracji tunera.</strong> Zachowanie FAVOURITES zostało potwierdzone w testach na Ustym 4K Pro, ale nie stanowi gwarancji identycznego działania na każdym obrazie Enigma2.</p>
+  </section>
+
+  <section class="aio-panel-v2-panel" id="moje-projekty">
+    <div class="aio-panel-v2-heading"><div><p class="eyebrow">Wcześniej dodana funkcja</p><h2>„Moje projekty” — jedno miejsce dla autorskich dodatków</h2><p>Nową sekcję znajdziesz bezpośrednio pod „Listy kanałów”. Autorskie projekty nie są już powielane w pozostałych kategoriach samej wtyczki.</p></div></div>
+    <p class="aio-panel1821-history-note">Zakładka „Moje projekty” nadal jest dostępna w AIO Panel 18.2.1. Aktualne zdjęcia interfejsu znajdują się w galerii nowego wydania powyżej.</p>
+    <div class="aio-panel18-projects">
+      <span>AIO Panel</span><span>IPTV Dream</span><span>MyUpdater</span><span>PiconUpdater</span><span>Simple IPTV EPG</span>
+      <span>NeoRadio</span><span>PP Channel Sync</span><span>E2 Doctor (Python 3)</span><span>AIOHD NEXT</span><span>OpenCamView</span>
+    </div>
+    <p>Przy każdym projekcie dostępna jest opcja instalacji lub aktualizacji, zależnie od stanu tunera i dostępnych pakietów. <a href="projects-aio.html">Zobacz także katalog projektów na stronie</a>.</p>
+  </section>
+
+  <section class="aio-panel-v2-panel" id="zmiany">
+    <div class="aio-panel-v2-heading"><div><p class="eyebrow">Lista zmian</p><h2>Poprawki techniczne zachowane w 18.2.1</h2></div></div>
+    <div class="aio-panel-v2-changes">
+      <div class="aio-panel-v2-change"><b>✓</b><span><strong>OSCam Levi45</strong> — zaktualizowane informacje o źródłowej rewizji 11968 / Emu r803.</span></div>
+      <div class="aio-panel-v2-change"><b>✓</b><span>Oddzielono numer wersji OSCam-Emu <strong>dostępnej w feedzie</strong> od wersji rzeczywiście <strong>zainstalowanej</strong> w odbiorniku.</span></div>
+      <div class="aio-panel-v2-change"><b>✓</b><span>Dodatkowe kontrole instalacji i aktualizacji list, weryfikacja danych oraz możliwość wycofania zmian w razie błędu.</span></div>
+      <div class="aio-panel-v2-change"><b>✓</b><span>Uporządkowane menu i usunięcie powtórzonych autorskich projektów z innych zakładek AIO Panel.</span></div>
+      <div class="aio-panel-v2-change"><b>✓</b><span>Poprawione komunikaty diagnostyczne i czytelniejsze oznaczenia wersji.</span></div>
+      <div class="aio-panel-v2-change"><b>✓</b><span>Utrzymana obsługa PL/EN oraz Python 2 / Python 3; pozostałe instalatory, picony, skórki i narzędzia systemowe pozostają dostępne.</span></div>
+    </div>
+    <div class="aio-panel18-thanks"><h3>Podziękowania za testy</h3><p>Szczególne podziękowania dla <strong>Leopolda Wójcika</strong> za testy wydań 17.0.4, r1, r2 i r3 na Ustym 4K Pro oraz precyzyjne zgłoszenia, m.in. błędu nazw kanałów <code>&lt;n/a&gt;</code>. W teście końcowym potwierdził zachowanie 100% własnej listy FAVOURITES, wraz z separatorami i numeracją 11130–11197, bez ponownego importu.</p></div>
+  </section>
+
+    </div>
+  </details>
 
   <section class="aio-panel-v2-panel"><div class="aio-panel-v2-heading"><div><p class="eyebrow">Powiązane działy</p><h2>Ekosystem AIO TunerHub</h2></div></div><div class="aio-panel-v2-related"><a href="channel-lists.html"><span>📡</span><div><strong>Listy kanałów</strong><small>aktualny manifest list SAT i IPTV</small></div></a><a href="projects-aio.html"><span>🧩</span><div><strong>Projekty AIO</strong><small>autorskie wtyczki i narzędzia</small></div></a><a href="plugins.html"><span>📦</span><div><strong>Wtyczki Enigma2</strong><small>przegląd dostępnych projektów</small></div></a><a href="report-error.html"><span>⚠</span><div><strong>Zgłoś błąd</strong><small>pomoc w diagnostyce</small></div></a></div></section>
   <section class="aio-panel-v2-note"><strong>Ważne przed aktualizacją</strong><p>Wykonaj kopię list kanałów i konfiguracji Enigma2. Tryb zachowania danych przetestowano, ale wynik zależy od obrazu, struktury własnych list i stanu odbiornika. Nie wybieraj „Pełna wymiana”, jeśli chcesz zachować własne bukiety.</p></section>
