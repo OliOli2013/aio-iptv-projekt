@@ -10,7 +10,7 @@
       const count=d.public_handoffs;
       slot.textContent='Najnowsze wydanie IPK: '+d.version+
         ' · bez logowania, bez limitów, bez potrącania pobrań'+
-        (Number.isSafeInteger(count)?' · Przekazania do GitHub: '+count.toLocaleString('pl-PL'):'');
+        (Number.isSafeInteger(count)?' · Przekierowania do pobrania: '+count.toLocaleString('pl-PL'):'');
       document.querySelectorAll('[data-aio-panel-public-version]').forEach(n=>{n.textContent=d.version;});
     }).catch(()=>{slot.textContent='AIO Panel IPK: zawsze najnowsze stabilne wydanie. Bez logowania i limitów.';});
 })();

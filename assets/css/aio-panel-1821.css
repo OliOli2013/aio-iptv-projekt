@@ -1,0 +1,12 @@
+/* AIO Panel 18.2.1: additive responsive screenshots gallery; no existing styles overridden. */
+.aio-panel1821-gallery { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; margin:18px 0 4px; }
+.aio-panel1821-gallery figure { min-width:0; margin:0; background:rgba(7,17,28,.55); border:1px solid rgba(144,200,226,.22); border-radius:13px; padding:10px; }
+.aio-panel1821-gallery a { display:block; border-radius:8px; overflow:hidden; }
+.aio-panel1821-gallery img { width:100%; height:auto; display:block; object-fit:contain; border-radius:7px; }
+.aio-panel1821-gallery figcaption { color:#dce7f5; font-size:.88rem; line-height:1.45; margin-top:8px; }
+.aio-panel1821-feature-list { display:grid; gap:8px; grid-template-columns:repeat(2,minmax(0,1fr)); margin:18px 0; }
+.aio-panel1821-feature-list > div { border:1px solid rgba(143,192,225,.28); background:rgba(11,31,49,.55); border-radius:9px; padding:13px 15px; }
+.aio-panel1821-feature-list strong { display:block; color:#d8f0ff; margin-bottom:5px; }
+.aio-panel1821-feature-list span { color:#d5dfe9; line-height:1.55; }
+@media(max-width:880px) {.aio-panel1821-gallery {grid-template-columns:1fr 1fr;} .aio-panel1821-feature-list {grid-template-columns:1fr;}}
+@media(max-width:560px) {.aio-panel1821-gallery {grid-template-columns:1fr;} .aio-panel1821-gallery img {max-width:100%;}}

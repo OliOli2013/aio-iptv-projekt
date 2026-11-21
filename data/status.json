@@ -73,13 +73,13 @@
     },
     {
       "id": "aio-ipk",
-      "name": "AIO Panel 18.0.0 — plik IPK",
-      "url": "https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/18.0.0/enigma2-plugin-extensions-panelaio_18.0.0_all.ipk",
+      "name": "AIO Panel 18.2.1 — plik IPK",
+      "url": "https://aio-iptv-projekt.pages.dev/api/aio-panel-ipk",
       "category": "Pliki",
-      "status": "online",
-      "httpStatus": 200,
-      "checkedAt": "2026-11-21T13:30:51.403380+00:00",
-      "message": "Usługa odpowiada prawidłowo • application/octet-stream • 428524 B."
+      "status": "unknown",
+      "httpStatus": null,
+      "checkedAt": null,
+      "message": "Oczekuje na kolejny automatyczny test po wdrożeniu 18.2.1."
     },
     {
       "id": "aiohd-next-ipk",

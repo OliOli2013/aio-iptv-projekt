@@ -5,8 +5,8 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="#0d2633" name="theme-color"/>
-<title>AIO Panel 18.0.0 — listy SAT bez utraty FAVOURITES | AIO TunerHub</title>
-<meta content="AIO Panel 18.0.0 Enigma2: SAT bez utraty FAVOURITES, DVB-T/T2, DVB-C i IPTV; wiele list, Moje projekty, OSCam Levi45 11968. Python 2 i 3. IPK / DEB." name="description"/>
+<title>AIO Panel 18.2.1 — nowy wygląd, galeria skórek i picony | AIO TunerHub</title>
+<meta content="AIO Panel 18.2.1 dla Enigma2: 9 motywów, kolorowe ikony, prawdziwe podglądy skórek, piconów i wtyczek. Aktualizacja IPK / DEB, Python 2 i 3." name="description"/>
 <link href="pliki/logo.png?v=20261024-tunerhub-v11" rel="icon"/>
 <link href="manifest.json" rel="manifest"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -14,20 +14,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Caveat:wght@700&amp;display=swap" rel="stylesheet"/>
 <link href="assets/css/user-premium.css?v=20260724-v14" rel="stylesheet"/>
 <link href="assets/css/pro-suite.css?v=20260724-pro3" rel="stylesheet"/><meta content="dark" name="color-scheme"/>
-<meta content="AIO Panel 18.0.0 | AIO TunerHub" property="og:title"/><meta content="Nowy sposób aktualizacji list SAT z zachowaniem FAVOURITES, DVB-T/T2, DVB-C, IPTV oraz nowa zakładka Moje projekty." property="og:description"/><meta content="https://aio-iptv-projekt.pages.dev/pliki/aio-panel-18.0.0-kanaly.png" property="og:image"/><meta content="website" property="og:type"/><meta property="og:url" content="https://aio-iptv-projekt.pages.dev/plugin-aio-panel"><script src="assets/js/auto-language.js?v=20261012-rodo1"></script><link href="assets/css/aio-2026.css?v=20260816-community-first" rel="stylesheet"/>
+<meta content="AIO Panel 18.2.1 | AIO TunerHub" property="og:title"/><meta content="Nowy wygląd, 9 motywów, kolorowe ikony, galerie skórek z dalszych stron feedu, próbki przezroczystych piconów i podglądy wtyczek." property="og:description"/><meta content="https://aio-iptv-projekt.pages.dev/pliki/aio-panel-18.2.1-kanaly.png" property="og:image"/><meta content="website" property="og:type"/><meta property="og:url" content="https://aio-iptv-projekt.pages.dev/plugin-aio-panel"><script src="assets/js/auto-language.js?v=20261012-rodo1"></script><link href="assets/css/aio-2026.css?v=20260816-community-first" rel="stylesheet"/>
 <link rel="stylesheet" href="assets/css/content-protection.css?v=20261009-protect1"/>
 <link rel="stylesheet" href="assets/css/aio-header-v2.css?v=20261031-menu-layout-v5">
 <link rel="stylesheet" href="assets/css/aio-panel-page-v2.css?v=20261010-aiopanelpagev2">
 <link rel="stylesheet" href="assets/css/aio-panel-18.css?v=20261108-release18">
+<link rel="stylesheet" href="assets/css/aio-panel-1821.css?v=20261121-1821">
 <link rel="canonical" href="https://aio-iptv-projekt.pages.dev/plugin-aio-panel">
 <link rel="stylesheet" href="assets/css/site-final.css?v=20261010-final1">
 <link rel="stylesheet" href="assets/css/aio-share.css?v=20261010-share1">
-<meta property="og:image:secure_url" content="https://aio-iptv-projekt.pages.dev/pliki/aio-panel-18.0.0-kanaly.png">
-<meta name="twitter:image" content="https://aio-iptv-projekt.pages.dev/pliki/aio-panel-18.0.0-kanaly.png">
-<meta itemprop="image" content="https://aio-iptv-projekt.pages.dev/pliki/aio-panel-18.0.0-kanaly.png">
+<meta property="og:image:secure_url" content="https://aio-iptv-projekt.pages.dev/pliki/aio-panel-18.2.1-kanaly.png">
+<meta name="twitter:image" content="https://aio-iptv-projekt.pages.dev/pliki/aio-panel-18.2.1-kanaly.png">
+<meta itemprop="image" content="https://aio-iptv-projekt.pages.dev/pliki/aio-panel-18.2.1-kanaly.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta property="og:image:width" content="847">
-<meta property="og:image:height" content="499">
+<meta property="og:image:width" content="807">
+<meta property="og:image:height" content="476">
 <link rel="stylesheet" href="assets/css/aio-mascot-widget.css?v=20261014-mascot-v21-fix1">
 </head>
 <body class="aio-header-v2 aio-header-v3 aio-header-v4 aio-panel-page-v2 site-final-v1">
@@ -71,33 +72,34 @@
   <section class="aio-panel-v2-hero aio-panel18-hero">
     <div class="aio-panel-v2-hero-grid">
       <div>
-        <p class="aio-panel-v2-kicker">AIO TEAM · ENIGMA2 · WYDANIE 07.11.2026</p>
-        <h1>AIO Panel 18.0.0</h1>
+        <p class="aio-panel-v2-kicker">AIO TEAM · ENIGMA2 · WYDANIE 21.11.2026</p>
+        <h1>AIO Panel 18.2.1</h1>
         <p id="aio-panel-public-info" aria-live="polite" style="padding:10px 13px;border:1px solid #47ab98;border-radius:9px;background:#0b3940;color:#d7fff6;font-weight:750">AIO Panel IPK: zawsze najnowsza wersja — bez logowania, bez limitów i bez zużycia darmowej puli.</p>
-        <p class="lead">Nowy, bezpieczniejszy sposób instalowania i aktualizowania list kanałów. Zaktualizuj kanały satelitarne bez usuwania własnych FAVOURITES, bukietów, DVB-T/T2, DVB-C i IPTV. Nowa zakładka „Moje projekty”, poprawki OSCam oraz dopracowana obsługa Enigma2.</p>
+        <p class="lead">Nowoczesne ikony, dziewięć motywów kolorystycznych i rozszerzone podglądy skórek, piconów, wtyczek oraz list kanałów. Klawisz INFO otwiera podgląd, a EXIT wraca do wybranej pozycji. Zachowano bezpieczną aktualizację list SAT oraz zakładkę „Moje projekty”.</p>
         <div class="aio-panel-v2-badges">
           <span class="aio-panel-v2-badge green">● wydanie stabilne</span>
           <span class="aio-panel-v2-badge">Python 2 / 3</span>
           <span class="aio-panel-v2-badge">Polski / English</span>
           <span class="aio-panel-v2-badge">IPK i DEB</span>
-          <span class="aio-panel-v2-badge">7 listopada 2026</span>
+          <span class="aio-panel-v2-badge">21 listopada 2026</span>
         </div>
         <div class="aio-panel-v2-actions">
           <a class="button primary" href="/api/aio-panel-ipk" target="_blank" rel="noopener noreferrer">Pobierz AIO Panel · najnowszy IPK (bez limitów)</a>
-          <a class="button" href="https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/18.0.0/enigma2-plugin-extensions-panelaio_18.0.0_all.deb" target="_blank" rel="noopener noreferrer">Pobierz DEB</a>
+          <a class="button" href="assets/releases/enigma2-plugin-extensions-panelaio_18.2.1_all.deb" target="_blank" rel="noopener noreferrer">Pobierz DEB</a>
           <a class="button" href="#instalacja">Jak zainstalować?</a>
         </div>
       </div>
       <figure class="aio-panel-v2-visual">
-        <a href="pliki/aio-panel-18.0.0-kanaly.png" target="_blank" rel="noopener noreferrer"><img src="pliki/aio-panel-18.0.0-kanaly.png" alt="AIO Panel 18.0.0 — ekran list kanałów na odbiorniku Enigma2" width="847" height="499" loading="eager"></a>
-        <span class="aio-panel-v2-release">18.0.0 · 07.11.2026</span>
-        <figcaption>Autentyczny zrzut ekranu AIO Panel 18.0.0 — Listy kanałów.</figcaption>
+        <a href="pliki/aio-panel-18.2.1-kanaly.png" target="_blank" rel="noopener noreferrer"><img src="pliki/aio-panel-18.2.1-kanaly.png" alt="AIO Panel 18.2.1 — ekran list kanałów na odbiorniku Enigma2" width="807" height="476" loading="eager"></a>
+        <span class="aio-panel-v2-release">18.2.1 · 21.11.2026</span>
+        <figcaption>Autentyczny zrzut ekranu AIO Panel 18.2.1 — Listy kanałów.</figcaption>
       </figure>
     </div>
   </section>
 
   <nav class="aio-panel-v2-nav" aria-label="Sekcje AIO Panel">
-    <a href="#najwazniejsze">Główna zmiana</a>
+    <a href="#nowosci1821">Nowości 18.2.1</a>
+    <a href="#najwazniejsze">Listy SAT</a>
     <a href="#tryby">Tryby instalacji</a>
     <a href="#moje-projekty">Moje projekty</a>
     <a href="#zmiany">Pozostałe poprawki</a>
@@ -105,10 +107,29 @@
     <a href="#instalacja">Instalacja</a>
   </nav>
 
+  <section class="aio-panel-v2-panel" id="nowosci1821">
+    <div class="aio-panel-v2-heading"><div><p class="eyebrow">21 listopada 2026 · wydanie stabilne</p>
+      <h2>Nowości AIO Panel 18.2.1</h2>
+      <p>Przebudowany wygląd panelu i znacznie większa liczba rzeczywistych podglądów. Wszystkie zrzuty poniżej pochodzą z działającej wersji 18.2.1.</p></div></div>
+    <div class="aio-panel1821-feature-list">
+      <div><strong>🎨 9 motywów i kolorowe ikony</strong><span>Nowoczesne ikony kategorii oraz wybór palety. Ikony i podglądy można włączać oddzielnie w MENU → Wygląd panelu.</span></div>
+      <div><strong>🖼️ Skórki z dalszych stron</strong><span>Galeria offline, wyszukiwanie dostępnych obrazów na odbiorniku, powiększanie przyciskiem INFO; EXIT wraca do wybranego elementu.</span></div>
+      <div><strong>📡 Podgląd przezroczystych piconów</strong><span>Osobne próbki z oryginalnych archiwów 13°E, 19.2°E i 13°E + 19.2°E. Żółty przycisk zmienia jasne/ciemne tło.</span></div>
+      <div><strong>🧩 Wtyczki, funkcje i listy</strong><span>Logo lub zrzut wtyczki, karta opisowa tam, gdzie brak grafiki. Wybrane listy prezentują przykładowe bukiety.</span></div>
+      <div><strong>🛠️ Stabilniejsze działanie</strong><span>Obsługa brakujących grafik i błędów dekodowania, poprawki edytora wyglądu na OpenATV, nawigacji OpenPLi i odpowiedzi OPKG.</span></div>
+      <div><strong>⬆️ Aktualizacja z poziomu AIO Panel</strong><span>Wydanie 18.2.1 dostępne w oficjalnym GitHub Releases. Można zaktualizować z wtyczki lub zainstalować IPK/DEB.</span></div>
+    </div>
+    <div class="aio-panel1821-gallery">
+      <figure><a href="pliki/aio-panel-18.2.1-kanaly.png" target="_blank" rel="noopener noreferrer"><img src="pliki/aio-panel-18.2.1-kanaly.png" alt="AIO Panel 18.2.1: ekran list kanałów" width="807" height="476" loading="lazy"></a><figcaption>Listy kanałów — nowy wygląd panelu.</figcaption></figure>
+      <figure><a href="pliki/aio-panel-18.2.1-wtyczki.png" target="_blank" rel="noopener noreferrer"><img src="pliki/aio-panel-18.2.1-wtyczki.png" alt="AIO Panel 18.2.1: wybór instalatora XStreamity" width="814" height="473" loading="lazy"></a><figcaption>IPTV / Odtwarzacze — grafika instalatora.</figcaption></figure>
+      <figure><a href="pliki/aio-panel-18.2.1-motyw-zielony.png" target="_blank" rel="noopener noreferrer"><img src="pliki/aio-panel-18.2.1-motyw-zielony.png" alt="AIO Panel 18.2.1: zielona paleta motywu" width="798" height="464" loading="lazy"></a><figcaption>Jeden z dziewięciu motywów kolorystycznych.</figcaption></figure>
+    </div>
+  </section>
+
   <section class="aio-panel-v2-panel aio-panel-v2-highlight" id="najwazniejsze">
     <div class="aio-panel-v2-highlight-grid">
       <div>
-        <p class="eyebrow">Najważniejsza nowość od 17.0.3</p>
+        <p class="eyebrow">Funkcja wprowadzona w wersji 18.0.0</p>
         <h2>Aktualizacja SAT bez utraty własnej konfiguracji</h2>
         <p>Nowy mechanizm podczas aktualizacji <strong>tej samej listy</strong> odświeża jej część satelitarną. Zachowuje własne bukiety FAVOURITES, ich układ, kolejność, separatory i numerację, a także lokalne kanały DVB-T/T2, DVB-C oraz IPTV.</p>
         <p>Można też instalować kolejne, różne listy obok już posiadanych, bez wymuszonego usuwania poprzednich zestawów. Mechanizm weryfikuje dane i przewiduje wycofanie zmian po wykryciu błędu.</p>
@@ -138,7 +159,7 @@
   </section>
 
   <section class="aio-panel-v2-panel" id="zmiany">
-    <div class="aio-panel-v2-heading"><div><p class="eyebrow">Lista zmian</p><h2>OSCam i pozostałe ulepszenia w 18.0.0</h2></div></div>
+    <div class="aio-panel-v2-heading"><div><p class="eyebrow">Lista zmian</p><h2>Zmiany z wydania 18.0.0 — nadal dostępne w 18.2.1</h2></div></div>
     <div class="aio-panel-v2-changes">
       <div class="aio-panel-v2-change"><b>✓</b><span><strong>OSCam Levi45</strong> — zaktualizowane informacje o źródłowej rewizji 11968 / Emu r803.</span></div>
       <div class="aio-panel-v2-change"><b>✓</b><span>Oddzielono numer wersji OSCam-Emu <strong>dostępnej w feedzie</strong> od wersji rzeczywiście <strong>zainstalowanej</strong> w odbiorniku.</span></div>
@@ -151,19 +172,26 @@
   </section>
 
   <section class="aio-panel-v2-panel" id="informacje">
-    <div class="aio-panel-v2-heading"><div><p class="eyebrow">Oficjalne wydanie GitHub</p><h2>Pliki AIO Panel 18.0.0 i kontrola integralności</h2><p>Dwa osobne pakiety — suma SHA-256 jest inna dla IPK i DEB. Pliki pochodzą z wydania 18.0.0 w repozytorium PanelAIO-Plugin.</p></div></div>
-    <p class="aio-panel18-caution"><strong>Uwaga dotycząca sum kontrolnych:</strong> poniższe wartości SHA-256, rozmiary i nazwy plików odnoszą się do historycznie opisanego wydania 18.0.0. Przycisk „Pobierz najnowszy IPK” zawsze kieruje do najnowszej stabilnej wersji, która może mieć inną sumę i nazwę. Sprawdź informacje o właściwej wersji w GitHub Releases.</p>
+    <div class="aio-panel-v2-heading"><div><p class="eyebrow">21 listopada 2026 · oficjalne wydanie GitHub</p>
+      <h2>AIO Panel 18.2.1 — pobieranie i kontrola SHA-256</h2>
+      <p>Pakiety IPK i DEB zweryfikowano z oficjalnym wydaniem GitHub 18.2.1. Strona udostępnia również własne lustrzane pliki instalacyjne.</p></div></div>
     <div class="aio-panel-v2-facts">
-      <div class="aio-panel-v2-fact"><span>Wersja</span><strong>18.0.0 stable</strong></div>
-      <div class="aio-panel-v2-fact"><span>Data wydania</span><strong>07.11.2026</strong></div>
+      <div class="aio-panel-v2-fact"><span>Wersja</span><strong>18.2.1 stable</strong></div>
+      <div class="aio-panel-v2-fact"><span>Data wydania</span><strong>21.11.2026</strong></div>
       <div class="aio-panel-v2-fact"><span>Platforma</span><strong>Enigma2 · Python 2 / Python 3</strong></div>
       <div class="aio-panel-v2-fact"><span>Autor</span><strong>Paweł Pawełek · AIO Team</strong></div>
-      <div class="aio-panel-v2-fact"><span>IPK · 418,5 KiB</span><strong>enigma2-plugin-extensions-panelaio_18.0.0_all.ipk</strong></div>
-      <div class="aio-panel-v2-fact"><span>DEB · 326,0 KiB</span><strong>enigma2-plugin-extensions-panelaio_18.0.0_all.deb</strong></div>
-      <div class="aio-panel-v2-fact aio-panel-v2-sha"><span>SHA-256 — IPK</span><div class="aio-panel-v2-copy-row"><code>2df6a2df207c9f6fe1e891199b7810d004a30823f46fd0a9339505b3ea7c22c3</code><button type="button" data-copy="2df6a2df207c9f6fe1e891199b7810d004a30823f46fd0a9339505b3ea7c22c3">Kopiuj SHA</button></div></div>
-      <div class="aio-panel-v2-fact aio-panel-v2-sha"><span>SHA-256 — DEB</span><div class="aio-panel-v2-copy-row"><code>9df6bed7b37500254b45b842d8825a0fc70b123a25aff071a8d202d00f1772b0</code><button type="button" data-copy="9df6bed7b37500254b45b842d8825a0fc70b123a25aff071a8d202d00f1772b0">Kopiuj SHA</button></div></div>
+      <div class="aio-panel-v2-fact"><span>IPK · 8,39 MiB</span><strong>enigma2-plugin-extensions-panelaio_18.2.1_all.ipk</strong></div>
+      <div class="aio-panel-v2-fact"><span>DEB · 8,38 MiB</span><strong>enigma2-plugin-extensions-panelaio_18.2.1_all.deb</strong></div>
+      <div class="aio-panel-v2-fact aio-panel-v2-sha"><span>SHA-256 — IPK</span><div class="aio-panel-v2-copy-row"><code>daea5a21daa8f9d7122b9ecf5bdfb76eba915aa3d791f5486eca53007af73236</code><button type="button" data-copy="daea5a21daa8f9d7122b9ecf5bdfb76eba915aa3d791f5486eca53007af73236">Kopiuj SHA</button></div></div>
+      <div class="aio-panel-v2-fact aio-panel-v2-sha"><span>SHA-256 — DEB</span><div class="aio-panel-v2-copy-row"><code>4b17c8eb81502832a5c6fbb024904eded2403a7f73bef3550272a449793cc48c</code><button type="button" data-copy="4b17c8eb81502832a5c6fbb024904eded2403a7f73bef3550272a449793cc48c">Kopiuj SHA</button></div></div>
     </div>
-    <div class="aio-panel-v2-actions"><a class="button primary" href="/api/aio-panel-ipk" target="_blank" rel="noopener noreferrer">Pobierz zawsze najnowszy IPK</a><a class="button" href="https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/18.0.0/enigma2-plugin-extensions-panelaio_18.0.0_all.deb" target="_blank" rel="noopener noreferrer">Pobierz DEB 18.0.0</a><a class="button" href="https://github.com/OliOli2013/PanelAIO-Plugin/releases/tag/18.0.0" target="_blank" rel="noopener noreferrer">Strona wydania</a></div>
+    <p class="aio-panel18-caution"><strong>Publiczny IPK:</strong> link /api/aio-panel-ipk nie wymaga logowania, nie zużywa limitu i zachowuje licznik przekierowań. Gdy pojawi się nowsze stabilne wydanie GitHub, ten link może automatycznie wskazywać nowszy IPK. Podane sumy dotyczą dokładnie 18.2.1.</p>
+    <div class="aio-panel-v2-actions">
+      <a class="button primary" href="/api/aio-panel-ipk" target="_blank" rel="noopener noreferrer">Pobierz aktualny IPK · bez limitów</a>
+      <a class="button" href="assets/releases/enigma2-plugin-extensions-panelaio_18.2.1_all.deb" download>Pobierz DEB 18.2.1</a>
+      <a class="button" href="assets/releases/enigma2-plugin-extensions-panelaio_18.2.1_all.ipk" download>IPK 18.2.1 · plik lokalny</a>
+      <a class="button" href="https://github.com/OliOli2013/PanelAIO-Plugin/releases/tag/18.2.1" target="_blank" rel="noopener noreferrer">Oficjalne wydanie GitHub</a>
+    </div>
   </section>
 
   <section class="aio-panel-v2-panel" id="instalacja">
@@ -174,8 +202,8 @@
       <button class="aio-panel-v2-tab" type="button" data-install-tab="deb">Pakiet DEB przez FTP</button>
     </div>
     <div class="aio-panel-v2-install-panel" data-install-panel="direct"><div class="command"><div><strong>Instalacja / aktualizacja z oficjalnego instalatora</strong><button type="button" data-copy='wget -q -O - "https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh?$(date +%s)" | /bin/sh'>Kopiuj</button></div><pre><code>wget -q -O - "https://raw.githubusercontent.com/OliOli2013/PanelAIO-Plugin/main/installer.sh?$(date +%s)" | /bin/sh</code></pre></div></div>
-    <div class="aio-panel-v2-install-panel" data-install-panel="ftp" hidden><p>Wgraj plik IPK do katalogu <code>/tmp/</code> tunera przez FTP/SFTP. W poleceniu poniżej zastąp numer 18.0.0 rzeczywistą wersją pobranego pliku. Następnie uruchom:</p><div class="command"><div><strong>OpenATV / OpenPLi (opkg)</strong><button type="button" data-copy="opkg install --force-reinstall /tmp/enigma2-plugin-extensions-panelaio_18.0.0_all.ipk">Kopiuj</button></div><pre><code>opkg install --force-reinstall /tmp/enigma2-plugin-extensions-panelaio_18.0.0_all.ipk</code></pre></div></div>
-    <div class="aio-panel-v2-install-panel" data-install-panel="deb" hidden><p>Wgraj plik DEB do <code>/tmp/</code> na obrazie Enigma2 używającym menedżera <code>dpkg</code>. Następnie uruchom:</p><div class="command"><div><strong>Instalacja DEB (dpkg)</strong><button type="button" data-copy="dpkg -i /tmp/enigma2-plugin-extensions-panelaio_18.0.0_all.deb">Kopiuj</button></div><pre><code>dpkg -i /tmp/enigma2-plugin-extensions-panelaio_18.0.0_all.deb</code></pre></div></div>
+    <div class="aio-panel-v2-install-panel" data-install-panel="ftp" hidden><p>Wgraj plik IPK do katalogu <code>/tmp/</code> tunera przez FTP/SFTP. Poniższe polecenie dotyczy aktualnej wersji 18.2.1. Następnie uruchom:</p><div class="command"><div><strong>OpenATV / OpenPLi (opkg)</strong><button type="button" data-copy="opkg install --force-reinstall /tmp/enigma2-plugin-extensions-panelaio_18.2.1_all.ipk">Kopiuj</button></div><pre><code>opkg install --force-reinstall /tmp/enigma2-plugin-extensions-panelaio_18.2.1_all.ipk</code></pre></div></div>
+    <div class="aio-panel-v2-install-panel" data-install-panel="deb" hidden><p>Wgraj plik DEB do <code>/tmp/</code> na obrazie Enigma2 używającym menedżera <code>dpkg</code>. Następnie uruchom:</p><div class="command"><div><strong>Instalacja DEB (dpkg)</strong><button type="button" data-copy="dpkg -i /tmp/enigma2-plugin-extensions-panelaio_18.2.1_all.deb">Kopiuj</button></div><pre><code>dpkg -i /tmp/enigma2-plugin-extensions-panelaio_18.2.1_all.deb</code></pre></div></div>
   </section>
 
   <section class="aio-panel-v2-panel"><div class="aio-panel-v2-heading"><div><p class="eyebrow">Powiązane działy</p><h2>Ekosystem AIO TunerHub</h2></div></div><div class="aio-panel-v2-related"><a href="channel-lists.html"><span>📡</span><div><strong>Listy kanałów</strong><small>aktualny manifest list SAT i IPTV</small></div></a><a href="projects-aio.html"><span>🧩</span><div><strong>Projekty AIO</strong><small>autorskie wtyczki i narzędzia</small></div></a><a href="plugins.html"><span>📦</span><div><strong>Wtyczki Enigma2</strong><small>przegląd dostępnych projektów</small></div></a><a href="report-error.html"><span>⚠</span><div><strong>Zgłoś błąd</strong><small>pomoc w diagnostyce</small></div></a></div></section>
@@ -195,6 +223,6 @@
 <script defer src="assets/js/aio-header-v2.js?v=20261031-design-v4"></script>
 <script defer src="assets/js/aio-share.js?v=20261010-share2"></script>
 <script defer src="assets/js/aio-mascot-widget.js?v=20261014-mascot-v21-fix1"></script>
-<script defer src="assets/js/aio-panel-public-v1.js?v=20261114-public-v1"></script>
+<script defer src="assets/js/aio-panel-public-v1.js?v=20261121-public-1821"></script>
 </body>
 </html>

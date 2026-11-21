@@ -1,0 +1,2 @@
+daea5a21daa8f9d7122b9ecf5bdfb76eba915aa3d791f5486eca53007af73236  enigma2-plugin-extensions-panelaio_18.2.1_all.ipk
+4b17c8eb81502832a5c6fbb024904eded2403a7f73bef3550272a449793cc48c  enigma2-plugin-extensions-panelaio_18.2.1_all.deb

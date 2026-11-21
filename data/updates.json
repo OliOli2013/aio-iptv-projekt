@@ -1,5 +1,28 @@
 [
   {
+    "date": "2026-11-21",
+    "ts": 1795219200000,
+    "type": "release",
+    "title": "AIO Panel 18.2.1 — nowy wygląd, galerie skórek, piconów i wtyczek",
+    "desc": "AIO Panel 18.2.1: nowoczesne kolorowe ikony, 9 motywów, prawdziwe podglądy skórek również z dalszych stron feedu, próbki przezroczystych piconów i podglądy wtyczek. INFO powiększa grafikę, EXIT wraca do tej samej pozycji. Zachowano bezpieczne aktualizacje list SAT.",
+    "details": "AIO Panel 18.2.1 — 21 listopada 2026\n\n• Nowe okno pod klawiszem INFO. EXIT wraca do wybranej pozycji.\n• Galeria offline również dla dalszych stron feedu skórek; rozpoznawanie niedostępnych grafik.\n• Picony 13°E, 19.2°E oraz 13°E + 19.2°E: autentyczne próbki i zmiana jasnego/ciemnego tła żółtym przyciskiem.\n• Podglądy instalowanych wtyczek: zrzuty, logo lub karty informacyjne; przykładowe bukiety przy wybranych listach.\n• Kolorowe ikony i dziewięć motywów; niezależne włączanie ikon i podglądów w MENU → Wygląd panelu.\n• Utrzymane poprawki OpenATV/OpenPLi, integracja OPKG oraz bezpieczna aktualizacja list SAT.\n\nOficjalne pakiety IPK i DEB 18.2.1 są dostępne na AIO TunerHub i w GitHub Releases. Aktualizacja także z poziomu AIO Panel. Autor: Paweł Pawełek / AIO Team.",
+    "url": "plugin-aio-panel.html",
+    "tags": [
+      "AIO Panel",
+      "18.2.1",
+      "Enigma2",
+      "skórki",
+      "motywy",
+      "picony",
+      "wtyczki",
+      "Python 2",
+      "Python 3",
+      "IPK",
+      "DEB",
+      "aktualizacja"
+    ]
+  },
+  {
     "date": "2026-11-07",
     "ts": 1794009600000,
     "type": "release",

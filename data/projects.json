@@ -15,15 +15,15 @@
   {
     "id": "aio-panel",
     "name": "AIO Panel",
-    "version": "18.0.0",
+    "version": "18.2.1",
     "page": "plugin-aio-panel.html",
     "category": "Wtyczka Enigma2",
     "status": "active",
-    "statusLabel": "Nowa wersja 18.0.0",
-    "updated": "07.11.2026",
-    "summary": "Nowy mechanizm aktualizacji list SAT bez naruszania FAVOURITES, własnych bukietów, DVB-T/T2, DVB-C i IPTV; instalowanie kilku list obok siebie, zakładka Moje projekty, OSCam Levi45 11968 / Emu r803. Enigma2 Python 2/3, PL/EN.",
+    "statusLabel": "Nowa wersja 18.2.1",
+    "updated": "21.11.2026",
+    "summary": "AIO Panel 18.2.1: nowoczesne kolorowe ikony, 9 motywów, prawdziwe podglądy skórek również z dalszych stron feedu, próbki przezroczystych piconów i podglądy wtyczek. INFO powiększa grafikę, EXIT wraca do tej samej pozycji. Zachowano bezpieczne aktualizacje list SAT.",
     "tested": "Próby na Ustym 4K Pro: zachowanie FAVOURITES i numeracji; zgodność z pozostałymi obrazami Enigma2 zależy od tunera i konfiguracji. Obsługa Python 2 / Python 3, PL/EN.",
-    "next": "Dalsze testy synchronizacji SAT oraz odporności na różne struktury bukietów i list."
+    "next": "Dalsze testy skórek i podglądów na różnych obrazach Enigma2."
   },
   {
     "id": "aiohd-next",

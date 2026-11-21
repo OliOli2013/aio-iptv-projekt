@@ -43,8 +43,8 @@
   },
   {
     "id": "aio-ipk",
-    "name": "AIO Panel 18.0.0 — plik IPK",
-    "url": "https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/18.0.0/enigma2-plugin-extensions-panelaio_18.0.0_all.ipk",
+    "name": "AIO Panel — aktualny IPK (bramka publiczna)",
+    "url": "https://aio-iptv-projekt.pages.dev/api/aio-panel-ipk",
     "category": "Pliki"
   },
   {

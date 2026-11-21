@@ -37,15 +37,26 @@
     ]
   },
   {
-    "title": "AIO Panel 18.0.0 — najnowsza wersja Enigma2",
-    "desc": "Nowy mechanizm aktualizacji list SAT bez naruszania FAVOURITES, własnych bukietów, DVB-T/T2, DVB-C i IPTV; instalowanie kilku list obok siebie, zakładka Moje projekty, OSCam Levi45 11968 / Emu r803. Enigma2 Python 2/3, PL/EN.",
+    "title": "AIO Panel 18.2.1 — najnowsza wersja Enigma2",
+    "desc": "AIO Panel 18.2.1: nowoczesne kolorowe ikony, 9 motywów, prawdziwe podglądy skórek również z dalszych stron feedu, próbki przezroczystych piconów i podglądy wtyczek. INFO powiększa grafikę, EXIT wraca do tej samej pozycji. Zachowano bezpieczne aktualizacje list SAT.",
     "url": "plugin-aio-panel.html",
     "tags": [
       "AIO Panel",
-      "18.0.0",
+      "18.2.1",
       "Enigma2",
+      "motywy",
+      "kolorowe ikony",
+      "skórki",
+      "podglądy",
+      "picony transparent",
+      "wtyczki",
+      "INFO",
+      "IPK",
+      "DEB",
+      "aktualizacja",
       "Python 2",
       "Python 3",
+      "18.0.0",
       "FAVOURITES",
       "SAT",
       "DVB-T/T2",
@@ -53,10 +64,7 @@
       "IPTV",
       "bukiety",
       "Moje projekty",
-      "OSCam Levi45",
-      "IPK",
-      "DEB",
-      "aktualizacja"
+      "OSCam Levi45"
     ]
   },
   {
