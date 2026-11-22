@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-21T13:31:01.612014+00:00",
+  "generatedAt": "2026-11-22T13:24:24.051125+00:00",
   "items": [
     {
       "id": "e2-security-ipk",
@@ -8,7 +8,7 @@
       "category": "Pliki",
       "status": "warning",
       "httpStatus": 401,
-      "checkedAt": "2026-11-21T13:30:48.818679+00:00",
+      "checkedAt": "2026-11-22T13:24:12.916452+00:00",
       "message": "Serwer działa, ale blokuje test automatyczny (HTTP 401)."
     },
     {
@@ -18,7 +18,7 @@
       "category": "Strona",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-21T13:30:50.738054+00:00",
+      "checkedAt": "2026-11-22T13:24:14.177413+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     },
     {
@@ -28,8 +28,8 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-21T13:30:50.816875+00:00",
-      "message": "Usługa odpowiada prawidłowo • text/plain • 8648 B."
+      "checkedAt": "2026-11-22T13:24:14.305089+00:00",
+      "message": "Usługa odpowiada prawidłowo • text/plain • 8646 B."
     },
     {
       "id": "iptv-installer",
@@ -38,8 +38,8 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-21T13:30:50.934263+00:00",
-      "message": "Usługa odpowiada prawidłowo • text/plain • 9123 B."
+      "checkedAt": "2026-11-22T13:24:14.400707+00:00",
+      "message": "Usługa odpowiada prawidłowo • text/plain • 9531 B."
     },
     {
       "id": "ppsync-installer",
@@ -48,7 +48,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-21T13:30:51.076555+00:00",
+      "checkedAt": "2026-11-22T13:24:14.481750+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 2469 B."
     },
     {
@@ -58,7 +58,7 @@
       "category": "Instalatory",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-21T13:30:51.194380+00:00",
+      "checkedAt": "2026-11-22T13:24:14.596797+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 11971 B."
     },
     {
@@ -68,18 +68,18 @@
       "category": "Listy kanałów",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-21T13:30:51.314629+00:00",
+      "checkedAt": "2026-11-22T13:24:14.693368+00:00",
       "message": "Usługa odpowiada prawidłowo • text/plain • 7607 B."
     },
     {
       "id": "aio-ipk",
-      "name": "AIO Panel 18.2.1 — plik IPK",
+      "name": "AIO Panel — aktualny IPK (bramka publiczna)",
       "url": "https://aio-iptv-projekt.pages.dev/api/aio-panel-ipk",
       "category": "Pliki",
-      "status": "unknown",
-      "httpStatus": null,
-      "checkedAt": null,
-      "message": "Oczekuje na kolejny automatyczny test po wdrożeniu 18.2.1."
+      "status": "online",
+      "httpStatus": 200,
+      "checkedAt": "2026-11-22T13:24:14.784535+00:00",
+      "message": "Usługa odpowiada prawidłowo • application/octet-stream • 8792694 B."
     },
     {
       "id": "aiohd-next-ipk",
@@ -88,7 +88,7 @@
       "category": "Pliki",
       "status": "warning",
       "httpStatus": 401,
-      "checkedAt": "2026-11-21T13:30:51.754881+00:00",
+      "checkedAt": "2026-11-22T13:24:15.129044+00:00",
       "message": "Serwer działa, ale blokuje test automatyczny (HTTP 401)."
     },
     {
@@ -96,10 +96,10 @@
       "name": "IPTV Dream 9.0.0 — plik IPK",
       "url": "https://github.com/OliOli2013/IPTV-Dream-Plugin/releases/download/9.0.0/enigma2-plugin-extensions-iptvdream_9.0.0_all.ipk",
       "category": "Pliki",
-      "status": "unknown",
-      "httpStatus": null,
-      "checkedAt": null,
-      "message": "Nowe wydanie: oczekuje na pierwszy pomiar automatyczny."
+      "status": "online",
+      "httpStatus": 200,
+      "checkedAt": "2026-11-22T13:24:16.291847+00:00",
+      "message": "Usługa odpowiada prawidłowo • application/octet-stream • 1565388 B."
     },
     {
       "id": "remote-apk",
@@ -108,7 +108,7 @@
       "category": "Pliki",
       "status": "warning",
       "httpStatus": 401,
-      "checkedAt": "2026-11-21T13:30:54.273170+00:00",
+      "checkedAt": "2026-11-22T13:24:16.448301+00:00",
       "message": "Serwer działa, ale blokuje test automatyczny (HTTP 401)."
     },
     {
@@ -118,7 +118,7 @@
       "category": "Systemy Multi-Click",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-21T13:30:54.933327+00:00",
+      "checkedAt": "2026-11-22T13:24:17.621162+00:00",
       "message": "Usługa odpowiada prawidłowo • application/zip • 214085499 B."
     },
     {
@@ -128,7 +128,7 @@
       "category": "Systemy Multi-Click",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-21T13:30:57.521884+00:00",
+      "checkedAt": "2026-11-22T13:24:20.329239+00:00",
       "message": "Usługa odpowiada prawidłowo • application/zip • 306874699 B."
     },
     {
@@ -138,7 +138,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-21T13:31:00.438822+00:00",
+      "checkedAt": "2026-11-22T13:24:23.197699+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     },
     {
@@ -148,7 +148,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-21T13:31:01.116015+00:00",
+      "checkedAt": "2026-11-22T13:24:23.626078+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     },
     {
@@ -158,7 +158,7 @@
       "category": "Wsparcie",
       "status": "online",
       "httpStatus": 200,
-      "checkedAt": "2026-11-21T13:31:01.350284+00:00",
+      "checkedAt": "2026-11-22T13:24:23.870122+00:00",
       "message": "Usługa odpowiada prawidłowo • text/html."
     }
   ]
