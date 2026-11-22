@@ -38,6 +38,8 @@ async function handle(context){
     return new Response(null,{status:302,headers:{Location:PUBLIC_IPK_PATH,'Cache-Control':'private, no-store'}});
   // Temporary public mirrors: only these two AIO Panel packages bypass R2.
   const mirrors = {
+    '/pliki/enigma2-plugin-extensions-iptvdream_9.0.0_all.ipk': 'https://github.com/OliOli2013/IPTV-Dream-Plugin/releases/download/9.0.0/enigma2-plugin-extensions-iptvdream_9.0.0_all.ipk',
+    '/pliki/enigma2-plugin-extensions-iptvdream_9.0.0_all.deb': 'https://github.com/OliOli2013/IPTV-Dream-Plugin/releases/download/9.0.0/enigma2-plugin-extensions-iptvdream_9.0.0_all.deb',
     '/pliki/enigma2-plugin-extensions-panelaio_17.0.3_all.ipk': 'https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/v17.0.3/enigma2-plugin-extensions-panelaio_17.0.3_all.ipk',
     '/pliki/enigma2-plugin-extensions-panelaio_17.0.3_all.deb': 'https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/v17.0.3/enigma2-plugin-extensions-panelaio_17.0.3_all.deb'
   };

@@ -44,15 +44,15 @@
     {
       "id": "iptv-dream",
       "name": "IPTV Dream",
-      "version": "8.0.1",
+      "version": "9.0.0",
       "page": "plugin-iptv-dream.html",
       "category": "Wtyczka Enigma2",
       "status": "active",
-      "statusLabel": "Aktywnie rozwijany",
-      "updated": "07.09.2026",
-      "summary": "Aktualizacja naprawcza: poprawiony eksport bez N/A, M3U/Xtream/MAC, MAC/Stalker, bezpieczne nazwy plików, WebIF z automatycznym portem, EPG, picony i instalator.",
-      "tested": "Python 3; eksport bukietów, M3U, Xtream Codes i portale MAC/Stalker",
-      "next": "Dalsze testy zgodności i stabilności na różnych image Enigma2."
+      "statusLabel": "Nowa wersja 9.0.0",
+      "updated": "2026-11-22",
+      "summary": "IPTV Dream 9.0.0: intro z logo AIO Hub Enigma 2, przeglądarka i odtwarzacz LIVE/VOD, wyszukiwanie, filtry, ulubione, historia, praca w tle, poprawki M3U/Xtream/MAC, diagnostyka, bezpieczny zapis konfiguracji. Python 3; pakiety IPK i DEB.",
+      "tested": "Enigma2 Python 3; wymagane testy odtwarzania na docelowym tunerze.",
+      "next": "Dalsze testy strumieni LIVE/VOD i zgodności MoviePlayer na różnych image."
     },
     {
       "id": "pp-channel-sync",
@@ -392,7 +392,7 @@
       "platform": "Enigma2",
       "version": "8.0.1",
       "date": "07.09.2026",
-      "status": "Aktualna",
+      "status": "Archiwalna",
       "sourcePage": "plugin-iptv-dream.html",
       "sourceTitle": "📺 IPTV Dream v8.0.1",
       "kind": "IPK",
@@ -589,7 +589,7 @@
       "sha256": "4b17c8eb81502832a5c6fbb024904eded2403a7f73bef3550272a449793cc48c",
       "official": "Oficjalne wydanie GitHub · identyczny plik na AIO TunerHub",
       "project_id": "aio-panel",
-      "release_id": "legacy-8067698431044c4d",
+      "release_id": "legacy-b28387580cbc1822",
       "origin": "legacy",
       "published_at": null,
       "verified_at": null,
@@ -1161,6 +1161,48 @@
       "published_at": null,
       "verified_at": null,
       "access": "zgodnie_ze_zrodlem"
+    },
+    {
+      "title": "IPTV Dream 9.0.0 — IPK",
+      "href": "pliki/enigma2-plugin-extensions-iptvdream_9.0.0_all.ipk",
+      "category": "Wtyczki",
+      "platform": "Enigma2",
+      "version": "9.0.0",
+      "date": "2026-11-22",
+      "status": "Aktualna",
+      "sourcePage": "plugin-iptv-dream.html",
+      "sourceTitle": "IPTV Dream",
+      "kind": "IPK",
+      "size": "1,49 MiB",
+      "sha256": "49e8c4a7281c623fbbf98b9d7bf8dd16b2dd39e41145240f26a9fc02a6c6cfa0",
+      "official": "Oficjalny GitHub Releases · chronione pobieranie AIO",
+      "project_id": "iptv-dream",
+      "release_id": "iptv-dream-9-0-0",
+      "origin": "aio_v1",
+      "access": "konto_AIO",
+      "published_at": "2026-11-22",
+      "verified_at": null
+    },
+    {
+      "title": "IPTV Dream 9.0.0 — DEB",
+      "href": "pliki/enigma2-plugin-extensions-iptvdream_9.0.0_all.deb",
+      "category": "Wtyczki",
+      "platform": "Enigma2",
+      "version": "9.0.0",
+      "date": "2026-11-22",
+      "status": "Aktualna",
+      "sourcePage": "plugin-iptv-dream.html",
+      "sourceTitle": "IPTV Dream",
+      "kind": "DEB",
+      "size": "1,49 MiB",
+      "sha256": "49e8c4a7281c623fbbf98b9d7bf8dd16b2dd39e41145240f26a9fc02a6c6cfa0",
+      "official": "Oficjalny GitHub Releases · chronione pobieranie AIO",
+      "project_id": "iptv-dream",
+      "release_id": "iptv-dream-9-0-0",
+      "origin": "aio_v1",
+      "access": "konto_AIO",
+      "published_at": "2026-11-22",
+      "verified_at": null
     }
   ],
   "releases": [
@@ -1290,7 +1332,7 @@
       "version": "8.0.1",
       "date": "2026-09-07",
       "title": "enigma2-plugin-extensions-iptvdream_8.0.1_all.ipk",
-      "summary": "Aktualizacja naprawcza: poprawiony eksport bez N/A, M3U/Xtream/MAC, MAC/Stalker, bezpieczne nazwy plików, WebIF z automatycznym portem, EPG, picony i instalator.",
+      "summary": "IPTV Dream 9.0.0: intro z logo AIO Hub Enigma 2, przeglądarka i odtwarzacz LIVE/VOD, wyszukiwanie, filtry, ulubione, historia, praca w tle, poprawki M3U/Xtream/MAC, diagnostyka, bezpieczny zapis konfiguracji. Python 3; pakiety IPK i DEB.",
       "page": "plugin-iptv-dream.html",
       "channel": "legacy",
       "origin": "legacy",
@@ -1437,7 +1479,7 @@
       ]
     },
     {
-      "id": "legacy-8067698431044c4d",
+      "id": "legacy-b28387580cbc1822",
       "project_id": "aio-panel",
       "project_name": "AIO Panel",
       "version": "18.2.1",
@@ -1911,12 +1953,30 @@
       "files": [
         "https://multi-click.pl/index.php?controller=attachment&id_attachment=159"
       ]
+    },
+    {
+      "id": "iptv-dream-9-0-0",
+      "project_id": "iptv-dream",
+      "project_name": "IPTV Dream",
+      "version": "9.0.0",
+      "date": "2026-11-22",
+      "title": "IPTV Dream 9.0.0 — nowe multimedia, intro i stabilność",
+      "summary": "IPTV Dream 9.0.0: intro z logo AIO Hub Enigma 2, przeglądarka i odtwarzacz LIVE/VOD, wyszukiwanie, filtry, ulubione, historia, praca w tle, poprawki M3U/Xtream/MAC, diagnostyka, bezpieczny zapis konfiguracji. Python 3; pakiety IPK i DEB.",
+      "page": "plugin-iptv-dream.html",
+      "channel": "stable",
+      "origin": "aio_v1",
+      "files": [
+        "pliki/enigma2-plugin-extensions-iptvdream_9.0.0_all.ipk",
+        "pliki/enigma2-plugin-extensions-iptvdream_9.0.0_all.deb"
+      ],
+      "published_at": "2026-11-22",
+      "verified_at": null
     }
   ],
   "counts": {
     "projects": 18,
-    "files": 44,
-    "releases": 44,
-    "new_publications": 0
+    "files": 46,
+    "releases": 45,
+    "new_publications": 1
   }
 }

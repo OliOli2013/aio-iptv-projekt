@@ -144,7 +144,9 @@ Obsługiwane są m.in.:
 
 **M3U • Xtream Codes • MAC / Stalker**
 
-Aktualna linia **8.x** zawiera poprawiony eksport kanałów, EPG, picony, obsługę dużych list oraz stabilniejsze generowanie bukietów.
+**IPTV Dream 9.0.0 (22.11.2026)** — intro IPTV Dream / AIO Hub Enigma 2, nowa przeglądarka i odtwarzacz LIVE/VOD, operacje Xtream i eksport bukietów w tle, diagnostyka, obsługa M3U/MAC/Stalker, nagłówków i HLS, bezpieczny zapis ustawień. Enigma2 z Pythonem 3, pakiety IPK i DEB. [Szczegóły](plugin-iptv-dream.html).
+
+Historia 8.0.1: poprawiony eksport bez N/A, stabilniejsze MAC/Stalker, WebIF, EPG i picony.
 
 ---
 

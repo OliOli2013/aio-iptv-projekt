@@ -20,7 +20,7 @@ const DESC=[
   {re:/e2\s*security|aio\s*security/i, kind:'Bezpieczeństwo', icon:'SE', image:'pliki/e2-security-interface-1.1.0.jpg', desc:'Wtyczka do zwiększenia bezpieczeństwa tunera Enigma2. Pomaga sprawdzić ustawienia dostępu i włącza dodatkową ochronę sieciową.', aio:true},
   {re:/e2\s*doctor/i, kind:'Diagnostyka', icon:'ED', image:'pliki/e2-doctor-2.3-main.png', desc:'Centrum diagnostyki i bezpiecznej naprawy Enigma2. Pomaga ocenić stan tunera i znaleźć typowe problemy systemowe.', aio:true},
   {re:/pp\s*channel\s*sync/i, kind:'Listy kanałów', icon:'CS', image:'pliki/pp-channel-sync-2.1.1-screen.png', desc:'Synchronizacja i porządkowanie list kanałów Enigma2 z obsługą różnych formatów lamedb i bezpiecznym rollbackiem.', aio:true},
-  {re:/iptv\s*dream/i, kind:'IPTV', icon:'IP', image:'pliki/iptv-dream-8.0.1.png', desc:'Rozbudowana wtyczka IPTV do obsługi M3U, Xtream i MAC/Stalker oraz eksportu kanałów do bukietów Enigma2.', aio:true},
+  {re:/iptv\s*dream/i, kind:'IPTV', icon:'IP', image:'pliki/iptv-dream-9.0.0-menu.png', desc:'IPTV Dream 9.0.0: intro, LIVE/VOD, M3U, Xtream, MAC/Stalker, EPG, picony i diagnostyka.', aio:true},
   {re:/neoradio/i, kind:'Radio / multimedia', icon:'NR', image:'pliki/neoradio-3.0.0-screen.jpg', desc:'Radio internetowe dla Enigma2 z Radio-Browser, RDS/ICY, cache grafik i nowym interfejsem AIO.', aio:true},
   {re:/opencamview/i, kind:'Kamery IP', icon:'CV', image:'pliki/opencamview-2.0.1-promo.png', desc:'OpenCamView 2.0.1: kamery IP RTSP/ONVIF, PiP, PTZ, JPEG, patrol i skanowanie LAN dla Enigma2 Python 3.'},
   {re:/dreamosatx\s*signal/i, kind:'Sygnał SAT', icon:'DS', image:'pliki/dreamosatx-signal-2.0-pl.jpg', desc:'Narzędzie do monitorowania sygnału, transponderów i ustawiania anteny / obrotnicy.'},

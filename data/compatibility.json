@@ -45,14 +45,14 @@
   },
   {
     "name": "IPTV Dream",
-    "version": "8.0.1",
+    "version": "9.0.0",
     "type": "Wtyczka Enigma2",
     "python": "Python 3",
-    "systems": "Obrazy Enigma2 z Pythonem 3",
-    "requirements": "python3-requests, python3-twisted; zalecane python3-twisted-web i EPGImport",
+    "systems": "Enigma2 z Pythonem 3 (OpenATV, OpenPLi i zgodne)",
+    "requirements": "enigma2, python3-requests, python3-twisted-core; zalecane twisted-web, pillow i EPGImport",
     "status": "Python 3",
     "url": "plugin-iptv-dream.html",
-    "notes": "Pakiet 8.0.1 deklaruje zależności Python 3 w metadanych IPK."
+    "notes": "Python 2 nie jest obsługiwany. Serwis 5002 wymaga ServiceApp/exteplayer3; 4097 korzysta z odtwarzacza systemowego."
   },
   {
     "name": "E2 Doctor",

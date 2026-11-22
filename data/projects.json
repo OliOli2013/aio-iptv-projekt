@@ -41,15 +41,15 @@
   {
     "id": "iptv-dream",
     "name": "IPTV Dream",
-    "version": "8.0.1",
+    "version": "9.0.0",
     "page": "plugin-iptv-dream.html",
     "category": "Wtyczka Enigma2",
     "status": "active",
-    "statusLabel": "Aktywnie rozwijany",
-    "updated": "07.09.2026",
-    "summary": "Aktualizacja naprawcza: poprawiony eksport bez N/A, M3U/Xtream/MAC, MAC/Stalker, bezpieczne nazwy plików, WebIF z automatycznym portem, EPG, picony i instalator.",
-    "tested": "Python 3; eksport bukietów, M3U, Xtream Codes i portale MAC/Stalker",
-    "next": "Dalsze testy zgodności i stabilności na różnych image Enigma2."
+    "statusLabel": "Nowa wersja 9.0.0",
+    "updated": "22.11.2026",
+    "summary": "IPTV Dream 9.0.0: intro z logo AIO Hub Enigma 2, przeglądarka i odtwarzacz LIVE/VOD, wyszukiwanie, filtry, ulubione, historia, praca w tle, poprawki M3U/Xtream/MAC, diagnostyka, bezpieczny zapis konfiguracji. Python 3; pakiety IPK i DEB.",
+    "tested": "Enigma2 Python 3; wymagane testy odtwarzania na docelowym tunerze.",
+    "next": "Dalsze testy strumieni LIVE/VOD i zgodności MoviePlayer na różnych image."
   },
   {
     "id": "pp-channel-sync",

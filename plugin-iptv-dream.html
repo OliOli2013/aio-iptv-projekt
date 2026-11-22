@@ -5,8 +5,8 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="#0d2633" name="theme-color"/>
-<title>IPTV Dream 8.0.1 | AIO TunerHub</title>
-<meta content="IPTV Dream 8.0.1 dla Enigma2 — poprawiony eksport kanałów N/A, M3U/Xtream/MAC, MAC/Stalker, WebIF, EPG, picony, aktualizator i instalator." name="description"/>
+<title>IPTV Dream 9.0.0 — LIVE/VOD, intro i nowe multimedia | AIO TunerHub</title>
+<meta content="IPTV Dream 9.0.0 dla Enigma2 Python 3: intro, odtwarzanie LIVE/VOD, M3U, Xtream, MAC/Stalker, EPG, picony, diagnostyka. IPK i DEB." name="description"/>
 <link href="pliki/logo.png?v=20261024-tunerhub-v11" rel="icon"/>
 <link href="manifest.json" rel="manifest"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -14,19 +14,20 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Caveat:wght@700&amp;display=swap" rel="stylesheet"/>
 <link href="assets/css/user-premium.css?v=20260724-v14" rel="stylesheet"/>
 <link href="assets/css/pro-suite.css?v=20260724-pro3" rel="stylesheet"/><meta content="dark" name="color-scheme"/>
-<meta content="IPTV Dream 8.0.1 | AIO TunerHub" property="og:title"/><meta content="IPTV Dream 8.0.1 dla Enigma2 — poprawiony eksport kanałów N/A, M3U/Xtream/MAC, MAC/Stalker, WebIF, EPG, picony, aktualizator i instalator." property="og:description"/><meta content="https://aio-iptv-projekt.pages.dev/assets/branding/aio-iptv-share-20261010.png?v=20261024-tunerhub-v11" property="og:image"/><meta content="website" property="og:type"/><meta property="og:url" content="https://aio-iptv-projekt.pages.dev/plugin-iptv-dream"><script src="assets/js/auto-language.js?v=20261012-rodo1"></script><link rel="stylesheet" href="assets/css/aio-2026.css?v=20260816-community-first"/>
+<meta content="IPTV Dream 9.0.0 | AIO TunerHub" property="og:title"/><meta content="IPTV Dream 9.0.0 dla Enigma2 Python 3: intro, odtwarzanie LIVE/VOD, M3U, Xtream, MAC/Stalker, EPG, picony, diagnostyka. IPK i DEB." property="og:description"/><meta content="https://aio-iptv-projekt.pages.dev/pliki/iptv-dream-9.0.0-menu.png" property="og:image"/><meta content="website" property="og:type"/><meta property="og:url" content="https://aio-iptv-projekt.pages.dev/plugin-iptv-dream"><script src="assets/js/auto-language.js?v=20261012-rodo1"></script><link rel="stylesheet" href="assets/css/aio-2026.css?v=20260816-community-first"/>
 <link rel="stylesheet" href="assets/css/content-protection.css?v=20261009-protect1"/>
 <link rel="stylesheet" href="assets/css/aio-header-v2.css?v=20261031-menu-layout-v5">
 <link rel="canonical" href="https://aio-iptv-projekt.pages.dev/plugin-iptv-dream">
 <link rel="stylesheet" href="assets/css/site-final.css?v=20261010-final1">
 <link rel="stylesheet" href="assets/css/aio-share.css?v=20261010-share1">
-<meta property="og:image:secure_url" content="https://aio-iptv-projekt.pages.dev/assets/branding/aio-iptv-share-20261010.png?v=20261024-tunerhub-v11">
-<meta name="twitter:image" content="https://aio-iptv-projekt.pages.dev/assets/branding/aio-iptv-share-20261010.png?v=20261024-tunerhub-v11">
-<meta itemprop="image" content="https://aio-iptv-projekt.pages.dev/assets/branding/aio-iptv-share-20261010.png?v=20261024-tunerhub-v11">
+<meta property="og:image:secure_url" content="https://aio-iptv-projekt.pages.dev/pliki/iptv-dream-9.0.0-menu.png">
+<meta name="twitter:image" content="https://aio-iptv-projekt.pages.dev/pliki/iptv-dream-9.0.0-menu.png">
+<meta itemprop="image" content="https://aio-iptv-projekt.pages.dev/pliki/iptv-dream-9.0.0-menu.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
+<meta property="og:image:width" content="923">
+<meta property="og:image:height" content="531">
 <link rel="stylesheet" href="assets/css/aio-mascot-widget.css?v=20261014-mascot-v21-fix1">
+<link rel="stylesheet" href="assets/css/iptv-dream-9.css?v=20261122-release900">
 </head>
 <body class="aio-header-v2 aio-header-v3 aio-header-v4 site-final-v1">
 <a class="skip-link" href="#main-content">Przejdź do treści</a>
@@ -65,194 +66,66 @@
 </header>
 <div class="content-layout">
 <aside class="side-panel"><h2>Pomoc użytkownika</h2><nav><a href="plugins.html">Wtyczki</a><a href="android-apps.html">Aplikacje Android</a><a href="windows-apps.html">Aplikacje Windows</a><a href="guides.html">Poradniki</a><a href="one-liner.html">One‑Liner / FTP</a><a href="channel-lists.html">Listy kanałów</a><a href="systems.html">Multi‑Click i systemy</a><a href="ai-chat.html">AI Chat</a><a href="contact.html">Kontakt i wsparcie</a></nav><div class="side-help"><strong>Szybka pomoc</strong><a href="guide-terminal-openwebif.html">Terminal / OpenWebif</a><a href="guide-oscam.html">Dane do OSCam</a><a href="guide-xstremity.html">IPTV do Xstremity</a><a href="help-softcam-feed.html">SoftCam feed</a><a href="help-picons-serviceref.html">Picony / ServiceRef</a><a href="help-restart-gui.html">Restart GUI</a></div></aside>
-<main class="content-main" id="main-content">
-<section class="hero-compact">
-<div>
-<p class="script-line">Witam na mojej stronie <span>Paweł Pawełek</span></p>
-<p class="eyebrow">Nowa aktualizacja • 07.09.2026</p>
-<h1>🚀 IPTV Dream v8.0.1</h1>
-<p class="lead">Wydanie 8.0.1 koncentruje się na poprawnym eksporcie kanałów, obsłudze M3U/Xtream/MAC, stabilności WebIF, EPG oraz instalatora. Najważniejsza poprawka usuwa problem, przez który po eksporcie część kanałów mogła pojawiać się jako <strong>N/A</strong> albo nie uruchamiać się prawidłowo.</p>
-<div class="action-row"><a class="button primary" href="pliki/enigma2-plugin-extensions-iptvdream_8.0.1_all.ipk">Pobierz IPK 8.0.1</a><a class="button" href="#instalacja">Instalacja z GitHuba</a><a class="button" href="plugins.html">Wróć do wtyczek</a></div>
-</div>
-<figure><img alt="IPTV Dream v8.0.1" src="pliki/iptv-dream-8.0.1.png"/><figcaption>IPTV Dream v8.0.1 — aktualny ekran główny.</figcaption></figure>
-</section>
-<section class="module"><div class="info-box"><strong>IPTV Dream 8.0.1 to wydanie naprawcze linii 8.x.</strong> Priorytetem jest poprawny eksport działających kanałów, bezpieczne nazwy i adresy usług, stabilniejsza obsługa źródeł M3U/Xtream/MAC oraz pewniejsze działanie WebIF, EPG i instalatora.</div></section>
-<section class="module">
-<h2>✅ Najważniejsze zmiany w wersji 8.0.1</h2>
-<ul class="clean-list">
-<li>usunięty problem kanałów wyświetlanych jako <strong>N/A</strong></li>
-<li>nazwa kanału jest teraz poprawnie zapisywana w <code>#SERVICE</code> oraz <code>#DESCRIPTION</code></li>
-<li>poprawiona literówka <code>128.0.0.1</code> → <code>127.0.0.1</code></li>
-<li>naprawione rozwiązywanie linków <strong>MAC/Stalker</strong>, również przy listach zawierających ponad 400 kanałów</li>
-<li>poprawione kodowanie adresów zawierających tokeny, spacje, dwukropki i znaki specjalne</li>
-<li>usunięty fałszywy komunikat sukcesu, gdy bukiet nie został faktycznie dodany</li>
-<li>automatyczne usuwanie duplikatów i martwych wpisów z <code>bouquets.tv</code></li>
-<li>możliwość usunięcia wszystkich starych bukietów IPTV Dream jednym wyborem</li>
-<li>wyeliminowane kolizje pomiędzy kilkoma listami <strong>M3U / Xtream / MAC</strong></li>
-<li>login Xtream oraz fragment adresu MAC nie są już wykorzystywane w nazwach plików</li>
-<li><strong>WebIF</strong> automatycznie wybiera port <strong>10000 lub kolejny</strong>, jeśli port 9999 jest zajęty</li>
-<li>poprawiona obsługa <strong>EPG XML</strong>, piconów, logów, aktualizatora oraz instalatora</li>
-<li>dodane automatyczne testy <strong>GitHub Actions</strong>, pomagające szybciej wykrywać błędy przy kolejnych aktualizacjach</li>
-</ul>
-</section>
-<div class="detail-grid">
-<section class="module">
-<h2>Obsługiwane źródła i funkcje</h2>
-<ul class="clean-list">
-<li>M3U / M3U8 z adresu URL i z lokalnego pliku</li>
-<li>Xtream Codes</li>
-<li>MAC Portal / Stalker / MAG / eStalker</li>
-<li>LIVE, VOD i rozdzielanie treści według kategorii</li>
-<li>eksport do bukietów Enigma2</li>
-<li>EPG oraz picony</li>
-<li>Web Interface</li>
-<li>ulubione, historia, statystyki, cache i zarządzanie źródłami</li>
-<li>aktualizacja z poziomu wtyczki</li>
-</ul>
-</section>
-<section class="module">
-<h2>Plik i zgodność</h2>
-<p><strong>Wersja:</strong> 8.0.1</p>
-<p><strong>Data wydania:</strong> 07.09.2026</p>
-<p><strong>Plik:</strong> <a href="pliki/enigma2-plugin-extensions-iptvdream_8.0.1_all.ipk">enigma2-plugin-extensions-iptvdream_8.0.1_all.ipk</a> — 379 KB</p>
-<p><strong>SHA-256:</strong> <code>ec064dd09254e3b4cd4fe371bd1462f0f55b40ee15f6f8afefa96d87e7ad0bd6</code></p>
-<p><strong>Pakiet:</strong> Enigma2 / Python 3.</p>
-<p><strong>Zależności IPK:</strong> <code>enigma2</code>, <code>python3-requests</code>, <code>python3-twisted</code>; zalecane <code>python3-twisted-web</code> oraz <code>enigma2-plugin-extensions-epgimport</code>.</p>
-<p><strong>Autor:</strong> Paweł Pawełek</p>
-</section>
-</div>
-<section class="module">
-<h2>🔧 Stabilność i przebudowa rdzenia</h2>
-<ul class="clean-list">
-<li>przeprowadzono pełny audyt kodu wtyczki i uporządkowano stare, równoległe moduły</li>
-<li>ograniczono ryzyko błędów podczas importowania nieużywanych części wtyczki</li>
-<li>poprawiono obsługę wyjątków, timeoutów i anulowanych operacji</li>
-<li>zabezpieczono zapis konfiguracji, historii, statystyk i cache</li>
-<li>uporządkowano elementy kodu pod kątem zgodności między środowiskami Python 2 / Python 3</li>
-<li>poprawiono zgodność z różnymi image Enigma2</li>
-<li>poprawiono instalator i aktualizator, walidację nowej wersji oraz możliwość przywrócenia poprzednich plików po nieudanej aktualizacji</li>
-</ul>
-<div class="info-box"><strong>Ważne:</strong> mimo porządków zgodności w kodzie, dostarczony pakiet IPK 8.0.1 deklaruje zależności <code>python3-*</code>, dlatego ta paczka jest przeznaczona dla systemów Enigma2 z Pythonem 3.</div>
-</section>
-<section class="module">
-<h2>📡 M3U / M3U8</h2>
-<ul class="clean-list">
-<li>przebudowany parser playlist i lepsze rozpoznawanie struktury listy</li>
-<li>poprawiona obsługa <code>group-title</code>, <code>tvg-id</code>, <code>tvg-name</code> i <code>tvg-logo</code></li>
-<li>poprawione nazwy zawierające przecinki</li>
-<li>lepszy podział LIVE, VOD i Adult</li>
-<li>obsługa lokalnych plików M3U/M3U8 i list pobieranych bezpośrednio z URL</li>
-<li>poprawniejsze tworzenie bukietów na podstawie kategorii źródłowych</li>
-</ul>
-</section>
-<section class="module">
-<h2>🔑 Xtream Codes oraz MAC / Stalker Portal</h2>
-<div class="detail-grid">
-<div><h3>Xtream Codes</h3><ul class="clean-list">
-<li>prawidłowe kodowanie loginu i hasła, również ze znakami specjalnymi</li>
-<li>poprawione generowanie adresów strumieni</li>
-<li>lepsza obsługa kategorii i rozdzielanie LIVE / VOD / pozostałych treści</li>
-<li>poprawiony eksport do Enigma2</li>
-</ul></div>
-<div><h3>MAC / Stalker / MAG</h3><ul class="clean-list">
-<li>lepsze przetwarzanie nazw grup i kanałów</li>
-<li>poprawione adresy strumieni oraz dane portalu</li>
-<li>czytelniejsze i bezpieczniejsze tworzenie eksportowanych bukietów</li>
-</ul></div>
-</div>
-</section>
-<section class="module">
-<h2>📂 Czyste nazwy bukietów i kanałów</h2>
-<p>W linii 8.x nazwa serwera, portalu, loginu lub źródła nie jest dopisywana do widocznej nazwy bukietu. Informacja o źródle może pozostać używana wewnętrznie do rozróżnienia plików, aby różne listy nie nadpisywały się wzajemnie.</p>
-<div class="detail-grid"><div><h3>Przykład bukietu</h3><p><code>MAC-line.tvdsz.cc_xxxxx-LIVE - |DE| MAGENTA HD</code></p><p>→ <strong>MAGENTA HD</strong></p></div><div><h3>Przykłady kanałów</h3><p><code>|DE| HOPE TV</code> → <strong>HOPE TV</strong><br/><code>[PL] TVP 1 HD</code> → <strong>TVP 1 HD</strong><br/><code>UK - BBC ONE</code> → <strong>BBC ONE</strong></p></div></div>
-<p>Usuwane są typowe oznaczenia państw, flagi i techniczne przedrostki. Jednocześnie zachowywane są prawidłowe elementy nazw, takie jak <strong>HD, FHD, UHD, 4K, CANAL+ i TV</strong>.</p>
-</section>
-<section class="module">
-<h2>🖼 Picony i 📅 EPG</h2>
-<div class="detail-grid">
-<div><h3>Picony</h3><ul class="clean-list">
-<li>bezpieczniejsza normalizacja nazw używana przy dopasowaniu piconów</li>
-<li>ograniczenie zbyt agresywnego usuwania fragmentów nazw</li>
-<li>lepsza obsługa nazw takich jak CANAL+, TV PULS i CHANNEL</li>
-</ul></div>
-<div><h3>EPG</h3><ul class="clean-list">
-<li>poprawione generowanie mapowania EPGImport</li>
-<li>wykorzystanie <code>tvg-id</code> i poprawiona normalizacja nazw</li>
-<li>VOD nie jest mapowane jak zwykłe kanały TV</li>
-<li>poprawiona obsługa źródeł XML / XML.GZ oraz generowanie plików XML</li>
-<li>lepsze dopasowanie po usunięciu prefiksów krajowych</li>
-</ul></div>
-</div>
-</section>
-<section class="module">
-<h2>🎬 Eksport bukietów Enigma2</h2>
-<ul class="clean-list">
-<li>prawidłowe kodowanie adresu strumienia w <code>#SERVICE</code></li>
-<li>poprawiona obsługa adresów zawierających port i parametry URL</li>
-<li>zachowanie wybranego typu serwisu</li>
-<li>obsługa 4097 oraz 5002 / ServiceApp</li>
-<li>czyste nazwy bukietów i kanałów</li>
-<li>poprawiona integracja z EPG i piconami</li>
-<li>naprawiono sytuację, w której ustawienie 4097/5002 było zapisywane, ale nie zawsze używane podczas eksportu</li>
-</ul>
-</section>
-<section class="module">
-<h2>🌐 WebIF, cache i zarządzanie</h2>
-<ul class="clean-list">
-<li>WebIF nie powinien blokować uruchomienia całej wtyczki, jeśli brakuje części zależności</li>
-<li>poprawiono wykrywanie rzeczywistego stanu serwera i usunięto fałszywy komunikat „ON”, gdy port nie został uruchomiony</li>
-<li>uporządkowano informacje o projekcie</li>
-<li>naprawiono mechanizm czyszczenia cache tak, aby usuwał katalog faktycznie używany przez aktualny loader playlist</li>
-<li>poprawiono historię, statystyki, konfigurację, pliki tymczasowe, zarządzanie źródłami i usuwanie zapisanych danych</li>
-</ul>
-</section>
-<section class="module">
-<h2>🎨 Interfejs IPTV Dream 8.0.1</h2>
-<ul class="clean-list">
-<li>ciemna granatowa kolorystyka i niebiesko-cyjanowe akcenty spójne z AIO Panel</li>
-<li>menu po lewej stronie i informacje o wybranej funkcji po prawej</li>
-<li>uporządkowany nagłówek oraz czytelniejsze przyciski funkcyjne</li>
-<li>układ przygotowany dla rozdzielczości 1280×720</li>
-<li>dynamiczne podpowiedzi opisujące działanie zaznaczonej funkcji</li>
-<li>podpowiedzi w wielu językach, m.in. polskim, angielskim, niemieckim, hiszpańskim, arabskim i rosyjskim</li>
-</ul>
-</section>
-<section class="module">
-<h2>🌐 Strona projektu i kod QR</h2>
-<p>Usunięto informację o starej grupie Facebook. Wtyczka kieruje bezpośrednio na oficjalną stronę projektu:</p>
-<p><a href="https://aio-iptv-projekt.pages.dev/" rel="noopener noreferrer" target="_blank"><strong>https://aio-iptv-projekt.pages.dev/</strong></a></p>
-<ul class="clean-list">
-<li>dodano czytelny kod QR prowadzący do strony projektu</li>
-<li>poprawiono wyświetlanie całego kodu QR w Enigma2</li>
-<li>dodano osobny ekran z dużym kodem QR</li>
-<li>na ekranie głównym dostępna jest opcja <strong>0 – Strona projektu / QR</strong></li>
-</ul>
-</section>
-<section class="module">
-<h2>🛠 Dodatkowe poprawki</h2>
-<ul class="clean-list">
-<li>naprawiono błędne użycie <code>ProgressBar.setRange()</code></li>
-<li>poprawiono nieistniejące grafiki przycisków w jednym z ekranów Xtream</li>
-<li>naprawiono błędne ścieżki cache i niekompletne akcje nawigacji grup playlist</li>
-<li>uporządkowano stare importy w <code>tools/__init__.py</code></li>
-<li>usunięto błędy ujawniające się tylko na wybranych image Enigma2</li>
-</ul>
-</section>
-<section class="module">
-<h2>Zdjęcie / podgląd</h2>
-<div class="guide-gallery"><figure><a href="pliki/iptv-dream-8.0.1.png" rel="noopener noreferrer" target="_blank"><img alt="Ekran IPTV Dream v8.0.1" loading="lazy" src="pliki/iptv-dream-8.0.1.png"/></a><figcaption>IPTV Dream 8.0.1 — aktualny ekran główny w stylistyce AIO.</figcaption></figure></div>
-</section>
-<section class="module" id="instalacja">
-<h2>Instalacja i aktualizacja</h2>
-<p>IPTV Dream v8.0.1 można zainstalować z pliku IPK, bezpośrednio z GitHuba albo z poziomu AIO Panel. Po instalacji wykonaj <strong>Restart GUI</strong>.</p>
-<div class="command"><div><strong>IPTV Dream — instalacja z GitHuba</strong><button data-copy="wget -q -O - https://raw.githubusercontent.com/OliOli2013/IPTV-Dream-Plugin/main/installer.sh | /bin/sh" type="button">Kopiuj</button></div><pre><code>wget -q -O - https://raw.githubusercontent.com/OliOli2013/IPTV-Dream-Plugin/main/installer.sh | /bin/sh</code></pre><p class="command-note">Po zakończeniu instalacji wykonaj Restart GUI.</p></div>
-<div class="command"><div><strong>Wariant OpenPLi / problemy z pobieraniem GitHub</strong><button data-copy='wget -q -O - --user-agent="Enigma2" -4 https://raw.githubusercontent.com/OliOli2013/IPTV-Dream-Plugin/main/installer.sh | /bin/sh' type="button">Kopiuj</button></div><pre><code>wget -q -O - --user-agent="Enigma2" -4 https://raw.githubusercontent.com/OliOli2013/IPTV-Dream-Plugin/main/installer.sh | /bin/sh</code></pre></div>
-</section>
-<section class="module" id="ftp">
-<h2>Instalacja pobranego IPK przez FTP</h2>
-<p>Wgraj plik IPK do katalogu <code>/tmp</code>, a następnie wykonaj polecenie:</p>
-<div class="command"><div><strong>Instalacja IPK z /tmp</strong><button data-copy="opkg install /tmp/enigma2-plugin-extensions-iptvdream_8.0.1_all.ipk" type="button">Kopiuj</button></div><pre><code>opkg install /tmp/enigma2-plugin-extensions-iptvdream_8.0.1_all.ipk</code></pre></div>
-</section>
+<main class="content-main iptvd9" id="main-content">
+  <section class="iptvd9-hero" aria-labelledby="iptvd9-heading">
+    <div>
+      <p class="iptvd9-label">AIO TEAM · ENIGMA2 · 22.11.2026</p>
+      <h1 id="iptvd9-heading">IPTV Dream 9.0.0</h1>
+      <p class="iptvd9-lead">Nowy ekran powitalny, przeglądarka multimediów LIVE/VOD, odtwarzacz Enigma2 i przebudowane operacje wykonywane w tle. Aktualizacja rozwija obsługę M3U/M3U8, Xtream Codes oraz portali MAC/Stalker.</p>
+      <div class="iptvd9-pills"><span>Python 3</span><span>M3U / Xtream / MAC</span><span>LIVE + VOD</span><span>EPG i picony</span><span>IPK / DEB</span><span>PL / EN / DE / ES / AR / RU</span></div>
+      <div class="iptvd9-actions">
+        <a class="primary" href="pliki/enigma2-plugin-extensions-iptvdream_9.0.0_all.ipk">Pobierz IPK 9.0.0</a>
+        <a href="pliki/enigma2-plugin-extensions-iptvdream_9.0.0_all.deb">Pobierz DEB 9.0.0</a>
+        <a href="#iptvd9-instalacja">Instalacja i aktualizacja</a>
+      </div>
+      <p class="iptvd9-note">Pakiety na stronie korzystają z dotychczasowej kontroli dostępu do pobrań AIO. Wtyczkę można też aktualizować z jej menu, wybierając „Sprawdź aktualizacje”.</p>
+    </div>
+    <figure><a href="pliki/iptv-dream-9.0.0-menu.png" target="_blank" rel="noopener noreferrer"><img src="pliki/iptv-dream-9.0.0-menu.png" width="923" height="531" alt="IPTV Dream 9.0.0 — menu główne na tunerze Enigma2" loading="eager"/></a><figcaption>Rzeczywisty ekran IPTV Dream 9.0.0 — menu.</figcaption></figure>
+  </section>
+
+  <section class="iptvd9-box" id="iptvd9-galeria">
+    <div class="iptvd9-headline"><h2>Podgląd nowej wersji</h2><span class="iptvd9-label">Dwa oryginalne zrzuty</span></div>
+    <div class="iptvd9-gallery">
+      <figure><a href="pliki/iptv-dream-9.0.0-intro.png" target="_blank" rel="noopener noreferrer"><img src="pliki/iptv-dream-9.0.0-intro.png" width="979" height="558" alt="Nowe intro IPTV Dream z logo AIO Hub Enigma 2" loading="lazy"/></a><figcaption>Ekran powitalny z paskiem postępu — możliwość pominięcia.</figcaption></figure>
+      <figure><a href="pliki/iptv-dream-9.0.0-menu.png" target="_blank" rel="noopener noreferrer"><img src="pliki/iptv-dream-9.0.0-menu.png" width="923" height="531" alt="Interfejs IPTV Dream 9.0.0 z menu M3U, Xtream, MAC, ulubionymi, statystykami i aktualizacją" loading="lazy"/></a><figcaption>Odświeżone menu obsługujące źródła i multimedia IPTV.</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="iptvd9-box" id="iptvd9-zmiany">
+    <h2>Zmiany w IPTV Dream 9.0.0</h2>
+    <div class="iptvd9-changes">
+      <div class="iptvd9-change"><h3>1. Intro IPTV Dream / AIO Hub Enigma 2</h3><ul><li>Nowy ekran powitalny z logo i animowanym paskiem postępu.</li><li>Czas animacji około 2,4 sekundy; przycisk OK pomija intro.</li><li>Możliwość wyłączenia intro w ustawieniach, bez przerywania oglądanego kanału.</li></ul></div>
+      <div class="iptvd9-change"><h3>2. Przeglądarka LIVE i VOD</h3><ul><li>Wspólna przeglądarka kanałów na żywo i materiałów VOD.</li><li>Wyszukiwanie po nazwie i grupie, także bez polskich znaków.</li><li>Filtry Wszystko / LIVE / VOD; stronicowanie po 100 elementów.</li><li>Ulubione oraz historia ostatnio uruchomionych materiałów.</li></ul></div>
+      <div class="iptvd9-change"><h3>3. Ulepszony odtwarzacz</h3><ul><li>Wykorzystuje systemowy odtwarzacz Enigma2.</li><li>Obsługa napisów i ścieżek audio, o ile zapewniają je system i strumień.</li><li>Przewijanie, gdy źródło to obsługuje; powrót STOP / EXIT.</li><li>Poprawiona współpraca z MoviePlayer w OpenATV i OpenPLi.</li></ul></div>
+      <div class="iptvd9-change"><h3>4. Stabilność i zadania w tle</h3><ul><li>Pobieranie i przetwarzanie list Xtream w tle.</li><li>Eksport bukietów i instalacja źródeł EPG bez blokowania interfejsu.</li><li>Ochrona przed spóźnionymi wynikami anulowanych zadań.</li><li>Bezpieczniejszy, atomowy zapis konfiguracji.</li></ul></div>
+      <div class="iptvd9-change"><h3>5. Obsługa IPTV</h3><ul><li>Nagłówki User-Agent, Referer i KODIPROP/EXTVLCOPT.</li><li>Rozpoznawanie manifestów HLS i adresów względnych.</li><li>Wspólny mechanizm referencji odtwarzania i eksportu.</li><li>Usprawniona pamięć podręczna i obsługa błędów źródeł.</li></ul></div>
+      <div class="iptvd9-change"><h3>6. Diagnostyka komponentów</h3><ul><li>Sprawdzanie Python i interfejsu GUI.</li><li>Weryfikacja ServiceApp i exteplayer3.</li><li>Kontrola EPGImport oraz WebIF.</li><li>Łatwiejsze rozpoznawanie brakujących zależności.</li></ul></div>
+      <div class="iptvd9-change"><h3>7. Prywatna konfiguracja</h3><ul><li>Atomowy zapis ustawień, historii i ulubionych.</li><li>Odpowiednie uprawnienia plików.</li><li>Odczyt konfiguracji bez ponownego zapisywania.</li><li>Zachowanie dotychczasowych ustawień i portali w /etc/enigma2.</li></ul></div>
+      <div class="iptvd9-change"><h3>8. Porządki w kodzie</h3><ul><li>Usunięcie dziewięciu historycznych, nieużywanych modułów.</li><li>Ujednolicenie instalatora, aktualizatora oraz zawartości IPK/DEB.</li><li>Rozszerzone testy automatyczne i obsługa błędów.</li></ul></div>
+    </div>
+  </section>
+
+  <section class="iptvd9-box" id="iptvd9-pakiety">
+    <h2>Pakiety 9.0.0 i kontrola integralności</h2>
+    <p>Oba pliki porównano z oficjalnymi zasobami wydania GitHub. Dla tej wersji mają identyczną zawartość i tę samą sumę SHA-256.</p>
+    <div class="iptvd9-stats">
+      <div class="iptvd9-stat"><small>IPK · 1 565 388 B</small><strong>enigma2-plugin-extensions-iptvdream_9.0.0_all.ipk</strong></div>
+      <div class="iptvd9-stat"><small>DEB · 1 565 388 B</small><strong>enigma2-plugin-extensions-iptvdream_9.0.0_all.deb</strong></div>
+      <div class="iptvd9-stat"><small>SHA-256 — IPK</small><code>49e8c4a7281c623fbbf98b9d7bf8dd16b2dd39e41145240f26a9fc02a6c6cfa0</code></div>
+      <div class="iptvd9-stat"><small>SHA-256 — DEB</small><code>49e8c4a7281c623fbbf98b9d7bf8dd16b2dd39e41145240f26a9fc02a6c6cfa0</code></div>
+    </div>
+    <p class="iptvd9-inline-links"><a href="https://github.com/OliOli2013/IPTV-Dream-Plugin/releases/tag/9.0.0" target="_blank" rel="noopener noreferrer">Oficjalne wydanie GitHub 9.0.0</a> · <a href="compatibility.html">Sprawdź zgodność</a> · <a href="report-error.html">Zgłoś błąd</a></p>
+    <p class="iptvd9-note">Systemy Enigma2 z Pythonem 3. Pakiet wymaga enigma2, python3-requests i python3-twisted-core; zaleca python3-twisted-web, python3-pillow i EPGImport. Python 2 nie jest obsługiwany. Serwis 4097 korzysta z odtwarzacza systemowego, a 5002 wymaga ServiceApp z exteplayer3.</p>
+  </section>
+
+  <section class="iptvd9-box" id="iptvd9-instalacja">
+    <h2>Instalacja i aktualizacja</h2>
+    <p>Zainstalowaną wcześniej wtyczkę można zaktualizować z poziomu IPTV Dream, wybierając <strong>Sprawdź aktualizacje</strong>. Można również pobrać pakiet IPK/DEB powyżej i przesłać go do <code>/tmp</code> odbiornika.</p>
+    <div class="iptvd9-stats"><div class="iptvd9-stat"><small>IPK (OPKG)</small><pre><code>opkg install /tmp/enigma2-plugin-extensions-iptvdream_9.0.0_all.ipk</code></pre></div><div class="iptvd9-stat"><small>DEB (DPKG)</small><pre><code>dpkg -i /tmp/enigma2-plugin-extensions-iptvdream_9.0.0_all.deb</code></pre></div></div>
+    <p class="iptvd9-note">Wybierz format obsługiwany przez swój system. Funkcje odtwarzania zależą od kodeków, konfiguracji tunera i źródła IPTV. Po instalacji może być konieczny restart GUI.</p>
+  </section>
+
+  <section class="iptvd9-box"><details><summary>Historia zmian 8.0.1 — wcześniejsze wydanie</summary><p>W wersji 8.0.1 poprawiono eksport kanałów bez nazw N/A, generowanie referencji Enigma2, obsługę MAC/Stalker, duplikatów w bouquets.tv oraz WebIF i EPG. Pełny historyczny changelog pozostaje w repozytorium projektu.</p><a href="https://github.com/OliOli2013/IPTV-Dream-Plugin/releases/tag/8.0.1" target="_blank" rel="noopener noreferrer">Wydanie archiwalne 8.0.1</a></details></section>
 </main>
 </div>
 <footer class="site-footer">

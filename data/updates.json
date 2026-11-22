@@ -1,5 +1,31 @@
 [
   {
+    "date": "2026-11-22",
+    "ts": 1795305600000,
+    "type": "release",
+    "title": "IPTV Dream 9.0.0 — nowe intro, przeglądarka LIVE/VOD i stabilność",
+    "desc": "Nowy ekran powitalny, odtwarzacz i biblioteka LIVE/VOD, poprawki M3U, Xtream, MAC/Stalker, praca w tle, diagnostyka, bezpieczny zapis konfiguracji. IPK i DEB, Enigma2 Python 3.",
+    "details": "IPTV Dream 9.0.0 — 22 listopada 2026\n\n• Intro IPTV Dream / AIO Hub Enigma 2, pomijane OK i wyłączane w ustawieniach.\n• Przeglądarka LIVE/VOD: wyszukiwanie, filtry, strony po 100 pozycji, ulubione i historia.\n• Natywny MoviePlayer: dźwięk, napisy, STOP/EXIT i przewijanie zależne od źródła.\n• Xtream, eksport bukietów i EPG w tle; poprawki anulowania i responsywności.\n• Nagłówki User-Agent/Referer/KODIPROP, manifesty HLS i względne URL.\n• Diagnostyka ServiceApp, exteplayer3, EPGImport i WebIF.\n• Atomowy zapis ustawień, historii i ulubionych oraz porządki instalatora.\n• OpenATV/OpenPLi i inne zgodne systemy Python 3. Python 2 nieobsługiwany.\n• IPK i DEB, aktualizacja także z pozycji wtyczki.\n\nAIO Team / Paweł Pawełek.",
+    "url": "plugin-iptv-dream.html",
+    "tags": [
+      "IPTV Dream",
+      "9.0.0",
+      "Enigma2",
+      "Python 3",
+      "LIVE",
+      "VOD",
+      "M3U",
+      "Xtream",
+      "MAC",
+      "Stalker",
+      "EPG",
+      "Picony",
+      "MoviePlayer",
+      "IPK",
+      "DEB"
+    ]
+  },
+  {
     "date": "2026-11-21",
     "ts": 1795219200000,
     "type": "release",

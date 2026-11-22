@@ -1,2 +1,34 @@
 [
+  {
+    "id": "iptv-dream-9-0-0",
+    "project_id": "iptv-dream",
+    "name": "IPTV Dream",
+    "version": "9.0.0",
+    "date": "2026-11-22",
+    "page": "plugin-iptv-dream.html",
+    "title": "IPTV Dream 9.0.0 — nowe multimedia, intro i stabilność",
+    "summary": "IPTV Dream 9.0.0: intro z logo AIO Hub Enigma 2, przeglądarka i odtwarzacz LIVE/VOD, wyszukiwanie, filtry, ulubione, historia, praca w tle, poprawki M3U/Xtream/MAC, diagnostyka, bezpieczny zapis konfiguracji. Python 3; pakiety IPK i DEB.",
+    "category": "Wtyczki",
+    "platform": "Enigma2",
+    "channel": "stable",
+    "published_at": "2026-11-22",
+    "files": [
+      {
+        "href": "pliki/enigma2-plugin-extensions-iptvdream_9.0.0_all.ipk",
+        "kind": "IPK",
+        "title": "IPTV Dream 9.0.0 — IPK",
+        "size": "1,49 MiB",
+        "sha256": "49e8c4a7281c623fbbf98b9d7bf8dd16b2dd39e41145240f26a9fc02a6c6cfa0",
+        "source": "Oficjalny GitHub Releases · chronione pobieranie AIO"
+      },
+      {
+        "href": "pliki/enigma2-plugin-extensions-iptvdream_9.0.0_all.deb",
+        "kind": "DEB",
+        "title": "IPTV Dream 9.0.0 — DEB",
+        "size": "1,49 MiB",
+        "sha256": "49e8c4a7281c623fbbf98b9d7bf8dd16b2dd39e41145240f26a9fc02a6c6cfa0",
+        "source": "Oficjalny GitHub Releases · chronione pobieranie AIO"
+      }
+    ]
+  }
 ]

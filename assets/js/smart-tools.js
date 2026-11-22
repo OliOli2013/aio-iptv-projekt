@@ -210,7 +210,7 @@
       summary: 'Synchronizacja kanałów bez utraty kolejności i własnego układu bukietów.'
     },
     iptv: {
-      title: 'IPTV Dream 8.0.1', url: 'plugin-iptv-dream.html', kind: 'IPTV', python: ['3'], icon: '📺',
+      title: 'IPTV Dream 9.0.0', url: 'plugin-iptv-dream.html', kind: 'IPTV', python: ['3'], icon: '📺',
       summary: 'Poprawiony eksport bez N/A, M3U/Xtream/MAC, MAC/Stalker, EPG, picony, WebIF z automatycznym portem i bezpieczniejsze bukiety.'
     },
     remote: {
