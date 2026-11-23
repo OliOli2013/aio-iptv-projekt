@@ -20,7 +20,9 @@ export function vpnGuardConfig(env){
   const mode=String(env?.AIO_VPN_GUARD_MODE||'monitor').toLowerCase()==='enforce'?'enforce':'monitor';
   const key=String(env?.AIO_VPN_GUARD_API_KEY||'').trim();
   const secret=String(env?.AIO_VPN_GUARD_HMAC_SECRET||env?.AIO_MULTIKONTA_HMAC_SECRET||'').trim();
-  return {mode,provider_ready:key.length>=12,hash_ready:secret.length>=32,
+  const loginSetting=String(env?.AIO_VPN_LOGIN_MODE||'').trim().toLowerCase();
+  const login_mode=['enforce','monitor'].includes(loginSetting)?loginSetting:mode;
+  return {mode,login_mode,provider_ready:key.length>=12,hash_ready:secret.length>=32,
     ready:key.length>=12&&secret.length>=32,
     daily_budget:Math.max(20,Math.min(900,Math.floor(number(env?.AIO_VPN_GUARD_DAILY_BUDGET,400))))};
 }
@@ -46,18 +48,19 @@ export function publicNetworkIp(input){
 export function classifyVpnResponse(data){
   if(!data||typeof data!=='object'||data.error||data.error_code||data.is_bogon===true)return {kind:'unknown',flags:[],service:''};
   const keys=['is_vpn','is_proxy','is_tor','is_datacenter','is_mobile','is_satellite'];
-  if(!keys.some(k=>typeof data[k]==='boolean'||(k==='is_vpn'&&!!data[k])))return {kind:'unknown',flags:[],service:''};
-  const flags=keys.filter(k=>Boolean(data[k])).map(k=>k.slice(3));
+  if(!['is_vpn','is_proxy','is_tor'].some(k=>data[k]===true) &&
+     !['is_vpn','is_proxy','is_tor'].every(k=>typeof data[k]==='boolean'))return {kind:'unknown',flags:[],service:''};
+  const flags=keys.filter(k=>data[k]===true).map(k=>k.slice(3));
   const egress=String(data.egress_service?.type||'');
   if(egress==='private_relay'||egress==='secure_web_gateway'){
     return {kind:'relay',flags:[...flags,'managed_egress'],service:txt(data.egress_service?.provider||'',60)};
   }
   let kind='clean';
-  if(Boolean(data.is_tor))kind='tor';
-  else if(Boolean(data.is_proxy))kind='proxy';
-  else if(Boolean(data.is_vpn))kind='vpn';
-  else if(Boolean(data.is_datacenter))kind='datacenter';
-  else if(Boolean(data.is_mobile))kind='mobile';
+  if(data.is_tor===true)kind='tor';
+  else if(data.is_proxy===true)kind='proxy';
+  else if(data.is_vpn===true)kind='vpn';
+  else if(data.is_datacenter===true)kind='datacenter';
+  else if(data.is_mobile===true)kind='mobile';
   const service=txt(data.vpn?.service||data.datacenter?.datacenter||data.company?.name||'',60);
   return {kind,flags,service};
 }
@@ -108,7 +111,10 @@ function cachedView(row){
   try{const p=JSON.parse(row.flags);flags=Array.isArray(p)?p.filter(x=>typeof x==='string').slice(0,8):[];}catch{}
   return {kind:txt(row.verdict,25),flags,service:txt(row.service,60),cached:true};
 }
-export async function lookupVpnIps(env,ips,{maxRemote=40}={}){
+export function budgetCeiling(total,purpose){
+  return purpose==='register'?total:Math.max(1,Math.floor(total*(purpose==='login'?0.8:0.5)));
+}
+export async function lookupVpnIps(env,ips,{maxRemote=40,purpose='scan'}={}){
   const unique=[...new Set(ips.map(publicNetworkIp).filter(Boolean))];
   const config=vpnGuardConfig(env),values=new Map();
   if(!unique.length)return {values,remote:0,reason:'no_ips'};
@@ -122,7 +128,7 @@ export async function lookupVpnIps(env,ips,{maxRemote=40}={}){
   unique.forEach((ip,i)=>{const row=byKey.get(keys[i]);if(row)values.set(ip,cachedView(row));else missing.push({ip,key:keys[i]});});
   if(!missing.length)return {values,remote:0,reason:'cache'};
   if(missing.length>maxRemote)return {values,remote:0,reason:'batch_too_large'};
-  if(!await reserveBudget(env.COMMUNITY_DB,missing.length,config.daily_budget))return {values,remote:0,reason:'budget_exhausted'};
+  if(!await reserveBudget(env.COMMUNITY_DB,missing.length,budgetCeiling(config.daily_budget,purpose)))return {values,remote:0,reason:'budget_exhausted'};
   let payload;
   try{
     const res=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
@@ -162,19 +168,40 @@ async function logSignupFlag(env,kind,decision){
     }
   }catch(e){console.error('[AIO VPN Guard signup audit]',String(e?.message||e).slice(0,100));}
 }
-/** Only for NEW registration, after existing anti-bot checks and BEFORE account creation. */
-export async function checkVpnAtRegistration(env,request){
-  const config=vpnGuardConfig(env),ip=publicNetworkIp(request?.headers?.get('CF-Connecting-IP'));
-  if(!ip||!config.ready)return {deny:false,kind:'unknown',reason:!config.ready?'not_configured':'no_ip'};
-  try{
-    const lookup=await lookupVpnIps(env,[ip],{maxRemote:1});
-    const record=lookup.values.get(ip);
-    if(!record)return {deny:false,kind:'unknown',reason:lookup.reason};
-    const deny=verdictForSignup(record,config.mode)==='deny';
-    if(highRisk(record.kind))await logSignupFlag(env,record.kind,deny?'deny':'monitor');
-    return {deny,kind:record.kind,reason:lookup.reason};
-  }catch(e){console.error('[AIO VPN Guard signup]',String(e?.message||e).slice(0,110));return {deny:false,kind:'unknown',reason:'internal_error'};}
+// Anonymous daily counters. Fixed 31-slot ring; no address, identity or provider payload.
+export const VPN_COUNT_SQL=`INSERT INTO aio_vpn_auth_counts_v2(slot,day,phase,outcome,reason,n)
+  VALUES(?,?,?,?,?,1) ON CONFLICT(slot,phase,outcome,reason) DO UPDATE SET
+  n=CASE WHEN day=excluded.day THEN n+1 ELSE 1 END,day=excluded.day`;
+async function countResult(env,phase,outcome,reason){
+  if(!env?.COMMUNITY_DB)return;
+  const ms=Date.now(),group=reason.startsWith('provider_')?'provider':reason;
+  try{await env.COMMUNITY_DB.prepare(VPN_COUNT_SQL).bind(Math.floor(ms/DAY)%31,
+    new Date(ms).toISOString().slice(0,10),phase,outcome,group).run();}
+  catch{console.warn('[AIO VPN] Nie zapisano licznika diagnostycznego.');}
 }
+export function vpnReply(result,phase){
+  if(!result?.deny&&!result?.retry)return null;
+  const operation=phase==='register'?'utworzyć konto':'zalogować się';
+  return result.retry?{status:503,body:{ok:false,code:'AIO_NETWORK_RETRY',error:'Nie można teraz sprawdzić połączenia. Spróbuj ponownie później. Nie zablokowano konta.'}}:
+    {status:403,body:{ok:false,code:'AIO_VPN_CONNECTION',error:'Połączenie rozpoznano jako VPN, proxy lub Tor. Aby '+operation+', wyłącz tę usługę i spróbuj ponownie. Jeśli to pomyłka, skontaktuj się z administracją.'}};
+}
+async function checkAuthNetwork(env,request,phase){
+  const config=vpnGuardConfig(env),ip=publicNetworkIp(request?.headers?.get('CF-Connecting-IP'));
+  const mode=phase==='register'?config.mode:config.login_mode;
+  let kind='unknown',reason=!config.ready?'not_configured':'no_ip';
+  if(ip&&config.ready){try{
+    const lookup=await lookupVpnIps(env,[ip],{maxRemote:1,purpose:phase});
+    kind=lookup.values.get(ip)?.kind||'unknown';reason=lookup.reason;
+  }catch{reason='internal_error';}}
+  const deny=verdictForSignup({kind},mode)==='deny';
+  const retry=mode==='enforce'&&kind==='unknown';
+  const warning=!deny&&highRisk(kind)?'Twoje połączenie rozpoznano jako VPN, proxy lub Tor. W trybie obserwacji nie zmienia to dostępu do konta.':null;
+  if(phase==='register'&&highRisk(kind))await logSignupFlag(env,kind,deny?'deny':'monitor');
+  await countResult(env,phase,deny?'vpn_denied':retry?'unverified_retry':warning?'vpn_observed':kind==='unknown'?'unverified_allowed':'allowed',reason);
+  return {kind,reason,deny,retry,warning};
+}
+export const checkVpnAtRegistration=(env,request)=>checkAuthNetwork(env,request,'register');
+export const checkVpnAtLogin=(env,request)=>checkAuthNetwork(env,request,'login');
 const score=kind=>riskOrder[kind]??-1;
 async function storeReview(env,userId,record,samples){
   const now=nowIso(),db=env.COMMUNITY_DB;

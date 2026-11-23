@@ -2,6 +2,7 @@
 """Verify build contains required assets but no technical repo files."""
 import sys
 from pathlib import Path
+from aio_private_manifest import public_checksum
 
 ROOT = Path(__file__).resolve().parents[1]
 PUBLIC = ROOT / 'dist'
@@ -32,6 +33,11 @@ def check() -> None:
            if p.is_file() and (p.name.startswith('.env') or p.name.startswith('.dev.vars'))]
     if bad:
         raise RuntimeError(f'Potencjalne sekrety w dist: {bad[:5]}')
+    private = [p for p in (PUBLIC/'pliki').rglob('*') if p.is_file()
+               and p.suffix.lower() not in {'.png','.jpg','.jpeg','.webp','.gif','.svg','.avif'}]
+    private += [p for p in (PUBLIC/'assets'/'releases').rglob('*') if p.is_file() and not public_checksum(p.name)]
+    if private:
+        raise RuntimeError(f'W buildzie znaleziono prywatne pliki: {private[:2]}')
     print('AIO Pages Public Verify V1: OK; zasoby publiczne sa, pliki techniczne pominiete')
 
 

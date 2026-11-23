@@ -85,7 +85,7 @@ Aktualizacja **17.0.2 — 2026-10-23**
 - Usprawniono walidację instalatorów i pakiety IPK/DEB, sprawdzono SHA-256.
 - Zachowano dotychczasowe funkcje z wersji 17.0.1.
 
-[Pobierz zawsze aktualny IPK — bez logowania i limitów](https://aio-iptv-projekt.pages.dev/api/aio-panel-ipk) • [Pobierz DEB 18.2.1](assets/releases/enigma2-plugin-extensions-panelaio_18.2.1_all.deb) • [Opis i instalacja](plugin-aio-panel.html)
+[Pobierz zawsze aktualny IPK — bez logowania i limitów](https://aio-iptv-projekt.pages.dev/api/aio-panel-ipk) • [Pobierz DEB 18.2.1](https://aio-iptv-projekt.pages.dev/pliki/enigma2-plugin-extensions-panelaio_18.2.1_all.deb) • [Opis i instalacja](plugin-aio-panel.html)
 
 **Nowości 18.2.1 (21.11.2026):** dziewięć motywów, kolorowe ikony, prawdziwe podglądy skórek (także z dalszych stron feedu), piconów i wtyczek; osobne próbki piconów z przełączaniem tła, INFO i powrót EXIT do tej samej pozycji. Zachowano wcześniejsze zmiany SAT z 18.0.0.
 

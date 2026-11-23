@@ -3,8 +3,8 @@
 
 Run by Cloudflare Pages as a build command. The allowlist prevents publishing
 root-level scripts, audits, repository internals, historical dumps or caches.
-This builder intentionally preserves /pliki/ for legacy and R2 modes; Pages
-Functions must still mediate private downloads (see _routes.json).
+Only public images from /pliki/ may enter dist. Installer bytes belong in private R2,
+not in Pages static assets. Source files are never moved or removed.
 """
 from __future__ import annotations
 
@@ -13,6 +13,7 @@ import shutil
 import sys
 import tempfile
 from pathlib import Path
+from aio_private_manifest import public_checksum
 
 ROOT = Path(__file__).resolve().parents[1]
 DEST = ROOT / 'dist'
@@ -45,6 +46,10 @@ def copy_safe_tree(source: Path, target: Path) -> None:
         if candidate.is_dir():
             (target / relative).mkdir(parents=True, exist_ok=True)
         elif candidate.is_file():
+            if source.name == 'pliki' and candidate.suffix.lower() not in {'.png','.jpg','.jpeg','.webp','.gif','.svg','.avif'}:
+                continue
+            if source.name == 'assets' and relative.parts[0].lower() == 'releases' and not public_checksum(candidate.name):
+                continue
             copy_safe_file(candidate, target / relative)
         else:
             raise RuntimeError(f'Nieobslugiwany typ zasobu: {candidate}')

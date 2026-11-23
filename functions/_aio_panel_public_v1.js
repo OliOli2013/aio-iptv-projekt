@@ -16,7 +16,8 @@ export function isAioPanelIpkAlias(path){
 }
 export function isOfficialAioPanelIpkUrl(raw,siteOrigin){
   let u;try{u=new URL(raw);}catch(_){return false;}
-  if(siteOrigin&&u.origin===siteOrigin)return u.pathname===PUBLIC_IPK_PATH||isAioPanelIpkAlias(u.pathname);
+  if(siteOrigin&&u.origin===siteOrigin)return u.pathname===PUBLIC_IPK_PATH||isAioPanelIpkAlias(u.pathname)||
+    u.pathname==='/assets/releases/enigma2-plugin-extensions-panelaio_18.2.1_all.ipk';
   if(u.protocol!=='https:'||u.hostname.toLowerCase()!=='github.com'||u.username||u.password)return false;
   let parts;try{parts=decodeURIComponent(u.pathname).split('/');}catch(_){return false;}
   const m=parts.length===7&&BASENAME.exec(parts[6]);

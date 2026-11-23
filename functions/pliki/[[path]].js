@@ -36,14 +36,15 @@ async function handle(context){
   // goes to the public counted gateway before any login/quota check. DEB is unchanged.
   if(isAioPanelIpkAlias(new URL(request.url).pathname))
     return new Response(null,{status:302,headers:{Location:PUBLIC_IPK_PATH,'Cache-Control':'private, no-store'}});
-  // Temporary public mirrors: only these two AIO Panel packages bypass R2.
+  // Optional publisher mirrors for the small legacy allowlist; disabled by default.
   const mirrors = {
     '/pliki/enigma2-plugin-extensions-iptvdream_9.0.0_all.ipk': 'https://github.com/OliOli2013/IPTV-Dream-Plugin/releases/download/9.0.0/enigma2-plugin-extensions-iptvdream_9.0.0_all.ipk',
     '/pliki/enigma2-plugin-extensions-iptvdream_9.0.0_all.deb': 'https://github.com/OliOli2013/IPTV-Dream-Plugin/releases/download/9.0.0/enigma2-plugin-extensions-iptvdream_9.0.0_all.deb',
     '/pliki/enigma2-plugin-extensions-panelaio_17.0.3_all.ipk': 'https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/v17.0.3/enigma2-plugin-extensions-panelaio_17.0.3_all.ipk',
     '/pliki/enigma2-plugin-extensions-panelaio_17.0.3_all.deb': 'https://github.com/OliOli2013/PanelAIO-Plugin/releases/download/v17.0.3/enigma2-plugin-extensions-panelaio_17.0.3_all.deb'
   };
-  const mirror = mirrors[new URL(request.url).pathname]; // Redirect only AFTER authorization and quota check.
+  // Only already-public, owner-approved publisher mirrors may be enabled explicitly.
+  const mirror = env.AIO_ALLOW_LEGACY_PUBLIC_MIRRORS==='1' && mirrors[new URL(request.url).pathname];
   if(!protectedFile(request))return context.next();
   try{
     await initAccess(env);
@@ -111,15 +112,15 @@ async function handle(context){
       await logSecurity(env,request,'download_issued',user.id,permit.reason);
       return new Response(null,{status:302,headers:{Location:mirror,'Cache-Control':'no-store'}});
     }
-    // Private R2 is the only file source in r2 mode. Missing binding/object fails CLOSED.
-    // Legacy mode retains Pages files until R2 uploads have been verified.
-    const asset=privateStorageEnabled(env)
-      ?await readPrivateFile(request,env)
-      :await context.next();
+    // Private files never delegate to the static site. Misconfiguration is a service error.
+    if(!privateStorageEnabled(env))return accessDenied('Prywatny magazyn plików nie jest jeszcze gotowy.',503);
+    const asset=await readPrivateFile(request,env);
     if(request.method==='HEAD')return asset; // HEAD nigdy nie zużywa limitu
     if(asset.status!==200 && asset.status!==206)return asset;
     const contentType=String(asset.headers.get('content-type')||'').toLowerCase();
-    if(contentType.startsWith('text/html'))return asset; // np. fallback strony, nie materiał
+    if(contentType.startsWith('text/html')){
+      await asset.body?.cancel().catch(()=>{});return accessDenied('Nieprawidłowy typ pliku w magazynie.',502);
+    }
     const permit=await consumeFree(env,user.id,fileKey,request); // każde pobranie liczone osobno, również tego samego pliku
     if(!permit.allowed)return permit.reason==='limit'?redirectToInformation(request,'aio_limit'):accessDenied('Dostęp do pobierania jest obecnie ograniczony.',403);
     const headers=new Headers(asset.headers);headers.set('Cache-Control','private, no-store');
@@ -135,3 +136,5 @@ async function handle(context){
 }
 export const onRequestGet=handle;
 export const onRequestHead=handle;
+export const onRequest=context=>['GET','HEAD'].includes(context.request.method)?handle(context):
+  new Response(null,{status:405,headers:{Allow:'GET, HEAD',...NO_CACHE}});

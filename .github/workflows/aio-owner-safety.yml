@@ -1,0 +1,36 @@
+name: AIO owner safety
+on: [pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Check proposed source files
+        if: github.event_name == 'pull_request'
+        env:
+          AIO_BASE: ${{ github.event.pull_request.base.sha }}
+          AIO_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: python3 scripts/aio_public_payload_guard.py "$AIO_BASE" "$AIO_HEAD"
+      - name: Offline owner access and network policy
+        run: |
+          node --test tests/aio-owner-safety.mjs tests/aio-download-delivery.mjs
+          node tests/aio-vpn-guard-v1.mjs
+          node tests/aio-owner-focus-v5.mjs
+          node tests/aio-security-core-v1-regression.mjs
+          node tests/aio-security-core-owner-v12.mjs
+          node tests/aio-security-exports-v1.mjs
+          node tests/aio-post-links-regression-v2.mjs
+          python3 tests/aio-private-build.py
+      - name: Verify distributable website
+        run: |
+          python3 scripts/aio_catalog_v1.py check
+          python3 scripts/aio_pages_public_build_v1.py
+          python3 scripts/aio_pages_public_verify_v1.py

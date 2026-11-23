@@ -37,6 +37,7 @@
     nav.className='aop4-nav';nav.id='aop4-nav';nav.setAttribute('aria-label','Uproszczone menu Centrum właściciela');
     nav.innerHTML=`
       ${navItem('dashboard','Pulpit właściciela','⌂')}
+      <a class="aop4-primary-link" href="/owner-safety">Bezpieczeństwo i dostęp</a>
       ${navGroup('Na co dzień',[
         navItem('approvals','Wsparcie i wpłaty','♡'),
         navItem('pending','Posty do zatwierdzenia','▤'),

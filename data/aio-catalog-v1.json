@@ -576,7 +576,7 @@
     },
     {
       "title": "AIO Panel 18.2.1 — DEB",
-      "href": "assets/releases/enigma2-plugin-extensions-panelaio_18.2.1_all.deb",
+      "href": "pliki/enigma2-plugin-extensions-panelaio_18.2.1_all.deb",
       "category": "Wtyczki",
       "platform": "Enigma2",
       "version": "18.2.1",
@@ -589,11 +589,11 @@
       "sha256": "4b17c8eb81502832a5c6fbb024904eded2403a7f73bef3550272a449793cc48c",
       "official": "Oficjalne wydanie GitHub · identyczny plik na AIO TunerHub",
       "project_id": "aio-panel",
-      "release_id": "legacy-b28387580cbc1822",
+      "release_id": "legacy-4ae076bfc7eda3cf",
       "origin": "legacy",
       "published_at": null,
       "verified_at": null,
-      "access": "zgodnie_ze_zrodlem"
+      "access": "konto_AIO"
     },
     {
       "title": "Pobierz IPK 2.1.1",
@@ -1479,7 +1479,7 @@
       ]
     },
     {
-      "id": "legacy-b28387580cbc1822",
+      "id": "legacy-4ae076bfc7eda3cf",
       "project_id": "aio-panel",
       "project_name": "AIO Panel",
       "version": "18.2.1",
@@ -1492,7 +1492,7 @@
       "published_at": null,
       "verified_at": null,
       "files": [
-        "assets/releases/enigma2-plugin-extensions-panelaio_18.2.1_all.deb"
+        "pliki/enigma2-plugin-extensions-panelaio_18.2.1_all.deb"
       ]
     },
     {

@@ -8,6 +8,7 @@ To inspect that snapshot explicitly, use --include-archive.
 import argparse,hashlib,html.parser,json,sys,xml.etree.ElementTree as ET
 from pathlib import Path
 from urllib.parse import urlsplit,unquote
+from aio_private_manifest import DEB,inventory,path_for
 ROOT=Path(__file__).resolve().parents[1]
 class Parser(html.parser.HTMLParser):
  def __init__(self):super().__init__();self.refs=[]
@@ -44,6 +45,7 @@ def declared_function_route(path):
 # and local SHA-256 of the downloaded bytes). This offline inventory alone does
 # NOT prove that an object remains in R2; see aio_r2_live_verify.py.
 _R2_INVENTORY = {}
+_VERIFIED_PRIVATE = {}
 
 def load_private_r2_inventory():
  doc=json.loads((ROOT/'integrity/aio_private_r2_inventory.json').read_text(encoding='utf-8'))
@@ -82,12 +84,20 @@ def missing(source,ref):
  if dest.is_file() or (not dest.suffix and dest.with_suffix('.html').is_file()):return None
  if (p.lstrip('/') in _R2_INVENTORY and
      dest == (ROOT/p.lstrip('/')).resolve()):return None
+ key=dest.relative_to(ROOT.resolve()).as_posix()
+ # A metadata/route check, not a live R2 check. Only accept known private keys.
+ if key in _VERIFIED_PRIVATE:return None
+ if key==DEB and (ROOT/path_for(key)).is_file() and (ROOT/'functions/pliki/[[path]].js').is_file():return None
  if declared_function_route(p):return None
  return p
 
 def audit(sha,strict,include_archive=False):
  bad=[];warn=[];pages=0;skipped_archive=0
  global _R2_INVENTORY
+ global _VERIFIED_PRIVATE
+ try:_VERIFIED_PRIVATE=inventory(ROOT)
+ except (OSError,ValueError,TypeError) as e:
+  bad.append('Manifest prywatny: '+str(e));_VERIFIED_PRIVATE={}
  try:_R2_INVENTORY=load_private_r2_inventory()
  except (OSError,ValueError,TypeError) as e:
   bad.append('R2 inventory: '+str(e));_R2_INVENTORY={}
@@ -115,6 +125,7 @@ def audit(sha,strict,include_archive=False):
    if m:bad.append('downloads.json '+href+' → '+m)
    if sha and not m and not urlsplit(href).scheme and len(str(x.get('sha256','')))==64:
     f=ROOT/href.lstrip('/').split('?')[0]
+    if href.lstrip('/')==DEB and not f.is_file():f=ROOT/path_for(DEB)
     if f.is_file():
      h=hashlib.sha256()
      with f.open('rb') as inp:
@@ -127,6 +138,8 @@ def audit(sha,strict,include_archive=False):
   for item in items:
    if not isinstance(item,dict):continue
    key=str(item.get('href','')).split('?',1)[0].lstrip('/')
+   if key in _VERIFIED_PRIVATE and item.get('sha256') and str(item['sha256']).lower()!=_VERIFIED_PRIVATE[key]['sha256']:
+    bad.append('Manifest prywatny: SHA nie odpowiada katalogowi: '+key)
    if key in _R2_INVENTORY:
     catalogue[key]=item
     actual=str(item.get('sha256','')).lower()

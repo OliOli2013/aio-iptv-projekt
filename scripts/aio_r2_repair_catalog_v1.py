@@ -27,6 +27,7 @@ import subprocess
 import sys
 import tempfile
 from urllib.parse import unquote, urlsplit
+from aio_private_manifest import NAME as MANIFEST, inventory, path_for, private_key
 
 ROOT = Path(__file__).resolve().parents[1]
 BUCKET = 'aio-downloads-private'
@@ -96,6 +97,10 @@ def catalogue() -> tuple[dict[str, set[str]], dict[str, str]]:
     entries = json.loads(json_path.read_text('utf-8'))
     if not isinstance(entries, list):
         raise RuntimeError('data/downloads.json nie jest tablica JSON')
+    publications=ROOT/'data/aio-publications-v1.json'
+    if publications.is_file():
+        for pub in json.loads(publications.read_text('utf-8')):
+            entries.extend(pub.get('files',[]))
     for entry in entries:
         if not isinstance(entry, dict):
             continue
@@ -104,6 +109,8 @@ def catalogue() -> tuple[dict[str, set[str]], dict[str, str]]:
             refs.setdefault(key, set()).add('data/downloads.json')
             digest = str(entry.get('sha256') or '').lower().strip()
             if re.fullmatch('[0-9a-f]{64}', digest):
+                if key in stated_hash and digest!=stated_hash[key]:
+                    raise ValueError('Sprzeczne sumy dla klucza: '+key)
                 stated_hash[key] = digest
     # Covers direct links on project pages, including items absent from
     # downloads.json. No data from 'Najnowsze posty' is enumerated.
@@ -152,10 +159,10 @@ def content_type(path: Path) -> str:
     return typ or 'application/octet-stream'
 
 
-def check_one(base: list[str], key: str, source: Path, digest: str, temporary: Path) -> str:
+def check_one(base: list[str], key: str, source: Path, digest: str, temporary: Path, bucket: str=BUCKET) -> str:
     target = temporary / 'object.bin'
     target.unlink(missing_ok=True)
-    result = run_wrangler(base, 'r2', 'object', 'get', f'{BUCKET}/{key}',
+    result = run_wrangler(base, 'r2', 'object', 'get', f'{bucket}/{key}',
                           '--remote', '--file', str(target))
     if result.returncode == 0:
         if not target.is_file():
@@ -175,17 +182,54 @@ def main() -> int:
     mode.add_argument('--apply', action='store_true', help='uzupelnij tylko brakujace obiekty i zweryfikuj')
     p.add_argument('--only', action='append', metavar='NAZWA_LUB_KLUCZ',
                    help='ogranicz do wskazanego pliku (mozna powtarzac)')
+    p.add_argument('--all-private', action='store_true', help='obejmij także nieobrazowe pliki spoza katalogu; bez publicznego IPK')
+    p.add_argument('--save-inventory',action='store_true',help='po udanym pełnym odczycie R2 zapisz lokalny manifest sum; nic nie wysyła do R2')
+    p.add_argument('--source-dir',type=Path,help='opcjonalna lokalna kopia poza repo: katalog zawierający pliki/, tylko jawne klucze katalogu/manifestu')
+    p.add_argument('--bucket', default=BUCKET, help='bucket używany do kontroli, np. oddzielny bucket Preview')
     args = p.parse_args()
+    if args.source_dir and (args.source_dir.is_symlink() or not args.source_dir.is_dir() or args.source_dir.resolve().is_relative_to(ROOT.resolve())):
+        p.error('--source-dir musi być istniejącym katalogiem poza repozytorium')
+    if args.save_inventory and (not args.check or not args.all_private or args.only):
+        p.error('--save-inventory wymaga pełnego --check --all-private bez --only')
+    if args.apply and not args.only:
+        p.error('--apply wymaga jawnego --only dla każdej pozycji')
+    if not re.fullmatch(r'[a-z0-9][a-z0-9-]{1,61}[a-z0-9]',args.bucket):
+        print('Nieprawidłowa nazwa bucketu.', file=sys.stderr)
+        return 2
+    if args.all_private and args.apply:
+        print('--all-private służy wyłącznie do odczytu, nie do zbiorczego przesyłania.', file=sys.stderr)
+        return 2
     if not (ROOT / 'functions/pliki/[[path]].js').is_file():
         print('BLAD: Nie znaleziono functions/pliki/[[path]].js. Uruchom w repo AIO.', file=sys.stderr)
         return 2
     try:
         refs, metadata_hashes = catalogue()
+        known=inventory(ROOT)
     except Exception as err:
         print('BLAD: '+str(err), file=sys.stderr)
         return 2
+    if args.all_private:
+        folder = ROOT / 'pliki'
+        if folder.is_symlink() or (not folder.is_dir() and not known):
+            print('Brak źródłowego katalogu pliki/ do pełnej kontroli.', file=sys.stderr)
+            return 2
+        for item in folder.rglob('*'):
+            if item.is_symlink():
+                print('Dowiązanie w katalogu pliki/: przerwano kontrolę.', file=sys.stderr)
+                return 2
+            if item.is_file() and item.suffix.lower() not in (IMAGES - {'.ico'}):
+                refs.setdefault(item.relative_to(ROOT).as_posix(), set()).add('pliki/')
+        for key in known:
+            refs.setdefault(key,set()).add('manifest')
+        refs = {k:v for k,v in refs.items() if private_key(k)}
     if args.only:
         names = set(args.only)
+        for n in names:
+            if private_key(n) and (ROOT/path_for(n)).is_file():
+                refs.setdefault(n,set()).add('jawnie wybrany plik')
+        if any(sum(k==n or Path(k).name==n for k in refs)!=1 for n in names):
+            print('Podaj istniejący, jednoznaczny pełny klucz każdego pliku.', file=sys.stderr)
+            return 2
         refs = {k: v for k, v in refs.items() if k in names or Path(k).name in names}
         if not refs:
             print('BLAD: Wskazane pliki nie wystepuja w katalogu HTML/JSON.', file=sys.stderr)
@@ -194,20 +238,42 @@ def main() -> int:
         print('BLAD: Katalog nie zawiera plikow w /pliki/', file=sys.stderr)
         return 2
     checked: list[tuple[str, Path, str]] = []
+    sizes = {}
     errors = 0
-    print(f'AIO R2: tryb={"APPLY" if args.apply else "CHECK" if args.check else "AUDIT"}; bucket={BUCKET}; laczy={len(refs)}')
+    print(f'AIO R2: tryb={"APPLY" if args.apply else "CHECK" if args.check else "AUDIT"}; bucket={args.bucket}; laczy={len(refs)}')
     for key in sorted(refs):
-        source = (ROOT / key)
+        source = ROOT / path_for(key)
+        if args.source_dir and not source.exists() and private_key(key):
+            external=args.source_dir.resolve()/key
+            if external.exists() and external.resolve()==external:
+                source=external
+        gold = known.get(key)
+        if not source.exists() and not source.is_symlink() and args.check and gold:
+            if metadata_hashes.get(key,gold['sha256'])!=gold['sha256']:
+                print(f'Niezgodność katalogu i manifestu: {key}',file=sys.stderr)
+                errors += 1
+                continue
+            checked.append((key,source,gold['sha256']))
+            sizes[key]=gold['size']
+            continue
         if not source.is_file() or source.is_symlink():
             print(f'BRAK LOKALNIE: {key} (odsylacze: {", ".join(sorted(refs[key]))})')
             errors += 1
             continue
         actual = sha256(source)
+        sizes[key]=source.stat().st_size
+        if not sizes[key] or (gold and (gold['sha256']!=actual or gold['size']!=sizes[key])):
+            print(f'Niezgodność źródła z manifestem albo pusty plik: {key}',file=sys.stderr)
+            errors += 1
+            continue
         meta = metadata_hashes.get(key)
         if meta and meta != actual:
             # Metadata in this repository has known legacy discrepancies.
             # Do not silently accept that as an authoritative digest.
             print(f'UWAGA SHA katalogu: {key} (w pliku data/downloads.json jest inna suma)')
+            if args.all_private or key == 'pliki/enigma2-plugin-extensions-panelaio_18.2.1_all.deb':
+                errors += 1
+                continue
         checked.append((key, source, actual))
     if errors:
         print(f'UWAGA: {errors} plikow z HTML/JSON brak w lokalnym repo. Nie da sie ich przeslac; pozostale beda sprawdzane.', file=sys.stderr)
@@ -226,7 +292,7 @@ def main() -> int:
     with tempfile.TemporaryDirectory(prefix='aio-r2-repair-') as tmp:
         work = Path(tmp)
         for index, (key, source, digest) in enumerate(checked, start=1):
-            result = check_one(base, key, source, digest, work)
+            result = check_one(base, key, source, digest, work,args.bucket)
             status = result.split(':', 1)[0]
             if result == 'OK':
                 counts['OK'] += 1
@@ -237,13 +303,13 @@ def main() -> int:
                 if not args.apply:
                     print(f'[{index}/{len(checked)}] BRAK R2 {key}')
                     continue
-                upload = run_wrangler(base, 'r2', 'object', 'put', f'{BUCKET}/{key}',
+                upload = run_wrangler(base, 'r2', 'object', 'put', f'{args.bucket}/{key}',
                     '--remote', '--file', str(source), '--content-type', content_type(source))
                 if upload.returncode != 0:
                     counts['ERROR'] += 1
                     print(f'[{index}/{len(checked)}] BLAD UPLOAD {key} (kod procesu {upload.returncode})')
                     continue
-                after = check_one(base, key, source, digest, work)
+                after = check_one(base, key, source, digest, work,args.bucket)
                 if after == 'OK':
                     counts['UPLOAD'] += 1
                     print(f'[{index}/{len(checked)}] NAPRAWIONO {key} (SHA-256 OK)')
@@ -259,8 +325,18 @@ def main() -> int:
         return 4
     if counts['MISSING'] and not args.apply:
         print('Brakujace pliki R2 mozna uzupelnic przez --apply; --check nic nie zmienil.')
+        return 4
     if args.apply:
         print('R2 uzupelnione. Test strony wykonaj po zalogowaniu na konto AIO, bez zmiany limitow.')
+    if args.save_inventory:
+        # No bucket URLs, credentials, local paths, personal data or payloads are persisted.
+        target=ROOT/MANIFEST
+        target.parent.mkdir(parents=True,exist_ok=True)
+        payload={'schema':1,'objects':[{'key':k,'size':sizes[k],'sha256':h} for k,_,h in checked]}
+        with tempfile.NamedTemporaryFile('w',encoding='utf-8',dir=target.parent,delete=False) as tmp:
+            json.dump(payload,tmp,ensure_ascii=False,indent=2);tmp.write('\n')
+        Path(tmp.name).replace(target)
+        print('Zapisano lokalny manifest SHA-256: '+MANIFEST)
     return 0
 
 

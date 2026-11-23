@@ -9,7 +9,8 @@
   async function action(body){try{const d=await call('',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)});status(d.message);await refresh();}catch(e){status(e.message,true)}}
   function render(){const target=$('v6-blocks');target.replaceChildren();
     const active=state.blocks.filter(x=>x.status==='active'),awaiting=active.filter(x=>!x.reviewed_at);
-    $('v6-summary').textContent=`Aktywne: ${active.length} • Do przeglądu: ${awaiting.length} • Wszystkie wpisy: ${state.blocks.length}`;
+    const profiles=active.filter(x=>x.origin==='v5').length;
+    $('v6-summary').textContent=`Aktywne wpisy: V6 ${active.length-profiles}, profile V5 ${profiles} · Do przeglądu: ${awaiting.length} · Wszystkie wpisy: ${state.blocks.length}`;
     if(!state.blocks.length)target.append(el('p','Brak zarejestrowanych blokad V6.'));
     for(const b of state.blocks){const card=el('article',undefined,'v6-card');
       const h=el('h3',(b.display_name||'Użytkownik')+' — '+b.status+(b.origin==='auto'?' (automatyczna)':b.origin==='v5'?' (istniejąca V5)':' (ręczna)'));card.append(h);
@@ -36,7 +37,7 @@
     const data=state.blocks.map(x=>[x.user_id,x.display_name,x.email,x.status,x.origin,x.reason,x.evidence,x.created_at,x.expires_at,x.reviewed_at]);
     const csv='\ufeff'+[cols,...data].map(r=>r.map(clean).join(',')).join('\r\n');
     const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
-    const link=el('a');link.href=url;link.download='AIO-V6-blokady-'+new Date().toISOString().slice(0,10)+'.csv';
+    const link=el('a');link.href=url;link.download='AIO-blokady-V6-i-profile-V5-'+new Date().toISOString().slice(0,10)+'.csv';
     document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);
   };
   $('v6-cleanup').onclick=()=>{void action({action:'cleanup',user_id:'00000000-0000-0000-0000-000000000000'})};

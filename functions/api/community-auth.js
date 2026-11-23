@@ -1,6 +1,7 @@
 import {registrationPreflight,registrationReviewStatement} from '../_aio_multikonta_guard_v2.js';
 import {ensureUsernamePolicy,checkUsername,claimUsernameStatement,usernameRenameReview,consumeLegacyLogin} from '../_aio_username_policy_v1.js'; // AIO_USERNAME_PROTECTION_V1_20261118
-import {checkVpnAtRegistration} from '../_aio_vpn_guard_v1.js'; // AIO_VPN_GUARD_V1_20261115
+import {checkVpnAtRegistration,checkVpnAtLogin,vpnReply} from '../_aio_vpn_guard_v1.js';
+import {consumeWindowLimit} from '../_aio_auth_window.js';
 import {strictSessionGate,strictGlobalHold} from '../_aio_strict_ip_v4.js'; // V4.2 GLOBAL
 import {ACCOUNT_RESTRICTED,REGISTRATION_RESTRICTED} from '../_aio_public_notices_v1.js';
 import {issueAppealSession} from '../_aio_appeal_session_v2.js'; // AIO_BLOCKED_APPEAL_V2
@@ -65,40 +66,6 @@ async function failAttempt(env, key) {
 }
 async function clearAttempt(env, key) {
   await env.COMMUNITY_DB.prepare(`DELETE FROM community_login_attempts WHERE key=?`).bind(key).run();
-}
-
-async function consumeWindowLimit(env, key, limit, windowMs) {
-  const nowMs = Date.now();
-  const now = new Date(nowMs).toISOString();
-  const row = await env.COMMUNITY_DB.prepare(
-    `SELECT attempts, first_at, blocked_until FROM community_login_attempts WHERE key=?`
-  ).bind(key).first();
-
-  if (row?.blocked_until && Date.parse(row.blocked_until) > nowMs) {
-    throw Object.assign(new Error("Za dużo prób. Spróbuj ponownie później."), {status:429});
-  }
-
-  const firstMs = Date.parse(row?.first_at || "");
-  const expired = !Number.isFinite(firstMs) || (nowMs - firstMs >= windowMs);
-  const attempts = expired ? 1 : Number(row?.attempts || 0) + 1;
-  const firstAt = expired ? now : row.first_at;
-  const blockedUntil = attempts > limit
-    ? new Date(nowMs + windowMs).toISOString()
-    : null;
-
-  await env.COMMUNITY_DB.prepare(`
-    INSERT INTO community_login_attempts(key,attempts,first_at,last_at,blocked_until)
-    VALUES(?,?,?,?,?)
-    ON CONFLICT(key) DO UPDATE SET
-      attempts=excluded.attempts,
-      first_at=excluded.first_at,
-      last_at=excluded.last_at,
-      blocked_until=excluded.blocked_until
-  `).bind(key, attempts, firstAt, now, blockedUntil).run();
-
-  if (blockedUntil) {
-    throw Object.assign(new Error("Za dużo prób. Spróbuj ponownie później."), {status:429});
-  }
 }
 
 
@@ -250,25 +217,24 @@ export async function onRequestPost({request, env}) {
       await consumeWindowLimit(env, registerIpKey, 5, 30 * 60 * 1000);
 
       const exists = await db.prepare(`SELECT user_id FROM community_auth WHERE email=?`).bind(email).first();
-      if (exists) return json({ok:false,error:"Konto z tym adresem już istnieje."}, 409);
+      if (exists) return json({ok:false,error:"Rejestracja dla podanych danych nie jest dostępna. Jeśli masz konto, zaloguj się lub skorzystaj z odzyskiwania hasła."}, 409);
 
-      const profiles = await db.prepare(`SELECT COUNT(*) AS n FROM community_profiles`).first();
-      const firstAccount = Number(profiles?.n || 0) === 0;
       const configuredOwnerEmail = cleanEmail(env.COMMUNITY_OWNER_EMAIL || "");
-      const ownerAccount = configuredOwnerEmail ? email === configuredOwnerEmail : firstAccount;
+      // Public registration cannot provision privileged accounts, including in an empty D1.
+      if(configuredOwnerEmail && email===configuredOwnerEmail)
+        return json({ok:false,error:'Rejestracja dla podanych danych nie jest dostępna. Jeśli masz konto, zaloguj się lub skorzystaj z odzyskiwania hasła.'},409);
       const id = crypto.randomUUID();
       const displayName = cleanText(body.displayName || email.split("@")[0], 60);
       if (displayName.length < 2) return json({ok:false,error:"Nazwa użytkownika jest za krótka."}, 400);
       await ensureUsernamePolicy(env);
-      const checkedName=await checkUsername(env,displayName,"",ownerAccount);
+      const checkedName=await checkUsername(env,displayName,"",false);
       if(!checkedName.ok)return json({ok:false,code:'AIO_USERNAME_UNAVAILABLE',error:checkedName.error},409);
 
       // AIO_MULTIKONTA_V2: kontrola sieci/e-mail i opcjonalny Turnstile przed zapisem konta.
-      const netRisk=ownerAccount?null:await registrationPreflight(env,request,{email,displayName,turnstileToken:String(body.turnstileToken||'')});
-      // AIO_VPN_GUARD_V1: only NEW registrations; existing accounts are scanned on owner request.
-      const vpnRisk=ownerAccount?null:await checkVpnAtRegistration(env,request);
-      if(vpnRisk?.deny)return json({ok:false,code:'AIO_ACCESS_RESTRICTED',
-        error:REGISTRATION_RESTRICTED,contact:'/contact.html?topic=account-security'},403);
+      const netRisk=await registrationPreflight(env,request,{email,displayName,turnstileToken:String(body.turnstileToken||'')});
+      const vpnRisk=await checkVpnAtRegistration(env,request);
+      const networkMessage=vpnReply(vpnRisk,'register');
+      if(networkMessage)return json(networkMessage.body,networkMessage.status);
       const pw = await hashPassword(password);
       // Hard gate before creating an account: prevents multiple registrations on one IP.
       const lease = await reserveRegistrationIp(env,request,id);
@@ -277,7 +243,7 @@ export async function onRequestPost({request, env}) {
           INSERT INTO community_profiles
           (id,email,display_name,role,trusted,created_at,updated_at)
           VALUES(?,?,?,?,?,?,?)
-        `).bind(id,email,displayName,ownerAccount ? "admin" : "user", ownerAccount ? 1 : 0, isoNow(), isoNow()),
+        `).bind(id,email,displayName,"user",0,isoNow(),isoNow()),
         db.prepare(`
           INSERT INTO community_auth
           (user_id,email,password_hash,password_salt,password_iterations,created_at)
@@ -297,7 +263,7 @@ export async function onRequestPost({request, env}) {
       `).bind(tokenHash,id,expires,isoNow(),isoNow(),ip,request.headers.get("user-agent")||"").run();
       await recordIp(env,id,ip,"access");
       // Post-registration observation: never blocks account creation or changes entitlements.
-      if(!ownerAccount) await scanSimilarityForUser(env,id).catch(e=>console.error('[AIO similarity signup]',String(e?.message||e).slice(0,120)));
+      await scanSimilarityForUser(env,id).catch(e=>console.error('[AIO similarity signup]',String(e?.message||e).slice(0,120)));
       await logSecurity(env,request,"register_ok",id);
       const securityHold=netRisk?.hold?{message:'Rejestracja wymaga weryfikacji. Darmowe pobieranie jest czasowo wstrzymane. Możesz skontaktować się z administratorem.'}:null;
       const profile = await db.prepare(`SELECT * FROM community_profiles WHERE id=?`).bind(id).first();
@@ -307,8 +273,8 @@ export async function onRequestPost({request, env}) {
       try{ await sendVerificationEmail(env,id,email); emailSent=true; }
       catch(error){ console.error('AIO registration: verification mail unavailable',Number(error?.status)||500); }
       return json(
-        {ok:true,authenticated:true,user:publicUser,firstAccount,ownerAccount,
-          email_verified:false,email_verification_required:true,verification_mail_sent:emailSent,security_warning:securityHold?.message||null},
+        {ok:true,authenticated:true,user:publicUser,firstAccount:false,ownerAccount:false,
+          email_verified:false,email_verification_required:true,verification_mail_sent:emailSent,security_warning:[securityHold?.message,vpnRisk.warning].filter(Boolean).join(' ')||null},
         201,
         {"Set-Cookie":sessionCookie(token)}
       );
@@ -356,6 +322,9 @@ export async function onRequestPost({request, env}) {
     // Do NOT use grace_used_at as a login block: the ordinary session gate in
     // _community.js still denies all normal AIO features until the name is changed.
     // All profile / IP / VPN / ban checks above remain effective.
+    const vpnLogin=await isOwnerId(env,auth.user_id,auth.role)?null:await checkVpnAtLogin(env,request);
+    const networkMessage=vpnReply(vpnLogin,'login');
+    if(networkMessage)return json(networkMessage.body,networkMessage.status);
     const renameReview=await usernameRenameReview(env,auth.user_id,auth.display_name,auth.role,{fullScan:true,assignOnLogin:true}); // AIO_USERNAME_POLICY_V1_4_20261120
     if(renameReview) await consumeLegacyLogin(env,auth.user_id); // first-use audit only; never a refusal
     await clearAttempt(env, throttleKey);
@@ -383,7 +352,7 @@ export async function onRequestPost({request, env}) {
     const verification=await emailVerificationStatus(env,loginUser.id);
     return json(
       {ok:true,authenticated:true,user:loginUser,email_verified:verification.verified,
-        email_verification_required:verification.required,username_rename_required:!!renameReview,security_warning:(paidHold||securityHold)?'Dostęp do części funkcji jest obecnie ograniczony. Skontaktuj się z nami.':null},
+        email_verification_required:verification.required,username_rename_required:!!renameReview,security_warning:[(paidHold||securityHold)?'Dostęp do części funkcji jest obecnie ograniczony. Skontaktuj się z nami.':null,vpnLogin?.warning].filter(Boolean).join(' ')||null},
       200,
       {"Set-Cookie":sessionCookie(token)}
     );
