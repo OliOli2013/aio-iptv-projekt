@@ -54,8 +54,9 @@
     const wrapper=body?.closest('article[data-post-id]');
     const postId=wrapper?.getAttribute('data-post-id')||'';
     const commentId=wrapper?.getAttribute('data-comment-id')||'';
+    const chatId=anchor?.closest('[data-chat-message]')?.getAttribute('data-chat-message')||'';
     return access.openCommunityLink({
-      postId,commentId,
+      postId,commentId,chatId,
       href:url,
       target:(anchor && anchor.getAttribute('target')) || '_blank',
       download:'',

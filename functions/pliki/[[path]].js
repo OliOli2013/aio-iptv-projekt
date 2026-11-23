@@ -8,7 +8,8 @@ import {monitorDownload} from '../_aio_security_v6.js';
 import {checkAnonymousFileBurst,anonymousDeniedResponse} from '../_aio_anon_shield_v1.js';
 import {recordDistributedAnonymousDenied} from '../_aio_distributed_monitor_v1.js';
 import {privateStorageEnabled,readPrivateFile} from '../_aio_private_files.js';
-import {isAioPanelIpkAlias,PUBLIC_IPK_PATH} from '../_aio_panel_public_v1.js'; // AIO_PUBLIC_PANEL_V1
+import {isAioPanelIpkAlias,PUBLIC_IPK_PATH} from '../_aio_panel_public_v1.js';
+import {canResumeRange,authorizeRange} from '../_aio_range_issue_v1.js'; // AIO_PUBLIC_PANEL_V1
 const IMG=/\.(?:png|jpe?g|webp|gif|svg|avif)$/i;
 const NO_CACHE={'Cache-Control':'private, no-store'};
 function accessDenied(message,status=403){
@@ -93,7 +94,9 @@ async function handle(context){
     const fileKey=new URL(request.url).pathname;
     // AIO_MULTIKONTA_V2 — tylko darmowe pliki; VIP/grant zachowuje uprawnienia.
     if(!state.active&&state.review_pending)return accessDenied('Darmowe pobieranie wstrzymano do weryfikacji konta. Skontaktuj się z administratorem AIO.',403);
-    if(!state.active && state.free_remaining<=0){
+    const continuingRange=request.method==='GET' && request.headers.has('Range') &&
+      await canResumeRange(env,request,user.id,fileKey);
+    if(!state.active && state.free_remaining<=0 && !continuingRange){
       if(request.method==='GET'){
         const burst=await monitorDownload(env,request,user.id,{denied:true});
         if(burst.blocked)return accessDenied('Dostęp do pobierania jest obecnie ograniczony. Skontaktuj się z nami.',403);
@@ -121,13 +124,22 @@ async function handle(context){
     if(contentType.startsWith('text/html')){
       await asset.body?.cancel().catch(()=>{});return accessDenied('Nieprawidłowy typ pliku w magazynie.',502);
     }
-    const permit=await consumeFree(env,user.id,fileKey,request); // każde pobranie liczone osobno, również tego samego pliku
-    if(!permit.allowed)return permit.reason==='limit'?redirectToInformation(request,'aio_limit'):accessDenied('Dostęp do pobierania jest obecnie ograniczony.',403);
+    const permit=asset.status===206
+      ?await authorizeRange(env,request,user.id,fileKey,()=>consumeFree(env,user.id,fileKey,request))
+      :await consumeFree(env,user.id,fileKey,request);
+    // The first HTTP 206 response is one issuance. Further fragments on the
+    // same session/file lease do not consume another quota or inflate statistics.
+    if(!permit.allowed){
+      if(permit.reason==='range_pending')return accessDenied('Pierwszy fragment jest przetwarzany. Ponów pobieranie.',503);
+      if(permit.reason==='network')return accessDenied('Ponownie zweryfikuj połączenie sieciowe.',permit.network_status||403);
+      return permit.reason==='limit'?redirectToInformation(request,'aio_limit'):accessDenied('Dostęp do pobierania jest obecnie ograniczony.',403);
+    }
     const headers=new Headers(asset.headers);headers.set('Cache-Control','private, no-store');
     const issued=new Response(asset.body,{status:asset.status,statusText:asset.statusText,headers});
-    queueIssuedFileAudit(context,user.id,(permit.reason==='grant'||permit.reason==='vip')?'account_7d':'account_free',issued,permit.reason);
-    // Append-only security trail; do not rely on browser telemetry.
-    await logSecurity(env,request,"download_issued",user.id,permit.reason);
+    if(!permit.range_chunk){
+      queueIssuedFileAudit(context,user.id,(permit.reason==='grant'||permit.reason==='vip')?'account_7d':'account_free',issued,permit.reason);
+      await logSecurity(env,request,"download_issued",user.id,permit.reason);
+    }
     return issued;
   }catch(error){
     console.error('AIO Access V4 download',error?.message);

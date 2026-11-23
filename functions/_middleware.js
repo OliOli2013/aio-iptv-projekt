@@ -1,5 +1,6 @@
 /* V6: block a signed-in, suspended account before returning an HTML page or API response. */
 import {getSession} from './_community.js';
+import {checkProtectedSessionNetwork} from './_aio_session_network_v1.js';
 import {ACCOUNT_RESTRICTED} from './_aio_public_notices_v1.js';
 import {PUBLIC_IPK_PATH,isAioPanelIpkAlias} from './_aio_panel_public_v1.js'; // AIO_PUBLIC_PANEL_V1
 const notice=ACCOUNT_RESTRICTED;
@@ -37,6 +38,20 @@ export async function onRequest(context){
       const headers={'cache-control':'private, no-store','x-content-type-options':'nosniff'};
       if(api)return new Response(JSON.stringify({ok:false,restricted:true,error:notice,contact:'/contact.html?topic=account-security'}),{status:403,headers:{...headers,'content-type':'application/json; charset=utf-8'}});
       return new Response(request.method==='HEAD'?null:html(),{status:403,headers:{...headers,'content-type':'text/html; charset=utf-8'}});
+    }
+    if(s?.user && !s.user.is_owner && !s.banned && !s.blocked){
+      const network=await checkProtectedSessionNetwork(env,request,s);
+      if(!network.allowed){
+        const headers={'cache-control':'private, no-store','x-content-type-options':'nosniff'};
+        const code=network.status||503;
+        if(api)return new Response(JSON.stringify({ok:false,code:network.code||'AIO_NETWORK_RETRY',
+          error:network.error||'Nie można zweryfikować połączenia.'}),
+          {status:code,headers:{...headers,'content-type':'application/json; charset=utf-8'}});
+        return new Response(request.method==='HEAD'?null:
+          '<!doctype html><html lang="pl"><meta charset="utf-8"><title>Kontrola połączenia</title><body><main><h1>Kontrola połączenia AIO</h1><p>'+
+          safe(network.error||'Nie można zweryfikować połączenia.')+'</p><a href="/contact.html">Kontakt</a></main></body></html>',
+          {status:code,headers:{...headers,'content-type':'text/html; charset=utf-8'}});
+      }
     }
   }catch(e){
     console.error('[AIO V6 middleware]',String(e?.message||e).slice(0,140));
