@@ -919,28 +919,30 @@ function showAioRestriction(message){
     link.textContent='Skontaktuj się z administratorem →';link.style.cssText='display:inline-block;background:#b9f3ff;color:#063342;padding:9px 12px;border-radius:8px;font-weight:800;text-decoration:none;';
     box.append(text,link);box.scrollIntoView({behavior:'smooth',block:'center'});
   }
-async function accountDownload(item,kind){
-    try {
-      const info=await accountApi();
-      if(!info.authenticated){guestDownloadDialog(item);return;}
-      if(info.email_verified===false){
-        alert('Przed pobraniem potwierdź adres e-mail. Zaloguj się ponownie i wyślij link potwierdzający.');
-        window.AIOCommunity?.openAuth?.('Potwierdź adres e-mail, aby korzystać z pobierania.');
-        return;
+ async function accountDownload(item,kind){
+    // All catalog download buttons enter the same server-authorized handoff.
+    // /pliki/ delivery itself is charged only on successful GET (200/206).
+    try{
+      const res=await fetch('/api/aio-link-handoff',{
+        method:'POST',credentials:'include',cache:'no-store',
+        headers:{'content-type':'application/json'},
+        body:JSON.stringify({source:'catalog',href:new URL(item.href,location.href).href})
+      });
+      const info=await res.json().catch(()=>({ok:false,error:'Nieprawidłowa odpowiedź serwera.'}));
+      if(!res.ok||!info.ok){
+        if(info.login_required){guestDownloadDialog(item);return;}
+        if(info.email_verification_required){
+          alert('Potwierdź e-mail konta AIO przed pobraniem pliku.');
+          window.AIOCommunity?.openAuth?.('Potwierdź e-mail, aby korzystać z pobierania.');return;
+        }
+        if(info.restricted){showAioRestriction(info.error);return;}
+        if(info.limit_reached){trackAccessActivity('limit_reached',item,{kind});openSupportModal(item,'limit',{free_resets_at:info.free_resets_at});return;}
+        throw new Error(info.error||'HTTP '+res.status);
       }
-      if(info.restricted===true){showAioRestriction(info.restriction_message);return;}
-      const target=new URL(item.href,location.href);
-      const localFile=target.origin===location.origin && /^\/pliki\//i.test(target.pathname);
-      if(info.active){trackAccessActivity('unlocked_access',item,{kind});openDownloadTarget(item);return;}
-      if(info.free_remaining>0){
-        // /pliki/ is accounted for atomically by the server when GET is served.
-        if(!localFile)await accountApi({action:'consume'});
-        trackAccessActivity('free_access',item,{kind});openDownloadTarget(item);
-        updateAccessIndicator();return;
-      }
-      trackAccessActivity('limit_reached',item,{kind});
-      openSupportModal(item,kind==='community'?'community-link-limit':'limit',info);
-    }catch(e){if(e.limit_reached){openSupportModal(item,'limit',{free_resets_at:e.free_resets_at});return;}console.error('AIO Access',e);alert('Nie udało się rozpocząć pobierania. Spróbuj ponownie lub skontaktuj się z nami.');}
+      if(info.kind==='external')trackAccessActivity('free_access',item,{kind,source:'catalog'});
+      openDownloadTarget({...item,href:info.href});
+      if(info.kind==='external')updateAccessIndicator();
+    }catch(e){console.error('AIO unified catalog link',e);alert('Nie udało się otworzyć pobierania. Spróbuj ponownie lub skontaktuj się z nami.');}
   }
 
   // AIO Access V5: post links are checked against published D1 text on the server.
@@ -948,10 +950,13 @@ async function accountDownload(item,kind){
   // by Cloudflare; an external download-link handoff is metered by this API.
   async function accountPostLink(item){
     try{
-      const res=await fetch('/api/aio-post-link',{
+      const fromChat=Boolean(item.chatId);
+      const res=await fetch(fromChat?'/api/aio-link-handoff':'/api/aio-post-link',{
         method:'POST',credentials:'include',cache:'no-store',
         headers:{'content-type':'application/json'},
-        body:JSON.stringify({post_id:item.postId,comment_id:item.commentId||'',href:item.href})
+        body:JSON.stringify(fromChat
+          ?{source:'chat',message_id:item.chatId,href:item.href}
+          :{post_id:item.postId,comment_id:item.commentId||'',href:item.href})
       });
       const info=await res.json().catch(()=>({ok:false,error:'Nieprawidłowa odpowiedź serwera.'}));
       if(!res.ok||!info.ok){
@@ -971,7 +976,7 @@ async function accountDownload(item,kind){
   }
   function handleCommunityLinkAccess(item) {
     if(!item||!item.href)return false;
-    if(item.postId){void accountPostLink(item);return true;}
+    if(item.postId||item.chatId){void accountPostLink(item);return true;}
     // Community comments and other links: only explicit files are metered.
     // A generic website, article or project landing page must remain free.
     const probe=document.createElement('a');

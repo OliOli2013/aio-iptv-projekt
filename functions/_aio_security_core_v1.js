@@ -5,6 +5,7 @@
  * before EACH debit, including legacy 'consume' and external file handoffs.
  */
 import {getSession} from './_community.js';
+import {checkProtectedSessionNetwork} from './_aio_session_network_v1.js';
 import {activeSharedHold} from './_aio_security_journal.js';
 import {strictGlobalHold} from './_aio_strict_ip_v4.js';
 import {activeIpHold} from './_aio_ip_one_account_v7.js';
@@ -42,6 +43,8 @@ export async function coreAdmitDownload(env,request,userId,status){
     status?.unlimited===true&&status?.active===true;
   if(verifiedOwner)return {allowed:true,reason:'owner'};
   if(!authenticated||accountBlocked)return coreDecision({authenticated,accountBlocked,status});
+  const network=await checkProtectedSessionNetwork(env,request,session);
+  if(!network.allowed)return {allowed:false,reason:'network',network_status:network.status};
   // All three existing policies are enforced, without adding new restrictions.
   const strict=await strictGlobalHold(env,userId);
   if(strict)return coreDecision({authenticated:true,strictHold:true,status});
