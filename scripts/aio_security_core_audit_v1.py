@@ -32,15 +32,19 @@ try:
     if re.search(r"if\(request\.method==='HEAD'\)return new Response\(null,\{status:302,headers:\{Location:mirror",gateway):
         failures.append('KRYTYCZNE: HEAD zdradza chroniony mirror bez naliczenia')
     if 'status:204' not in gateway:failures.append('Brak bezpiecznego HEAD dla legacy mirror')
-    if gateway.count('consumeFree(env,user.id,fileKey,request)') != 2:
-        failures.append('Nie wszystkie obie ścieżki naliczania w pliki/ przechodzą przez Core')
-    if gateway.count("if(!permit.allowed)return permit.reason==='limit'?redirectToInformation") != 2:
-        failures.append('Nie wszystkie odmowy w pliki/ mają spójną obsługę Security Core')
+    if gateway.count('consumeFree(env,user.id,fileKey,request)') != 3:
+        failures.append('Mirror, pierwszy HTTP 206 i HTTP 200 nie przechodzą przez Core')
+    if gateway.count("if(!permit.allowed)return permit.reason==='limit'?redirectToInformation") != 1:
+        failures.append('Brak kontroli odmowy dla chronionego mirror')
+    if "if(!permit.allowed){" not in gateway or "if(permit.reason==='network')" not in gateway:
+        failures.append('Brak kontroli odmowy sieci dla R2')
+    if 'asset.status===206' not in gateway or 'authorizeRange(env,request,user.id,fileKey' not in gateway:
+        failures.append('Brak kontroli naliczania fragmentów HTTP 206')
     if 'consumeFree(env,user.id,fileKey)' in gateway:
         failures.append('Pozostało przestarzałe naliczenie bez Request w pliki/')
 except FileNotFoundError:pass
 # Every call to consumeFree outside the shared implementation must include Request.
-allowed={'functions/pliki/[[path]].js','functions/api/aio-post-link.js','functions/api/aio-account-access.js'}
+allowed={'functions/pliki/[[path]].js','functions/api/aio-post-link.js','functions/api/aio-account-access.js','functions/api/aio-link-handoff.js'}
 found=[]
 for p in sorted((root/'functions').rglob('*.js')):
     path=p.relative_to(root).as_posix()

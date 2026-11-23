@@ -12,8 +12,9 @@ export async function getSession(){return globalThis.__aioCoreTest.session;}
 export async function activeSharedHold(){return globalThis.__aioCoreTest.shared;}
 export async function strictGlobalHold(){return globalThis.__aioCoreTest.strict;}
 export async function activeIpHold(){return globalThis.__aioCoreTest.ip;}
+export async function checkProtectedSessionNetwork(){return globalThis.__aioCoreTest.network ?? {allowed:true,status:200};}
 `);
-for(const path of ['./_community.js','./_aio_security_journal.js','./_aio_strict_ip_v4.js','./_aio_ip_one_account_v7.js']){
+for(const path of ['./_community.js','./_aio_security_journal.js','./_aio_strict_ip_v4.js','./_aio_ip_one_account_v7.js','./_aio_session_network_v1.js']){
  const original="from '"+path+"'";assert.ok(source.includes(original),path);source=source.replace(original,'from '+JSON.stringify(fakeUrl));
 }
 const core=await import(url(source));
@@ -36,6 +37,11 @@ const run=()=>core.coreAdmitDownload({},request,userId,normal);
 async function asyncCheck(name,fn){await fn();console.log('OK '+(++total)+' '+name)}
 globalThis.__aioCoreTest={session:{user:{id:userId},banned:false,blocked:false},shared:null,ip:null,strict:null};
 await asyncCheck('Pre-debit admission succeeds for valid session',async()=>assert.equal((await run()).allowed,true));
+globalThis.__aioCoreTest.network={allowed:false,status:403};
+await asyncCheck('VPN on changed network is denied before debit',async()=>{const r=await run();assert.equal(r.reason,'network');assert.equal(r.network_status,403)});
+globalThis.__aioCoreTest.network={allowed:false,status:503};
+await asyncCheck('Unknown network fails closed before debit',async()=>{const r=await run();assert.equal(r.reason,'network');assert.equal(r.network_status,503)});
+globalThis.__aioCoreTest.network={allowed:true,status:200};
 globalThis.__aioCoreTest.session.user.id='USER-B';
 await asyncCheck('A different session account is denied',async()=>assert.equal((await run()).reason,'session'));
 globalThis.__aioCoreTest.session.user.id=userId;
@@ -53,8 +59,10 @@ for(const p of ['functions/pliki/[[path]].js','functions/api/aio-post-link.js'])
 assert.match(read('functions/api/aio-account-access.js'),/consumeFree\(env,user\.id,null,request\)/);
 const files=read('functions/pliki/[[path]].js');
 assert.match(files,/if\(request\.method==='HEAD'\)return new Response\(null,\{status:204/);
-assert.equal((files.match(/consumeFree\(env,user\.id,fileKey,request\)/g)||[]).length,2,'both mirror and R2 branches must be protected');
-assert.equal((files.match(/if\(!permit\.allowed\)return permit\.reason==='limit'/g)||[]).length,2,'both mirror and R2 branches must handle all deny reasons');
+assert.equal((files.match(/consumeFree\(env,user\.id,fileKey,request\)/g)||[]).length,3,'mirror, first HTTP 206 fragment and HTTP 200 must be protected');
+assert.equal((files.match(/if\(!permit\.allowed\)return permit\.reason==='limit'/g)||[]).length,1,'mirror denial must still be checked');
+assert.match(files,/if\(!permit\.allowed\)\s*\{[\s\S]*?if\(permit\.reason==='network'\)/,'R2 must handle network denial');
+assert.match(files,/asset\.status===206\s*\?await authorizeRange/,'R2 must authorize HTTP 206 fragments');
 assert.equal(files.includes('consumeFree(env,user.id,fileKey)'),false,'stale unguarded debit call not allowed');
 assert.equal(files.includes("if(request.method==='HEAD')return new Response(null,{status:302,headers:{Location:mirror"),false);
 for(const p of ['functions/api/aio-panel-ipk.js','functions/_aio_monthly_access.js','functions/_aio_multikonta_guard_v2.js'])assert.ok(existsSync(resolve(root,p)),p);
