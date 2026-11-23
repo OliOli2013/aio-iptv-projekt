@@ -7,6 +7,9 @@
 (()=>{'use strict';
   if(window.AIO_OWNER_TOOLS_CATALOG_V1)return;
   const tools=[
+    {id:'owner-safety',name:'Bezpieczeństwo i dostęp',icon:'▤',
+      desc:'Aktywne blokady, VPN, skan sygnałów i decyzje o dostępie w jednym miejscu.',
+      url:'/owner-safety',tags:'pulpit bezpieczeństwo blokady ograniczenia VPN pobrania skan kont anomalie decyzje'},
     // AIO_POWIAZANIA_KONT_V1_FIX4_20261120 — ręczna weryfikacja podejrzanych powiązań.
     {id:'multikonta-powiazania-v1', name:'Kontrola powiązań kont — podobieństwa', icon:'⌕',
       desc:'Przeskanuj istniejące konta oraz przejrzyj podobne nazwy, e-maile i wspólne IP. Tylko ręczna ocena, bez automatycznych blokad.',
@@ -19,7 +22,7 @@
       url:'/aio-security-exports.html',tags:'eksporty pobieranie raporty csv json VPN IP multikonta strict V4 V6 Security Core Shield dziennik'},
     // AIO_VPN_GUARD_V1_20261115 — owner-only VPN/proxy classification and existing-account audits.
     {id:'vpn-guard-v1',name:'VPN Guard — kontrola rejestracji i kont',icon:'⛨',
-      desc:'Na żądanie sprawdź dotychczasowe konta pod kątem VPN, proxy i Tor. Nowe rejestracje: monitorowanie lub kontrola.',
+      desc:'Na żądanie sprawdź dotychczasowe konta pod kątem VPN, proxy i Tor. Rejestracja i logowanie: monitorowanie lub odmowa połączenia.',
       url:'/aio-vpn-guard.html',
       tags:'vpn proxy tor rejestracja skanowanie kont bezpieczeństwo Core klasyfikacja IP'},
     {

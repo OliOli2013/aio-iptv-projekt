@@ -20,7 +20,7 @@ const MAX_IPS=50,MAX_PEERS=501;
 const isActiveDate=value=>Boolean(value&&Number.isFinite(Date.parse(value))&&Date.parse(value)>Date.now());
 const isActiveIpBlock=row=>Boolean(row?.active&&(row.permanent===1||row.expires_at===null||isActiveDate(row.expires_at)));
 const err=e=>reply({ok:false,error:[400,401,403,404,409,415].includes(e?.status)?e.message:'Nie można zweryfikować wszystkich rejestrów. Niczego nie odblokowano.'},[400,401,403,404,409,415].includes(e?.status)?e.status:503);
-const sameOrigin=r=>{const o=r.headers.get('origin');return (!o||o===new URL(r.url).origin)&&r.headers.get('sec-fetch-site')!=='cross-site';};
+const sameOrigin=r=>r.headers.get('origin')===new URL(r.url).origin&&r.headers.get('sec-fetch-site')!=='cross-site';
 const now=()=>new Date().toISOString();
 const choose=(x,y)=>Number(x||0)+Number(y||0);
 
@@ -145,7 +145,7 @@ async function overview(env,id,owner,account){
   if(verification.required)issues.push('Użytkownik musi sam potwierdzić e-mail; odblokowanie nie zastępuje weryfikacji.');
   const unsafe=nets.some(n=>n.other_accounts.length||n.v7_claim_conflict||n.v4_claim_conflict||n.ip_block_global);
   const status=issues.length?'requires_review':blockers.length?'blocked':'no_known_blocks';
-  return {user:{id:account.id,name:account.display_name,email:account.email},checked_at:now(),
+  return {user:{id:account.id,name:account.display_name,email:account.email},profile_ban_until:account.banned_until||null,checked_at:now(),
     status,can_release:!unsafe,signals,blockers,issues,
     last_known_ip:nets[0]?.ip||null,networks:nets.map(n=>({
       ip:n.ip,last_seen_at:n.last_seen_at,network:n.network,kind:n.kind,

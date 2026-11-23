@@ -165,7 +165,7 @@ try{
     const f=globalThis.fetch;let calls=0;globalThis.fetch=async()=>{calls++;throw Error('should not call');};
     try{
       const r=await vpn.checkVpnAtRegistration(e,{headers:new Headers({'CF-Connecting-IP':'9.9.9.10'})});
-      assert.equal(r.deny,false);assert.equal(r.reason,'budget_exhausted');assert.equal(calls,0);
+    assert.equal(r.deny,false);assert.equal(r.retry,true);assert.equal(r.reason,'budget_exhausted');assert.equal(calls,0);
     }finally{globalThis.fetch=f;}
   });
   await check('Single-account deeper scan is owner-invoked and non-blocking',async()=>{
@@ -181,7 +181,8 @@ await check('No permit/ban changes in VPN Guard code',()=>{
 });
 await check('Real registration gate is anchored AFTER existing preflight',()=>{
   const file=read('functions/api/community-auth.js');
-  assert.match(file,/const vpnRisk=ownerAccount\?null:await checkVpnAtRegistration\(env,request\)/);
+  assert.match(file,/const vpnRisk=await checkVpnAtRegistration\(env,request\)/);
+  assert.ok(file.includes('const networkMessage=vpnReply(vpnRisk,\'register\')'));
   assert.ok(file.indexOf('const vpnRisk=')>file.indexOf('const netRisk='));
   assert.ok(file.indexOf('const vpnRisk=')<file.indexOf('reserveRegistrationIp(env,request,id)'));
 });

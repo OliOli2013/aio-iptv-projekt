@@ -1,0 +1,16 @@
+:root{color-scheme:dark;--bg:#091822;--card:#102635;--line:#37536a;--text:#eef6fa;--dim:#b9cbd8;--accent:#8de6db;font:100%/1.5 system-ui,sans-serif}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text)}main,header{max-width:64rem;margin:auto;padding:1.25rem}
+header{display:flex;justify-content:space-between;gap:1rem;align-items:center;border-bottom:1px solid var(--line)}header small,.sub{color:var(--dim)}
+h1{font-size:clamp(2rem,5vw,3.25rem);line-height:1.1;margin:.3rem 0}h2,h3{margin:.1rem 0 .4rem}p{margin:.6rem 0 1rem}
+a{color:var(--accent);text-underline-offset:.2em}button,input,textarea{font:inherit;color:inherit}
+button,input,textarea,nav a{border:1px solid var(--line);border-radius:.45rem;padding:.55rem .85rem;background:#102a3a}
+button{cursor:pointer}button:disabled{opacity:.5;cursor:default}button.primary{background:var(--accent);color:#092628;border-color:var(--accent);font-weight:700}
+button.caution{border-color:#d7a46b}button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid #f3c47e;outline-offset:2px}
+nav,.actions,.heading{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap}nav{margin:1.5rem 0}nav a{display:block;text-decoration:none}
+section,details{background:var(--card);border:1px solid var(--line);border-radius:.8rem;padding:clamp(1rem,3vw,1.6rem);margin-bottom:1rem;scroll-margin-top:1rem}
+.eyebrow{color:var(--accent);font-size:.875rem;font-weight:700;margin:0}.heading{justify-content:space-between}
+.rows{display:grid;gap:.45rem}.row{padding:.7rem 0;border-top:1px solid var(--line);overflow-wrap:anywhere}.row strong{display:block}
+.row p,.row .actions{margin:.3rem 0}.row button{font-size:.95rem}label{display:block;margin:.5rem 0}
+input{min-width:0;max-width:100%;flex:1}textarea{display:block;width:100%;resize:vertical}details summary{cursor:pointer}
+#detail:not(:empty){margin-top:1rem;border-top:1px solid var(--line);padding-top:.75rem}#detail p{overflow-wrap:anywhere}
+@media(max-width:34rem){header,.heading{align-items:flex-start;flex-direction:column}.actions>input{flex-basis:100%}nav a{flex:1 1 40%}}

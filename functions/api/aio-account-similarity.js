@@ -4,7 +4,7 @@ import {scanAccountSimilarity,listSimilarityReviews,reviewSimilarity} from '../_
 const headers={'cache-control':'private, no-store','x-robots-tag':'noindex,nofollow','x-content-type-options':'nosniff'};
 const reply=(obj,code=200)=>json(obj,code,headers);
 const failure=e=>reply({ok:false,error:e?.status>=400&&e?.status<500?String(e.message||'Błąd.'):'Błąd analizy powiązań. Sprawdź logi serwera.'},e?.status>=400&&e?.status<500?e.status:500);
-function sameOrigin(req){const origin=req.headers.get('Origin');return (!origin||origin===new URL(req.url).origin)&&req.headers.get('Sec-Fetch-Site')!=='cross-site';}
+function sameOrigin(req){return req.headers.get('Origin')===new URL(req.url).origin&&req.headers.get('Sec-Fetch-Site')!=='cross-site';}
 export async function onRequestGet({request,env}){
   try{
     await requireAdmin(request,env,true);

@@ -55,6 +55,10 @@ export function linksInPost(content){
 export function classifyPostLink(link,origin){
   const url=normalizePostLink(link);
   if(!url)return {kind:'invalid'};
+  if(url.origin===origin&&url.pathname==='/assets/releases/enigma2-plugin-extensions-panelaio_18.2.1_all.deb'){
+    url.pathname='/pliki/enigma2-plugin-extensions-panelaio_18.2.1_all.deb';
+    return {kind:'local',url:url.href};
+  }
   const path=url.pathname+url.search;
   if(url.origin===origin&&/^\/pliki\/[^/]/i.test(url.pathname)&&!IMAGE_EXT.test(path))return {kind:'local',url:url.href};
   if(IMAGE_EXT.test(path))return {kind:'info',url:url.href};

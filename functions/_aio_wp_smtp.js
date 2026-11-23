@@ -5,6 +5,7 @@ import {connect} from 'cloudflare:sockets';
 import {smtpSend} from './_aio_smtp_protocol.js';
 const validEmail=s=>/^[^\s@<>\r\n]+@[^\s@<>\r\n]+\.[^\s@<>\r\n]+$/.test(String(s||''));
 export function wpSmtpReady(env){
+  if (String(env?.AIO_DISABLE_OUTBOUND_EMAIL || '') === '1') return false;
   return !!(validEmail(String(env.WP_SMTP_EMAIL||'').trim())&&String(env.WP_SMTP_APP_PASSWORD||'').trim());
 }
 export async function sendWpSmtp(env, {to,subject,text}){

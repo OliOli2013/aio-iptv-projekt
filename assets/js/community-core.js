@@ -287,6 +287,7 @@
             this.user=d.user;this.profile=d.user;
             this.emailVerified=!d.email_verification_required;
             this.renderAccountBars();
+            if(d.security_warning)window.alert("AIO — informacja o dostępie\n"+d.security_warning);
             // AIO_USERNAME_PROTECTION_V1_2_20261118: od razu po zalogowaniu pokaż obowiązkową zmianę nazwy.
             if(d.username_rename_required===true){
               try{dialog.close();}catch(_){/* kolejny modal otworzy skrypt nazw */}
@@ -295,7 +296,6 @@
               if(window.AIOUsernamePolicyV12?.check)void window.AIOUsernamePolicyV12.check();
               return;
             }
-            if(d.security_warning)window.alert("AIO — OSTRZEŻENIE BEZPIECZEŃSTWA\n"+d.security_warning);
             if(d.email_verification_required){
               dialog.querySelector('[data-aio-auth-message]').textContent=d.verification_mail_sent===false
                 ?'Konto utworzone, lecz wiadomość nie została wysłana. Skontaktuj się z administratorem lub spróbuj ponownie za kilka minut.'
@@ -320,6 +320,12 @@
               if(appeal){appeal.href='/appeal.html#porzadkowanie-kont';appeal.textContent='Sprawdź powód blokady i dostępne działania';}
               notice.hidden=false;notice.style.display='block';
               notice.querySelector('[data-aio-ip-refused-title]').focus();
+            }else if(err?.code==='AIO_VPN_CONNECTION'||err?.code==='AIO_NETWORK_RETRY'){
+              errorBox.textContent=err.message+' ';
+              const contact=document.createElement('a');
+              contact.href='/contact.html?topic=account-security';
+              contact.textContent='Kontakt z administracją';errorBox.append(contact);
+              errorBox.setAttribute('role','alert');errorBox.hidden=false;
             }else if((err?.code==='AIO_ACCESS_RESTRICTED'||err?.code==='AIO_IP_POLICY')){
               // No session was created by the server. Replace the entire login form
               // with a readable refusal notice inside the active modal top layer.
@@ -676,6 +682,6 @@
 (function(){
   if(document.querySelector('script[src*="aio-social-registration-v1.js"]'))return;
   const s=document.createElement('script');
-  s.src='/assets/js/aio-social-registration-v1.js?v=20261119-v1';
+  s.src='/assets/js/aio-social-registration-v1.js?v=20261122-ops1';
   s.async=true;document.head.appendChild(s);
 })();

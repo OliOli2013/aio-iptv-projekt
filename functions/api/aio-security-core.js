@@ -34,7 +34,7 @@ export async function onRequestGet({request,env}){
       storage:{mode:r2Mode?'r2':'legacy',private_binding_present:binding,
         externally_accessible_r2_endpoints_verified:false},
       warnings:[
-        ...(!r2Mode?['LEGACY_STATIC: pliki w publicznym buildzie; ochrona zależy od Pages Functions i konfiguracji tras.']:[]),
+        ...(!r2Mode?['PRIVATE_STORAGE_OFF: wydawanie prywatnych plików jest wstrzymane do włączenia trybu r2.']:[]),
         ...(r2Mode&&!binding?['MISSING_R2_BINDING: magazyn prywatny niedostępny.']:[]),
         'EXTERNAL_FILES: po przekazaniu linku nie kontrolujemy pobrania u zewnętrznego dostawcy.',
         'R2_PUBLIC_ACCESS: zweryfikuj ręcznie ustawienia r2.dev i domen niestandardowych.',

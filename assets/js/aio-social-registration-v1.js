@@ -14,6 +14,11 @@
     conflict:'Nie utworzono drugiego konta. Istnieje wcześniejsze powiązanie lub podobna nazwa/e-mail. Zaloguj się na stare konto i połącz dostawcę albo skontaktuj się z administracją.',
     not_linked:'Ten dostawca nie jest jeszcze połączony z AIO. Jeżeli nie masz konta, wybierz „Utwórz konto”.',
     needs_review:'Rejestracja lub logowanie wymagają dodatkowej weryfikacji bezpieczeństwa AIO. Skontaktuj się z administracją.',
+    vpn_connection:'Połączenie rozpoznano jako VPN, proxy lub Tor. Wyłącz tę usługę i ponów próbę. Jeśli to pomyłka, skontaktuj się z administracją.',
+    network_retry:'Nie można teraz sprawdzić połączenia. Spróbuj później. Nie zablokowano konta.',
+    logged_in_vpn:'Zalogowano. Wykryto VPN, proxy lub Tor; w trybie obserwacji dostęp pozostaje bez zmian.',
+    registered_vpn:'Utworzono konto. Wykryto VPN, proxy lub Tor; w trybie obserwacji można się zalogować.',
+    verify_email_vpn:'Potwierdź adres e-mail. Wykryto VPN, proxy lub Tor; w trybie obserwacji nie blokuje to konta.',
     cancelled:'Weryfikacja u dostawcy została anulowana albo wygasła.'
   };
   const pending=new URLSearchParams(location.search).get('aio_social');
@@ -143,6 +148,7 @@
   function showResult(){
     if(!pending||!Object.hasOwn(messages,pending))return;
     const note=el('div','aio-social-return',messages[pending]);note.setAttribute('role','status');
+    if(pending==='vpn_connection'||pending==='network_retry')note.append(document.createTextNode(' '),link('Kontakt z AIO'));
     document.body.append(note);
     window.setTimeout(()=>note.remove(),18000);
     try{const u=new URL(location.href);u.searchParams.delete('aio_social');history.replaceState(null,'',u.pathname+u.search+u.hash);}catch{}

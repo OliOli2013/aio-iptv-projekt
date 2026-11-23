@@ -10,7 +10,7 @@ import {
 import {ensureUsernamePolicy, checkUsername, claimUsernameStatement, usernameRenameReview, consumeLegacyLogin} from './_aio_username_policy_v1.js';
 import {gmailMailbox} from './_aio_network_prefix_v1.js';
 import {registrationPreflight, registrationReviewStatement} from './_aio_multikonta_guard_v2.js';
-import {checkVpnAtRegistration} from './_aio_vpn_guard_v1.js';
+import {checkVpnAtRegistration,checkVpnAtLogin,vpnReply} from './_aio_vpn_guard_v1.js';
 import {reserveRegistrationIp, rollbackRegistrationIp, permitRegistrationStatement, checkAfterValidLogin} from './_aio_ip_one_account_v7.js';
 import {strictSessionGate} from './_aio_strict_ip_v4.js';
 import {emailIsBlocked} from './_aio_email_blocks.js';
@@ -275,8 +275,11 @@ async function blockLoginByPolicy(env,req,account){
     }
     // AIO_USERNAME_POLICY_V1_4_20261120 — social login uses the same chosen-user gate.
     // Normal features remain guarded by getSession until any required rename finishes.
+    const network=await checkVpnAtLogin(env,req),response=vpnReply(network,'login');
+    if(response)throw msg(response.status,response.body.error,response.body.code);
     const review=await usernameRenameReview(env,id,account.display_name,account.role,{fullScan:true,assignOnLogin:true});
     if(review)await consumeLegacyLogin(env,id); // audit first use; never lock a repeat sign-in
+    return network.warning;
   }
 }
 
@@ -292,8 +295,9 @@ async function newSocialAccount(env,req,flow,person){
   const risk=await registrationPreflight(env,req,{email,displayName:flow.requested_name,turnstileToken:'',turnstileAlreadyVerified:true});
   if(risk?.hold || Number(risk?.score||0)>=5)throw msg(409,BLOCKED_MSG);
   const vpn=await checkVpnAtRegistration(env,req);
-  if(vpn?.deny || (asString(env.AIO_VPN_GUARD_MODE)==='enforce'&&vpn?.kind==='unknown'))
-    throw msg(403,BLOCKED_MSG);
+  const response=vpnReply(vpn,'register');
+  if(response)throw msg(response.status,response.body.error,response.body.code);
+  if(email===cleanEmail(env.COMMUNITY_OWNER_EMAIL||''))throw msg(409,BLOCKED_MSG);
   await ensureEmailVerificationSchema(env);
   const id=crypto.randomUUID(),db=env.COMMUNITY_DB,ip=clientIp(req),at=isoNow();
   const password=await hashPassword(randomToken(64)); // unguessable; not the Google/Facebook password
@@ -320,7 +324,7 @@ async function newSocialAccount(env,req,flow,person){
   if(!person.verifiedEmail){
     try{await sendVerificationEmail(env,id,email);}catch(e){console.error('AIO Social: email verification send failed',Number(e.status||500));}
   }
-  return {userId:id,code:person.verifiedEmail?'registered':'verify_email'};
+  return {userId:id,code:(person.verifiedEmail?'registered':'verify_email')+(vpn.warning?'_vpn':'')};
 }
 
 async function linkExisting(env,req,flow,person){
@@ -348,7 +352,7 @@ async function loginExisting(env,req,person){
   }
   const account=await db.prepare(`SELECT a.*,p.* FROM community_auth a JOIN community_profiles p ON p.id=a.user_id WHERE a.user_id=?`).bind(linked.user_id).first();
   if(!account)throw msg(403,'Konto AIO jest niedostępne.');
-  await blockLoginByPolicy(env,req,account);
+  const networkWarning=await blockLoginByPolicy(env,req,account);
   const token=randomToken(),at=isoNow();
   await db.batch([
     db.prepare('INSERT INTO community_sessions(token_hash,user_id,expires_at,created_at,last_seen_at,ip_address,user_agent) VALUES(?,?,?,?,?,?,?)')
@@ -359,7 +363,7 @@ async function loginExisting(env,req,person){
   await recordIp(env,account.user_id,clientIp(req),'access').catch(()=>{});
   await logSecurity(env,req,'login_ok',account.user_id,'social:'+person.provider).catch(()=>{});
   const ev=await emailVerificationStatus(env,account.user_id);
-  return {code:ev.required?'verify_email':'logged_in',sessionToken:token};
+  return {code:(ev.required?'verify_email':'logged_in')+(networkWarning?'_vpn':''),sessionToken:token};
 }
 
 export async function finishSocial(req,env){

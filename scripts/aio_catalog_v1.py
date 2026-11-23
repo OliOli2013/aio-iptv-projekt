@@ -15,6 +15,7 @@ import sys
 import unicodedata
 from pathlib import Path
 from urllib.parse import urlsplit, unquote
+from aio_private_manifest import inventory
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = 'data/aio-catalog-v1.json'
@@ -45,7 +46,7 @@ def iso_date(value, required=False):
     return None
 
 
-def valid_url(url, local_exists=False):
+def valid_url(url, local_exists=False, private=None):
     url = str(url or '').strip()
     if not url or '\\' in url or any(ord(c) < 32 for c in url) or url.startswith('//'):
         raise ValueError('Nieprawidłowy adres pliku: '+repr(url))
@@ -58,12 +59,13 @@ def valid_url(url, local_exists=False):
     candidate=(ROOT/rel).resolve()
     if not candidate.is_relative_to(ROOT) or '..' in Path(rel).parts:
         raise ValueError('Niebezpieczna ścieżka: '+url)
-    if local_exists and not candidate.is_file():
+    if local_exists and not candidate.is_file() and rel not in (private or {}):
         raise ValueError('Lokalny plik nie istnieje: '+url)
     return url
 
 
 def create_catalog():
+    private=inventory(ROOT)
     base_projects=read('data/projects.json')
     base_files=read('data/downloads.json')
     publication_rows=read(PUBLICATIONS)
@@ -138,14 +140,18 @@ def create_catalog():
         asset_urls=[]
         for asset in published_files:
             if not isinstance(asset,dict):raise ValueError('Nieprawidłowy plik publikacji '+release_id)
-            href=valid_url(asset.get('href'),local_exists=True)
+            href=valid_url(asset.get('href'),local_exists=True,private=private)
             if href in file_hrefs:
                 raise ValueError('Adres pliku już jest w katalogu: '+href+' — nie duplikuj starszego wydania')
             file_hrefs.add(href)
             sha=str(asset.get('sha256') or '').strip().lower()
             if sha and not re.fullmatch('[0-9a-f]{64}',sha):
                 raise ValueError('SHA-256 musi mieć 64 znaki hex: '+href)
-            if sha and not urlsplit(href).scheme:
+            key=unquote(urlsplit(href).path)
+            recorded=private.get(key) if not urlsplit(href).scheme else None
+            if recorded and sha!=recorded['sha256']:
+                raise ValueError('SHA-256 publikacji musi odpowiadać prywatnemu manifestowi: '+href)
+            if sha and not urlsplit(href).scheme and (not recorded or (ROOT/key).is_file()):
                 h=hashlib.sha256()
                 with (ROOT/unquote(urlsplit(href).path)).open('rb') as inp:
                     for chunk in iter(lambda:inp.read(1024*1024),b''):

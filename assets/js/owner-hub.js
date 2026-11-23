@@ -7,7 +7,7 @@
     {id:'legacy-approvals',name:'Starsze zgłoszenia AIO Access',icon:'✓',description:'Dawna kolejka akceptacji dostępu na 7 dni.',href:'/community-admin.html?aio_section=approvals',keywords:'legacy dawne wnioski 7 dni'},
    {id:'grants',name:'Dostępy 7 dni i potwierdzenia',icon:'◈',description:'Historia uprawnień, ręczne potwierdzenia i przypisanie dostępu do konta.',href:'/community-admin.html?aio_section=grants',keywords:'granty ręczne odzyskanie wpłata' },
    {id:'vip',name:'Konta VIP — miesiąc bez limitu',icon:'★',description:'Aktywacja, przedłużenie i wyłączenie VIP po e-mailu konta AIO.',href:'/community-admin.html?aio_section=vip',keywords:'vip miesiąc 30 dni nielimitowany email konto' },
-   {id:'post-downloads',name:'Pliki z postów — historia',icon:'⇩',description:'Pliki wydane z R2 i zewnętrzne przekazania — wspólny licznik 3/168 h.',href:'/owner-hub#aio-post-links-history',keywords:'wpisy linki pliki pobrania r2 quota'},
+   {id:'post-downloads',name:'Pliki z postów — historia',icon:'⇩',description:'Pliki wydane z R2 i zewnętrzne przekazania — wspólny licznik 3 darmowe pobrania, odnowienie miesiąc po trzecim.',href:'/owner-hub#aio-post-links-history',keywords:'wpisy linki pliki pobrania r2 quota'},
    {id:'downloads',name:'Historia pobrań',icon:'⇩',description:'Pobrania lokalnych plików, zakres dni, wyszukiwarka, CSV i czyszczenie dziennika.',href:'/community-admin.html?aio_section=downloads',keywords:'pliki filtry dziennik csv data' },
    {id:'activity',name:'Aktywność AIO Access',icon:'◉',description:'Przejścia przez bramkę pobierania i działania przy linkach zewnętrznych.',href:'/community-admin.html?aio_section=access-activity',keywords:'zewnętrzne megawrzuta sesje linki' }
   ]},
@@ -44,7 +44,7 @@
    {id:'privacy',name:'Polityka prywatności i RODO',icon:'§',description:'Przejrzyj dokumenty o danych, plikach cookies i prawach użytkownika.',href:'/privacy-community.html',keywords:'rodo dokumenty regulamin ochrona danych' }
   ]}
  ];
- const icons={all:'⌑'};const quick=['owner-security-guide','approvals','posts','inbox','downloads','multikonta-audyt','multikonta-blokady'];
+ const icons={all:'⌑'};const quick=['owner-safety','approvals','posts','inbox','downloads','multikonta-audyt','multikonta-blokady'];
  const records=groups.flatMap(g=>g.items.map(item=>({...item,groupId:g.id,group:g.name})));
  let active='all',query='';
  const make=(tag,txt,cls)=>{const n=document.createElement(tag);if(txt!==undefined)n.textContent=txt;if(cls)n.className=cls;return n;};

@@ -1,5 +1,7 @@
 # AIO-IPTV.pl — stare aliasy -> aktualne sekcje, 2026-10-10
 # Cloudflare Pages _redirects
+/assets/releases/enigma2-plugin-extensions-panelaio_18.2.1_all.deb /pliki/enigma2-plugin-extensions-panelaio_18.2.1_all.deb 302
+/assets/releases/enigma2-plugin-extensions-panelaio_18.2.1_all.ipk /api/aio-panel-ipk 302
 /config-builder.html /one-liner 301
 /config-builder /one-liner 301
 /error-scan.html /guide-diagnostyka-enigma2 301

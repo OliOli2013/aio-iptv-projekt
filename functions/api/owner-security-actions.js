@@ -6,7 +6,7 @@ const respond=(x,status=200)=>new Response(JSON.stringify(x),{status,headers:HEA
 const fail=(status,message)=>{throw Object.assign(new Error(message),{status});};
 const safe=(v,n=200)=>String(v??'').trim().replace(/[\x00-\x1f\x7f]/g,' ').slice(0,n);
 const validId=s=>/^[0-9a-f-]{36}$/i.test(s);
-const originOK=request=>{const o=request.headers.get('origin');return (!o||o===new URL(request.url).origin)&&request.headers.get('sec-fetch-site')!=='cross-site';};
+const originOK=request=>request.headers.get('origin')===new URL(request.url).origin&&request.headers.get('sec-fetch-site')!=='cross-site';
 function handleError(e){const s=[400,401,403,404,409].includes(e?.status)?e.status:500;return respond({ok:false,error:s===500?'Operacja jest chwilowo niedostępna.':e.message},s);}
 async function account(db,id,ownerId){
   if(!validId(id))fail(400,'Nieprawidłowy identyfikator konta.');
@@ -50,11 +50,21 @@ export async function onRequestPost({request,env}){
     if(reason.length<8)fail(400,'Podaj powód działania (minimum 8 znaków).');
     const now=new Date().toISOString();
     if(action==='block_account'||action==='unblock_account'){
-      const until=action==='block_account'?new Date(Date.now()+30*86400000).toISOString():null;
-      await db.prepare(`UPDATE community_profiles SET banned_until=?,ban_reason=?,banned_by=?,banned_at=?,updated_at=? WHERE id=?`)
-        .bind(until,action==='block_account'?reason:null,action==='block_account'?s.user.id:null,action==='block_account'?now:null,now,id).run();
-      if(action==='block_account')await db.prepare('DELETE FROM community_sessions WHERE user_id=?').bind(id).run();
-      await moderationLog(env,s.user.id,{targetUserId:id,targetType:'user',targetId:id,action:'owner_'+action,reason,ip:clientIp(request)});
+      const blocking=action==='block_account',prior=user.banned_until??null;
+      if((Object.hasOwn(body,'expected_ban')&&body.expected_ban!==prior)||
+          blocking===(Date.parse(prior)>Date.now()))fail(409,'Stan blokady jest inny. Odśwież dane konta.');
+      const until=blocking?new Date(Date.now()+30*86400000).toISOString():null;
+      // Fail atomically if the target has changed since preflight. Never shorten an existing ban.
+      const ops=[
+        db.prepare(`SELECT CASE WHEN EXISTS(SELECT 1 FROM community_profiles WHERE id=? AND role='user' AND id<>? AND banned_until IS ?)
+          THEN 1 ELSE json_extract('AIO_STALE_PROFILE','$') END`).bind(id,s.user.id,prior),
+        db.prepare(`UPDATE community_profiles SET banned_until=?,ban_reason=?,banned_by=?,banned_at=?,updated_at=? WHERE id=?`)
+          .bind(until,blocking?reason:null,blocking?s.user.id:null,blocking?now:null,now,id)];
+      if(blocking)ops.push(db.prepare('DELETE FROM community_sessions WHERE user_id=?').bind(id));
+      ops.push(db.prepare(`INSERT INTO community_moderation_log
+        (id,actor_id,target_user_id,target_type,target_id,action,reason,ip_address,metadata,created_at)
+        VALUES(?,?,?,'user',?,?,?,NULL,'{}',?)`).bind(crypto.randomUUID(),s.user.id,id,id,'owner_'+action,reason,now));
+      try{await db.batch(ops);}catch(e){if(/malformed JSON/i.test(String(e?.message||e)))fail(409,'Stan konta zmienił się. Odśwież dane.');throw e;}
       return respond({ok:true,message:action==='block_account'?'Konto zablokowane na 30 dni.':'Zdjęto blokadę konta.'});
     }
     if(action==='block_email'||action==='unblock_email'){
