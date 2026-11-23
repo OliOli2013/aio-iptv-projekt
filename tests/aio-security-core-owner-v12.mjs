@@ -11,9 +11,10 @@ export async function getSession(){return globalThis.__coreFixture.session;}
 export async function activeSharedHold(){return globalThis.__coreFixture.shared;}
 export async function strictGlobalHold(){return globalThis.__coreFixture.strict;}
 export async function activeIpHold(){return globalThis.__coreFixture.ip;}
+export async function checkProtectedSessionNetwork(){return globalThis.__coreFixture.network ?? {allowed:true,status:200};}
 `);
 let src=read('functions/_aio_security_core_v1.js');
-for(const p of ['./_community.js','./_aio_security_journal.js','./_aio_strict_ip_v4.js','./_aio_ip_one_account_v7.js']){
+for(const p of ['./_community.js','./_aio_security_journal.js','./_aio_strict_ip_v4.js','./_aio_ip_one_account_v7.js','./_aio_session_network_v1.js']){
   const from="from '"+p+"'";assert.ok(src.includes(from),p);src=src.replace(from,'from '+JSON.stringify(fake));
 }
 const core=await import(moduleUrl(src));
