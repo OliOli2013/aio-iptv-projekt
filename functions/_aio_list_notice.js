@@ -23,6 +23,7 @@ export async function ensureListInbox(env){
   return schemaPromise;
 }
 export function mailConfigured(env){
+  if (String(env?.AIO_DISABLE_OUTBOUND_EMAIL || '') === '1') return false;
   return Boolean(env.AIO_RESEND_API_KEY && env.AIO_NOTIFY_FROM && (env.AIO_NOTIFY_TO||env.COMMUNITY_OWNER_EMAIL));
 }
 function validAddress(addr){return /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(String(addr||''));}
