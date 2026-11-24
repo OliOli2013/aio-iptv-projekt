@@ -90,7 +90,7 @@ const req=(body,origin='https://fixture.invalid')=>new Request('https://fixture.
 test('strona i API: tylko właściciel, bez cache; obce źródło nie zapisuje danych',async()=>{
   for(const fixtureRole of [null,'user'])for(const h of [page,desk]){const r=await h.onRequestGet({request:req(),env:{fixtureRole}});assert.equal(r.status,fixtureRole?403:401);assert.match(r.headers.get('cache-control'),/no-store/);}
   const {env}=fixture();env.fixtureRole='owner';
-  const p=await page.onRequestGet({request:req(),env});assert.equal(p.status,200);assert.match(await p.text(),/Skan istniejących kont/);assert.match(p.headers.get('content-security-policy'),/frame-ancestors 'none'/);
+  const p=await page.onRequestGet({request:req(),env});assert.equal(p.status,200);assert.match(await p.text(),/Skan istniejących kont/);assert.match(p.headers.get('content-security-policy'),/frame-ancestors 'self'/);assert.equal(p.headers.get('x-frame-options'),'SAMEORIGIN');
   assert.equal((await desk.onRequestPost({request:req({action:'find',query:'Test'},'https://other.invalid'),env})).status,403);
   const m=await (await desk.onRequestGet({request:req(),env})).json();assert.equal(m.ok,true);assert.equal(m.used,null);assert.deepEqual(m.counts,[]);
 });

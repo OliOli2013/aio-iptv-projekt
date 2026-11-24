@@ -1,7 +1,7 @@
 import {requireAdmin} from './_community.js';
 const headers={'Content-Type':'text/html; charset=utf-8','Cache-Control':'private, no-store','Vary':'Cookie',
-  'X-Robots-Tag':'noindex, nofollow','X-Frame-Options':'DENY','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer',
-  'Content-Security-Policy':"default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'"};
+  'X-Robots-Tag':'noindex, nofollow','X-Frame-Options':'SAMEORIGIN','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer',
+  'Content-Security-Policy':"default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self'; base-uri 'none'; frame-ancestors 'self'; form-action 'self'"};
 const page=`<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Bezpieczeństwo i dostęp | Centrum Właściciela AIO</title><link rel="stylesheet" href="/assets/css/owner-safety.css?v=1">
 <script defer src="/assets/js/owner-safety.js?v=1"></script></head><body><header><a href="/owner-hub">Centrum Właściciela</a><small>AIO TunerHub · strefa prywatna</small></header>
