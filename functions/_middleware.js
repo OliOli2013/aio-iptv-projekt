@@ -33,6 +33,18 @@ export async function onRequest(context){
   if(!api&&!documentRequest)return context.next();
   try{
     const s=await getSession(request,env,{touch:false,allowUnverified:true});
+    // AIO_USERNAME_RENAME_GATE_V1: a legacy duplicate may access only the public
+    // account entry page and the server-verified rename API. All other APIs
+    // remain guarded; unrelated profile/IP/Strict holds are never exempted.
+    if(s?.rename_required && s.user && !s.blocked){
+      if(path==='/api/aio-username-policy' || path==='/community.html' || path==='/community')
+        return context.next();
+      if(!api && documentRequest){
+        const next=new URL('/community.html',request.url);
+        next.searchParams.set('change_username','1');
+        return Response.redirect(next.toString(),302);
+      }
+    }
     if(s&&!s.user?.is_owner&&(s.banned||s.blocked)){
       // Internal reason is intentionally never rendered in the public response.
       const headers={'cache-control':'private, no-store','x-content-type-options':'nosniff'};
