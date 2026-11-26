@@ -1,9 +1,9 @@
 /* AIO Session Network V1 — transient, session-scoped network revalidation.
- * Only active when AIO_VPN_LOGIN_MODE=enforce. A new network is checked once,
- * then reuses a bounded decision. No permanent profile ban and no raw IP in D1.
+ * Active in login enforce mode. Every network, including the original IP,
+ * reuses only a bounded decision. No permanent profile ban and no raw IP in D1.
  */
 import {sha256,clientIp} from './_community.js';
-import {publicNetworkIp,checkVpnAtLogin} from './_aio_vpn_guard_v1.js';
+import {publicNetworkIp,checkVpnAtLogin,vpnGuardConfig} from './_aio_vpn_guard_v1.js';
 
 const TTL_MS=60*60*1000;
 const DENIED_MESSAGE='Połączenie rozpoznano jako VPN, proxy lub Tor. Wyłącz tę usługę i spróbuj ponownie. Jeśli to pomyłka, skontaktuj się z administracją.';
@@ -16,7 +16,7 @@ export function accessNetworkDecision(kind){
 }
 
 export async function checkProtectedSessionNetwork(env,request,session){
-  if(String(env?.AIO_VPN_LOGIN_MODE||'').trim().toLowerCase()!=='enforce')return {allowed:true,status:200};
+  if(vpnGuardConfig(env).login_mode!=='enforce')return {allowed:true,status:200};
   if(!session?.user||session.user.is_owner===true)return {allowed:true,status:200};
   if(!session.tokenHash||session.blocked||session.banned)return {allowed:false,status:403,code:'AIO_ACCESS_RESTRICTED',error:'Dostęp do konta wymaga wyjaśnienia.'};
   const ip=publicNetworkIp(clientIp(request));
@@ -25,9 +25,9 @@ export async function checkProtectedSessionNetwork(env,request,session){
   const original=await db.prepare('SELECT ip_address FROM community_sessions WHERE token_hash=? AND user_id=? AND datetime(expires_at)>datetime(\'now\') LIMIT 1')
     .bind(session.tokenHash,session.user.id).first();
   if(!original)return {allowed:false,status:401,code:'AIO_SESSION_EXPIRED',error:'Sesja wygasła. Zaloguj się ponownie.'};
-  // A login from this same IP passed the enforce check before session creation.
-  if(publicNetworkIp(original.ip_address)===ip)return {allowed:true,status:200,source:'login'};
-  const networkKey=await sha256('aio-session-network-v1:'+session.tokenHash+':'+ip);
+  // AIO_ANTI_ABUSE_V1: even unchanged IPs require a bounded decision.
+  // Namespace V2 invalidates earlier session decisions without deleting sessions.
+  const networkKey=await sha256('aio-session-network-v2:'+session.tokenHash+':'+ip);
   const ms=Date.now();
   if(Math.random()<0.02)await db.prepare('DELETE FROM aio_session_network_checks_v1 WHERE expires_ms<?')
     .bind(ms).run().catch(()=>{});

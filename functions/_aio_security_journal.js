@@ -30,6 +30,7 @@ export async function ensureSecurityJournal(env){
     env.COMMUNITY_DB.prepare('CREATE INDEX IF NOT EXISTS idx_aio_sec_created ON aio_security_journal(created_at DESC)'),
     env.COMMUNITY_DB.prepare('CREATE INDEX IF NOT EXISTS idx_aio_sec_user ON aio_security_journal(user_id,created_at DESC)'),
     env.COMMUNITY_DB.prepare('CREATE INDEX IF NOT EXISTS idx_aio_sec_event ON aio_security_journal(event,created_at DESC)'),
+    env.COMMUNITY_DB.prepare('CREATE INDEX IF NOT EXISTS idx_aio_sec_network_time_v2 ON aio_security_journal(ip_fingerprint,created_at DESC)'), // AIO_ANTI_ABUSE_V1
     env.COMMUNITY_DB.prepare(`CREATE TABLE IF NOT EXISTS aio_security_shared_holds (
       id TEXT PRIMARY KEY,user_id TEXT NOT NULL,peer_user_id TEXT NOT NULL,
       ip_fingerprint TEXT NOT NULL,created_at TEXT NOT NULL,expires_at TEXT NOT NULL,
