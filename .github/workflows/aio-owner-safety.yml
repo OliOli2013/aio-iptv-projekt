@@ -21,7 +21,7 @@ jobs:
         run: python3 scripts/aio_public_payload_guard.py "$AIO_BASE" "$AIO_HEAD"
       - name: Offline owner access and network policy
         run: |
-          node --test tests/aio-owner-safety.mjs tests/aio-download-delivery.mjs
+          node --test tests/aio-owner-safety.mjs tests/aio-download-delivery.mjs tests/aio-anti-abuse-v1.mjs tests/aio-anti-abuse-v2.mjs
           node tests/aio-vpn-guard-v1.mjs
           node tests/aio-owner-focus-v5.mjs
           node tests/aio-security-core-v1-regression.mjs

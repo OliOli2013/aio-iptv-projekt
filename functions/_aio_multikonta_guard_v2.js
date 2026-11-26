@@ -4,7 +4,11 @@
  */
 import {ipv6Prefix,normalizeLogin,safeEmailLocal,gmailMailbox} from './_aio_network_prefix_v1.js';
 import {TEMPORARY_RESTRICTION} from './_aio_public_notices_v1.js';
-import {ensureSecurityJournal,ipFingerprint} from './_aio_security_journal.js';
+import {ensureSecurityJournal,ipFingerprint,logSecurity} from './_aio_security_journal.js';
+import {sha256,getOwnerId} from './_community.js';
+import {publicNetworkIp} from './_aio_vpn_guard_v1.js';
+import {REGISTRATION_RESTRICTED} from './_aio_public_notices_v1.js';
+import {exactSignupConflict} from './_aio_anti_abuse_v2.js';
 import {recentAccountSignal} from './_aio_anti_abuse_v1.js';
 let __aioCFReady_ready = false;
 const stamp=()=>new Date().toISOString();
@@ -104,6 +108,17 @@ export async function registrationPreflight(env,request,{email,displayName,turns
   if(!turnstileAlreadyVerified)await checkTurnstile(env,request,turnstileToken); // Social flow verified Turnstile at start; trust only one-time server-side D1 flow.
   const mode=MODE(env),ip=String(request.headers.get('CF-Connecting-IP')||'');
   if(mode==='enforce'&&String(env.AIO_MULTIKONTA_HMAC_SECRET||'').length<32)throw invalid(503,'Brak konfiguracji ochrony rejestracji.');
+  // V2: 1 IP = 1 account is a hard rule, independent of V1 scoring mode.
+  // Use only the trusted Cloudflare header, hashed exactly like journal V1.
+  if(!publicNetworkIp(ip))throw invalid(503,'Nie można zweryfikować sieci.');
+  await ensureSecurityJournal(env);
+  const conflict=await exactSignupConflict(env.COMMUNITY_DB,
+    await sha256('aio-security-ip-v1:'+ip),await getOwnerId(env));
+  if(conflict){
+    await logSecurity(env,request,'anti_abuse_signup_denied_v2',null,
+      'peer:'+conflict.peer_user_id+';event:'+conflict.event+';evidence:'+conflict.evidence_id);
+    throw invalid(409,REGISTRATION_RESTRICTED);
+  }
   if(mode==='enforce')await networkHourlyLimit(env,ip);
   const p64=ipv6Prefix(ip,64),db=env.COMMUNITY_DB;
   if(Math.random()<0.02){

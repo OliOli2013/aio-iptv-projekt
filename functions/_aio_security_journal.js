@@ -65,8 +65,12 @@ export async function ipFingerprint(request){
 export async function logSecurity(env,request,event,userId=null,detail=''){
   try{
     await ensureSecurityJournal(env);
+    // V2: only Cloudflare's trusted IP header is evidence in new journal rows.
+    // Keep the V1 hash namespace for historical comparison; never use XFF here.
+    const trustedIp=request.headers.get('CF-Connecting-IP');
+    const fingerprint=trustedIp?await sha256('aio-security-ip-v1:'+trustedIp):null;
     await env.COMMUNITY_DB.prepare(`INSERT INTO aio_security_journal(id,event,user_id,ip_fingerprint,created_at,device,detail)
-      VALUES(?,?,?,?,?,?,?)`).bind(crypto.randomUUID(),safe(event,50),userId||null,await ipFingerprint(request),iso(),deviceClass(request),safe(detail)).run();
+      VALUES(?,?,?,?,?,?,?)`).bind(crypto.randomUUID(),safe(event,50),userId||null,fingerprint,iso(),deviceClass(request),safe(detail)).run();
     return true;
   }catch(e){console.error('AIO Security Journal: write failed',String(e?.message||'error'));return false;}
 }
