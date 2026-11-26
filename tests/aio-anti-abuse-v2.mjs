@@ -17,8 +17,12 @@ function fixture(){
  const db={prepare(sql){return {bind(...args){return {first:async()=>raw.prepare(sql).get(...args)||null}}}}};
  return {raw,p,j,db};
 }
-const preview=readFileSync(new URL('../scripts/aio-anti-abuse-v2-history-preview.sql',import.meta.url),'utf8');
-const apply=readFileSync(new URL('../scripts/aio-anti-abuse-v2-history-apply.sql',import.meta.url),'utf8');
+const OWNER='00000000-0000-4000-8000-000000000001';
+const previewTemplate=readFileSync(new URL('../scripts/aio-anti-abuse-v2-history-preview.sql',import.meta.url),'utf8');
+const applyTemplate=readFileSync(new URL('../scripts/aio-anti-abuse-v2-history-apply.sql',import.meta.url),'utf8');
+const preview=previewTemplate.replaceAll('__AIO_OWNER_USER_ID__',OWNER);
+const apply=applyTemplate.replaceAll('__AIO_OWNER_USER_ID__',OWNER);
+
 test('hard deny after failed login on blocked account, even with no similar name',async()=>{
  const {raw,p,j,db}=fixture();p('old','user',true);j('old','login_failed',-1);
  assert.equal((await exactSignupConflict(db,hash,'owner',now)).peer_user_id,'old');raw.close();
@@ -35,7 +39,7 @@ test('valid restricted login and quota denial qualify, unrelated denial does not
  const {raw,p,j,db}=fixture();p('old');j('old','download_denied',-2,hash,'E-mail niezweryfikowany');assert.equal(await exactSignupConflict(db,hash,'owner',now),null);j('old','download_denied',-1,hash,'Limit: plik');assert.equal((await exactSignupConflict(db,hash,'owner',now)).event,'download_denied');j('old','login_review_blocked',-.5);assert.equal((await exactSignupConflict(db,hash,'owner',now)).event,'login_review_blocked');raw.close();
 });
 test('historical preview and apply: only newer account, durable ban, audit, revoked sessions, no replay',()=>{
- const {raw,p,j}=fixture();p('old','user',true);p('new','user',false,-3);p('admin','admin',false,-3);p('different','user',false,-3);p('already','user',true,-3);p('released','user',false,-3);
+ const {raw,p,j}=fixture();p(OWNER,'admin');p('old','user',true);p('new','user',false,-3);p('admin','admin',false,-3);p('different','user',false,-3);p('already','user',true,-3);p('released','user',false,-3);
  j('old','login_failed',-2);j('new','register_ok',-1);j('admin','register_ok',-1);j('different','register_ok',-1,other);j('already','register_ok',-1);j('released','register_ok',-1);
  raw.prepare('INSERT INTO community_moderation_log(id,target_user_id,action,created_at) VALUES(?,?,?,?)').run('release','released','owner_unified_release_all_v1',date(0));
  for(const id of ['old','new','admin','different','already','released'])raw.prepare('INSERT INTO community_sessions VALUES(?,?)').run('session-'+id,id);
@@ -50,4 +54,40 @@ test('historical preview and apply: only newer account, durable ban, audit, revo
  raw.exec('BEGIN;');raw.exec(apply);raw.exec('COMMIT;');
  assert.equal(raw.prepare("SELECT banned_until FROM community_profiles WHERE id='new'").get().banned_until,null);
  assert.equal(raw.prepare("SELECT COUNT(*) n FROM community_sessions WHERE user_id='new'").get().n,1);raw.close();
+});
+
+test('V2 historical protection excludes configured owner regardless of role',()=>{
+ const {raw,p,j}=fixture();
+ p('old','user',true,-20);
+ p(OWNER,'user',false,-10);
+ p('new','user',false,-3);
+ j('old','login_ok',-9);
+ j(OWNER,'register_ok',-8);
+ j(OWNER,'login_ok',-2,other);
+ j('new','register_ok',-1,other);
+ assert.equal(raw.prepare(preview).all().length,0);
+ raw.exec(apply);
+ assert.equal(raw.prepare(
+   'SELECT COUNT(*) n FROM community_profiles WHERE id=? AND banned_until IS NOT NULL'
+ ).get(OWNER).n,0);
+ assert.equal(raw.prepare(
+   'SELECT COUNT(*) n FROM community_moderation_log'
+ ).get().n,0);
+ raw.close();
+});
+
+test('V2 unresolved owner parameter prevents historical bans',()=>{
+ const {raw,p,j}=fixture();
+ p(OWNER,'admin');
+ p('old','user',true,-20);
+ p('new','user',false,-3);
+ j('old','login_failed',-2);
+ j('new','register_ok',-1);
+ assert.equal(raw.prepare(preview).all().length,1);
+ assert.equal(raw.prepare(previewTemplate).all().length,0);
+ raw.exec(applyTemplate);
+ assert.equal(raw.prepare(
+   "SELECT banned_until FROM community_profiles WHERE id='new'"
+ ).get().banned_until,null);
+ raw.close();
 });

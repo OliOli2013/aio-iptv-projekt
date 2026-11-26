@@ -8,11 +8,11 @@ WITH candidates AS (
          row_number() OVER (PARTITION BY p.id ORDER BY CASE WHEN j.event='login_failed' THEN 1 ELSE 0 END,
            j.created_at DESC,j.id DESC,reg.id DESC) AS priority
   FROM aio_security_journal reg
-  JOIN community_profiles p ON p.id=reg.user_id AND p.role='user'
+  JOIN community_profiles p ON p.id=reg.user_id AND p.role='user' AND p.id<>'__AIO_OWNER_USER_ID__'
   JOIN aio_security_journal j ON j.ip_fingerprint=reg.ip_fingerprint
     AND j.user_id<>reg.user_id AND j.created_at<reg.created_at
-  JOIN community_profiles old ON old.id=j.user_id AND old.role='user'
-  WHERE reg.event='register_ok' AND length(reg.ip_fingerprint)=43
+  JOIN community_profiles old ON old.id=j.user_id AND old.role='user' AND old.id<>'__AIO_OWNER_USER_ID__'
+  WHERE length('__AIO_OWNER_USER_ID__')=36 AND EXISTS (SELECT 1 FROM community_profiles WHERE id='__AIO_OWNER_USER_ID__') AND reg.event='register_ok' AND length(reg.ip_fingerprint)=43
     AND reg.ip_fingerprint NOT GLOB '*[^A-Za-z0-9_-]*'
     AND julianday(old.created_at)<julianday(p.created_at)
     AND (p.banned_until IS NULL OR datetime(p.banned_until)<=datetime('now'))
