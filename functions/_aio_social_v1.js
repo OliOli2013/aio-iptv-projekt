@@ -293,7 +293,7 @@ async function newSocialAccount(env,req,flow,person){
   if(!checked.ok)throw msg(409,checked.error);
   // Turnstile was server-verified at start; only the one-time D1 state can carry that assurance.
   const risk=await registrationPreflight(env,req,{email,displayName:flow.requested_name,turnstileToken:'',turnstileAlreadyVerified:true});
-  if(risk?.hold || Number(risk?.score||0)>=5)throw msg(409,BLOCKED_MSG);
+  if(risk?.hold)throw msg(409,BLOCKED_MSG);
   const vpn=await checkVpnAtRegistration(env,req);
   const response=vpnReply(vpn,'register');
   if(response)throw msg(response.status,response.body.error,response.body.code);

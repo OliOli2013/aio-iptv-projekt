@@ -45,6 +45,10 @@ export function publicNetworkIp(input){
   }
   return null;
 }
+// AIO_ANTI_ABUSE_V1: explicit provider flags have priority over managed egress.
+function explicitNetworkRisk(flags){
+  return ['tor','proxy','vpn'].find(x=>flags.includes(x))||null;
+}
 export function classifyVpnResponse(data){
   if(!data||typeof data!=='object'||data.error||data.error_code||data.is_bogon===true)return {kind:'unknown',flags:[],service:''};
   const keys=['is_vpn','is_proxy','is_tor','is_datacenter','is_mobile','is_satellite'];
@@ -52,7 +56,7 @@ export function classifyVpnResponse(data){
      !['is_vpn','is_proxy','is_tor'].every(k=>typeof data[k]==='boolean'))return {kind:'unknown',flags:[],service:''};
   const flags=keys.filter(k=>data[k]===true).map(k=>k.slice(3));
   const egress=String(data.egress_service?.type||'');
-  if(egress==='private_relay'||egress==='secure_web_gateway'){
+  if(!explicitNetworkRisk(flags)&&(egress==='private_relay'||egress==='secure_web_gateway')){
     return {kind:'relay',flags:[...flags,'managed_egress'],service:txt(data.egress_service?.provider||'',60)};
   }
   let kind='clean';
@@ -109,7 +113,9 @@ async function reserveBudget(db,amount,max){
 function cachedView(row){
   let flags=[];
   try{const p=JSON.parse(row.flags);flags=Array.isArray(p)?p.filter(x=>typeof x==='string').slice(0,8):[];}catch{}
-  return {kind:txt(row.verdict,25),flags,service:txt(row.service,60),cached:true};
+  // Re-evaluate old cached managed-egress rows; never mask explicit high-risk flags.
+  const kind=explicitNetworkRisk(flags)||txt(row.verdict,25);
+  return {kind,flags,service:txt(row.service,60),cached:true};
 }
 export function budgetCeiling(total,purpose){
   return purpose==='register'?total:Math.max(1,Math.floor(total*(purpose==='login'?0.8:0.5)));

@@ -4,6 +4,8 @@
  */
 import {ipv6Prefix,normalizeLogin,safeEmailLocal,gmailMailbox} from './_aio_network_prefix_v1.js';
 import {TEMPORARY_RESTRICTION} from './_aio_public_notices_v1.js';
+import {ensureSecurityJournal,ipFingerprint} from './_aio_security_journal.js';
+import {recentAccountSignal} from './_aio_anti_abuse_v1.js';
 let __aioCFReady_ready = false;
 const stamp=()=>new Date().toISOString();
 const MODE=env=>String(env?.AIO_MULTIKONTA_MODE||'monitor').toLowerCase()==='enforce'?'enforce':'monitor';
@@ -139,6 +141,20 @@ export async function registrationPreflight(env,request,{email,displayName,turns
         });
       if(exhausted){score+=2;flags.push('peer_quota_exhausted');}
     }
+  }
+  // AIO_ANTI_ABUSE_V1: the same shared registration gate covers password and OAuth.
+  // Do not turn failed authentication into an IP ownership claim. Correlate only
+  // recent server-side journal rows, and let the existing owner review decide.
+  await ensureSecurityJournal(env);
+  const recent=await recentAccountSignal(db,await ipFingerprint(request),displayName);
+  if(recent.score>0){
+    // Never sum independent weak indicators or replace a stronger prior peer.
+    if(recent.score>=score){
+      if(peer && peer!==recent.peer) flags.length=0; // evidence must describe the selected peer
+      peer=recent.peer;
+      flags.push(...recent.flags);
+    }
+    score=Math.max(score,recent.score);
   }
   return {score,flags,peer,mode,hold:mode==='enforce'&&score>=5};
 }

@@ -1,6 +1,6 @@
 /* Authenticated 7-day/VIP access and 3 free items per account, month from third counted handoff. */
 import {requireAdmin} from '../_community.js';
-import {activeSharedHold,logSecurity} from '../_aio_security_journal.js';
+import {activeSharedHold,logSecurity,reviewPaidSessionSharing} from '../_aio_security_journal.js';
 import {initAccess,sessionUser,getStatus,consumeFree,startFlow,flowOpened,flowComplete,registerReceipt,response,fail,ROLLOUT,LEGACY_END} from '../_aio_account_access.js';
 function sameOrigin(req){const origin=req.headers.get('Origin');if(origin && origin!==new URL(req.url).origin)return false;return req.headers.get('Sec-Fetch-Site')!=='cross-site';}
 function err(e){
@@ -29,6 +29,11 @@ export async function onRequestPost({request,env}){
     if(action==='consume'){
       const hold=(user.is_owner===true&&user.role==='admin')?null:await activeSharedHold(env,request,user.id);
       if(hold){await logSecurity(env,request,'download_hold',user.id,'Zewnętrzny limit');throw fail(403,'Dostęp do pobierania jest obecnie ograniczony. Skontaktuj się z nami.');}
+      // AIO_ANTI_ABUSE_V1: the legacy debit endpoint must use the same paid
+      // account sharing check as the file, catalog, chat and post routes.
+      const status=await getStatus(env,user.id);
+      const paidHold=await reviewPaidSessionSharing(env,request,user.id,status.active===true && status.owner!==true);
+      if(paidHold){await logSecurity(env,request,'download_hold',user.id,'Płatne konto — współdzielenie');throw fail(403,'Dostęp do pobierania jest obecnie ograniczony. Skontaktuj się z nami.');}
       const r=await consumeFree(env,user.id,null,request);
       if(!r.allowed&&r.reason!=='limit')return response({ok:false,restricted:true,error:'Dostęp do pobierania jest obecnie ograniczony.'},403);
       return response({ok:r.allowed,limit_reached:!r.allowed,support_url:'/support.html#wesprzyj-projekt',...r},r.allowed?200:429);
