@@ -79,9 +79,25 @@ await check('Datacenter alone is NOT a confirmed VPN',()=>{
   assert.equal(vpn.classifyVpnResponse({is_vpn:false,is_proxy:false,is_tor:false,is_datacenter:true}).kind,'datacenter');
   assert.equal(vpn.verdictForSignup({kind:'datacenter'},'enforce'),'allow');
 });
-await check('Managed corporate egress or privacy relay never automatically denied',()=>{
-  const r=vpn.classifyVpnResponse({is_vpn:true,egress_service:{type:'secure_web_gateway',provider:'Company'},is_proxy:false});
-  assert.equal(r.kind,'relay');assert.equal(vpn.verdictForSignup(r,'enforce'),'allow');
+await check('Explicit VPN, proxy and Tor flags override managed egress',()=>{
+  for(const type of ['secure_web_gateway','private_relay']){
+    for(const kind of ['vpn','proxy','tor']){
+      const flags={is_vpn:false,is_proxy:false,is_tor:false};
+      flags['is_'+kind]=true;
+      const r=vpn.classifyVpnResponse({
+        ...flags,egress_service:{type,provider:'Test'}
+      });
+      assert.equal(r.kind,kind);
+      assert.equal(vpn.verdictForSignup(r,'enforce'),'deny');
+      assert.equal(vpn.verdictForSignup(r,'monitor'),'allow');
+    }
+    const clean=vpn.classifyVpnResponse({
+      is_vpn:false,is_proxy:false,is_tor:false,
+      egress_service:{type,provider:'Test'}
+    });
+    assert.equal(clean.kind,'relay');
+    assert.equal(vpn.verdictForSignup(clean,'enforce'),'allow');
+  }
 });
 await check('Missing vendor flags are UNKNOWN, not clean',()=>{
   assert.equal(vpn.classifyVpnResponse({ip:'8.8.8.8',company:{name:'Example'}}).kind,'unknown');
