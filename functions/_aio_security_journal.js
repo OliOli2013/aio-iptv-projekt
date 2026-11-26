@@ -2,7 +2,7 @@
  * No passwords, cookies, raw e-mails, user agents or raw IPs in this journal.
  * Shared household IP is NOT sufficient to ban an account or an IP globally.
  */
-import {sha256,clientIp,isOwnerId} from './_community.js';
+import {sha256,clientIp,isOwnerId,cookieValue} from './_community.js';
 import {isIpPolicyExemptV8} from './_aio_ip_policy_exempt_v8.js';
 import {isApprovedOnCurrentIp} from './_aio_ip_one_account_v7.js';
 import {FEATURE_RESTRICTED,SECURITY_ACTIVITY} from './_aio_public_notices_v1.js';
@@ -148,7 +148,7 @@ export async function reviewSharedIpAtLogin(env,request,userId,role='user'){
  * change or two devices behind the same home router do not trigger this rule.
  * Only the owner can release; a 7-day review grace prevents instant re-holds.
  */
-export async function reviewPaidSessionSharing(env,request,userId,paidAccess=false){
+export async function reviewPaidSessionSharing(env,request,userId,paidAccess=false,sessionTokenHash=null){
   if(!paidAccess||!userId)return null;
   await ensureSecurityJournal(env);
   if(await isOwnerId(env,userId,'admin'))return null;
@@ -159,11 +159,29 @@ export async function reviewPaidSessionSharing(env,request,userId,paidAccess=fal
   if(previous?.review_pause_until && previous.review_pause_until>now)return null;
   const ip=clientIp(request),here=deviceClass(request);
   if(!ip||here==='Inne / Inna przeglądarka')return null;
+  const token=cookieValue(request,'aio_community_session');
+  const currentHash=sessionTokenHash||(token?await sha256(token):null);
+  if(!currentHash)return null;
+
+  const current=await db.prepare(
+    "SELECT token_hash FROM community_sessions WHERE token_hash=? AND user_id=? AND datetime(expires_at)>datetime('now')"
+  ).bind(currentHash,userId).first();
+
+  if(!current)return null;
+
+  await db.prepare(`UPDATE community_sessions
+    SET last_seen_at=?
+    WHERE token_hash=? AND user_id=?
+    AND (datetime(last_seen_at) IS NULL
+      OR datetime(last_seen_at)<=datetime(?,'-5 minutes'))`)
+    .bind(now,currentHash,userId,now).run();
+
   const cutoff=new Date(Date.now()-15*60*1000).toISOString();
   const q=await db.prepare(`SELECT ip_address,user_agent,last_seen_at FROM community_sessions
     WHERE user_id=? AND datetime(expires_at)>datetime('now')
       AND datetime(last_seen_at)>=datetime(?)
-    ORDER BY last_seen_at DESC LIMIT 40`).bind(userId,cutoff).all();
+      AND token_hash<>?
+    ORDER BY last_seen_at DESC LIMIT 40`).bind(userId,cutoff,currentHash).all();
   const candidates=(q.results||[]).filter(s=>
     s.ip_address && s.ip_address!==ip && s.user_agent &&
     deviceClass({headers:{get:(k)=>k==='user-agent'?s.user_agent:''}})!==here

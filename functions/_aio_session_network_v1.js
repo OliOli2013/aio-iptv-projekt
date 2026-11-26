@@ -2,7 +2,7 @@
  * Active in login enforce mode. Every network, including the original IP,
  * reuses only a bounded decision. No permanent profile ban and no raw IP in D1.
  */
-import {sha256,clientIp} from './_community.js';
+import {sha256} from './_community.js';
 import {publicNetworkIp,checkVpnAtLogin,vpnGuardConfig} from './_aio_vpn_guard_v1.js';
 
 const TTL_MS=60*60*1000;
@@ -19,7 +19,9 @@ export async function checkProtectedSessionNetwork(env,request,session){
   if(vpnGuardConfig(env).login_mode!=='enforce')return {allowed:true,status:200};
   if(!session?.user||session.user.is_owner===true)return {allowed:true,status:200};
   if(!session.tokenHash||session.blocked||session.banned)return {allowed:false,status:403,code:'AIO_ACCESS_RESTRICTED',error:'Dostęp do konta wymaga wyjaśnienia.'};
-  const ip=publicNetworkIp(clientIp(request));
+  // Use the same trusted Cloudflare header as VPN Guard.
+  // Never authorize a protected session using untrusted X-Forwarded-For.
+  const ip=publicNetworkIp(request.headers.get('CF-Connecting-IP'));
   if(!ip)return accessNetworkDecision('unknown');
   const db=env.COMMUNITY_DB;
   const original=await db.prepare('SELECT ip_address FROM community_sessions WHERE token_hash=? AND user_id=? AND datetime(expires_at)>datetime(\'now\') LIMIT 1')

@@ -345,7 +345,7 @@ export async function onRequestPost({request, env}) {
     // Premium/VIP: distinct live sessions on different networks and device classes.
     const paidHold=renameReview?null:await (async()=>{
       const access=await getStatus(env,auth.user_id);
-      return reviewPaidSessionSharing(env,request,auth.user_id,access.active===true && access.owner!==true);
+      return reviewPaidSessionSharing(env,request,auth.user_id,access.active===true && access.owner!==true,tokenHash);
     })().catch(e=>{console.error('AIO paid sharing review',String(e?.message||e));return null;});
     const loginUser = publicProfile(auth);
     loginUser.is_owner = await isOwnerId(env, loginUser.id, loginUser.role);
