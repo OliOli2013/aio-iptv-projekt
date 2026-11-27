@@ -36,3 +36,8 @@ test('two existing handoff paths gate the actual GET; no new debit endpoint',()=
 test('individual speed is displayed; unlimited FREE retains monthly quota and explicit confirmation',async()=>{
  for(const config of [{ok:true,enabled:true,kbps:250,individual:true},{ok:true,enabled:true,kbps:null,individual:true,unlimited:true}]){const f=fixture(undefined,config),p=f.run();await tick();const d=f.nodes[0];assert.equal(d.children[2].textContent,config.unlimited?'Pełna dostępna prędkość':'250 KB/s');assert.match(d.children[3].textContent,/2 z 3/);assert.match(d.children[3].textContent,/indywidualnie/);d.children.at(-1).children[1].handlers.click();assert.equal(await p,true);}
 });
+
+test('managed external download uses same FREE confirmation, paid bypasses',async()=>{
+ const f=fixture(undefined,{ok:true,enabled:true,kbps:25}),p=f.run('managed_external');await tick();const d=f.nodes[0];assert.equal(d.children[2].textContent,'25 KB/s');d.children.at(-1).children[2].handlers.click();assert.equal(await p,false);
+ const paid=fixture({authenticated:true,active:true});assert.equal(await paid.run('managed_external'),true);assert.equal(paid.nodes.length,0);
+});
