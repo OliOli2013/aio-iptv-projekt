@@ -392,7 +392,7 @@ export async function onRequestGet({request, env}) {
         const where=enabled?(exactId?' WHERE p.id=? COLLATE NOCASE':` WHERE (p.display_name LIKE ? ESCAPE '!' COLLATE NOCASE OR COALESCE(a.email,p.email,'') LIKE ? ESCAPE '!' COLLATE NOCASE)`):'';
         const searchArgs=exactId?[search]:[pattern,pattern];
         const limit=enabled?80:200;
-        const sql=`SELECT p.*,COALESCE(a.email,p.email,'') AS account_email ${from}${where} ORDER BY p.created_at DESC LIMIT ${limit}`;
+        const sql=`SELECT p.*,COALESCE(a.email,p.email,'') AS account_email, CASE WHEN EXISTS(SELECT 1 FROM aio_download_speed_users_v1 x WHERE x.user_id=p.id AND (x.expires_ms IS NULL OR x.expires_ms>CAST(strftime('%s','now') AS INTEGER)*1000)) AND NOT EXISTS(SELECT 1 FROM aio_multikonta_quota_members_v2 m WHERE m.user_id=p.id) THEN 1 ELSE 0 END AS individual_speed ${from}${where} ORDER BY p.created_at DESC LIMIT ${limit}`;
         const rr=enabled
           ?await db.prepare(sql).bind(...searchArgs).all()
           :await db.prepare(sql).all();
@@ -400,7 +400,7 @@ export async function onRequestGet({request, env}) {
         rows=[];
         for(const u of rr.results||[]){
           const ips=await db.prepare(`SELECT ip_address,last_seen_at,event_count,last_event FROM community_user_ips WHERE user_id=? ORDER BY last_seen_at DESC LIMIT 5`).bind(u.id).all();
-          rows.push({...publicProfile(u),email:u.account_email||'',ips:ips.results||[]});
+          rows.push({...publicProfile(u),email:u.account_email||'',ips:ips.results||[],individual_speed:u.individual_speed===1});
         }
         accountSearchMeta={query:enabled?search:'',total:enabled?Number(matchCount?.n||0):null,showing:rows.length,limit};
       } else if(tab==="ip"){

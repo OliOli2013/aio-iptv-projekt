@@ -8,9 +8,10 @@ export async function ensureSpeedSchema(env){
     env.COMMUNITY_DB.prepare(`CREATE TABLE IF NOT EXISTS aio_download_speed_leases_v1 (scope TEXT PRIMARY KEY,token TEXT NOT NULL,expires_ms INTEGER NOT NULL)`)
   ]);
 }
-export async function speedConfig(env){
+export async function speedConfig(env,userId){
   const row=await env.COMMUNITY_DB.prepare('SELECT enabled,kbps,updated_at FROM aio_download_speed_config_v1 WHERE id=1').first();
-  return {enabled:row?.enabled===1,kbps:row?Number(row.kbps):DEFAULT_KB,updated_at:row?.updated_at||null};
+  const global={enabled:row?.enabled===1,kbps:row?Number(row.kbps):DEFAULT_KB,updated_at:row?.updated_at||null};
+  return userId&&global.enabled?applyIndividualSpeed(global,await individualSpeed(env,userId)):global;
 }
 export async function saveSpeedConfig(env,enabled,kbps){
   if(typeof enabled!=='boolean'||!Number.isInteger(kbps)||kbps<5||kbps>10000)throw new Error('Nieprawidłowe ustawienia');
@@ -44,8 +45,9 @@ const sleep=ms=>new Promise(resolve=>globalThis.setTimeout(resolve,ms));
 // Backpressure-aware, no accumulated credits: every piece waits before delivery.
 // A 200ms piece is small even at 25 KB/s. No full-file buffering.
 export function pacedStream(body,bytesPerSecond,lease,{delay=sleep}={}){
-  if(!Number.isFinite(bytesPerSecond)||bytesPerSecond<=0)throw new Error('Invalid speed');
-  const reader=body.getReader(),maxChunk=Math.max(1,Math.floor(bytesPerSecond/5));
+  const unlimited=bytesPerSecond===null;
+  if(!unlimited&&(!Number.isFinite(bytesPerSecond)||bytesPerSecond<=0))throw new Error('Invalid speed');
+  const reader=body.getReader(),maxChunk=unlimited?Infinity:Math.max(1,Math.floor(bytesPerSecond/5));
   let pending=null,offset=0,closed=false;
   async function finish(reason,cancel){
     if(closed)return;closed=true;
@@ -63,7 +65,7 @@ export function pacedStream(body,bytesPerSecond,lease,{delay=sleep}={}){
           pending=part.value;offset=0;
         }
         const n=Math.min(maxChunk,pending.byteLength-offset);
-        await delay(Math.ceil(n*1000/bytesPerSecond));
+        if(!unlimited)await delay(Math.ceil(n*1000/bytesPerSecond));
         if(closed)return;
         await lease.check();if(closed)return;
         controller.enqueue(pending.subarray(offset,offset+n));offset+=n;
@@ -74,10 +76,10 @@ export function pacedStream(body,bytesPerSecond,lease,{delay=sleep}={}){
 }
 export function speedBusy(){return new Response('Trwa już pobieranie FREE dla tego konta lub potwierdzonej grupy kont. Zakończ je i spróbuj ponownie.',{status:429,headers:{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'private, no-store','Retry-After':'15'}});}
 export function speedResponse(asset,config,lease,context){
-  const headers=new Headers(asset.headers);headers.set('Cache-Control','private, no-store');headers.set('X-AIO-Download-Limit-KBps',String(config.kbps));headers.set('X-AIO-Download-Speed','free');
+  const headers=new Headers(asset.headers);headers.set('Cache-Control','private, no-store');if(config.kbps!==null)headers.set('X-AIO-Download-Limit-KBps',String(config.kbps));else headers.delete('X-AIO-Download-Limit-KBps');headers.set('X-AIO-Download-Speed',config.kbps===null?'free-unlimited':'free');
   // Preserve lengths for R2 200/206 using Cloudflare's FixedLengthStream where available.
   const length=Number(headers.get('Content-Length'));
-  let body=pacedStream(asset.body,config.kbps*1000,lease);
+  let body=pacedStream(asset.body,config.kbps===null?null:config.kbps*1000,lease);
   if(typeof FixedLengthStream==='function' && Number.isSafeInteger(length)&&length>=0 && headers.has('Content-Length')){
     const fixed=new FixedLengthStream(length);
     const pumping=body.pipeTo(fixed.writable).catch(e=>{console.error('AIO speed stream',String(e?.message||e).slice(0,100));});
@@ -85,4 +87,21 @@ export function speedResponse(asset,config,lease,context){
     body=fixed.readable;
   }
   return new Response(body,{status:asset.status,statusText:asset.statusText,headers});
+}
+
+// AIO_INDIVIDUAL_SPEED_V1: no privilege changes. Group exceptions are suspended.
+export async function individualSpeed(env,userId,now=Date.now()){
+  const row=await env.COMMUNITY_DB.prepare(`SELECT m.group_id,x.mode,x.kbps,x.expires_ms,x.reason,x.updated_at
+    FROM (SELECT ? AS user_id) u
+    LEFT JOIN aio_multikonta_quota_members_v2 m ON m.user_id=u.user_id
+    LEFT JOIN aio_download_speed_users_v1 x ON x.user_id=u.user_id`).bind(userId).first();
+  const grouped=Boolean(row?.group_id),mode=row?.mode||'default';
+  const expired=mode!=='default'&&row.expires_ms!==null&&Number(row.expires_ms)<=now;
+  return {mode,kbps:row?.kbps??null,expires_ms:row?.expires_ms??null,reason:row?.reason||'',updated_at:row?.updated_at||null,grouped,expired,active:mode!=='default'&&!expired&&!grouped};
+}
+export function applyIndividualSpeed(global,record){
+  if(!global.enabled||!record?.active)return global;
+  if(record.mode==='unlimited')return {...global,kbps:null,individual:true};
+  if(record.mode==='custom'&&Number.isInteger(record.kbps)&&record.kbps>=5&&record.kbps<=10000)return {...global,kbps:Math.max(global.kbps,record.kbps),individual:true};
+  return global;
 }

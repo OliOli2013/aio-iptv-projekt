@@ -10,6 +10,7 @@
  };
  const notify=(msg,kind)=>{if(window.AIOCommunity?.showToast)AIOCommunity.showToast(msg,kind);};
  let activeCard=null;
+ document.addEventListener('aio-individual-speed-saved',e=>{const card=Array.from(root.querySelectorAll('[data-admin-user]')).find(c=>c.dataset.adminUser===e.detail?.id);const head=card?.querySelector('.community-admin-item-head > div');if(!head)return;head.querySelector('.aio-speed-user-badge')?.remove();if(e.detail.active)head.append(el('small','aio-speed-user-badge','Indywidualna prędkość'));});
  function button(text,cls,fn){const b=el('button','aou-btn '+(cls||''),text);b.type='button';b.addEventListener('click',fn);return b;}
  async function read(card,box){
    const id=card.dataset.adminUser;
@@ -33,6 +34,7 @@
      line('Sesje',String(d.active_sessions??0)),
      line('Ostatnie logowanie',dt(u.last_login_at)));
    box.append(status);
+   if(u.role==='user')window.AIOSpeedUser?.mount(box,u);
    if(namePolicy.required){
      const note=el('p','aou-username-warning',
        'Wymagana zmiana nazwy do: '+dt(namePolicy.deadline_at)+

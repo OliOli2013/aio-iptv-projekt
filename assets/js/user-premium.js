@@ -927,13 +927,14 @@ function showAioRestriction(message){
     if(access.restricted||access.review_pending&&!access.active){showAioRestriction(access.restriction_message);return false;}
     if(access.email_verified===false){alert('Potwierdź adres e-mail konta AIO przed pobraniem pliku.');return false;}
     if(access.active===true||access.owner===true)return true;
-    const response=await fetch('/api/aio-download-speed',{credentials:'include',cache:'no-store'});
+    const response=await fetch('/api/aio-download-speed?personal=1',{credentials:'include',cache:'no-store'});
     const config=await response.json();
     if(!response.ok||!config.ok)throw Error('Nie można odczytać prędkości pobierania.');
     if(config.enabled!==true)return true;
     if(Number(access.free_remaining)<=0){openSupportModal(item,'limit',{free_resets_at:access.free_resets_at});return false;}
-    const speed=Number(config.kbps);
-    if(!Number.isInteger(speed)||speed<5||speed>10000)throw Error('Nieprawidłowa konfiguracja prędkości.');
+    const unlimited=config.unlimited===true&&config.kbps===null;
+    const speed=unlimited?null:Number(config.kbps);
+    if(!unlimited&&(!Number.isInteger(speed)||speed<5||speed>10000))throw Error('Nieprawidłowa konfiguracja prędkości.');
     if(document.getElementById('aio-free-speed-dialog'))return false;
     // Resolve only once: opening the dialog, closing it, or visiting support never issues a GET.
     return new Promise(resolve=>{
@@ -943,13 +944,13 @@ function showAioRestriction(message){
       const make=(tag,copy)=>{const e=document.createElement(tag);e.textContent=copy;return e;};
       const h=make('h2','Pobieranie – konto FREE');h.id='aio-free-speed-title';h.style.margin='0 0 12px';
       const file=make('p','Plik: '+String(item.label||fileNameFromUrl(item.href)).slice(0,160));file.style.overflowWrap='anywhere';
-      const limit=make('p',speed+' KB/s');limit.style.cssText='font-size:2rem;font-weight:800;margin:8px 0;color:#91e9df';
-      const detail=make('p','Maksymalna prędkość pobierania z konta FREE. Pozostałe darmowe pobrania: '+Number(access.free_remaining)+' z 3.');
-      const offer=make('p','Aktywuj dostęp 7D lub VIP, aby pobierać pliki z pełną dostępną prędkością i bez limitu liczby pobrań. Dostęp jest aktywowany po potwierdzeniu wsparcia.');
+      const limit=make('p',unlimited?'Pełna dostępna prędkość':speed+' KB/s');limit.style.cssText='font-size:2rem;font-weight:800;margin:8px 0;color:#91e9df';
+      const detail=make('p',(config.individual?'Prędkość przyznana indywidualnie przez właściciela. ':'Maksymalna prędkość pobierania z konta FREE. ')+'Pozostałe darmowe pobrania: '+Number(access.free_remaining)+' z 3.');
+      const offer=make('p',unlimited?'Dostęp 7D lub VIP znosi także limit liczby pobrań po potwierdzeniu wsparcia.':'Aktywuj dostęp 7D lub VIP, aby pobierać pliki z pełną dostępną prędkością i bez limitu liczby pobrań. Dostęp jest aktywowany po potwierdzeniu wsparcia.');
       const buttons=document.createElement('div');buttons.style.cssText='display:flex;flex-direction:column;gap:10px;margin-top:18px';
       const style='padding:12px 14px;border:1px solid #5b9da7;border-radius:9px;font:inherit;font-weight:700;cursor:pointer;text-align:center;text-decoration:none;';
       const upgrade=make('a','Sprawdź dostęp 7D / VIP');upgrade.href='/support.html#wesprzyj-projekt';upgrade.style.cssText=style+'background:#78e1d3;color:#082832';
-      const go=make('button','Pobierz z prędkością do '+speed+' KB/s');go.type='button';go.style.cssText=style+'background:#143c4a;color:#effaff';
+      const go=make('button',unlimited?'Pobierz z pełną dostępną prędkością':'Pobierz z prędkością do '+speed+' KB/s');go.type='button';go.style.cssText=style+'background:#143c4a;color:#effaff';
       const cancel=make('button','Anuluj');cancel.type='button';cancel.style.cssText=style+'background:transparent;color:#effaff';
       let settled=false;
       const finish=value=>{if(settled)return;settled=true;dlg.close();dlg.remove();resolve(value);};

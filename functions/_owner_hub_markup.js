@@ -36,6 +36,8 @@ export const OWNER_HTML = String.raw`<!doctype html>
 <script defer src="/assets/js/aio-owner-unified-shortcut-v1.js?v=20261117-v1-2"></script>
 <link rel="stylesheet" href="/assets/css/aio-download-speed-v1.css?v=1">
 <script defer src="/assets/js/aio-download-speed-owner-v1.js?v=1"></script>
+<link rel="stylesheet" href="/assets/css/aio-owner-individual-speed-v1.css?v=1">
+<script defer src="/assets/js/aio-owner-individual-speed-v1.js?v=1"></script>
 </head>
 <body>
 <div class="oh-loading" id="oh-guard" role="status" aria-live="polite">Sprawdzam uprawnienia właściciela…</div>

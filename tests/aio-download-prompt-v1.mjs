@@ -32,3 +32,7 @@ test('two existing handoff paths gate the actual GET; no new debit endpoint',()=
  assert.equal(src.split('if(!await confirmLocalFreeDownload(item,info))return;').length-1,2);
  assert.ok(!code.includes('consumeFree'));assert.ok(!code.includes("method:'POST'"));
 });
+
+test('individual speed is displayed; unlimited FREE retains monthly quota and explicit confirmation',async()=>{
+ for(const config of [{ok:true,enabled:true,kbps:250,individual:true},{ok:true,enabled:true,kbps:null,individual:true,unlimited:true}]){const f=fixture(undefined,config),p=f.run();await tick();const d=f.nodes[0];assert.equal(d.children[2].textContent,config.unlimited?'Pełna dostępna prędkość':'250 KB/s');assert.match(d.children[3].textContent,/2 z 3/);assert.match(d.children[3].textContent,/indywidualnie/);d.children.at(-1).children[1].handlers.click();assert.equal(await p,true);}
+});
