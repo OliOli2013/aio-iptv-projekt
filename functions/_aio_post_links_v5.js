@@ -17,7 +17,7 @@ export function isKnownFileShareLink(url) {
   const host=url.hostname.toLowerCase().replace(/\.$/,'');
   const path=url.pathname;
   if (onHost(host,'megawrzuta.pl')) return /^\/[a-z0-9]{8}(?:\/|$)/i.test(path);
-  if (onHost(host,'mediafire.com')) return /^\/(?:file|file_premium|download)\/[a-z0-9_-]{5,}(?:\/|$)/i.test(path);
+  if (onHost(host,'mediafire.com')) return /^\/(?:file|file_premium|download|folder)\/[a-z0-9_-]{5,}(?:\/|$)/i.test(path);
   if (onHost(host,'mega.nz')) return /^\/(?:file|folder)\/[a-z0-9_-]{5,}(?:\/|$)/i.test(path);
   if (onHost(host,'gofile.io')) return /^\/d\/[a-z0-9_-]{5,}(?:\/|$)/i.test(path);
   if (onHost(host,'pixeldrain.com')) return /^\/(?:u|l)\/[a-z0-9_-]{5,}(?:\/|$)/i.test(path);
@@ -48,6 +48,23 @@ export function isMegawrzutaHost(href){
 export const megawrzutaPaidMessage='Pliki z Megawrzuta są dostępne wyłącznie dla kont z aktywnym dostępem 7D lub VIP. Nie naliczono darmowego pobrania.';
 export function megawrzutaPaidDenied(href,status){
   return isMegawrzutaHost(href)&&status?.active!==true?{ok:false,external_unavailable:true,megawrzuta_paid_only:true,error:megawrzutaPaidMessage,support_url:'/support.html#wesprzyj-projekt'}:null;
+}
+// Central entitlement rule for classified external file links.
+export function paidFileProvider(href){
+  const url=normalizePostLink(href);if(!url)return null;
+  const host=url.hostname.toLowerCase().replace(/\.$/,'');
+  if(onHost(host,'mediafire.com'))return 'MediaFire';
+  if(isMegawrzutaHost(href))return 'Megawrzuta';
+  return null;
+}
+export function isPaidFileHost(href){return paidFileProvider(href)!==null;}
+export function paidFileMessage(href){
+  return 'Pliki z '+(paidFileProvider(href)||'tego hostingu')+' są dostępne wyłącznie dla kont z aktywnym dostępem 7D lub VIP. Nie naliczono darmowego pobrania.';
+}
+export function paidFileDenied(href,status){
+  const provider=paidFileProvider(href);
+  if(!provider||status?.active===true)return null;
+  return {ok:false,external_unavailable:true,paid_file_provider:provider,megawrzuta_paid_only:provider==='Megawrzuta',mediafire_paid_only:provider==='MediaFire',error:paidFileMessage(href),support_url:'/support.html#wesprzyj-projekt'};
 }
 export function linksInPost(content){
   const text=String(content||'');

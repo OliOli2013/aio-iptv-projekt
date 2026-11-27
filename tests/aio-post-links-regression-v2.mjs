@@ -112,6 +112,18 @@ await check('Megawrzuta FREE member: paid-only regardless of proxy policy, no de
  const r=await openPostLink('https://megawrzuta.pl/pi4s7axl');
  assert.equal(r.status,403);assert.equal(r.json.megawrzuta_paid_only,true);assert.equal(r.json.href,undefined);assert.equal(events.debits,0);assert.equal(events.handoffs.length,0);
 });
+await check('MediaFire FREE: post and comment denied, no debit or URL; informational links unchanged',async()=>{
+ const media='https://www.mediafire.com/file_premium/abcdefghijklm/backup.zip/file';
+ post.content+='\n'+media;comment.content+='\n'+media;
+ for(const commentRef of ['',commentId]){
+  const r=await openPostLink(media,{commentRef});assert.equal(r.status,403);assert.equal(r.json.mediafire_paid_only,true);assert.equal(r.json.href,undefined);assert.equal(events.debits,0);
+ }
+ const guest=await openPostLink(media,{member:false});assert.equal(guest.status,401);assert.equal(events.debits,0);
+ post.content+='\nhttps://www.mediafire.com/about';const info=await openPostLink('https://www.mediafire.com/about');assert.equal(info.json.kind,'info');
+ assert.equal(links.classifyPostLink('https://www.mediafire.com/folder/abcdefghijklm/Backup',ORIGIN).kind,'external');
+ assert.equal(links.paidFileDenied('https://mediafire.com.evil.example/a.zip',{active:false}),null);
+ assert.equal(links.paidFileDenied('https://evil-mediafire.com/a.zip',{active:false}),null);
+});
 await check('Other external file: exactly one debit, handoff audit and external click',async()=>{
  const r=await openPostLink('https://example.org/downloads/example.zip');
  assert.equal(r.status,200);assert.equal(r.json.kind,'external');

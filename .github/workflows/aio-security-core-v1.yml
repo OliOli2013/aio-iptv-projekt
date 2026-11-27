@@ -12,6 +12,8 @@ on:
       - 'functions/api/aio-link-handoff.js'
       - 'functions/api/owner-external-speed-map.js'
       - 'functions/_aio_external_speed_v1.js'
+      - 'functions/_aio_post_links_v5.js'
+      - 'tests/aio-post-links-regression-v2.mjs'
       - 'functions/_aio_download_speed_v1.js'
       - 'tests/aio-external-post-speed-v1.mjs'
       - 'supabase/aio-external-post-speed-v1.sql'

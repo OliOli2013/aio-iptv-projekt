@@ -90,7 +90,7 @@ test('MediaFire Premium: exact share format, trusted redirect only, rejects land
  await assert.rejects(helper.fetchExternalFile(premium,async()=>new Response('<html>',{headers:{'Content-Type':'text/html','Content-Length':'6'}})));
  const direct=await helper.fetchExternalFile(premium,async()=>new Response('abc',{headers:{'Content-Type':'application/octet-stream','Content-Length':'3'}}));
  assert.match(direct.headers.get('Content-Disposition'),/OpenSPA-8.7-zgemmah17combo-backup-20261126_2008_usb.zip/);assert.equal(await direct.text(),'abc');
- const {env,db}=fixture();const old=globalThis.fetch;globalThis.fetch=async()=>bytes();try{db.prepare('UPDATE community_posts SET content=? WHERE id=?').run(premium,POST);const p=await prepare(env,premium);assert.equal(p.data.kind,'managed_external');assert.equal(env.charged,0);const r=await get(env,token(p));assert.equal(r.status,200);assert.equal(r.headers.get('X-AIO-Download-Limit-KBps'),'25');assert.equal(await r.text(),'abcde');assert.equal(env.charged,1);}finally{globalThis.fetch=old;db.close();}
+ const {env,db}=fixture();const old=globalThis.fetch;globalThis.fetch=async()=>{throw Error('MediaFire must not be proxied');};try{db.prepare('UPDATE community_posts SET content=? WHERE id=?').run(premium,POST);assert.equal((await prepare(env,premium)).status,403);env.state.active=true;const p=await prepare(env,premium);assert.equal(p.data.kind,'managed_external');const r=await get(env,token(p));assert.equal(r.status,302);assert.equal(r.headers.get('Location'),premium);assert.equal(env.charged,0);}finally{globalThis.fetch=old;db.close();}
 });
 
 
@@ -137,4 +137,31 @@ test('External diagnostics expose fixed codes, no URLs or secrets, no debit',asy
   try{const r=await get(env,token(await prepare(env)));assert.equal(r.status,502);const message=await r.text();assert.ok(message.endsWith(code),message);assert.doesNotMatch(message,/secret|hidden|evil\.test/);assert.equal(env.charged,0);assert.equal(db.prepare('SELECT COUNT(*) n FROM aio_download_speed_leases_v1').get().n,0);}
   finally{globalThis.fetch=old;db.close();}
  }
+});
+
+
+test('MediaFire entitlement: both switches, FREE/individual, paid, report, old tickets, expiry',async()=>{
+ const {env,db}=fixture();const media='https://www.mediafire.com/file_premium/abcdefghijklm/backup.zip/file';
+ db.prepare('UPDATE community_posts SET content=? WHERE id=?').run(media,POST);
+ db.prepare('INSERT INTO aio_external_speed_maps_v1(source_hash,r2_path,updated_at,updated_by) VALUES(?,?,?,?)').run(await helper.sourceHash(media),'/pliki/test.zip','2026-11-27','owner');
+ db.prepare('INSERT INTO aio_download_speed_users_v1(user_id,mode,kbps,expires_ms,reason,updated_at) VALUES(?,?,?,?,?,?)').run('free','unlimited',null,null,'test','2026-11-27');
+ const old=globalThis.fetch;let calls=0;globalThis.fetch=async()=>{calls++;throw Error('No proxy');};
+ try{
+ for(const global of [0,1])for(const external of [0,1]){
+  db.exec('UPDATE aio_download_speed_config_v1 SET enabled='+global+';UPDATE aio_external_speed_policy_v1 SET enabled='+external);
+  for(const href of [media,'https://www.mediafire.com/file/abcdefghijklm/backup.zip/file','https://download1527.mediafire.com/a/b/backup.zip'])for(const source of ['post','chat','catalog']){
+   const r=await prepare(env,href,{source});assert.equal(r.status,403);assert.equal(r.data.paid_file_provider,'MediaFire');assert.equal(r.data.href,undefined);
+  }
+  assert.equal(await prepare(env,GOOD)==null,!global||!external);
+  for(const grant of [{active:true,vip:true},{active:true,vip:false},{active:true,owner:true}]){
+   env.state={...env.state,...grant};const p=await prepare(env,media);const r=await get(env,token(p));assert.equal(r.status,302);assert.equal(r.headers.get('Location'),media);env.state={authenticated:true,email_verified:true,active:false,free_remaining:3};
+  }
+  const stale=await helper.createTicket(env,env.user.id,{source:'post',sourceId:POST,href:media});const denied=await get(env,stale);assert.equal(denied.status,403);assert.equal(denied.headers.get('Location'),null);
+  env.state.active=true;const t=token(await prepare(env,media));env.state.active=false;assert.equal((await get(env,t)).status,403);
+ }
+ assert.equal(calls,0);assert.equal(env.charged,0);
+ env.owner=true;const rep=await (await callOwner(env,{action:'report'})).json();assert.equal(rep.items.find(x=>x.href===media).mode,'paid_only');
+ const look=await (await callOwner(env,{action:'lookup',href:media})).json();assert.equal(look.paid_only,true);assert.equal(look.paid_provider,'MediaFire');
+ assert.equal((await callOwner(env,{action:'save',href:media,path:'/pliki/test.zip',confirm:true})).status,400);
+ }finally{globalThis.fetch=old;db.close();}
 });
