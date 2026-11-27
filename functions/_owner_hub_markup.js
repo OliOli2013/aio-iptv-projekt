@@ -23,7 +23,7 @@ export const OWNER_HTML = String.raw`<!doctype html>
 <script defer src="/assets/js/aio-post-links-owner-v5.js?v=20261020-aplv5"></script>
 <script defer src="/assets/js/aio-post-file-stats-owner-v1.js?v=20261024-post-file-stats-v1"></script>
 <link rel="stylesheet" href="/assets/css/aio-owner-desk-v3.css?v=20261023-owner-mobile-v10">
-<script defer src="/assets/js/aio-owner-desk-v3.js?v=20261119-support-queue-fix-v1"></script>
+<script defer src="/assets/js/aio-owner-desk-v3.js?v=20261127-download-speed-ui1"></script>
 <link rel="stylesheet" href="/assets/css/aio-owner-messages-v1.css?v=20261021-owner-messages-v1">
 <link rel="stylesheet" href="/assets/css/aio-owner-layout-v4.css?v=20261113-etap2-v4">
 <link rel="stylesheet" href="/assets/css/aio-owner-focus-v5.css?v=20261115-v5">
