@@ -919,6 +919,49 @@ function showAioRestriction(message){
     link.textContent='Skontaktuj się z administratorem →';link.style.cssText='display:inline-block;background:#b9f3ff;color:#063342;padding:9px 12px;border-radius:8px;font-weight:800;text-decoration:none;';
     box.append(text,link);box.scrollIntoView({behavior:'smooth',block:'center'});
   }
+  /* AIO_DOWNLOAD_PROMPT_V1: local handoff is not a debit. The actual GET remains authoritative. */
+  async function confirmLocalFreeDownload(item,info){
+    if(info.kind!=='local')return true;
+    const access=await accountApi();
+    if(!access.authenticated){guestDownloadDialog(item);return false;}
+    if(access.restricted||access.review_pending&&!access.active){showAioRestriction(access.restriction_message);return false;}
+    if(access.email_verified===false){alert('Potwierdź adres e-mail konta AIO przed pobraniem pliku.');return false;}
+    if(access.active===true||access.owner===true)return true;
+    const response=await fetch('/api/aio-download-speed',{credentials:'include',cache:'no-store'});
+    const config=await response.json();
+    if(!response.ok||!config.ok)throw Error('Nie można odczytać prędkości pobierania.');
+    if(config.enabled!==true)return true;
+    if(Number(access.free_remaining)<=0){openSupportModal(item,'limit',{free_resets_at:access.free_resets_at});return false;}
+    const speed=Number(config.kbps);
+    if(!Number.isInteger(speed)||speed<5||speed>10000)throw Error('Nieprawidłowa konfiguracja prędkości.');
+    if(document.getElementById('aio-free-speed-dialog'))return false;
+    // Resolve only once: opening the dialog, closing it, or visiting support never issues a GET.
+    return new Promise(resolve=>{
+      const dlg=document.createElement('dialog');dlg.id='aio-free-speed-dialog';dlg.className='aio-guest-access-v31';
+      dlg.setAttribute('aria-labelledby','aio-free-speed-title');
+      dlg.style.cssText='width:min(92vw,480px);max-width:92vw;box-sizing:border-box;background:#102e3b;color:#effaff;border:1px solid #5b9da7;border-radius:16px;padding:22px;box-shadow:0 20px 70px #0009';
+      const make=(tag,copy)=>{const e=document.createElement(tag);e.textContent=copy;return e;};
+      const h=make('h2','Pobieranie – konto FREE');h.id='aio-free-speed-title';h.style.margin='0 0 12px';
+      const file=make('p','Plik: '+String(item.label||fileNameFromUrl(item.href)).slice(0,160));file.style.overflowWrap='anywhere';
+      const limit=make('p',speed+' KB/s');limit.style.cssText='font-size:2rem;font-weight:800;margin:8px 0;color:#91e9df';
+      const detail=make('p','Maksymalna prędkość pobierania z konta FREE. Pozostałe darmowe pobrania: '+Number(access.free_remaining)+' z 3.');
+      const offer=make('p','Aktywuj dostęp 7D lub VIP, aby pobierać pliki z pełną dostępną prędkością i bez limitu liczby pobrań. Dostęp jest aktywowany po potwierdzeniu wsparcia.');
+      const buttons=document.createElement('div');buttons.style.cssText='display:flex;flex-direction:column;gap:10px;margin-top:18px';
+      const style='padding:12px 14px;border:1px solid #5b9da7;border-radius:9px;font:inherit;font-weight:700;cursor:pointer;text-align:center;text-decoration:none;';
+      const upgrade=make('a','Sprawdź dostęp 7D / VIP');upgrade.href='/support.html#wesprzyj-projekt';upgrade.style.cssText=style+'background:#78e1d3;color:#082832';
+      const go=make('button','Pobierz z prędkością do '+speed+' KB/s');go.type='button';go.style.cssText=style+'background:#143c4a;color:#effaff';
+      const cancel=make('button','Anuluj');cancel.type='button';cancel.style.cssText=style+'background:transparent;color:#effaff';
+      let settled=false;
+      const finish=value=>{if(settled)return;settled=true;dlg.close();dlg.remove();resolve(value);};
+      go.addEventListener('click',()=>finish(true));cancel.addEventListener('click',()=>finish(false));
+      upgrade.addEventListener('click',e=>{e.preventDefault();finish(false);location.assign(upgrade.href);});
+      dlg.addEventListener('cancel',e=>{e.preventDefault();finish(false);});
+      dlg.addEventListener('close',()=>{if(!settled){settled=true;dlg.remove();resolve(false);}});
+      buttons.append(upgrade,go,cancel);dlg.append(h,file,limit,detail,offer,buttons);
+      document.body.append(dlg);try{dlg.showModal();}catch(e){dlg.remove();resolve(false);}
+    });
+  }
+
  async function accountDownload(item,kind){
     // All catalog download buttons enter the same server-authorized handoff.
     // /pliki/ delivery itself is charged only on successful GET (200/206).
@@ -940,6 +983,7 @@ function showAioRestriction(message){
         throw new Error(info.error||'HTTP '+res.status);
       }
       if(info.kind==='external')trackAccessActivity('free_access',item,{kind,source:'catalog'});
+      if(!await confirmLocalFreeDownload(item,info))return;
       openDownloadTarget({...item,href:info.href});
       if(info.kind==='external')updateAccessIndicator();
     }catch(e){console.error('AIO unified catalog link',e);alert('Nie udało się otworzyć pobierania. Spróbuj ponownie lub skontaktuj się z nami.');}
@@ -970,6 +1014,7 @@ function showAioRestriction(message){
         throw new Error(info.error||'HTTP '+res.status);
       }
       if(info.kind==='external')trackAccessActivity('free_access',item,{kind:'community',source:'post'});
+      if(!await confirmLocalFreeDownload(item,info))return;
       openDownloadTarget({...item,href:info.href});
       if(info.kind==='external')updateAccessIndicator();
     }catch(err){console.error('AIO V5 post link',err);alert('Nie udało się otworzyć wybranego pliku. Spróbuj ponownie lub skontaktuj się z nami.');}
