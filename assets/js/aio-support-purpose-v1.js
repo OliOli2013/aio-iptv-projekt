@@ -113,6 +113,8 @@
     }
   });
  }
+ // Entry from the FREE confirmation: chosen purpose and operator are already known.
+ window.AIOSupportStartPaid=(method,purpose)=>{if(method==='buycoffee'&&['access7','vip30'].includes(purpose))createDirectPaidIntent(method,purpose);};
  document.addEventListener('click',e=>{
    const direct=e.target.closest('a[href]');const method=providerFromLink(direct);
    if(method){

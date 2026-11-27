@@ -954,23 +954,27 @@ function showAioRestriction(message){
       dlg.setAttribute('aria-labelledby','aio-free-speed-title');
       dlg.style.cssText='width:min(92vw,480px);max-width:92vw;box-sizing:border-box;background:#102e3b;color:#effaff;border:1px solid #5b9da7;border-radius:16px;padding:22px;box-shadow:0 20px 70px #0009';
       const make=(tag,copy)=>{const e=document.createElement(tag);e.textContent=copy;return e;};
-      const h=make('h2','Pobieranie – konto FREE');h.id='aio-free-speed-title';h.style.margin='0 0 12px';
+      const h=make('h2',unlimited?'Pobieranie – konto FREE':'Wolne pobieranie');h.id='aio-free-speed-title';h.style.margin='0 0 12px';
       const file=make('p','Plik: '+String(item.label||fileNameFromUrl(item.href)).slice(0,160));file.style.overflowWrap='anywhere';
       const limit=make('p',unlimited?'Pełna dostępna prędkość':speed+' KB/s');limit.style.cssText='font-size:2rem;font-weight:800;margin:8px 0;color:#91e9df';
       const detail=make('p',(config.individual?'Prędkość przyznana indywidualnie przez właściciela. ':'Maksymalna prędkość pobierania z konta FREE. ')+'Pozostałe darmowe pobrania: '+Number(access.free_remaining)+' z 3.');
-      const offer=make('p',unlimited?'Dostęp 7D lub VIP znosi także limit liczby pobrań po potwierdzeniu wsparcia.':'Aktywuj dostęp 7D lub VIP, aby pobierać pliki z pełną dostępną prędkością i bez limitu liczby pobrań. Dostęp jest aktywowany po potwierdzeniu wsparcia.');
+      const offer=make('p',unlimited?'Chcesz pobierać bez limitu liczby plików? Wybierz dostęp 7 dni lub VIP.':'Chcesz pobierać szybciej i bez limitu liczby plików? Wybierz dostęp 7 dni lub VIP 30 dni. Dostęp po potwierdzeniu wpłaty. VIP: minimum 30 zł.');
       const buttons=document.createElement('div');buttons.style.cssText='display:flex;flex-direction:column;gap:10px;margin-top:18px';
       const style='padding:12px 14px;border:1px solid #5b9da7;border-radius:9px;font:inherit;font-weight:700;cursor:pointer;text-align:center;text-decoration:none;';
-      const upgrade=make('a','Sprawdź dostęp 7D / VIP');upgrade.href='/support.html#wesprzyj-projekt';upgrade.style.cssText=style+'background:#78e1d3;color:#082832';
+      const coffee='https://buycoffee.to/pawelpawelek/rozwoj-strony-aio-iptv-pl-i-darmowych-projektow-enigma2';
+      const upgrade=make('a','7 dni – nielimitowane pobieranie');upgrade.href=coffee;upgrade.setAttribute('data-aio-purpose-direct','1');upgrade.style.cssText=style+'background:#78e1d3;color:#082832';
+      const vip=make('a','VIP 30 dni – nielimitowane pobieranie');vip.href=coffee;vip.setAttribute('data-aio-purpose-direct','1');vip.style.cssText=style+'background:#6547a4;color:#fff';
       const go=make('button',unlimited?'Pobierz z pełną dostępną prędkością':'Pobierz z prędkością do '+speed+' KB/s');go.type='button';go.style.cssText=style+'background:#143c4a;color:#effaff';
       const cancel=make('button','Anuluj');cancel.type='button';cancel.style.cssText=style+'background:transparent;color:#effaff';
       let settled=false;
       const finish=value=>{if(settled)return;settled=true;dlg.close();dlg.remove();resolve(value);};
       go.addEventListener('click',()=>finish(true));cancel.addEventListener('click',()=>finish(false));
-      upgrade.addEventListener('click',e=>{e.preventDefault();finish(false);location.assign(upgrade.href);});
+      const choosePaid=(e,purpose)=>{e.preventDefault();finish(false);if(typeof globalThis.AIOSupportStartPaid==='function'){globalThis.AIOSupportStartPaid('buycoffee',purpose);}else{location.assign('/support.html#wesprzyj-projekt');}};
+      upgrade.addEventListener('click',e=>choosePaid(e,'access7'));
+      vip.addEventListener('click',e=>choosePaid(e,'vip30'));
       dlg.addEventListener('cancel',e=>{e.preventDefault();finish(false);});
       dlg.addEventListener('close',()=>{if(!settled){settled=true;dlg.remove();resolve(false);}});
-      buttons.append(upgrade,go,cancel);dlg.append(h,file,limit,detail,offer,buttons);
+      buttons.append(upgrade,vip,go,cancel);dlg.append(h,file,limit,detail,offer,buttons);
       document.body.append(dlg);try{dlg.showModal();}catch(e){dlg.remove();resolve(false);}
     });
   }
@@ -1371,4 +1375,4 @@ function showAioRestriction(message){
 })();
 
 /* AIO Support Purpose V1 — single shared intent step on support links and AIO Access modal. */
-(()=>{if(typeof document==='undefined')return;const s=document.createElement('script');s.src='/assets/js/aio-support-purpose-v1.js?v=20261021-ui-v2';s.defer=true;s.dataset.aioSupportPurpose='v1';document.head.append(s);})();
+(()=>{if(typeof document==='undefined')return;const s=document.createElement('script');s.src='/assets/js/aio-support-purpose-v1.js?v=20261127-slow-dialog-v1';s.defer=true;s.dataset.aioSupportPurpose='v1';document.head.append(s);})();
