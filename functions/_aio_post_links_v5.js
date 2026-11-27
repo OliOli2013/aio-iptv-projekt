@@ -45,7 +45,7 @@ export function isMegawrzutaHost(href){
   const host=url.hostname.toLowerCase().replace(/\.$/,'');
   return host==='megawrzuta.pl'||host.endsWith('.megawrzuta.pl');
 }
-export const megawrzutaPaidMessage='Pliki z Megawrzuta są dostępne wyłącznie dla kont z aktywnym dostępem 7D lub VIP. Nie naliczono darmowego pobrania.';
+export const megawrzutaPaidMessage='Ten plik jest dostępny wyłącznie dla użytkowników z aktywnym dostępem 7D lub VIP. Nie naliczono darmowego pobrania.';
 export function megawrzutaPaidDenied(href,status){
   return isMegawrzutaHost(href)&&status?.active!==true?{ok:false,external_unavailable:true,megawrzuta_paid_only:true,error:megawrzutaPaidMessage,support_url:'/support.html#wesprzyj-projekt'}:null;
 }
@@ -59,7 +59,7 @@ export function paidFileProvider(href){
 }
 export function isPaidFileHost(href){return paidFileProvider(href)!==null;}
 export function paidFileMessage(href){
-  return 'Pliki z '+(paidFileProvider(href)||'tego hostingu')+' są dostępne wyłącznie dla kont z aktywnym dostępem 7D lub VIP. Nie naliczono darmowego pobrania.';
+  return 'Ten plik jest dostępny wyłącznie dla użytkowników z aktywnym dostępem 7D lub VIP. Nie naliczono darmowego pobrania.';
 }
 export function paidFileDenied(href,status){
   const provider=paidFileProvider(href);
