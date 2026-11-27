@@ -95,11 +95,11 @@ for(const path of ['../_community.js','../_aio_account_access.js','../_aio_secur
  apiText=apiText.replaceAll(quoted,'from '+JSON.stringify(stub));
 }
 assert.ok(apiText.includes("from '../_aio_post_links_v5.js'"));
-apiText=apiText.replace("from '../_aio_post_links_v5.js'",'from '+JSON.stringify(linksUrl));
+apiText=apiText.replaceAll("from '../_aio_post_links_v5.js'",'from '+JSON.stringify(linksUrl));
 assert.ok(apiText.includes("from '../_aio_panel_public_v1.js'"));
-apiText=apiText.replace("from '../_aio_panel_public_v1.js'",'from '+JSON.stringify(panelUrl));
+apiText=apiText.replaceAll("from '../_aio_panel_public_v1.js'",'from '+JSON.stringify(panelUrl));
 const externalDisabled=moduleUrl('export async function prepareExternal(){return null}');
-apiText=apiText.replace("from '../_aio_external_speed_v1.js'",'from '+JSON.stringify(externalDisabled));
+apiText=apiText.replaceAll("from '../_aio_external_speed_v1.js'",'from '+JSON.stringify(externalDisabled));
 const api=await import(moduleUrl(apiText));
 async function openPostLink(href,{member=true,commentRef=''}={}){
  const request=new Request(ORIGIN+'/api/aio-post-link',{
