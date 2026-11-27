@@ -1,7 +1,7 @@
 /* External files: no open proxy. Only vetted provider paths or owner-mapped R2 objects. */
 import {speedConfig} from './_aio_download_speed_v1.js';
 import {r2KeyFromPath,privateStorageEnabled} from './_aio_private_files.js';
-import {normalizePostLink,linksInPost,classifyPostLink} from './_aio_post_links_v5.js';
+import {normalizePostLink,linksInPost,classifyPostLink,isMegawrzutaHost,megawrzutaPaidDenied} from './_aio_post_links_v5.js';
 const MAX_BYTES=2*1024**3, TTL=10*60*1000;
 const FILE=/\.(?:ipk|apk|exe|msi|zip|7z|rar|deb|rpm|pdf|tar|tgz|gz|xz|img|bin|iso|m3u8?|xml|conf|cfg|backup|sh|py|json|txt|list|tv|radio|bouquet)$/i;
 const safeUrl=raw=>{try{const u=new URL(raw);return u.protocol==='https:'&&!u.username&&!u.password&&!u.port?u:null;}catch{return null;}};
@@ -48,6 +48,13 @@ export async function externalPolicy(env){
  return row?.enabled===1;
 }
 export async function prepareExternal(env,user,status,{source,sourceId='',commentId='',href}){
+ // Independent entitlement rule: never expose a raw URL or mapped R2 path to FREE.
+ if(isMegawrzutaHost(href)){
+  const denied=megawrzutaPaidDenied(href,status);if(denied)return {status:403,data:denied};
+  const token=await createTicket(env,user.id,{source,sourceId,commentId,href});
+  if(!token)return {status:429,data:{ok:false,error:'Za dużo oczekujących pobrań. Spróbuj ponownie za kilka minut.'}};
+  return {status:200,data:{ok:true,kind:'managed_external',href:'/api/aio-external-download?t='+token,counted:false}};
+ }
  const global=await speedConfig(env);
  if(!global.enabled||!await externalPolicy(env))return null; // original handoff until separately enabled
  if(!status.active&&!(Number(status.free_remaining)>0))return {status:429,data:{ok:false,limit_reached:true,free_resets_at:status.free_resets_at||null,error:'Wykorzystano limit darmowych pobrań.'}};

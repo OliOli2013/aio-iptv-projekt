@@ -10,6 +10,7 @@ import {monitorDownload} from '../_aio_security_v6.js';
 import {checkAnonymousFileBurst} from '../_aio_anon_shield_v1.js';
 import {linksInPost,normalizePostLink,classifyPostLink,externalFileKey,safePostFileName} from '../_aio_post_links_v5.js';
 import {prepareExternal} from '../_aio_external_speed_v1.js';
+import {megawrzutaPaidDenied} from '../_aio_post_links_v5.js';
 import {isOfficialAioPanelIpkUrl,PUBLIC_IPK_PATH} from '../_aio_panel_public_v1.js';
 
 const EXTRA={'Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff'};
@@ -86,6 +87,8 @@ export async function onRequestPost({request,env}){
     }
     const burst=await monitorDownload(env,request,user.id);
     if(burst.blocked)return reply({ok:false,restricted:true,error:'Dostęp do pobierania jest ograniczony.'},403);
+    const paidOnly=megawrzutaPaidDenied(clicked.href,status);
+    if(paidOnly)return reply(paidOnly,403);
     const managed=await prepareExternal(env,user,status,{source,sourceId:messageId,href:clicked.href});
     if(managed)return reply(managed.data,managed.status);
     const fileKey=await externalFileKey(clicked.href,sha256);

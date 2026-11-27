@@ -1,5 +1,5 @@
 import {requireAdmin,getOwnerId,json} from '../_community.js';
-import {normalizePostLink,classifyPostLink,linksInPost} from '../_aio_post_links_v5.js';
+import {normalizePostLink,classifyPostLink,linksInPost,isMegawrzutaHost} from '../_aio_post_links_v5.js';
 import {isOfficialAioPanelIpkUrl} from '../_aio_panel_public_v1.js';
 import {r2KeyFromPath,privateStorageEnabled} from '../_aio_private_files.js';
 import {sourceHash,validMapPath,directSource,externalPolicy} from '../_aio_external_speed_v1.js';
@@ -23,13 +23,14 @@ export async function onRequestPost({request,env}){
    const found=new Map();for(const row of rows)for(const href of linksInPost(row.content)){if(classifyPostLink(href,origin).kind==='external'&&!isOfficialAioPanelIpkUrl(href,origin))found.set(href,{href,host:new URL(href).hostname,source:row.source});if(found.size>500)break;}
    const list=[...found.values()].slice(0,500);for(const item of list)item.hash=await sourceHash(item.href);
    const maps=new Set();for(let i=0;i<list.length;i+=50){const chunk=list.slice(i,i+50);const matches=(await db.prepare('SELECT source_hash FROM aio_external_speed_maps_v1 WHERE source_hash IN ('+chunk.map(()=>'?').join(',')+')').bind(...chunk.map(x=>x.hash)).all()).results||[];for(const m of matches)maps.add(m.source_hash);}
-   return out({ok:true,checked:rows.length,more:rows.length===50,items:list.map(x=>({href:x.href,host:x.host,source:x.source,mode:maps.has(x.hash)?'mapped':directSource(x.href)?'direct':'needs_copy'}))});
+   return out({ok:true,checked:rows.length,more:rows.length===50,items:list.map(x=>({href:x.href,host:x.host,source:x.source,mode:isMegawrzutaHost(x.href)?'paid_only':maps.has(x.hash)?'mapped':directSource(x.href)?'direct':'needs_copy'}))});
   }
   const url=normalizePostLink(b.href);
   if(!url||url.origin===origin||classifyPostLink(url.href,origin).kind!=='external'||isOfficialAioPanelIpkUrl(url.href,origin))return out({ok:false,error:'Podaj pełny, rozpoznany zewnętrzny link do pliku.'},400);
   const hash=await sourceHash(url.href);
-  if(b.action==='lookup'){const row=await db.prepare('SELECT r2_path,updated_at FROM aio_external_speed_maps_v1 WHERE source_hash=?').bind(hash).first();return out({ok:true,mapping:row||null});}
+  if(b.action==='lookup'){const row=await db.prepare('SELECT r2_path,updated_at FROM aio_external_speed_maps_v1 WHERE source_hash=?').bind(hash).first();return out({ok:true,mapping:row||null,paid_only:isMegawrzutaHost(url.href)});}
   if(b.confirm!==true||!['save','remove'].includes(b.action))return out({ok:false,error:'Potwierdź operację.'},400);
+  if(b.action==='save'&&isMegawrzutaHost(url.href))return out({ok:false,error:'Megawrzuta: tylko 7D / VIP. Kopia R2 nie jest wymagana.'},400);
   const path=String(b.path||'').trim();
   if(b.action==='save'&&(!validMapPath(path)||!privateStorageEnabled(env)||!await env.AIO_PRIVATE_FILES?.head(r2KeyFromPath(path))))return out({ok:false,error:'Nie znaleziono dozwolonego pliku w prywatnym R2. Podaj ścieżkę /pliki/nazwa.zip.'},400);
   const now=new Date().toISOString(),meta=JSON.stringify({source_hash:hash,host:url.hostname,r2_path:b.action==='save'?path:null});

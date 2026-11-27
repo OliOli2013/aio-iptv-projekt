@@ -10,6 +10,7 @@ import {checkAnonymousFileBurst} from '../_aio_anon_shield_v1.js';
 import {recordPostFileClickV1} from '../_aio_post_file_stats_v1.js';
 import {linksInPost,normalizePostLink,classifyPostLink,ensurePostLinkSchema,safePostFileName,externalFileKey} from '../_aio_post_links_v5.js';
 import {prepareExternal} from '../_aio_external_speed_v1.js';
+import {megawrzutaPaidDenied} from '../_aio_post_links_v5.js';
 import {isOfficialAioPanelIpkUrl,PUBLIC_IPK_PATH} from '../_aio_panel_public_v1.js'; // AIO_PUBLIC_PANEL_V1
 const HEADERS={'Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff'};
 function result(obj,code=200){return json(obj,code,HEADERS)}
@@ -88,6 +89,8 @@ export async function onRequestPost({request,env}){
       if(commentId)local.searchParams.set('aio_comment',commentId); // already verified above
       return result({ok:true,kind:'local',href:local.href,counted:false,accounted_by:'file_server',stats_recorded:statsRecorded});
     }
+    const paidOnly=megawrzutaPaidDenied(clicked.href,status);
+    if(paidOnly)return result(paidOnly,403);
     const managed=await prepareExternal(env,user,status,{source:'post',sourceId:postId,commentId,href:clicked.href});
     if(managed)return result(managed.data,managed.status);
     const fileKey=await externalFileKey(clicked.href,sha256);

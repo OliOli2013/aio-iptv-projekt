@@ -52,12 +52,20 @@ try:
              'if(!admission.allowed)return denied(admission)',
              'if(!freshAdmission.allowed)return denied(freshAdmission)',
              'verifyTicketSource(env,t,url.origin)', 'takeTicket(env,token,user.id)',
-             'claimSpeedLease(env,user.id)', 'speedResponse(asset,config,lease,context)')
+             'claimSpeedLease(env,user.id)', 'speedResponse(asset,config,lease,context)',
+             'if(premiumOnly && state.active!==true)', 'if(premiumOnly && fresh.active!==true)')
     if any(marker not in external for marker in markers):
         failures.append('Brak wymaganych kontroli w zewnetrznej bramce transferu')
     if external.count('consumeFree(env,user.id,fileKey,request)')!=2 or external.count('if(!permit.allowed)return denied(permit)')!=2:
         failures.append('Niezweryfikowane naliczenie lub odmowa w zewnetrznej bramce')
 except FileNotFoundError:pass
+# Megawrzuta entitlement must be checked before either managed or legacy handoff.
+for path in ('functions/api/aio-post-link.js','functions/api/aio-link-handoff.js'):
+    source=read(path)
+    guard=source.find('megawrzutaPaidDenied(clicked.href,status)')
+    prepare=source.find('const managed=await prepareExternal(')
+    debit=source.find('consumeFree(env,user.id,fileKey,request)')
+    if not (0 <= guard < prepare < debit):failures.append('Brak kontroli dostepu Megawrzuta: '+path)
 # Every call to consumeFree outside the shared implementation must include Request.
 allowed={'functions/pliki/[[path]].js','functions/api/aio-post-link.js','functions/api/aio-account-access.js','functions/api/aio-link-handoff.js','functions/api/aio-external-download.js'}
 found=[]

@@ -18,7 +18,7 @@ const helper=await import('../functions/_aio_external_speed_v1.js');
 const {onRequestGet,onRequestHead}=await import('../functions/api/aio-external-download.js');
 const {onRequestPost:owner}=await import('../functions/api/owner-external-speed-map.js');
 const {claimSpeedLease}=await import('../functions/_aio_download_speed_v1.js');
-const ORIGIN='https://fixture.invalid',GOOD='https://github.com/example/repo/releases/download/v1/test.zip',BAD='https://megawrzuta.pl/abcdefgh',COMMENT='comment-12345',POST='post-1234567';
+const ORIGIN='https://fixture.invalid',GOOD='https://github.com/example/repo/releases/download/v1/test.zip',BAD='https://example.org/downloads/test.zip',COMMENT='comment-12345',POST='post-1234567';
 const sql=p=>readFileSync(new URL('../supabase/'+p,import.meta.url),'utf8');
 function fixture(){const db=new DatabaseSync(':memory:');db.exec('PRAGMA foreign_keys=ON;CREATE TABLE community_profiles(id TEXT PRIMARY KEY);INSERT INTO community_profiles VALUES(\'free\'),(\'other\'),(\'owner\');CREATE TABLE aio_multikonta_quota_members_v2(user_id TEXT PRIMARY KEY,group_id TEXT NOT NULL);');
  db.exec(sql('aio-download-speed-v1.sql'));db.exec(sql('aio-individual-speed-v1.sql'));db.exec(sql('aio-external-post-speed-v1.sql'));db.exec(sql('aio-external-post-speed-v1.sql'));
@@ -91,4 +91,33 @@ test('MediaFire Premium: exact share format, trusted redirect only, rejects land
  const direct=await helper.fetchExternalFile(premium,async()=>new Response('abc',{headers:{'Content-Type':'application/octet-stream','Content-Length':'3'}}));
  assert.match(direct.headers.get('Content-Disposition'),/OpenSPA-8.7-zgemmah17combo-backup-20261126_2008_usb.zip/);assert.equal(await direct.text(),'abc');
  const {env,db}=fixture();const old=globalThis.fetch;globalThis.fetch=async()=>bytes();try{db.prepare('UPDATE community_posts SET content=? WHERE id=?').run(premium,POST);const p=await prepare(env,premium);assert.equal(p.data.kind,'managed_external');assert.equal(env.charged,0);const r=await get(env,token(p));assert.equal(r.status,200);assert.equal(r.headers.get('X-AIO-Download-Limit-KBps'),'25');assert.equal(await r.text(),'abcde');assert.equal(env.charged,1);}finally{globalThis.fetch=old;db.close();}
+});
+
+
+test('Megawrzuta only 7D/VIP/owner, independent of global switch, mapping and individual speed',async()=>{
+ const {env,db}=fixture(),mega='https://megawrzuta.pl/abcdefgh';
+ db.prepare('UPDATE community_posts SET content=? WHERE id=?').run(mega,POST);
+ db.prepare('INSERT INTO aio_external_speed_maps_v1(source_hash,r2_path,updated_at,updated_by) VALUES(?,?,?,?)').run(await helper.sourceHash(mega),'/pliki/test.zip','2026-11-27','owner');
+ db.prepare('INSERT INTO aio_download_speed_users_v1(user_id,mode,kbps,expires_ms,reason,updated_at) VALUES(?,?,?,?,?,?)').run('free','unlimited',null,null,'test','2026-11-27');
+ for(const enabled of [0,1]){
+  db.exec('UPDATE aio_download_speed_config_v1 SET enabled='+enabled+';UPDATE aio_external_speed_policy_v1 SET enabled='+enabled);
+  for(const source of ['post','chat','catalog']){
+   const r=await prepare(env,mega,{source});assert.equal(r.status,403);assert.equal(r.data.megawrzuta_paid_only,true);assert.equal(r.data.href,undefined);
+  }
+  assert.equal(env.charged,0);assert.equal(db.prepare('SELECT COUNT(*) n FROM aio_external_speed_tickets_v1').get().n,0);
+  for(const grant of [{active:true,vip:true},{active:true,vip:false},{active:true,owner:true}]){
+   env.state={...env.state,...grant};const p=await prepare(env,mega);assert.equal(p.data.kind,'managed_external');const r=await get(env,token(p));assert.equal(r.status,302);assert.equal(r.headers.get('Location'),mega);assert.equal(env.charged,0);env.state={authenticated:true,email_verified:true,active:false,free_remaining:3};
+  }
+  env.state.active=true;const t=token(await prepare(env,mega));env.state.active=false;const r=await get(env,t);assert.equal(r.status,403);assert.equal(r.headers.get('Location'),null);assert.equal(env.charged,0);
+  await helper.takeTicket(env,t,'free');
+ }
+ env.owner=true;const rep=await (await callOwner(env,{action:'report'})).json();assert.equal(rep.items.find(x=>x.href===mega).mode,'paid_only');
+ const look=await (await callOwner(env,{action:'lookup',href:mega})).json();assert.equal(look.paid_only,true);
+ assert.equal((await callOwner(env,{action:'save',href:mega,path:'/pliki/test.zip',confirm:true})).status,400);
+ db.close();
+});
+test('Megawrzuta entitlement is checked again after ticket claim',async()=>{
+ const {env,db}=fixture(),mega='https://www.megawrzuta.pl/abcdefgh';db.prepare('UPDATE community_posts SET content=? WHERE id=?').run(mega,POST);env.state.active=true;
+ const t=token(await prepare(env,mega));const original=env.COMMUNITY_DB.prepare;env.COMMUNITY_DB.prepare=function(sql){const stmt=original.call(this,sql);if(!sql.startsWith('DELETE FROM aio_external_speed_tickets_v1 WHERE token='))return stmt;const bind=stmt.bind;stmt.bind=function(...p){const b=bind(...p),first=b.first;b.first=async()=>{const r=await first();env.state={...env.state,active:false};return r;};return b;};return stmt;};
+ const r=await get(env,t);assert.equal(r.status,403);assert.equal(r.headers.get('Location'),null);assert.equal(env.charged,0);db.close();
 });

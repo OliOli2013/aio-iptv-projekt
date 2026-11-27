@@ -39,6 +39,16 @@ export function normalizePostLink(input){
     return url;
   }catch(_){return null;}
 }
+// Only called for classified file handoffs; ordinary Megawrzuta pages stay informational.
+export function isMegawrzutaHost(href){
+  const url=normalizePostLink(href);if(!url)return false;
+  const host=url.hostname.toLowerCase().replace(/\.$/,'');
+  return host==='megawrzuta.pl'||host.endsWith('.megawrzuta.pl');
+}
+export const megawrzutaPaidMessage='Pliki z Megawrzuta są dostępne wyłącznie dla kont z aktywnym dostępem 7D lub VIP. Nie naliczono darmowego pobrania.';
+export function megawrzutaPaidDenied(href,status){
+  return isMegawrzutaHost(href)&&status?.active!==true?{ok:false,external_unavailable:true,megawrzuta_paid_only:true,error:megawrzutaPaidMessage,support_url:'/support.html#wesprzyj-projekt'}:null;
+}
 export function linksInPost(content){
   const text=String(content||'');
   const urls=[];LINK_RE.lastIndex=0;

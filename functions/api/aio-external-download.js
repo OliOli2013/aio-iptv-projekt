@@ -5,7 +5,7 @@ import {coreAdmitDownload} from '../_aio_security_core_v1.js';
 import {reviewPaidSessionSharing,logSecurity} from '../_aio_security_journal.js';
 import {monitorDownload} from '../_aio_security_v6.js';
 import {speedConfig,claimSpeedLease,speedBusy,speedResponse} from '../_aio_download_speed_v1.js';
-import {externalFileKey,ensurePostLinkSchema,safePostFileName} from '../_aio_post_links_v5.js';
+import {externalFileKey,ensurePostLinkSchema,safePostFileName,isMegawrzutaHost,megawrzutaPaidMessage} from '../_aio_post_links_v5.js';
 import {readTicket,takeTicket,verifyTicketSource,directSource,fetchExternalFile,unavailable,externalPolicy} from '../_aio_external_speed_v1.js';
 const headers={'Cache-Control':'private, no-store','Content-Type':'text/plain; charset=utf-8','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer'};
 const fail=(msg,status=403)=>new Response(msg,{status,headers});
@@ -31,7 +31,9 @@ export async function onRequestGet(context){
   await initAccess(env);const user=await sessionUser(request,env);if(!user)return fail('Zaloguj się do AIO.',401);
   const t=await readTicket(env,token,user.id);if(!t)return fail('Bilet wygasł lub został użyty. Otwórz ponownie link w poście.',410);
   if(!await verifyTicketSource(env,t,url.origin))return fail('Link nie jest już dostępny w opublikowanej treści.');
-  const state=await getStatus(env,user.id),admission=await coreAdmitDownload(env,request,user.id,state);if(!admission.allowed)return denied(admission);
+  const state=await getStatus(env,user.id),premiumOnly=isMegawrzutaHost(t.href);
+  if(premiumOnly && state.active!==true)return fail(megawrzutaPaidMessage,403);
+  const admission=await coreAdmitDownload(env,request,user.id,state);if(!admission.allowed)return denied(admission);
   if(await reviewPaidSessionSharing(env,request,user.id,state.active===true&&state.owner!==true))return fail('Dostęp do pobierania jest ograniczony.');
   const burst=await monitorDownload(env,request,user.id);if(burst.blocked)return fail('Dostęp do pobierania jest ograniczony.');
   const config=await speedConfig(env,user.id);
@@ -43,7 +45,9 @@ export async function onRequestGet(context){
   // Active paid accounts continue using the source; disabled global limiter preserves direct handoff.
   if(state.active||!enforce){
     // Fresh decision before redirect. Paid authorization does not debit a FREE counter.
-    const fresh=await getStatus(env,user.id),freshAdmission=await coreAdmitDownload(env,request,user.id,fresh);
+    const fresh=await getStatus(env,user.id);
+    if(premiumOnly && fresh.active!==true)return fail(megawrzutaPaidMessage,403);
+    const freshAdmission=await coreAdmitDownload(env,request,user.id,fresh);
     if(!freshAdmission.allowed)return denied(freshAdmission);
     const latest=await speedConfig(env,user.id);
     if(fresh.active){

@@ -55,7 +55,7 @@ await check('Share URL normalization still validates against exact published tex
 const events={clicks:[],handoffs:[],debits:0};
 const postId='post-123456789';const commentId='comment-12345678';
 const file=ORIGIN+'/pliki/example.zip';
-let post={id:postId,content:'Link '+file+'\nhttps://megawrzuta.pl/pi4s7axl',kind:'community',status:'published'};
+let post={id:postId,content:'Link '+file+'\nhttps://megawrzuta.pl/pi4s7axl\nhttps://example.org/downloads/example.zip',kind:'community',status:'published'};
 let comment={content:'Plik komentarza: '+file};
 const env={COMMUNITY_DB:{
  async batch(){return [];},
@@ -108,8 +108,12 @@ async function openPostLink(href,{member=true,commentRef=''}={}){
  const response=await api.onRequestPost({request,env});
  return {status:response.status,json:await response.json()};
 }
-await check('Megawrzuta member: exactly one debit, handoff audit and external click',async()=>{
+await check('Megawrzuta FREE member: paid-only regardless of proxy policy, no debit or URL',async()=>{
  const r=await openPostLink('https://megawrzuta.pl/pi4s7axl');
+ assert.equal(r.status,403);assert.equal(r.json.megawrzuta_paid_only,true);assert.equal(r.json.href,undefined);assert.equal(events.debits,0);assert.equal(events.handoffs.length,0);
+});
+await check('Other external file: exactly one debit, handoff audit and external click',async()=>{
+ const r=await openPostLink('https://example.org/downloads/example.zip');
  assert.equal(r.status,200);assert.equal(r.json.kind,'external');
  assert.equal(events.debits,1);assert.equal(events.handoffs.length,1);
  assert.equal(events.clicks.at(-1).kind,'external');

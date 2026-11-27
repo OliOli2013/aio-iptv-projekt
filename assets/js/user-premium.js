@@ -924,12 +924,12 @@ function showAioRestriction(message){
     if(document.getElementById('aio-external-unavailable'))return;
     const dlg=document.createElement('dialog');dlg.id='aio-external-unavailable';dlg.className='aio-guest-access-v31';dlg.setAttribute('aria-label','Pobieranie z zewnętrznego hostingu');
     dlg.style.cssText='width:min(92vw,480px);max-width:92vw;box-sizing:border-box;background:#102e3b;color:#effaff;border:1px solid #5b9da7;border-radius:16px;padding:22px';
-    const h=document.createElement('h2');h.textContent='Pobieranie – konto FREE';
+    const h=document.createElement('h2');h.textContent=info.megawrzuta_paid_only?'Megawrzuta – dostęp 7D / VIP':'Pobieranie – konto FREE';
     const p=document.createElement('p');p.textContent=info.error||'Ten hosting nie obsługuje kontrolowanego transferu. Nie naliczono pobrania.';
     const a=document.createElement('a');a.textContent='Sprawdź dostęp 7D / VIP';a.href='/support.html#wesprzyj-projekt';a.style.cssText='display:block;background:#78e1d3;color:#082832;padding:12px;border-radius:8px;text-align:center;font-weight:700;text-decoration:none';
     const contact=document.createElement('a');contact.href='/contact.html';contact.textContent='Poproś o kopię pliku w AIO';contact.style.cssText='display:block;margin:12px 0;color:#91e9df';
     const close=document.createElement('button');close.type='button';close.textContent='Anuluj';close.addEventListener('click',()=>dlg.close());
-    dlg.addEventListener('close',()=>dlg.remove());dlg.append(h,p,a,contact,close);document.body.append(dlg);try{dlg.showModal();}catch(e){dlg.remove();alert(p.textContent);}
+    dlg.addEventListener('close',()=>dlg.remove());dlg.append(h,p,a);if(!info.megawrzuta_paid_only)dlg.append(contact);dlg.append(close);document.body.append(dlg);try{dlg.showModal();}catch(e){dlg.remove();alert(p.textContent);}
   }
 
   async function confirmLocalFreeDownload(item,info){
