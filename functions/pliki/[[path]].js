@@ -110,7 +110,7 @@ async function handle(context){
     // Legacy GitHub mirrors were previously public redirects; do NOT bypass access
     // checks with these file URLs. Charge each GET, including repeat requests.
     // AIO_DOWNLOAD_SPEED_V1: never redirect a throttled FREE request to a mirror.
-    let speed=state.active===true?null:await speedConfig(env);
+    let speed=state.active===true?null:await speedConfig(env,user.id);
     if(mirror && !(speed && shouldThrottle(state,speed))){
       // AIO_SECURITY_CORE_V1: HEAD must never disclose the protected external mirror.
       if(request.method==='HEAD')return new Response(null,{status:204,headers:{'Cache-Control':'private, no-store'}});
@@ -118,7 +118,7 @@ async function handle(context){
       if(!permit.allowed)return permit.reason==='limit'?redirectToInformation(request,'aio_limit'):accessDenied('Dostęp do pobierania jest obecnie ograniczony.',403);
       await logSecurity(env,request,'download_issued',user.id,permit.reason);
       // If paid access expired during admission, do not hand out an unpaced mirror.
-      if(permit.reason==='free' && (speed||await speedConfig(env)).enabled)return accessDenied('Uprawnienia uległy zmianie. Pobierz plik z magazynu AIO.',503);
+      if(permit.reason==='free' && (speed||await speedConfig(env,user.id)).enabled)return accessDenied('Uprawnienia uległy zmianie. Pobierz plik z magazynu AIO.',503);
       return new Response(null,{status:302,headers:{Location:mirror,'Cache-Control':'no-store'}});
     }
     // Private files never delegate to the static site. Misconfiguration is a service error.
@@ -148,7 +148,7 @@ async function handle(context){
     // Fresh permit is authoritative; range reuse is classified by the current server status.
     const free=permit.reason==='free'||(permit.range_chunk===true && state.active!==true);
     if(free){
-      speed=speed||await speedConfig(env);
+      speed=speed||await speedConfig(env,user.id);
       if(speed.enabled&&!speedLease){
         speedLease=await claimSpeedLease(env,user.id);
         if(!speedLease)return speedBusy(); // rare paid-to-FREE transition after debit

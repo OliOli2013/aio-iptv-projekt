@@ -234,7 +234,7 @@
         ? '<div class="community-admin-list">'+rows.map(u=>`<article class="community-admin-item community-user-card" data-admin-user="${AIOCommunity.escapeAttr(u.id)}">
           <div class="community-admin-item-head">
             ${AIOCommunity.avatarHtml(u,u.display_name)}
-            <div><strong>${AIOCommunity.escape(u.display_name)}</strong><small>${AIOCommunity.escape(AIOCommunity.roleLabel(u.role))}${u.trusted?' • zaufany':''}</small>${u.email?`<small class="aio-owner-user-email">${AIOCommunity.escape(u.email)}</small>`:''}</div>
+            <div><strong>${AIOCommunity.escape(u.display_name)}</strong><small>${AIOCommunity.escape(AIOCommunity.roleLabel(u.role))}${u.trusted?' • zaufany':''}</small>${u.email?`<small class="aio-owner-user-email">${AIOCommunity.escape(u.email)}</small>`:''}${u.individual_speed?'<small class="aio-speed-user-badge">Indywidualna prędkość</small>':''}</div>
           </div>
           ${(u.ips||[]).length?'<div class="community-ip-list">'+u.ips.map(ip=>`<span class="community-ip-chip"><code>${AIOCommunity.escape(ip.ip_address)}</code><small>${AIOCommunity.escape(AIOCommunity.formatDate(ip.last_seen_at))}</small><button class="community-mini-danger" data-ip-action="block" data-ip="${AIOCommunity.escapeAttr(ip.ip_address)}">Blokuj IP</button></span>`).join('')+'</div>':''}
           <div class="community-admin-actions">
