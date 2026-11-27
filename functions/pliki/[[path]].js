@@ -9,6 +9,7 @@ import {checkAnonymousFileBurst,anonymousDeniedResponse} from '../_aio_anon_shie
 import {recordDistributedAnonymousDenied} from '../_aio_distributed_monitor_v1.js';
 import {privateStorageEnabled,readPrivateFile} from '../_aio_private_files.js';
 import {isAioPanelIpkAlias,PUBLIC_IPK_PATH} from '../_aio_panel_public_v1.js';
+import {speedConfig,shouldThrottle,claimSpeedLease,speedBusy,speedResponse} from '../_aio_download_speed_v1.js'; // AIO_DOWNLOAD_SPEED_V1
 import {canResumeRange,authorizeRange} from '../_aio_range_issue_v1.js'; // AIO_PUBLIC_PANEL_V1
 const IMG=/\.(?:png|jpe?g|webp|gif|svg|avif)$/i;
 const NO_CACHE={'Cache-Control':'private, no-store'};
@@ -47,6 +48,7 @@ async function handle(context){
   // Only already-public, owner-approved publisher mirrors may be enabled explicitly.
   const mirror = env.AIO_ALLOW_LEGACY_PUBLIC_MIRRORS==='1' && mirrors[new URL(request.url).pathname];
   if(!protectedFile(request))return context.next();
+  let speedLease=null, speedAsset=null, handedOff=false;
   try{
     await initAccess(env);
     const user=await sessionUser(request,env);
@@ -107,12 +109,16 @@ async function handle(context){
     }
     // Legacy GitHub mirrors were previously public redirects; do NOT bypass access
     // checks with these file URLs. Charge each GET, including repeat requests.
-    if(mirror){
+    // AIO_DOWNLOAD_SPEED_V1: never redirect a throttled FREE request to a mirror.
+    let speed=state.active===true?null:await speedConfig(env);
+    if(mirror && !(speed && shouldThrottle(state,speed))){
       // AIO_SECURITY_CORE_V1: HEAD must never disclose the protected external mirror.
       if(request.method==='HEAD')return new Response(null,{status:204,headers:{'Cache-Control':'private, no-store'}});
       const permit=await consumeFree(env,user.id,fileKey,request);
       if(!permit.allowed)return permit.reason==='limit'?redirectToInformation(request,'aio_limit'):accessDenied('Dostęp do pobierania jest obecnie ograniczony.',403);
       await logSecurity(env,request,'download_issued',user.id,permit.reason);
+      // If paid access expired during admission, do not hand out an unpaced mirror.
+      if(permit.reason==='free' && (speed||await speedConfig(env)).enabled)return accessDenied('Uprawnienia uległy zmianie. Pobierz plik z magazynu AIO.',503);
       return new Response(null,{status:302,headers:{Location:mirror,'Cache-Control':'no-store'}});
     }
     // Private files never delegate to the static site. Misconfiguration is a service error.
@@ -120,9 +126,14 @@ async function handle(context){
     const asset=await readPrivateFile(request,env);
     if(request.method==='HEAD')return asset; // HEAD nigdy nie zużywa limitu
     if(asset.status!==200 && asset.status!==206)return asset;
+    speedAsset=asset;
     const contentType=String(asset.headers.get('content-type')||'').toLowerCase();
     if(contentType.startsWith('text/html')){
       await asset.body?.cancel().catch(()=>{});return accessDenied('Nieprawidłowy typ pliku w magazynie.',502);
+    }
+    if(speed && shouldThrottle(state,speed)){
+      speedLease=await claimSpeedLease(env,user.id);
+      if(!speedLease)return speedBusy(); // before debit; no second ticket on busy
     }
     const permit=asset.status===206
       ?await authorizeRange(env,request,user.id,fileKey,()=>consumeFree(env,user.id,fileKey,request))
@@ -134,16 +145,32 @@ async function handle(context){
       if(permit.reason==='network')return accessDenied('Ponownie zweryfikuj połączenie sieciowe.',permit.network_status||403);
       return permit.reason==='limit'?redirectToInformation(request,'aio_limit'):accessDenied('Dostęp do pobierania jest obecnie ograniczony.',403);
     }
+    // Fresh permit is authoritative; range reuse is classified by the current server status.
+    const free=permit.reason==='free'||(permit.range_chunk===true && state.active!==true);
+    if(free){
+      speed=speed||await speedConfig(env);
+      if(speed.enabled&&!speedLease){
+        speedLease=await claimSpeedLease(env,user.id);
+        if(!speedLease)return speedBusy(); // rare paid-to-FREE transition after debit
+      }
+    }else if(speedLease){await speedLease.release();speedLease=null;}
     const headers=new Headers(asset.headers);headers.set('Cache-Control','private, no-store');
     const issued=new Response(asset.body,{status:asset.status,statusText:asset.statusText,headers});
     if(!permit.range_chunk){
       queueIssuedFileAudit(context,user.id,(permit.reason==='grant'||permit.reason==='vip')?'account_7d':'account_free',issued,permit.reason);
       await logSecurity(env,request,"download_issued",user.id,permit.reason);
     }
-    return issued;
+    const delivered=free&&speed?.enabled?speedResponse(issued,speed,speedLease,context):issued;
+    handedOff=true;
+    return delivered;
   }catch(error){
     console.error('AIO Access V4 download',error?.message);
     return accessDenied('Nie można zweryfikować dostępu. Spróbuj ponownie za chwilę.',503);
+  }finally{
+    if(!handedOff){
+      try{await speedAsset?.body?.cancel();}catch{}
+      try{await speedLease?.release();}catch{}
+    }
   }
 }
 export const onRequestGet=handle;

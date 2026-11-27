@@ -34,6 +34,8 @@ export const OWNER_HTML = String.raw`<!doctype html>
 <script defer src="/assets/js/aio-owner-attention-markers-v1.js?v=20261127-intelligence-ui2"></script>
 <link rel="stylesheet" href="/assets/css/aio-owner-unified-shortcut-v1.css?v=20261117-v1-2">
 <script defer src="/assets/js/aio-owner-unified-shortcut-v1.js?v=20261117-v1-2"></script>
+<link rel="stylesheet" href="/assets/css/aio-download-speed-v1.css?v=1">
+<script defer src="/assets/js/aio-download-speed-owner-v1.js?v=1"></script>
 </head>
 <body>
 <div class="oh-loading" id="oh-guard" role="status" aria-live="polite">Sprawdzam uprawnienia właściciela…</div>
@@ -49,6 +51,7 @@ export const OWNER_HTML = String.raw`<!doctype html>
   <div class="oh-content">
    <section class="oh-intro"><div><div class="oh-eyebrow">PRYWATNA STREFA ADMINISTRACYJNA</div><h1>Centrum Właściciela</h1><p>Wszystkie narzędzia AIO, uporządkowane według zadań. Wybierz dział lub znajdź funkcję po nazwie.</p></div><div class="oh-intro-symbol" aria-hidden="true">⌘</div></section>
    <section class="oh-summary" aria-label="Szybki podgląd"><div class="oh-metric"><span>Akceptacje wpłat</span><strong id="oh-stat-payments">—</strong><small>oczekujące zgłoszenia</small></div><div class="oh-metric"><span>Posty do moderacji</span><strong id="oh-stat-posts">—</strong><small>oczekujące wpisy</small></div><div class="oh-metric"><span>Wydania plików / 24 h</span><strong id="oh-stat-downloads">—</strong><small>lokalne pliki /pliki/</small></div><div class="oh-metric"><span>Aktywne dostępy</span><strong id="oh-stat-active">—</strong><small>uprawnienia 7 dni</small></div></section>
+   <section id="aio-speed-panel" aria-labelledby="aio-speed-title"><h2 id="aio-speed-title">Prędkość pobierania – FREE</h2><p>Limit wspólny dla konta i potwierdzonych grup wielokontowości. 7D, VIP, właściciel oraz publiczny AIO Panel IPK bez ograniczenia AIO.</p><form id="aio-speed-form"><label><input id="aio-speed-enabled" type="checkbox" disabled> Włącz ograniczenie</label><label>KB/s <input id="aio-speed-kbps" type="number" min="5" max="10000" step="1" value="25" required disabled></label><button type="submit" disabled>Zapisz</button></form><p id="aio-speed-msg" role="status">Wczytywanie ustawień…</p><small>Dotyczy nowych transferów z prywatnego R2. Zewnętrzne serwery nie podlegają temu limitowi.</small></section>
    <section class="oh-urgent" id="oh-urgent"><div class="oh-section-head"><div><span class="oh-kicker">NAJWAŻNIEJSZE NA TERAZ</span><h2>Szybkie działania</h2></div><span class="oh-subtext">Najczęściej używane operacje</span></div><div class="oh-quick" id="oh-quick"></div></section>
    <section class="oh-tools" aria-labelledby="oh-tools-title"><div class="oh-section-head"><div><span class="oh-kicker">KATALOG FUNKCJI</span><h2 id="oh-tools-title">Narzędzia administracyjne</h2></div><span id="oh-count" class="oh-subtext"></span></div>
      <div class="oh-searchbar"><label for="oh-search"><span aria-hidden="true">⌕</span> Szukaj</label><input id="oh-search" type="search" autocomplete="off" placeholder="Np. wpłaty, komentarze, reset hasła, lista kanałów…"><button id="oh-reset" type="button">Wyczyść</button></div>
