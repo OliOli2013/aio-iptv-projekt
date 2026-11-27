@@ -388,13 +388,15 @@ export async function onRequestGet({request, env}) {
         const escaped=search.replace(/[!%_]/g,c=>'!'+c);
         const pattern='%'+escaped+'%';
         const from=`FROM community_profiles p LEFT JOIN community_auth a ON a.user_id=p.id`;
-        const where=enabled?` WHERE (p.display_name LIKE ? ESCAPE '!' COLLATE NOCASE OR COALESCE(a.email,p.email,'') LIKE ? ESCAPE '!' COLLATE NOCASE)`:'';
+        const exactId=enabled&&/^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/i.test(search);
+        const where=enabled?(exactId?' WHERE p.id=? COLLATE NOCASE':` WHERE (p.display_name LIKE ? ESCAPE '!' COLLATE NOCASE OR COALESCE(a.email,p.email,'') LIKE ? ESCAPE '!' COLLATE NOCASE)`):'';
+        const searchArgs=exactId?[search]:[pattern,pattern];
         const limit=enabled?80:200;
         const sql=`SELECT p.*,COALESCE(a.email,p.email,'') AS account_email ${from}${where} ORDER BY p.created_at DESC LIMIT ${limit}`;
         const rr=enabled
-          ?await db.prepare(sql).bind(pattern,pattern).all()
+          ?await db.prepare(sql).bind(...searchArgs).all()
           :await db.prepare(sql).all();
-        const matchCount=enabled?await db.prepare(`SELECT COUNT(*) AS n ${from}${where}`).bind(pattern,pattern).first():null;
+        const matchCount=enabled?await db.prepare(`SELECT COUNT(*) AS n ${from}${where}`).bind(...searchArgs).first():null;
         rows=[];
         for(const u of rr.results||[]){
           const ips=await db.prepare(`SELECT ip_address,last_seen_at,event_count,last_event FROM community_user_ips WHERE user_id=? ORDER BY last_seen_at DESC LIMIT 5`).bind(u.id).all();

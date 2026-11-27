@@ -7,6 +7,9 @@
 (()=>{'use strict';
   if(window.AIO_OWNER_TOOLS_CATALOG_V1)return;
   const tools=[
+    {id:'security-intelligence',name:'Security Intelligence — automatyczny audyt',icon:'⛨',
+      desc:'Codzienny audyt kont, historia bezpieczeństwa i sprawy wymagające uwagi.',
+      url:'/aio-security-intelligence.html',tags:'automatyczny audyt historia multikonta analiza raport archiwum bezpieczeństwo'},
     {id:'owner-safety',name:'Bezpieczeństwo i dostęp',icon:'▤',
       desc:'Aktywne blokady, VPN, skan sygnałów i decyzje o dostępie w jednym miejscu.',
       url:'/owner-safety',tags:'pulpit bezpieczeństwo blokady ograniczenia VPN pobrania skan kont anomalie decyzje'},

@@ -11,6 +11,7 @@
   const SECURITY_IDS=new Set(['v6-blocks','ip-policy-blocks','ip-denials','ip-history-pending','anonymous-bursts','distributed-anonymous','security-intelligence']);
   const SECURITY_FEATURES={
     'security-center-v1':SECURITY_IDS,
+    'security-intelligence':new Set(['security-intelligence']),
     'wyszukiwarka-blokad':new Set(['v6-blocks','ip-policy-blocks','ip-denials','ip-history-pending']),
     'multikonta-blokady':new Set(['ip-policy-blocks','ip-denials','ip-history-pending']),
     'security-journal':new Set(['v6-blocks','ip-policy-blocks','ip-denials','anonymous-bursts','distributed-anonymous','security-intelligence'])

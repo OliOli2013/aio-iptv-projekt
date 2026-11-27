@@ -50,6 +50,7 @@
         // AIO_SECURITY_EXPORTS_V1_20261115 — centralne eksporty dla właściciela.
         navItem('security-exports-v1','Eksporty bezpieczeństwa','↓'),
         navItem('security-center-v1','Centrum Bezpieczeństwa','⬡'),
+        navItem('security-intelligence','Security Intelligence — automatyczny audyt','⛨'),
         navItem('vpn-guard-v1','VPN / proxy — audyt kont','⛨'), // AIO_VPN_GUARD_V1_20261115
         navItem('security-core-v1','AIO Security Core V1','⛨'),
         navItem('wyszukiwarka-blokad','Wyszukiwarka blokad','⌕'),
