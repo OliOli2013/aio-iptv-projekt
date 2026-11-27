@@ -165,3 +165,38 @@ test('MediaFire entitlement: both switches, FREE/individual, paid, report, old t
  assert.equal((await callOwner(env,{action:'save',href:media,path:'/pliki/test.zip',confirm:true})).status,400);
  }finally{globalThis.fetch=old;db.close();}
 });
+
+
+// AIO_MULTICLICK_FREE_V1
+const MULTICLICK='https://multi-click.pl/index.php?controller=attachment&id_attachment=152';
+test('Multi-Click: existing catalog IDs, exact HTTPS attachment route only',()=>{
+ for(const id of [152,160,150,156,155,157,145,144,123,158,132,159]){
+  const u=MULTICLICK.replace('152',String(id));assert.equal(helper.directSource(u).provider,'multiclick');assert.equal(helper.directSource(u).attachmentId,String(id));
+ }
+ for(const u of [MULTICLICK.replace('https:','http:'),MULTICLICK.replace('multi-click.pl','multi-click.pl.evil.test'),MULTICLICK.replace('multi-click.pl','evil.multi-click.pl'),MULTICLICK.replace('multi-click.pl','multi-click.pl:444'),MULTICLICK.replace('attachment','product'),MULTICLICK+'&id_attachment=1',MULTICLICK+'&redirect=https://evil.test',MULTICLICK.replace('152','-1'),MULTICLICK.replace('152','abc'),MULTICLICK.replace('/index.php','/admin/index.php'),'https://multi-click.pl/'])assert.equal(helper.directSource(u),null,u);
+});
+test('Multi-Click: safe canonical redirect, same attachment ID, HTML and upstream denial rejected',async()=>{
+ const canonical=MULTICLICK.replace('://multi-click.pl','://www.multi-click.pl');let calls=[];
+ const r=await helper.fetchExternalFile(MULTICLICK,async(u,o)=>{calls.push(u);assert.equal(o.redirect,'manual');assert.equal(o.headers.Cookie,undefined);return calls.length===1?new Response(null,{status:302,headers:{Location:canonical}}):bytes();});
+ assert.equal(await r.text(),'abcde');assert.equal(calls.length,2);assert.equal(r.headers.get('Set-Cookie'),null);
+ for(const target of [MULTICLICK.replace('152','153'),'https://evil.test/a.zip','http://multi-click.pl/index.php?controller=attachment&id_attachment=152','https://multi-click.pl/index.php?controller=product&id_attachment=152']){
+  calls=[];await assert.rejects(helper.fetchExternalFile(MULTICLICK,async u=>{calls.push(u);return new Response(null,{status:302,headers:{Location:target}});}),e=>e.aioExternalCode==='REDIRECT_REJECTED');assert.equal(calls.length,1);
+ }
+ await assert.rejects(helper.fetchExternalFile(MULTICLICK,async()=>new Response('no',{status:403})),e=>e.aioExternalCode==='HTTP_403');
+ await assert.rejects(helper.fetchExternalFile(MULTICLICK,async()=>new Response('<html>',{headers:{'Content-Type':'text/html','Content-Length':'6'}})),e=>e.aioExternalCode==='HTML_OR_SVG');
+ const fallback=await helper.fetchExternalFile(MULTICLICK,async()=>new Response('abc',{headers:{'Content-Type':'application/zip','Content-Length':'3'}}));assert.match(fallback.headers.get('Content-Disposition'),/multi-click-152\.zip/);assert.equal(await fallback.text(),'abc');
+});
+test('Multi-Click: FREE catalog shares existing quota and 20 KB/s; failure no debit; paid redirect',async()=>{
+ const {env,db}=fixture(),old=globalThis.fetch;let calls=0;
+ db.exec('UPDATE aio_download_speed_config_v1 SET kbps=20');
+ try{
+  globalThis.fetch=async()=>{calls++;return new Response('no',{status:403});};
+  let p=await prepare(env,MULTICLICK,{source:'catalog'});assert.equal(p.data.kind,'managed_external');assert.equal(env.charged,0);let r=await get(env,token(p));assert.equal(r.status,502);assert.equal(env.charged,0);
+  globalThis.fetch=async()=>{calls++;return bytes();};
+  for(const id of [152,160,150]){
+   p=await prepare(env,MULTICLICK.replace('152',String(id)),{source:'catalog'});assert.equal(p.data.kind,'managed_external');r=await get(env,token(p));assert.equal(r.status,200);assert.equal(r.headers.get('X-AIO-Download-Limit-KBps'),'20');assert.equal(await r.text(),'abcde');
+  }
+  assert.equal(env.charged,3);assert.equal(env.state.free_remaining,0);assert.equal((await prepare(env,MULTICLICK,{source:'catalog'})).status,429);assert.equal(calls,4);
+  env.state.active=true;p=await prepare(env,MULTICLICK,{source:'catalog'});r=await get(env,token(p));assert.equal(r.status,302);assert.equal(r.headers.get('Location'),MULTICLICK);assert.equal(env.charged,3);assert.equal(calls,4);
+ }finally{globalThis.fetch=old;db.close();}
+});

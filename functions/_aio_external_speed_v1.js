@@ -8,8 +8,17 @@ const safeUrl=raw=>{try{const u=new URL(raw);return u.protocol==='https:'&&!u.us
 export const unavailable='Tego hostingu nie można bezpiecznie obsłużyć z limitem prędkości FREE. Poproś administratora o kopię AIO lub wybierz dostęp 7D / VIP. Nie naliczono pobrania.';
 export async function sourceHash(href){const u=normalizePostLink(href);if(!u)throw Error('Nieprawidłowy link');return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(u.href))),x=>x.toString(16).padStart(2,'0')).join('');}
 // Do not scrape landing pages, execute JS, solve CAPTCHA or access password-protected links.
+// AIO_MULTICLICK_FREE_V1: only the public PrestaShop attachment controller.
+function multiClickAttachmentId(u){
+ if(!u||!['multi-click.pl','www.multi-click.pl'].includes(u.hostname)||u.pathname!=='/index.php')return null;
+ const q=u.searchParams,id=q.get('id_attachment');
+ if([...q].length!==2||q.get('controller')!=='attachment'||!id||!/^[1-9][0-9]{0,8}$/.test(id))return null;
+ return id;
+}
 export function directSource(raw){
  const u=safeUrl(raw);if(!u)return null;const p=u.pathname,h=u.hostname;
+ const attachmentId=multiClickAttachmentId(u);
+ if(attachmentId){u.hash='';return {url:u.href,provider:'multiclick',attachmentId};}
  if(h==='github.com'&&/^\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+\/releases\/download\/[^/]+\/[^/]+$/.test(p)&&FILE.test(p))return {url:u.href,provider:'github'};
  if((h==='www.dropbox.com'||h==='dropbox.com')&&/^\/(?:s\/[^/]+|scl\/fi\/[^/]+)\/[^/]+$/.test(p)&&FILE.test(p)){u.searchParams.delete('raw');u.searchParams.set('dl','1');return {url:u.href,provider:'dropbox'};}
  if((h==='megawrzuta.pl'||h==='www.megawrzuta.pl')&&/^\/download\/[a-f0-9]{32}\.html$/i.test(p))return {url:u.href,provider:'megawrzuta'};
@@ -97,7 +106,7 @@ function externalError(code,message){return Object.assign(new Error(message),{ai
 export async function fetchExternalFile(raw,fetcher=fetch){
  const first=directSource(raw);if(!first)throw externalError('UNSUPPORTED_PROVIDER','Unsupported provider');let url=first.url,r;
  for(let i=0;i<5;i++){
-  if(!permittedHop(url,first.provider))throw externalError('REDIRECT_REJECTED','Unsafe redirect');
+  if(!permittedHop(url,first.provider)||(first.provider==='multiclick'&&multiClickAttachmentId(safeUrl(url))!==first.attachmentId))throw externalError('REDIRECT_REJECTED','Unsafe redirect');
   const abort=new AbortController(),timer=setTimeout(()=>abort.abort(),15000);
   try{r=await fetcher(url,{method:'GET',redirect:'manual',headers:{'Accept-Encoding':'identity','Accept':'*/*'},signal:abort.signal,cf:{cacheTtl:0,cacheEverything:false}});}catch(e){throw externalError(abort.signal.aborted?'FETCH_TIMEOUT':'FETCH_ERROR','Upstream fetch failed');}finally{clearTimeout(timer);}
   if([301,302,303,307,308].includes(r.status)){const loc=r.headers.get('Location');await cancel(r);if(!loc||i===4)throw externalError('REDIRECT_INVALID','Invalid redirect');try{url=new URL(loc,url).href;}catch{throw externalError('REDIRECT_INVALID','Invalid redirect');}continue;}
@@ -115,7 +124,8 @@ export async function fetchExternalFile(raw,fetcher=fetch){
  else if(!type)rejection='TYPE_MISSING';
  else if(!/^attachment\b/i.test(disp)&&!FILE.test(new URL(first.url).pathname)&&!/^application\/(?:octet-stream|zip|x-7z-compressed|x-rar-compressed|pdf)$/.test(type))rejection='TYPE_REJECTED';
  if(rejection){await cancel(r);throw externalError(rejection,'Upstream did not return a supported file');}
- const name=filename(first.url,disp);
+ const originalName=filename(first.url,disp);
+ const name=first.provider==='multiclick'&&originalName==='index.php'?'multi-click-'+first.attachmentId+(type==='application/zip'?'.zip':'.bin'):originalName;
  // Never forward cookies, HTML, redirects, upstream CORS or security headers.
  return new Response(boundedBody(r.body,size),{status:200,headers:{'Content-Type':'application/octet-stream','Content-Length':String(size),'Content-Disposition':`attachment; filename*=UTF-8''${encodeURIComponent(name).replace(/['()*]/g,c=>'%'+c.charCodeAt(0).toString(16))}`,'Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff','Content-Security-Policy':"default-src 'none'; sandbox",'Referrer-Policy':'no-referrer','Accept-Ranges':'none'}});
 }
