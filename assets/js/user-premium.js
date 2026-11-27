@@ -920,8 +920,20 @@ function showAioRestriction(message){
     box.append(text,link);box.scrollIntoView({behavior:'smooth',block:'center'});
   }
   /* AIO_DOWNLOAD_PROMPT_V1: local handoff is not a debit. The actual GET remains authoritative. */
+  function externalUnavailableDialog(item,info){
+    if(document.getElementById('aio-external-unavailable'))return;
+    const dlg=document.createElement('dialog');dlg.id='aio-external-unavailable';dlg.className='aio-guest-access-v31';dlg.setAttribute('aria-label','Pobieranie z zewnętrznego hostingu');
+    dlg.style.cssText='width:min(92vw,480px);max-width:92vw;box-sizing:border-box;background:#102e3b;color:#effaff;border:1px solid #5b9da7;border-radius:16px;padding:22px';
+    const h=document.createElement('h2');h.textContent='Pobieranie – konto FREE';
+    const p=document.createElement('p');p.textContent=info.error||'Ten hosting nie obsługuje kontrolowanego transferu. Nie naliczono pobrania.';
+    const a=document.createElement('a');a.textContent='Sprawdź dostęp 7D / VIP';a.href='/support.html#wesprzyj-projekt';a.style.cssText='display:block;background:#78e1d3;color:#082832;padding:12px;border-radius:8px;text-align:center;font-weight:700;text-decoration:none';
+    const contact=document.createElement('a');contact.href='/contact.html';contact.textContent='Poproś o kopię pliku w AIO';contact.style.cssText='display:block;margin:12px 0;color:#91e9df';
+    const close=document.createElement('button');close.type='button';close.textContent='Anuluj';close.addEventListener('click',()=>dlg.close());
+    dlg.addEventListener('close',()=>dlg.remove());dlg.append(h,p,a,contact,close);document.body.append(dlg);try{dlg.showModal();}catch(e){dlg.remove();alert(p.textContent);}
+  }
+
   async function confirmLocalFreeDownload(item,info){
-    if(info.kind!=='local')return true;
+    if(info.kind!=='local'&&info.kind!=='managed_external')return true;
     const access=await accountApi();
     if(!access.authenticated){guestDownloadDialog(item);return false;}
     if(access.restricted||access.review_pending&&!access.active){showAioRestriction(access.restriction_message);return false;}
@@ -979,6 +991,7 @@ function showAioRestriction(message){
           alert('Potwierdź e-mail konta AIO przed pobraniem pliku.');
           window.AIOCommunity?.openAuth?.('Potwierdź e-mail, aby korzystać z pobierania.');return;
         }
+        if(info.external_unavailable){externalUnavailableDialog(item,info);return;}
         if(info.restricted){showAioRestriction(info.error);return;}
         if(info.limit_reached){trackAccessActivity('limit_reached',item,{kind});openSupportModal(item,'limit',{free_resets_at:info.free_resets_at});return;}
         throw new Error(info.error||'HTTP '+res.status);
@@ -1010,6 +1023,7 @@ function showAioRestriction(message){
           alert('Potwierdź adres e-mail konta AIO przed pobraniem pliku.');
           window.AIOCommunity?.openAuth?.('Potwierdź e-mail, aby pobierać pliki.');return;
         }
+        if(info.external_unavailable){externalUnavailableDialog(item,info);return;}
         if(info.restricted){showAioRestriction(info.error);return;}
         if(info.limit_reached){openSupportModal(item,'community-link-limit');return;}
         throw new Error(info.error||'HTTP '+res.status);

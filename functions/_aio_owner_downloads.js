@@ -59,18 +59,32 @@ export async function recordIssuedFile(env, request, userId, audience, response,
   const requestedUrl=new URL(request.url);
   const suppliedId=requestedUrl.searchParams.get('aio_post')||'';
   const suppliedComment=requestedUrl.searchParams.get('aio_comment')||'';
+  const mapHash=requestedUrl.searchParams.get('aio_map')||'';
+  const mappedMatch=async content=>{
+    if(!/^[a-f0-9]{64}$/.test(mapHash))return false;
+    try{
+      const entry=await env.COMMUNITY_DB.prepare('SELECT r2_path FROM aio_external_speed_maps_v1 WHERE source_hash=?').bind(mapHash).first();
+      if(entry?.r2_path!==path)return false;
+      for(const href of linksInPost(content)){
+        const digest=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(href))),x=>x.toString(16).padStart(2,'0')).join('');
+        if(digest===mapHash)return true;
+      }
+      return false;
+    }catch{return false;}
+  };
   if(suppliedId.length>=8 && suppliedId.length<=100){
     const row=await env.COMMUNITY_DB.prepare("SELECT content FROM community_posts WHERE id=? AND status='published' LIMIT 1").bind(suppliedId).first();
     if(row){
       const cleanUrl=new URL(request.url);
       cleanUrl.searchParams.delete('aio_post');
       cleanUrl.searchParams.delete('aio_comment');
-      if(linksInPost(row.content).includes(cleanUrl.href))sourcePostId=suppliedId;
+      cleanUrl.searchParams.delete('aio_map');
+      if(linksInPost(row.content).includes(cleanUrl.href)||await mappedMatch(row.content))sourcePostId=suppliedId;
       else if(suppliedComment.length>=8 && suppliedComment.length<=100){
         // Published comment, same post, exact file URL: no forged attribution.
         const comment=await env.COMMUNITY_DB.prepare("SELECT content FROM community_comments WHERE id=? AND post_id=? AND status='published' LIMIT 1")
           .bind(suppliedComment,suppliedId).first();
-        if(comment && linksInPost(comment.content).includes(cleanUrl.href))sourcePostId=suppliedId;
+        if(comment && (linksInPost(comment.content).includes(cleanUrl.href)||await mappedMatch(comment.content)))sourcePostId=suppliedId;
       }
     }
   }
