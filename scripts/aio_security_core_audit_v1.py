@@ -15,6 +15,7 @@ required={
  'functions/_aio_account_access.js':'coreAdmitDownload(env,request,userId,status)',
  'functions/pliki/[[path]].js':'consumeFree(env,user.id,fileKey,request)',
  'functions/api/aio-post-link.js':'consumeFree(env,user.id,fileKey,request)',
+ 'functions/api/aio-external-download.js':'consumeFree(env,user.id,fileKey,request)',
  'functions/api/aio-account-access.js':'consumeFree(env,user.id,null,request)',
  'functions/_aio_monthly_access.js':'used>=0 AND used<3',
  'functions/api/aio-panel-ipk.js':'PUBLIC',
@@ -43,8 +44,22 @@ try:
     if 'consumeFree(env,user.id,fileKey)' in gateway:
         failures.append('Pozostało przestarzałe naliczenie bez Request w pliki/')
 except FileNotFoundError:pass
+# External proxy must retain authenticated admission on both paths and every debit.
+try:
+    external=read('functions/api/aio-external-download.js')
+    markers=('coreAdmitDownload(env,request,user.id,state)',
+             'coreAdmitDownload(env,request,user.id,fresh)',
+             'if(!admission.allowed)return denied(admission)',
+             'if(!freshAdmission.allowed)return denied(freshAdmission)',
+             'verifyTicketSource(env,t,url.origin)', 'takeTicket(env,token,user.id)',
+             'claimSpeedLease(env,user.id)', 'speedResponse(asset,config,lease,context)')
+    if any(marker not in external for marker in markers):
+        failures.append('Brak wymaganych kontroli w zewnetrznej bramce transferu')
+    if external.count('consumeFree(env,user.id,fileKey,request)')!=2 or external.count('if(!permit.allowed)return denied(permit)')!=2:
+        failures.append('Niezweryfikowane naliczenie lub odmowa w zewnetrznej bramce')
+except FileNotFoundError:pass
 # Every call to consumeFree outside the shared implementation must include Request.
-allowed={'functions/pliki/[[path]].js','functions/api/aio-post-link.js','functions/api/aio-account-access.js','functions/api/aio-link-handoff.js'}
+allowed={'functions/pliki/[[path]].js','functions/api/aio-post-link.js','functions/api/aio-account-access.js','functions/api/aio-link-handoff.js','functions/api/aio-external-download.js'}
 found=[]
 for p in sorted((root/'functions').rglob('*.js')):
     path=p.relative_to(root).as_posix()

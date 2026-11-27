@@ -13,6 +13,9 @@ export function directSource(raw){
  if(h==='github.com'&&/^\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+\/releases\/download\/[^/]+\/[^/]+$/.test(p)&&FILE.test(p))return {url:u.href,provider:'github'};
  if((h==='www.dropbox.com'||h==='dropbox.com')&&/^\/(?:s\/[^/]+|scl\/fi\/[^/]+)\/[^/]+$/.test(p)&&FILE.test(p)){u.searchParams.delete('raw');u.searchParams.set('dl','1');return {url:u.href,provider:'dropbox'};}
  if((h==='megawrzuta.pl'||h==='www.megawrzuta.pl')&&/^\/download\/[a-f0-9]{32}\.html$/i.test(p))return {url:u.href,provider:'megawrzuta'};
+ // Premium share URLs can redirect directly to MediaFire's download host. No scraping.
+ const mf=/^\/file_premium\/[a-z0-9]{10,40}\/([^/]+)\/file\/?$/i.exec(p);
+ if((h==='www.mediafire.com'||h==='mediafire.com')&&mf&&FILE.test(mf[1])&&!/%(?:2f|5c|00)/i.test(mf[1]))return {url:u.href,provider:'mediafire'};
  if(/^download[0-9]+\.mediafire\.com$/.test(h)&&FILE.test(p)&&p.split('/').filter(Boolean).length>=3)return {url:u.href,provider:'mediafire'};
  if(h==='pixeldrain.com'&&/^\/(?:u|api\/file)\/[A-Za-z0-9_-]{5,80}$/.test(p)){u.pathname='/api/file/'+p.split('/').pop();u.search='?download';u.hash='';return {url:u.href,provider:'pixeldrain'};}
  return null;
@@ -79,7 +82,7 @@ export async function verifyTicketSource(env,ticket,origin){
 }
 const cancel=async r=>{try{await r?.body?.cancel();}catch{}};
 function filename(raw,disposition){let n='plik.bin';const star=/filename\*=UTF-8''([^;]+)/i.exec(disposition),regular=/filename\s*=\s*(?:"([^"]+)"|([^;]+))/i.exec(disposition);
- try{n=star?decodeURIComponent(star[1]):regular?(regular[1]||regular[2]):decodeURIComponent(new URL(raw).pathname.split('/').pop()||n);}catch{}
+ try{n=star?decodeURIComponent(star[1]):regular?(regular[1]||regular[2]):decodeURIComponent((new URL(raw).pathname.match(/^\/file_premium\/[a-z0-9]{10,40}\/([^/]+)\/file\/?$/i)?.[1]||new URL(raw).pathname.split('/').pop()||n));}catch{}
  n=n.replace(/[\\/\x00-\x1f\x7f<>:"|?*]/g,'_').trim().slice(0,160);return n||'plik.bin';}
 function boundedBody(body,size){let read=0;return body.pipeThrough(new TransformStream({transform(chunk,c){read+=chunk.byteLength;if(read>size)throw Error('External size exceeded');c.enqueue(chunk);},flush(){if(read!==size)throw Error('Incomplete external transfer');}}));}
 export async function fetchExternalFile(raw,fetcher=fetch){

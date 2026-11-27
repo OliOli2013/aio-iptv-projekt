@@ -78,3 +78,17 @@ test('owner-only mapping, confirmed object, safe local path and report; mapped l
 test('published chat/comment source validated; modified or unpublished comment cannot issue proxy',async()=>{
  const {env,db}=fixture();let t=token(await prepare(env,GOOD,{source:'chat',sourceId:'chat-123'}));assert.ok(await helper.verifyTicketSource(env,await helper.readTicket(env,t,'free'),ORIGIN));t=token(await prepare(env,GOOD,{commentId:COMMENT}));assert.ok(await helper.verifyTicketSource(env,await helper.readTicket(env,t,'free'),ORIGIN));db.exec("UPDATE community_comments SET status='hidden'");assert.equal((await get(env,t)).status,403);db.close();
 });
+
+
+test('MediaFire Premium: exact share format, trusted redirect only, rejects landing HTML',async()=>{
+ const premium='https://www.mediafire.com/file_premium/bbvfc2nffb6rg0b/OpenSPA-8.7-zgemmah17combo-backup-20261126_2008_usb.zip/file';
+ assert.equal(helper.directSource(premium).provider,'mediafire');
+ for(const x of [premium.replace('www.mediafire.com','www.mediafire.com.evil.test'),premium.replace('file_premium','file'),premium.replace('.zip','.html'),premium.replace('.zip','%2fother.zip'),premium.replace('https:','http:')])assert.equal(helper.directSource(x),null,x);
+ let calls=[];const a=await helper.fetchExternalFile(premium,async(u,o)=>{calls.push(u);assert.equal(o.redirect,'manual');return calls.length===1?new Response(null,{status:302,headers:{Location:'https://download123.mediafire.com/token/id/backup.zip'}}):bytes();});
+ assert.equal(await a.text(),'abcde');assert.equal(calls.length,2);
+ calls=[];await assert.rejects(helper.fetchExternalFile(premium,async u=>{calls.push(u);return new Response(null,{status:302,headers:{Location:'https://mediafire.com.evil.test/a.zip'}});}),/Unsafe redirect/);assert.equal(calls.length,1);
+ await assert.rejects(helper.fetchExternalFile(premium,async()=>new Response('<html>',{headers:{'Content-Type':'text/html','Content-Length':'6'}})));
+ const direct=await helper.fetchExternalFile(premium,async()=>new Response('abc',{headers:{'Content-Type':'application/octet-stream','Content-Length':'3'}}));
+ assert.match(direct.headers.get('Content-Disposition'),/OpenSPA-8.7-zgemmah17combo-backup-20261126_2008_usb.zip/);assert.equal(await direct.text(),'abc');
+ const {env,db}=fixture();const old=globalThis.fetch;globalThis.fetch=async()=>bytes();try{db.prepare('UPDATE community_posts SET content=? WHERE id=?').run(premium,POST);const p=await prepare(env,premium);assert.equal(p.data.kind,'managed_external');assert.equal(env.charged,0);const r=await get(env,token(p));assert.equal(r.status,200);assert.equal(r.headers.get('X-AIO-Download-Limit-KBps'),'25');assert.equal(await r.text(),'abcde');assert.equal(env.charged,1);}finally{globalThis.fetch=old;db.close();}
+});

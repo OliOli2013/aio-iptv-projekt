@@ -8,6 +8,13 @@ on:
       - 'functions/_aio_monthly_access.js'
       - 'functions/pliki/**'
       - 'functions/api/aio-post-link.js'
+      - 'functions/api/aio-external-download.js'
+      - 'functions/api/aio-link-handoff.js'
+      - 'functions/api/owner-external-speed-map.js'
+      - 'functions/_aio_external_speed_v1.js'
+      - 'functions/_aio_download_speed_v1.js'
+      - 'tests/aio-external-post-speed-v1.mjs'
+      - 'supabase/aio-external-post-speed-v1.sql'
       - 'functions/api/aio-account-access.js'
       - 'functions/api/aio-security-core.js'
       - 'functions/_middleware.js'
@@ -41,6 +48,8 @@ jobs:
           node --check assets/js/aio-security-core-v1.js
       - name: Security admission tests
         run: node tests/aio-security-core-v1-regression.mjs .
+      - name: External download security tests
+        run: node --test tests/aio-external-post-speed-v1.mjs
       - name: Static coverage audit
         run: python3 scripts/aio_security_core_audit_v1.py
       - name: Owner exemption regression and panel wiring
