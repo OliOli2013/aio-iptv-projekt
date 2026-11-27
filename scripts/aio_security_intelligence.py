@@ -60,7 +60,7 @@ class D1:
             if len(rows)>MAX_ROWS: raise RuntimeError('Przekroczono limit odczytu; raport niepelny')
         return rows
 
-def analyse(profiles,ips,journal,archives,historical,checks,now):
+def analyse(profiles,ips,journal,archives,historical,checks,now,seen=()):
     """Pure analysis; case keys do not expose network fingerprints."""
     p={r['id']:r for r in profiles if r['role']=='user'}
     active={uid for uid,row in p.items() if not blocked(row,now)}
@@ -120,7 +120,8 @@ def analyse(profiles,ips,journal,archives,historical,checks,now):
     for kind,rows in checks.items():
         for r in rows:
             u=r.get('user_id'); peer=r.get('peer_id'); at=r.get('at')
-            if kind not in ('orphan_claim','banned_session') and u not in active: continue
+            if kind=='strict_hold' and u not in p: continue
+            if kind not in ('orphan_claim','banned_session','strict_hold') and u not in active: continue
             if kind=='banned_session' and (u not in p or u in active): continue
             if kind=='orphan_claim':
                 add(kind,'review',[],[u,r.get('source')],f"Przypisanie sieci bez profilu: {u} ({r.get('source')}). Sprawdź, czy celowo zachowane.")
@@ -132,7 +133,8 @@ def analyse(profiles,ips,journal,archives,historical,checks,now):
               'strict_hold':('review','Aktywna blokada Strict V4; sprawdź status, jeśli wymaga decyzji.')}
             severity,detail=labels[kind]; people=[u]+([peer] if peer in p else [])
             add(kind,severity,people,[u,peer,at,r.get('n'),r.get('source')],detail,at)
-    all_cases=sorted(issues.values(),key=lambda x:(x['severity']!='high',x['kind'],x['key']))
+    seen=set(seen)
+    all_cases=sorted(issues.values(),key=lambda x:(x['key'] in seen,x['severity']!='high',x['kind'],x['key']))
     if len(all_cases)>MAX_CASES: warnings.append(f'Pokazano {MAX_CASES} z {len(all_cases)} spraw; raport częściowy.')
     if invalid_ip: warnings.append(f'Niepoprawne zapisane IP: {invalid_ip}; pominięto.')
     return {'version':1,'checked_at':iso(now),'metrics':{'profiles':len(profiles),'ordinary':len(p),'blocked':len(p)-len(active),
@@ -188,7 +190,8 @@ def run(db,owner,target):
         rows=db.query('SELECT * FROM ('+query+') LIMIT 501',args)
         if len(rows)>500: warnings.append('Przekroczono limit źródła: '+name)
         checks[name]=rows[:500]
-    report=analyse(profiles,ips,journal,archives,history[:500],checks,now)
+    seen={r['case_key'] for r in db.scan('t.case_key','aio_security_intelligence_seen_v1 t')}
+    report=analyse(profiles,ips,journal,archives,history[:500],checks,now,seen)
     report['target']=target
     if target=='production' and report['metrics']['archive_count']<32:
         warnings.append('Archiwum produkcji ma mniej niż 32 poprawne wpisy; sprawdź zachowaną historię.')

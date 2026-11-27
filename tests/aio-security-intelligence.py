@@ -54,6 +54,17 @@ CREATE TABLE aio_vpn_guard_signups_v1(decision TEXT,created_at TEXT);''')
   db.c.execute('INSERT INTO aio_vpn_guard_signups_v1 VALUES (?,?)',('deny',RECENT))
   before=db.query('SELECT * FROM community_profiles ORDER BY id');m.run(db,OWNER,'preview');r=json.loads(db.query('SELECT payload FROM aio_security_intelligence_report_v1')[0]['payload']);self.assertEqual(r['metrics']['profiles'],3);self.assertEqual(r['metrics']['vpn_denials_24h'],1);self.assertEqual({x['kind'] for x in r['cases']},{'network','history_v2','archive_name'});self.assertEqual(before,db.query('SELECT * FROM community_profiles ORDER BY id'));self.assertEqual(r['warnings'],[])
   with self.assertRaises(RuntimeError):m.run(db,A,'preview')
+ def test_blocked_strict_hold(self):
+  r=audit([p(A,ban=FUTURE),p(OWNER,role='admin')],checks={'strict_hold':[dict(user_id=A,at=RECENT),dict(user_id=OWNER,at=RECENT)]})
+  self.assertEqual(len(r['cases']),1)
+  self.assertEqual(r['cases'][0]['kind'],'strict_hold')
+ def test_unreviewed_first(self):
+  ps=[p(A),p(B)]
+  checks={'paid_hold':[dict(user_id=A,at=RECENT),dict(user_id=B,at=RECENT)]}
+  r=audit(ps,checks=checks)
+  key=r['cases'][0]['key']
+  result=m.analyse(ps,[],[],[],[],checks,NOW,{key})
+  self.assertEqual(result['cases'][-1]['key'],key)
  def test_pagination(self):
   class Local:
    scan=m.D1.scan

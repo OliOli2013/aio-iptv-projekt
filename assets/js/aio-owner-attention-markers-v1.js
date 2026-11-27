@@ -8,7 +8,7 @@
   const ROOT=document.documentElement;
   const $=s=>document.querySelector(s);
   const TASKS={approvals:'support',pending:'posts',inbox:'inbox',resets:'resets',reports:'reports',lists:'lists'};
-  const SECURITY_IDS=new Set(['v6-blocks','ip-policy-blocks','ip-denials','ip-history-pending','anonymous-bursts','distributed-anonymous']);
+  const SECURITY_IDS=new Set(['v6-blocks','ip-policy-blocks','ip-denials','ip-history-pending','anonymous-bursts','distributed-anonymous','security-intelligence']);
   const SECURITY_FEATURES={
     'security-center-v1':SECURITY_IDS,
     'wyszukiwarka-blokad':new Set(['v6-blocks','ip-policy-blocks','ip-denials','ip-history-pending']),
