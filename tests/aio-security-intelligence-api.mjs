@@ -13,3 +13,15 @@ test('cross origin POST rejected before DB',async()=>{const {env,calls}=fixture(
 test('stale acknowledgment fails',async()=>{const {env}=fixture({stale:true});assert.equal((await post(env,{action:'review',key,checked_at:now})).status,409);});
 test('valid acknowledgment writes only seen table with snapshot guard',async()=>{const {env,calls}=fixture();assert.equal((await post(env,{action:'review',key,checked_at:now})).status,200);assert.equal(calls.length,1);assert.match(calls[0],/INSERT INTO aio_security_intelligence_seen_v1/);assert.match(calls[0],/checked_at=\?/);assert.match(calls[0],/json_each/);});
 test('empty report is not represented as a clean audit',async()=>{const {env}=fixture({empty:true});assert.equal((await (await get(env)).json()).report,null);});
+
+const A='00000000-0000-4000-8000-000000000002',B='00000000-0000-4000-8000-000000000003',C='00000000-0000-4000-8000-000000000004',D='00000000-0000-4000-8000-000000000005';
+test('identity lookup: current email, archived name, missing and protected; bound snapshot IDs only',async()=>{
+ const calls=[];const db={prepare(sql){return {bind(v){calls.push([sql,JSON.parse(v)]);return this;},async all(){return {results:sql.includes('FROM community_profiles')?[{id:A,role:'user',display_name:'Current',email:'current@example.invalid',banned_until:null},{id:D,role:'admin',display_name:'Protected',email:'secret@example.invalid'}]:[{id:B,name:'Archived'}]};}};}};
+ const result=await api.resolveReportAccounts(db,{cases:[{kind:'network',users:[{id:A},{id:A},{id:D},{id:'invalid'}]},{kind:'orphan_claim',detail:`Przypisanie sieci bez profilu: ${B} (Strict V4).`},{kind:'orphan_claim',orphan_id:C}]},'owner');
+ assert.deepEqual(calls[0][1],[A,D,B,C]);assert.deepEqual(calls[1][1],[B,C]);assert.equal(result.accounts[A].email,'current@example.invalid');assert.deepEqual(result.accounts[B],{state:'archived',name:'Archived'});assert.deepEqual(result.accounts[C],{state:'missing'});assert.deepEqual(result.accounts[D],{state:'protected'});assert.equal(result.incomplete,false);assert.equal(JSON.stringify(result).includes('secret@example.invalid'),false);
+});
+test('owner identity enrichment is nonpersistent and a failed lookup is distinguishable',async()=>{
+ const snap={...report,cases:[{...report.cases[0],users:[{id:A}]}]};const {env}=fixture();const original=env.COMMUNITY_DB.prepare;
+ env.COMMUNITY_DB.prepare=sql=>{if(sql.includes('FROM community_profiles'))throw Error('offline');const statement=original(sql);if(sql.startsWith('SELECT checked_at,payload'))statement.first=async()=>({checked_at:now,payload:JSON.stringify(snap)});return statement;};
+ const res=await get(env);assert.equal(res.status,200);const data=await res.json();assert.equal(data.identity_incomplete,true);assert.equal(data.report.cases[0].users[0].id,A);assert.equal(data.accounts[A],undefined);
+});

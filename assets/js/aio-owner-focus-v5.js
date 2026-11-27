@@ -23,6 +23,7 @@
     {id:'grants',name:'Dostępy 7 dni',group:'Konta i dostępy',icon:'✓',tags:'grant aktywacja przedłużenie'},
     {id:'sessions',name:'Sesje użytkowników',group:'Konta i dostępy',icon:'◎',tags:'logowanie urządzenie zalogowany'},
     {id:'account-cleanup',name:'Czyszczenie kont',group:'Konta i dostępy',icon:'⌫',tags:'niezweryfikowane email usuwanie'},
+    {id:'security-intelligence',name:'Security Intelligence — automatyczny audyt',group:'Bezpieczeństwo',icon:'⛨',tags:'automatyczny audyt historia multikonta raport archiwum'},
     {id:'security-center-v1',name:'Centrum Bezpieczeństwa',group:'Bezpieczeństwo',icon:'⬡',tags:'alarmy incydenty ip konta logi próby ataków'},
     {id:'vpn-guard-v1',name:'VPN / proxy — audyt',group:'Bezpieczeństwo',icon:'⛨',tags:'ipapi anonimizer proxy tor rozpoznawanie vpn rejestracje limity skan'},
     {id:'security-exports-v1',name:'Eksporty bezpieczeństwa CSV / JSON',group:'Bezpieczeństwo',icon:'⇩',tags:'raporty pobierz csv pliki d1 backup dziennik'},
@@ -48,7 +49,7 @@
   const BY_ID=new Map(TOOLS.map(t=>[t.id,t]));
   const CATEGORIES=['Codzienne sprawy','Konta i dostępy','Bezpieczeństwo','Treści i pobieranie','System i narzędzia'];
   const COUNTERS=[['inbox','inbox','Skrzynka','✉'],['resets','resets','Reset haseł','⚿'],['approvals','support','Wpłaty','♡'],['pending','posts','Posty','▤'],['reports','reports','Zgłoszenia','⚑'],['lists','lists','Listy ZIP','▦']];
-  const PICKS=['users','wyszukiwarka-blokad','security-center-v1','vpn-guard-v1','security-exports-v1','multikonta-audyt','vip','downloads','admin-messages','security-journal','post-links','logs'];
+  const PICKS=['users','wyszukiwarka-blokad','security-center-v1','security-intelligence','vpn-guard-v1','security-exports-v1','multikonta-audyt','vip','downloads','admin-messages','security-journal','post-links','logs'];
   function toolButton(id,cls='aop5-link'){
     const t=BY_ID.get(id);if(!t)return '';
     return `<button type="button" data-aop-go="${escape(t.id)}" class="${cls}" title="Otwórz: ${escape(t.name)}"><span aria-hidden="true">${escape(t.icon)}</span><strong>${escape(t.name)}</strong></button>`;
@@ -62,7 +63,7 @@
   }
   function markup(count){
     const tasks=COUNTERS.map(([id,key,name,icon])=>`<button type="button" class="aop4-task aop5-case" data-aop-go="${id}"><span class="aop5-case-icon" aria-hidden="true">${icon}</span><span class="aop5-case-name">${name}</span><b class="aop4-count" data-aop-count="${key}">${escape(count[key])}</b></button>`).join('');
-    const security=['security-center-v1','wyszukiwarka-blokad','multikonta-blokady','security-journal'].map(id=>`<article class="aop4-feature aop5-sec-feature">${toolButton(id)}</article>`).join('');
+    const security=['security-center-v1','security-intelligence','wyszukiwarka-blokad','multikonta-blokady','security-journal'].map(id=>`<article class="aop4-feature aop5-sec-feature">${toolButton(id)}</article>`).join('');
     const categories=CATEGORIES.map((name,i)=>`<details class="aop5-category" ${i===0?'open':''}><summary><strong>${escape(name)}</strong><small>${TOOLS.filter(t=>t.group===name).length} funkcji</small><span aria-hidden="true">⌄</span></summary><div class="aop5-category-items">${TOOLS.filter(t=>t.group===name).map(t=>toolButton(t.id)).join('')}</div></details>`).join('');
     return `<div class="aop5-main">
       <section class="aop5-intro"><div><span class="aop5-kicker">AIO TUNERHUB · PANEL WŁAŚCICIELA</span><h1>Co chcesz zrobić?</h1><p>Wpisz nazwę czynności albo wybierz skrót. Blokady i decyzje o kontach znajdziesz w jednym miejscu.</p></div><div class="aop4-hero-actions"><a class="aop5-account-link" href="/owner-safety">Bezpieczeństwo i dostęp</a> <a class="aop5-account-link" href="/konto.html?widok=konto">Ustawienia mojego konta</a></div></section>

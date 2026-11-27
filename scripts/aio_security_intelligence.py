@@ -125,6 +125,9 @@ def analyse(profiles,ips,journal,archives,historical,checks,now,seen=()):
             if kind=='banned_session' and (u not in p or u in active): continue
             if kind=='orphan_claim':
                 add(kind,'review',[],[u,r.get('source')],f"Przypisanie sieci bez profilu: {u} ({r.get('source')}). Sprawdź, czy celowo zachowane.")
+                # Preserve structured UUID in future snapshots; old snapshots remain supported.
+                orphan_key=digest(json.dumps([kind,[u,r.get('source')],[]],ensure_ascii=False,sort_keys=True))
+                issues[orphan_key]['orphan_id']=u
                 continue
             labels={'banned_session':('high',f"Zablokowany profil ma {r.get('n')} niewygasłych zwykłych sesji. Nie oznacza to, że sesje mają dostęp."),
               'paid_hold':('high','Aktywna blokada współdzielenia VIP/7D.'), 'multi_pending':('high','Multikonta V2: oczekuje na decyzję.'),

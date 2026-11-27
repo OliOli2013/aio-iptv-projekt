@@ -13,7 +13,7 @@ export const OWNER_HTML = String.raw`<!doctype html>
 <link rel="stylesheet" href="/assets/css/aio-owner-overview-v2.css?v=20261019-owner-overview-v2">
 <link rel="stylesheet" href="/assets/css/aio-security-journal-v1.css?v=20261020-asj2">
 <link rel="stylesheet" href="/assets/css/aio-owner-security-v5.css?v=20261021-mobilefix-1">
-<script defer src="/assets/js/aio-owner-tools-catalog-v1.js?v=20261122-ops1"></script>
+<script defer src="/assets/js/aio-owner-tools-catalog-v1.js?v=20261127-intelligence-ui2"></script>
 <script defer src="/assets/js/owner-hub.js?v=20261122-ops1"></script>
 <script defer src="/assets/js/aio-owner-overview-v2.js?v=20261119-support-queue-fix-v1"></script>
 <script defer src="/assets/js/aio-security-journal-v1.js?v=20261021-mobilefix-1"></script>
@@ -27,11 +27,11 @@ export const OWNER_HTML = String.raw`<!doctype html>
 <link rel="stylesheet" href="/assets/css/aio-owner-messages-v1.css?v=20261021-owner-messages-v1">
 <link rel="stylesheet" href="/assets/css/aio-owner-layout-v4.css?v=20261113-etap2-v4">
 <link rel="stylesheet" href="/assets/css/aio-owner-focus-v5.css?v=20261115-v5">
-<script defer src="/assets/js/aio-owner-focus-v5.js?v=20261122-ops1"></script>
-<script defer src="/assets/js/aio-owner-layout-v4.js?v=20261122-ops1"></script>
+<script defer src="/assets/js/aio-owner-focus-v5.js?v=20261127-intelligence-ui2"></script>
+<script defer src="/assets/js/aio-owner-layout-v4.js?v=20261127-intelligence-ui2"></script>
 <script defer src="/assets/js/aio-owner-core-preview-v1.js?v=20261114-core-v12"></script>
 <link rel="stylesheet" href="/assets/css/aio-owner-attention-markers-v1.css?v=20261113-v1">
-<script defer src="/assets/js/aio-owner-attention-markers-v1.js?v=20261113-v1"></script>
+<script defer src="/assets/js/aio-owner-attention-markers-v1.js?v=20261127-intelligence-ui2"></script>
 <link rel="stylesheet" href="/assets/css/aio-owner-unified-shortcut-v1.css?v=20261117-v1-2">
 <script defer src="/assets/js/aio-owner-unified-shortcut-v1.js?v=20261117-v1-2"></script>
 </head>
