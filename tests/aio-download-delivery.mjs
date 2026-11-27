@@ -10,7 +10,8 @@ const fake='data:text/javascript,'+encodeURIComponent([
   'export const activeSharedHold=async()=>null,logSecurity=async()=>{},reviewPaidSessionSharing=async()=>null;',
   'export const monitorDownload=async()=>({blocked:false}),queueIssuedFileAudit=()=>{};',
   'export const checkAnonymousFileBurst=async()=>({blocked:false}),anonymousDeniedResponse=()=>new Response(null,{status:429}),recordDistributedAnonymousDenied=async()=>{};',
-  'export const canResumeRange=async()=>false,authorizeRange=async(_e,_r,_u,_k,consume)=>consume();'
+  'export const canResumeRange=async()=>false,authorizeRange=async(_e,_r,_u,_k,consume)=>consume();',
+  'export const speedConfig=async()=>({enabled:false,kbps:25}),shouldThrottle=()=>false,claimSpeedLease=async()=>null,speedBusy=()=>new Response(null,{status:429}),speedResponse=r=>r;'
 ].join('\n'));
 registerHooks({resolve(s,c,next){if(c.parentURL?.includes('/functions/pliki/')&&!s.includes('_aio_private_files')&&!s.includes('_aio_panel_public')&&s.startsWith('../_aio_'))return {url:fake,shortCircuit:true};return next(s,c);}});
 const {onRequest}=await import('../functions/pliki/[[path]].js');

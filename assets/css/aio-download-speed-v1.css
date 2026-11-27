@@ -1,0 +1,8 @@
+#aio-speed-notice,#aio-speed-panel{border:1px solid currentColor;border-radius:12px;padding:14px 18px;margin:12px 0;line-height:1.55}
+#aio-speed-notice[hidden]{display:none!important}
+#aio-speed-panel h2{margin:0 0 8px;font-size:1.1rem}
+#aio-speed-form{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:8px 0}
+#aio-speed-form input[type=number]{max-width:110px;padding:6px;border:1px solid #718096;border-radius:6px;background:inherit;color:inherit}
+#aio-speed-form button{padding:7px 14px;border:1px solid #718096;border-radius:8px;cursor:pointer;background:inherit;color:inherit}
+#aio-speed-form button:disabled{opacity:.55;cursor:default}
+#aio-speed-msg{margin:8px 0 0}

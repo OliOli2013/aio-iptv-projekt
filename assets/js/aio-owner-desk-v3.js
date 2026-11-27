@@ -168,6 +168,11 @@
   <section class="aop-work" id="aop-work" hidden><div class="aop-work-head"><div><button type="button" class="aop-back" data-aop-go="dashboard">← Wróć do pulpitu</button><span class="aop-eyebrow">OBSZAR ROBOCZY</span><h1 id="aop-work-title">Moduł</h1><p id="aop-work-desc"></p></div><div class="aop-work-actions"><button type="button" id="aop-pin">☆ Przypnij</button><a id="aop-open" href="/community-admin.html" target="_blank" rel="noopener noreferrer">↗ Otwórz osobno</a></div></div><div class="aop-work-loading" id="aop-work-loading" hidden>Ładowanie modułu właściciela…</div><div id="aop-embedded" class="aop-embedded" hidden></div><div id="aop-native" class="aop-native" hidden></div></section>
   <div class="aop-footer"><span id="aop-fetch-status" role="status">Odczyt danych w toku…</span><span>Wszystkie decyzje i uprawnienia nadal weryfikuje serwer Cloudflare D1</span></div>`;
   content.prepend(shell);
+  // AIO_DOWNLOAD_SPEED_UI_FIX_V1
+  const speedPanel = document.getElementById('aio-speed-panel');
+  if (speedPanel) {
+    shell.insertBefore(speedPanel, $('aop-dashboard'));
+  }
   const sidePanel=make('form','aop-side-account');sidePanel.id='aop-account-form';sidePanel.innerHTML=`<label for="aop-account-search">SZYBKIE SZUKANIE KONTA</label><div><input id="aop-account-search" type="search" minlength="2" maxlength="100" placeholder="Nazwa lub e-mail" autocomplete="off" aria-label="Szukaj użytkownika po nazwie lub e-mailu"/><button type="submit" aria-label="Znajdź konto">⌕</button></div>`;
   sidebar.insertBefore(sidePanel,sidebar.querySelector('.oh-sidebottom'));bindAccountSearch();
   document.addEventListener('click',e=>{const b=e.target.closest('[data-aop-go]');if(b){const id=b.dataset.aopGo;if(byId.has(id)||id==='dashboard'){e.preventDefault();navigate(id,true);}}});
