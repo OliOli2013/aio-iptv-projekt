@@ -10,12 +10,12 @@
   const INBOX='/api/list-inbox?scope=admin';
   const HEALTH='/api/aio-health';
   const FULL='/owner-hub';
-  const SECURITY=new Set(['security-holds','v6-blocks','ip-policy-blocks','ip-denials','ip-history-pending','anonymous-bursts']);
+  const SECURITY=new Set(['security-holds','v6-blocks','ip-policy-blocks','ip-denials','ip-history-pending','anonymous-bursts','security-intelligence']);
   const $=(selector,scope=document)=>scope.querySelector(selector);
   const el=(tag,cls,txt)=>{const x=document.createElement(tag);if(cls)x.className=cls;if(txt!==undefined)x.textContent=String(txt);return x;};
   const fmt=iso=>{const n=Date.parse(iso||'');return Number.isFinite(n)?new Date(n).toLocaleString('pl-PL',{dateStyle:'short',timeStyle:'short'}):'';};
   const digits=n=>Math.max(0,Number(n)||0).toLocaleString('pl-PL');
-  const safeHref=h=>/^\/(?:owner-hub(?:#panel=[a-z0-9-]+)?|owner-support-intents\.html|aio-security-center\.html|aio-list-upload\.html#aluAdmin)$/.test(String(h||''));
+  const safeHref=h=>/^\/(?:owner-hub(?:#panel=[a-z0-9-]+)?|owner-support-intents\.html|aio-security-center\.html|aio-security-intelligence\.html|aio-list-upload\.html#aluAdmin)$/.test(String(h||''));
   const typed=(url,timeout=14000)=>{
     const ac=new AbortController(),timer=setTimeout(()=>ac.abort(),timeout);
     return fetch(url,{credentials:'include',cache:'no-store',headers:{accept:'application/json'},signal:ac.signal})
@@ -92,7 +92,7 @@
     const msgs=section('✉ Nowe wiadomości od użytkowników','messages');
     msgs.append(el('div','aod3-entries'));msgs.append(link('Otwórz skrzynkę w Pełnym Centrum →','/owner-hub#panel=inbox','aod3-section-footer'));
     const sec=section('⛨ Bezpieczeństwo — wymaga uwagi','security');sec.append(el('div','aod3-entries'));
-    sec.append(link('Centrum Bezpieczeństwa →','/aio-security-center.html','aod3-section-footer'));
+    sec.append(link('Centrum Bezpieczeństwa →','/aio-security-center.html','aod3-section-footer'),link('Security Intelligence →','/aio-security-intelligence.html','aod3-section-footer'));
     const tasks=section('▤ Decyzje i moderacja','tasks');tasks.append(el('div','aod3-entries'));
     const grid=el('div','aod3-grid');grid.append(msgs,sec,tasks);root.append(grid);
     const footer=el('div','aod3-footer');
