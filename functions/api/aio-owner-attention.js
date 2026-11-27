@@ -112,6 +112,19 @@ DEFINITIONS.push({id:'distributed-anonymous',title:'Rozproszone anonimowe żąda
   sql:`SELECT CASE WHEN EXISTS(SELECT 1 FROM aio_distributed_file_incidents_v1 WHERE reviewed_at IS NULL)
       THEN 1 ELSE 0 END n,
       (SELECT MAX(created_at) FROM aio_distributed_file_incidents_v1 WHERE reviewed_at IS NULL) latest`});
+// AIO Security Intelligence V1: one grouped attention item; acknowledging it does not change any account.
+DEFINITIONS.push({id:'security-intelligence',title:'AIO Security Intelligence — audyt do sprawdzenia',
+  detail:'Nowe sprawy, niepełny lub nieaktualny audyt. Otwórz raport; żadna blokada nie jest zmieniana.',
+  href:'/aio-security-intelligence.html',icon:'⛨',priority:'high',
+  sql:`SELECT CASE WHEN NOT EXISTS(SELECT 1 FROM aio_security_intelligence_report_v1 WHERE id=1)
+    OR EXISTS(SELECT 1 FROM aio_security_intelligence_report_v1 r WHERE r.id=1 AND (
+      datetime(r.checked_at) IS NULL OR datetime(r.checked_at)<=datetime(?,'-30 hours')
+      OR COALESCE(json_array_length(r.payload,'$.warnings'),1)>0
+      OR EXISTS(SELECT 1 FROM json_each(r.payload,'$.cases') c WHERE NOT EXISTS (
+        SELECT 1 FROM aio_security_intelligence_seen_v1 s WHERE s.case_key=json_extract(c.value,'$.key')))))
+    THEN 1 ELSE 0 END n,
+    (SELECT checked_at FROM aio_security_intelligence_report_v1 WHERE id=1) latest`,params:now=>[now]});
+
 export async function onRequestGet({request,env}){
   try{
     // Validates the CURRENT session and the configured owner ID server-side.

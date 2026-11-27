@@ -1,0 +1,52 @@
+name: AIO Security Intelligence
+on:
+  pull_request:
+  schedule:
+    - cron: '23 5 * * *'
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Baza (test przed produkcja)
+        required: true
+        default: preview
+        type: choice
+        options:
+          - preview
+          - production
+permissions:
+  contents: read
+concurrency:
+  group: aio-security-intelligence-${{ github.event_name == 'pull_request' && github.ref || github.event.inputs.target || 'production' }}
+  cancel-in-progress: false
+jobs:
+  verify:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - run: python3 tests/aio-security-intelligence.py
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: node --test tests/aio-security-intelligence-api.mjs
+  audit:
+    # Only code on main receives credentials. Never run this job in pull requests.
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    environment: aio-audit-${{ github.event.inputs.target || 'production' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Offline tests
+        run: python3 tests/aio-security-intelligence.py
+      - name: Scheduled private D1 audit
+        env:
+          AIO_AUDIT_TARGET: ${{ github.event.inputs.target || 'production' }}
+          AIO_CF_ACCOUNT_ID: ${{ vars.AIO_CF_ACCOUNT_ID }}
+          AIO_D1_TOKEN: ${{ secrets.AIO_D1_TOKEN }}
+          AIO_OWNER_USER_ID: ${{ secrets.AIO_OWNER_USER_ID }}
+        run: python3 scripts/aio_security_intelligence.py

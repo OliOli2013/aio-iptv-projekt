@@ -121,3 +121,12 @@
 
 /assets/css/aio-owner-security-v5.css
   Cache-Control: no-cache, must-revalidate
+
+# AIO Security Intelligence: shell is public, report API is owner-only.
+/aio-security-intelligence
+  Cache-Control: private, no-store
+  X-Robots-Tag: noindex, nofollow
+
+/aio-security-intelligence.html
+  Cache-Control: private, no-store
+  X-Robots-Tag: noindex, nofollow

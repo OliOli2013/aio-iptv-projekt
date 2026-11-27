@@ -8,12 +8,12 @@
   const ROOT=document.documentElement;
   const $=s=>document.querySelector(s);
   const TASKS={approvals:'support',pending:'posts',inbox:'inbox',resets:'resets',reports:'reports',lists:'lists'};
-  const SECURITY_IDS=new Set(['v6-blocks','ip-policy-blocks','ip-denials','ip-history-pending','anonymous-bursts','distributed-anonymous']);
+  const SECURITY_IDS=new Set(['v6-blocks','ip-policy-blocks','ip-denials','ip-history-pending','anonymous-bursts','distributed-anonymous','security-intelligence']);
   const SECURITY_FEATURES={
     'security-center-v1':SECURITY_IDS,
     'wyszukiwarka-blokad':new Set(['v6-blocks','ip-policy-blocks','ip-denials','ip-history-pending']),
     'multikonta-blokady':new Set(['ip-policy-blocks','ip-denials','ip-history-pending']),
-    'security-journal':new Set(['v6-blocks','ip-policy-blocks','ip-denials','anonymous-bursts','distributed-anonymous'])
+    'security-journal':new Set(['v6-blocks','ip-policy-blocks','ip-denials','anonymous-bursts','distributed-anonymous','security-intelligence'])
   };
   let working=false,frame=0,lastSecurityRead=0,securityEntries=null,securityUnknown=false;
   const amount=s=>{const t=String(s??'').trim();if(!/\d/.test(t))return null;
