@@ -15,8 +15,8 @@ function fixture(state={authenticated:true,active:false,free_remaining:2},config
 }
 const tick=()=>new Promise(r=>setImmediate(r));
 test('FREE local: confirmation uses current config; cancel or upgrade never opens transfer',async()=>{
- for(const [index,answer] of [[0,false],[1,false],[2,true],[3,false]]){
-  const f=fixture(undefined,{ok:true,enabled:true,kbps:37});const pending=f.run();await tick();const d=f.nodes[0];assert.ok(d);assert.equal(d.children[2].textContent,'37 KB/s');const btn=d.children.at(-1).children[index];if(index<2)assert.equal(btn.href,'https://buycoffee.to/pawelpawelek/rozwoj-strony-aio-iptv-pl-i-darmowych-projektow-enigma2');btn.handlers.click({preventDefault(){}});assert.equal(await pending,answer);if(index<2){assert.equal(f.stats().paidChoice.method,'buycoffee');assert.equal(f.stats().paidChoice.purpose,index===0?'access7':'vip30');assert.equal(f.stats().navigation,null);}assert.equal(d.removed,true);
+ for(const [index,answer] of [[0,true],[1,false],[2,false],[3,false]]){
+  const f=fixture(undefined,{ok:true,enabled:true,kbps:37});const pending=f.run();await tick();const d=f.nodes[0];assert.ok(d);assert.equal(d.children[0].textContent,'Wolne pobieranie');assert.ok(!d.children.some(x=>/KB\/s/.test(x.textContent||'')));const actions=d.children.at(-1).children.filter(x=>['a','button'].includes(x.tag));assert.equal(actions[0].textContent,'WOLNE POBIERANIE – POBIERZ');assert.match(actions[0].style.cssText,/background:#6547a4/);const btn=actions[index];if(index===1||index===2)assert.equal(btn.href,'https://buycoffee.to/pawelpawelek/rozwoj-strony-aio-iptv-pl-i-darmowych-projektow-enigma2');btn.handlers.click({preventDefault(){}});assert.equal(await pending,answer);if(index===1||index===2){assert.equal(f.stats().paidChoice.method,'buycoffee');assert.equal(f.stats().paidChoice.purpose,index===1?'access7':'vip30');assert.equal(f.stats().navigation,null);}assert.equal(d.removed,true);
  }
 });
 test('paid, owner, disabled, public, external and informational links skip modal',async()=>{
@@ -33,12 +33,12 @@ test('two existing handoff paths gate the actual GET; no new debit endpoint',()=
  assert.ok(!code.includes('consumeFree'));assert.ok(!code.includes("method:'POST'"));
 });
 
-test('individual speed is displayed; unlimited FREE retains monthly quota and explicit confirmation',async()=>{
- for(const config of [{ok:true,enabled:true,kbps:250,individual:true},{ok:true,enabled:true,kbps:null,individual:true,unlimited:true}]){const f=fixture(undefined,config),p=f.run();await tick();const d=f.nodes[0];assert.equal(d.children[2].textContent,config.unlimited?'Pełna dostępna prędkość':'250 KB/s');assert.match(d.children[3].textContent,/2 z 3/);assert.match(d.children[3].textContent,/indywidualnie/);d.children.at(-1).children[2].handlers.click();assert.equal(await p,true);}
+test('individual speed stays private; unlimited FREE retains monthly quota and explicit confirmation',async()=>{
+ for(const config of [{ok:true,enabled:true,kbps:250,individual:true},{ok:true,enabled:true,kbps:null,individual:true,unlimited:true}]){const f=fixture(undefined,config),p=f.run();await tick();const d=f.nodes[0];assert.equal(d.children[0].textContent,config.unlimited?'Pobieranie – konto FREE':'Wolne pobieranie');assert.match(d.children[2].textContent,/2 z 3/);assert.ok(!d.children.some(x=>/KB\/s/.test(x.textContent||'')));const go=d.children.at(-1).children[0];assert.equal(go.textContent,config.unlimited?'POBIERZ':'WOLNE POBIERANIE – POBIERZ');go.handlers.click();assert.equal(await p,true);}
 });
 
 test('managed external download uses same FREE confirmation, paid bypasses',async()=>{
- const f=fixture(undefined,{ok:true,enabled:true,kbps:25}),p=f.run('managed_external');await tick();const d=f.nodes[0];assert.equal(d.children[2].textContent,'25 KB/s');d.children.at(-1).children[3].handlers.click();assert.equal(await p,false);
+ const f=fixture(undefined,{ok:true,enabled:true,kbps:25}),p=f.run('managed_external');await tick();const d=f.nodes[0];assert.equal(d.children[0].textContent,'Wolne pobieranie');d.children.at(-1).children.at(-1).handlers.click();assert.equal(await p,false);
  const paid=fixture({authenticated:true,active:true});assert.equal(await paid.run('managed_external'),true);assert.equal(paid.nodes.length,0);
 });
 

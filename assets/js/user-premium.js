@@ -956,15 +956,15 @@ function showAioRestriction(message){
       const make=(tag,copy)=>{const e=document.createElement(tag);e.textContent=copy;return e;};
       const h=make('h2',unlimited?'Pobieranie – konto FREE':'Wolne pobieranie');h.id='aio-free-speed-title';h.style.margin='0 0 12px';
       const file=make('p','Plik: '+String(item.label||fileNameFromUrl(item.href)).slice(0,160));file.style.overflowWrap='anywhere';
-      const limit=make('p',unlimited?'Pełna dostępna prędkość':speed+' KB/s');limit.style.cssText='font-size:2rem;font-weight:800;margin:8px 0;color:#91e9df';
-      const detail=make('p',(config.individual?'Prędkość przyznana indywidualnie przez właściciela. ':'Maksymalna prędkość pobierania z konta FREE. ')+'Pozostałe darmowe pobrania: '+Number(access.free_remaining)+' z 3.');
-      const offer=make('p',unlimited?'Chcesz pobierać bez limitu liczby plików? Wybierz dostęp 7 dni lub VIP.':'Chcesz pobierać szybciej i bez limitu liczby plików? Wybierz dostęp 7 dni lub VIP 30 dni. Dostęp po potwierdzeniu wpłaty. VIP: minimum 30 zł.');
+      const detail=make('p',(unlimited?'Pełna dostępna prędkość. ':config.individual?'Indywidualne warunki pobierania. ':'Pobieranie z ograniczoną prędkością. ')+'Pozostałe darmowe pobrania: '+Number(access.free_remaining)+' z 3.');
+      const offer=make('p',unlimited?'Opcjonalnie: dostęp bez limitu liczby pobrań.':'Opcjonalnie: szybsze pobieranie bez limitu liczby plików.');offer.style.cssText='margin:8px 0 0;font-size:.9rem;color:#c4dbe3';
+      const terms=make('p','Dostęp po potwierdzeniu wpłaty. VIP: minimum 30 zł.');terms.style.cssText='margin:0;font-size:.82rem;color:#b1c9d2';
       const buttons=document.createElement('div');buttons.style.cssText='display:flex;flex-direction:column;gap:10px;margin-top:18px';
       const style='padding:12px 14px;border:1px solid #5b9da7;border-radius:9px;font:inherit;font-weight:700;cursor:pointer;text-align:center;text-decoration:none;';
       const coffee='https://buycoffee.to/pawelpawelek/rozwoj-strony-aio-iptv-pl-i-darmowych-projektow-enigma2';
-      const upgrade=make('a','7 dni – nielimitowane pobieranie');upgrade.href=coffee;upgrade.setAttribute('data-aio-purpose-direct','1');upgrade.style.cssText=style+'background:#78e1d3;color:#082832';
-      const vip=make('a','VIP 30 dni – nielimitowane pobieranie');vip.href=coffee;vip.setAttribute('data-aio-purpose-direct','1');vip.style.cssText=style+'background:#6547a4;color:#fff';
-      const go=make('button',unlimited?'Pobierz z pełną dostępną prędkością':'Pobierz z prędkością do '+speed+' KB/s');go.type='button';go.style.cssText=style+'background:#143c4a;color:#effaff';
+      const upgrade=make('a','7 dni – nielimitowane pobieranie');upgrade.href=coffee;upgrade.setAttribute('data-aio-purpose-direct','1');upgrade.style.cssText=style+'background:#143c4a;color:#effaff';
+      const vip=make('a','VIP 30 dni – nielimitowane pobieranie');vip.href=coffee;vip.setAttribute('data-aio-purpose-direct','1');vip.style.cssText=style+'background:#143c4a;color:#effaff';
+      const go=make('button',unlimited?'POBIERZ':'WOLNE POBIERANIE – POBIERZ');go.type='button';go.style.cssText=style+'background:#6547a4;color:#fff;border-color:#9679d7;padding:18px 14px;font-size:1.04rem';
       const cancel=make('button','Anuluj');cancel.type='button';cancel.style.cssText=style+'background:transparent;color:#effaff';
       let settled=false;
       const finish=value=>{if(settled)return;settled=true;dlg.close();dlg.remove();resolve(value);};
@@ -974,7 +974,7 @@ function showAioRestriction(message){
       vip.addEventListener('click',e=>choosePaid(e,'vip30'));
       dlg.addEventListener('cancel',e=>{e.preventDefault();finish(false);});
       dlg.addEventListener('close',()=>{if(!settled){settled=true;dlg.remove();resolve(false);}});
-      buttons.append(upgrade,vip,go,cancel);dlg.append(h,file,limit,detail,offer,buttons);
+      buttons.append(go,offer,upgrade,vip,terms,cancel);dlg.append(h,file,detail,buttons);
       document.body.append(dlg);try{dlg.showModal();}catch(e){dlg.remove();resolve(false);}
     });
   }
