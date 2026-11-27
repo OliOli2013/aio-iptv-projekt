@@ -92,17 +92,29 @@ function filename(raw,disposition){let n='plik.bin';const star=/filename\*=UTF-8
  try{n=star?decodeURIComponent(star[1]):regular?(regular[1]||regular[2]):decodeURIComponent((new URL(raw).pathname.match(/^\/file_premium\/[a-z0-9]{10,40}\/([^/]+)\/file\/?$/i)?.[1]||new URL(raw).pathname.split('/').pop()||n));}catch{}
  n=n.replace(/[\\/\x00-\x1f\x7f<>:"|?*]/g,'_').trim().slice(0,160);return n||'plik.bin';}
 function boundedBody(body,size){let read=0;return body.pipeThrough(new TransformStream({transform(chunk,c){read+=chunk.byteLength;if(read>size)throw Error('External size exceeded');c.enqueue(chunk);},flush(){if(read!==size)throw Error('Incomplete external transfer');}}));}
+// Only fixed codes leave this helper. Never expose upstream URLs, cookies, or response text.
+function externalError(code,message){return Object.assign(new Error(message),{aioExternalCode:code});}
 export async function fetchExternalFile(raw,fetcher=fetch){
- const first=directSource(raw);if(!first)throw Error('Unsupported provider');let url=first.url,r;
+ const first=directSource(raw);if(!first)throw externalError('UNSUPPORTED_PROVIDER','Unsupported provider');let url=first.url,r;
  for(let i=0;i<5;i++){
-  if(!permittedHop(url,first.provider))throw Error('Unsafe redirect');
+  if(!permittedHop(url,first.provider))throw externalError('REDIRECT_REJECTED','Unsafe redirect');
   const abort=new AbortController(),timer=setTimeout(()=>abort.abort(),15000);
-  try{r=await fetcher(url,{method:'GET',redirect:'manual',headers:{'Accept-Encoding':'identity','Accept':'*/*'},signal:abort.signal,cf:{cacheTtl:0,cacheEverything:false}});}finally{clearTimeout(timer);}
-  if([301,302,303,307,308].includes(r.status)){const loc=r.headers.get('Location');await cancel(r);if(!loc||i===4)throw Error('Invalid redirect');url=new URL(loc,url).href;continue;}
+  try{r=await fetcher(url,{method:'GET',redirect:'manual',headers:{'Accept-Encoding':'identity','Accept':'*/*'},signal:abort.signal,cf:{cacheTtl:0,cacheEverything:false}});}catch(e){throw externalError(abort.signal.aborted?'FETCH_TIMEOUT':'FETCH_ERROR','Upstream fetch failed');}finally{clearTimeout(timer);}
+  if([301,302,303,307,308].includes(r.status)){const loc=r.headers.get('Location');await cancel(r);if(!loc||i===4)throw externalError('REDIRECT_INVALID','Invalid redirect');try{url=new URL(loc,url).href;}catch{throw externalError('REDIRECT_INVALID','Invalid redirect');}continue;}
   break;
  }
  const type=(r?.headers.get('Content-Type')||'').split(';')[0].trim().toLowerCase(),disp=r?.headers.get('Content-Disposition')||'',encoding=r?.headers.get('Content-Encoding'),length=r?.headers.get('Content-Length'),size=Number(length);
- if(r?.status!==200||!r.body||!length||!Number.isSafeInteger(size)||size<=0||size>MAX_BYTES||encoding&&encoding.toLowerCase()!=='identity'||!type||/^(?:text\/html|application\/xhtml\+xml|image\/svg\+xml)$/.test(type)||(!/^attachment\b/i.test(disp)&&!FILE.test(new URL(first.url).pathname)&&!/^application\/(?:octet-stream|zip|x-7z-compressed|x-rar-compressed|pdf)$/.test(type))){await cancel(r);throw Error('Upstream did not return a supported file');}
+ let rejection=null;
+ if(r?.status!==200)rejection='HTTP_'+(Number.isInteger(r?.status)?r.status:0);
+ else if(!r.body)rejection='BODY_MISSING';
+ else if(/^(?:text\/html|application\/xhtml\+xml|image\/svg\+xml)$/.test(type))rejection='HTML_OR_SVG';
+ else if(!length)rejection='LENGTH_MISSING';
+ else if(!Number.isSafeInteger(size)||size<=0)rejection='LENGTH_INVALID';
+ else if(size>MAX_BYTES)rejection='SIZE_LIMIT';
+ else if(encoding&&encoding.toLowerCase()!=='identity')rejection='ENCODING_REJECTED';
+ else if(!type)rejection='TYPE_MISSING';
+ else if(!/^attachment\b/i.test(disp)&&!FILE.test(new URL(first.url).pathname)&&!/^application\/(?:octet-stream|zip|x-7z-compressed|x-rar-compressed|pdf)$/.test(type))rejection='TYPE_REJECTED';
+ if(rejection){await cancel(r);throw externalError(rejection,'Upstream did not return a supported file');}
  const name=filename(first.url,disp);
  // Never forward cookies, HTML, redirects, upstream CORS or security headers.
  return new Response(boundedBody(r.body,size),{status:200,headers:{'Content-Type':'application/octet-stream','Content-Length':String(size),'Content-Disposition':`attachment; filename*=UTF-8''${encodeURIComponent(name).replace(/['()*]/g,c=>'%'+c.charCodeAt(0).toString(16))}`,'Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff','Content-Security-Policy':"default-src 'none'; sandbox",'Referrer-Policy':'no-referrer','Accept-Ranges':'none'}});

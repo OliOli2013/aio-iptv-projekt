@@ -63,7 +63,11 @@ export async function onRequestGet(context){
     return fail('Uprawnienia lub ustawienia zmieniły się. Otwórz ponownie link, aby zastosować aktualną prędkość.',409);
   }
   lease=await claimSpeedLease(env,user.id);if(!lease)return speedBusy();
-  try{asset=await fetchExternalFile(t.href);}catch(e){console.error('[AIO external source] upstream rejected');return fail('Źródło nie udostępniło pliku do kontrolowanego transferu. Nie naliczono pobrania. Poproś o kopię AIO lub skorzystaj z 7D / VIP.',502);}
+  try{asset=await fetchExternalFile(t.href);}catch(e){
+   const code=/^(?:UNSUPPORTED_PROVIDER|REDIRECT_REJECTED|REDIRECT_INVALID|FETCH_TIMEOUT|FETCH_ERROR|HTTP_[0-9]{1,3}|BODY_MISSING|HTML_OR_SVG|LENGTH_MISSING|LENGTH_INVALID|SIZE_LIMIT|ENCODING_REJECTED|TYPE_MISSING|TYPE_REJECTED)$/.test(e?.aioExternalCode||'')?e.aioExternalCode:'UNKNOWN';
+   console.error('[AIO external source] upstream rejected',code);
+   return fail('Źródło nie udostępniło pliku do kontrolowanego transferu. Nie naliczono pobrania. Poproś o kopię AIO lub skorzystaj z 7D / VIP. Kod diagnostyczny: '+code,502);
+  }
   // No charge for missing file, bad response or busy shared lease.
   const permit=await consumeFree(env,user.id,fileKey,request);if(!permit.allowed)return denied(permit);
   const free=permit.reason==='free';let delivered=asset;

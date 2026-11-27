@@ -121,3 +121,20 @@ test('Megawrzuta entitlement is checked again after ticket claim',async()=>{
  const t=token(await prepare(env,mega));const original=env.COMMUNITY_DB.prepare;env.COMMUNITY_DB.prepare=function(sql){const stmt=original.call(this,sql);if(!sql.startsWith('DELETE FROM aio_external_speed_tickets_v1 WHERE token='))return stmt;const bind=stmt.bind;stmt.bind=function(...p){const b=bind(...p),first=b.first;b.first=async()=>{const r=await first();env.state={...env.state,active:false};return r;};return b;};return stmt;};
  const r=await get(env,t);assert.equal(r.status,403);assert.equal(r.headers.get('Location'),null);assert.equal(env.charged,0);db.close();
 });
+
+
+test('External diagnostics expose fixed codes, no URLs or secrets, no debit',async()=>{
+ const cases=[
+  ['HTTP_403',()=>new Response('secret',{status:403})],
+  ['HTML_OR_SVG',()=>new Response('<html>',{headers:{'Content-Type':'text/html'}})],
+  ['LENGTH_MISSING',()=>new Response('x',{headers:{'Content-Type':'application/zip'}})],
+  ['SIZE_LIMIT',()=>new Response('x',{headers:{'Content-Type':'application/zip','Content-Length':'2147483649'}})],
+  ['REDIRECT_REJECTED',()=>new Response(null,{status:302,headers:{Location:'https://evil.test/secret?token=hidden'}})],
+  ['FETCH_ERROR',()=>{throw Error('secret URL with token=hidden');}]
+ ];
+ for(const [code,make] of cases){
+  const {env,db}=fixture(),old=globalThis.fetch;globalThis.fetch=async()=>make();
+  try{const r=await get(env,token(await prepare(env)));assert.equal(r.status,502);const message=await r.text();assert.ok(message.endsWith(code),message);assert.doesNotMatch(message,/secret|hidden|evil\.test/);assert.equal(env.charged,0);assert.equal(db.prepare('SELECT COUNT(*) n FROM aio_download_speed_leases_v1').get().n,0);}
+  finally{globalThis.fetch=old;db.close();}
+ }
+});
